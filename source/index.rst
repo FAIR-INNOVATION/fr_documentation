@@ -1,0 +1,26 @@
+.. FRROSPlatform documentation master file, created by
+   sphinx-quickstart on Thu Nov 17 15:56:34 2022.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+.. Welcome to FRROSPlatform's documentation!
+
+欢迎访问法奥文档！
+=========================================
+
+.. toctree::
+   :maxdepth: 5
+   :caption: 用户手册
+
+   CobotsManual/intro
+   SDKManual/index
+
+
+.. Indices and tables
+
+.. 索引和页面
+.. ==================
+
+.. * :ref:`genindex`
+.. * :ref:`modindex`
+.. * :ref:`search`
