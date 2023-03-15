@@ -18,6 +18,7 @@ C++ SDK
     :numbered: 5
     :maxdepth: 5
 
+    CPPDataStructure
     CPPRobotBase
     CPPRobotMovement
     CPPRobotIO

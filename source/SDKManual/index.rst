@@ -6,3 +6,4 @@ SDK
 
     cpp_intro
     python_intro
+    errcode

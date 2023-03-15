@@ -8,6 +8,10 @@
 欢迎访问法奥文档！
 =========================================
 
+.. figure:: _static/product_matrix.png
+    :align: center
+    :figclass: align-center
+
 .. toctree::
    :maxdepth: 5
    :caption: 用户手册
