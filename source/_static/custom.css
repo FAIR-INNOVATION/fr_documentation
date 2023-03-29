@@ -77,9 +77,15 @@ a:visited {
     }
  }
 
- .rst-content section ul {
+.rst-content section td > ul {
     margin-bottom: 0 !important
 }
+
 .rst-content .toctree-wrapper ul li>* {
-    margin-top: 0 !important
+    margin-top: 0 !important;
+    margin-bottom: 0 !important
+}
+
+.figure-border {
+    border: 1px solid #221714;
 }

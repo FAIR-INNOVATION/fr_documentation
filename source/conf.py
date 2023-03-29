@@ -6,12 +6,11 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = '法奥文档'
-# project = 'FRROSPlatform'
+project = '法奥'
 copyright = 'Copyright 2022, 法奥意威（苏州）机器人系统有限公司'
 # copyright = 'Copyright 2022, Fair Innovation (Suzhou) Robotic System Co.,Ltd.'
 author = 'Zhao Jinqi'
-release = '0.1'
+release = '1.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -37,4 +36,9 @@ html_theme_options = {
     'display_version': False,
 }
 
-highlight_language = "c,c++,python"
+# highlight_language = "c,c++,python"
+
+# def setup(app):
+#     app.add_css_file('_static/custom.css')
+
+# rst_epilog = '\n.. include:: .custom-style.rst\n'

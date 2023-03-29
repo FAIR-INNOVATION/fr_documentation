@@ -1,4 +1,4 @@
-FR系列协作机器人
+协作机器人
 ================
 
 产品矩阵
@@ -8,9 +8,16 @@ FR系列协作机器人
     :align: center
     :figclass: align-center
 
-用户手册
+使用手册
 ------------
 .. toctree:: 
-    :maxdepth: 5
+    :maxdepth: 6
+    :numbered: 5
 
-    manual
+    foreword
+    installation
+    quick_start_robot
+    teaching_pendant_software
+    robot_peripherals
+    appendix
+    term
