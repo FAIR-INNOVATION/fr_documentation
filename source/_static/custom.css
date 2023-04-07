@@ -6,9 +6,17 @@ a:visited {
     color: #ED6C00;
 }
 
+body {
+    font-family: Noto Sans SC;   /* 思源黑体 */
+    font-weight: 400;
+    color: #404040;
+    min-height: 100%;
+    background: #EDEDED
+}
+
 .wy-side-nav-search>div.version {
-    /* color: #404040; */
-    color: #221714;
+    color: #404040;
+    /* color: #221714; */
     font-weight: bold;
 }
 
@@ -87,5 +95,5 @@ a:visited {
 }
 
 .figure-border {
-    border: 1px solid #221714;
+    border: 1px solid #404040;
 }
