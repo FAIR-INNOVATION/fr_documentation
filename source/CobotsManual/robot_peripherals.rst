@@ -591,6 +591,6 @@
 
 .. figure:: robot_peripherals/060.png
    :align: center
-   :width: 3in
+   :width: 6in
 
 .. centered:: 图表 4.10‑5码垛系统监控

@@ -302,7 +302,7 @@ FR机器人需要根据适用的国家法律法规及国家标准处置，详情
 
 .. figure:: installation/017.png
 	:align: center
-	:width: 6in
+	:width: 8in
 
 .. centered:: 表格 1.4-1 机器人基本参数
 
