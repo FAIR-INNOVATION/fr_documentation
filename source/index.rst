@@ -19,6 +19,11 @@
    CobotsManual/intro
    SDKManual/index
 
+.. toctree:: 
+   :maxdepth: 6
+   :caption: 开放平台
+
+   ROSGuide/index
 
 .. Indices and tables
 
