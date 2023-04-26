@@ -86,7 +86,7 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``SetLimitPositive(n_limit)``"
+    "原型", "``SetLimitNegative(n_limit)``"
     "描述", "设置负限位"
     "参数", "- ``n_limit=[j1,j2,j3,j4,j5,j6]``：六个关节位置"
     "返回值", "- 成功：[0]
