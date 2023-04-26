@@ -205,7 +205,7 @@
     :widths: 10 30
 
     "原型", "``WaitMultiDI(mode,id,status,maxtime,opt)``"
-    "描述", "获取控制箱多路数字量输入"
+    "描述", "等待控制箱多路数字量输入"
     "参数", "- ``mode``:[0]-多路与，[1]-多路或；
     - ``id``:io编号，bit0~bit7对应DI0~DI7，bit8~bit15对应CI0~CI7；
     - ``status(uint16_t)``:bit0~bit7对应DI0~DI7状态，bit8~bit15对应CI0~CI7状态位的状态[0]-关，[1]-开；
