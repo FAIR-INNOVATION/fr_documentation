@@ -232,7 +232,7 @@ jog点动立即停止
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``MoveL(joint_pos,desc_pos,tool,user,vel,acc,ovl,exaxis_pos,blendR,search,offset_flag,offset_pos)``"
+    "原型", "``MoveL(joint_pos,desc_pos,tool,user,vel,acc,ovl,blendR,exaxis_pos,search,offset_flag,offset_pos)``"
     "描述", "笛卡尔空间直线运动"
     "参数", "- ``joint_pos``:目标关节位置，单位[°]；
     - ``desc_pos``:目标笛卡尔位姿，单位[mm][°]；
@@ -241,8 +241,8 @@ jog点动立即停止
     - ``vel``:速度百分比，[0~100]；
     - ``acc``:加速度百分比，[0~100]，暂不开放；
     - ``ovl``:速度缩放因子，[0~100]；
-    - ``exaxis_pos``:外部轴1位置~外部轴4位置；
     - ``blendR``:[-1.0]-运动到位(阻塞)，[0~1000]-平滑半径(非阻塞)，单位[mm]；
+    - ``exaxis_pos``:外部轴1位置~外部轴4位置；
     - ``search``:[0]-不焊丝寻位，[1]-焊丝寻位；
     - ``offset_flag``:[0]-不偏移，[1]-工件/基坐标系下偏移，[2]-工具坐标系下偏移；
     - ``offset_pos``:位姿偏移量，单位[mm][°]"
