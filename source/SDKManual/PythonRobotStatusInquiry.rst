@@ -233,9 +233,10 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``GetInverseKinRef(desc_pos,joint_pos_ref)``"
+    "原型", "``GetInverseKinRef(type,desc_pos,joint_pos_ref)``"
     "描述", "逆运动学，工具位姿求解关节位置，参考指定关节位置求解"
-    "参数", "- ``desc_pos``：[x,y,z,rx,ry,rz]工具位姿，单位[mm][°]
+    "参数", "- ``type``:0-绝对位姿(基坐标系)，1-相对位姿（基坐标系），2-相对位姿（工具坐标系）
+    - ``desc_pos``：[x,y,z,rx,ry,rz]工具位姿，单位[mm][°]
     - ``joint_pos_ref``：[j1,j2,j3,j4,j5,j6]，关节参考位置，单位[°]"
     "返回值", "- 成功：[0,joint_pos],joint_pos=[j1,j2,j3,j4,j5,j6]
     - 失败：[errcode,]"
@@ -260,9 +261,10 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``GetInverseKinHasSolution(desc_pos,joint_pos_ref)``"
+    "原型", "``GetInverseKinHasSolution(type,desc_pos,joint_pos_ref)``"
     "描述", "逆运动学，工具位姿求解关节位置 是否有解"
-    "参数", "- ``desc_pos``：[x,y,z,rx,ry,rz]工具位姿，单位[mm][°]
+    "参数", "- ``type``:0-绝对位姿(基坐标系)，1-相对位姿（基坐标系），2-相对位姿（工具坐标系）
+    - ``desc_pos``：[x,y,z,rx,ry,rz]工具位姿，单位[mm][°]
     - ``joint_pos_ref``：[j1,j2,j3,j4,j5,j6]，关节参考位置，单位[°]"
     "返回值", "- 成功：[0,result],“True”-有解，“False”-无解
     - 失败：[errcode,]"

@@ -9,7 +9,7 @@
 project = '法奥'
 copyright = 'Copyright 2022, 法奥意威（苏州）机器人系统有限公司'
 # copyright = 'Copyright 2022, Fair Innovation (Suzhou) Robotic System Co.,Ltd.'
-author = 'Zhao Jinqi'
+author = 'Zhao Jinqi，Wang Chao，Gao Jiachao，Zhang Jun，Zhao Hao'
 release = '1.0'
 
 # -- General configuration ---------------------------------------------------

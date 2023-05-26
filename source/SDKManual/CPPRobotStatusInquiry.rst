@@ -130,12 +130,13 @@
 
     /**
     * @brief  逆运动学求解，参考指定关节位置求解
+    * @param  [in] type 0-绝对位姿(基坐标系)，1-增量位姿(基坐标系)，2-增量位姿(工具坐标系)
     * @param  [in] desc_pos 笛卡尔位姿
     * @param  [in] joint_pos_ref 参考关节位置
     * @param  [out] joint_pos 关节位置
     * @return  错误码
     */   
-    errno_t  GetInverseKinRef(DescPose *desc_pos, JointPos *joint_pos_ref, JointPos *joint_pos);
+    errno_t  GetInverseKinRef(int type, DescPose *desc_pos, JointPos *joint_pos_ref, JointPos *joint_pos);
 
 逆运动学求解
 ++++++++++++++++++++++++++++++++++++
@@ -144,12 +145,13 @@
 
     /**
     * @brief  逆运动学求解，参考指定关节位置判断是否有解
+    * @param  [in] type 0-绝对位姿(基坐标系)，1-增量位姿(基坐标系)，2-增量位姿(工具坐标系)
     * @param  [in] desc_pos 笛卡尔位姿
     * @param  [in] joint_pos_ref 参考关节位置
     * @param  [out] result 0-无解，1-有解
     * @return  错误码
     */   
-    errno_t  GetInverseKinHasSolution(DescPose *desc_pos, JointPos *joint_pos_ref, uint8_t *result);
+    errno_t  GetInverseKinHasSolution(int type, DescPose *desc_pos, JointPos *joint_pos_ref, uint8_t *result);
 
 正运动学求解
 ++++++++++++++++++++++++++++++++++++
