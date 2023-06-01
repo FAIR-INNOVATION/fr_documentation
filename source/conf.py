@@ -30,7 +30,7 @@ locale_dirs = ['locale/']  # 设置本地化数据目录
 html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
 html_css_files = ["custom.css"]
-html_logo = '_static/logo-en.png'
+html_logo = '_static/logo-zh.png'
 html_theme_options = {
     'logo_only': True,
     'display_version': False,
