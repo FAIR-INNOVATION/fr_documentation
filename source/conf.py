@@ -7,9 +7,8 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = '法奥'
-copyright = 'Copyright 2022, 法奥意威（苏州）机器人系统有限公司'
-# copyright = 'Copyright 2022, Fair Innovation (Suzhou) Robotic System Co.,Ltd.'
-author = 'Zhao Jinqi，Wang Chao，Gao Jiachao，Zhang Jun，Zhao Hao'
+copyright = '2022-2023, 法奥意威（苏州）机器人系统有限公司'
+author = '法奥意威（苏州）机器人系统有限公司'
 release = '1.0'
 
 # -- General configuration ---------------------------------------------------
@@ -34,6 +33,11 @@ html_logo = '_static/logo-zh.png'
 html_theme_options = {
     'logo_only': True,
     'display_version': False,
+}
+html_context = {
+    "display_github": False, # Add 'Edit on Github' link instead of 'View page source'
+    "last_updated": True,
+    "commit": False,
 }
 
 # highlight_language = "c,c++,python"

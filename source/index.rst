@@ -25,11 +25,9 @@
 
    ROSGuide/index
 
-.. Indices and tables
+.. toctree:: 
+   :maxdepth: 6
+   :caption: 资料下载
 
-.. 索引和页面
-.. ==================
+   download
 
-.. * :ref:`genindex`
-.. * :ref:`modindex`
-.. * :ref:`search`
