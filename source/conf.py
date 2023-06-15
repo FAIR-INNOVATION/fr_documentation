@@ -34,11 +34,6 @@ html_theme_options = {
     'logo_only': True,
     'display_version': False,
 }
-html_context = {
-    "display_github": False, # Add 'Edit on Github' link instead of 'View page source'
-    "last_updated": True,
-    "commit": False,
-}
 
 # highlight_language = "c,c++,python"
 
