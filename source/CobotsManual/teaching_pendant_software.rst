@@ -2317,7 +2317,7 @@ Aux-IO是机器人与PLC通讯控制外部扩展IO的指令功能，需要机器
 
 .. image:: teaching_pendant_software/customize.png
    :width: 6in
-   :align: centera
+   :align: center
 
 .. centered:: 图表 3.10‑4 自定义信息示意图
 
