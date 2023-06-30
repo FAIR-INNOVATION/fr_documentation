@@ -60,7 +60,7 @@ ROS安装要求
     :linenos:
 
     cd ~/catkin_ws/src
-    git clone https://github.com/FAIR-INNOVATION/frcobot_ros.git
+    git clone https://gitee.com/fair-innovation/frcobot_ros.git
 
 构建frcobot_ros包
 
