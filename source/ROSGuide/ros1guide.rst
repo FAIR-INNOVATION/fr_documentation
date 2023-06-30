@@ -35,7 +35,7 @@ ROS安装要求
 .. code-block:: shell
     :linenos:
 
-    echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
+    echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
     source ~/.bashrc
     sudo apt-get install -y \
         ros-noetic-rosparam-shortcuts \
