@@ -1784,33 +1784,47 @@ Aux-IO是机器人与PLC通讯控制外部扩展IO的指令功能，需要机器
 
 运动类图形化编程命令
 ++++++++++++++++++++++++
-运动类图形化编程命令包含PTP、Lin、ARC等运动命令。
+运动类图形化编程命令包含 \ `PTP <teaching_pendant_software.html#ptp>`__\、\ `Lin <teaching_pendant_software.html#lin>`__\、\ `ARC <teaching_pendant_software.html#arc>`__\ 等运动命令。
 
 .. image:: teaching_pendant_software/181.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑58 运动类图形化编程
+.. centered:: 图表 3.7‑57 运动类图形化编程
 
 控制类图形化编程命令
 ++++++++++++++++++++++
-控制类图形化编程命令包含Waitms、WaitAI、WaitDI、WaitMultiDI、SetAO、GetDI等命令。
+控制类图形化编程命令包含\ `Wait <teaching_pendant_software.html#wait>`__\、\ `IO <teaching_pendant_software.html#io>`__\ 等控制命令。
 
 .. image:: teaching_pendant_software/182.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑59 控制类图形化编程命令
+.. centered:: 图表 3.7‑58 控制类图形化编程命令
 
 高级类图形化编程命令
 +++++++++++++++++++++
-高级类图形化编程命令包含dofile调用子程序、thread多线程高级命令。
+高级类图形化编程命令包含\ `dofile调用子程序 <teaching_pendant_software.html#dofile>`__\、\ `thread多线程 <teaching_pendant_software.html#thread>`__\、 折叠指令等高级命令。
 
 .. image:: teaching_pendant_software/183.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑60 高级类图形化编程命令
+.. centered:: 图表 3.7‑59 高级类图形化编程命令
+
+图形化编程命令使用示例
++++++++++++++++++++++++
+选择图形化编程类型后，点击需要使用的图形代码块，即可在工作区进行拖拽和拼接操作。
+
+例如选择PTP和Lin运动指令以及控制指令Waitms进行拼接，外层可嵌套一个折叠高级指令并输入注释名称，则可实现代码块折叠操作。其中点击下拉框可选择指令参数类型，输入框可填入指令参数数据。图形化编程命令示例如下：
+
+.. image:: teaching_pendant_software/184.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑60 图形化编程命令示例
+
+图形化编程指令拼接和参数填入完成后，填写工作区名称，点击“保存”图标即可保存本次程序。选择编写完成的“工作区”，点击开始运行，即可执行本段程序。
 
 示教管理
 ~~~~~~~~~~~~
