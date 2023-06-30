@@ -54,7 +54,7 @@ ROS安装要求
     cd ~/catkin_ws
     catkin_init_workspace src
 
-然后从Github克隆frcobot_ros库。
+然后从Gitee克隆frcobot_ros库。
 
 .. code-block:: shell
     :linenos:
