@@ -24,7 +24,7 @@ frcobot_ros推荐环境如下：
     -	Ubuntu 18.04 LTS Bionic Beaver和ROS Melodic Morenia
     -	Ubuntu 20.04 LTS Focal Fossa和ROS Noetic Ninjemys
 
-以下说明适用于 Ubuntu 20.04 LTS 系统和 ROS Noetic Ninjemys。
+以下说明适用于 Ubuntu 20.04 LTS 系统和 ROS Noetic Ninjemys。如果使用的是Melodic，则将下发命令行中的 ``noetic`` 替换成 ``melodic``.
 
 ROS安装要求
 --------------
@@ -35,6 +35,8 @@ ROS安装要求
 .. code-block:: shell
     :linenos:
 
+    echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
+    source ~/.bashrc
     sudo apt-get install -y \
         ros-noetic-rosparam-shortcuts \
         ros-noetic-ros-control \
@@ -48,10 +50,8 @@ ROS安装要求
 .. code-block:: shell
     :linenos:
 
-    cd /path/to/desired/folder
-    mkdir -p catkin_ws/src
-    cd catkin_ws
-    source /opt/ros/noetic/setup.sh
+    mkdir -p ~/catkin_ws/src
+    cd ~/catkin_ws
     catkin_init_workspace src
 
 然后从Github克隆frcobot_ros库。
@@ -59,28 +59,29 @@ ROS安装要求
 .. code-block:: shell
     :linenos:
 
-    cd src
-    git clone https://github.com/FAIR-INNOVATION/frcobot_ros.git
+    cd ~/catkin_ws/src
+    git clone https://gitee.com/fair-innovation/frcobot_ros.git
 
 构建frcobot_ros包
 
 .. code-block::  shell
     :linenos:
 
-    cd ..
-    catkin make
+    cd ~/catkin_ws
+    catkin_make
+    echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
+    source ~/.bashrc
 
-如果出现报错请检查ROS安装要求中的包是否都已安装成功，编译完成后，将lib库拷贝到ROS的lib环境下(路径为：/opt/ros/melodic/lib)，以便程序可以正常运行。
+如果出现报错请检查ROS安装要求中的包是否都已安装成功，编译完成后，将lib库拷贝到ROS的lib环境下(路径为：/opt/ros/noetic/lib)，以便程序可以正常运行。
 
 .. code-block:: shell
     :linenos:
 
     # 此处catkin_ws默认路径为“~”，如有不同，将“~”改为实际路径即可
-    sudo cp ~/catkin_ws/src/frcobot_ros/frcobot_hw/lib/* /opt/ros/melodic/lib
+    sudo cp ~/catkin_ws/src/frcobot_ros/frcobot_hw/lib/* /opt/ros/noetic/lib
 
 快速开始
 ++++++++++
-
 
 frcobot_hw
 -----------------
