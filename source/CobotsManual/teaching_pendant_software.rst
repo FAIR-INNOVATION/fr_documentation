@@ -1832,7 +1832,7 @@ Aux-IO是机器人与PLC通讯控制外部扩展IO的指令功能，需要机器
 
 .. centered:: 图表 3.7‑58 删除局部示教点
 
-**运行**：点击局部示教点位表格数据操作栏中的“开始运行”图标，进行局部示教点的单步运行。
+**运行**：点击局部示教点位表格数据操作栏中的“开始运行”图标，进行局部示教点的单步运行，将机器人移动到该点的位置。
 
 .. image:: teaching_pendant_software/run_local_point.png
    :width: 6in
@@ -1945,6 +1945,22 @@ Aux-IO是机器人与PLC通讯控制外部扩展IO的指令功能，需要机器
 .. important:: 
    示教点x,y,z,rx,ry,rz的修改值不应超过机器人的工作范围。
 
+**详情**：点击“详情”按钮，查看示教点的详情。
+
+.. image:: teaching_pendant_software/teaching_management_info.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑69 示教点详情
+
+**运行**：点击“开始运行”按钮，进行局部示教点的单步运行，将机器人移动到该点的位置。
+
+.. image:: teaching_pendant_software/teaching_management_run.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑70 运行示教点
+
 状态信息
 ----------
 
@@ -2031,7 +2047,7 @@ Aux-IO是机器人与PLC通讯控制外部扩展IO的指令功能，需要机器
 
 .. important:: 
    软件升级包名为确定的software.tar.gz，如果升级包名与之不一致，那么会出现升级失败，修改为确定的升级包名称即可。
-
+ 
 **固件升级**：机器人进入BOOT模式后，上传升级压缩包，选择需要升级的从站（控制箱从站，本体驱动器从站1~6，末端从站），进行升级操作，并显示升级状态。
 
 .. image:: teaching_pendant_software/146.png
@@ -2484,7 +2500,7 @@ Aux-IO是机器人与PLC通讯控制外部扩展IO的指令功能，需要机器
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.10‑6 账户设置导入/导出
+.. centered:: 图表 3.10‑7 账户设置导入/导出
 
 -  **导入**：点击“导入”按钮，可以批量导入用户管理和权限管理的数据。
 
@@ -2499,7 +2515,7 @@ Aux-IO是机器人与PLC通讯控制外部扩展IO的指令功能，需要机器
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.10‑7 关于示意图
+.. centered:: 图表 3.10‑8 关于示意图
 
 自定义信息
 ~~~~~~~~~~~
@@ -2510,4 +2526,4 @@ Aux-IO是机器人与PLC通讯控制外部扩展IO的指令功能，需要机器
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.10‑8 自定义信息示意图
+.. centered:: 图表 3.10‑9 自定义信息示意图
