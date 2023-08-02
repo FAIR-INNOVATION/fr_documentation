@@ -2457,6 +2457,14 @@ Aux-IO是机器人与PLC通讯控制外部扩展IO的指令功能，需要机器
 
 .. centered:: 图表 3.10‑2 权限管理
 
+默认六个职能，管理员无功能限制，操作员和监视员少部分功能可以使用，ME工程师、PE&PQE工程师和技术员&班组长部分功能限制，管理员无功能限制，具体默认权限如下表所示(可修改)：
+
+.. image:: teaching_pendant_software/authority_table.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.10‑2 权限详情
+
 -  **新增职能**：点击“新增”按钮，输入职能代号、职能名称和职能描述，点击"保存"按钮，成功后返回列表页面。其中职能代号只能为大于0的整数并且不能和已经存在的职能代号相同，输入项全部为必填。
 
 .. image:: teaching_pendant_software/add_authority.png
