@@ -2474,8 +2474,12 @@ MoveDO命令
 
 启用安全速度并设置速度限制值，当用户在手动模式下调试机器人或者拖动模式下拖拽机器人，速度超过该设置阈值时，机器人会停止并警告提示用户，起到安全防护的作用。
 
-.. image:: teaching_pendant_software/175.png
-   :width: 3in
+.. image:: teaching_pendant_software/200.png
+   :width: 6in
+   :align: center
+
+.. image:: teaching_pendant_software/201.png
+   :width: 6in
    :align: center
 
 .. centered:: 图表 3.9‑32 安全速度设置
