@@ -1989,6 +1989,40 @@ MoveDO命令
 
 图形化编程指令拼接和参数填入完成后，填写工作区名称，点击“保存”图标即可保存本次程序。选择编写完成的“工作区”，点击开始运行，即可执行本段程序。
 
+图形化编程代码块模块化
++++++++++++++++++++++++
+为了提高图形化编程代码可阅读性，增加了图形化编程代码块模块化功能，即高级指令：折叠指令代码块。
+
+.. image:: teaching_pendant_software/196.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑70 折叠指令代码块
+
+1.编写一段代码块指令，在外层添加折叠指令代码块，在输入框内编写该段指令的备注。
+
+.. image:: teaching_pendant_software/197.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑71 折叠指令效果图
+
+2.右键操作栏右击"折叠块"，该段指令代码块折叠，该代码块折叠成一行显示，且折叠下可正确执行程序
+
+.. image:: teaching_pendant_software/198.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑72 折叠后效果图
+
+3.滚动鼠标，可实现页面缩放功能，具体效果如下：
+
+.. image:: teaching_pendant_software/199.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑73 折页面缩放功能效果图
+
 示教管理
 ~~~~~~~~~~~~
 
@@ -1998,7 +2032,7 @@ MoveDO命令
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑70 示教管理界面
+.. centered:: 图表 3.7‑74 示教管理界面
 
 .. important:: 
    示教点x,y,z,rx,ry,rz的修改值不应超过机器人的工作范围。
@@ -2009,7 +2043,7 @@ MoveDO命令
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑71 示教点详情
+.. centered:: 图表 3.7‑75 示教点详情
 
 **运行**：点击“开始运行”按钮，进行局部示教点的单点运行，将机器人移动到该点的位置。
 
@@ -2017,7 +2051,7 @@ MoveDO命令
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑72 运行示教点
+.. centered:: 图表 3.7‑76 运行示教点
 
 状态信息
 ----------
