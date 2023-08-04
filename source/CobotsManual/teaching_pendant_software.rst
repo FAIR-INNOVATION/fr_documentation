@@ -2021,7 +2021,7 @@ MoveDO命令
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑73 折页面缩放功能效果图
+.. centered:: 图表 3.7‑73 页面缩放功能效果图
 
 示教管理
 ~~~~~~~~~~~~
