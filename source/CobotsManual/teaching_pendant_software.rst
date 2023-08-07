@@ -1100,6 +1100,141 @@ TPD文件删除与异常处理：
 左侧主要是程序命令的添加，点击各关键字上方图标进入详细界面，程序命令添加到文件中的操作主要分为两种，一种方式打开相关指令点击应用按键即可将该指令添加到程序中，另一种方式为先点击“添加”按键，此时命令并未保存到程序文件中，需要再点击“应用”方可将命令保存到文件中。第二种方式多出现在同类型指令多条下发的
 情况，我们对该类型命令增加添加按键和显示已添加指令内容功能，点击添加按键可添加一条指令，已添加指令显示所有已添加的指令，点击“应用”即可将添加的指令保存到右侧已打开的文件中。
 
+逻辑指令界面
+~~~~~~~~~~~~~
+
+.. image:: teaching_pendant_software/202.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑4 逻辑指令界面
+
+While命令
+++++++++++++++++
+
+点击“While”图标进入While命令编辑界面
+
+在While后方的输入框中输入等待条件，在do后方的输入框中输入循环期间的动作指令，点击保存即可。（为方便操作，可任意输入do内容，在程序中编辑其他指令插入代替）
+
+.. image:: teaching_pendant_software/101.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑4-1 While指令界面
+
+if…else命令
+++++++++++++++++
+
+点击“if…else”按钮进入if…else命令编辑界面
+
+在右侧输入框中输入语句，编辑完毕后点击“添加”、“应用”即可。（该指令需要一定编程基础，如需帮助，请联系我们）
+
+.. image:: teaching_pendant_software/102.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑4-2 if…else指令界面
+
+Goto命令
+++++++++++++++++
+
+点击“Goto”按钮进入Goto命令编辑界面
+
+Goto指令为跳转指令，在右侧输入框中输入语句，编辑完毕后点击“添加”、“应用”即可。（该指令需要一定编程基础，如需帮助，请联系我们）
+
+.. image:: teaching_pendant_software/103.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑4-3 Goto指令界面
+
+Wait 命令
+++++++++++++++++
+
+点击“Wait”图标进入Wait命令编辑界面
+
+该指令为延时指令，分为“WaitMs”、“WaitDI”和“WaitAI”三部分。
+
+“WaitTime”指令延时等待时间单位为毫秒，输入需要等待的毫秒数，点击“添加”、“应用”即可。
+
+.. image:: teaching_pendant_software/104.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑4-4 WaitTime指令界面
+
+“WaitDI”指令，即单DI等待，选择需要等待的IO端口号、等待状态、等待最大时间和等待超时处理方式，点击“添加”、“应用”即可。
+
+.. image:: teaching_pendant_software/105.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑4-5 WaitDI指令界面
+
+“WaitMultiDI”指令，即多DI等待，首先选择多DI成立条件，其次勾选需要等待的DI端口和状态，最后设置等待最大时间和等待超时处理方式，点击“添加”、“应用”即可。
+
+.. image:: teaching_pendant_software/106.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑4-6 WaitMultiDI指令界面
+
+“WaitAI”指令，选择需要等待的模拟量、数值、等待的最大时间以及等待超时处理方式，点击“添加”、“应用”即可。
+
+.. image:: teaching_pendant_software/107.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑4-7 WaitAI指令界面
+
+Pause 命令
+++++++++++++++++
+
+点击“Pause”图标进入Pause命令编辑界面
+
+该指令为暂停指令，在程序中插入该指令，当程序执行到该指令时，机器人会处于暂停状态，若想继续运行，点击控制区“暂停/恢复”按键即可。
+
+.. image:: teaching_pendant_software/108.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑4-8 Pause指令界面
+
+Dofile 命令
+++++++++++++++++
+
+点击“Dofile”图标进入Dofile命令编辑界面
+
+Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存被调用的子程序，而主程序若未改变可不用再次保存。Dofile指令支持二级调用，需要注意两个参数设置，一是该调用处于第几层，二是该调用的ID编号，ID编号原则上同一程序不能出现相同ID。
+
+.. image:: teaching_pendant_software/109.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑4-9 Dofile指令界面
+
+Var命令
+++++++++++++++++
+
+点击“Var”图标进入Var命令编辑界面
+
+该指令为变量系统指令，分为Lua变量定义，变量查询和Sys变量重命名，获取值，设置值两部分，Lua变量定义可以声明一个变量并赋予初始值，与while，if-else等指令配合使用，Lua变量查询指令可以实时查询输入的变量名称的值，显示在状态栏。Sys变量个数是固定的，可以对其重命名，获取变量值以及设置变量值，该变量保存的值不随系统关机而清零。
+
+.. image:: teaching_pendant_software/100.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑4-10 Var指令界面
+
+运动指令界面
+~~~~~~~~~~~~~
+
+.. image:: teaching_pendant_software/203.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑5 运动指令界面
+
 PTP命令
 ++++++++++++++++
 
@@ -1111,7 +1246,7 @@ PTP命令
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑4 PTP指令界面
+.. centered:: 图表 3.7‑5-1 PTP指令界面
 
 Lin命令
 ++++++++++++++++
@@ -1124,7 +1259,7 @@ Lin命令
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑5 Lin指令界面
+.. centered:: 图表 3.7‑5-2 Lin指令界面
 
 Arc命令
 ++++++++++++++++
@@ -1141,7 +1276,7 @@ Arc命令
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑6 Arc指令界面
+.. centered:: 图表 3.7‑5-3 Arc指令界面
 
 Circle命令
 ++++++++++++++++
@@ -1158,7 +1293,7 @@ Circle命令
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑7 Circle指令界面
+.. centered:: 图表 3.7‑5-4 Circle指令界面
 
 Spiral命令
 ++++++++++++++++
@@ -1172,7 +1307,7 @@ Spiral命令
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑8 Spiral指令界面
+.. centered:: 图表 3.7‑5-5 Spiral指令界面
 
 N-Spiral命令
 ++++++++++++++++
@@ -1185,7 +1320,7 @@ N-Spiral命令
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑9 N-Spiral指令界面
+.. centered:: 图表 3.7‑5-6 N-Spiral指令界面
 
 Spline命令
 ++++++++++++++++
@@ -1198,7 +1333,7 @@ Spline命令
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑10 Spline指令界面
+.. centered:: 图表 3.7‑5-7 Spline指令界面
 
 N-Spline命令
 ++++++++++++++++
@@ -1212,53 +1347,28 @@ N-Spline命令
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑11 N-Spline指令界面
+.. centered:: 图表 3.7‑5-8 N-Spline指令界面
 
-IO命令
+Weave命令
 ++++++++++++++++
 
-点击“IO”图标进入IO命令编辑界面
+点击“Weave”图标进入Weave命令编辑界面
 
-“IO”指令分为设置IO（SetDO/SPLCSetDO）和获取IO（GetDI/SPLCGetDI）两部分。
+“Weave”指令包含两部分，第一部分选择配置好参数的摆焊编号，点击“开始摆焊”和“停止摆焊”并应用可将相关指令添加到程序中。
 
-“SetDO/SPLCSetDO”该指令可设定指定的输出DO状态，包括16路控制箱数字输出和2路工具数字输出，状态选项“False”为闭，“True”为开，是否阻塞选项选择“阻塞”表示运动停止后设置DO状态，选择“非阻塞”选项表示在上一条运动过程中设置DO状态。平滑轨迹选项选择“Break”表示在平滑过渡半径结束后设置DO状态，选择“Serious”表示在平滑过渡半径运动过程中设置DO状态。当该指令是添加在辅助线程中，是否应用线程需要选择是，其他地方使用该指令选择否。点击“添加”、“应用”即可。
-
-.. image:: teaching_pendant_software/093.png
+.. image:: teaching_pendant_software/110.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑12 SetDO指令界面
+.. centered:: 图表 3.7‑5-9 Weave指令界面
 
-在“GetDI/SPLCGetDI”指令中，选择想要获取端口号的数值，是否阻塞选项选择“阻塞”表示运动停止后获取DI状态，选择“非阻塞”选项表示在上一条运动过程中获取DI状态。当该指令是添加在辅助线程中，是否应用线程需要选择是，其他地方使用该指令选择否。选择完毕后点击“添加”、“应用”按钮即可。
+点击“配置与测试”，可以对摆焊的参数进行配置，配置完成后可通过开始摆焊测试和停止摆焊测试按键测试该摆焊轨迹。
 
-.. image:: teaching_pendant_software/094.png
+.. image:: teaching_pendant_software/111.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑13 GetDI指令界面
-
-AI命令
-++++++++++++++++
-
-点击“AI”图标进入AI命令编辑界面
-
-在该指令中，分为设置模拟输出（SetAO/SPLCSetAO）和获取模拟输入（GetAI/SPLCGetAI）两部分功能。
-
-“SetAO/SPLCSetAO”选择需要设置的模拟输出，输入需要设置的值，范围为0-10，是否阻塞选项选择“阻塞”表示运动停止后设置AO状态，选择“非阻塞”选项表示在上一条运动过程中设置AO状态。当该指令是添加在辅助线程中，是否应用线程需要选择是，其他地方使用该指令选择否。点击“添加”、“应用”即可。
-
-.. image:: teaching_pendant_software/095.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑14 SetAO指令界面
-
-“GetAI/SPLCGetAI”选择需要获取的模拟输入，是否阻塞选项选择“阻塞”表示运动停止后获取AI状态，选择“非阻塞”选项表示在上一条运动过程中获取AI状态。当该指令是添加在辅助线程中，是否应用线程需要选择是，其他地方使用该指令选择否。点击“添加”、“应用”即可。
-
-.. image:: teaching_pendant_software/096.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑15 GetAI指令界面
+.. centered:: 图表 3.7‑5-10 Weave配置与测试指令界面
 
 TPD命令
 ++++++++++++++++
@@ -1279,314 +1389,7 @@ TPD命令
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑16 TPD指令界面
-
-ToolList命令
-++++++++++++++++
-
-点击“ToolList”图标进入ToolList命令编辑界面
-
-选择工具坐标系名称，点击“应用”添加该指令到程序中，当程序运行该语句，会设定机器人的工具坐标系。
-
-.. image:: teaching_pendant_software/098.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑17 ToolList指令界面
-
-Mode命令
-++++++++++++++++
-
-点击“Mode”图标进入Mode命令编辑界面
-
-该指令可切换机器人到手动模式，通常在一个程序结尾处添加，以便用户在程序运行结束后，使机器人自动切换到手动模式，拖动机器人。
-
-.. image:: teaching_pendant_software/099.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑18 Mode指令界面
-
-Var命令
-++++++++++++++++
-
-点击“Var”图标进入Var命令编辑界面
-
-该指令为变量系统指令，分为Lua变量定义，变量查询和Sys变量重命名，获取值，设置值两部分，Lua变量定义可以声明一个变量并赋予初始值，与while，if-else等指令配合使用，Lua变量查询指令可以实时查询输入的变量名称的值，显示在状态栏。Sys变量个数是固定的，可以对其重命名，获取变量值以及设置变量值，该变量保存的值不随系统关机而清零。
-
-.. image:: teaching_pendant_software/100.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑19 Var指令界面
-
-While命令
-++++++++++++++++
-
-点击“While”图标进入While命令编辑界面
-
-在While后方的输入框中输入等待条件，在do后方的输入框中输入循环期间的动作指令，点击保存即可。（为方便操作，可任意输入do内容，在程序中编辑其他指令插入代替）
-
-.. image:: teaching_pendant_software/101.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑20 While指令界面
-
-if…else命令
-++++++++++++++++
-
-点击“if…else”按钮进入if…else命令编辑界面
-
-在右侧输入框中输入语句，编辑完毕后点击“添加”、“应用”即可。（该指令需要一定编程基础，如需帮助，请联系我们）
-
-.. image:: teaching_pendant_software/102.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑21 if…else指令界面
-
-Goto命令
-++++++++++++++++
-
-点击“Goto”按钮进入Goto命令编辑界面
-
-Goto指令为跳转指令，在右侧输入框中输入语句，编辑完毕后点击“添加”、“应用”即可。（该指令需要一定编程基础，如需帮助，请联系我们）
-
-.. image:: teaching_pendant_software/103.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑22 Goto指令界面
-
-Wait 命令
-++++++++++++++++
-
-点击“Wait”图标进入Wait命令编辑界面
-
-该指令为延时指令，分为“WaitMs”、“WaitDI”和“WaitAI”三部分。
-
-“WaitTime”指令延时等待时间单位为毫秒，输入需要等待的毫秒数，点击“添加”、“应用”即可。
-
-.. image:: teaching_pendant_software/104.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑23 WaitTime指令界面
-
-“WaitDI”指令，即单DI等待，选择需要等待的IO端口号、等待状态、等待最大时间和等待超时处理方式，点击“添加”、“应用”即可。
-
-.. image:: teaching_pendant_software/105.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑24 WaitDI指令界面
-
-“WaitMultiDI”指令，即多DI等待，首先选择多DI成立条件，其次勾选需要等待的DI端口和状态，最后设置等待最大时间和等待超时处理方式，点击“添加”、“应用”即可。
-
-.. image:: teaching_pendant_software/106.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑25 WaitMultiDI指令界面
-
-“WaitAI”指令，选择需要等待的模拟量、数值、等待的最大时间以及等待超时处理方式，点击“添加”、“应用”即可。
-
-.. image:: teaching_pendant_software/107.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑26 WaitAI指令界面
-
-Pause 命令
-++++++++++++++++
-
-点击“Pause”图标进入Pause命令编辑界面
-
-该指令为暂停指令，在程序中插入该指令，当程序执行到该指令时，机器人会处于暂停状态，若想继续运行，点击控制区“暂停/恢复”按键即可。
-
-.. image:: teaching_pendant_software/108.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑27 Pause指令界面
-
-Dofile 命令
-++++++++++++++++
-
-点击“Dofile”图标进入Dofile命令编辑界面
-
-Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存被调用的子程序，而主程序若未改变可不用再次保存。Dofile指令支持二级调用，需要注意两个参数设置，一是该调用处于第几层，二是该调用的ID编号，ID编号原则上同一程序不能出现相同ID。
-
-.. image:: teaching_pendant_software/109.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑28 Dofile指令界面
-
-Weave命令
-++++++++++++++++
-
-点击“Weave”图标进入Weave命令编辑界面
-
-“Weave”指令包含两部分，第一部分选择配置好参数的摆焊编号，点击“开始摆焊”和“停止摆焊”并应用可将相关指令添加到程序中。
-
-.. image:: teaching_pendant_software/110.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑29 Weave指令界面
-
-点击“配置与测试”，可以对摆焊的参数进行配置，配置完成后可通过开始摆焊测试和停止摆焊测试按键测试该摆焊轨迹。
-
-.. image:: teaching_pendant_software/111.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑30 Weave配置与测试指令界面
-
-Segment命令
-++++++++++++++++
-
-点击“Segment”图标进入Segment命令编辑界面
-
-该指令为焊接专用指令，主要用于一段焊，一段不焊的循环间断焊接场景。在起点与终点之间，使用该指令，选择起点和终点，设置调试速度，设置起弧的DO端口，执行长度，非执行长度，根据实际应用场景设置功能模式，摆动选择和取整规则即可实现段焊功能。
-
-.. image:: teaching_pendant_software/112.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑31 Segment指令界面
-
-Adjust命令
-++++++++++++++++
-
-点击“Adjust”图标进入Adjust命令编辑界面
-
-该指令针对焊接跟踪自适应调整焊枪姿态场景，记录好三个对应的姿态点后，根据机器人实际运动方向，添加姿态自适应调整指令。详见机器人外设章节。
-
-.. image:: teaching_pendant_software/113.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑32 Adjust指令界面
-
-Gripper命令
-++++++++++++++++
-
-点击“Gripper”图标进入Gripper命令编辑界面
-
-在该指令中，分为夹爪运动控制指令和夹爪激活/复位指令，夹爪控制指令中，显示完成配置并且已被激活的夹爪编号，用户可以通过编辑框编辑，或者滑动条滑动至所需的值来完成对夹爪开闭、开闭速度和开闭力矩的设置，数值为百分比，是否阻塞功能选项，选择阻塞即夹爪运动需等待上一条运动指令执行完才执行，选择非阻塞即夹爪运动与上一条运动指令并行。点击“添加”、“应用”按钮，即可将设置的值保存至示教文件中。夹爪复位/激活指令，显示已经配置的夹爪编号，可以添加复位/激活指令到程序中。
-
-.. image:: teaching_pendant_software/114.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑33 Gripper指令界面
-
-Spray命令
-++++++++++++++++
-
-点击“Spray”图标进入Spray命令编辑界面
-
-该指令为喷涂相关指令，控制喷枪“开始喷涂”、“停止喷涂”、“开始清枪”和“停止轻枪”。在编辑该程序命令时，需确认已经配置好喷枪外设，详见机器人外设章节。
-
-.. image:: teaching_pendant_software/115.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑34 Spray指令界面
-
-EAxis命令
-++++++++++++++++
-
-点击“EAxis”图标进入EAxis命令编辑界面
-
-该指令针对使用外部轴的场景，与PTP指令组合使用，可将空间上一点X轴方向上的移动分解到外部轴运动。选择外部轴编号，运动方式选同步，选择需要到达的点，点击“添加”、“应用”后可保存该条指令。。
-
-.. image:: teaching_pendant_software/116.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑35 EAxis指令界面
-
-Weld命令
-++++++++++++++++
-
-点击“Weld”图标进入Weld命令编辑界面
-
-该指令主要用于焊机外设，在添加该指令前请确认在用户外设中焊机配置是否完成，详见机器人外设章节。
-
-.. image:: teaching_pendant_software/117.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑36 Weld指令界面
-
-Laser命令
-++++++++++++++++
-
-点击“Laser”图标进入Laser命令编辑界面
-
-该指令包含激光命令、跟踪命令和寻位命令三部分，在添加该指令前，请确认用户外设中激光跟踪传感器是否已经配置成功。详见机器人外设章节。
-
-.. image:: teaching_pendant_software/118.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑37 Laser指令界面
-
-Convey命令
-++++++++++++++++
-
-点击“Convey”图标进入Convey命令编辑界面
-
-该指令包含位置实时检测，IO实时检测，跟踪开启和跟踪关闭四条命令。详见机器人外设章节。
-
-.. image:: teaching_pendant_software/119.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑38 Conveyor指令界面
-
-F/T命令
-++++++++++++++++
-
-点击“F/T”图标进入F/T命令编辑界面
-
-该指令包含FT_Guard(碰撞检测)，FT_Control(恒力控制)，FT_Spiral(螺旋插入)，FT_Rot(旋转插入)，FT_Lin(直线插入)，FT_FindSurface(表面定位) ，FT_CalCenter(中心定位)七个指令，详见机器人外设章节。
-
-.. image:: teaching_pendant_software/120.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑39 F/T指令界面
-
-3D命令
-++++++++++++++++
-
-点击“3D”图标进入3D命令编辑界面
-
-该指令为3D视觉程序实例生成指令，用户可以根据生成的程序进行参考，与其他视觉设备进行通讯工作，包含相机标定和相机抓取两个程序案例参考。
-
-.. image:: teaching_pendant_software/121.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑40 3D指令界面
-
-Pallet命令
-++++++++++++++++
-
-点击“Pallet”图标进入Pallet命令编辑界面
-
-该指令为码垛程序生成指令，与3.9.6节矩阵移动功能是一致的，详细说明参考那一章节。
-
-.. image:: teaching_pendant_software/122.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑41 Pallet指令界面
+.. centered:: 图表 3.7‑5-11 TPD指令界面
 
 Offset命令
 ++++++++++++++++
@@ -1599,54 +1402,7 @@ Offset命令
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑42 Offset指令界面
-
-W-Search命令
-++++++++++++++++
-
-点击“W-Search”图标进入W-Search命令编辑界面
-
-该指令为焊丝寻位指令，包含寻位开始，寻位结束和计算偏移量三个指令，该指令一般应用于焊接场景中，需要焊机与机器人IO和运动指令相结合使用。
-
-.. image:: teaching_pendant_software/124.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑43 W-Search指令界面
-
-在编写程序中，通常先设置寻位开始指令，之后添加两条LIN指令，确定寻位的方向，寻位成功后，获取计算出来的偏移量，将该偏移量通过整体偏移指令，生效到真正的焊接运动指令中，程序示例如下。
-
-.. image:: teaching_pendant_software/125.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑44 W-Search示例（1D）
-
-Vir-IO命令
-++++++++++++++++
-
-点击“Vir-IO”图标进入Vir-IO命令编辑界面
-
-该指令虚拟的IO控制指令，可以实现设置模拟外部DI和AI状态，获取模拟DI和AI状态。
-
-.. image:: teaching_pendant_software/126.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑45 Vir-IO指令界面
-
-Thread命令
-++++++++++++++++
-
-点击“Thread”图标进入Thread命令编辑界面
-
-Thread命令为辅助线程功能，用户可以定义一个辅助线程与主线程同时运行，辅助线程主要与外部设备进行数据交互，支持socket通信，机器人DI状态获取，机器人DO状态设置，机器人状态信息获取，与主线程数据交互，主线程通过辅助线程获取的数据用于控制机器人运动逻辑的判断，用户程序示例截图：
-
-.. image:: teaching_pendant_software/127.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑46 Thread程序示例
+.. centered:: 图表 3.7‑5-12 Offset指令界面
 
 ServoCart命令
 ++++++++++++++++
@@ -1659,7 +1415,7 @@ ServoCart伺服控制（笛卡尔空间运动）指令，该指令可以通过�
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑47 ServoCart指令界面
+.. centered:: 图表 3.7‑5-13 ServoCart指令界面
 
 绝对位姿控制程序实例：
 
@@ -1674,6 +1430,383 @@ ServoCart伺服控制（笛卡尔空间运动）指令，该指令可以通过�
 .. image:: teaching_pendant_software/130.png
    :width: 6in
    :align: center
+
+控制指令界面
+~~~~~~~~~~~~~
+
+.. image:: teaching_pendant_software/204.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑6 控制指令界面
+
+IO命令
+++++++++++++++++
+
+点击“IO”图标进入IO命令编辑界面
+
+“IO”指令分为设置IO（SetDO/SPLCSetDO）和获取IO（GetDI/SPLCGetDI）两部分。
+
+“SetDO/SPLCSetDO”该指令可设定指定的输出DO状态，包括16路控制箱数字输出和2路工具数字输出，状态选项“False”为闭，“True”为开，是否阻塞选项选择“阻塞”表示运动停止后设置DO状态，选择“非阻塞”选项表示在上一条运动过程中设置DO状态。平滑轨迹选项选择“Break”表示在平滑过渡半径结束后设置DO状态，选择“Serious”表示在平滑过渡半径运动过程中设置DO状态。当该指令是添加在辅助线程中，是否应用线程需要选择是，其他地方使用该指令选择否。点击“添加”、“应用”即可。
+
+.. image:: teaching_pendant_software/093.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑6-1 SetDO指令界面
+
+在“GetDI/SPLCGetDI”指令中，选择想要获取端口号的数值，是否阻塞选项选择“阻塞”表示运动停止后获取DI状态，选择“非阻塞”选项表示在上一条运动过程中获取DI状态。当该指令是添加在辅助线程中，是否应用线程需要选择是，其他地方使用该指令选择否。选择完毕后点击“添加”、“应用”按钮即可。
+
+.. image:: teaching_pendant_software/094.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑6-2 GetDI指令界面
+
+AI命令
+++++++++++++++++
+
+点击“AI”图标进入AI命令编辑界面
+
+在该指令中，分为设置模拟输出（SetAO/SPLCSetAO）和获取模拟输入（GetAI/SPLCGetAI）两部分功能。
+
+“SetAO/SPLCSetAO”选择需要设置的模拟输出，输入需要设置的值，范围为0-10，是否阻塞选项选择“阻塞”表示运动停止后设置AO状态，选择“非阻塞”选项表示在上一条运动过程中设置AO状态。当该指令是添加在辅助线程中，是否应用线程需要选择是，其他地方使用该指令选择否。点击“添加”、“应用”即可。
+
+.. image:: teaching_pendant_software/095.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑6-3 SetAO指令界面
+
+“GetAI/SPLCGetAI”选择需要获取的模拟输入，是否阻塞选项选择“阻塞”表示运动停止后获取AI状态，选择“非阻塞”选项表示在上一条运动过程中获取AI状态。当该指令是添加在辅助线程中，是否应用线程需要选择是，其他地方使用该指令选择否。点击“添加”、“应用”即可。
+
+.. image:: teaching_pendant_software/096.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑6-4 GetAI指令界面
+
+Vir-IO命令
+++++++++++++++++
+
+点击“Vir-IO”图标进入Vir-IO命令编辑界面
+
+该指令虚拟的IO控制指令，可以实现设置模拟外部DI和AI状态，获取模拟DI和AI状态。
+
+.. image:: teaching_pendant_software/126.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑6-5 Vir-IO指令界面
+
+Aux-IO命令
+++++++++++++++++
+
+点击“Aux-IO”图标进入Aux-IO命令编辑界面
+
+Aux-IO是机器人与PLC通讯控制外部扩展IO的指令功能，需要机器人与PLC建立UDP通讯，在原有的16路输入输出基础上，可以扩展128路输入输出，该指令用法与前文所讲的通用IO用法类似。使用此功能，有一定技术难度，前请联系我们咨询。
+
+.. image:: teaching_pendant_software/139.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑6-6 Aux-IO指令界面
+
+MoveDO命令
+++++++++++++++++
+
+点击“MoveDO”图标进入MoveDO命令编辑界面
+
+该指令实现直线运动过程中，根据设定的间隔，连续输出DO信号功能。
+
+.. image:: teaching_pendant_software/195.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑6-7 MoveDO指令界面
+
+ToolList命令
+++++++++++++++++
+
+点击“ToolList”图标进入ToolList命令编辑界面
+
+选择工具坐标系名称，点击“应用”添加该指令到程序中，当程序运行该语句，会设定机器人的工具坐标系。
+
+.. image:: teaching_pendant_software/098.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑6-8 ToolList指令界面
+
+Mode命令
+++++++++++++++++
+
+点击“Mode”图标进入Mode命令编辑界面
+
+该指令可切换机器人到手动模式，通常在一个程序结尾处添加，以便用户在程序运行结束后，使机器人自动切换到手动模式，拖动机器人。
+
+.. image:: teaching_pendant_software/099.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑6-9 Mode指令界面
+
+Collision命令
+++++++++++++++++
+
+点击“Collision”图标进入Collision命令编辑界面
+
+该指令碰撞等级设置，通过该指令可以在程序运行中实时调节各轴碰撞等级，更灵活的部署应用场景。
+
+.. image:: teaching_pendant_software/135.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑6-10 Collision指令界面
+
+Acc命令
+++++++++++++++++
+
+点击“Acc”图标进入Acc命令编辑界面
+
+Acc指令是实现机器人加速度可单独设置功能，通过调节运动指令加速度缩放因子，可以增加或减小加减速时间，实现机器人动作节拍时间可调。
+
+.. image:: teaching_pendant_software/137.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑6-11 Acc指令界面
+
+外设指令界面 
+~~~~~~~~~~~~~
+
+.. image:: teaching_pendant_software/205.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑7 外设指令界面  
+
+Gripper命令
+++++++++++++++++
+
+点击“Gripper”图标进入Gripper命令编辑界面
+
+在该指令中，分为夹爪运动控制指令和夹爪激活/复位指令，夹爪控制指令中，显示完成配置并且已被激活的夹爪编号，用户可以通过编辑框编辑，或者滑动条滑动至所需的值来完成对夹爪开闭、开闭速度和开闭力矩的设置，数值为百分比，是否阻塞功能选项，选择阻塞即夹爪运动需等待上一条运动指令执行完才执行，选择非阻塞即夹爪运动与上一条运动指令并行。点击“添加”、“应用”按钮，即可将设置的值保存至示教文件中。夹爪复位/激活指令，显示已经配置的夹爪编号，可以添加复位/激活指令到程序中。
+
+.. image:: teaching_pendant_software/114.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑7-1 Gripper指令界面
+
+Spray命令
+++++++++++++++++
+
+点击“Spray”图标进入Spray命令编辑界面
+
+该指令为喷涂相关指令，控制喷枪“开始喷涂”、“停止喷涂”、“开始清枪”和“停止轻枪”。在编辑该程序命令时，需确认已经配置好喷枪外设，详见机器人外设章节。
+
+.. image:: teaching_pendant_software/115.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑7-2 Spray指令界面
+
+EAxis命令
+++++++++++++++++
+
+点击“EAxis”图标进入EAxis命令编辑界面
+
+该指令针对使用外部轴的场景，与PTP指令组合使用，可将空间上一点X轴方向上的移动分解到外部轴运动。选择外部轴编号，运动方式选同步，选择需要到达的点，点击“添加”、“应用”后可保存该条指令。。
+
+.. image:: teaching_pendant_software/116.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑7-3 EAxis指令界面
+
+Convey命令
+++++++++++++++++
+
+点击“Convey”图标进入Convey命令编辑界面
+
+该指令包含位置实时检测，IO实时检测，跟踪开启和跟踪关闭四条命令。详见机器人外设章节。
+
+.. image:: teaching_pendant_software/119.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑7-4 Conveyor指令界面
+
+焊接指令界面
+~~~~~~~~~~~~~
+
+.. image:: teaching_pendant_software/206.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑8 焊接指令界面  
+
+Weld命令
+++++++++++++++++
+
+点击“Weld”图标进入Weld命令编辑界面
+
+该指令主要用于焊机外设，在添加该指令前请确认在用户外设中焊机配置是否完成，详见机器人外设章节。
+
+.. image:: teaching_pendant_software/117.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7-8-1 Weld指令界面
+
+Segment命令
+++++++++++++++++
+
+点击“Segment”图标进入Segment命令编辑界面
+
+该指令为焊接专用指令，主要用于一段焊，一段不焊的循环间断焊接场景。在起点与终点之间，使用该指令，选择起点和终点，设置调试速度，设置起弧的DO端口，执行长度，非执行长度，根据实际应用场景设置功能模式，摆动选择和取整规则即可实现段焊功能。
+
+.. image:: teaching_pendant_software/112.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7-8-2 Segment指令界面
+
+Laser命令
+++++++++++++++++
+
+点击“Laser”图标进入Laser命令编辑界面
+
+该指令包含激光命令、跟踪命令和寻位命令三部分，在添加该指令前，请确认用户外设中激光跟踪传感器是否已经配置成功。详见机器人外设章节。
+
+.. image:: teaching_pendant_software/118.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7-8-3 Laser指令界面
+
+W-Search命令
+++++++++++++++++
+
+点击“W-Search”图标进入W-Search命令编辑界面
+
+该指令为焊丝寻位指令，包含寻位开始，寻位结束和计算偏移量三个指令，该指令一般应用于焊接场景中，需要焊机与机器人IO和运动指令相结合使用。
+
+.. image:: teaching_pendant_software/124.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7-8-4 W-Search指令界面
+
+在编写程序中，通常先设置寻位开始指令，之后添加两条LIN指令，确定寻位的方向，寻位成功后，获取计算出来的偏移量，将该偏移量通过整体偏移指令，生效到真正的焊接运动指令中，程序示例如下。
+
+.. image:: teaching_pendant_software/125.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7-8-5 W-Search示例（1D）
+
+Adjust命令
+++++++++++++++++
+
+点击“Adjust”图标进入Adjust命令编辑界面
+
+该指令针对焊接跟踪自适应调整焊枪姿态场景，记录好三个对应的姿态点后，根据机器人实际运动方向，添加姿态自适应调整指令。详见机器人外设章节。
+
+.. image:: teaching_pendant_software/113.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7-8-5 Adjust指令界面
+
+力控指令界面 
+~~~~~~~~~~~~~
+
+.. image:: teaching_pendant_software/207.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑9 力控指令界面 
+
+F/T命令
+++++++++++++++++
+
+点击“F/T”图标进入F/T命令编辑界面
+
+该指令包含FT_Guard(碰撞检测)，FT_Control(恒力控制)，FT_Spiral(螺旋插入)，FT_Rot(旋转插入)，FT_Lin(直线插入)，FT_FindSurface(表面定位) ，FT_CalCenter(中心定位)七个指令，详见机器人外设章节。
+
+.. image:: teaching_pendant_software/120.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7-9-1 F/T指令界面
+
+Torque命令
+++++++++++++++++
+
+点击“Torque”图标进入Torque命令编辑界面
+
+该指令为力柔顺控制指令，通过该指令可以让机器人在力控训练过程中，当力大于一定值时，机械臂能够调整自己的轨迹使力减小；力小于一定值时，返向原轨迹，继续沿原先轨迹运动。
+
+.. image:: teaching_pendant_software/138.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7-9-2 Torque指令界面
+
+视觉指令界面
+~~~~~~~~~~~~~
+
+.. image:: teaching_pendant_software/208.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑10 视觉指令界面 
+
+3D命令
+++++++++++++++++
+
+点击“3D”图标进入3D命令编辑界面
+
+该指令为3D视觉程序实例生成指令，用户可以根据生成的程序进行参考，与其他视觉设备进行通讯工作，包含相机标定和相机抓取两个程序案例参考。
+
+.. image:: teaching_pendant_software/121.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑10-1 3D指令界面
+
+码垛指令界面
+~~~~~~~~~~~~~
+
+.. image:: teaching_pendant_software/209.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑11 码垛指令界面 
+
+Pallet命令
+++++++++++++++++
+
+点击“Pallet”图标进入Pallet命令编辑界面
+
+该指令为码垛程序生成指令，与3.9.6节矩阵移动功能是一致的，详细说明参考那一章节。
+
+.. image:: teaching_pendant_software/122.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7-11-1 Pallet指令界面
+
+通讯指令界面
+~~~~~~~~~~~~~
+
+.. image:: teaching_pendant_software/210.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑12 通讯指令界面
 
 Modbus命令
 ++++++++++++++++
@@ -1702,32 +1835,6 @@ Modbus从站读写线圈实例：
 
 关于ModbusTCP更多操作功能，前请联系我们咨询。
 
-Function命令
-++++++++++++++++
-
-点击“Function”图标进入Function命令编辑界面
-
-该指令为调用函数接口功能，将机器人接口函数提供给客户选择，并提示客户该函数所需要的参数，方便客户编写脚本指令，更多函数陆续添加中。
-
-.. image:: teaching_pendant_software/134.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑48 Function指令界面
-
-Collision命令
-++++++++++++++++
-
-点击“Collision”图标进入Collision命令编辑界面
-
-该指令碰撞等级设置，通过该指令可以在程序运行中实时调节各轴碰撞等级，更灵活的部署应用场景。
-
-.. image:: teaching_pendant_software/135.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑49 Collision指令界面
-
 Xmlrpc命令
 ++++++++++++++++
 
@@ -1739,7 +1846,7 @@ XML-RPC是一种通过sockets使用xml在程序之间传输数据的远程过程
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑50 Xmlrpc指令界面
+.. centered:: 图表 3.7-12-1 Xmlrpc指令界面
 
 .. important:: 
   1) 控制器作为客户端连接远端自定义端口；
@@ -1774,57 +1881,40 @@ XML-RPC是一种通过sockets使用xml在程序之间传输数据的远程过程
 
    若参数传入为string型数组，则result为string型数组
 
-Acc命令
-++++++++++++++++
+辅助指令界面
+~~~~~~~~~~~~~
 
-点击“Acc”图标进入Acc命令编辑界面
-
-Acc指令是实现机器人加速度可单独设置功能，通过调节运动指令加速度缩放因子，可以增加或减小加减速时间，实现机器人动作节拍时间可调。
-
-.. image:: teaching_pendant_software/137.png
+.. image:: teaching_pendant_software/211.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑51 Acc指令界面
+.. centered:: 图表 3.7‑13 辅助指令界面
 
-Torque命令
+Thread命令
 ++++++++++++++++
 
-点击“Torque”图标进入Torque命令编辑界面
+点击“Thread”图标进入Thread命令编辑界面
 
-该指令为力柔顺控制指令，通过该指令可以让机器人在力控训练过程中，当力大于一定值时，机械臂能够调整自己的轨迹使力减小；力小于一定值时，返向原轨迹，继续沿原先轨迹运动。
+Thread命令为辅助线程功能，用户可以定义一个辅助线程与主线程同时运行，辅助线程主要与外部设备进行数据交互，支持socket通信，机器人DI状态获取，机器人DO状态设置，机器人状态信息获取，与主线程数据交互，主线程通过辅助线程获取的数据用于控制机器人运动逻辑的判断，用户程序示例截图：
 
-.. image:: teaching_pendant_software/138.png
+.. image:: teaching_pendant_software/127.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑52 Torque指令界面
+.. centered:: 图表 3.7‑13-1 Thread程序示例
 
-Aux-IO命令
+Function命令
 ++++++++++++++++
 
-点击“Aux-IO”图标进入Aux-IO命令编辑界面
+点击“Function”图标进入Function命令编辑界面
 
-Aux-IO是机器人与PLC通讯控制外部扩展IO的指令功能，需要机器人与PLC建立UDP通讯，在原有的16路输入输出基础上，可以扩展128路输入输出，该指令用法与前文所讲的通用IO用法类似。使用此功能，有一定技术难度，前请联系我们咨询。
+该指令为调用函数接口功能，将机器人接口函数提供给客户选择，并提示客户该函数所需要的参数，方便客户编写脚本指令，更多函数陆续添加中。
 
-.. image:: teaching_pendant_software/139.png
+.. image:: teaching_pendant_software/134.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑53 Aux-IO指令界面
-
-MoveDO命令
-++++++++++++++++
-
-点击“MoveDO”图标进入MoveDO命令编辑界面
-
-该指令实现直线运动过程中，根据设定的间隔，连续输出DO信号功能。
-
-.. image:: teaching_pendant_software/195.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 3.7‑54 MoveDO指令界面
+.. centered:: 图表 3.7‑13-2 Function指令界面
 
 示教程序加密
 ~~~~~~~~~~~~~~
@@ -2470,9 +2560,9 @@ MoveDO命令
 安全速度设置
 ~~~~~~~~~~~~~~~~
 
-在“辅助应用”中的“安全性设置”的菜单栏下，点击“安全速度设置”进入安全速度设置功能界面。
+在“机器人设置”中的“DI配置”下，点击不同的DI下拉框，可以配置缩减模式（一级、二级、三级）
 
-启用安全速度并设置速度限制值，当用户在手动模式下调试机器人或者拖动模式下拖拽机器人，速度超过该设置阈值时，机器人会停止并警告提示用户，起到安全防护的作用。
+一级和二级缩减模式可以配置关节速度和末端TCP速度，三级缩减模式是停止可以不用配置速度。
 
 .. image:: teaching_pendant_software/200.png
    :width: 6in
@@ -2482,7 +2572,7 @@ MoveDO命令
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.9‑32 安全速度设置
+.. centered:: 图表 3.9‑32 缩减模式配置
 
 安全墙配置
 ~~~~~~~~~~~~~~~~
