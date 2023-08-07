@@ -8,6 +8,18 @@
     :align: center
     :figclass: align-center
 
+快速开始
+------------
+.. toctree:: 
+    :maxdepth: 6
+    :numbered: 5
+
+    install_power_robot
+    access
+    parameter_setting
+    manual_teaching
+    quick_programming
+
 使用手册
 ------------
 .. toctree:: 
