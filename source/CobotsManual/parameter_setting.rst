@@ -52,13 +52,13 @@
    :width: 3in
    :align: center
    
-.. centered:: 图表 3.1-1 设置工具坐标
+.. centered:: 图表 3.3-1 设置工具坐标
 
 .. image:: teaching_pendant_software/028.png
    :width: 3in
    :align: center
 
-.. centered:: 图表 3.1-2 设置工具坐标
+.. centered:: 图表 3.3-2 设置工具坐标
 
 .. important:: 
     1.末端安装工具后，必须要进行工具坐标系的标定及应用，否则会导致机器人执行运动指令时工具中心点的位置和姿态不符合预期值。
