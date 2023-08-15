@@ -1431,6 +1431,50 @@ ServoCart伺服控制（笛卡尔空间运动）指令，该指令可以通过�
    :width: 6in
    :align: center
 
+Trajctory命令
+++++++++++++++++
+
+点击“Trajctory”图标进入Trajctory命令编辑界面
+
+.. image:: teaching_pendant_software/212.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑5-14 Trajctory指令界面
+
+TrajctoryJ命令
+++++++++++++++++
+
+点击“TrajctoryJ”图标进入TrajctoryJ命令编辑界面
+
+.. image:: teaching_pendant_software/213.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑5-15 TrajctoryJ指令界面
+
+DMP命令
+++++++++++++++++
+
+点击“DMP”图标进入DMP命令编辑界面
+
+.. image:: teaching_pendant_software/214.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑5-16 DMP指令界面
+
+WPTrsf命令
+++++++++++++++++
+
+点击轨迹“WPTrsf”图标进入WPTrsf命令编辑界面
+
+.. image:: teaching_pendant_software/215.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑5-17 WPTrsf指令界面
+
 控制指令界面
 ~~~~~~~~~~~~~
 
