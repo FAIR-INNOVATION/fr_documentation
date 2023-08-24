@@ -383,53 +383,156 @@ FR机器人需要根据适用的国家法律法规及国家标准处置，详情
 机器人手臂安装
 ~~~~~~~~~~~~~~~~~
 
-机器人手臂使用4颗强度不低于8.8级强度的M8螺栓安装机器人手臂。螺栓必须使用20Nm扭矩拧紧。
+.. important:: 
+	推荐机器人安装座满足以下几个要求，以保证机器人安装牢固、稳定：
+   
+   	（1）机器人安装座需要足够牢固且有足够的承载能力，应该至少能承载5倍的机器人重量，至少能承受10倍的1轴扭矩。
 
-使用预留的两个Ø8销孔来准确地重新定位机器人手臂。
+	（2）机器人安装座应表面平整，以保证与机器人接触面紧密接触；
+
+	（3）机器人安装座应刚度足够强壮，固定牢固，不会和机器人发生共振；
+
+	（4）机器人和其他部件同时运动时，安装座与其他运动部件应隔离开，不要固定在一起避免运动过程中的振动干扰；
+
+	（5）如果机器人安装在移动平台或者外部轴上，移动平台或者外部轴的加速度应尽量低；
+
+	应该避免以下安装方式：
+
+	（I）避免将机器人固定在其它运动设备上
+
+	.. figure:: installation/prohibit_base.png
+		:align: center
+		:width: 3in
+		:class: figure-border
+
+	.. centered:: 图表 1.5-1 避免安装在其它运动设备上
+
+	确保机器人手臂正确并安全地安装到位。安装不稳定会导致事故。
 
 .. note:: 
 	可以采购精确的基座作为附件来使用。图表1.5-1 ~ 1.5-5显示了销孔位置和螺丝安装位置。
 
-将机器人安装在一个坚固、无震动的表面，该表面应当足以承受至少10倍的基座关节的完全扭转力，以及至少5倍的机器人手臂的重量。如果机器人安装在线性轴上或是活动的平台上，则活动性安装基座的加速度非常低。高加速度会导致机器人发生安全停机。
+FR3机器人手臂安装要求
+++++++++++++++++++++++++
 
+机器人安装在安装座上时，使用4颗强度不低于8.8级的M6螺栓将机器人固定在安装座上，螺栓须使用不少于10Nm扭矩拧紧；建议安装座上使用两个φ5mm销孔配合销钉进行机器人定位，以提高机器人安装精度，防止因为碰撞等使机器人发生移动。当机器人有较高运行精度要求时，请务必增加销钉对机器人进行定位。
 
 .. figure:: installation/025.png
 	:align: center
 	:width: 6in
 	:class: figure-border
 
-.. centered:: 图表 1.5-1 FR3型号协作机器人安装尺寸
+.. centered:: 图表 1.5-2 FR3型号协作机器人安装尺寸
+
+.. important:: 
+	根据不同的应用场景推荐几款机器人安装底座如下：
+
+	（I）针对运动速度不太快，运行速度不太大，精度要求一般，且不方便固定在地面上的场合，推荐机器人安装底座如下：
+
+	.. figure:: installation/FR3&5_base.png
+		:align: center
+		:width: 3in
+		:class: figure-border
+
+	.. centered:: 图表 1.5-3 FR3型号协作机器人低要求安装底座
+
+	（II）针对运动速度较快，运行速度较大，精度要求较高的场合，推荐机器人安装底座如下，并将机器人固定在牢固的地面上：
+
+	.. figure:: installation/high_precision.png
+		:align: center
+		:width: 3in
+		:class: figure-border
+
+	.. centered:: 图表 1.5-4 FR3型号协作机器人高要求安装底座
+
+FR5机器人手臂安装要求
+++++++++++++++++++++++++++++
+
+机器人安装在安装座上时，使用4颗强度不低于8.8级的M8螺栓将机器人固定在安装座上，螺栓须使用不少于20Nm扭矩拧紧；建议安装座上使用两个φ8mm销孔配合销钉进行机器人定位，以提高机器人安装精度，防止因为碰撞等使机器人发生移动。当机器人有较高运行精度要求时，请务必增加销钉对机器人进行定位。
 
 .. figure:: installation/026.png
 	:align: center
 	:width: 6in
 	:class: figure-border
 
-.. centered:: 图表 1.5-2 FR5型号协作机器人安装尺寸
+.. centered:: 图表 1.5-5 FR5型号协作机器人安装尺寸
+
+.. important:: 
+	根据不同的应用场景推荐几款机器人安装底座如下：
+
+	（I）针对运动速度不太快，运行速度不太大，精度要求一般，且不方便固定在地面上的场合，推荐机器人安装底座如下：
+
+	.. figure:: installation/FR3&5_base.png
+		:align: center
+		:width: 3in
+		:class: figure-border
+
+	.. centered:: 图表 1.5-6 FR5型号协作机器人低要求安装底座
+
+	（II）针对运动速度较快，运行速度较大，精度要求较高的场合，推荐机器人安装底座如下，并将机器人固定在牢固的地面上：
+
+	.. figure:: installation/high_precision.png
+		:align: center
+		:width: 3in
+		:class: figure-border
+
+	.. centered:: 图表 1.5-7 FR5型号协作机器人高要求安装底座
+
+FR10、FR16机器人手臂安装要求
++++++++++++++++++++++++++++++++
+
+机器人安装在安装座上时，使用4颗强度不低于8.8级的M8螺栓将机器人固定在安装座上，螺栓须使用不少于25Nm扭矩拧紧；建议安装座上使用两个φ8mm销孔配合销钉进行机器人定位，以提高机器人安装精度，防止因为碰撞等使机器人发生移动。当机器人有较高运行精度要求时，请务必增加销钉对机器人进行定位。
 
 .. figure:: installation/027.png
 	:align: center
 	:width: 6in
 	:class: figure-border
 
-.. centered:: 图表 1.5-3 FR10型号协作机器人安装尺寸
+.. centered:: 图表 1.5-8 FR10、FR16型号协作机器人安装尺寸
+	
+.. important:: 
+	根据不同的应用场景推荐几款机器人安装底座如下：
 
-.. figure:: installation/028.png
-	:align: center
-	:width: 6in
-	:class: figure-border
+	（I）针对运动速度不太快，运行速度不太大，精度要求一般，且不方便固定在地面上的场合，推荐机器人安装底座如下：
 
-.. centered:: 图表 1.5-4 FR16型号协作机器人安装尺寸
+	.. figure:: installation/FR10&16_base.png
+		:align: center
+		:width: 3in
+		:class: figure-border
+
+	.. centered:: 图表 1.5-9 FR10、FR16型号协作机器人低要求安装底座
+
+	（II）针对运动速度较快，运行速度较大，精度要求较高的场合，推荐机器人安装底座如下，并将机器人固定在牢固的地面上：
+
+	.. figure:: installation/high_precision.png
+		:align: center
+		:width: 3in
+		:class: figure-border
+
+	.. centered:: 图表 1.5-10 FR10、FR16型号协作机器人高要求安装底座
+
+FR20机器人手臂安装要求
++++++++++++++++++++++++++++++++
+
+机器人安装在安装座上时，使用6颗强度不低于8.8级的M10螺栓将机器人固定在安装座上，螺栓须使用不少于45Nm扭矩拧紧；建议安装座上使用两个φ8mm销孔配合销钉进行机器人定位，以提高机器人安装精度，防止因为碰撞等使机器人发生移动。当机器人有较高运行精度要求时，请务必增加销钉对机器人进行定位。
 
 .. figure:: installation/029.png
 	:align: center
 	:width: 6in
 	:class: figure-border
 
-.. centered:: 图表 1.5-5 FR20型号协作机器人安装尺寸
+.. centered:: 图表 1.5-11 FR20型号协作机器人安装尺寸
 
 .. important:: 
-	确保机器人手臂正确并安全地安装到位。安装不稳定会导致事故。
+
+	因为FR20机器人自重较大及运行惯量较大，建议直接固定在地面上使用。推荐底座如下：
+
+	.. figure:: installation/FR20_base.png
+		:align: center
+		:width: 3in
+		:class: figure-border
+
+	.. centered:: 图表 1.5-12 FR20型号协作机器人安装底座
 
 工具末端安装
 ~~~~~~~~~~~~~~~~
@@ -442,14 +545,14 @@ FR机器人需要根据适用的国家法律法规及国家标准处置，详情
 	:width: 6in
 	:class: figure-border
 
-.. centered:: 图表 1.5-6 FR3/FR5/FR10/FR16型号机器人末端法兰图纸
+.. centered:: 图表 1.5-13 FR3/FR5/FR10/FR16型号机器人末端法兰图纸
 
 .. figure:: installation/031.png
 	:align: center
 	:width: 6in
 	:class: figure-border
 
-.. centered:: 图表 1.5-7 FR20型号机器人末端法兰图纸
+.. centered:: 图表 1.5-14 FR20型号机器人末端法兰图纸
 
 .. important:: 
 	- 确保工具正确并安全地安装到位。
@@ -493,31 +596,31 @@ FR机器人需要根据适用的国家法律法规及国家标准处置，详情
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 1.5-8 FR3型号协作机器人负载曲线
+.. centered:: 图表 1.5-15 FR3型号协作机器人负载曲线
 
 .. figure:: installation/033.png
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 1.5-9 FR5型号协作机器人负载曲线
+.. centered:: 图表 1.5-16 FR5型号协作机器人负载曲线
 
 .. figure:: installation/034.png
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 1.5-10 FR10型号协作机器人负载曲线
+.. centered:: 图表 1.5-17 FR10型号协作机器人负载曲线
 
 .. figure:: installation/035.png
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 1.5-11 FR16型号协作机器人负载曲线
+.. centered:: 图表 1.5-18 FR16型号协作机器人负载曲线
 
 .. figure:: installation/036.png
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 1.5-12 FR20型号协作机器人负载曲线
+.. centered:: 图表 1.5-19 FR20型号协作机器人负载曲线
 
 
 控制连接
