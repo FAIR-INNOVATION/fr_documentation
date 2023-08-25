@@ -312,8 +312,6 @@ FR系列协作机器人DH参数展示如下：
 
 .. centered:: Table 1.1-6 FR16 协作机器人DH参数表
 
-FR16
-+++++++
 .. list-table::
    :widths: 70 50 50 50 50 70 50 120
    :header-rows: 0
@@ -385,8 +383,6 @@ FR16
 
 .. centered:: Table 1.1-7 FR20 协作机器人DH参数表
 
-FR20
-+++++++
 .. list-table::
    :widths: 70 50 50 50 50 70 50 120
    :header-rows: 0
