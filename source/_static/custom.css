@@ -104,3 +104,9 @@ body {
 .rst-content .section>a>img, .rst-content .section>img, .rst-content section>a>img, .rst-content section>img {
     margin-bottom: 24px !important;
 }
+.sheet-center {
+    text-align: center;
+}
+.rst-content table.no-padding td {
+    padding: 8px 0px !important;
+}

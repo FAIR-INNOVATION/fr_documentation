@@ -24,9 +24,10 @@
 ------------
 .. toctree:: 
     :maxdepth: 6
-    :numbered: 5
+    :numbered: 8
 
     foreword
+    robot_brief_introduction
     installation
     quick_start_robot
     teaching_pendant_software
