@@ -1676,15 +1676,23 @@ Spray命令
 EAxis命令
 ++++++++++++++++
 
-点击“外部轴”图标进入EAxis命令编辑界面
+点击“外部轴”图标进入EAxis命令编辑界面，选择组合模式：控制器+伺服驱动器(485)/控制器+PLC(UDP)
 
-该指令针对使用外部轴的场景，与PTP指令组合使用，可将空间上一点X轴方向上的移动分解到外部轴运动。选择外部轴编号，运动方式选同步，选择需要到达的点，点击“添加”、“应用”后可保存该条指令。。
+选择控制器+PLC(UDP),该指令针对使用外部轴的场景，与PTP指令组合使用，可将空间上一点X轴方向上的移动分解到外部轴运动。选择外部轴编号，运动方式选同步，选择需要到达的点，点击“添加”、“应用”后可保存该条指令。
 
 .. image:: teaching_pendant_software/116.png
    :width: 6in
    :align: center
 
 .. centered:: 图表 3.7‑7-3 EAxis指令界面
+
+选择控制器+伺服驱动器(485),该指令可对扩展轴参数进行配置。根据不同的控制模式设置不同的参数。已配置好的扩展轴，可对其零点设定。
+
+.. image:: teaching_pendant_software/218.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑7-4 扩展轴指令界面
 
 Convey命令
 ++++++++++++++++
@@ -1697,7 +1705,20 @@ Convey命令
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑7-4 Conveyor指令界面
+.. centered:: 图表 3.7‑7-5 Conveyor指令界面
+
+打磨设备命令
+++++++++++++++++
+
+点击“打磨设备”图标进入Polish命令编辑界面
+
+该指令可设置打磨设备的转速、接触力、伸出距离和控制模式。
+
+.. image:: teaching_pendant_software/219.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑7-6 Polish命令界面
 
 焊接指令界面
 ~~~~~~~~~~~~~
