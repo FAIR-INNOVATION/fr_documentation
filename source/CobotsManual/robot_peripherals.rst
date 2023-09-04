@@ -202,6 +202,7 @@
 
 控制器+PLC（UDP）
 ~~~~~~~~~~~~~~~~~~~~
+
 配置步骤
 ++++++++++++++++
 
@@ -261,7 +262,7 @@
 
 **Step1**：首先对伺服驱动器参数进行配置。设置伺服驱动器编号、伺服驱动器厂商、伺服驱动器型号、伺服驱动器软件版本、编码器分辨率和机械传动比。点击“清除”按钮清空当前伺服驱动器编号的配置。配置成功后获取伺服驱动器配置列表数据。
 
-.. figure:: robot_peripherals/023.png
+.. figure:: robot_peripherals/servo_table.png
    :align: center
    :width: 3in
 
@@ -272,7 +273,7 @@
 .. important::
    设置控制模式前，若伺服已使能，请先去使能，否则设置无法生效。
 
-.. figure:: robot_peripherals/023.png
+.. figure:: robot_peripherals/servo_debugger.png
    :align: center
    :width: 3in
 
@@ -280,13 +281,11 @@
 
 **Step3**：在程序示教命令界面选择“扩展轴”命令。根据具体的程序示教需求，在相应的地方添加指令。
 
-.. figure:: robot_peripherals/023.png
+.. figure:: robot_peripherals/servo_program.png
    :align: center
    :width: 3in
 
 .. centered:: 图表 4.5‑5 扩展轴指令编辑
-
-
 
 扩展轴配合激光跟踪焊接示教程序
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
