@@ -660,4 +660,4 @@
    :align: center
    :width: 6in
 
-.. centered:: 图表 4.11-2 打磨状态配置页面
+.. centered:: 图表 4.11-1 打磨状态配置页面
