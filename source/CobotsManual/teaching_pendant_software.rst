@@ -764,6 +764,70 @@ I/O配置
 .. important:: 
    已配置DI、DO禁止在示教编程中使用。
 
+I/O别名配置
+~~~~~~~~~~~~~~~~~~
+
+点击左侧菜单栏“初始设置”中“机器人设置”，点击“I/O别名配置”子菜单进入配置界面，根据实际使用场景配置控制箱和末端IO信号的给定含义名称。配置成功后，有关IO信号内容的模块显示对应别名，模块如下：
+
+.. image:: teaching_pendant_software/io_config.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.5‑6 IO别名配置
+
+**机器人操作**：IO和TPD控制箱（CtrlBox）和末端（End）的IO信号选择框；
+
+.. image:: teaching_pendant_software/robot_operate_io.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.5‑7 机器人操作IO
+
+.. image:: teaching_pendant_software/robot_operate_tpd.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.5‑8 机器人操作TPD
+
+**机器人状态**：Robot的控制箱（CtrlBox）和末端（End）的IO信号状态；
+
+.. image:: teaching_pendant_software/robot_status_io.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.5‑9 机器人状态IO
+
+**示教模拟——程序示教**：“等待”、“数字IO”和“模拟IO”添加程序命令，以及选中程序命令行点击“编辑”图标，弹出框内容中IO选择框；
+
+.. image:: teaching_pendant_software/add_teach_program.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.5‑10 程序示教添加IO
+
+.. image:: teaching_pendant_software/teach_program_edit.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.5‑11 程序示教编辑IO
+
+**示教模拟——图形化编程**：“逻辑”和“控制”模块的IO下拉选择项；
+
+.. image:: teaching_pendant_software/graphical_io.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.5‑12 图形化编程IO
+
+**辅助应用——机器人本体**：“smart Tool”中的IO键选择框；
+
+.. image:: teaching_pendant_software/smart_tool_io.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.5‑13 smart Tool IO
+
+
 机器人操作
 ------------
 
