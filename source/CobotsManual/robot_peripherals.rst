@@ -114,7 +114,7 @@
 
 .. centered:: 图表 4.3‑3 焊机配置
 
-**Step3**：在程序示教命令界面选择“Weld”命令。根据具体的程序示教需求，在相应的地方添加应用“起弧”和“收弧”指令。
+**Step3**：在程序示教命令界面选择“Weld”命令。根据具体的程序示教需求，在相应的地方添加应用“起弧”、“收弧”、“关气”、“送气”、“停止正向送丝”、“正向送丝”、“停止反向送丝”和“反向送丝”指令。
 
 .. figure:: robot_peripherals/009.png
    :align: center
@@ -125,9 +125,46 @@
 焊机程序示教
 ~~~~~~~~~~~~~~~
 
-.. figure:: robot_peripherals/010.png
+.. list-table::
+   :widths: 50 80 80
+   :header-rows: 0
    :align: center
-   :width: 6in
+
+   * - **序号**
+     - **指令格式**
+     - **注释**
+
+   * - 1
+     - ARCEnd(0,0,10000)
+     - 收弧
+
+   * - 2
+     - ARCStart(0,0,10000)
+     - 起弧
+
+   * - 3
+     - SetAspirated(0,0)
+     - 关气
+
+   * - 4
+     - SetAspirated(0,1)
+     - 送气
+
+   * - 5
+     - SetForwardWireFeed(0,0)
+     - 停止正向送丝
+
+   * - 6
+     - SetForwardWireFeed(0,1)
+     - 正向送丝
+
+   * - 7
+     - SetReverseWireFeed(0,0)
+     - 停止反向送丝
+
+   * - 8
+     - SetReverseWireFeed(0,1)
+     - 反向送丝
 
 电弧中断参数配置
 ~~~~~~~~~~~~~~~~~
