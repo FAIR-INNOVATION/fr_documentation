@@ -34,21 +34,6 @@
     */
     errno_t  GetGripperConfig(int *company, int *device, int *softvesion, int *bus);
 
-配置夹爪
-++++++++++++++++++++++++++
-.. code-block:: c#
-    :linenos:
-
-    /** 
-    * @brief 配置夹爪 
-    * @param [in] company 夹爪厂商，1-Robotiq，2-慧灵，3-天机，4-大寰，5-知行 
-    * @param [in] device 设备号，Robotiq(0-2F-85系列)，慧灵(0-NK系列,1-Z-EFG-100)，天机(0-TEG-110)，大寰(0-PGI-140)，知行(0-CTPM2F20) 
-    * @param [in] softvesion 软件版本号，暂不使用，默认为 0 
-    * @param [in] bus 设备挂在末端总线位置，暂不使用，默认为 0 
-    * @return 错误码 
-    */ 
-    int SetGripperConfig(int company, int device, int softvesion, int bus); 
-
 激活夹爪
 ++++++++++++++++++++++++++
 .. code-block:: c#

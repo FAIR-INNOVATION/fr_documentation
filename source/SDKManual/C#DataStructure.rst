@@ -4,13 +4,6 @@
 .. toctree:: 
     :maxdepth: 5
 
-接口调用返回值类型
-+++++++++++++++++++++++++++
-.. code-block:: c
-    :linenos:
-
-    typedef  int errno_t;
-
 关节位置数据类型
 +++++++++++++++++++++++++++
 .. code-block:: c#
