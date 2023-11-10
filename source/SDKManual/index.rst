@@ -4,7 +4,7 @@ SDK
 .. toctree:: 
     :maxdepth: 5
 
-    c#_intro
     cpp_intro
+    c#_intro
     python_intro
     errcode
