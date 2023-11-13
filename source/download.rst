@@ -27,6 +27,8 @@
 ---------------------------------
     :download:`FRCobot CPP SDK <https://gitee.com/fair-innovation/frcobot_cpp_sdk/repository/archive/master.zip>`
 
+    :download:`FRCobot C#-v1.0.0 SDK <https://gitee.com/fair-innovation/fairino-csharp-sdk/repository/archive/v1.0.0.zip>`
+
     :download:`FRCobot Python SDK <https://gitee.com/fair-innovation/frcobot_python_sdk/repository/archive/master.zip>`
 
     :download:`FRCobot ROS <https://gitee.com/fair-innovation/frcobot_ros/repository/archive/master.zip>`
