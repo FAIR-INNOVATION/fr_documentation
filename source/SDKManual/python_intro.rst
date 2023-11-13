@@ -1,4 +1,4 @@
-Python SDK
+Python
 ============
 
 本文档为Python版本的二次开发接口文档。
