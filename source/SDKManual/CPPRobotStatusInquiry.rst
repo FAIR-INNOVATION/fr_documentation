@@ -56,6 +56,86 @@
     */   
     errno_t  GetActualJointPosRadian(uint8_t flag, JointPos *jPos);
 
+获取关节反馈速度
++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  获取关节反馈速度-deg/s
+     * @param  [in] flag 0-阻塞，1-非阻塞
+     * @param  [out] speed 六个关节速度
+     * @return  错误码 
+     */ 
+    errno_t  GetActualJointSpeedsDegree(uint8_t flag, float speed[6]);
+
+获取关节反馈加速度
++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  获取关节反馈加速度-deg/s^2
+     * @param  [in] flag 0-阻塞，1-非阻塞
+     * @param  [out] acc 六个关节加速度
+     * @return  错误码 
+     */ 
+    errno_t  GetActualJointAccDegree(uint8_t flag, float acc[6]);   
+
+获取TCP指令速度
++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  获取TCP指令速度
+     * @param  [in] flag 0-阻塞，1-非阻塞
+     * @param  [out] tcp_speed 线性速度
+     * @param  [out] ori_speed 姿态速度
+     * @return  错误码 
+     */
+    errno_t  GetTargetTCPCompositeSpeed(uint8_t flag, float *tcp_speed, float *ori_speed);
+
+获取TCP反馈速度
++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  获取TCP反馈速度
+     * @param  [in] flag 0-阻塞，1-非阻塞
+     * @param  [out] tcp_speed 线性速度
+     * @param  [out] ori_speed 姿态速度
+     * @return  错误码 
+     */ 
+    errno_t  GetActualTCPCompositeSpeed(uint8_t flag, float *tcp_speed, float *ori_speed);
+
+获取TCP指令速度
++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  获取TCP指令速度
+     * @param  [in] flag 0-阻塞，1-非阻塞
+     * @param  [out] speed [x,y,z,rx,ry,rz]速度
+     * @return  错误码 
+     */ 
+    errno_t  GetTargetTCPSpeed(uint8_t flag, float speed[6]);
+
+获取TCP反馈速度
++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  获取TCP反馈速度
+     * @param  [in] flag 0-阻塞，1-非阻塞
+     * @param  [out] speed [x,y,z,rx,ry,rz]速度
+     * @return  错误码 
+     */ 
+    errno_t  GetActualTCPSpeed(uint8_t flag, float speed[6]);
+
 获取当前工具位姿
 +++++++++++++++++++++++++++++++++
 .. code-block:: c++
@@ -385,3 +465,41 @@
 
         return 0;
     }
+
+查询机器人错误码
+++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  查询机器人错误码
+     * @param  [out]  maincode  主错误码
+     * @param  [out]  subcode   子错误码
+     * @return  错误码
+     */ 
+    errno_t  GetRobotErrorCode(int *maincode, int *subcode);
+
+查询机器人示教管理点位数据
+++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  查询机器人示教管理点位数据
+     * @param  [in]  name  点位名
+     * @param  [out]  data   点位数据
+     * @return  错误码
+     */ 
+    errno_t  GetRobotTeachingPoint(char name[64], float data[20]);
+
+查询机器人运动队列缓存长度
+++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  查询机器人运动队列缓存长度
+     * @param  [out]  len  缓存长度
+     * @return  错误码
+     */ 
+    errno_t  GetMotionQueueLength(int *len);

@@ -29,6 +29,54 @@
     */
     errno_t  SetSysVarValue(int id, float value);
 
+设置工具参考点-六点法
+++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 设置工具参考点-六点法
+     * @param [in] point_num 点编号,范围[1~6] 
+     * @return 错误码
+     */
+    errno_t SetToolPoint(int point_num);
+
+计算工具坐标系
+++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  计算工具坐标系
+     * @param [out] tcp_pose 工具坐标系
+     * @return 错误码
+     */
+    errno_t ComputeTool(DescPose *tcp_pose);
+
+设置工具参考点-四点法
+++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 设置工具参考点-四点法
+     * @param [in] point_num 点编号,范围[1~4] 
+     * @return 错误码
+     */
+    errno_t SetTcp4RefPoint(int point_num);
+
+计算工具坐标系
+++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  计算工具坐标系
+     * @param [out] tcp_pose 工具坐标系
+     * @return 错误码
+     */
+    errno_t ComputeTcp4(DescPose *tcp_pose);
+
 设置工具坐标系
 ++++++++++++++++++++++++++++++++++
 .. code-block:: c++
@@ -57,7 +105,31 @@
     * @param  [in] install 安装位置，0-机器人末端，1-机器人外部
     * @return  错误码
     */
-    errno_t  SetToolList(int id, DescPose *coord, int type, int install);   
+    errno_t  SetToolList(int id, DescPose *coord, int type, int install);
+
+设置外部工具参考点-六点法
+++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 设置外部工具参考点-六点法
+     * @param [in] point_num 点编号,范围[1~4] 
+     * @return 错误码
+     */
+    errno_t SetExTCPPoint(int point_num);
+
+计算外部工具坐标系
+++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  计算外部工具坐标系
+     * @param [out] tcp_pose 外部工具坐标系
+     * @return 错误码
+     */
+    errno_t ComputeExTCF(DescPose *tcp_pose);  
 
 设置外部工具坐标系
 ++++++++++++++++++++++++++++++++++
@@ -85,7 +157,31 @@
     * @param  [in] etool  待定
     * @return  错误码
     */
-    errno_t  SetExToolList(int id, DescPose *etcp, DescPose *etool);  
+    errno_t  SetExToolList(int id, DescPose *etcp, DescPose *etool);
+
+设置工件参考点-三点法
+++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 设置工件参考点-三点法
+     * @param [in] point_num 点编号,范围[1~3] 
+     * @return 错误码
+     */
+    errno_t SetWObjCoordPoint(int point_num);
+
+计算工件坐标系
+++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  计算工件坐标系
+     * @param [out] wobj_pose 工件坐标系
+     * @return 错误码
+     */
+    errno_t ComputeWObjCoord(DescPose *wobj_pose);
 
 设置工件坐标系
 ++++++++++++++++++++++++++++++++++

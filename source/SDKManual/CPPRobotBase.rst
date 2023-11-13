@@ -26,6 +26,17 @@
     */
     errno_t  RPC(const char *ip);
 
+与控制器关闭通讯
+++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  与机器人控制器关闭通讯
+     * @return 错误码
+     */
+    errno_t  CloseRPC();
+
 查询SDK版本号
 ++++++++++++++++++++++++++++++++++
 .. code-block:: c++

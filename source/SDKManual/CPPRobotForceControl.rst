@@ -734,6 +734,271 @@
     */   
     errno_t  FT_ComplianceStop(); 
 
+负载辨识初始化
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 负载辨识初始化
+     * @return 错误码
+     */
+    errno_t LoadIdentifyDynFilterInit();
+
+负载辨识初始化
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 负载辨识初始化
+     * @return 错误码
+     */
+    errno_t LoadIdentifyDynVarInit();
+
+负载辨识主程序
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 负载辨识主程序
+     * @param [in] joint_torque 关节扭矩
+     * @param [in] joint_pos 关节位置
+     * @param [in] t 采样周期
+     * @return 错误码
+     */
+    errno_t LoadIdentifyMain(double joint_torque[6], double joint_pos[6], double t);
+
+获取负载辨识结果
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 获取负载辨识结果
+     * @param [in] gain  
+     * @param [out] weight 负载重量
+     * @param [out] cog 负载质心
+     * @return 错误码
+     */
+    errno_t LoadIdentifyGetResult(double gain[12], double *weight, DescTran *cog);
+
+传动带启动、停止
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 传动带启动、停止
+     * @param [in] status 状态，1-启动，0-停止 
+     * @return 错误码
+     */
+    errno_t ConveyorStartEnd(uint8_t status);
+
+记录IO检测点
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 记录IO检测点
+     * @return 错误码
+     */
+    errno_t ConveyorPointIORecord();
+
+记录A点
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 记录A点
+     * @return 错误码
+     */
+    errno_t ConveyorPointARecord();
+
+记录参考点
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 记录参考点
+     * @return 错误码
+     */
+    errno_t ConveyorRefPointRecord();
+
+记录B点
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 记录B点
+     * @return 错误码
+     */
+    errno_t ConveyorPointBRecord();
+
+传送带工件IO检测
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 传送带工件IO检测
+     * @param [in] max_t 最大检测时间，单位ms
+     * @return 错误码
+     */
+    errno_t ConveyorIODetect(int max_t);
+
+获取物体当前位置
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 获取物体当前位置
+     * @param [in] mode 
+     * @return 错误码
+     */
+    errno_t ConveyorGetTrackData(int mode);
+
+传动带跟踪开始
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 传动带跟踪开始
+     * @param [in] status 状态，1-启动，0-停止 
+     * @return 错误码
+     */
+    errno_t ConveyorTrackStart(uint8_t status);
+
+传动带跟踪停止
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 传动带跟踪停止
+     * @return 错误码
+     */
+    errno_t ConveyorTrackEnd();
+
+传动带参数配置
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 传动带参数配置
+     * @param [in] 
+     * @return 错误码
+     */
+    errno_t ConveyorSetParam(float param[5]);
+
+传动带抓取点补偿
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 传动带抓取点补偿
+     * @param [in] cmp 补偿位置 
+     * @return 错误码
+     */
+    errno_t ConveyorCatchPointComp(double cmp[3]);
+
+直线运动
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 直线运动
+     * @param [in] status 状态，1-启动，0-停止 
+     * @return 错误码
+     */
+    errno_t TrackMoveL(char name[32], int tool, int wobj, float vel, float acc, float ovl, float blendR, uint8_t flag, uint8_t type);
+
+获取SSH公钥
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 获取SSH公钥
+     * @param [out] keygen 公钥
+     * @return 错误码
+     */
+    errno_t GetSSHKeygen(char keygen[1024]);
+
+下发SCP指令
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 下发SCP指令
+     * @param [in] mode 0-上传（上位机->控制器），1-下载（控制器->上位机）
+     * @param [in] sshname 上位机用户名
+     * @param [in] sship 上位机ip地址
+     * @param [in] usr_file_url 上位机文件路径
+     * @param [in] robot_file_url 机器人控制器文件路径
+     * @return 错误码
+     */
+    errno_t SetSSHScpCmd(int mode, char sshname[32], char sship[32], char usr_file_url[128], char robot_file_url[128]);
+
+计算指定路径下文件的MD5值
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 计算指定路径下文件的MD5值
+     * @param [in] file_path 文件路径包含文件名，默认Traj文件夹路径为:"/fruser/traj/",如"/fruser/traj/trajHelix_aima_1.txt"
+     * @param [out] md5 文件MD5值
+     * @return 错误码
+     */
+    errno_t ComputeFileMD5(char file_path[256], char md5[256]);
+
+获取机器人急停状态
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 获取机器人急停状态
+     * @param [out] state 急停状态，0-非急停，1-急停
+     * @return 错误码  
+     */
+    errno_t GetRobotEmergencyStopState(uint8_t *state);
+
+获取SDK与机器人的通讯状态
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 获取SDK与机器人的通讯状态
+     * @param [out]  state 通讯状态，0-通讯正常，1-通讯异常
+     */
+    errno_t GetSDKComState(int *state);
+
+获取安全停止信号
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 获取安全停止信号
+     * @param [out]  si0_state 安全停止信号SI0，0-无效，1-有效
+     * @param [out]  si1_state 安全停止信号SI1，0-无效，1-有效
+     */
+    errno_t GetSafetyStopState(uint8_t *si0_state, uint8_t *si1_state);
+
 代码示例
 +++++++++++++++
 .. code-block:: c++

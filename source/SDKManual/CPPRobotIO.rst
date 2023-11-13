@@ -162,7 +162,44 @@
     * @param  [out] result  输入电流或电压值百分比，范围[0~100]对应电流值[0~20mS]或电压[0~10V]
     * @return  错误码
     */   
-    errno_t  GetToolAI(int id, uint8_t block, float *result);   
+    errno_t  GetToolAI(int id, uint8_t block, float *result);
+
+获取机器人末端点记录按钮状态
+++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 获取机器人末端点记录按钮状态
+     * @param [out] state 按钮状态，0-按下，1-松开
+     * @return 错误码
+     */
+    errno_t  GetAxlePointRecordBtnState(uint8_t *state);
+
+获取机器人末端DO输出状态
+++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 获取机器人末端DO输出状态
+     * @param [out] do_state DO输出状态，do0~do1对应bit1~bit2,从bit0开始
+     * @return 错误码
+     */
+    errno_t  GetToolDO(uint8_t *do_state);
+
+获取机器人控制器DO输出状态
+++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 获取机器人控制器DO输出状态
+     * @param [out] do_state_h DO输出状态，co0~co7对应bit0~bit7
+     * @param [out] do_state_l DO输出状态，do0~do7对应bit0~bit7
+     * @return 错误码
+     */
+    errno_t  GetDO(uint8_t *do_state_h, uint8_t *do_state_l);
 
 等待控制箱模拟量输入
 +++++++++++++++++++++++++

@@ -444,6 +444,28 @@ jog点动立即停止
         return 0;
     }
 
+伺服运动开始
++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 伺服运动开始，配合ServoJ、ServoCart指令使用
+     * @return  错误码
+     */
+    errno_t ServoMoveStart();
+
+伺服运动结束
++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 伺服运动结束，配合ServoJ、ServoCart指令使用
+     * @return  错误码
+     */
+    errno_t ServoMoveEnd();
+
 关节空间伺服模式运动
 +++++++++++++++++++++++++++++
 .. code-block:: c++
@@ -789,6 +811,48 @@ jog点动立即停止
         return 0;
     }
 
+新样条运动开始
+++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 新样条运动开始
+     * @param  [in] type   0-圆弧过渡，1-给定点位为路径点
+     * @return  错误码
+     */
+    errno_t  NewSplineStart(int type);
+
+新样条指令点
+++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 新样条指令点
+     * @param  [in] joint_pos  目标关节位置,单位deg
+     * @param  [in] desc_pos   目标笛卡尔位姿
+     * @param  [in] tool  工具坐标号，范围[1~15]
+     * @param  [in] user  工件坐标号，范围[1~15]
+     * @param  [in] vel  速度百分比，范围[0~100]
+     * @param  [in] acc  加速度百分比，范围[0~100],暂不开放
+     * @param  [in] ovl  速度缩放因子，范围[0~100]
+     * @param  [in] blendR [-1.0]-运动到位(阻塞)，[0~1000.0]-平滑半径(非阻塞)，单位mm
+     * @return  错误码
+     */  
+    errno_t  NewSplinePoint(JointPos *joint_pos, DescPose *desc_pos, int tool, int user, float vel, float acc, float ovl, float blendR);
+
+新样条运动结束
+++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 新样条运动结束
+     * @return  错误码
+     */
+    errno_t  NewSplineEnd();
+
 终止运动
 ++++++++++++++++++++++++++++++++++
 .. code-block:: c++
@@ -799,6 +863,28 @@ jog点动立即停止
     * @return  错误码
     */
     errno_t  StopMotion();
+
+暂停运动
+++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 暂停运动
+     * @return  错误码
+     */
+    errno_t  PauseMotion(); 
+
+恢复运动
+++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+    
+    /**
+     * @brief 恢复运动
+     * @return  错误码
+     */
+    errno_t  ResumeMotion();
 
 点位整体偏移开始
 ++++++++++++++++++++++++++++++++++

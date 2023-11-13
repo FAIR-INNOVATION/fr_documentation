@@ -112,6 +112,18 @@
     */      
     errno_t  LoadTPD(char name[30]);
 
+获取轨迹起始位姿
+++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  获取轨迹起始位姿
+     * @param  [in] name 轨迹文件名,不需要文件后缀
+     * @return  错误码
+     */     
+    errno_t  GetTPDStartPose(char name[30], DescPose *desc_pose);
+
 轨迹复现
 ++++++++++++++++++++++++++++
 .. code-block:: c++
@@ -125,6 +137,150 @@
     * @return  错误码
     */
     errno_t  MoveTPD(char name[30], uint8_t blend, float ovl);
+
+轨迹预处理
+++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  轨迹预处理
+     * @param  [in] name  轨迹文件名
+     * @param  [in] ovl 速度缩放百分比，范围[0~100]
+     * @param  [in] opt 1-控制点，默认为1
+     * @return  错误码
+     */     
+    errno_t  LoadTrajectoryJ(char name[30], float ovl, int opt);
+
+轨迹复现
+++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  轨迹复现
+     * @return  错误码
+     */     
+    errno_t  MoveTrajectoryJ();
+
+获取轨迹起始位姿
+++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  获取轨迹起始位姿
+     * @param  [in] name 轨迹文件名
+     * @return  错误码
+     */     
+    errno_t  GetTrajectoryStartPose(char name[30], DescPose *desc_pose);
+
+获取轨迹点编号
+++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  获取轨迹点编号
+     * @return  错误码
+     */     
+    errno_t  GetTrajectoryPointNum(int *pnum);
+
+设置轨迹运行中的速度
+++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  设置轨迹运行中的速度
+     * @param  [in] ovl 速度百分比
+     * @return  错误码
+     */     
+    errno_t  SetTrajectoryJSpeed(float ovl);
+
+设置轨迹运行中的力和扭矩
+++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  设置轨迹运行中的力和扭矩
+     * @param  [in] ft 三个方向的力和扭矩，单位N和Nm
+     * @return  错误码
+     */     
+    errno_t  SetTrajectoryJForceTorque(ForceTorque *ft);
+
+设置轨迹运行中的沿x方向的力
+++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  设置轨迹运行中的沿x方向的力
+     * @param  [in] fx 沿x方向的力，单位N
+     * @return  错误码
+     */     
+    errno_t  SetTrajectoryJForceFx(double fx);
+
+设置轨迹运行中的沿y方向的力
+++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  设置轨迹运行中的沿y方向的力
+     * @param  [in] fy 沿y方向的力，单位N
+     * @return  错误码
+     */     
+    errno_t  SetTrajectoryJForceFy(double fy);
+
+设置轨迹运行中的沿z方向的力
+++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  设置轨迹运行中的沿z方向的力
+     * @param  [in] fz 沿x方向的力，单位N
+     * @return  错误码
+     */     
+    errno_t  SetTrajectoryJForceFz(double fz);
+
+设置轨迹运行中的绕x轴的扭矩
+++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  设置轨迹运行中的绕x轴的扭矩
+     * @param  [in] tx 绕x轴的扭矩，单位Nm
+     * @return  错误码
+     */     
+    errno_t  SetTrajectoryJTorqueTx(double tx);
+
+设置轨迹运行中的绕y轴的扭矩
+++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  设置轨迹运行中的绕y轴的扭矩
+     * @param  [in] ty 绕y轴的扭矩，单位Nm
+     * @return  错误码
+     */     
+    errno_t  SetTrajectoryJTorqueTy(double ty);
+
+设置轨迹运行中的绕z轴的扭矩
+++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  设置轨迹运行中的绕z轴的扭矩
+     * @param  [in] tz 绕z轴的扭矩，单位Nm
+     * @return  错误码
+     */     
+    errno_t  SetTrajectoryJTorqueTz(double tz);
 
 代码示例
 ++++++++++++++++++

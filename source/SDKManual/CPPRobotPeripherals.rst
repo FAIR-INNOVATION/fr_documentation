@@ -64,18 +64,126 @@
     */
     errno_t  MoveGripper(int index, int pos, int vel, int force, int max_time, uint8_t block);
 
+
+
 获取夹爪运动状态
 ++++++++++++++++++++++++++
 .. code-block:: c++
     :linenos:
 
     /**
-    * @brief  获取夹爪运动状态
-    * @param  [out] fault  0-无错误，1-有错误
-    * @param  [out] staus  0-运动未完成，1-运动完成
-    * @return  错误码
-    */
-    errno_t  GetGripperMotionDone(uint8_t *fault, uint8_t *status);
+     * @brief  获取夹爪运动状态
+     * @param  [out] fault  0-无错误，1-有错误
+     * @param  [out] staus  0-运动未完成，1-运动完成
+     * @return  错误码
+     */
+    errno_t  GetGripperMotionDone(uint16_t *fault, uint8_t *status);
+
+获取夹爪激活状态
+++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  获取夹爪激活状态
+     * @param  [out] fault  0-无错误，1-有错误
+     * @param  [out] status  bit0~bit15对应夹爪编号0~15，bit=0为未激活，bit=1为激活
+     * @return  错误码
+     */
+    errno_t  GetGripperActivateStatus(uint16_t *fault, uint16_t *status);
+
+获取夹爪位置
+++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  获取夹爪位置
+     * @param  [out] fault  0-无错误，1-有错误
+     * @param  [out] position  位置百分比，范围0~100%
+     * @return  错误码
+     */
+    errno_t  GetGripperCurPosition(uint16_t *fault, uint8_t *position);
+
+获取夹爪速度
+++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  获取夹爪速度
+     * @param  [out] fault  0-无错误，1-有错误
+     * @param  [out] speed  速度百分比，范围0~100%
+     * @return  错误码
+     */
+    errno_t  GetGripperCurSpeed(uint16_t *fault, int8_t *speed);
+
+获取夹爪电流
+++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  获取夹爪电流
+     * @param  [out] fault  0-无错误，1-有错误
+     * @param  [out] current  电流百分比，范围0~100%
+     * @return  错误码
+     */
+    errno_t  GetGripperCurCurrent(uint16_t *fault, int8_t *current);
+
+获取夹爪电压
+++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  获取夹爪电压
+     * @param  [out] fault  0-无错误，1-有错误
+     * @param  [out] voltage  电压,单位0.1V
+     * @return  错误码
+     */
+    errno_t  GetGripperVoltage(uint16_t *fault, int *voltage);
+
+获取夹爪温度
+++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  获取夹爪温度
+     * @param  [out] fault  0-无错误，1-有错误
+     * @param  [out] temp  温度，单位℃
+     * @return  错误码
+     */
+    errno_t  GetGripperTemp(uint16_t *fault, int *temp);
+
+计算预抓取点-视觉
+++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  计算预抓取点-视觉
+     * @param  [in] desc_pos  抓取点笛卡尔位姿
+     * @param  [in] zlength   z轴偏移量
+     * @param  [in] zangle    绕z轴旋转偏移量
+     * @return  错误码 
+     */
+    errno_t  ComputePrePick(DescPose *desc_pos, double zlength, double zangle, DescPose *pre_pos);
+
+计算撤退点-视觉
+++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  计算撤退点-视觉
+     * @param  [in] desc_pos  抓取点笛卡尔位姿
+     * @param  [in] zlength   z轴偏移量
+     * @param  [in] zangle    绕z轴旋转偏移量
+     * @return  错误码 
+     */
+    errno_t  ComputePostPick(DescPose *desc_pos, double zlength, double zangle, DescPose *post_pos);
 
 代码示例
 ++++++++++++++++
