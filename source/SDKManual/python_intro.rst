@@ -28,3 +28,4 @@ Python
     PythonRobotWebAPPProgramUse
     PythonRobotPeripherals
     PythonRobotForceControl
+    PythonRobotConveyor
