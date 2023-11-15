@@ -33,7 +33,7 @@
 
     :download:`FRCobot Python SDK <https://gitee.com/fair-innovation/frcobot_python_sdk/repository/archive/master.zip>`
 
-    :download:`FRCobot Python-v2.0.0 SDK <https://gitee.com/fair-innovation/frcobot_python_sdk/repository/archive/master.zip>`
+    :download:`FRCobot Python-v2.0.0 SDK <https://gitee.com/fair-innovation/fairino-python-sdk/repository/archive/v2.0.0.zip>`
 
     :download:`FRCobot ROS <https://gitee.com/fair-innovation/frcobot_ros/repository/archive/master.zip>`
 
