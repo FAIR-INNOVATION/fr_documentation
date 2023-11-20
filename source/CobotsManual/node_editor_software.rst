@@ -162,7 +162,7 @@
 4.“等待AI”指令节点，参数:
 
 - 条件： 与/或
-- DI端口号： Ctrl-AI0 ~ Ctrl-AI1(WaitAI,[0~1]), End-AI0(WaitToolAI,[0])
+- AI端口号： Ctrl-AI0 ~ Ctrl-AI1(WaitAI,[0~1]), End-AI0(WaitToolAI,[0])
 - 条件：大于/小于
 - 数值(%)：1 ~ 100
 - 最大时间(ms)：0 ~ 10000
@@ -664,7 +664,7 @@ DMP是一种轨迹模仿学习的方法，需要事先规划参考轨迹。在�
 
 1.“设置模拟外部DI”指令节点,参数: 
 
-- 端口：Vir-Ctrl-DI0 ~ Vir-End-AO1
+- 端口：Vir-Ctrl-DI0 ~ Vir-Ctrl-DI15(SetVirtualDI,[0~15]), Vir-End-DI0 ~ Vir-End-DI1(SetVirtualToolDI,[1~2])
 - 状态：false/true
   
 .. image:: node_editor_software/032.png
@@ -675,7 +675,7 @@ DMP是一种轨迹模仿学习的方法，需要事先规划参考轨迹。在�
    
 2.“设置模拟外部AI”指令节点,参数: 
 
-- 端口：Vir-Ctrl-AI0 ~ Vir-End-AI1
+- 端口：Vir-Ctrl-AI0 ~ Vir-Ctrl-AI0(SetVirtualAI,[0~1]), Vir-End-AI0(SetVirtualToolAI,[0])
 - 数值(v/ma)：0 ~ 20
 
 .. image:: node_editor_software/033.png
@@ -693,7 +693,7 @@ Aux-IO是机器人与PLC通讯控制外部扩展IO的指令功能，需要机器
 
 1.“获取模拟外部DI”指令节点,参数: 
 
-- 端口：Vir-Ctrl-DI0 ~ Vir-End-AO1
+- 端口：Vir-Ctrl-DI0 ~ Vir-Ctrl-DI15(GetVirtualDI,[0~15]), Vir-End-DI0 ~ Vir-End-DI1(GetVirtualToolDI,[1~2])
   
 .. image:: node_editor_software/034.png
    :width: 6in
@@ -703,7 +703,7 @@ Aux-IO是机器人与PLC通讯控制外部扩展IO的指令功能，需要机器
    
 2.“设置模拟外部AI”指令节点,参数: 
 
-- 端口：Vir-Ctrl-AI0 ~ Vir-End-AI1
+- 端口：Vir-Ctrl-AI0 ~ Vir-Ctrl-AI0(GetVirtualAI,[0~1]), Vir-End-AI0(GetVirtualToolAI,[0])
 
 .. image:: node_editor_software/035.png
    :width: 6in
@@ -732,7 +732,7 @@ Aux-IO是机器人与PLC通讯控制外部扩展IO的指令功能，需要机器
 
 “运动DO”指令节点,参数: 
 
-- 端口：Ctrl-DO0 ~ End-DO1
+- 端口：Ctrl-DO0 ~ Ctrl-DO0(MoveDOStart,[0~15]), End-DO1(MoveDOStart,[0~1])
 - 设定间隔(mm): 0 ~ 500
 - 输出脉冲占空比(%): 0 ~ 99
   
@@ -753,7 +753,7 @@ Aux-IO是机器人与PLC通讯控制外部扩展IO的指令功能，需要机器
 
 1.“设置工具坐标系”指令节点,参数: 
 
-- 工具坐标系名称：toolcoord1 ~ etoolcoord4
+- 工具坐标系名称：toolcoord1 ~ toolcoord14(SetToolList,[0~14]), etoolcoord0 ~ etoolcoord14(SetExToolList, [0~14])
   
 .. image:: node_editor_software/038.png
    :width: 6in
