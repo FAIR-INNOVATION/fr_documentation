@@ -1517,9 +1517,9 @@ Aux-IO是机器人与PLC通讯控制外部扩展IO的指令功能，需要机器
 
 - 坐标系名称：自定义配置的坐标系
 - Fx-Tx真值：true/false
-- Fx-Tx当前值：
-- Fx-Tx最大阈值：
-- Fx-Tx最小阈值：
+- Fx-Tx当前值：根据实际情况输入
+- Fx-Tx最大阈值：根据实际情况输入
+- Fx-Tx最小阈值：根据实际情况输入
 
 .. image:: node_editor_software/098.png
    :width: 6in
