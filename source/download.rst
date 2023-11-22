@@ -56,3 +56,7 @@
     :download:`FRCobots-V5.0 STEP模型 <_static/_doc/FRCobots-V5.0 STEP Models.zip>`
 
     :download:`FRCobots-V6.0 STEP模型 <_static/_doc/FRCobots-V6.0 STEP Models.zip>`
+
+软件下载
+---------------------------------
+    :download:`机器人软件 <_static/_doc/V3.6.6.7z>`
