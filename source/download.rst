@@ -59,4 +59,6 @@
 
 软件下载
 ---------------------------------
-    :download:`机器人软件 <_static/_doc/V3.6.6.7z>`
+    :download:`Linux 2.0.0 <_static/_doc/Linux V2.0.0.zip>`
+
+    :download:`QNX 3.6.6 <_static/_doc/QNX V3.6.6.zip>`
