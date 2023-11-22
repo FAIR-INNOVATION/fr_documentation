@@ -14,9 +14,9 @@ build:
     # nodejs: "19"
     # rust: "1.64"
     # golang: "1.19"
-   jobs:
+  jobs:
     post_checkout:
-      # Download and uncompress the binary
+      # Download and uncompress the binary 
       # https://git-lfs.github.com/
       - wget https://github.com/git-lfs/git-lfs/releases/download/v3.1.4/git-lfs-linux-amd64-v3.1.4.tar.gz
       - tar xvfz git-lfs-linux-amd64-v3.1.4.tar.gz
