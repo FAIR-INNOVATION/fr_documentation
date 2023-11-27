@@ -59,6 +59,4 @@
 
 软件下载
 ---------------------------------
-    :download:`Linux 2.0.0 <https://pan.quark.cn/s/68e0340001de>`
-
     :download:`QNX 3.6.6 <https://pan.quark.cn/s/f5e47e47a800>`
