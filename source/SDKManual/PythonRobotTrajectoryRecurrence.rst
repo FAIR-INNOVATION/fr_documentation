@@ -25,15 +25,30 @@
     :linenos:
     :emphasize-lines: 9
 
-    import frrpc
+    from fairino import Robot
+    import time
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
+    robot = Robot.RPC('192.168.58.2')
     type = 1  # 数据类型，1-关节位置
     name = 'tpd2023'  # 轨迹名
     period = 4  #采样周期，2ms或4ms或8ms
-    di_choose = 0 # di输入配置
-    do_choose = 0 # do输出配置
-    robot.SetTPDParam(type, name, period, di_choose, do_choose)    #配置TPD参数
+    di = 0 # di输入配置
+    do = 0 # do输出配置
+    ret = robot.SetTPDParam(name, period, di_choose=di)    #配置TPD参数
+    print("配置TPD参数错误码", ret)
+    robot.Mode(1)  # 机器人切入手动模式
+    time.sleep(1)  
+    robot.DragTeachSwitch(1)  #机器人切入拖动示教模式
+    ret = robot.GetActualTCPPose()
+    print("获取当前工具位姿", ret)
+    time.sleep(1)
+    ret = robot.SetTPDStart(name, period, do_choose=do)   # 开始记录示教轨迹
+    print("开始记录示教轨迹错误码", ret)
+    time.sleep(15)
+    ret = robot.SetWebTPDStop()  # 停止记录示教轨迹
+    print("停止记录示教轨迹错误码", ret)
+    robot.DragTeachSwitch(0)  #机器人切入非拖动示教模式
+    # robot.SetTPDDelete('tpd2023')   # 删除TPD轨迹
 
 开始轨迹记录
 ++++++++++++++++++
@@ -61,30 +76,6 @@
     "参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-    :emphasize-lines: 14, 16
-
-    import frrpc
-    import time
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    type = 1  # 数据类型，1-关节位置
-    name = 'tpd2023'  # 轨迹名
-    period = 4  #采样周期，2ms或4ms或8ms
-    di_choose = 0 # di输入配置
-    do_choose = 0 # do输出配置
-    robot.SetTPDParam(type, name, period, di_choose, do_choose)    #配置TPD参数
-    robot.Mode(1)  # 机器人切入手动模式
-    time.sleep(1)  
-    robot.DragTeachSwitch(1)  #机器人切入拖动示教模式
-    robot.SetTPDStart(type, name, period, di_choose, do_choose)   # 开始记录示教轨迹
-    time.sleep(30)
-    robot.SetWebTPDStop()  # 停止记录示教轨迹
-    robot.DragTeachSwitch(0)  #机器人切入非拖动示教模式
-
 删除轨迹记录
 +++++++++++++++
 .. csv-table:: 
@@ -96,17 +87,6 @@
     "参数", "- ``必选参数 name``:轨迹名"
     "返回值", "错误码 成功-0  失败- errcode"
 
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-    :emphasize-lines: 4
-
-    import frrpc
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    robot.SetTPDDelete('tpd2023')   # 删除TPD轨迹
-
 轨迹预加载
 +++++++++++++++++
 .. csv-table:: 
@@ -117,6 +97,29 @@
     "描述", "轨迹预加载"
     "参数", "- ``必选参数 name``:轨迹名"
     "返回值", "错误码 成功-0  失败- errcode"
+
+代码示例
+------------
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    import time
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    # P1=[-321.821, 125.694, 282.556, 174.106, -15.599, 152.669]
+    name = 'tpd2023'   #轨迹名
+    blend = 1   #是否平滑，1-平滑，0-不平滑
+    ovl = 100.0   #速度缩放
+    ret = robot.LoadTPD(name)  #轨迹预加载
+    print("轨迹预加载错误码",ret)
+    ret,P1 = robot.GetTPDStartPose(name)   #获取轨迹起始位姿
+    print ("获取轨迹起始位姿错误码",ret,"起始位姿",P1)
+    ret = robot.MoveL(P1,0,0)       #运动到起始点
+    print("运动到起始点错误码",ret)
+    time.sleep(10)
+    ret = robot.MoveTPD(name, blend, ovl)  #轨迹复现
+    print("轨迹复现错误码",ret)
 
 获取轨迹起始位姿
 +++++++++++++++++
@@ -142,23 +145,6 @@
     - ``必选参数 blend``：是否平滑，0-不平滑，1-平滑
     - ``必选参数 ovl``：速度缩放因子，范围[0~100]"
     "返回值", "错误码 成功-0  失败- errcode"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-    :emphasize-lines: 8, 10
-
-    import frrpc
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    P1=[-378.9,-340.3,107.2,179.4,-1.3,125.0]
-    name = 'tpd2023'   #轨迹名
-    blend = 1   #是否平滑，1-平滑，0-不平滑
-    ovl = 100.0   #速度缩放
-    robot.LoadTPD(name)  #轨迹预加载
-    robot.MoveCart(P1,1,0,100.0,100.0,100.0,-1.0,-1)       #运动到起始点
-    robot.MoveTPD(name, blend, ovl)  #轨迹复现
 
 轨迹预处理
 ++++++++++++
@@ -295,3 +281,53 @@
     "描述", "设置轨迹运行中的绕z轴的扭矩"
     "参数", "``必选参数 tz``:绕z轴的扭矩，单位Nm"
     "返回值", "错误码 成功-0  失败- errcode"
+
+代码示例
+------------
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    import time
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    name = "/fruser/traj/trajHelix_aima_1.txt"   #轨迹名
+    blend = 1   #是否平滑，1-平滑，0-不平滑
+    ovl = 50.0   #速度缩放
+    ft =[0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
+    ret = robot.LoadTrajectoryJ(name,ovl)  #轨迹预加载
+    print("轨迹预加载错误码",ret)
+    ret,P1 = robot.GetTrajectoryStartPose(name)   #获取轨迹起始位姿
+    print ("获取轨迹起始位姿错误码",ret,"起始位姿",P1)
+    ret = robot.MoveL(P1,1,0)       #运动到起始点
+    print("运动到起始点错误码",ret)
+    ret = robot.GetTrajectoryPointNum()       #获取轨迹点编号
+    print("获取轨迹点编号错误码",ret)
+    time.sleep(10)
+    ret = robot.MoveTrajectoryJ()  #轨迹复现
+    print("轨迹复现错误码",ret)
+    time.sleep(10)
+    ret = robot.SetTrajectoryJSpeed(ovl)  #设置轨迹运行中的速度
+    print("设置轨迹运行中的速度错误码",ret)
+    time.sleep(1)
+    ret = robot.SetTrajectoryJForceTorque(ft)  #设置轨迹运行中的力和扭矩
+    print("设置轨迹运行中的力和扭矩错误码",ret)
+    time.sleep(1)
+    ret = robot.SetTrajectoryJForceFx(0) #设置轨迹运行中的沿x方向的力
+    print("设置轨迹运行中的沿x方向的力错误码",ret)
+    time.sleep(1)
+    ret = robot.SetTrajectoryJForceFy(0) #设置轨迹运行中的沿y方向的力
+    print("设置轨迹运行中的沿y方向的力错误码",ret)
+    time.sleep(1)
+    ret = robot.SetTrajectoryJForceFz(0) #设置轨迹运行中的沿z方向的力
+    print("设置轨迹运行中的沿z方向的力错误码",ret)
+    time.sleep(1)
+    ret = robot.SetTrajectoryJTorqueTx(0) #设置轨迹运行中的绕x轴的扭矩
+    print("设置轨迹运行中的绕x轴的扭矩错误码",ret)
+    time.sleep(1)
+    ret = robot.SetTrajectoryJTorqueTy(0) #设置轨迹运行中的绕y轴的扭矩
+    print("设置轨迹运行中的绕y轴的扭矩错误码",ret)
+    time.sleep(1)
+    ret = robot.SetTrajectoryJTorqueTz(0) #设置轨迹运行中的绕z轴的扭矩
+    print("设置轨迹运行中的绕z轴的扭矩错误码",ret)
+    time.sleep(1)

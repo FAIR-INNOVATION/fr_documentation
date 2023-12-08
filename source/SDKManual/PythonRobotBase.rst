@@ -24,9 +24,9 @@
     :linenos:
     :emphasize-lines: 3
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
+    robot = Robot.RPC('192.168.58.2')
 
 查询SDK版本号
 ++++++++++++++
@@ -48,15 +48,14 @@
     :linenos:
     :emphasize-lines: 4
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    ret = robot.GetSDKVersion()    # 查询SDK版本号
-    if ret[0] == 0:  
-        # 0-无故障，返回格式：[errcode,data],errcode-故障码，data-数据
-        print("SDK version is:",ret[1])
+    robot = Robot.RPC('192.168.58.2')
+    ret,version  = robot.GetSDKVersion()    #查询SDK版本号
+    if ret ==0:
+        print("SDK版本号为", version )
     else:
-        print("the errcode is: ", ret[0])
+        print("查询失败，错误码为",ret)
 
 获取控制器IP
 +++++++++++++
@@ -78,15 +77,14 @@
     :linenos:
     :emphasize-lines: 4
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    ret = robot.GetControllerIP()    #查询控制器IP
-    if ret[0] == 0:
-        print("controller ip is:",ret[1])
+    robot = Robot.RPC('192.168.58.2')
+    ret,ip = robot.GetControllerIP()    #查询控制器IP
+    if ret ==0:
+        print("控制器IP为", ip)
     else:
-        print("the errcode is: ", ret[0])
-
+        print("查询失败，错误码为",ret)
 
 控制机器人手自动模式切换
 ++++++++++++++++++++++++++
@@ -107,14 +105,16 @@
     :linenos:
     :emphasize-lines: 5, 7
 
-    import frrpc
+    from fairino import Robot
     import time
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    robot.Mode(0)   #机器人切入自动运行模式
-    time.sleep(1)  
-    robot.Mode(1)   #机器人切入手动模式
-
+    robot = Robot.RPC('192.168.58.2')
+    #机器人手自动模式切换
+    ret = robot.Mode(0)   #机器人切入自动运行模式
+    print("机器人切入自动运行模式", ret)
+    time.sleep(1)
+    ret = robot.Mode(1)   #机器人切入手动模式
+    print("机器人切入手动模式", ret)
 
 机器人拖动模式
 +++++++++++++++++
@@ -145,34 +145,47 @@
     - 返回值（调用成功返回） state 0-非拖动示教模式，1-拖动示教模式"
 
 代码示例
-^^^^^^^^^^
+----------
 
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 7, 9, 15, 17
 
-    import frrpc
+    from fairino import Robot
     import time
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    robot.Mode(1) #机器人切入手动模式
+    robot = Robot.RPC('192.168.58.2')
+    #机器人手自动模式切换
+    ret = robot.Mode(0)   #机器人切入自动运行模式
+    print("机器人切入自动运行模式", ret)
     time.sleep(1)
-    robot.DragTeachSwitch(1)  #机器人切入拖动示教模式，必须在手动模式下才能切入拖动示教模式
-    time.sleep(1)
-    ret = robot.IsInDragTeach()    #查询是否处于拖动示教模式，1-拖动示教模式，0-非拖动示教模式
-    if ret[0] == 0:
-        print("drag state is:",ret[1])
-    else:
-        print("the errcode is: ", ret[0])
-    time.sleep(3)
-    robot.DragTeachSwitch(0)  #机器人切入非拖动示教模式，必须在手动模式下才能切入非拖动示教模式
-    time.sleep(1)
-    ret = robot.IsInDragTeach()    #查询是否处于拖动示教模式，1-拖动示教模式，0-非拖动示教模式
-    if ret[0] == 0:
-        print("drag state is:",ret[1])
-    else:
-        print("the errcode is: ", ret[0])
+    ret = robot.Mode(1)   #机器人切入手动模式
+    print("机器人切入手动模式", ret)
 
+    from fairino import Robot
+    import time
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    #机器人进入或退出拖动示教模式
+    ret = robot.Mode(1) #机器人切入手动模式
+    print("机器人切入手动模式", ret)
+    time.sleep(1)
+    ret = robot.DragTeachSwitch(1)  #机器人切入拖动示教模式，必须在手动模式下才能切入拖动示教模式
+    print("机器人切入拖动示教模式", ret)
+    time.sleep(1)
+    ret,state = robot.IsInDragTeach()    #查询是否处于拖动示教模式，1-拖动示教模式，0-非拖动示教模式
+    if ret == 0:
+        print("当前拖动示教模式状态：", state)
+    else:
+        print("查询失败，错误码为：",ret)
+    time.sleep(3)
+    ret = robot.DragTeachSwitch(0)  #机器人切入非拖动示教模式，必须在手动模式下才能切入非拖动示教模式
+    print("机器人切入非拖动示教模式", ret)
+    time.sleep(1)
+    ret,state = robot.IsInDragTeach()    #查询是否处于拖动示教模式，1-拖动示教模式，0-非拖动示教模式
+    if ret == 0:
+        print("当前拖动示教模式状态：", state)
+    else:
+        print("查询失败，错误码为：",ret)
 
 控制机器人上使能或下使能
 ++++++++++++++++++++++++++++
@@ -193,10 +206,13 @@
     :linenos:
     :emphasize-lines: 5, 7
 
-    import frrpc
+    from fairino import Robot
     import time
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    robot.RobotEnable(0)   #机器人下使能
+    robot = Robot.RPC('192.168.58.2')
+    #机器人上使能或下使能
+    ret = robot.RobotEnable(0)   #机器人下使能
+    print("机器人下使能", ret)
     time.sleep(3)
-    robot.RobotEnable(1)   #机器人上使能，机器人上电后默认自动上使能
+    ret = robot.RobotEnable(1)   #机器人上使能，机器人上电后默认自动上使能
+    print("机器人上使能", ret)
