@@ -22,11 +22,11 @@
     :linenos:
     :emphasize-lines: 4
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    ret = robot.GetRobotInstallAngle()  # 获取机器人安装角度
-    print(ret)
+    robot = Robot.RPC('192.168.58.2')
+    ret = robot.GetRobotInstallAngle()
+    print("获取机器人安装角度", ret)
 
 获取系统变量值
 +++++++++++++++++
@@ -46,15 +46,13 @@
     :linenos:
     :emphasize-lines: 8
 
-    import frrpc
+    from fairino import Robot
+    import time
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
+    robot = Robot.RPC('192.168.58.2')
     for i in range(1,21):
-        robot.SetSysVarValue(i,i+0.5)    #  设置系统变量值
-    robot.WaitMs(1000)
-    for i in range(1,21):
-        sys_var = robot.GetSysVarValue(i)  #  查询系统变量值
-        print(sys_var)
+        error = robot.GetSysVarValue(i)
+        print("系统变量编号:",i,"值", error)
 
 获取当前关节位置(角度)
 ++++++++++++++++++++++++
@@ -74,11 +72,11 @@
     :linenos:
     :emphasize-lines: 4
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    ret = robot.GetActualJointPosDegree(0)  # 获取机器人当前关节位置
-    print(ret)
+    robot = Robot.RPC('192.168.58.2')
+    ret = robot.GetActualJointPosDegree()
+    print("获取当前关节位置 (角度)", ret)
 
 获取当前关节位置(弧度)
 +++++++++++++++++++++++++
@@ -98,11 +96,11 @@
     :linenos:
     :emphasize-lines: 4
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    ret = robot.GetActualJointPosRadian(0)  # 获取机器人当前关节位置
-    print(ret)
+    robot = Robot.RPC('192.168.58.2')
+    ret = robot.GetActualJointPosRadian()
+    print("获取当前关节位置 (弧度)", ret)
 
 获取关节反馈速度-deg/s
 +++++++++++++++++++++++++
@@ -242,11 +240,11 @@
     :linenos:
     :emphasize-lines: 4
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    ret = robot.GetActualTCPPose(0)  # 获取机器人当前工具位姿
-    print(ret)
+    robot = Robot.RPC('192.168.58.2')
+    ret = robot.GetActualTCPPose()
+    print("获取当前工具位姿", ret)
 
 获取当前工具坐标系编号
 +++++++++++++++++++++++++
@@ -266,11 +264,11 @@
     :linenos:
     :emphasize-lines: 4
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    ret = robot.GetActualTCPNum(0)  # 获取机器人当前工具坐标系编号
-    print(ret)
+    robot = Robot.RPC('192.168.58.2')
+    ret = robot.GetActualTCPNum()
+    print("获取当前工具坐标系编号", ret)
 
 获取当前工件坐标系编号
 +++++++++++++++++++++++++
@@ -290,11 +288,11 @@
     :linenos:
     :emphasize-lines: 4
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    ret = robot.GetActualWObjNum(0)  # 获取机器人当前工件坐标系编号
-    print(ret)
+    robot = Robot.RPC('192.168.58.2')
+    ret = robot.GetActualWObjNum()
+    print("获取当前工件坐标系编号", ret)
 
 获取当前末端法兰位姿
 ++++++++++++++++++++++
@@ -314,11 +312,11 @@
     :linenos:
     :emphasize-lines: 4
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    ret = robot.GetActualToolFlangePose(0)  # 获取机器人当前末端法兰位姿
-    print(ret)
+    robot = Robot.RPC('192.168.58.2')
+    ret = robot.GetActualToolFlangePose()
+    print("获取当前末端法兰位姿", ret)
 
 逆运动学求解
 ++++++++++++++++
@@ -340,12 +338,13 @@
     :linenos:
     :emphasize-lines: 5
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
+    robot = Robot.RPC('192.168.58.2')
+    J1=[95.442,-101.149,-98.699,-68.347,90.580,-47.174]
     P1=[75.414,568.526,338.135,-178.348,-0.930,52.611]
-    ret = robot.GetInverseKin(0,P1,-1)
-    print(ret)
+    ret = robot.GetInverseKin(0,P1,config=-1)
+    print("逆运动学，笛卡尔位姿求解关节位置", ret)
 
 逆运动学求解-指定参考位置
 ++++++++++++++++++++++++++++
@@ -367,13 +366,13 @@
     :linenos:
     :emphasize-lines: 6
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    P1=[75.414,568.526,338.135,-178.348,-0.930,52.611]
+    robot = Robot.RPC('192.168.58.2')
     J1=[95.442,-101.149,-98.699,-68.347,90.580,-47.174]
+    P1=[75.414,568.526,338.135,-178.348,-0.930,52.611]
     ret = robot.GetInverseKinRef(0,P1,J1)
-    print(ret)
+    print("逆运动学，工具位姿求解关节位置，参考指定关节位置求解", ret)
 
 逆运动学求解-是否有解
 ++++++++++++++++++++++
@@ -395,13 +394,13 @@
     :linenos:
     :emphasize-lines: 6
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    P1=[75.414,568.526,338.135,-178.348,-0.930,52.611]
+    robot = Robot.RPC('192.168.58.2')
     J1=[95.442,-101.149,-98.699,-68.347,90.580,-47.174]
+    P1=[75.414,568.526,338.135,-178.348,-0.930,52.611]
     ret = robot.GetInverseKinHasSolution(0,P1,J1)
-    print(ret)
+    print("逆运动学，工具位姿求解关节位置是否有解", ret)
 
 正运动学求解
 +++++++++++++++
@@ -421,12 +420,12 @@
     :linenos:
     :emphasize-lines: 5
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
+    robot = Robot.RPC('192.168.58.2')
     J1=[95.442,-101.149,-98.699,-68.347,90.580,-47.174]
     ret = robot.GetForwardKin(J1)
-    print(ret)
+    print("正运动学，关节位置求解工具位姿", ret)
 
 获取当前关节转矩
 +++++++++++++++++++
@@ -446,11 +445,11 @@
     :linenos:
     :emphasize-lines: 4
 
-    import frrpc
+    from fairino import Robot 
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    ret = robot.GetJointTorques(0)  # 获取机器人当前关节转矩
-    print(ret)
+    robot = Robot.RPC('192.168.58.2')
+    ret = robot.GetJointTorques()
+    print("获取当前关节转矩", ret)
 
 获取当前负载的重量
 +++++++++++++++++++++
@@ -470,11 +469,11 @@
     :linenos:
     :emphasize-lines: 4
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    ret = robot.GetTargetPayload(0)  # 获取机器人当前负载重量
-    print(ret)
+    robot = Robot.RPC('192.168.58.2')
+    ret = robot.GetTargetPayload(0)
+    print("获取当前负载的质量", ret)
 
 获取当前负载的质心
 +++++++++++++++++++++
@@ -494,11 +493,11 @@
     :linenos:
     :emphasize-lines: 4
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    ret = robot.GetTargetPayloadCog(0)  # 获取机器人当前负载质心
-    print(ret)
+    robot = Robot.RPC('192.168.58.2')
+    ret = robot.GetTargetPayloadCog(0)
+    print("获取当前负载的质心", ret)
 
 获取当前工具坐标系
 ++++++++++++++++++++
@@ -518,11 +517,11 @@
     :linenos:
     :emphasize-lines: 4
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    ret = robot.GetTCPOffset(0)  # 获取机器人当前工具坐标系
-    print(ret)
+    robot = Robot.RPC('192.168.58.2')
+    ret = robot.GetTCPOffset()
+    print("获取当前工具坐标系", ret)
 
 获取当前工件坐标系
 ++++++++++++++++++++
@@ -542,11 +541,11 @@
     :linenos:
     :emphasize-lines: 4
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    ret = robot.GetWObjOffset(0)  # 获取机器人当前工件坐标系
-    print(ret)
+    robot = Robot.RPC('192.168.58.2')
+    ret = robot.GetWObjOffset()
+    print("获取当前工件坐标系", ret)
 
 获取关节软限位角度
 +++++++++++++++++++
@@ -566,11 +565,11 @@
     :linenos:
     :emphasize-lines: 4
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    ret = robot.GetJointSoftLimitDeg(0)  # 获取机器人关节软限位角度
-    print(ret)
+    robot = Robot.RPC('192.168.58.2')
+    ret = robot.GetJointSoftLimitDeg()
+    print("获取关节软限位角度", ret)
 
 获取系统时间
 ++++++++++++++++
@@ -590,11 +589,11 @@
     :linenos:
     :emphasize-lines: 4
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    ret = robot.GetSystemClock()  # 获取控制器系统时间
-    print(ret)
+    robot = Robot.RPC('192.168.58.2')
+    ret = robot.GetSystemClock()
+    print("获取系统时间", ret)
 
 获取机器人当前关节配置
 ++++++++++++++++++++++++
@@ -614,11 +613,11 @@
     :linenos:
     :emphasize-lines: 4
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    ret = robot.GetRobotCurJointsConfig()  # 获取机器人当前关节配置
-    print(ret)
+    robot = Robot.RPC('192.168.58.2')
+    ret = robot.GetRobotCurJointsConfig()
+    print("获取机器人当前关节配置", ret)
 
 获取默认速度
 +++++++++++++++
@@ -638,11 +637,11 @@
     :linenos:
     :emphasize-lines: 4
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    ret = robot.GetDefaultTransVel()  # 获取机器人当前速度
-    print(ret)
+    robot = Robot.RPC('192.168.58.2')
+    ret = robot.GetDefaultTransVel()
+    print("获取默认速度", ret)
 
 查询机器人运动是否完成
 ++++++++++++++++++++++++
@@ -662,14 +661,11 @@
     :linenos:
     :emphasize-lines: 4
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    ret = robot.GetRobotMotionDone()    #查询机器人运动完成状态
-    if ret[0] == 0:
-        print(ret[1])
-    else:
-        print("the errcode is: ", ret[0])
+    robot = Robot.RPC('192.168.58.2')
+    ret = robot.GetRobotMotionDone()
+    print("查询机器人运动是否完成", ret)
 
 查询机器人错误码
 ++++++++++++++++++++++++

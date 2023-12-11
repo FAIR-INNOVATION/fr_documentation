@@ -20,6 +20,45 @@
     - device  设备号，坤维 (0-KWR75B)，航天十一院 (0-MCS6A-200-4)，ATI(0-AXIA80-M8)，中科米点 (0-MST2010)，伟航敏芯 (0-WHC6L-YB10A);
     - softvesion  软件版本号，暂不使用，默认为0" 
 
+代码示例
+------------
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    import time
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    company = 17    #传感器厂商，17-坤维科技
+    device = 0      #传感器设备号
+    error = robot.FT_SetConfig(company, device)   #配置力传感器
+    print("配置力传感器错误码",error)
+    config = robot.FT_GetConfig() #获取力传感器配置信息
+    print('获取力传感器配置信息',config)
+    time.sleep(1)
+    error = robot.FT_Activate(0)  #传感器复位
+    print("传感器复位错误码",error)
+    time.sleep(1)
+    error = robot.FT_Activate(1)  #传感器激活
+    print("传感器激活错误码",error)
+    time.sleep(1)
+    error = robot.SetLoadWeight(0.0)    #末端负载设置为零
+    print("末端负载设置为零错误码",error)
+    time.sleep(1)
+    error = robot.SetLoadCoord(0.0,0.0,0.0)  #末端负载质心设置为零
+    print("末端质心设置为零错误码",error)
+    time.sleep(1)
+    error = robot.FT_SetZero(0)   #传感器去除零点
+    print("传感器去除零点错误码",error)
+    time.sleep(1)
+    error = robot.FT_GetForceTorqueOrigin()   #查询传感器原始数据
+    print("查询传感器原始数据",error)
+    error = robot.FT_SetZero(1)   #传感器零点矫正,注意此时末端不能安装工具，只有力传感器
+    print("传感器零点矫正",error)
+    time.sleep(1)
+    error = robot.FT_GetForceTorqueRCS()  #查询传感器坐标系下数据
+    print("查询传感器坐标系下数据",error)
+
 力传感器配置
 +++++++++++++++++++++++++
 .. csv-table:: 
@@ -35,23 +74,6 @@
     "返回值", "- 成功：[0]
     - 失败：[errcode]"
 
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-    :emphasize-lines: 8, 9
-
-    import frrpc
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    company = 17    #传感器厂商，17-坤维科技
-    device = 0      #传感器设备号
-    softversion = 0 #软件版本号
-    bus = 1         #末端总线位置
-    robot.FT_SetConfig(company, device, softversion, bus)   #配置力传感器
-    config = robot.FT_GetConfig() #获取力传感器配置信息，厂商编号下发比反馈大1
-    print(config)
-
 力传感器激活
 +++++++++++++++++++++++++
 .. csv-table:: 
@@ -63,20 +85,6 @@
     "参数", "- ``必选参数 state``：0-复位，1-激活"
     "返回值", "错误码 成功-0  失败- errcode "
 
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-    :emphasize-lines: 4,6
-
-    import frrpc
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    robot.FT_Activate(0)  #传感器复位
-    time.sleep(1)
-    robot.FT_Activate(1)  #传感器激活
-    time.sleep(1)
-
 力传感器校零
 +++++++++++++++++++++++++
 .. csv-table:: 
@@ -87,20 +95,6 @@
     "描述", "力传感器校零"
     "参数", "- ``必选参数 state``：0-去除零点，1-零点矫正"
     "返回值", "错误码 成功-0  失败- errcode"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-    :emphasize-lines: 4,6
-
-    import frrpc
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    robot.FT_SetZero(0)   #传感器去除零点
-    time.sleep(1)
-    robot.FT_SetZero(1)   #传感器零点矫正,注意此时末端不能安装工具，只有力传感器
-    time.sleep(1)
 
 设置力传感器参考坐标系
 +++++++++++++++++++++++++
@@ -119,11 +113,49 @@
     :linenos:
     :emphasize-lines: 4
 
-    import frrpc
+    from fairino import Robot
+    import time
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    robot.FT_SetRCS(0)    #设置参考坐标系为工具坐标系，0-工具坐标系，1-基坐标系
+    robot = Robot.RPC('192.168.58.2')
+    #负载辨识，此时末端安装要辨识的工具，工具安装在力传感器下方,末端竖直向下
+    error = robot.FT_SetRCS(0)    #设置参考坐标系为工具坐标系，0-工具坐标系，1-基坐标系
+    print('设置参考坐标系错误码',error)
     time.sleep(1)
+    tool_id = 10  #传感器坐标系编号
+    tool_coord = [0.0,0.0,35.0,0.0,0.0,0.0]   # 传感器相对末端法兰位姿
+    tool_type = 1  # 0-工具，1-传感器
+    tool_install = 0 # 0-安装末端，1-机器人外部
+    error = robot.SetToolCoord(tool_id,tool_coord,tool_type,tool_install)     #设置传感器坐标系，传感器相对末端法兰位姿
+    print('设置传感器坐标系错误码',error)
+    time.sleep(1)
+    error = robot.FT_PdIdenRecord(tool_id)   #记录辨识数据
+    print('记录负载重量错误码',error)
+    time.sleep(1)
+    error = robot.FT_PdIdenRecord()  #计算负载重量，单位kg
+    print('计算负载重量错误码',error)
+    #负载质心辨识，机器人需要示教三个不同的姿态，然后记录辨识数据，最后计算负载质心
+    robot.Mode(1)
+    ret = robot.DragTeachSwitch(1)  #机器人切入拖动示教模式，必须在手动模式下才能切入拖动示教模式
+    time.sleep(5)
+    ret = robot.DragTeachSwitch(0)
+    time.sleep(1)
+    error = robot.FT_PdCogIdenRecord(tool_id,1)
+    print('负载质心1错误码',error)#记录辨识数据
+    ret = robot.DragTeachSwitch(1)  #机器人切入拖动示教模式，必须在手动模式下才能切入拖动示教模式
+    time.sleep(5)
+    ret = robot.DragTeachSwitch(0)
+    time.sleep(1)
+    error = robot.FT_PdCogIdenRecord(tool_id,2)
+    print('负载质心2错误码',error)
+    ret = robot.DragTeachSwitch(1)  #机器人切入拖动示教模式，必须在手动模式下才能切入拖动示教模式
+    time.sleep(5)
+    ret = robot.DragTeachSwitch(0)
+    time.sleep(1)
+    error = robot.FT_PdCogIdenRecord(tool_id,3)
+    print('负载质心3错误码',error)
+    time.sleep(1)
+    error = robot.FT_PdCogIdenCompute()
+    print('负载质心计算错误码',error)
 
 负载重量辨识计算
 +++++++++++++++++++++++++
@@ -148,31 +180,6 @@
     "参数", "- ``必选参数 tool_id``：传感器坐标系编号，范围[0~14]"
     "返回值", "错误码 成功-0  失败- errcode  "
 
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-    :emphasize-lines: 13, 15
-
-    import frrpc
-    import time
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    #负载辨识，此时末端安装要辨识的工具，工具安装在力传感器下方,末端竖直向下
-    robot.FT_SetRCS(0)    #设置参考坐标系为工具坐标系，0-工具坐标系，1-基坐标系
-    time.sleep(1)
-    tool_id = 10  #传感器坐标系编号
-    tool_coord = [0.0,0.0,35.0,0.0,0.0,0.0]   # 传感器相对末端法兰位姿
-    tool_type = 1  # 0-工具，1-传感器
-    tool_install = 0 # 0-安装末端，1-机器人外部
-    robot.SetToolCoord(tool_id,tool_coord,tool_type,tool_install)     #设置传感器坐标系，传感器相对末端法兰位姿
-    time.sleep(1)
-    robot.FT_PdIdenRecord(tool_id)   #记录辨识数据
-    time.sleep(1)
-    weight = robot.FT_PdIdenCompute()  #计算负载重量，单位kg
-    print(weight)
-
-
 负载质心辨识计算
 +++++++++++++++++++++++++
 .. csv-table:: 
@@ -196,35 +203,6 @@
     "参数", "- ``必选参数 tool_id``：传感器坐标系编号，范围[0~14];
     - ``必选参数 index``：点编号[1~3]"
     "返回值", "错误码 成功-0  失败- errcode"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-    :emphasize-lines: 9,14,19,21
-    
-    import frrpc
-    import time
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    #负载质心辨识，机器人需要示教三个不同的姿态，然后记录辨识数据，最后计算负载质心
-    P1=[-160.619,-586.138,384.988,-170.166,-44.782,169.295]
-    robot.MoveCart(P1,9,0,100.0,100.0,100.0,-1.0,-1)         #关节空间点到点运动
-    time.sleep(1)
-    robot.FT_PdCogIdenRecord(tool_id,1)                               #记录辨识数据
-    time.sleep(1)
-    P2=[-87.615,-606.209,556.119,-102.495,10.118,178.985]
-    robot.MoveCart(P2,9,0,100.0,100.0,100.0,-1.0,-1)
-    time.sleep(1)      
-    robot.FT_PdCogIdenRecord(tool_id,2)
-    time.sleep(1)
-    P3=[41.479,-557.243,484.407,-125.174,46.995,-132.165]
-    robot.MoveCart(P3,9,0,100.0,100.0,100.0,-1.0,-1)
-    time.sleep(1)
-    robot.FT_PdCogIdenRecord(tool_id,3)
-    time.sleep(1)
-    cog = robot.FT_PdCogIdenCompute()   # 计算辨识的负载质心
-    print(cog)
 
 获取参考坐标系下力/扭矩数据
 ++++++++++++++++++++++++++++++++++
@@ -296,9 +274,10 @@
 .. code-block:: python
     :linenos:
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
+    robot = Robot.RPC('192.168.58.2')
+    #碰撞守护
     actFlag = 1   #开启标志，0-关闭碰撞守护，1-开启碰撞守护
     sensor_num = 1  #力传感器编号
     is_select = [1,1,1,1,1,1]  #六个自由度选择[fx,fy,fz,mx,my,mz]，0-不生效，1-生效
@@ -308,12 +287,17 @@
     P1=[-160.619,-586.138,384.988,-170.166,-44.782,169.295]
     P2=[-87.615,-606.209,556.119,-102.495,10.118,178.985]
     P3=[41.479,-557.243,484.407,-125.174,46.995,-132.165]
-    robot.FT_Guard(actFlag, sensor_num, is_select, force_torque, max_threshold, min_threshold)    #开启碰撞守护
-    robot.MoveCart(P1,9,0,100.0,100.0,100.0,-1.0,-1)         #关节空间点到点运动
-    robot.MoveCart(P2,9,0,100.0,100.0,100.0,-1.0,-1)
-    robot.MoveCart(P3,9,0,100.0,100.0,100.0,-1.0,-1)
+    error = robot.FT_Guard(actFlag, sensor_num, is_select, force_torque, max_threshold, min_threshold)    #开启碰撞守护
+    print("开启碰撞守护错误码",error)
+    error = robot.MoveL(P1,1,0)         #笛卡尔空间直线运动
+    print("笛卡尔空间直线运动错误码",error)
+    error = robot.MoveL(P2,1,0)
+    print("笛卡尔空间直线运动错误码",error)
+    error = robot.MoveL(P3,1,0)
+    print("笛卡尔空间直线运动错误码",error)
     actFlag = 0  
-    robot.FT_Guard(actFlag, sensor_num, is_select, force_torque, max_threshold, min_threshold)    #关闭碰撞守护
+    error = robot.FT_Guard(actFlag, sensor_num, is_select, force_torque, max_threshold, min_threshold)    #关闭碰撞守护
+    print("关闭碰撞守护错误码",error)
 
 恒力控制
 ++++++++++++++++++++++++++++++++++
@@ -340,31 +324,33 @@
 .. code-block:: python
     :linenos:
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
+    robot = Robot.RPC('192.168.58.2')
+    #恒力控制
     status = 1  #恒力控制开启标志，0-关，1-开
     sensor_num = 1 #力传感器编号
     is_select = [0,0,1,0,0,0]  #六个自由度选择[fx,fy,fz,mx,my,mz]，0-不生效，1-生效
-    force_torque = [0.0,0.0,-10.0,0.0,0.0,0.0]  #碰撞检测力和力矩，检测范围（force_torque-min_threshold,force_torque+max_threshold）
-    gain = [0.0005,0.0,0.0,0.0,0.0,0.0]  #最大阈值
+    force_torque = [0.0,0.0,-10.0,0.0,0.0,0.0]  
+    gain = [0.0005,0.0,0.0,0.0,0.0,0.0]  #力PID参数，力矩PID参数
     adj_sign = 0  #自适应启停状态，0-关闭，1-开启
     ILC_sign = 0  #ILC控制启停状态，0-停止，1-训练，2-实操
     max_dis = 100.0  #最大调整距离
     max_ang = 0.0  #最大调整角度
-    J1=[-68.987,-96.414,-111.45,-61.105,92.884,11.089]
-    P1=[62.795,-511.979,291.697,-179.545,3.027,-170.039]
-    eP1=[0.000,0.000,0.000,0.000]
-    dP1=[0.000,0.000,0.000,0.000,0.000,0.000]
-    J2=[-107.596,-109.154,-104.735,-56.176,90.739,11.091]
-    P2=[-294.768,-503.708,233.158,179.799,0.713,151.309]
-    eP2=[0.000,0.000,0.000,0.000]
-    dP2=[0.000,0.000,0.000,0.000,0.000,0.000]
-    robot.MoveJ(J1,P1,9,0,100.0,180.0,100.0,eP1,-1.0,0,dP1)    #关节空间运动PTP,工具号9，实际测试根据现场数据及工具号使用
-    robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign,ILC_sign,max_dis,max_ang)   #恒力控制
-    robot.MoveL(J2,P2,9,0,100.0,180.0,20.0,-1.0,eP2,0,0,dP2)   #笛卡尔空间直线运动
+    J1=[70.395, -46.976, 90.712, -133.442, -87.076, -27.138]
+    P2=[-123.978, -674.129, 44.308, -178.921, 2.734, -172.449]
+    P3=[123.978, -674.129, 42.308, -178.921, 2.734, -172.449]
+    error = robot.MoveJ(J1,1,0)    
+    print("关节空间运动指令错误码",error)
+    error = robot.MoveL(P2,1,0)
+    print("笛卡尔空间直线运动指令错误码",error)
+    error = robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign, ILC_sign,max_dis,max_ang)
+    print("恒力控制开启错误码",error)
+    error = robot.MoveL(P3,1,0)   #笛卡尔空间直线运动
+    print("笛卡尔空间直线运动指令错误码",error)
     status = 0
-    robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign,ILC_sign,max_dis,max_ang)
+    error = robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign, ILC_sign,max_dis,max_ang)
+    print("恒力控制结束错误码",error)
 
 螺旋线探索
 ++++++++++++++++++++++++++++++++++
@@ -387,30 +373,33 @@
 .. code-block:: python
     :linenos:
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
+    robot = Robot.RPC('192.168.58.2')
+    P = [36.794,-675.119, 65.379, -176.938, 2.535, -179.829]
     #恒力参数
     status = 1  #恒力控制开启标志，0-关，1-开
     sensor_num = 1 #力传感器编号
     is_select = [0,0,1,0,0,0]  #六个自由度选择[fx,fy,fz,mx,my,mz]，0-不生效，1-生效
-    force_torque = [0.0,0.0,-10.0,0.0,0.0,0.0]  #碰撞检测力和力矩，检测范围（force_torque-min_threshold,force_torque+max_threshold）
-    gain = [0.0001,0.0,0.0,0.0,0.0,0.0]  #最大阈值
+    force_torque = [0.0,0.0,-10.0,0.0,0.0,0.0]  
+    gain = [0.0001,0.0,0.0,0.0,0.0,0.0]  #力PID参数，力矩PID参数
     adj_sign = 0  #自适应启停状态，0-关闭，1-开启
     ILC_sign = 0  #ILC控制启停状态，0-停止，1-训练，2-实操
     max_dis = 100.0  #最大调整距离
     max_ang = 5.0  #最大调整角度
     #螺旋线探索参数
     rcs = 0  #参考坐标系，0-工具坐标系，1-基坐标系
-    dr = 0.7  #每圈半径进给量，单位mm
-    fFinish = 1.0 #力或力矩阈值（0~100），单位N或Nm
-    t = 60000.0 #最大探索时间，单位ms
-    vmax = 3.0 #线速度最大值，单位mm/s
+    fFinish = 10 #力或力矩阈值（0~100），单位N或Nm
+    error = robot.MoveL(P,1,0) #笛卡尔空间直线运动至初始点
+    print("笛卡尔空间直线运动至初始点",error)
     is_select = [0,0,1,1,1,0]  #六个自由度选择[fx,fy,fz,mx,my,mz]，0-不生效，1-生效
-    robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign,ILC_sign,max_dis,max_ang)
-    robot.FT_SpiralSearch(rcs,dr,fFinish,t,vmax)
+    error = robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign, ILC_sign, max_dis,max_ang)
+    print("恒力控制开启错误码",error)
+    error = robot.FT_SpiralSearch(rcs,fFinish,max_vel=3)
+    print("螺旋线探索错误码",error)
     status = 0
-    robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign,ILC_sign,max_dis,max_ang)
+    error = robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign, ILC_sign, max_dis,max_ang)
+    print("恒力控制关闭错误码",error)
 
 旋转插入
 ++++++++++++++++++++++++++++++++++
@@ -435,35 +424,37 @@
 .. code-block:: python
     :linenos:
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
+    robot = Robot.RPC('192.168.58.2')
+    P = [36.794,-675.119, 65.379, -176.938, 2.535, -179.829]
     #恒力参数
     status = 1  #恒力控制开启标志，0-关，1-开
     sensor_num = 1 #力传感器编号
     is_select = [0,0,1,0,0,0]  #六个自由度选择[fx,fy,fz,mx,my,mz]，0-不生效，1-生效
-    force_torque = [0.0,0.0,-10.0,0.0,0.0,0.0]  #碰撞检测力和力矩，检测范围（force_torque-min_threshold,force_torque+max_threshold）
-    gain = [0.0001,0.0,0.0,0.0,0.0,0.0]  #最大阈值
+    force_torque = [0.0,0.0,-10.0,0.0,0.0,0.0] 
+    gain = [0.0001,0.0,0.0,0.0,0.0,0.0]  #力PID参数，力矩PID参数   
     adj_sign = 0  #自适应启停状态，0-关闭，1-开启
     ILC_sign = 0  #ILC控制启停状态，0-停止，1-训练，2-实操
     max_dis = 100.0  #最大调整距离
     max_ang = 5.0  #最大调整角度
     #旋转插入参数
     rcs = 0  #参考坐标系，0-工具坐标系，1-基坐标系
-    angVelRot = 2.0  #旋转角速度，单位°/s
-    forceInsertion = 1.0 #力或力矩阈值（0~100），单位N或Nm
-    angleMax= 45 #最大旋转角度，单位°
+    forceInsertion = 2.0 #力或力矩阈值（0~100），单位N或Nm
     orn = 1 #力的方向，1-fz,2-mz
-    angAccmax = 0.0 #最大旋转角加速度，单位°/s^2,暂不使用
-    rotorn = 1 #旋转方向，1-顺时针，2-逆时针
-    s_select = [0,0,1,1,1,0]  #六个自由度选择[fx,fy,fz,mx,my,mz]，0-不生效，1-生效
-    force_torque = [0.0,0.0,-10.0,0.0,0.0,0.0]  #碰撞检测力和力矩，检测范围（force_torque-min_threshold,force_torque+max_threshold）
-    gain = [0.0001,0.0,0.0,0.0,0.0,0.0]  #最大阈值
-    status = 1
-    robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign,ILC_sign,max_dis,max_ang)
-    robot.FT_RotInsertion(rcs,angVelRot,forceInsertion,angleMax,orn,angAccmax,rotorn)
+    #默认参数 angVelRot：旋转角速度，单位 °/s  默认 3
+    #默认参数 angleMax：最大旋转角度，单位 ° 默认 5
+    #默认参数 angAccmax：最大旋转加速度，单位 °/s^2，暂不使用 默认0
+    #默认参数 rotorn：旋转方向，1-顺时针，2-逆时针 默认1
+    error = robot.MoveL(P,1,0) #笛卡尔空间直线运动至初始点
+    print("笛卡尔空间直线运动至初始点",error)
+    error = robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign, ILC_sign,max_dis,max_ang)
+    print("恒力控制开启错误码",error)
+    error = robot.FT_RotInsertion(rcs,1,orn)
+    print("旋转插入错误码",error)
     status = 0
-    robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign,ILC_sign,max_dis,max_ang)
+    error = robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign, ILC_sign,max_dis,max_ang)
+    print("恒力控制关闭错误码",error)
 
 直线插入
 ++++++++++++++++++++++++++++++++++
@@ -487,34 +478,36 @@
 .. code-block:: python
     :linenos:
     
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
+    robot = Robot.RPC('192.168.58.2')
+    P = [36.794,-675.119, 65.379, -176.938, 2.535, -179.829]
     #恒力参数
     status = 1  #恒力控制开启标志，0-关，1-开
     sensor_num = 1 #力传感器编号
     is_select = [0,0,1,0,0,0]  #六个自由度选择[fx,fy,fz,mx,my,mz]，0-不生效，1-生效
-    force_torque = [0.0,0.0,-10.0,0.0,0.0,0.0]  #碰撞检测力和力矩，检测范围（force_torque-min_threshold,force_torque+max_threshold）
-    gain = [0.0001,0.0,0.0,0.0,0.0,0.0]  #最大阈值
+    force_torque = [0.0,0.0,-10.0,0.0,0.0,0.0]  
+    gain = [0.0001,0.0,0.0,0.0,0.0,0.0]  #力PID参数，力矩PID参数
     adj_sign = 0  #自适应启停状态，0-关闭，1-开启
     ILC_sign = 0  #ILC控制启停状态，0-停止，1-训练，2-实操
     max_dis = 100.0  #最大调整距离
     max_ang = 5.0  #最大调整角度
     #直线插入参数
     rcs = 0  #参考坐标系，0-工具坐标系，1-基坐标系
-    force_goal = 20.0  #力或力矩阈值（0~100），单位N或Nm
-    lin_v = 0.0 #直线速度，单位mm/s
-    lin_a = 0.0 #直线加速度，单位mm/s^2,暂不使用
+    force_goal = 10.0  #力或力矩阈值（0~100），单位N或Nm
     disMax = 100.0 #最大插入距离，单位mm
     linorn = 1 #插入方向，1-正方向，2-负方向
-    is_select = [1,1,1,0,0,0]  #六个自由度选择[fx,fy,fz,mx,my,mz]，0-不生效，1-生效
-    gain = [0.00005,0.0,0.0,0.0,0.0,0.0]  #最大阈值
-    force_torque = [0.0,0.0,-30.0,0.0,0.0,0.0]  #碰撞检测力和力矩，检测范围（force_torque-min_threshold,force_torque+max_threshold）
-    status = 1
-    robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign,ILC_sign,max_dis,max_ang)
-    robot.FT_LinInsertion(rcs,force_goal,lin_v,lin_a,disMax,linorn)
+    #默认参数 lin_v：直线速度，单位 mm/s 默认1
+    #默认参数 lin_a：直线加速度，单位 mm/s^2，暂不使用 默认0
+    error = robot.MoveL(P,1,0) #笛卡尔空间直线运动至初始点
+    print("笛卡尔空间直线运动至初始点",error)
+    error = robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign, ILC_sign,max_dis,max_ang)
+    print("恒力控制开启错误码",error)
+    error = robot.FT_LinInsertion(rcs,force_goal,disMax,linorn)
+    print("直线插入错误码",error)
     status = 0
-    robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign,ILC_sign,max_dis,max_ang)
+    error = robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign, ILC_sign,max_dis,max_ang)
+    print("恒力控制关闭错误码",error)
 
 计算中间平面位置开始
 ++++++++++++++++++++++++++++++++++
@@ -561,15 +554,16 @@
 .. code-block:: python
     :linenos:
 
-    import frrpc
+    from fairino import Robot
+    import time
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
+    robot = Robot.RPC('192.168.58.2')
     #恒力控制
     status = 1  #恒力控制开启标志，0-关，1-开
     sensor_num = 1 #力传感器编号
     is_select = [1,0,0,0,0,0]  #六个自由度选择[fx,fy,fz,mx,my,mz]，0-不生效，1-生效
-    force_torque = [-2.0,0.0,0.0,0.0,0.0,0.0]  #碰撞检测力和力矩，检测范围（force_torque-min_threshold,force_torque+max_threshold）
-    gain = [0.0002,0.0,0.0,0.0,0.0,0.0]  #最大阈值
+    force_torque = [-2.0,0.0,0.0,0.0,0.0,0.0]  
+    gain = [0.0002,0.0,0.0,0.0,0.0,0.0]  #力PID参数，力矩PID参数
     adj_sign = 0  #自适应启停状态，0-关闭，1-开启
     ILC_sign = 0  #ILC控制启停状态，0-停止，1-训练，2-实操
     max_dis = 15.0  #最大调整距离
@@ -582,52 +576,70 @@
     lin_a = 0.0  #探索直线加速度，单位mm/s^2
     disMax = 50.0 #最大探索距离，单位mm
     force_goal = 2.0 #动作终止力阈值，单位N
-    P1=[-230.959,-364.017,226.179,-179.004,0.002,89.999]
-    robot.MoveCart(P1,9,0,100.0,100.0,100.0,-1.0,-1)       #关节空间点到点运动
+    P1=[-77.24,-679.599,58.328,179.373,-0.028,-167.849]
+    Robot.MoveCart(P1,1,0)       #关节空间点到点运动
     #x方向寻找中心
     #第1个表面
-    robot.FT_CalCenterStart()
-    robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign,ILC_sign,max_dis,max_ang)
-    robot.FT_FindSurface(rcs,direction,axis,lin_v,lin_a,disMax,force_goal)
+    error = robot.FT_CalCenterStart()
+    print("计算中间平面开始错误码",error)
+    error = robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign, ILC_sign,max_dis,max_ang)
+    print("恒力控制开始错误码",error)
+    error = robot.FT_FindSurface(rcs,direction,axis,disMax,force_goal)
+    print("寻找X+表面错误码",error)
     status = 0
-    robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign,ILC_sign,max_dis,max_ang)
-    robot.MoveCart(P1,9,0,100.0,100.0,100.0,-1.0,-1)       #关节空间点到点运动
-    robot.WaitMs(1000)
+    error = robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign, ILC_sign,max_dis,max_ang)
+    print("恒力控制结束错误码",error)
+    time.sleep(2)
+    error = robot.MoveCart(P1,1,0)       #关节空间点到点运动
+    print("关节空间点到点运动错误码",error)
+    time.sleep(5)
     #第2个表面
-    robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign,ILC_sign,max_dis,max_ang)
+    error = robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign, ILC_sign,max_dis,max_ang)
+    print("恒力控制开始错误码",error)
     direction = 2 #移动方向，1-正方向，2-负方向
-    robot.FT_FindSurface(rcs,direction,axis,lin_v,lin_a,disMax,force_goal)
+    error = robot.FT_FindSurface(rcs,direction,axis,disMax,force_goal)
+    print("寻找X—表面错误码",error)
     status = 0
-    robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign,ILC_sign,max_dis,max_ang)
+    error = robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign, ILC_sign,max_dis,max_ang)
+    print("恒力控制结束错误码",error)
     #计算x方向中心位置
-    xcenter= robot.FT_CalCenterEnd()
-    print(xcenter)
-    xcenter = [xcenter[1],xcenter[2],xcenter[3],xcenter[4],xcenter[5],xcenter[6]]
-    robot.MoveCart(xcenter,9,0,60.0,50.0,50.0,0.0,-1)
+    error,xcenter = robot.FT_CalCenterEnd()
+    print("计算X方向中间平面结束错误码",xcenter) 
+    error = robot.MoveCart(xcenter,1,0)
+    print("关节空间点到点运动错误码",error)
+    time.sleep(1)
     #y方向寻找中心
     #第1个表面
-    robot.FT_CalCenterStart()
-    robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign,ILC_sign,max_dis,max_ang)
+    error =robot.FT_CalCenterStart()
+    print("计算中间平面开始错误码",error)
+    error =robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign, ILC_sign,max_dis,max_ang)
+    print("恒力控制开始错误码",error)
     direction = 1 #移动方向，1-正方向，2-负方向
     axis = 2 #移动轴，1-X,2-Y,3-Z
     disMax = 150.0 #最大探索距离，单位mm
     lin_v = 6.0  #探索直线速度，单位mm/s
-    robot.FT_FindSurface(rcs,direction,axis,lin_v,lin_a,disMax,force_goal)
+    error =robot.FT_FindSurface(rcs,direction,axis,disMax,force_goal)
+    print("寻找表面Y+错误码",error)
     status = 0
-    robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign,ILC_sign,max_dis,max_ang)
-    robot.MoveCart(P1,9,0,100.0,100.0,100.0,-1.0,-1)       #关节空间点到点运动
-    robot.WaitMs(1000)
+    error =robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign, ILC_sign,max_dis,max_ang)
+    print("恒力控制结束错误码",error)
+    error =robot.MoveCart(P1,1,0)       #关节空间点到点运动
+    print("关节空间点到点运动错误码",error)
+    Robot.WaitMs(1000)
     #第2个表面
-    robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign,ILC_sign,max_dis,max_ang)
+    error =robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign, ILC_sign,max_dis,max_ang)
+    print("恒力控制开始错误码",error)
     direction = 2 #移动方向，1-正方向，2-负方向
-    robot.FT_FindSurface(rcs,direction,axis,lin_v,lin_a,disMax,force_goal)
+    error =robot.FT_FindSurface(rcs,direction,axis,disMax,force_goal)
+    print("寻找表面Y-错误码",error)
     status = 0
-    robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign,ILC_sign,max_dis,max_ang)
+    error =robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign, ILC_sign,max_dis,max_ang)
+    print("恒力控制结束错误码",error)
     #计算y方向中心位置
-    ycenter=robot.FT_CalCenterEnd()
-    print(ycenter)
-    ycenter = [ycenter[1],ycenter[2],ycenter[3],ycenter[4],ycenter[5],ycenter[6]]
-    robot.MoveCart(ycenter,9,0,60.0,50.0,50.0,-1.0,-1)
+    error,ycenter=robot.FT_CalCenterEnd()
+    print("计算中间平面Y方向结束错误码",ycenter)
+    error =robot.MoveCart(ycenter,1,0)
+    print("关节空间点到点运动错误码",error)
 
 柔顺控制关闭
 ++++++++++++++++++++++++++++++++++
@@ -657,39 +669,40 @@
 .. code-block:: python
     :linenos:
 
-    import frrpc
+    from fairino import Robot
+    import time
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    J1=[-105.3,-68.0,-127.9,-75.5,90.8,77.8]
-    P1=[-208.9,-274.5,334.6,178.8,-1.3,86.7]
-    eP1=[0.000,0.000,0.000,0.000]
-    dP1=[0.000,0.000,0.000,0.000,0.000,0.000]
-    J2=[-105.3,-97.9,-101.5,-70.3,90.8,77.8]
-    P2=[-264.8,-480.5,341.8,179.2,0.3,86.7]
-    eP2=[0.000,0.000,0.000,0.000]
-    dP2=[0.000,0.000,0.000,0.000,0.000,0.000]
+    robot = Robot.RPC('192.168.58.2')
+    J1=[75.005,-46.434,90.687,-133.708,-90.315,-27.139]
+    P2=[-77.24,-679.599,38.328,179.373,-0.028,-167.849]
+    P3=[77.24,-679.599,38.328,179.373,-0.028,-167.849]
     #恒力控制参数
     status = 1  #恒力控制开启标志，0-关，1-开
     sensor_num = 1 #力传感器编号
     is_select = [1,1,1,0,0,0]  #六个自由度选择[fx,fy,fz,mx,my,mz]，0-不生效，1-生效
-    force_torque = [-10.0,-10.0,-10.0,0.0,0.0,0.0]  #碰撞检测力和力矩，检测范围（force_torque-min_threshold,force_torque+max_threshold）
-    gain = [0.0005,0.0,0.0,0.0,0.0,0.0]  #最大阈值
+    force_torque = [-10.0,-10.0,-10.0,0.0,0.0,0.0] 
+    gain = [0.0005,0.0,0.0,0.0,0.0,0.0]  #力PID参数，力矩PID参数
     adj_sign = 0  #自适应启停状态，0-关闭，1-开启
     ILC_sign = 0  #ILC控制启停状态，0-停止，1-训练，2-实操
     max_dis = 1000.0  #最大调整距离
     max_ang = 0.0  #最大调整角度
+    error = robot.MoveJ(J1,1,0)
+    print("关节空间运动到点1错误码",error)
     #柔顺控制
-    robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign,ILC_sign,max_dis,max_ang)
+    error = robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign, ILC_sign,max_dis,max_ang)
+    print("恒力控制开始错误码",error)
     p = 0.00005  #位置调节系数或柔顺系数
     force = 30.0 #柔顺开启力阈值，单位N
-    robot.FT_ComplianceStart(p,force)
-    count = 15  #循环次数
-    while(count):
-        robot.MoveL(J1,P1,9,0,100.0,180.0,100.0,-1.0,eP1,0,1,dP1)   #笛卡尔空间直线运动
-        robot.MoveL(J2,P2,9,0,100.0,180.0,100.0,-1.0,eP2,0,0,dP2)
-        count = count - 1
-    robot.FT_ComplianceStop()
+    error = robot.FT_ComplianceStart(p,force)
+    print("柔顺控制开始错误码",error)
+    error = robot.MoveL(P2,1,0,vel =10)   #笛卡尔空间直线运动
+    print("笛卡尔空间直线运动到点2错误码", error)
+    error = robot.MoveL(P3,1,0,vel =10)
+    print("笛卡尔空间直线运动到点3错误码", error)
+    time.sleep(1)
+    error = robot.FT_ComplianceStop()
+    print("柔顺控制结束错误码",error)
     status = 0
-    robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign,ILC_sign,max_dis,max_ang)
-
+    error = robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign, ILC_sign,max_dis,max_ang)
+    print("恒力控制关闭错误码",error)
 

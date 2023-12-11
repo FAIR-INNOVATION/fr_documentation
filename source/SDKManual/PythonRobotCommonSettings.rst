@@ -21,11 +21,11 @@
     :linenos:
     :emphasize-lines: 4
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    robot.SetSpeed(20)   # 设置全局速度，手动模式与自动模式独立设置
-
+    robot = Robot.RPC('192.168.58.2')
+    error = robot.SetSpeed(20)
+    print("设置全局速度错误码:",error)
 
 设置系统变量值
 +++++++++++++++++
@@ -45,15 +45,15 @@
     :linenos:
     :emphasize-lines: 5,8
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
+    robot = Robot.RPC('192.168.58.2')
     for i in range(1,21):
-        robot.SetSysVarValue(i,i+0.5)    #  设置系统变量值
+        error = robot.SetSysVarValue(i,10)
     robot.WaitMs(1000)
     for i in range(1,21):
-        sys_var = robot.GetSysVarValue(i)  #  查询系统变量值
-        print(sys_var)
+        sys_var = robot.GetSysVarValue(i)
+        print("系统变量编号:",i,"值",sys_var)
 
 设置工具参考点-六点法
 +++++++++++++++++++++
@@ -164,11 +164,13 @@
     :linenos:
     :emphasize-lines: 5
 
-    import frrpc
+    from fairino import Robot
+    import time
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
+    robot = Robot.RPC('192.168.58.2')
     t_coord = [1.0,2.0,3.0,4.0,5.0,6.0]
-    robot.SetToolCoord(10,t_coord,0,0)  #  设置工具坐标系
+    error = robot.SetToolCoord(10,t_coord,0,0)
+    print("设置工具坐标系错误码",error)
 
 设置工具坐标系列表
 ++++++++++++++++++++
@@ -183,6 +185,19 @@
     - ``必选参数 type``:0-工具坐标系，1-传感器坐标系；
     - ``必选参数 install``:安装位置，0-机器人末端，1-机器人外部"
     "返回值", "错误码 成功-0  失败- errcode "
+
+代码示例
+------------
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    import time
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    t_coord = [1.0,2.0,3.0,4.0,5.0,6.0]
+    error = robot.SetToolList(10,t_coord,0,0)
+    print("设置工具坐标系列表错误码",error)
 
 设置外部工具参考点-三点法
 +++++++++++++++++++++++++
@@ -249,12 +264,14 @@
     :linenos:
     :emphasize-lines: 6
 
-    import frrpc
+    from fairino import Robot
+    import time
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
+    robot = Robot.RPC('192.168.58.2')
     etcp = [1.0,2.0,3.0,4.0,5.0,6.0]
     etool = [21.0,22.0,23.0,24.0,25.0,26.0]
-    robot.SetExToolCoord(10,etcp,etool)
+    error = robot.SetExToolCoord(10,etcp,etool)
+    print("设置外部工具坐标系错误码",error)
 
 设置外部工具坐标系列表
 ++++++++++++++++++++++++
@@ -275,12 +292,14 @@
     :linenos:
     :emphasize-lines: 6
 
-    import frrpc
+    from fairino import Robot
+    import time
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
+    robot = Robot.RPC('192.168.58.2')
     etcp = [1.0,2.0,3.0,4.0,5.0,6.0]
     etool = [21.0,22.0,23.0,24.0,25.0,26.0]
-    robot.SetExToolList(10,etcp,etool)
+    error = robot.SetExToolList(10,etcp,etool)
+    print("设置外部工具坐标系列表错误码",error)
 
 设置工件参考点-三点法
 ++++++++++++++++++++++++
@@ -343,11 +362,13 @@
     :linenos:
     :emphasize-lines: 5
 
-    import frrpc
+    from fairino import Robot
+    import time
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
+    robot = Robot.RPC('192.168.58.2')
     w_coord = [11.0,12.0,13.0,14.0,15.0,16.0]
-    robot.SetWObjCoord(11,w_coord)
+    error = robot.SetWObjCoord(11,w_coord)
+    print("设置工件坐标系错误码",error)
 
 设置工件坐标系列表
 ++++++++++++++++++++++
@@ -367,11 +388,13 @@
     :linenos:
     :emphasize-lines: 5
 
-    import frrpc
+    from fairino import Robot
+    import time
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
+    robot = Robot.RPC('192.168.58.2')
     w_coord = [11.0,12.0,13.0,14.0,15.0,16.0]
-    robot.SetWObjList(11,w_coord)
+    error = robot.SetWObjList(11,w_coord)
+    print("设置工件坐标系列表错误码",error)
 
 设置末端负载重量
 ++++++++++++++++++
@@ -390,10 +413,10 @@
     :linenos:
     :emphasize-lines: 4
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    robot.SetLoadWeight(3.0)   # 设置负载重量
+    robot = Robot.RPC('192.168.58.2')
+    error = robot.SetLoadWeight(0)#！！！负载重量设置应于实际相符(错误负载重量设置可能会导致拖动模式下机器人失控)
 
 设置机器人安装方式-固定安装
 ++++++++++++++++++++++++++++++
@@ -412,10 +435,11 @@
     :linenos:
     :emphasize-lines: 4
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    robot.SetRobotInstallPos(0)    #   设置机器人安装方式
+    robot = Robot.RPC('192.168.58.2')
+    error = robot.SetRobotInstallPos(0) #！！！安装方式设置应与实际一致 0-正装，1-侧装，2-倒装 (错误安装方式设置会导致拖动模式下机器人失控）
+    print("设置机器人安装方式错误码",error)
 
 设置机器人安装角度-自由安装
 ++++++++++++++++++++++++++++++
@@ -435,10 +459,11 @@
     :linenos:
     :emphasize-lines: 4
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    robot.SetRobotInstallAngle(0.0,0.0)    #   设置机器人安装角度
+    robot = Robot.RPC('192.168.58.2')
+    error = robot.SetRobotInstallAngle(0.0,0.0) #！！！安装角度设置应与实际一致 (错误安装角度设置会导致拖动模式下机器人失控）
+    print("设置机器人安装角度错误码",error)
 
 设置末端负载质心坐标
 ++++++++++++++++++++++
@@ -457,10 +482,11 @@
     :linenos:
     :emphasize-lines: 4
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    robot.SetLoadCoord(3.0,4.0,5.0)    #   设置负载质心坐标
+    robot = Robot.RPC('192.168.58.2')
+    error = robot.SetLoadCoord(3.0,4.0,5.0) #！！！负载质心设置应于实际相符(错误负载质心设置可能会导致拖动模式下机器人失控)
+    print("设置负载质心错误码",error)
 
 等待指定时间
 +++++++++++++++
@@ -479,7 +505,8 @@
     :linenos:
     :emphasize-lines: 4
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
-    robot.WaitMs(1000)    #  等待1000ms
+    robot = Robot.RPC('192.168.58.2')
+    error = robot.WaitMs(1000)
+    print("等待指定时间错误码",error)
