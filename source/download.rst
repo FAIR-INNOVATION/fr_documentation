@@ -59,4 +59,4 @@
 
 软件下载
 ---------------------------------
-    :download:`QNX 3.6.6 <https://pan.quark.cn/s/f5e47e47a800>`
+    :download:`FAIRINO-CobotSoftware-V3.6.7-Release-231208 <https://pan.quark.cn/s/417449815b38>`
