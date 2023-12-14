@@ -25,19 +25,19 @@
 
 二次开发
 ---------------------------------
-    :download:`FRCobot CPP SDK <https://gitee.com/fair-innovation/frcobot_cpp_sdk/repository/archive/master.zip>`
+    :download:`FAIRINO CPP SDK-v1 <https://gitee.com/fair-innovation/frcobot_cpp_sdk/repository/archive/master.zip>`
 
-    :download:`FRCobot CPP SDK-v2.0.0 <https://gitee.com/fair-innovation/fairino-cpp-sdk/repository/archive/v2.0.0.zip>`
+    :download:`FAIRINO CPP SDK-v2 <https://gitee.com/fair-innovation/fairino-cpp-sdk/repository/archive/master.zip>`
 
-    :download:`FRCobot C#-v1.0.0 SDK <https://gitee.com/fair-innovation/fairino-csharp-sdk/repository/archive/v1.0.0.zip>`
+    :download:`FAIRINO C# SDK-v1 <https://gitee.com/fair-innovation/fairino-csharp-sdk/repository/archive/master.zip>`
 
-    :download:`FRCobot Python SDK <https://gitee.com/fair-innovation/frcobot_python_sdk/repository/archive/master.zip>`
+    :download:`FAIRINO Python SDK-v1 <https://gitee.com/fair-innovation/frcobot_python_sdk/repository/archive/master.zip>`
 
-    :download:`FRCobot Python-v2.0.0 SDK <https://gitee.com/fair-innovation/fairino-python-sdk/repository/archive/v2.0.0.zip>`
+    :download:`FAIRINO Python SDK-v2 <https://gitee.com/fair-innovation/fairino-python-sdk/repository/archive/master.zip>`
 
-    :download:`FRCobot ROS <https://gitee.com/fair-innovation/frcobot_ros/repository/archive/master.zip>`
+    :download:`FAIRINO ROS1 <https://gitee.com/fair-innovation/frcobot_ros/repository/archive/master.zip>`
 
-    :download:`FRCobot ROS2 <https://gitee.com/fair-innovation/frcobot_ros2/repository/archive/master.zip>`
+    :download:`FAIRINO ROS2 <https://gitee.com/fair-innovation/frcobot_ros2/repository/archive/master.zip>`
 
 本体 & 尺寸图纸
 ---------------------------------
