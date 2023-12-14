@@ -280,6 +280,18 @@
     */
     int GetSafetyStopState(ref byte si0_state, ref byte si1_state)
 
+获取机器人DH参数补偿值
++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /** 
+    * @brief 获取安全停止信号 
+    * @param [out] dhCompensation 机器人DH参数补偿值(mm) [cmpstD1,cmpstA2,cmpstA3,cmpstD4,cmpstD5,cmpstD6]
+    * @return 错误码 
+    */
+    int GetDHCompensation(ref double[] dhCompensation)
+
 代码示例
 +++++++++
 .. code-block:: c#
@@ -290,6 +302,9 @@
         Robot robot = new Robot();
         robot.RPC("192.168.58.2");
         int rtn = -1;
+        double[] dhCompensation = new double[6]{0,0,0,0,0,0};
+        rtn = robot.GetDHCompensation(ref dhCompensation);
+        Console.WriteLine($"GetDHCompensation:  rtn :{rtn}    {dhCompensation[0]}  {dhCompensation[1]}  {dhCompensation[2]}  {dhCompensation[3]}  {dhCompensation[4]}  {dhCompensation[5]}");
         string ssh = "";
         rtn = robot.GetSSHKeygen(ref ssh);
         Console.WriteLine($"GetSSHKeygen:  ssh {ssh}  rtn  {rtn}");
@@ -310,4 +325,63 @@
 
         rtn = robot.GetSafetyStopState(ref si0_state, ref si1_state);
         Console.WriteLine($"GetSafetyStopState:  rtn  {rtn}   si0_state  {si0_state}   si1_state  {si1_state}");
+    }
+
+上传点位表
++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /** 
+    * @brief 点位表从本地计算机上传至机器人控制器 
+    * @param [in] pointTableFilePath 点位表在本地计算机的绝对路径C://test/pointTabl e1.db
+    * @return 错误码 
+    */
+    int PointTableUpLoad(string pointTableFilePath);
+
+下载点位表
++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /** 
+    * @brief 点位表从机器人控制器下载到本地计算机 
+    * @param [in] pointTableName 控制器中的点位表名称：pointTable1.db
+    * @param [in] saveFilePath 点位表下载到计算机的路径 C://test/
+    * @return 错误码 
+    */
+    int PointTableDownLoad(string pointTableName, string saveFilePath);
+
+点位表更新Lua程序
++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /** 
+    * @brief 使用给定的点位表更新lua程序中的点
+    * @param [in] pointTableName 控制器中的点位表名称："pointTable1.db", 当点位表为空，即""时，表示将lua程序更新为未应用点位表的初始程序
+    * @param [in] luaFileName 要更新的lua文件名称   "test.lua"
+    * @param [out] errorStr 点位表更新lua错误信息  
+    * @return 错误码 
+    */
+    int PointTableUpdateLua(string pointTableName, string luaFileName, ref string errorStr);
+
+代码示例
++++++++++
+.. code-block:: c#
+    :linenos:
+
+    private void btnUpload_Click(object sender, EventArgs e)
+    {
+        Robot robot = new Robot();
+        robot.RPC("192.168.58.2");
+        int rtn = -1;
+        rtn = robot.PointTableUpLoad("C://point_table_test.db");
+        Thread.Sleep(2000);
+        rtn = robot.PointTableDownLoad("point_table_test.db", "D://zDOWN/");
+        string errorStr = "";
+        rtn = robot.PointTableUpdateLua("point_table_test.db", "test.lua", ref errorStr);
+        Console.WriteLine($"PointTableSwitch rtn  is {rtn}" + errorStr);
+        rtn = robot.ProgramLoad("/fruser/test.lua");
+        rtn = robot.ProgramRun();
     }
