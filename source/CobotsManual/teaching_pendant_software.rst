@@ -2016,23 +2016,17 @@ Modbus命令
 
 该指令功能为基于ModbusTCP协议的总线功能，用户可以通过相关指令控制机器人与ModbusTCP client或server通讯（主站与从站通讯），对线圈，离散量，寄存器进行读写操作。
 
-modbus主站读线圈实例：
-
 .. image:: teaching_pendant_software/131.png
    :width: 6in
    :align: center
 
-modbus主站写线圈实例：
+.. centered:: 图表 3.7‑12-1 modbus指令主站界面
 
 .. image:: teaching_pendant_software/132.png
    :width: 6in
    :align: center
 
-Modbus从站读写线圈实例：
-
-.. image:: teaching_pendant_software/133.png
-   :width: 6in
-   :align: center
+.. centered:: 图表 3.7‑12-2 modbus指令从站界面
 
 关于ModbusTCP更多操作功能，前请联系我们咨询。
 
@@ -2047,7 +2041,7 @@ XML-RPC是一种通过sockets使用xml在程序之间传输数据的远程过程
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7-12-1 Xmlrpc指令界面
+.. centered:: 图表 3.7-12-3 Xmlrpc指令界面
 
 .. important:: 
   1) 控制器作为客户端连接远端自定义端口；
@@ -2308,7 +2302,7 @@ Modbus TCP设置
 
 .. centered:: 图表 3.7‑28 图形化编程页面布局整体设计
 
-**操作栏**：“加载”按钮负责workspace的重新加载，“保存”按钮功能为代码块编辑完成后保存为对应的示教程序，“清空按钮”负责快速清空代码编辑区；
+**操作栏**：“加载”按钮负责workspace的重新加载，“导入”按钮负责导入相关图形化编程程序，“导出”按钮负责导出已保存的工作区中的图形化编程程序，“保存”按钮功能为代码块编辑完成后保存为对应的示教程序，“清空按钮”负责快速清空代码编辑区；
 
 **Toolbox**：包含所有指令和逻辑代码的代码块，可以拖动到workspace创建代码块并编辑；Toolbox工具栏部分会根据指令类型进一步分类。逻辑类指令：if-else，while，print等；基础运动类指令：PTP，LIN，ARC等；依据应用场景指令分类：涂胶，焊接，传送带等。在使用的过程中可以方便地找到所需代码块。
 
