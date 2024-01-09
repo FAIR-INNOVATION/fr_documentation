@@ -830,6 +830,17 @@ I/O别名配置
 
 .. centered:: 图表 3.5‑13 smart Tool IO
 
+输出复位配置
+~~~~~~~~~~~~~~~~~~
+
+点击左侧菜单栏“初始设置”中“机器人设置”，点击“输出复位配置”子菜单进入配置界面，根据实际使用过程中是否复位的需求，配置不同输出在停止/暂停后是否需要复位。目前输出包括控制箱DO、控制箱AO、末端版DO、末端版AO、扩展DO、扩展AO和SmartTool DO。
+
+.. image:: teaching_pendant_software/out_put_reset.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.5‑14 输出复位配置
+
 
 机器人操作
 ------------
@@ -1394,6 +1405,24 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
 
 .. centered:: 图表 3.7‑5-6 N-Spiral指令界面
 
+水平螺旋命令
+++++++++++++++++
+
+点击“水平螺旋”图标进入H-Spiral命令令编辑界面
+
+“H-Spiral”指令为水平空间螺旋线运动，该指令设置于单段运动（直线）指令之后。
+
+   - 螺旋半径: 0~100mm
+   - 螺旋角速度: 0~2rev/s
+   - 旋转方向: 螺旋顺/逆时针
+   - 螺旋倾角: 0~40°
+
+.. image:: teaching_pendant_software/H-spiral.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 3.7‑5-7 H-Spiral指令界面
+
 样条命令
 ++++++++++++++++
 
@@ -1405,7 +1434,7 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑5-7 Spline指令界面
+.. centered:: 图表 3.7‑5-8 Spline指令界面
 
 新样条命令
 ++++++++++++++++
@@ -1419,7 +1448,7 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑5-8 N-Spline指令界面
+.. centered:: 图表 3.7‑5-9 N-Spline指令界面
 
 摆动命令
 ++++++++++++++++
@@ -1432,7 +1461,7 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑5-9 Weave指令界面
+.. centered:: 图表 3.7‑5-10 Weave指令界面
 
 点击“配置与测试”，可以对摆焊的参数进行配置，配置完成后可通过开始摆焊测试和停止摆焊测试按键测试该摆焊轨迹。
 
@@ -1440,7 +1469,7 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑5-10 Weave配置与测试指令界面
+.. centered:: 图表 3.7‑5-11 Weave配置与测试指令界面
 
 轨迹复现命令
 ++++++++++++++++
@@ -1461,7 +1490,7 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑5-11 TPD指令界面
+.. centered:: 图表 3.7‑5-12 TPD指令界面
 
 点偏移命令
 ++++++++++++++++
@@ -1474,7 +1503,7 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑5-12 Offset指令界面
+.. centered:: 图表 3.7‑5-13 Offset指令界面
 
 伺服命令
 ++++++++++++++++
@@ -1487,7 +1516,7 @@ ServoCart伺服控制（笛卡尔空间运动）指令，该指令可以通过�
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑5-13 ServoCart指令界面
+.. centered:: 图表 3.7‑5-14 ServoCart指令界面
 
 绝对位姿控制程序实例：
 
@@ -1512,7 +1541,7 @@ ServoCart伺服控制（笛卡尔空间运动）指令，该指令可以通过�
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑5-14 Trajctory指令界面
+.. centered:: 图表 3.7‑5-15 Trajctory指令界面
 
 轨迹J命令
 ++++++++++++++++
@@ -1533,7 +1562,7 @@ Trajctory指令和TrajctoryJ指令适用于相机直接给定轨迹的通用接�
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑5-15 TrajctoryJ指令界面
+.. centered:: 图表 3.7‑5-16 TrajctoryJ指令界面
 
 DMP命令
 ++++++++++++++++
@@ -1546,7 +1575,7 @@ DMP是一种轨迹模仿学习的方法，需要事先规划参考轨迹。在�
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑5-16 DMP指令界面
+.. centered:: 图表 3.7‑5-17 DMP指令界面
 
 工件转换命令
 ++++++++++++++++
@@ -1559,7 +1588,7 @@ DMP是一种轨迹模仿学习的方法，需要事先规划参考轨迹。在�
    :width: 6in
    :align: center
 
-.. centered:: 图表 3.7‑5-17 WPTrsf指令界面
+.. centered:: 图表 3.7‑5-18 WPTrsf指令界面
 
 控制指令界面
 ~~~~~~~~~~~~~
