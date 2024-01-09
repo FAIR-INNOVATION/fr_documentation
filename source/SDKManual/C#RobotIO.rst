@@ -316,3 +316,88 @@
         robot.GetToolAI(0, block, ref tool_ai);
         Console.WriteLine($"tool_ai0 : {tool_ai}");
     }
+    
+获取机器人软件版本
+++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /** 
+    * @brief 获取机器人软件版本信息
+    * @param [out] robotModel 机器人型号
+    * @param [out] webVersion web版本
+    * @param [out] controllerVersion 控制器版本
+    * @return 错误码 
+    */ 
+    int GetSoftwareVersion(ref string robotModel, ref string webVersion, ref string controllerVersion);
+    
+获取机器人硬件版本
+++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /** 
+    * @brief 获取机器人硬件版本信息
+    * @param [out] ctrlBoxBoardVersion 控制箱载板硬件版本
+    * @param [out] driver1Version 驱动器1硬件版本
+    * @param [out] driver1Version 驱动器2硬件版本
+    * @param [out] driver1Version 驱动器3硬件版本
+    * @param [out] driver1Version 驱动器4硬件版本
+    * @param [out] driver1Version 驱动器5硬件版本
+    * @param [out] driver1Version 驱动器6硬件版本
+    * @param [out] endBoardVersion 末端板硬件版本
+    * @return 错误码 
+    */ 
+    int GetHardwareVersion(ref string ctrlBoxBoardVersion, ref string driver1Version, ref string driver2Version, ref string driver3Version,ref string driver4Version, ref string driver5Version, ref string driver6Version, ref string endBoardVersion);
+
+获取机器人固件版本
+++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /** 
+    * @brief 获取机器人固件版本信息
+    * @param [out] ctrlBoxBoardVersion 控制箱载板固件版本
+    * @param [out] driver1Version 驱动器1固件版本
+    * @param [out] driver1Version 驱动器2固件版本
+    * @param [out] driver1Version 驱动器3固件版本
+    * @param [out] driver1Version 驱动器4固件版本
+    * @param [out] driver1Version 驱动器5固件版本
+    * @param [out] driver1Version 驱动器6固件版本
+    * @param [out] endBoardVersion 末端板固件版本
+    * @return 错误码 
+    */ 
+    int GetFirmwareVersion(ref string ctrlBoxBoardVersion, ref string driver1Version, ref string driver2Version, ref string driver3Version,ref string driver4Version, ref string driver5Version, ref string driver6Version, ref string endBoardVersion);
+
+代码示例
+++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    private void btnGetVersions_Click(object sender, EventArgs e)
+    {
+        string[] ver = new string[20];
+        int rtn = 0;
+        rtn = robot.GetSoftwareVersion(ref ver[0], ref ver[1], ref ver[2]);
+        rtn = robot.GetHardwareVersion(ref ver[3], ref ver[4], ref ver[5], ref ver[6], ref ver[7], ref ver[8], ref ver[9], ref ver[10]);
+        rtn = robot.GetFirmwareVersion(ref ver[11], ref ver[12], ref ver[13], ref ver[14], ref ver[15], ref ver[16], ref ver[17], ref ver[18]);
+        Console.WriteLine($"robotmodel  is: {ver[0]}");
+        Console.WriteLine($"webVersion  is: {ver[1]}");
+        Console.WriteLine($"controllerVersion  is: {ver[2]}");
+        Console.WriteLine($"Hard ctrlBox Version  is: {ver[3]}");
+        Console.WriteLine($"Hard driver1 Version  is: {ver[4]}");
+        Console.WriteLine($"Hard driver2 Version  is: {ver[5]}");
+        Console.WriteLine($"Hard driver3 Version  is: {ver[6]}");
+        Console.WriteLine($"Hard driver4 Version  is: {ver[7]}");
+        Console.WriteLine($"Hard driver5 Version  is: {ver[8]}");
+        Console.WriteLine($"Hard driver6 Version  is: {ver[9]}");
+        Console.WriteLine($"Hard end Version  is: {ver[10]}");
+        Console.WriteLine($"Firm ctrlBox Version  is: {ver[11]}");
+        Console.WriteLine($"Firm driver1 Version  is: {ver[12]}");
+        Console.WriteLine($"Firm driver2 Version  is: {ver[13]}");
+        Console.WriteLine($"Firm driver3 Version  is: {ver[14]}");
+        Console.WriteLine($"Firm driver4 Version  is: {ver[15]}");
+        Console.WriteLine($"Firm driver5 Version  is: {ver[16]}");
+        Console.WriteLine($"Firm driver6 Version  is: {ver[17]}");
+        Console.WriteLine($"Firm end Version  is: {ver[18]}");
+    }
