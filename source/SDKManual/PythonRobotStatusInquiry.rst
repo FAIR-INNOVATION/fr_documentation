@@ -20,7 +20,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 4
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
@@ -44,7 +43,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 8
 
     from fairino import Robot
     import time
@@ -70,7 +68,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 4
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
@@ -94,7 +91,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 4
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
@@ -118,7 +114,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 4
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
@@ -142,7 +137,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 4
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
@@ -166,7 +160,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 4
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
@@ -190,7 +183,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 4
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
@@ -214,7 +206,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 4
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
@@ -238,7 +229,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 4
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
@@ -262,7 +252,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 4
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
@@ -286,7 +275,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 4
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
@@ -310,7 +298,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 4
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
@@ -336,7 +323,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 5
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
@@ -364,7 +350,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 6
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
@@ -392,7 +377,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 6
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
@@ -418,7 +402,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 5
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
@@ -443,7 +426,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 4
 
     from fairino import Robot 
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
@@ -467,7 +449,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 4
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
@@ -491,7 +472,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 4
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
@@ -515,7 +495,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 4
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
@@ -539,7 +518,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 4
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
@@ -563,7 +541,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 4
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
@@ -587,7 +564,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 4
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
@@ -611,7 +587,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 4
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
@@ -635,7 +610,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 4
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
@@ -659,7 +633,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 4
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
@@ -683,7 +656,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 4
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
@@ -707,7 +679,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 4
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
@@ -731,7 +702,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 4
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
@@ -755,7 +725,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 4
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象

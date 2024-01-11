@@ -23,7 +23,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 9
 
     from fairino import Robot
     import time

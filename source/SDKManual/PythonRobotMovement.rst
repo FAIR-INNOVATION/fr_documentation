@@ -178,7 +178,6 @@ jog点动立即停止
 
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 13,14
 
     from fairino import Robot
     import time
@@ -449,7 +448,6 @@ jog点动立即停止
 
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 18
 
     from fairino import Robot
     import time
@@ -514,7 +512,6 @@ jog点动立即停止
 
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 8-10
 
     from fairino import Robot
     import time
@@ -689,7 +686,6 @@ jog点动立即停止
 
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 12
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象

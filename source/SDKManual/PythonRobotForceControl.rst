@@ -111,7 +111,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 4
 
     from fairino import Robot
     import time
@@ -220,7 +219,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 4
 
     import frrpc
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
@@ -244,7 +242,6 @@
 ------------
 .. code-block:: python
     :linenos:
-    :emphasize-lines: 4
 
     import frrpc
     # 与机器人控制器建立连接，连接成功返回一个机器人对象

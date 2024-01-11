@@ -59,4 +59,4 @@
 
 软件下载
 ---------------------------------
-    :download:`FAIRINO-CobotSoftware-V3.6.7-Release-231208 <https://pan.quark.cn/s/417449815b38>`
+    :download:`FAIRINO-CobotSoftware-V3.6.8-Release-240105 <https://pan.baidu.com/s/1Fc1SyOHjQwVwei1AVkNhfA?pwd=bkrz>`
