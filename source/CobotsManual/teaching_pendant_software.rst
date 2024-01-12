@@ -75,7 +75,7 @@
 
 登录界面如图表3.1‑1登录界面所示。
 
-.. figure:: teaching_pendant_software/002.png
+.. figure:: teaching_pendant_software/001.png
    :width: 6in
    :align: center
 
@@ -88,7 +88,7 @@
 
 登录成功后系统进入“初始界面”，初始界面展示了示教器主要包含法奥LOGO及返回初始页面按钮、菜单栏、菜单栏缩放按钮、机器人操作区、控制区、状态区、三维模拟机器人以及位姿及IO信息区，一共八个区域。如图表3.2‑1系统初始界面示意图所示。
 
-.. image:: teaching_pendant_software/003.png
+.. image:: teaching_pendant_software/002.png
    :align: center
    :width: 6in
 
@@ -98,7 +98,7 @@
 ~~~~~~~~~
 
 .. note:: 
-   .. image:: teaching_pendant_software/004.png
+   .. image:: teaching_pendant_software/003.png
       :width: 0.75in
       :height: 0.75in
       :align: left
@@ -108,7 +108,7 @@
    作用：使能机器人
 
 .. note:: 
-   .. image:: teaching_pendant_software/005.png
+   .. image:: teaching_pendant_software/004.png
       :width: 0.75in
       :height: 0.75in
       :align: left
@@ -118,7 +118,7 @@
    作用：上传并开始运行示教程序
 
 .. note:: 
-   .. image:: teaching_pendant_software/006.png
+   .. image:: teaching_pendant_software/005.png
       :width: 0.75in
       :height: 0.75in
       :align: left
@@ -128,7 +128,7 @@
    作用：停止当前示教程序运行
 
 .. note:: 
-   .. image:: teaching_pendant_software/007.png
+   .. image:: teaching_pendant_software/006.png
       :width: 0.75in
       :height: 0.75in
       :align: left
@@ -144,7 +144,7 @@
 ~~~~~~~~~~~~
 
 .. note:: 
-   .. image:: teaching_pendant_software/008.png
+   .. image:: teaching_pendant_software/007.png
       :width: 2.25in
       :height: 0.75in
       :align: left
@@ -154,7 +154,7 @@
    作用：Stopped-停止，Running-运行，Pause-暂停，Drag-拖动
 
 .. note:: 
-   .. image:: teaching_pendant_software/009.png
+   .. image:: teaching_pendant_software/008.png
       :width: 2.25in
       :height: 0.75in
       :align: left
@@ -164,7 +164,7 @@
    作用：展示当前应用的工具坐标系编号
    
 .. note:: 
-   .. image:: teaching_pendant_software/010.png
+   .. image:: teaching_pendant_software/009.png
       :width: 2.25in
       :height: 0.75in
       :align: left
@@ -174,7 +174,7 @@
    作用：机器人当前模式运行时速度
 
 .. note:: 
-   .. image:: teaching_pendant_software/011.png
+   .. image:: teaching_pendant_software/010.png
       :width: 2.25in
       :height: 0.75in
       :align: left
@@ -184,7 +184,7 @@
    作用：当前机器人正常运行
 
 .. note:: 
-   .. image:: teaching_pendant_software/012.png
+   .. image:: teaching_pendant_software/011.png
       :width: 2.25in
       :height: 0.75in
       :align: left
@@ -194,7 +194,7 @@
    作用：当前机器人运行有错误
 
 .. note:: 
-   .. image:: teaching_pendant_software/013.png
+   .. image:: teaching_pendant_software/012.png
       :width: 2.25in
       :height: 0.75in
       :align: left
@@ -204,7 +204,7 @@
    作用：机器人自动运行模式，开启手动切自动模式全局速度调整并指定速度时，全局速度会自动调整为指定速度
 
 .. note:: 
-   .. image:: teaching_pendant_software/014.png
+   .. image:: teaching_pendant_software/013.png
       :width: 2.25in
       :height: 0.75in
       :align: left
@@ -214,7 +214,7 @@
    作用：机器人示教运行模式
 
 .. note:: 
-   .. image:: teaching_pendant_software/015.png
+   .. image:: teaching_pendant_software/014.png
       :width: 2.25in
       :height: 0.75in
       :align: left
@@ -224,7 +224,7 @@
    作用：当前机器人可拖动
 
 .. note:: 
-   .. image:: teaching_pendant_software/016.png
+   .. image:: teaching_pendant_software/015.png
       :width: 2.25in
       :height: 0.75in
       :align: left
@@ -234,7 +234,7 @@
    作用：当前机器人不可拖动
 
 .. note:: 
-   .. image:: teaching_pendant_software/017.png
+   .. image:: teaching_pendant_software/016.png
       :width: 2.25in
       :height: 0.75in
       :align: left
@@ -244,7 +244,7 @@
    作用：机器人已连接
 
 .. note:: 
-   .. image:: teaching_pendant_software/001.png
+   .. image:: teaching_pendant_software/016.png
       :width: 2.25in
       :height: 0.75in
       :align: left
