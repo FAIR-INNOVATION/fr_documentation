@@ -1216,7 +1216,7 @@
 
 .. centered:: 图表 5.10‑5 码垛模式A配置
 
-.. figure:: robot_peripherals/059B.png
+.. figure:: robot_peripherals/070.png
    :align: center
    :width: 6in
 
