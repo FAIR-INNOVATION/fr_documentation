@@ -49,61 +49,61 @@
 未搭配示教器
 ~~~~~~~~~~~~~~~
 
--  **Step1**：打开机器人控制箱电源开关，启动机器人，等待末端LED长显绿色后，方可操作机器人如图表2.3-1。
+-  **Step1**：打开机器人控制箱电源开关，启动机器人，等待末端LED长显绿色后，方可操作机器人如图表3.3-1。
 
 .. figure:: quick_start_robot/001.png
    :align: center
    :width: 4in
 
-.. centered:: 图表 2.3-1 末端LED绿色示意图
+.. centered:: 图表 3.3-1 末端LED绿色示意图
 
--  **Step2**：长按按钮盒“按键2”，进入未搭配示教器模式，末端LED青蓝色闪烁三下，如图表2.3-2。
+-  **Step2**：长按按钮盒“按键2”，进入未搭配示教器模式，末端LED青蓝色闪烁三下，如图表3.3-2。
 
 .. figure:: quick_start_robot/002.png
    :align: center
    :width: 4in
 
-.. centered:: 图表 2.3-2 末端LED青蓝色示意图
+.. centered:: 图表 3.3-2 末端LED青蓝色示意图
 
--  **Step3**：长按按钮盒“按键1”切换机器人到拖动模式，此时末端LED为白青色，如图表2.3-3。移动机器人至任意位置，长按“按键1”退出拖动模式，短按按钮盒“按键2”记录P1点，末端LED紫色闪烁三下，如图表2.3-4。
+-  **Step3**：长按按钮盒“按键1”切换机器人到拖动模式，此时末端LED为白青色，如图表3.3-3。移动机器人至任意位置，长按“按键1”退出拖动模式，短按按钮盒“按键2”记录P1点，末端LED紫色闪烁三下，如图表3.3-4。
 
--  **Step4**：移动机器人，短按按钮盒“按键2”记录P2点，末端LED紫色闪烁三下，如图表2.3-4。
+-  **Step4**：移动机器人，短按按钮盒“按键2”记录P2点，末端LED紫色闪烁三下，如图表3.3-4。
 
 .. figure:: quick_start_robot/003.png
    :align: center
    :width: 4in
 
-.. centered:: 图表 2.3-3 末端LED白青色示意图
+.. centered:: 图表 3.3-3 末端LED白青色示意图
 
 .. figure:: quick_start_robot/004.png
    :align: center
    :width: 4in
 
-.. centered:: 图表 2.3-4 末端LED紫色示意图
+.. centered:: 图表 3.3-4 末端LED紫色示意图
 
--  **Step5**：长按按钮盒“按键1”退出拖动模式，此时为手动模式，末端LED为绿色，如图表2.3-5。短按“按键1”切换机器人到自动模式，此时末端LED为蓝色，如图表2.3-6。
+-  **Step5**：长按按钮盒“按键1”退出拖动模式，此时为手动模式，末端LED为绿色，如图表3.3-5。短按“按键1”切换机器人到自动模式，此时末端LED为蓝色，如图表3.3-6。
 
--  **Step6**：短按按钮盒“按键3”运行该程序，末端LED蓝色闪烁两下，如图表2.3-6。
+-  **Step6**：短按按钮盒“按键3”运行该程序，末端LED蓝色闪烁两下，如图表3.3-6。
 
 .. figure:: quick_start_robot/005.png
    :align: center
    :width: 4in
 
-.. centered:: 图表 2.3-5 末端LED绿色示意图
+.. centered:: 图表 3.3-5 末端LED绿色示意图
 
 .. figure:: quick_start_robot/006.png
    :align: center
    :width: 4in
 
-.. centered:: 图表 2.3-6 末端LED蓝色示意图
+.. centered:: 图表 3.3-6 末端LED蓝色示意图
 
--  **Step7**：短按按钮盒“按键3”停止运行该程序，末端LED红色闪烁三下，如图表2.3-7。
+-  **Step7**：短按按钮盒“按键3”停止运行该程序，末端LED红色闪烁三下，如图表3.3-7。
 
 .. figure:: quick_start_robot/007.png
    :align: center
    :width: 4in
 
-.. centered:: 图表 2.3-7 末端LED红色示意图
+.. centered:: 图表 3.3-7 末端LED红色示意图
 
 搭配示教器
 ~~~~~~~~~~~~~~
@@ -123,7 +123,7 @@
    :width: 4in
    :class: figure-border
 
-.. centered:: 图表 2.3-8 记录并添加点P1
+.. centered:: 图表 3.3-8 记录并添加点P1
 
 -  **Step6**：移动机器人，短按按钮盒按键2记录P2点，末端LED紫色闪烁三下，手动添加“PTP：P2”指令到程序中。
 
@@ -132,7 +132,7 @@
    :width: 4in
    :class: figure-border
 
-.. centered:: 图表 2.3-9 记录并添加点P2  
+.. centered:: 图表 3.3-9 记录并添加点P2  
 
 -  **Step7**：保存程序文件内容。
 
@@ -152,7 +152,7 @@
    :align: center
    :width: 6in
    
-.. centered:: 图表 2.4-1 示教程序运行示意图
+.. centered:: 图表 3.4-1 示教程序运行示意图
 
 .. warning:: 
    您的头和躯干不能位于机器人可接触到的范围（工作区）。请不要将您的手指放在机器人可抓住的地方。

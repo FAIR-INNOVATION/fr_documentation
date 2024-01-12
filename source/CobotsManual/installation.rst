@@ -46,7 +46,7 @@
 	:align: center
 	:class: figure-border
 
-.. centered::  图表 1.1-1 安全停止设置
+.. centered::  图表 2.1-1 安全停止设置
 
 -  **降速模式**：该模式被激活后，机械臂在关节空间中的运动速度将受到限制，相应文本框中的数值即为各关节运动速度的极限值，其中1，2，3关节的设定范围为15~150°/s，4，5，6关节的设定范围为15~180°/s；机械臂在笛卡尔空间的运动速度极限即为TCP速度限制值，设定范围为0~80mm/s。
 
@@ -81,31 +81,31 @@
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 1.1-2 FR3型号协作机器人
+.. centered:: 图表 2.1-2 FR3型号协作机器人
 
 .. figure:: installation/003.png
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 1.1-3 FR5型号协作机器人
+.. centered:: 图表 2.1-3 FR5型号协作机器人
 
 .. figure:: installation/004.png
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 1.1-4 FR10型号协作机器人
+.. centered:: 图表 2.1-4 FR10型号协作机器人
 
 .. figure:: installation/005.png
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 1.1-5 FR16型号协作机器人
+.. centered:: 图表 2.1-5 FR16型号协作机器人
 
 .. figure:: installation/006.png
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 1.1-6 FR20型号协作机器人
+.. centered:: 图表 2.1-6 FR20型号协作机器人
 
 有效性和责任
 ~~~~~~~~~~~~~~~~
@@ -195,7 +195,7 @@
 
 关节1，关节6测试机器人水平移动，旋转轴垂直于地面。关节2，关节3，关节4，关节5测试机器人遵循垂直轨迹，旋转轴平行于地面，并在机器人向下移动时停止。
 
-.. centered:: 表格 1.1-1 0类停止距离(rad)
+.. centered:: 表格 2.1-1 0类停止距离(rad)
 .. list-table::
    :widths: 10 15 15 15 15 15 15
    :header-rows: 0
@@ -249,7 +249,7 @@
      - 0.31
      - 0.22
 
-.. centered:: 表格 1.1-2 0类停止时间(ms)
+.. centered:: 表格 2.1-2 0类停止时间(ms)
 .. list-table::
    :widths: 10 15 15 15 15 15 15
    :header-rows: 0
@@ -315,7 +315,7 @@
 
 关节1，关节6测试机器人水平移动，旋转轴垂直于地面。关节2，关节3，关节4，关节5测试机器人遵循垂直轨迹，旋转轴平行于地面，并在机器人向下移动时停止。
 
-.. centered:: 表格 1.1-3 安全停止距离(rad)
+.. centered:: 表格 2.1-3 安全停止距离(rad)
 .. list-table::
    :widths: 10 15 15 15 15 15 15
    :header-rows: 0
@@ -369,7 +369,7 @@
      - 0.33
      - 0.25
 
-.. centered:: 表格 1.1-4 安全停止时间(ms)
+.. centered:: 表格 2.1-4 安全停止时间(ms)
 .. list-table::
    :widths: 10 15 15 15 15 15 15
    :header-rows: 0
@@ -423,7 +423,7 @@
      - 280
      - 200
 
-.. centered:: 表格 1.1-5 软限位停止距离(rad)
+.. centered:: 表格 2.1-5 软限位停止距离(rad)
 .. list-table::
    :widths: 10 15 15 15 15 15 15
    :header-rows: 0
@@ -477,7 +477,7 @@
      - 0.36
      - 0.27
 
-.. centered:: 表格 1.1-6 软限位停止时间(ms)
+.. centered:: 表格 2.1-6 软限位停止时间(ms)
 .. list-table::
    :widths: 10 15 15 15 15 15 15
    :header-rows: 0
@@ -610,12 +610,12 @@ FR机器人需要根据适用的国家法律法规及国家标准处置，详情
 		:width: 3in
 		:class: figure-border
 
-	.. centered:: 图表 1.5-1 避免安装在其它运动设备上
+	.. centered:: 图表 2.4-1 避免安装在其它运动设备上
 
 	确保机器人手臂正确并安全地安装到位。安装不稳定会导致事故。
 
 .. note:: 
-	可以采购精确的基座作为附件来使用。图表1.5-2、1.5-5、1.5-8、1.5-11 显示了销孔位置和螺丝安装位置。
+	可以采购精确的基座作为附件来使用。图表2.4-2、1.5-5、1.5-8、1.5-11 显示了销孔位置和螺丝安装位置。
 
 FR3机器人手臂安装要求
 ++++++++++++++++++++++++
@@ -627,7 +627,7 @@ FR3机器人手臂安装要求
 	:width: 6in
 	:class: figure-border
 
-.. centered:: 图表 1.5-2 FR3型号协作机器人安装尺寸
+.. centered:: 图表 2.4-2 FR3型号协作机器人安装尺寸
 
 .. important:: 
 	根据不同的应用场景推荐几款机器人安装底座如下：
@@ -639,7 +639,7 @@ FR3机器人手臂安装要求
 		:width: 3in
 		:class: figure-border
 
-	.. centered:: 图表 1.5-3 FR3型号协作机器人低要求安装底座
+	.. centered:: 图表 2.4-3 FR3型号协作机器人低要求安装底座
 
 	（II）针对运动速度较快，运行速度较大，精度要求较高的场合，推荐机器人安装底座如下，并将机器人固定在牢固的地面上：
 
@@ -648,7 +648,7 @@ FR3机器人手臂安装要求
 		:width: 3in
 		:class: figure-border
 
-	.. centered:: 图表 1.5-4 FR3型号协作机器人高要求安装底座
+	.. centered:: 图表 2.4-4 FR3型号协作机器人高要求安装底座
 
 FR5机器人手臂安装要求
 ++++++++++++++++++++++++++++
@@ -660,7 +660,7 @@ FR5机器人手臂安装要求
 	:width: 6in
 	:class: figure-border
 
-.. centered:: 图表 1.5-5 FR5型号协作机器人安装尺寸
+.. centered:: 图表 2.4-5 FR5型号协作机器人安装尺寸
 
 .. important:: 
 	根据不同的应用场景推荐几款机器人安装底座如下：
@@ -672,7 +672,7 @@ FR5机器人手臂安装要求
 		:width: 3in
 		:class: figure-border
 
-	.. centered:: 图表 1.5-6 FR5型号协作机器人低要求安装底座
+	.. centered:: 图表 2.4-6 FR5型号协作机器人低要求安装底座
 
 	（II）针对运动速度较快，运行速度较大，精度要求较高的场合，推荐机器人安装底座如下，并将机器人固定在牢固的地面上：
 
@@ -681,7 +681,7 @@ FR5机器人手臂安装要求
 		:width: 3in
 		:class: figure-border
 
-	.. centered:: 图表 1.5-7 FR5型号协作机器人高要求安装底座
+	.. centered:: 图表 2.4-7 FR5型号协作机器人高要求安装底座
 
 FR10、FR16机器人手臂安装要求
 +++++++++++++++++++++++++++++++
@@ -693,7 +693,7 @@ FR10、FR16机器人手臂安装要求
 	:width: 6in
 	:class: figure-border
 
-.. centered:: 图表 1.5-8 FR10、FR16型号协作机器人安装尺寸
+.. centered:: 图表 2.4-8 FR10、FR16型号协作机器人安装尺寸
 	
 .. important:: 
 	根据不同的应用场景推荐几款机器人安装底座如下：
@@ -705,7 +705,7 @@ FR10、FR16机器人手臂安装要求
 		:width: 3in
 		:class: figure-border
 
-	.. centered:: 图表 1.5-9 FR10、FR16型号协作机器人低要求安装底座
+	.. centered:: 图表 2.4-9 FR10、FR16型号协作机器人低要求安装底座
 
 	（II）针对运动速度较快，运行速度较大，精度要求较高的场合，推荐机器人安装底座如下，并将机器人固定在牢固的地面上：
 
@@ -714,7 +714,7 @@ FR10、FR16机器人手臂安装要求
 		:width: 3in
 		:class: figure-border
 
-	.. centered:: 图表 1.5-10 FR10、FR16型号协作机器人高要求安装底座
+	.. centered:: 图表 2.4-10 FR10、FR16型号协作机器人高要求安装底座
 
 FR20机器人手臂安装要求
 +++++++++++++++++++++++++++++++
@@ -726,7 +726,7 @@ FR20机器人手臂安装要求
 	:width: 6in
 	:class: figure-border
 
-.. centered:: 图表 1.5-11 FR20型号协作机器人安装尺寸
+.. centered:: 图表 2.4-11 FR20型号协作机器人安装尺寸
 
 .. important:: 
 
@@ -737,7 +737,7 @@ FR20机器人手臂安装要求
 		:width: 3in
 		:class: figure-border
 
-	.. centered:: 图表 1.5-12 FR20型号协作机器人安装底座
+	.. centered:: 图表 2.4-12 FR20型号协作机器人安装底座
 
 工具末端安装
 ~~~~~~~~~~~~~~~~
@@ -750,14 +750,14 @@ FR20机器人手臂安装要求
 	:width: 6in
 	:class: figure-border
 
-.. centered:: 图表 1.5-13 FR3/FR5/FR10/FR16型号机器人末端法兰图纸
+.. centered:: 图表 2.4-13 FR3/FR5/FR10/FR16型号机器人末端法兰图纸
 
 .. figure:: installation/031.png
 	:align: center
 	:width: 6in
 	:class: figure-border
 
-.. centered:: 图表 1.5-14 FR20型号机器人末端法兰图纸
+.. centered:: 图表 2.4-14 FR20型号机器人末端法兰图纸
 
 .. important:: 
 	- 确保工具正确并安全地安装到位。
@@ -801,31 +801,31 @@ FR20机器人手臂安装要求
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 1.5-15 FR3型号协作机器人负载曲线
+.. centered:: 图表 2.4-15 FR3型号协作机器人负载曲线
 
 .. figure:: installation/033.png
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 1.5-16 FR5型号协作机器人负载曲线
+.. centered:: 图表 2.4-16 FR5型号协作机器人负载曲线
 
 .. figure:: installation/034.png
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 1.5-17 FR10型号协作机器人负载曲线
+.. centered:: 图表 2.4-17 FR10型号协作机器人负载曲线
 
 .. figure:: installation/035.png
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 1.5-18 FR16型号协作机器人负载曲线
+.. centered:: 图表 2.4-18 FR16型号协作机器人负载曲线
 
 .. figure:: installation/036.png
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 1.5-19 FR20型号协作机器人负载曲线
+.. centered:: 图表 2.4-19 FR20型号协作机器人负载曲线
 
 
 控制连接
@@ -869,7 +869,7 @@ FR20机器人手臂安装要求
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 1.6-1 机器人接线示意图
+.. centered:: 图表 2.5-1 机器人接线示意图
 
 控制器I/O面板
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -880,13 +880,13 @@ FR20机器人手臂安装要求
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 1.6-2 控制箱电气接口示意图
+.. centered:: 图表 2.5-2 控制箱电气接口示意图
 
 .. figure:: installation/039.png
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 1.6-3 易制造控制箱电气接口示意图
+.. centered:: 图表 2.5-3 易制造控制箱电气接口示意图
 
 RJ45网络接口组
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -897,7 +897,7 @@ RJ45网络接口组
 	:align: center
 	:width: 3in
 
-.. centered:: 图表 1.6-4 网络接口组示意图
+.. centered:: 图表 2.5-4 网络接口组示意图
 
 末端板
 ~~~~~~~~~~~~~
@@ -909,7 +909,7 @@ RJ45网络接口组
 	:width: 3in
 	:class: figure-border
 
-.. centered:: 图表 1.6-5 末端版电气接口示意图
+.. centered:: 图表 2.5-5 末端版电气接口示意图
 
 接地说明
 ~~~~~~~~~~~~~~
@@ -921,7 +921,7 @@ RJ45网络接口组
 	:width: 8in
 	:class: figure-border
 
-.. centered:: 图表 1.6-6 控制箱接地示意图
+.. centered:: 图表 2.5-6 控制箱接地示意图
 
 2. 本体接地位于基座出线处的右侧位置，如如图表1.6-6所示。
 
@@ -930,7 +930,7 @@ RJ45网络接口组
 	:width: 4in
 	:class: figure-border
 
-.. centered:: 图表 1.6-7 本体接地示意图
+.. centered:: 图表 2.5-7 本体接地示意图
 
 单独使用的保护导线，截面积不应小于：
 
@@ -954,7 +954,7 @@ RJ45网络接口组
 	:align: center
 	:width: 3in
 
-.. centered:: 图表 1.6-8 电源通信示意图01
+.. centered:: 图表 2.5-8 电源通信示意图01
 
 如果负载功率较大，可以按如图1.6-8连接外部电源。
 
@@ -962,11 +962,11 @@ RJ45网络接口组
 	:align: center
 	:width: 3in
 
-.. centered:: 图表 1.6-9 电源通信示意图02
+.. centered:: 图表 2.5-9 电源通信示意图02
 
 内部和外部电源的电气规格如表格1.6-1内外部电气规格所示：
 
-.. centered:: 表格 1.6‑1 内外部电源电气规格
+.. centered:: 表格 2.5-1 内外部电源电气规格
 .. list-table::
    :widths: 30 20 10 10 10 10
    :header-rows: 0
@@ -1016,9 +1016,9 @@ RJ45网络接口组
        | V
        | A
 
-数字量I/O的电气规格如表格1.6-2数字量I/O电气规格所示：
+数字量I/O的电气规格如表格2.5-2数字量I/O电气规格所示：
 
-.. centered:: 表格 1.6‑2 数字量I/O电气规格
+.. centered:: 表格 2.5‑2 数字量I/O电气规格
 .. list-table::
    :widths: 30 20 10 10 10 10
    :header-rows: 0
@@ -1103,7 +1103,7 @@ RJ45网络接口组
 
 安全I/O包括紧急停止和安全停止。紧急停止输入仅用于紧急停止设备，安全停止输入用于各种安全相关保护设备。功能差异如表格1.6-3所示：
 
-.. centered:: 表格 1.6-3 功能差异
+.. centered:: 表格 2.5-3 功能差异
 .. list-table::
    :widths: 50 80 80
    :header-rows: 0
@@ -1149,31 +1149,31 @@ RJ45网络接口组
 以下小节给出了一些如何使用安全I/O的示例。
 
 **默认安全配置**
-机器人出厂时带有默认配置，无需任何附加安全设备即可进行操作，请参见图表1.6-9。
+机器人出厂时带有默认配置，无需任何附加安全设备即可进行操作，请参见图表2.5-9。
 
 .. figure:: installation/049.png
 	:align: center
 	:width: 3in
 
-.. centered:: 图表 1.6-10 安全防护示意图01
+.. centered:: 图表 2.5-10 安全防护示意图01
 
 **连接紧急停止按钮**
-在大多数应用中，需要使用一个或多个额外的紧急停止按钮。见图表1.6-10。
+在大多数应用中，需要使用一个或多个额外的紧急停止按钮。见图表2.5-10。
 
 .. figure:: installation/050.png
 	:align: center
 	:width: 3in
 
-.. centered:: 图表 1.6-11 安全防护示意图02
+.. centered:: 图表 2.5-11 安全防护示意图02
 
 **连接安全停止按钮**
-安全停止装置的一个例子是当门打开时机器人停止的门开关，见图表1.6-11。
+安全停止装置的一个例子是当门打开时机器人停止的门开关，见图表2.5-11。
 
 .. figure:: installation/051.png
 	:align: center
 	:width: 3in
 
-.. centered:: 图表 1.6-12 安全防护示意图03
+.. centered:: 图表 2.5-12 安全防护示意图03
 
 通用数字量I/O
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1190,7 +1190,7 @@ RJ45网络接口组
 	:align: center
 	:width: 3in
 
-.. centered:: 图表 1.6-13 通用数字量输出示意图01
+.. centered:: 图表 2.5-13 通用数字量输出示意图01
 
 从按钮进行的数字输入
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1201,7 +1201,7 @@ RJ45网络接口组
 	:align: center
 	:width: 3in
 
-.. centered:: 图表 1.6-14 通用数字量输出示意图02
+.. centered:: 图表 2.5-14 通用数字量输出示意图02
 
 与其他设备或PLC交互
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1212,12 +1212,12 @@ RJ45网络接口组
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 1.6-15 与其他设备或PLC交互示意图
+.. centered:: 图表 2.5-15 与其他设备或PLC交互示意图
 
 模拟量I/O
 ~~~~~~~~~~~~~~~~
 
-.. centered:: 表格 1.6-4 模拟量电流电压
+.. centered:: 表格 2.5-4 模拟量电流电压
 .. list-table::
    :widths: 30 20 10 10 10 10
    :header-rows: 0
@@ -1353,7 +1353,7 @@ RJ45网络接口组
 	:align: center
 	:width: 3in
 
-.. centered:: 图表 1.6-16 模拟量输出示意图
+.. centered:: 图表 2.5-16 模拟量输出示意图
 
 **使用模拟量输入**
 
@@ -1363,7 +1363,7 @@ RJ45网络接口组
 	:align: center
 	:width: 3in
 
-.. centered:: 图表 1.6-17 模拟量输入示意图
+.. centered:: 图表 2.5-17 模拟量输入示意图
 
 示教器及末端LED
 ------------------
@@ -1380,7 +1380,7 @@ RJ45网络接口组
 	:width: 6in
 	:class: figure-border
 
-.. centered:: 图表 1.7-1 第一版按钮盒
+.. centered:: 图表 2.6-1 第一版按钮盒
 
 **急停开关：**\ 当按下急停开关，机器人进入紧急停止状态。
 
@@ -1399,7 +1399,7 @@ RJ45网络接口组
 	:width: 6in
 	:class: figure-border
 
-.. centered:: 图表 1.7-2 第二版按钮盒
+.. centered:: 图表 2.6-2 第二版按钮盒
 
 **急停开关：**\ 当按下急停开关，机器人进入紧急停止状态。
 
@@ -1425,14 +1425,14 @@ FR-HMI示教器简介
 	:width: 6in
 	:class: figure-border
 
-.. centered:: 图表 1.7-3 FR-HMI示教器正面
+.. centered:: 图表 2.6-3 FR-HMI示教器正面
 
 .. figure:: installation/061.png
 	:align: center
 	:width: 6in
 	:class: figure-border
 
-.. centered:: 图表 1.7-4 FR-HMI示教器背面
+.. centered:: 图表 2.6-4 FR-HMI示教器背面
 
 **显示屏：**\ 示教器的触摸操作与显示界面。
 
@@ -1453,7 +1453,7 @@ FR-HMI示教器简介
 末端LED定义
 ~~~~~~~~~~~~~~~~~
 
-.. centered:: 表格 1.7‑1 末端LED定义表
+.. centered:: 表格 2.6‑1 末端LED定义表
 .. list-table::
    :widths: 50 50
    :header-rows: 0
