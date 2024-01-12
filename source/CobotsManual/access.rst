@@ -180,7 +180,7 @@ WebApp 访问登录
    作用：机器人已连接
 
 .. note:: 
-   .. image:: teaching_pendant_software/017-1.png
+   .. image:: teaching_pendant_software/001.png
       :width: 2.25in
       :height: 0.75in
       :align: left
