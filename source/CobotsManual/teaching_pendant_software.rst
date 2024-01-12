@@ -271,7 +271,7 @@
 .. centered:: 表格 3.2‑1 示教器菜单分栏
 
 .. list-table::
-   :widths: 110 50
+   :widths: 20 100
    :header-rows: 0
    :align: center
 

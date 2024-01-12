@@ -182,7 +182,7 @@
 ~~~~~~~~~~~~~~~
 
 .. list-table::
-   :widths: 50 80 80
+   :widths: 15 40 100
    :header-rows: 0
    :align: center
 

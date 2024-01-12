@@ -1105,7 +1105,7 @@ RJ45网络接口组
 
 .. centered:: 表格 1.6-3 功能差异
 .. list-table::
-   :widths: 100 60 60
+   :widths: 50 80 80
    :header-rows: 0
 
    * - 
