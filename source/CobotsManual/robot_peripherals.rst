@@ -45,9 +45,34 @@
 夹爪程序示教
 ~~~~~~~~~~~~~~~
 
-.. figure:: robot_peripherals/004.png
-   :align: center
-   :width: 6in
+.. list-table:: 
+   :widths: 15 40 100
+   :header-rows: 1
+
+   * - 序号
+     - 指令格式
+     - 注释
+   * - 1
+     - PTP(template2,100,-1,0)
+     - #等待夹取点
+   * - 2
+     - PTP(template1,100,-1,0)
+     - #夹取点
+   * - 3
+     - MoveGripper(1,255,255,0,1000,0)
+     - #夹爪闭合
+   * - 4
+     - PTP(template2,100, -1,0)
+     - /
+   * - 5
+     - PTP(template3,100, -1,0)
+     - #等待放件点
+   * - 6
+     - PTP(template3,100, -1,0)
+     - #放件点
+   * - 7
+     - MoveGripper(1,0,255,0,1000,0)
+     - #夹爪开启
 
 喷枪外设配置
 -------------
@@ -79,9 +104,40 @@
 喷涂程序示教
 ~~~~~~~~~~~~~~
 
-.. figure:: robot_peripherals/007.png
-   :align: center
-   :width: 6in
+.. list-table:: 
+   :widths: 15 40 100
+   :header-rows: 1
+
+   * - 序号
+     - 指令格式
+     - 注释
+   * - 1
+     - Lin(template1,100,-1,0,0)
+     - #开始喷涂点
+   * - 2
+     - SprayStart()
+     - #开始喷涂
+   * - 3
+     - Lin(template2,100,-1,0,0)
+     - #喷涂路径
+   * - 4
+     - Lin(template3,100,-1,0,0)
+     - #停止喷涂点
+   * - 5
+     - SprayStop()
+     - #停止喷涂
+   * - 6
+     - Lin(template4,100,-1,0,0)
+     - #清枪点
+   * - 7
+     - PowerCleanStart()
+     - #开始清枪
+   * - 8
+     - WaitTime(5000)
+     - #清枪时间 ms
+   * - 9
+     - PowerCleanStop()
+     - #停止清枪
 
 焊机外设配置
 -------------
@@ -237,9 +293,46 @@
 
 程序示例：
 
-.. figure:: robot_peripherals/016.png
-   :align: center
-   :width: 6in
+.. list-table:: 
+   :widths: 15 40 100
+   :header-rows: 1
+
+   * - 序号
+     - 指令格式
+     - 注释
+   * - 1
+     - LTLaserOn(2)
+     - #打开传感器
+   * - 2
+     - PTP(template1,100,-1,0)
+     - #传感器起始点
+   * - 3
+     - LTSearchStart(1,20,100,10000,2)
+     - #开始寻位
+   * - 4
+     - LTSearchStop()
+     - #停止寻位
+   * - 5
+     - Lin(seamPos,20,-1,0,0,0)
+     - #焊缝起点
+   * - 6
+     - LTTrackOn(2)
+     - #激光跟踪
+   * - 7
+     - ARCStart(0,10000)
+     - #焊机起弧
+   * - 8
+     - Lin(SeamEnd11,10-1,0,0)
+     - #焊缝终点
+   * - 9
+     - ARCEnd(0,10000)
+     - #焊机收弧
+   * - 10
+     - LTTrackOff()
+     - #传感器跟踪关闭
+   * - 11
+     - LTLaserOff()
+     - #关闭传感器
 
 激光传感器轨迹复现功能
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -254,9 +347,49 @@
 
 程序示例：
 
-.. figure:: robot_peripherals/018.png
-   :align: center
-   :width: 6in
+.. list-table:: 
+   :widths: 15 40 100
+   :header-rows: 1
+
+   * - 序号
+     - 指令格式
+     - 注释
+   * - 1
+     - PTP(template1,100,-1,0)
+     - #运动至起点
+   * - 2
+     - LaserSensorRecord(2,0,30)
+     - #传感器开始记录
+   * - 3
+     - Lin(template2,100,-1,0,0)
+     - #运动至终点
+   * - 4
+     - LaserSensorRecord(0,0,30)
+     - #停止记录
+   * - 5
+     - pos={}
+     - #初始化数组
+   * - 6
+     - pos=GetWeldTrackingRecordStartPos(0,30)
+     - #获取激光记录的起点
+   * - 7
+     - If type(pos) == “table” then
+     - #判断数据类型
+   * - 8
+     - LaserPTP(#pos,pos)
+     - #运动至激光轨迹起点
+   * - 9
+     - end
+     - /
+   * - 10
+     - LaserSensorRecord(3,0,30)
+     - #设置复现轨迹
+   * - 11
+     - MoveLTR()
+     - #开始复现轨迹
+   * - 12
+     - LaserSensorRecord(0,0,30)
+     - #结束
 
 扩展轴外设配置
 ----------------
