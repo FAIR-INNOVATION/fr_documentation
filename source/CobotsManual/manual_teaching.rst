@@ -6,7 +6,7 @@
 
 手动示教包含两种方式，一种是按住末端拖动按钮进行拖动示教，一种是在操作区进行点动。示教到目标位置后，即可保存示教点。保存示教点时，该示教点的坐标系为当前机器人应用的坐标系。在该操作区上方可以对示教点速度，加速度设置，设置数值为机器人标准速度百分比，若设置100，即标准速度的百分之百。
 
-.. image:: teaching_pendant_software/manual_teaching.png
+.. image:: teaching_pendant_software/256.png
    :width: 6in
    :align: center
 

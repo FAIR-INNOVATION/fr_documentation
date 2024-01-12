@@ -64,7 +64,7 @@
 
 本系列机器人采用TN-S单相220V交流电源供电，设备自带5米电源线，三脚插头端插入现场提供的交流220V插座，机器人电气接地。机械手控制系统的外部连线均使用可插拔可快速安装的插头进行连接。协作机器人接线面板如下图表：
 
-.. image:: teaching_pendant_software/control_box.png
+.. image:: installation/037.png
    :width: 6in
    :align: center
 

@@ -910,7 +910,7 @@ I/O别名配置
 
 点击左侧菜单栏“初始设置”中“机器人设置”，点击“I/O别名配置”子菜单进入配置界面，根据实际使用场景配置控制箱和末端IO信号的给定含义名称。配置成功后，有关IO信号内容的模块显示对应别名，模块如下：
 
-.. image:: teaching_pendant_software/io_config.png
+.. image:: teaching_pendant_software/253.png
    :width: 6in
    :align: center
 
@@ -918,13 +918,13 @@ I/O别名配置
 
 **机器人操作**：IO和TPD控制箱（CtrlBox）和末端（End）的IO信号选择框；
 
-.. image:: teaching_pendant_software/robot_operate_io.png
+.. image:: teaching_pendant_software/263.png
    :width: 6in
    :align: center
 
 .. centered:: 图表 4.5‑7 机器人操作IO
 
-.. image:: teaching_pendant_software/robot_operate_tpd.png
+.. image:: teaching_pendant_software/264.png
    :width: 6in
    :align: center
 
@@ -932,7 +932,7 @@ I/O别名配置
 
 **机器人状态**：Robot的控制箱（CtrlBox）和末端（End）的IO信号状态；
 
-.. image:: teaching_pendant_software/robot_status_io.png
+.. image:: teaching_pendant_software/265.png
    :width: 6in
    :align: center
 
@@ -940,13 +940,13 @@ I/O别名配置
 
 **示教模拟——程序示教**：“等待”、“数字IO”和“模拟IO”添加程序命令，以及选中程序命令行点击“编辑”图标，弹出框内容中IO选择框；
 
-.. image:: teaching_pendant_software/add_teach_program.png
+.. image:: teaching_pendant_software/237.png
    :width: 6in
    :align: center
 
 .. centered:: 图表 4.5‑10 程序示教添加IO
 
-.. image:: teaching_pendant_software/teach_program_edit.png
+.. image:: teaching_pendant_software/270.png
    :width: 6in
    :align: center
 
@@ -954,7 +954,7 @@ I/O别名配置
 
 **示教模拟——图形化编程**：“逻辑”和“控制”模块的IO下拉选择项；
 
-.. image:: teaching_pendant_software/graphical_io.png
+.. image:: teaching_pendant_software/249.png
    :width: 6in
    :align: center
 
@@ -962,7 +962,7 @@ I/O别名配置
 
 **辅助应用——机器人本体**：“smart Tool”中的IO键选择框；
 
-.. image:: teaching_pendant_software/smart_tool_io.png
+.. image:: teaching_pendant_software/269.png
    :width: 6in
    :align: center
 
@@ -973,7 +973,7 @@ I/O别名配置
 
 点击左侧菜单栏“初始设置”中“机器人设置”，点击“输出复位配置”子菜单进入配置界面，根据实际使用过程中是否复位的需求，配置不同输出在停止/暂停后是否需要复位。目前输出包括控制箱DO、控制箱AO、末端版DO、末端版AO、扩展DO、扩展AO和SmartTool DO。
 
-.. image:: teaching_pendant_software/out_put_reset.png
+.. image:: teaching_pendant_software/257.png
    :width: 6in
    :align: center
 
@@ -1155,11 +1155,11 @@ TPD文件删除与异常处理：
 
 点击“⇄”切换模式，可以将示教程序文本变为编辑状态，编辑状态下可以展开和收起编辑区域。
 
-.. image:: teaching_pendant_software/edit_mode_1.png
+.. image:: teaching_pendant_software/245.png
    :width: 6in
    :align: center
 
-.. image:: teaching_pendant_software/edit_mode_2.png
+.. image:: teaching_pendant_software/246.png
    :width: 6in
    :align: center
 
@@ -1167,11 +1167,11 @@ TPD文件删除与异常处理：
 
 点击“当前程序右侧内容弹出/隐藏”按钮，可以展开或隐藏局部示教点位和当前程序备份内容。右侧内容展开后，点击“局部示教点位”和“当前程序备份”图标展示相对应的内容。
 
-.. image:: teaching_pendant_software/program_right_1.png
+.. image:: teaching_pendant_software/260.png
    :width: 6in
    :align: center
 
-.. image:: teaching_pendant_software/program_right_2.png
+.. image:: teaching_pendant_software/261.png
    :width: 6in
    :align: center
 
@@ -1555,7 +1555,7 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
    - 旋转方向: 螺旋顺/逆时针
    - 螺旋倾角: 0~40°
 
-.. image:: teaching_pendant_software/H-spiral.png
+.. image:: teaching_pendant_software/250.png
    :width: 6in
    :align: center
 
@@ -2326,7 +2326,7 @@ Thread命令为辅助线程功能，用户可以定义一个辅助线程与主�
 示教程序分为加密和不加密的状态。加密级别分为一级加密和二级加密，其中一级加密保护程度最高，二级次之。
 所有示教程序在“系统设置--自定义信息”中以表格形式进行程序加密信息展示与设置。表格右侧配有加密级别说明。
 
-.. image:: teaching_pendant_software/program_encryption.png
+.. image:: teaching_pendant_software/259.png
    :width: 6in
    :align: center
 
@@ -2337,7 +2337,7 @@ Thread命令为辅助线程功能，用户可以定义一个辅助线程与主�
 程序“重命名”图标将会隐藏。
 添加指令栏和程序编辑区域都会不可见且提示已处于一级加密锁定。
 
-.. image:: teaching_pendant_software/encryption1.png
+.. image:: teaching_pendant_software/247.png
    :width: 6in
    :align: center
 
@@ -2349,7 +2349,7 @@ Thread命令为辅助线程功能，用户可以定义一个辅助线程与主�
 添加指令栏不可见且提示已处于二级加密锁定。
 程序编辑区域可正常浏览阅读程序。
 
-.. image:: teaching_pendant_software/encryption2.png
+.. image:: teaching_pendant_software/248.png
    :width: 6in
    :align: center
 
@@ -2357,7 +2357,7 @@ Thread命令为辅助线程功能，用户可以定义一个辅助线程与主�
 
 一级加密和二级加密都可以使用“导出”功能，在导入时会进行验证操作，如果存在同名程序为加密文件，则会中断导入操作并提示不可导入覆盖加密程序。
 
-.. image:: teaching_pendant_software/import.png
+.. image:: teaching_pendant_software/252.png
    :width: 6in
    :align: center
 
@@ -2370,7 +2370,7 @@ Thread命令为辅助线程功能，用户可以定义一个辅助线程与主�
 
 **新增**：点击程序文件名最右侧的“新增局部示教点”图标，进行局部示教点的添加。(局部示教点位详情记录请翻阅机器人操作中的示教点记录)
 
-.. image:: teaching_pendant_software/add_local_point.png
+.. image:: teaching_pendant_software/236.png
    :width: 6in
    :align: center
 
@@ -2378,7 +2378,7 @@ Thread命令为辅助线程功能，用户可以定义一个辅助线程与主�
 
 **删除**：点击表格序号栏选择需要删除的局部示教点后，点击局部示教点位标题右上角的“删除”图标，进行局部示教点的删除。
 
-.. image:: teaching_pendant_software/delete_local_points.png
+.. image:: teaching_pendant_software/243.png
    :width: 6in
    :align: center
 
@@ -2386,7 +2386,7 @@ Thread命令为辅助线程功能，用户可以定义一个辅助线程与主�
 
 **运行**：点击局部示教点位表格数据操作栏中的“开始运行”图标，进行局部示教点的单点运行，将机器人移动到该点的位置。
 
-.. image:: teaching_pendant_software/run_local_point.png
+.. image:: teaching_pendant_software/266.png
    :width: 6in
    :align: center
 
@@ -2394,7 +2394,7 @@ Thread命令为辅助线程功能，用户可以定义一个辅助线程与主�
 
 **详情**：点击局部示教点位表格数据操作栏中的“详情”图标，查看局部示教点的详情。
 
-.. image:: teaching_pendant_software/local_point_info.png
+.. image:: teaching_pendant_software/255.png
    :width: 6in
    :align: center
 
@@ -2406,7 +2406,7 @@ Thread命令为辅助线程功能，用户可以定义一个辅助线程与主�
 用户修改示教程序点击保存后，触发当前程序的“备份”功能(备份时间为1年)，将当前程序的初始内容进行保存展示在右侧，方便用户对比修改的内容。
 用户选择日期可以查看对应的程序备份内容，点击右上角“删除”图标可以删除当前程序备份内容。当前程序备份的内容只可查看，不可修改。
 
-.. image:: teaching_pendant_software/program_backup.png
+.. image:: teaching_pendant_software/258.png
    :width: 6in
    :align: center
 
@@ -3185,7 +3185,7 @@ Smart Tool
 
 启用安全后台程序并设置意外情况场景和后台程序，当用户开始运行程序，发生的意外情况场景与设置的意外情况匹配时，机器人会执行相对应的后台程序，起到安全防护的作用。
 
-.. image:: teaching_pendant_software/daemon.png
+.. image:: teaching_pendant_software/241.png
    :width: 6in
    :align: center
 
@@ -3363,7 +3363,7 @@ Smart Tool
 .. important:: 
    默认的职能数据（职能代号为1-6）不可以删除，不可修改职能代号，可以修改职能名称和职能描述以及设置职能的权限。
 
-.. image:: teaching_pendant_software/authority.png
+.. image:: teaching_pendant_software/239.png
    :width: 6in
    :align: center
 
@@ -3376,13 +3376,13 @@ Smart Tool
 
 .. centered:: 图表 4.10‑2 权限详情
 
-.. image:: teaching_pendant_software/authority_table.png
+.. image:: teaching_pendant_software/238.png
    :width: 6in
    :align: center
 
 -  **新增职能**：点击“新增”按钮，输入职能代号、职能名称和职能描述，点击"保存"按钮，成功后返回列表页面。其中职能代号只能为大于0的整数并且不能和已经存在的职能代号相同，输入项全部为必填。
 
-.. image:: teaching_pendant_software/add_authority.png
+.. image:: teaching_pendant_software/235.png
    :width: 6in
    :align: center
 
@@ -3390,7 +3390,7 @@ Smart Tool
 
 -  **编辑职能名称和描述**：点击表格操作栏中的“编辑”图标，可以修改当前职能的职能名称和职能描述，修改完成后点击下方"保存"按钮确认修改。
 
-.. image:: teaching_pendant_software/edit_authority.png
+.. image:: teaching_pendant_software/244.png
    :width: 6in
    :align: center
 
@@ -3398,11 +3398,11 @@ Smart Tool
 
 -  **设置职能权限**：点击表格操作栏中的“设置”图标，可以设置当前职能的权限，设置完成后点击下方"保存"按钮确实设置。
 
-.. image:: teaching_pendant_software/set_authority_1.png
+.. image:: teaching_pendant_software/267.png
    :width: 6in
    :align: center
 
-.. image:: teaching_pendant_software/set_authority_2.png
+.. image:: teaching_pendant_software/268.png
    :width: 6in
    :align: center
 
@@ -3410,7 +3410,7 @@ Smart Tool
 
 -  **删除职能**：点击表格操作栏中的“删除”图标，首先会校验当前职能是否有用户使用，没有用户使用则可以删除当前职能，反之不可以删除。
 
-.. image:: teaching_pendant_software/delete_authority.png
+.. image:: teaching_pendant_software/242.png
    :width: 6in
    :align: center
 
@@ -3419,7 +3419,7 @@ Smart Tool
 导入/导出
 ++++++++++++++++
 
-.. image:: teaching_pendant_software/import_export.png
+.. image:: teaching_pendant_software/251.png
    :width: 6in
    :align: center
 
@@ -3445,7 +3445,7 @@ Smart Tool
 
 点击二级菜单栏自定义信息，进入自定义信息界面。自定义信息功能仅限管理员可使用。该页面可以上传用户信息包、自定义机器人型号和设置示教程序加密状态。
 
-.. image:: teaching_pendant_software/customize.png
+.. image:: teaching_pendant_software/240.png
    :width: 6in
    :align: center
 

@@ -153,7 +153,7 @@
 
 .. centered:: 图表 5.3‑1 IO配置（控制器IO）
 
-.. figure:: robot_peripherals/extendedIO.png
+.. figure:: robot_peripherals/065.png
    :align: center
    :width: 3in
 
@@ -458,7 +458,7 @@
 
 **Step1**：首先对伺服驱动器参数进行配置。设置伺服驱动器编号、伺服驱动器厂商、伺服驱动器型号、伺服驱动器软件版本、编码器分辨率和机械传动比。点击“清除”按钮清空当前伺服驱动器编号的配置。配置成功后获取伺服驱动器配置列表数据。
 
-.. figure:: robot_peripherals/servo_table.png
+.. figure:: robot_peripherals/069.png
    :align: center
    :width: 3in
 
@@ -469,7 +469,7 @@
 .. important::
    设置控制模式前，若伺服已使能，请先去使能，否则设置无法生效。
 
-.. figure:: robot_peripherals/servo_debugger.png
+.. figure:: robot_peripherals/067.png
    :align: center
    :width: 3in
 
@@ -477,7 +477,7 @@
 
 **Step3**：在程序示教命令界面选择“扩展轴”命令。根据具体的程序示教需求，在相应的地方添加指令。
 
-.. figure:: robot_peripherals/servo_program.png
+.. figure:: robot_peripherals/068.png
    :align: center
    :width: 3in
 
@@ -1186,7 +1186,7 @@
 .. important:: 
    X、Y、Z为做托盘右上角或者右托盘左上角点相对于机器人基坐标系坐标值的绝对值，Angle为机器人安装时的旋转角度，推荐安装时为0。
 
-.. figure:: robot_peripherals/pallent_equipment.png
+.. figure:: robot_peripherals/066.png
    :align: center
    :width: 3in
 

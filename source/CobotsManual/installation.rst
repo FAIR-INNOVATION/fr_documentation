@@ -605,7 +605,7 @@ FR机器人需要根据适用的国家法律法规及国家标准处置，详情
 
 	（I）避免将机器人固定在其它运动设备上
 
-	.. figure:: installation/prohibit_base.png
+	.. figure:: installation/064.png
 		:align: center
 		:width: 3in
 		:class: figure-border
@@ -634,7 +634,7 @@ FR3机器人手臂安装要求
 
 	（I）针对运动速度不太快，运行速度不太大，精度要求一般，且不方便固定在地面上的场合，推荐机器人安装底座如下：
 
-	.. figure:: installation/FR3&5_base.png
+	.. figure:: installation/062.png
 		:align: center
 		:width: 3in
 		:class: figure-border
@@ -643,7 +643,7 @@ FR3机器人手臂安装要求
 
 	（II）针对运动速度较快，运行速度较大，精度要求较高的场合，推荐机器人安装底座如下，并将机器人固定在牢固的地面上：
 
-	.. figure:: installation/high_precision.png
+	.. figure:: installation/067.png
 		:align: center
 		:width: 3in
 		:class: figure-border
@@ -667,7 +667,7 @@ FR5机器人手臂安装要求
 
 	（I）针对运动速度不太快，运行速度不太大，精度要求一般，且不方便固定在地面上的场合，推荐机器人安装底座如下：
 
-	.. figure:: installation/FR3&5_base.png
+	.. figure:: installation/062.png
 		:align: center
 		:width: 3in
 		:class: figure-border
@@ -676,7 +676,7 @@ FR5机器人手臂安装要求
 
 	（II）针对运动速度较快，运行速度较大，精度要求较高的场合，推荐机器人安装底座如下，并将机器人固定在牢固的地面上：
 
-	.. figure:: installation/high_precision.png
+	.. figure:: installation/067.png
 		:align: center
 		:width: 3in
 		:class: figure-border
@@ -700,7 +700,7 @@ FR10、FR16机器人手臂安装要求
 
 	（I）针对运动速度不太快，运行速度不太大，精度要求一般，且不方便固定在地面上的场合，推荐机器人安装底座如下：
 
-	.. figure:: installation/FR10&16_base.png
+	.. figure:: installation/065.png
 		:align: center
 		:width: 3in
 		:class: figure-border
@@ -709,7 +709,7 @@ FR10、FR16机器人手臂安装要求
 
 	（II）针对运动速度较快，运行速度较大，精度要求较高的场合，推荐机器人安装底座如下，并将机器人固定在牢固的地面上：
 
-	.. figure:: installation/high_precision.png
+	.. figure:: installation/067.png
 		:align: center
 		:width: 3in
 		:class: figure-border
@@ -732,7 +732,7 @@ FR20机器人手臂安装要求
 
 	因为FR20机器人自重较大及运行惯量较大，建议直接固定在地面上使用。推荐底座如下：
 
-	.. figure:: installation/FR20_base.png
+	.. figure:: installation/066.png
 		:align: center
 		:width: 3in
 		:class: figure-border
@@ -1036,7 +1036,7 @@ RJ45网络接口组
        | [COx/DOx]
      - | 
        | 电流
-       | 降压
+       | 压降
        | 漏电流
      - | 
        | 0
@@ -1069,7 +1069,7 @@ RJ45网络接口组
      - | 
        | OFF
        | ON
-       | 电流(11~30)
+       | 电流(11~30A)
      - | 
        | -3
        | 11
@@ -1268,7 +1268,7 @@ RJ45网络接口组
        | -
      - | 
        | -
-       | 500
+       | 510
        | 12
      - | 
        | 10

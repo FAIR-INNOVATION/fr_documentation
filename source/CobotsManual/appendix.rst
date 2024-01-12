@@ -451,7 +451,7 @@
 
 **Step1：485接线**，在机器人末端处有5Pin通信航空接头，航空接头Pin脚分布及其pin脚说明如图表1所示。将机器人末端的485-A、485-B与USB转485工具的A、B使用双绞线连接。
 
-.. figure:: appendix/012.png
+.. figure:: appendix/001.png
    :align: center
    :width: 4in
 
@@ -459,7 +459,7 @@
 
 **Step2，硬件连接**，将USB转485工具的USB端与PC连接，在PC设备管理器中，如果识别到USB&485工具，会出现如下界面。
 
-.. figure:: appendix/013.png
+.. figure:: appendix/002.png
    :align: center
    :width: 6in
 
@@ -467,7 +467,7 @@
 
 **Step3：升级工具**，在完成接线后，打开“法奥串口调试助手”，点击“末端板”按钮，在“串口参数设置”功能中选择上述识别的串口，波特率115200，数据位8位，校验位无，停止位1，然后打开串口，成功之后会出现“串口打开成功”的提示。
 
-.. figure:: appendix/014.png
+.. figure:: appendix/003.png
    :align: center
    :width: 4in
 
@@ -475,7 +475,7 @@
 
 **Step4：固件升级**，选择“末端板”，点击“固件升级”，如图表所示：
 
-.. figure:: appendix/015.png
+.. figure:: appendix/004.png
    :align: center
    :width: 6in
 
@@ -485,7 +485,7 @@
 
 -  打开文件（待升级文件），选择存放的路径，如下所示，选择完成后，待升级文件名会出现在文件名显示框中。
 
-.. figure:: appendix/016.png
+.. figure:: appendix/005.png
    :align: center
    :width: 6in
 
@@ -495,7 +495,7 @@
 
 **Step5：升级验证**，系统重启上电，在“维护信息”栏，选择“查询末端板固件版本信息”，在“接收数据区”会显示固件版本信息，如果和升级的文件版本信息一致，说明升级成功，否则升级失败.
 
-.. figure:: appendix/017.png
+.. figure:: appendix/006.png
    :align: center
    :width: 6in
 
@@ -508,7 +508,7 @@
 
 其升级过程操作同末端板，软件对应选择即可，此处不在赘述。
 
-.. figure:: appendix/018.png
+.. figure:: appendix/007.png
    :align: center
    :width: 4in
 

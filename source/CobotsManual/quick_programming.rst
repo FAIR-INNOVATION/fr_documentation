@@ -8,7 +8,7 @@
 
 可以选择需要到达的点，平滑过渡时间设置可以实现该点到下一点的运动是连续的，是否偏移设置，可以选择基于基坐标系偏移和基于工具坐标偏移，并弹出x,y,z,rx,ry,rz偏移量设置，PTP具体路径为运动控制器自动规划的最优路径，点击“添加”、“应用”后可保存该条指令。
 
-.. image:: teaching_pendant_software/ptp.png
+.. image:: teaching_pendant_software/262.png
    :width: 6in
    :align: center
 
@@ -18,7 +18,7 @@
 
 该指令功能与“PTP”指令相似，但该指令所到达点的路径为直线
 
-.. image:: teaching_pendant_software/line.png
+.. image:: teaching_pendant_software/254.png
    :width: 6in
    :align: center
 
