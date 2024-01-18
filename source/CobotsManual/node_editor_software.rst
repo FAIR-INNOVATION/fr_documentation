@@ -34,47 +34,80 @@
 .. centered:: 图表 6.1-2 操作工具栏
 
 .. note:: 
+   .. image:: teaching_pendant_software/070.png
+      :width: 1.5in
+      :height: 0.75in
+      :align: left
+
    名称：**打开**
    
    作用：打开用户程序文件，在弹出框中选择加载或删除文件
 
 .. note:: 
+   .. image:: teaching_pendant_software/074.png
+      :width: 1.5in
+      :height: 0.75in
+      :align: left
 
    名称：**保存**
    
    作用：保存节点图编辑内容
 
 .. note:: 
+   .. image:: node_editor_software/131.png
+      :width: 1.5in
+      :height: 0.75in
+      :align: left
 
    名称：**重载**
    
    作用：重新加载上次操作的节点图内容到本地。
 
 .. note:: 
+   .. image:: teaching_pendant_software/071.png
+      :width: 1.5in
+      :height: 0.75in
+      :align: left
 
    名称：**新建**
    
    作用：新建节点图编程文件
 
 .. note:: 
+   .. image:: node_editor_software/130.png
+      :width: 1.5in
+      :height: 0.75in
+      :align: left
 
    名称：**初始**
    
    作用：加载初始设置的节点图内容。
 
 .. note:: 
+   .. image:: teaching_pendant_software/073.png
+      :width: 1.5in
+      :height: 0.75in
+      :align: left
 
    名称：**导出**
    
    作用：新建/打开节点图编程文件后，点击“导出”按钮弹出“导出节点图编程”弹出框，选择工作区文件名导出文件（json格式）。
 
 .. note:: 
+   .. image:: teaching_pendant_software/072.png
+      :width: 1.5in
+      :height: 0.75in
+      :align: left
 
    名称：**导入**
    
    作用：点击“导入”按钮，弹出导入提示框。选择需要导入的文件，点击导入后，文件内容展示到节点图编程工作区。
 
 .. note:: 
+   .. image:: node_editor_software/129.png
+      :width: 1.5in
+      :height: 0.75in
+      :align: left
 
    名称：**代码**
    
