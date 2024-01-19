@@ -71,7 +71,7 @@
      - 6
 
 
-用户（用户管理参考\ `4.10.2.1 用户管理 <#id125>`__\ ）默认分为六个等级，管理员无功能限制，操作员和监视员少部分功能可以使用，ME工程师、PE&PQE工程师和技术员&班组长部分功能限制，管理员无功能限制，具体默认职能代号权限参考\ `4.10.2.2 权限管理 <#id126>`__\ 。
+用户（用户管理参考\ `4.10.2.1 用户管理 <#id128>`__\ ）默认分为六个等级，管理员无功能限制，操作员和监视员少部分功能可以使用，ME工程师、PE&PQE工程师和技术员&班组长部分功能限制，管理员无功能限制，具体默认职能代号权限参考\ `4.10.2.2 权限管理 <#id129>`__\ 。
 
 登录界面如图表3.1‑1登录界面所示。
 
@@ -306,9 +306,9 @@
 操作区
 ~~~~~~~~~~
 
-IO设置可参考 4.5 控制箱I/O 中的\ `4.5.1 I/O设置 <#id25>`__\ 。
+IO设置可参考 4.5 控制箱I/O 中的\ `5.5.1 I/O设置 <#id25>`__\ 。
 
-Joint、Base等功能可参考\ `4.6 机器人操作 <#id30>`__\ 。
+Joint、Base等功能可参考\ `5.6 机器人操作 <#id31>`__\ 。
 
 三维模拟机器人
 ----------------
@@ -2283,7 +2283,7 @@ Thread命令为辅助线程功能，用户可以定义一个辅助线程与主�
 
 点击“点位表”图标进入PT-Mode命令编辑界面。
 
-该指令主要用于系统模式和点位表模式之间的模式切换，通过切换点位表来应用不同点位表内的示教点位。详情见\ `示教管理页面 <teaching_pendant_software.html#id103>`__\
+该指令主要用于系统模式和点位表模式之间的模式切换，通过切换点位表来应用不同点位表内的示教点位。详情见\ `示教管理页面 <teaching_pendant_software.html#id105>`__\
 
 .. image:: teaching_pendant_software/232.png
    :width: 6in
@@ -2514,7 +2514,7 @@ Modbus TCP设置
 
 运动类图形化编程命令
 ++++++++++++++++++++++++
-运动类图形化编程命令包含 \ `PTP <teaching_pendant_software.html#ptp>`__\、\ `Lin <teaching_pendant_software.html#lin>`__\、\ `ARC <teaching_pendant_software.html#arc>`__\ 等运动命令。
+运动类图形化编程命令包含 \ `PTP <teaching_pendant_software.html#id46>`__\、\ `Lin <teaching_pendant_software.html#id47>`__\、\ `ARC <teaching_pendant_software.html#id48>`__\ 等运动命令。
 
 .. image:: teaching_pendant_software/181.png
    :width: 6in
@@ -2524,7 +2524,7 @@ Modbus TCP设置
 
 控制类图形化编程命令
 ++++++++++++++++++++++
-控制类图形化编程命令包含\ `Wait <teaching_pendant_software.html#wait>`__\、\ `IO <teaching_pendant_software.html#io>`__\ 等控制命令。
+控制类图形化编程命令包含\ `Wait <teaching_pendant_software.html#id41>`__\、\ `IO <teaching_pendant_software.html#io>`__\ 等控制命令。
 
 .. image:: teaching_pendant_software/182.png
    :width: 6in
@@ -2534,7 +2534,7 @@ Modbus TCP设置
 
 高级类图形化编程命令
 +++++++++++++++++++++
-高级类图形化编程命令包含\ `dofile调用子程序 <teaching_pendant_software.html#dofile>`__\、\ `thread多线程 <teaching_pendant_software.html#thread>`__\、 折叠指令等高级命令。
+高级类图形化编程命令包含\ `dofile调用子程序 <teaching_pendant_software.html#id43>`__\、\ `thread多线程 <teaching_pendant_software.html#id90>`__\、 折叠指令等高级命令。
 
 .. image:: teaching_pendant_software/183.png
    :width: 6in
