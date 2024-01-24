@@ -838,9 +838,10 @@ jog点动立即停止
      * @param  [in] acc  加速度百分比，范围[0~100],暂不开放
      * @param  [in] ovl  速度缩放因子，范围[0~100]
      * @param  [in] blendR [-1.0]-运动到位(阻塞)，[0~1000.0]-平滑半径(非阻塞)，单位mm 
+     * @param  [in] lastFlag 是否为最后一个点，0-否，1-是
      * @return  错误码
      */  
-    errno_t  NewSplinePoint(JointPos *joint_pos, DescPose *desc_pos, int tool, int user, float vel, float acc, float ovl, float blendR);
+    errno_t  NewSplinePoint(JointPos *joint_pos, DescPose *desc_pos, int tool, int user, float vel, float acc, float ovl, float blendR, int lastFlag);
 
 新样条运动结束
 ++++++++++++++++++++++++++++++++++

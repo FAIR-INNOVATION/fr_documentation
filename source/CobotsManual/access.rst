@@ -170,7 +170,7 @@ WebApp 访问登录
    作用：当前机器人不可拖动
 
 .. note:: 
-   .. image:: teaching_pendant_software/016.png
+   .. image:: teaching_pendant_software/017.png
       :width: 2.25in
       :height: 0.75in
       :align: left
