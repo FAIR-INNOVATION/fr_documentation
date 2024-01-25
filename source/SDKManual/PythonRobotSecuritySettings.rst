@@ -236,3 +236,103 @@
     fcoeff = [0.5,0.5,0.5,0.5,0.5,0.5]
     error =robot.SetFrictionValue_freedom(fcoeff)
     print("设置关节摩擦力补偿系数-自由装错误码:",error)
+
+下载点位表数据库
+.. versionadded:: python sdk-v2.0.1
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``PointTableDownLoad(point_table_name, save_file_path)``"
+    "描述", "下载点位表数据库"
+    "参数", "- ``必选参数 point_table_name``：要下载的点位表名称    pointTable1.db;
+    - ``必选参数 save_file_path``:下载点位表的存储路径   C://test/;"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+代码示例
+------------
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    error = robot.PointTableDownLoad("point_table_a.db","D://Desktop/testPoint/download/")
+    print("PointTableDownLoad错误码:",error)
+ 
+上传点位表数据库
++++++++++++++++++++++++++++++++++
+.. versionadded:: python sdk-v2.0.1
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``PointTableUpLoad(point_table_file_path)``"
+    "描述", "上传点位表数据库"
+    "参数", "- ``必选参数 point_table_file_path``：上传点位表的全路径名   C://test/pointTable1.db"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+代码示例
+------------
+.. code-block:: python
+    :linenos:   
+
+    from fairino import Robot
+
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    error = robot.PointTableUpLoad("D://Desktop/testPoint/point_table_a.db")
+    print("PointTableUpLoad错误码:",error)
+
+点位表切换
++++++++++++++++++++++++++++++++++
+.. versionadded:: python sdk-v2.0.1
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``PointTableSwitch(point_table_name)``"
+    "描述", "点位表切换"
+    "参数", "- ``必选参数 point_table_name``：要切换的点位表名称   pointTable1.db,当点位表为空，即""时，表示将lua程序更新为未应用点位表的初始程序"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+代码示例
+------------
+.. code-block:: python
+    :linenos: 
+
+    from fairino import Robot
+
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    error = robot.PointTableSwitch("point_table_a.db")
+    print("PointTableSwitch:",error)
+
+点位表更新lua文件
++++++++++++++++++++++++++++++++++
+.. versionadded:: python sdk-v2.0.1
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``PointTableUpdateLua(point_table_name, lua_file_name)``"
+    "描述", "点位表更新lua文件"
+    "参数", "- ``必选参数 point_table_name``：要切换的点位表名称   pointTable1.db,当点位表为空，即""时，表示将lua程序更新为未应用点位表的初始程序
+    - ``lua_file_name``: 要更新的lua文件名称 testPointTable.lua"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+代码示例
+------------
+.. code-block:: python
+    :linenos: 
+
+    from fairino import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    error = robot.PointTableUpdateLua("point_table_a.db","testpoint.lua")
+    print("PointTableUpdateLua:",error)

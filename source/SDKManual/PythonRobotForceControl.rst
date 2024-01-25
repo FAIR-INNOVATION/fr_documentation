@@ -703,3 +703,89 @@
     error = robot.FT_Control(status,sensor_num,is_select,force_torque,gain,adj_sign, ILC_sign,max_dis,max_ang)
     print("恒力控制关闭错误码",error)
 
+负载辨识滤波初始化
+++++++++++++++++++++++++++++++++++
+.. versionadded:: python sdk-v2.0.1
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "LoadIdentifyDynFilterInit()"
+    "描述", "负载辨识滤波初始化"
+    "参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode  "
+
+代码示例
+------------
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+
+    #负载辨识滤波初始化
+    error = robot.LoadIdentifyDynFilterInit()
+    print("LoadIdentifyDynFilterInit:",error)
+    #负载辨识变量初始化
+    error = robot.LoadIdentifyDynVarInit()
+    print("LoadIdentifyDynVarInit:",error)
+
+    joint_torque= [0,0,0,0,0,0]
+    joint_pos= [0,0,0,0,0,0]
+    gain=[0,0.05,0,0,0,0,0,0.02,0,0,0,0]
+    t =10
+    error,joint_pos=robot.GetActualJointPosDegree(1)
+    joint_pos[1] = joint_pos[1]+10
+    error,joint_torque=robot.GetJointTorques(1)
+    joint_torque[1] = joint_torque[1]+2
+    #负载辨识主程序
+    error = robot.LoadIdentifyMain(joint_torque, joint_pos, t)
+    print("LoadIdentifyMain:",error)
+    #获取负载辨识结果
+    error = robot.LoadIdentifyGetResult(gain)
+    print("LoadIdentifyGetResult:",error)
+
+负载辨识变量初始化
+++++++++++++++++++++++++++++++++++
+.. versionadded:: python sdk-v2.0.1
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "LoadIdentifyDynVarInit()"
+    "描述", "负载辨识变量初始化"
+    "参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode  "
+
+负载辨识主程序
+++++++++++++++++++++++++++++++++++
+.. versionadded:: python sdk-v2.0.1
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "LoadIdentifyMain(joint_torque, joint_pos, t)"
+    "描述", "负载辨识主程序"
+    "参数", "- ``必选参数 joint_torque``： 关节扭矩 j1-j6；
+    - ``必选参数 joint_pos``：关节位置 j1-j6"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+获取负载辨识结果
+++++++++++++++++++++++++++++++++++
+.. versionadded:: python sdk-v2.0.1
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "LoadIdentifyGetResult(gain)"
+    "描述", "获取负载辨识结果"
+    "参数", "- ``必选参数 gain``"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - Return:（if success）weight 负载重量，cog 负载质心 [x,y,z]"
+

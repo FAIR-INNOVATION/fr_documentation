@@ -731,3 +731,104 @@
     robot = Robot.RPC('192.168.58.2')
     ret = robot.ComputeFileMD5("/fruser/201.lua")   #计算指定路径下文件的MD5值
     print("计算指定路径下文件的MD5值", ret)
+
+获取机器人版本信息
+++++++++++++++++++++++++++
+.. versionadded:: python sdk-v2.0.1
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetSoftwareVersion()``"
+    "描述", "获取机器人版本信息"
+    "参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - Return:（if success）robotModel, webVersion, controllerVersion"
+
+代码示例
+------------
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+
+    ret = robot.GetSoftwareVersion()
+    print("GetSoftwareVersion()：", ret)
+
+获取机器人硬件版本信息
+++++++++++++++++++++++++++
+.. versionadded:: python sdk-v2.0.1
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetSlaveHardVersion()``"
+    "描述", "获取机器人硬件版本信息"
+    "参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - Return:（if success）ctrlBoxBoardVersion, driver1Version, driver2Version , driver3Version, driver4Version, driver5Version, driver6Version, endBoardVersion"
+
+代码示例
+------------
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    ret = robot.GetSlaveHardVersion()
+    print("GetSlaveHardVersion()：", ret)
+
+获取机器人固件版本信息
+++++++++++++++++++++++++++
+.. versionadded:: python sdk-v2.0.1
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetSlaveFirmVersion()``"
+    "描述", "获取机器人固件版本信息"
+    "参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - Return:（if success）ctrlBoxBoardVersion, driver1Version, driver2Version , driver3Version, driver4Version, driver5Version, driver6Version, endBoardVersion"
+
+代码示例
+------------
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    ret = robot.GetSlaveFirmVersion()
+    print("GetSlaveFirmVersion()：", ret)
+
+获取DH补偿参数
+++++++++++++++++++++++++++
+.. versionadded:: python sdk-v2.0.1
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetDHCompensation()``"
+    "描述", "获取DH补偿参数"
+    "参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - Return:（if success）dhCompensation 机器人DH参数补偿值(mm) [cmpstD1,cmpstA2,cmpstA3,cmpstD4,cmpstD5,cmpstD6]"
+
+代码示例
+------------
+.. code-block:: python
+    :linenos:
+
+    import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    error = robot.GetDHCompensation()
+    print(error)

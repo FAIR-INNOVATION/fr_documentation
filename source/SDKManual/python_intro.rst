@@ -33,3 +33,4 @@ Python
     PythonRobotPeripherals
     PythonRobotForceControl
     PythonRobotConveyor
+    PythonRobotWeld
