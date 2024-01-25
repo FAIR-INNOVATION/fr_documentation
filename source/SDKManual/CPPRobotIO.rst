@@ -324,3 +324,62 @@
 
         return 0;
     }
+
+获取机器人软件版本
++++++++++++++++++++++++++
+
+.. versionadded:: C++SDK-v2.1.1.0
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 获取机器人软件版本
+    * @param[out]	robotModel 机器人型号
+    * @param[out]	webversion web版本
+    * @param[out]	controllerVersion 控制器版本
+    * @return 错误码
+    */
+    errno_t GetSoftwareVersion(char robotModel[64], char webVersion[64], char controllerVersion[64]);
+
+获取机器人硬件版本
++++++++++++++++++++++++++
+
+.. versionadded:: C++SDK-v2.1.1.0
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 获取机器人硬件版本
+    * @param[out] ctrlBoxBoardversion 控制箱载板硬件版本
+    * @param[out] driver1version 驱动器1硬件版本
+    * @param[out] driver2version 驱动器2硬件版本
+    * @param[out] driver3version 驱动器3硬件版本
+    * @param[out] driver4version 驱动器4硬件版本
+    * @param[out] driver5version 驱动器5硬件版本
+    * @param[out] driver6version 驱动器6硬件版本
+    * @param[out] endBoardversion 未端版硬件版本
+    */
+    errno_t GetHardwareVersion(char ctrlBoxBoardversion[128], char driver1version[128], char driver2version[128], char driver3version[128], char driver4version[128], char driver5version[128], char driver6version[128], char endBoardversion[128]);
+
+获取机器人固件版本
++++++++++++++++++++++++++
+
+.. versionadded:: C++SDK-v2.1.1.0
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 获取机器人固件版本
+    * @param[out] ctrlBoxBoardversion 控制箱载板固件版本
+    * @param[out] driver1version 驱动器1固件版本
+    * @param[out] driver2version 驱动器2固件版本
+    * @param[out] driver3version 驱动器3固件版本
+    * @param[out] driver4version 驱动器4固件版本
+    * @param[out] driver5version 驱动器5固件版本
+    * @param[out] driver6version 驱动器6固件版本
+    * @param[out] endBoardversion 未端版固件版本
+    */
+    errno_t GetFirmwareVersion(char ctrlBoxBoardversion[128], char driver1version[128], char driver2version[128], char driver3version[128], char driver4version[128], char driver5version[128], char driver6version[128], char endBoardversion[128]);

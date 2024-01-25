@@ -506,3 +506,67 @@
         flag = 0;
         robot.FT_Control(flag, sensor_id, select, ft, ft_pid, adj_sign, ILC_sign, max_dis, max_ang);
     }
+
+
+
+负载辨识初始化
++++++++++++++++++++++++++++++++++++++++++++++
+
+.. versionadded:: C#SDK-v1.0.4
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 负载辨识初始化
+    * @return 错误码
+    */
+    int LoadIdentifyDynFilterInit();
+
+负载辨识变量初始化
++++++++++++++++++++++++++++++++++++++++++++++
+
+.. versionadded:: C#SDK-v1.0.4
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 负载辨识变量初始化
+    * @return 错误码
+    */
+    int LoadIdentifyDynVarInit();
+
+负载辨识主程序
++++++++++++++++++++++++++++++++++++++++++++++
+
+.. versionadded:: C#SDK-v1.0.4
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 负载辨识主程序
+    * @param [in] joint_torque 关节扭矩
+    * @param [in] joint_pos 关节位置
+    * @param [in] t 采样周期
+    * @return 错误码
+    */
+    int LoadIdentifyMain(double[] joint_torque, double[] joint_pos, double t);
+
+获取负载辨识结果
++++++++++++++++++++++++++++++++++++++++++++++
+
+.. versionadded:: C#SDK-v1.0.4
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 获取负载辨识结果
+    * @param [in] gain
+    * @param [out] weight 负载重量
+    * @param [out] cog 负载质心
+    * @return 错误码
+    */
+    int LoadIdentifyGetResult(double[] gain, ref double weight, ref DescTran cog);

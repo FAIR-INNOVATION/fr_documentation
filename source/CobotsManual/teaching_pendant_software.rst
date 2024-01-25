@@ -3020,15 +3020,37 @@ Smart Tool
 
 依次配置A-E键位和IO键。Smart Tool配置完成后，任务管理器内部维护每个按钮对应的功能，当检测到某按钮被按下时，自动执行该按钮对应功能项。
 
+A-E键位功能：
+
 -  **运动指令**：选择PTP、LIN、ARC运动指令时，需要输入对应点速度。配置成功后，示教程序新增一条相关运动指令。配置ARC运动指令时，需先配置PTP/LIN指令。
   
--  **DO输出**：选择“DO输出”时，显示下拉框可选择输出DO0 - DO7选项。
-  
+-  **DO输出**：选择“DO输出”时，显示下拉框可选择输出DO0⁓DO7选项。
+
 .. image:: teaching_pendant_software/229.png
    :width: 3in
    :align: center
 
-.. centered:: 图表 4.9‑21 Smart Tool配置
+.. centered:: 图表 4.9‑21 Smart Tool配置（A-E键位）
+
+IO键位功能：
+
+-  **IO信号配置**：下拉框可选择DO0⁓DO7选项、CO0⁓CO7选项、End-DO0、End-DO1和扩展IO（Aux-DO0⁓Aux-DO127）；
+
+-  **组合指令**：选择“IO信号”后，特定条件下显示“焊机选择”和“点速度”配置项，生成不同程序指令。
+
+.. important::
+   -  当IO信号配置为DO0~DO7或CO0~CO7（未配置"起弧"）时，程序添加SetDO；配置为End-DO0、End-DO1时，程序添加SetToolDO；配置为扩展IO（未配置"焊机起弧"）时，程序添加SetAuxDO；此时隐藏“焊接选择”和“点速度”。
+   -  当IO信号配置为CO0~CO7（配置"起弧"）时，"焊机选择"为"无"时，程序添加SetDO；配置项为扩展IO（配置""焊机起弧"）时，"焊机选择"为"无"时，程序添加SetAuxDO；此时隐藏“焊接选择”和“点速度”。
+   -  当IO信号配置为CO0~CO7（配置"起弧"）或扩展IO（配置"焊机起弧"）时，"焊机选择"为"焊接"时，首次按下程序添加ARCStart，第二次程序添加ARCEnd，第三次程序添加ArcStart,第四次程序添加ARCStart,交替往复以上操作；此时隐藏“焊接选择”和“点速度”。
+   -  当IO信号配置为CO0~CO7（配置"起弧"）或扩展IO（配置"焊机起弧"）时，"焊机选择"为"LIN+焊接"时，首次按下程序添加LIN和ARCStart，第二次程序添加LIN和ARCEnd，第三次程序添加LIN和ARCStart,第四次程序添加LIN和ARCEnd,交替往复以上操作；此时显示“焊接选择”和“点速度”。
+   -  当IO信号配置为CO0~CO7（配置"起弧"）或扩展IO（配置"焊机起弧"）时，"焊机选择"为"LIN+焊接+摆动"时，首次按下程序添加LIN、ARCStart和WeaveStart，第二次程序添加LIN、ARCEnd和WeaveEnd，第三次程序添加LIN、ARCStart和WeaveStart,第四次程序添加LIN、ARCEnd和WeaveEnd,交替往复以上操作；此时隐藏“焊接选择”和“点速度”。
+
+  
+.. image:: teaching_pendant_software/271.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.9‑22 Smart Tool配置（IO键位）
 
 焊接专家库
 ~~~~~~~~~~~~~~~
@@ -3043,7 +3065,7 @@ Smart Tool
    :width: 3in
    :align: center
 
-.. centered:: 图表 4.9‑22 扩展轴配置
+.. centered:: 图表 4.9‑23 扩展轴配置
 
 步骤二，标定起点，起点安全点，终点，终点安全点。若第一步选择了扩展轴，会加载扩展轴移动功能，配合相关点的标定。
 
@@ -3051,7 +3073,7 @@ Smart Tool
    :width: 3in
    :align: center
 
-.. centered:: 图表 4.9‑23 标定相关点
+.. centered:: 图表 4.9‑24 标定相关点
 
 步骤三，选择是否需要激光，如果是的话，需要编辑激光寻位指令的参数。
 
@@ -3059,7 +3081,7 @@ Smart Tool
    :width: 3in
    :align: center
 
-.. centered:: 图表 4.9‑24 激光寻位配置
+.. centered:: 图表 4.9‑25 激光寻位配置
 
 步骤四，选择是否需要摆焊，如果需要摆焊，需要编辑摆焊相关参数。
 
@@ -3067,7 +3089,7 @@ Smart Tool
    :width: 3in
    :align: center
 
-.. centered:: 图表 4.9‑25 摆焊配置
+.. centered:: 图表 4.9‑26 摆焊配置
 
 步骤五，给程序命名，并在程序示教界面中自动打开该程序。
 
@@ -3075,7 +3097,7 @@ Smart Tool
    :width: 3in
    :align: center
 
-.. centered:: 图表 4.9‑26 保存程序
+.. centered:: 图表 4.9‑27 保存程序
 
 点击“焊件形状”下的“圆弧焊”，进入圆弧焊指导界面。在各项机器人基础设置配置完成的基础上，我们可以通过两个简单的步骤快速生成焊接示教程序。主要包含以下两个步骤。
 
@@ -3085,7 +3107,7 @@ Smart Tool
    :width: 3in
    :align: center
 
-.. centered:: 图表 4.9‑27 标定点
+.. centered:: 图表 4.9‑28 标定点
 
 步骤二，给程序命名，并在程序示教界面中自动打开该程序。
 
@@ -3093,7 +3115,7 @@ Smart Tool
    :width: 3in
    :align: center
 
-.. centered:: 图表 4.9‑28 保存程序
+.. centered:: 图表 4.9‑29 保存程序
 
 点击“焊件形状”下的“多层多道焊”，进入多层多道焊指导界面。在各项机器人基础设置配置完成的基础上，我们可以通过四个简单的步骤快速生成焊接示教程序。主要包含以下五个步骤。
 
@@ -3103,7 +3125,7 @@ Smart Tool
    :width: 3in
    :align: center
 
-.. centered:: 图表 4.9‑29 第一组点设置
+.. centered:: 图表 4.9‑30 第一组点设置
 
 步骤二，第二组点设置，可以设置路径点的类型，支持直线和圆弧路径，包括焊接点，X+点和Z+点。
 
@@ -3111,7 +3133,7 @@ Smart Tool
    :width: 3in
    :align: center
 
-.. centered:: 图表 4.9‑30 第二组点设置
+.. centered:: 图表 4.9‑31 第二组点设置
 
 步骤三，所有组点设置完成后，点击“完成”进入各个焊道偏移量设置功能页面，依次设置所需焊道的偏移量，界面如下图所示。
 
@@ -3119,7 +3141,7 @@ Smart Tool
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.9‑31 焊道偏移量设置
+.. centered:: 图表 4.9‑32 焊道偏移量设置
 
 步骤四，当所需设置焊道参数都设置完成后，点击“完成”跳转到程序生成页面，输入文件名，即可生成该多层多道焊程序，之后用户可在程序示教中打开该程序，进行调试，界面如下图所示。
 
@@ -3127,7 +3149,7 @@ Smart Tool
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.9‑32 保存程序
+.. centered:: 图表 4.9‑33 保存程序
 
 安全速度设置
 ~~~~~~~~~~~~~~~~
@@ -3144,7 +3166,7 @@ Smart Tool
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.9‑33 缩减模式配置
+.. centered:: 图表 4.9‑34 缩减模式配置
 
 力传感器辅助拖动功能设置
 ~~~~~~~~~~~~~~~~~~~~~~~~~

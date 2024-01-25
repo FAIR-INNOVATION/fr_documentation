@@ -30,4 +30,5 @@ C#
     C#RobotWebAPPProgramUse
     C#RobotPeripherals
     C#RobotForceControl
+    C#RobotWelding
     C#RobotOther
