@@ -3044,7 +3044,7 @@ IO键位功能：
    -  当IO信号配置为CO0~CO7（配置"起弧"）或扩展IO（配置"焊机起弧"）时，"焊机选择"为"LIN+焊接+摆动"时，首次按下程序添加LIN、ARCStart和WeaveStart，第二次程序添加LIN、ARCEnd和WeaveEnd，第三次程序添加LIN、ARCStart和WeaveStart,第四次程序添加LIN、ARCEnd和WeaveEnd,交替往复以上操作；此时隐藏“焊接选择”和“点速度”。
 
   
-.. image:: teaching_pendant_software/271.png
+.. image:: teaching_pendant_software/272.png
    :width: 6in
    :align: center
 
