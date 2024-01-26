@@ -13,9 +13,10 @@
 
     "原型", "``SetAnticollision (mode,level,config)``"
     "描述", "设置碰撞等级"
-    "参数", "- ``必选参数 mode``:0-等级，1-百分比；
-    - ``必选参数 level=[j1,j2,j3,j4,j5,j6]``:碰撞阈值；
-    - ``必选参数 config``:0-不更新配置文件，1-更新配置文件"
+    "必选参数", "- ``mode``:0-等级，1-百分比；
+    - ``level=[j1,j2,j3,j4,j5,j6]``:碰撞阈值；
+    - ``config``:0-不更新配置文件，1-更新配置文件"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
 代码示例
@@ -41,7 +42,8 @@
 
     "原型", "``SetCollisionStrategy (strategy)``"
     "描述", "设置碰撞后策略"
-    "参数", "- ``必选参数 strategy``：0-报错暂停，1-继续运行"
+    "必选参数", "- ``strategy``：0-报错暂停，1-继续运行"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
 代码示例
@@ -63,7 +65,8 @@
 
     "原型", "``SetLimitPositive(p_limit)``"
     "描述", "设置正限位"
-    "参数", "- ``必选参数 p_limit=[j1,j2,j3,j4,j5,j6]``：六个关节位置"
+    "必选参数", "- ``p_limit=[j1,j2,j3,j4,j5,j6]``：六个关节位置"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
 代码示例
@@ -86,7 +89,8 @@
 
     "原型", "``SetLimitNegative(n_limit)``"
     "描述", "设置负限位"
-    "参数", "- ``必选参数 n_limit=[j1,j2,j3,j4,j5,j6]``：六个关节位置"
+    "必选参数", "- ``n_limit=[j1,j2,j3,j4,j5,j6]``：六个关节位置"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
 代码示例
@@ -109,7 +113,8 @@
 
     "原型", "``ResetAllError()``"
     "描述", "错误状态清除，只能清除可复位的错误"
-    "参数", "无"
+    "必选参数", "无"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
 代码示例
@@ -131,7 +136,8 @@
 
     "原型", "``FrictionCompensationOnOff(state)``"
     "描述", "关节摩擦力补偿开关"
-    "参数", "- ``必选参数 state``：0-关，1-开"
+    "必选参数", "- ``state``：0-关，1-开"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
 代码示例
@@ -153,7 +159,8 @@
 
     "原型", "``SetFrictionValue_level(coeff)``"
     "描述", "设置关节摩擦力补偿系数-固定安装-正装"
-    "参数", "- ``必选参数 coeff=[j1,j2,j3,j4,j5,j6]``：六个关节补偿系数"
+    "必选参数", "- ``coeff=[j1,j2,j3,j4,j5,j6]``：六个关节补偿系数"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
 代码示例
@@ -176,7 +183,8 @@
 
     "原型", "``SetFrictionValue_wall(coeff)``"
     "描述", "设置关节摩擦力补偿系数-固定安装-侧装"
-    "参数", "- ``必选参数 coeff=[j1,j2,j3,j4,j5,j6]``：六个关节补偿系数"
+    "必选参数", "- ``coeff=[j1,j2,j3,j4,j5,j6]``：六个关节补偿系数"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
 代码示例
@@ -199,7 +207,8 @@
 
     "原型", "``SetFrictionValue_ceiling(coeff)``"
     "描述", "设置关节摩擦力补偿系数-固定安装-倒装"
-    "参数", "- ``必选参数 coeff=[j1,j2,j3,j4,j5,j6]``：六个关节补偿系数"
+    "必选参数", "- ``coeff=[j1,j2,j3,j4,j5,j6]``：六个关节补偿系数"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
 代码示例
@@ -222,7 +231,8 @@
 
     "原型", "``SetFrictionValue_freedom(coeff)``"
     "描述", "设置关节摩擦力补偿系数-自由安装"
-    "参数", "- ``必选参数 coeff=[j1,j2,j3,j4,j5,j6]``：六个关节补偿系数"
+    "必选参数", "- ``coeff=[j1,j2,j3,j4,j5,j6]``：六个关节补偿系数"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
 代码示例
@@ -246,8 +256,9 @@
 
     "原型", "``PointTableDownLoad(point_table_name, save_file_path)``"
     "描述", "下载点位表数据库"
-    "参数", "- ``必选参数 point_table_name``：要下载的点位表名称    pointTable1.db;
-    - ``必选参数 save_file_path``:下载点位表的存储路径   C://test/;"
+    "必选参数", "- ``point_table_name``：要下载的点位表名称    pointTable1.db;
+    - ``save_file_path``:下载点位表的存储路径   C://test/;"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
 代码示例
@@ -272,7 +283,8 @@
 
     "原型", "``PointTableUpLoad(point_table_file_path)``"
     "描述", "上传点位表数据库"
-    "参数", "- ``必选参数 point_table_file_path``：上传点位表的全路径名   C://test/pointTable1.db"
+    "必选参数", "- ``point_table_file_path``：上传点位表的全路径名   C://test/pointTable1.db"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
 代码示例
@@ -297,7 +309,8 @@
 
     "原型", "``PointTableSwitch(point_table_name)``"
     "描述", "点位表切换"
-    "参数", "- ``必选参数 point_table_name``：要切换的点位表名称   pointTable1.db,当点位表为空，即""时，表示将lua程序更新为未应用点位表的初始程序"
+    "必选参数", "- ``point_table_name``：要切换的点位表名称   pointTable1.db,当点位表为空，即""时，表示将lua程序更新为未应用点位表的初始程序"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
 代码示例
@@ -322,8 +335,9 @@
 
     "原型", "``PointTableUpdateLua(point_table_name, lua_file_name)``"
     "描述", "点位表更新lua文件"
-    "参数", "- ``必选参数 point_table_name``：要切换的点位表名称   pointTable1.db,当点位表为空，即""时，表示将lua程序更新为未应用点位表的初始程序
+    "必选参数", "- ``point_table_name``：要切换的点位表名称   pointTable1.db,当点位表为空，即""时，表示将lua程序更新为未应用点位表的初始程序
     - ``lua_file_name``: 要更新的lua文件名称 testPointTable.lua"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
 代码示例

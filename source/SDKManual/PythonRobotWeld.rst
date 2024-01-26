@@ -14,9 +14,10 @@
 
     "原型", "ARCStart(ioType, arcNum, timeout)"
     "描述", "焊接开始"
-    "参数", "- ``必选参数 ioType``：io类型 0-控制器IO； 1-扩展IO
-    - ``必选参数 arcNum``： 焊机配置文件编号
-    - ``必选参数 timeout``： 起弧超时时间"
+    "必选参数", "- ``ioType``：io类型 0-控制器IO； 1-扩展IO
+    - ``arcNum``： 焊机配置文件编号
+    - ``timeout``： 起弧超时时间"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
 代码示例
@@ -47,9 +48,10 @@
 
     "原型", "ARCEnd(ioType, arcNum, timeout)"
     "描述", "焊接结束"
-    "参数", "- ``必选参数 ioType``： 类型 0-控制器IO； 1-扩展IO
-    - ``必选参数 arcNum``： 焊机配置文件编号
-    - ``必选参数 timeout``： 起弧超时时间"
+    "必选参数", "- ``ioType``： 类型 0-控制器IO； 1-扩展IO
+    - ``arcNum``： 焊机配置文件编号
+    - ``timeout``： 起弧超时时间"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
 代码示例
@@ -80,10 +82,11 @@
 
     "原型", "WeldingSetCurrentRelation(currentMin, currentMax, outputVoltageMin, outputVoltageMax)"
     "描述", "设置焊接电流与输出模拟量对应关系"
-    "参数", "- ``必选参数 currentMin``： 焊接电流-模拟量输出线性关系左侧点电流值(A)
-    - ``必选参数 currentMax``：  焊接电流-模拟量输出线性关系右侧点电流值(A)
-    - ``必选参数 outputVoltageMin``： 焊接电流-模拟量输出线性关系左侧点模拟量输出电压值(V)
-    - ``必选参数 outputVoltageMax``：焊接电流-模拟量输出线性关系右侧点模拟量输出电压值(V)"
+    "必选参数", "- ``currentMin``： 焊接电流-模拟量输出线性关系左侧点电流值(A)
+    - ``currentMax``：  焊接电流-模拟量输出线性关系右侧点电流值(A)
+    - ``outputVoltageMin``： 焊接电流-模拟量输出线性关系左侧点模拟量输出电压值(V)
+    - ``outputVoltageMax``：焊接电流-模拟量输出线性关系右侧点模拟量输出电压值(V)"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
 代码示例
@@ -135,10 +138,11 @@
 
     "原型", "WeldingSetVoltageRelation(weldVoltageMin, weldVoltageMax, outputVoltageMin, outputVoltageMax)"
     "描述", "设置焊接电压与输出模拟量对应关系"
-    "参数", "- ``必选参数 weldVoltageMin``： 焊接电压-模拟量输出线性关系左侧点焊接电压值(A)
-    - ``必选参数 weldVoltageMax``：  焊接电压-模拟量输出线性关系右侧点焊接电压值(A)
-    - ``必选参数 outputVoltageMin``： 焊接电压-模拟量输出线性关系左侧点模拟量输出电压值(V)
-    - ``必选参数 outputVoltageMax``：焊接电压-模拟量输出线性关系右侧点模拟量输出电压值(V)"
+    "必选参数", "- ``weldVoltageMin``： 焊接电压-模拟量输出线性关系左侧点焊接电压值(A)
+    - ``weldVoltageMax``：  焊接电压-模拟量输出线性关系右侧点焊接电压值(A)
+    - ``outputVoltageMin``： 焊接电压-模拟量输出线性关系左侧点模拟量输出电压值(V)
+    - ``outputVoltageMax``：焊接电压-模拟量输出线性关系右侧点模拟量输出电压值(V)"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
 获取焊接电流与输出模拟量对应关系
@@ -151,7 +155,8 @@
 
     "原型", "WeldingGetCurrentRelation()"
     "描述", "获取焊接电流与输出模拟量对应关系"
-    "参数", "无"
+    "必选参数", "无"
+    "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode
     - Return:（if success）currentMin，currentMax，outputVoltageMin，outputVoltageMax
     - currentMin 焊接电流-模拟量输出线性关系左侧点电流值(A)
@@ -169,7 +174,8 @@
 
     "原型", "WeldingGetVoltageRelation()"
     "描述", "获取焊接电压与输出模拟量对应关系"
-    "参数", "无"
+    "必选参数", "无"
+    "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode
     - Return:（if success）weldVoltageMin,weldVoltageMax,outputVoltageMin, outputVoltageMax, weldVoltageMin 
     - weldVoltageMin 焊接电压-模拟输出线性关系左点焊电压值(V)
@@ -187,9 +193,10 @@
 
     "原型", "WeldingSetCurrent(ioType,current, AOIndex)"
     "描述", "设置焊接电流"
-    "参数", "- ``必选参数 ioType``： 类型 0-控制器IO； 1-扩展IO
-    - ``必选参数 current``： 焊接电流值(A)
-    - ``必选参数 AOIndex``： 焊接电流控制箱模拟量输出端口(0-1)"
+    "必选参数", "- ``ioType``： 类型 0-控制器IO； 1-扩展IO
+    - ``current``： 焊接电流值(A)
+    - ``AOIndex``： 焊接电流控制箱模拟量输出端口(0-1)"
+    "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode"
 
 设置焊接电压
@@ -202,9 +209,10 @@
 
     "原型", "WeldingSetVoltage(ioType,voltage, AOIndex)"
     "描述", "设置焊接电压"
-    "参数", "- ``必选参数 ioType``： 类型 0-控制器IO； 1-扩展IO
-    - ``必选参数 voltage``： 焊接电压值(V)
-    - ``必选参数 AOIndex``： 焊接电流控制箱模拟量输出端口(0-1)"
+    "必选参数", "- ``ioType``： 类型 0-控制器IO； 1-扩展IO
+    - ``voltage``： 焊接电压值(V)
+    - ``AOIndex``： 焊接电流控制箱模拟量输出端口(0-1)"
+    "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode"
 
 设置摆动参数
@@ -217,15 +225,16 @@
 
     "原型", "WeaveSetPara(weaveNum, weaveType, weaveFrequency, weaveIncStayTime, weaveRange, weaveLeftStayTime, weaveRightStayTime, weaveCircleRadio, weaveStationary)"
     "描述", "设置摆动参数"
-    "参数", "- ``必选参数 weaveNum``： 摆焊参数配置编号
-    - ``必选参数 weaveType``： 摆动类型 0-平面三角波摆动；1-垂直L型三角波摆动；2-顺时针圆形摆动；3-逆时针圆形摆动；4-平面正弦波摆动；5-垂直L型正弦波摆动；6-垂直三角波摆动；7-垂直正弦波摆动
-    - ``必选参数 weaveFrequency``： 摆动频率(Hz)
-    - ``必选参数 weaveIncStayTime``： 等待模式 0-周期不包含等待时间；1-周期包含等待时间必选参数
-    - ``必选参数 weaveRange``： 摆动幅度(mm)
-    - ``必选参数 weaveLeftStayTime``： 摆动左停留时间(ms)
-    - ``必选参数 weaveRightStayTime``：  摆动右停留时间(ms)
-    - ``必选参数 weaveCircleRadio``： 圆形摆动-回调比率(0-100%)
-    - ``必选参数 weaveStationary``： 摆动位置等待，0-等待时间内位置继续移动；1-等待时间内位置静止"
+    "必选参数", "- ``weaveNum``： 摆焊参数配置编号
+    - ``weaveType``： 摆动类型 0-平面三角波摆动；1-垂直L型三角波摆动；2-顺时针圆形摆动；3-逆时针圆形摆动；4-平面正弦波摆动；5-垂直L型正弦波摆动；6-垂直三角波摆动；7-垂直正弦波摆动
+    - ``weaveFrequency``： 摆动频率(Hz)
+    - ``weaveIncStayTime``： 等待模式 0-周期不包含等待时间；1-周期包含等待时间必选参数
+    - ``weaveRange``： 摆动幅度(mm)
+    - ``weaveLeftStayTime``： 摆动左停留时间(ms)
+    - ``weaveRightStayTime``：  摆动右停留时间(ms)
+    - ``weaveCircleRadio``： 圆形摆动-回调比率(0-100%)
+    - ``weaveStationary``： 摆动位置等待，0-等待时间内位置继续移动；1-等待时间内位置静止"
+    "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode"
 
 代码示例
@@ -280,15 +289,16 @@
 
     "原型", "WeaveOnlineSetPara (weaveNum, weaveType, weaveFrequency, weaveIncStayTime, weaveRange, weaveLeftStayTime, weaveRightStayTime, weaveCircleRadio, weaveStationary)"
     "描述", "即时设置摆动参数"
-    "参数", "- ``必选参数 weaveNum``： 摆焊参数配置编号
-    - ``必选参数 weaveType``： 摆动类型 0-平面三角波摆动；1-垂直L型三角波摆动；2-顺时针圆形摆动；3-逆时针圆形摆动；4-平面正弦波摆动；5-垂直L型正弦波摆动；6-垂直三角波摆动；7-垂直正弦波摆动
-    - ``必选参数 weaveFrequency``： 摆动频率(Hz)
-    - ``必选参数 weaveIncStayTime``： 等待模式 0-周期不包含等待时间；1-周期包含等待时间必选参数
-    - ``必选参数 weaveRange``： 摆动幅度(mm)
-    - ``必选参数 weaveLeftStayTime``： 摆动左停留时间(ms)
-    - ``必选参数 weaveRightStayTime``：  摆动右停留时间(ms)
-    - ``必选参数 weaveCircleRadio``： 圆形摆动-回调比率(0-100%)
-    - ``必选参数 weaveStationary``： 摆动位置等待，0-等待时间内位置继续移动；1-等待时间内位置静止"
+    "必选参数", "- ``weaveNum``： 摆焊参数配置编号
+    - ``weaveType``： 摆动类型 0-平面三角波摆动；1-垂直L型三角波摆动；2-顺时针圆形摆动；3-逆时针圆形摆动；4-平面正弦波摆动；5-垂直L型正弦波摆动；6-垂直三角波摆动；7-垂直正弦波摆动
+    - ``weaveFrequency``： 摆动频率(Hz)
+    - ``weaveIncStayTime``： 等待模式 0-周期不包含等待时间；1-周期包含等待时间必选参数
+    - ``weaveRange``： 摆动幅度(mm)
+    - ``weaveLeftStayTime``： 摆动左停留时间(ms)
+    - ``weaveRightStayTime``：  摆动右停留时间(ms)
+    - ``weaveCircleRadio``： 圆形摆动-回调比率(0-100%)
+    - ``weaveStationary``： 摆动位置等待，0-等待时间内位置继续移动；1-等待时间内位置静止"
+    "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode"
 
 摆动开始
@@ -301,7 +311,8 @@
 
     "原型", "WeaveStart(weaveNum)"
     "描述", "摆动开始"
-    "参数", "- ``必选参数 weaveNum``： 类型 0-控制器IO； 1-扩展IO"
+    "必选参数", "- ``weaveNum``： 类型 0-控制器IO； 1-扩展IO"
+    "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode"
 
 摆动结束
@@ -314,7 +325,8 @@
 
     "原型", "WeaveEnd(weaveNum)"
     "描述", "摆动结束"
-    "参数", "- ``必选参数 weaveNum``： 摆焊参数配置编号"
+    "必选参数", "- ``weaveNum``： 摆焊参数配置编号"
+    "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode"
 
 正向送丝
@@ -327,8 +339,9 @@
 
     "原型", "SetForwardWireFeed(ioType, wireFeed)"
     "描述", "正向送丝"
-    "参数", "- ``必选参数 ioType``： 0-控制器IO；1-扩展IO
-    - ``必选参数 wireFeed``： 送丝控制  0-停止送丝；1-送丝"
+    "必选参数", "- ``ioType``： 0-控制器IO；1-扩展IO
+    - ``wireFeed``： 送丝控制  0-停止送丝；1-送丝"
+    "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode"
 
 代码示例
@@ -378,8 +391,9 @@
 
     "原型", "SetReverseWireFeed(ioType, wireFeed)"
     "描述", "反向送丝"
-    "参数", "- ``必选参数 ioType``： 0-控制器IO；1-扩展IO
-    - ``必选参数 wireFeed``： 送丝控制  0-停止送丝；1-送丝"
+    "必选参数", "- ``ioType``： 0-控制器IO；1-扩展IO
+    - ``wireFeed``： 送丝控制  0-停止送丝；1-送丝"
+    "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode"
 
 送气
@@ -392,8 +406,9 @@
 
     "原型", "SetAspirated(ioType, airControl)"
     "描述", "送气"
-    "参数", "- ``必选参数 ioType``： 0-控制器IO；1-扩展IO
-    - ``必选参数 airControl``： 送气控制  0-停止送气；1-送气"
+    "必选参数", "- ``ioType``： 0-控制器IO；1-扩展IO
+    - ``airControl``： 送气控制  0-停止送气；1-送气"
+    "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode"
 
 分段焊接启动
@@ -406,26 +421,26 @@
 
     "原型", "SegmentWeldStart(startDesePos,  endDesePos, startJPos, endJPos, weldLength, noWeldLength, weldIOType, arcNum, weldTimeout, isWeave,weaveNum,tool,user,vel=20.0, acc=0.0, ovl=100.0, blendR=-1.0,exaxis_pos=[0.0, 0.0, 0.0, 0.0],  search=0, offset_flag=0, offset_pos=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0])"
     "描述", "分段焊接启动"
-    "参数", "- ``必选参数 startDesePos``： 初始笛卡尔位姿，单位 [mm][°]
-    - ``必选参数 endDesePos``： 目标笛卡尔位姿，单位 [mm][°]
-    - ``必选参数 startJPos``：初始关节位置，单位 [°] 
-    - ``必选参数 endJPos``：目标关节位置，单位 [°]  
-    - ``必选参数 weldLength``：焊接长度，单位 [mm] 
-    - ``必选参数 noWeldLength``：非焊接长度，单位 [mm] 
-    - ``必选参数 weldIOType``：焊接IO类型(0-控制箱IO；1-扩展IO) arcNum 焊机配置文件编号 
-    - ``必选参数 timeout``：熄弧超时时间 
-    - ``必选参数 isWeave``：焊接 False-不焊接 
-    - ``必选参数 weaveNum``：摆焊参数配置编号 
-    - ``必选参数 tool``：工具号，[0~14]
-    - ``必选参数 user``：工件号，[0~14]
-    - ``默认参数 vel``：速度百分比，[0~100] 默认20.0
-    - ``默认参数 acc``：加速度[0~100] 暂不开放 默认0.0
-    - ``默认参数 ovl``：速度缩放因子，[0~100] 默认100.0
-    - ``默认参数 blendR``：[-1.0]-运动到位 (阻塞)，[0~1000]-平滑半径 (非阻塞)，单位 [mm] 默认-1.0
-    - ``默认参数 exaxis_pos``：外部轴 1 位置 ~ 外部轴 4 位置 默认[0.0,0.0,0.0,0.0]
-    - ``默认参数 search``：[0]-不焊丝寻位，[1]-焊丝寻位
-    - ``默认参数 offset_flag``：[0]-不偏移，[1]-工件/基坐标系下偏移，[2]-工具坐标系下偏移 默认 0
-    - ``默认参数 offset_pos``：位姿偏移量，单位 [mm][°] 默认[0.0,0.0,0.0,0.0,0.0,0.0]"
+    "必选参数", "- ``startDesePos``： 初始笛卡尔位姿，单位 [mm][°]
+    - ``endDesePos``： 目标笛卡尔位姿，单位 [mm][°]
+    - ``startJPos``：初始关节位置，单位 [°] 
+    - ``endJPos``：目标关节位置，单位 [°]  
+    - ``weldLength``：焊接长度，单位 [mm] 
+    - ``noWeldLength``：非焊接长度，单位 [mm] 
+    - ``weldIOType``：焊接IO类型(0-控制箱IO；1-扩展IO) arcNum 焊机配置文件编号 
+    - ``timeout``：熄弧超时时间 
+    - ``isWeave``：焊接 False-不焊接 
+    - ``weaveNum``：摆焊参数配置编号 
+    - ``tool``：工具号，[0~14]
+    - ``user``：工件号，[0~14]"
+    "默认参数", "- ``vel``：速度百分比，[0~100] 默认20.0
+    - ``acc``：加速度[0~100] 暂不开放 默认0.0
+    - ``ovl``：速度缩放因子，[0~100] 默认100.0
+    - ``blendR``：[-1.0]-运动到位 (阻塞)，[0~1000]-平滑半径 (非阻塞)，单位 [mm] 默认-1.0
+    - ``exaxis_pos``：外部轴 1 位置 ~ 外部轴 4 位置 默认[0.0,0.0,0.0,0.0]
+    - ``search``：[0]-不焊丝寻位，[1]-焊丝寻位
+    - ``offset_flag``：[0]-不偏移，[1]-工件/基坐标系下偏移，[2]-工具坐标系下偏移 默认 0
+    - ``offset_pos``：位姿偏移量，单位 [mm][°] 默认[0.0,0.0,0.0,0.0,0.0,0.0]"
     "返回值", "- 错误码 成功-0  失败- errcode"
 
 代码示例
