@@ -59,4 +59,4 @@
 
 软件下载
 ---------------------------------
-    :download:`FAIRINO-CobotSoftware-V3.6.9-Release-240129 <https://pan.baidu.com/s/1zKgVSD71Gl136ucM6LEA_A?pwd=23id>`
+    :download:`FAIRINO-CobotSoftware-V3.6.9-Release-240123 <https://pan.baidu.com/s/1zKgVSD71Gl136ucM6LEA_A?pwd=23id>`
