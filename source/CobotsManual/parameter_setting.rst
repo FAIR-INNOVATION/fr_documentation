@@ -30,12 +30,6 @@
 
 在“初始设置”中的“机器人设置”的菜单栏下，点击“末端负载”进入末端负载页面 。
 
-.. image:: teaching_pendant_software/044.png
-   :width: 3in
-   :align: center
-
-.. centered:: 图表 3.2-1 负载设定示意图
-
 在配置末端负载时请将所使用的末端工具的质量以及对应的质心坐标分别输入“负载质量”和“负载质心坐标X、Y和Z”输入框中并应用。
 
 .. important:: 
@@ -54,6 +48,12 @@
    - FR30：30kg
 
    质心坐标设置范围为0-1000，单位mm。
+
+.. image:: teaching_pendant_software/044.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 3.2-1 负载设定示意图
     
 .. important:: 
     机器人末端安装负载后，必须正确设置末端负载重量以及质心坐标，否则会影响机器人的拖动功能以及碰撞检测功能使用。

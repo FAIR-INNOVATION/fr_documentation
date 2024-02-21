@@ -730,14 +730,14 @@ FR20、FR30机器人手臂安装要求
 
 .. important:: 
 
-	因为FR20机器人自重较大及运行惯量较大，建议直接固定在地面上使用。推荐底座如下：
+	因为FR20和FR30机器人自重较大及运行惯量较大，建议直接固定在地面上使用。推荐底座如下：
 
 	.. figure:: installation/066.png
 		:align: center
 		:width: 3in
 		:class: figure-border
 
-	.. centered:: 图表 2.4-12 FR20型号协作机器人安装底座
+	.. centered:: 图表 2.4-12 FR20、FR30型号协作机器人安装底座
 
 工具末端安装
 ~~~~~~~~~~~~~~~~
