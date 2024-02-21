@@ -6,7 +6,7 @@
 --------------
     :download:`法奥意威公司简介 <_static/_doc/法奥意威公司简介.pdf>`
 
-    :download:`法奥意威产品样册 <_static/_doc/法奥意威产品样册.pdf>`
+    :download:`法奥意威产品手册 <_static/_doc/法奥意威产品手册.pdf>`
 
     :download:`法奥意威医疗行业案例 <_static/_doc/法奥意威医疗行业案例.pdf>`
 
@@ -50,6 +50,8 @@
     :download:`FR16图纸 <_static/_doc/FR16图纸.zip>`
 
     :download:`FR20图纸 <_static/_doc/FR20图纸.zip>`
+
+    :download:`FR30图纸 <_static/_doc/FR30图纸.zip>`
 
 3D 模型
 ---------------------------------

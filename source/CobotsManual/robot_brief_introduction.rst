@@ -69,6 +69,13 @@
 
 .. centered:: 图表 1.1-5 FR20型号协作机器人运动范围
 
+.. figure:: installation/068.png
+	:align: center
+	:width: 6in
+	:class: figure-border
+
+.. centered:: 图表 1.1-6 FR30型号协作机器人运动范围
+
 机器人坐标系
 ---------------
 
@@ -77,14 +84,14 @@
 	:width: 6in
 	:class: figure-border
 
-.. centered:: 图表 1.1-6 机器人DH参数坐标系
+.. centered:: 图表 1.1-7 机器人DH参数坐标系
 
 .. figure:: installation/024.png
 	:align: center
 	:width: 6in
 	:class: figure-border
 
-.. centered:: 图表 1.1-7 机器人末端法兰坐标系
+.. centered:: 图表 1.1-8 机器人末端法兰坐标系
 
 机器人DH参数
 --------------
@@ -96,7 +103,7 @@ DH参数用于计算 FR 系列协作机器人的运动学和动力学。
 	:width: 6in
 	:class: figure-border
 
-.. centered:: 图表 1.1-8 FR系列协作机器人DH参数
+.. centered:: 图表 1.1-9 FR系列协作机器人DH参数
 
 FR系列协作机器人DH参数展示如下：
 
@@ -445,6 +452,77 @@ FR系列协作机器人DH参数展示如下：
      - Link5
      - 4.64
      - [-0.23, 2.28, 18.42]
+
+   * - Joint6
+     - 0
+     - 0
+     - 120
+     - 0
+     - Link6
+     - 0.6
+     - [-2.11, -1.96, -20.38]
+
+.. centered:: 表格 1.1-7 FR30 协作机器人DH参数表
+
+.. list-table::
+   :widths: 70 50 50 50 50 70 50 120
+   :header-rows: 0
+   :align: center
+   :class: no-padding sheet-center
+
+   * - **运动学**
+     - **theta[rad]**
+     - **a[m]**
+     - **d[m]**
+     - **alpha[rad]**
+     - **动力学**
+     - **Mass[kg]**
+     - **Center of Mass[m]**
+
+   * - Joint1
+     - 0
+     - 0
+     - 215
+     - π/2
+     - Link1
+     - 20.64
+     - [-0.22, -37.39, 5.59]
+
+   * - Joint2
+     - 0
+     - -7000
+     - 0
+     - 0
+     - Link2
+     - 36.37
+     - [440.73, 0.05, 198.7]
+
+   * - Joint3
+     - 0
+     - -536
+     - 0
+     - 0
+     - Link3
+     - 8.41
+     - [185.64, 0.25, 45.82]
+
+   * - Joint4
+     - 0
+     - 0
+     - 166
+     - π/2
+     - Link4
+     - 4.64
+     - [0.23, -2.29, 18.60]
+
+   * - Joint5
+     - 0
+     - 0
+     - 138
+     - -π/2
+     - Link5
+     - 4.64
+     - [-0.23, 2.29, 18.60]
 
    * - Joint6
      - 0
