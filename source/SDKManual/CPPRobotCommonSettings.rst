@@ -79,12 +79,14 @@
 
 设置工具坐标系
 ++++++++++++++++++++++++++++++++++
+.. versionchanged:: C++SDK-v2.1.2.0
+
 .. code-block:: c++
     :linenos:
 
     /**
     * @brief  设置工具坐标系
-    * @param  [in] id 坐标系编号，范围[1~15]
+    * @param  [in] id 坐标系编号，范围[0~14]
     * @param  [in] coord  工具中心点相对于末端法兰中心位姿
     * @param  [in] type  0-工具坐标系，1-传感器坐标系
     * @param  [in] install 安装位置，0-机器人末端，1-机器人外部
@@ -94,12 +96,14 @@
 
 设置工具坐标系列表
 ++++++++++++++++++++++++++++++++++
+.. versionchanged:: C++SDK-v2.1.2.0
+
 .. code-block:: c++
     :linenos:
 
     /**
     * @brief  设置工具坐标系列表
-    * @param  [in] id 坐标系编号，范围[1~15]
+    * @param  [in] id 坐标系编号，范围[0~14]
     * @param  [in] coord  工具中心点相对于末端法兰中心位姿
     * @param  [in] type  0-工具坐标系，1-传感器坐标系
     * @param  [in] install 安装位置，0-机器人末端，1-机器人外部
@@ -133,12 +137,14 @@
 
 设置外部工具坐标系
 ++++++++++++++++++++++++++++++++++
+.. versionchanged:: C++SDK-v2.1.2.0
+
 .. code-block:: c++
     :linenos:
 
     /**
     * @brief  设置外部工具坐标系
-    * @param  [in] id 坐标系编号，范围[1~15]
+    * @param  [in] id 坐标系编号，范围[0~14]
     * @param  [in] etcp  工具中心点相对末端法兰中心位姿
     * @param  [in] etool  待定
     * @return  错误码
@@ -147,12 +153,14 @@
 
 设置外部工具坐标系列表
 ++++++++++++++++++++++++++++++++++
+.. versionchanged:: C++SDK-v2.1.2.0
+
 .. code-block:: c++
     :linenos:
 
     /**
     * @brief  设置外部工具坐标系列表
-    * @param  [in] id 坐标系编号，范围[1~15]
+    * @param  [in] id 坐标系编号，范围[0~14]
     * @param  [in] etcp  工具中心点相对末端法兰中心位姿
     * @param  [in] etool  待定
     * @return  错误码
@@ -185,12 +193,14 @@
 
 设置工件坐标系
 ++++++++++++++++++++++++++++++++++
+.. versionchanged:: C++SDK-v2.1.2.0
+
 .. code-block:: c++
     :linenos:
 
     /**
     * @brief  设置工件坐标系
-    * @param  [in] id 坐标系编号，范围[1~15]
+    * @param  [in] id 坐标系编号，范围[0~14]
     * @param  [in] coord  工件坐标系相对于末端法兰中心位姿
     * @return  错误码
     */    
@@ -198,12 +208,14 @@
 
 设置工件坐标系列表
 ++++++++++++++++++++++++++++++++++
+.. versionchanged:: C++SDK-v2.1.2.0
+    
 .. code-block:: c++
     :linenos:
 
     /**
     * @brief  设置工件坐标系列表
-    * @param  [in] id 坐标系编号，范围[1~15]
+    * @param  [in] id 坐标系编号，范围[0~14]
     * @param  [in] coord  工件坐标系相对于末端法兰中心位姿
     * @return  错误码
     */    
@@ -257,7 +269,6 @@
     * @return  错误码
     */
     errno_t  SetRobotInstallAngle(double yangle, double zangle);
-
 
 等待指定时间
 +++++++++++++++++++++++++++++++
@@ -369,4 +380,101 @@
         robot.SetRobotInstallAngle(15.0,25.0);
 
         return 0;
+    }
+
+代码示例
++++++++++++++++
+.. versionadded:: C++SDK-v2.1.2.0
+
+.. code-block:: c++
+    :linenos:
+    
+    #include "libfairino/robot.h"
+
+    //如果使用Windows，包含下面的头文件
+    #include <string.h>
+    #include <windows.h>
+    //如果使用linux，包含下面的头文件
+    /*
+    #include <cstdlib>
+    #include <iostream>
+    #include <stdio.h>
+    #include <cstring>
+    #include <unistd.h>
+    */
+    #include <chrono>
+    #include <thread>
+    #include <string>
+    using namespace std;
+
+    int main(void)
+    {
+        FRRobot robot;
+        robot.RPC("192.168.58.2");
+
+        int i;
+        float value;
+        int tool_id, etool_id, user_id;
+        int type;
+        int install;
+        int retval = 0;
+
+        DescTran coord;
+        DescPose t_coord, etcp, etool, w_coord;
+        memset(&coord, 0, sizeof(DescTran));
+        memset(&t_coord, 0, sizeof(DescPose));
+        memset(&etcp, 0, sizeof(DescPose));
+        memset(&etool, 0, sizeof(DescPose));
+        memset(&w_coord, 0, sizeof(DescPose));
+
+        DescPose tool0_pose;
+        memset(&tool0_pose, 0, sizeof(DescPose));
+        printf("SetToolPoint start\n");
+        std::this_thread::sleep_for(std::chrono::seconds(3));
+        for (int i = 1; i < 7; i++)
+        {
+            retval = robot.SetToolPoint(i);
+            printf("SetToolPoint retval is: %d\n", retval);
+        }
+        printf("SetToolPoint end\n");
+
+        retval = robot.ComputeTool(&tool0_pose);
+        printf("ComputeTool retval is: %d\n", retval);
+        printf("xyz is: %f, %f, %f; rpy is: %f, %f, %f\n", tool0_pose.tran.x, tool0_pose.tran.y, tool0_pose.tran.z, tool0_pose.rpy.rx, tool0_pose.rpy.ry, tool0_pose.rpy.rz);
+
+        DescPose tcp4_0_pose;
+        memset(&tcp4_0_pose, 0, sizeof(DescPose));
+        for (int i = 1; i < 5; i++)
+        {
+            retval = robot.SetTcp4RefPoint(i);
+            printf("SetTcp4RefPoint retval is: %d\n", retval);
+        }
+        retval = robot.ComputeTcp4(&tcp4_0_pose);
+        printf("ComputeTcp4 retval is: %d\n", retval);
+        printf("xyz is: %f, %f, %f; rpy is: %f, %f, %f\n", tcp4_0_pose.tran.x, tcp4_0_pose.tran.y, tcp4_0_pose.tran.z, tcp4_0_pose.rpy.rx, tcp4_0_pose.rpy.ry, tcp4_0_pose.rpy.rz);
+
+        DescPose extcp_0_pose;
+        memset(&extcp_0_pose, 0, sizeof(DescPose));
+        printf("SetExTCPPoint start\n");
+        for (int i = 1; i < 7; i++)
+        {
+            retval = robot.SetExTCPPoint(i);
+            printf("SetExTCPPoint retval is: %d\n", retval);
+        }
+        printf("SetExTCPPoint end\n");
+
+        retval = robot.ComputeExTCF(&extcp_0_pose);
+        printf("ComputeExTCF retval is: %d\n", retval);
+        printf("xyz is: %f, %f, %f; rpy is: %f, %f, %f\n", extcp_0_pose.tran.x, extcp_0_pose.tran.y, extcp_0_pose.tran.z, extcp_0_pose.rpy.rx, extcp_0_pose.rpy.ry, extcp_0_pose.rpy.rz);
+
+        DescPose wobj_0_pose;
+        memset(&wobj_0_pose, 0, sizeof(DescPose));
+        for (int i = 1; i < 4; i++)
+        {
+            retval = robot.SetWObjCoordPoint(i);
+            printf("SetWObjCoordPoint retval is: %d\n", retval);
+        }
+        retval = robot.ComputeWObjCoord(0, &wobj_0_pose);
+        printf("ComputeWObjCoord retval is: %d\n", retval);
+        printf("xyz is: %f, %f, %f; rpy is: %f, %f, %f\n", wobj_0_pose.tran.x, wobj_0_pose.tran.y, wobj_0_pose.tran.z, wobj_0_pose.rpy.rx, wobj_0_pose.rpy.ry, wobj_0_pose.rpy.rz);
     }

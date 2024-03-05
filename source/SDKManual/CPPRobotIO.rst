@@ -235,25 +235,35 @@
 
 代码示例
 ++++++++++++++
+
+.. versionchanged:: C++SDK-v2.1.2.0
+    
 .. code-block:: c++
     :linenos:
 
+    #include "libfairino/robot.h"
+
+    //如果使用Windows，包含下面的头文件
+    #include <string.h>
+    #include <windows.h>
+    //如果使用linux，包含下面的头文件
+    /*
     #include <cstdlib>
     #include <iostream>
     #include <stdio.h>
     #include <cstring>
     #include <unistd.h>
-    #include "FRRobot.h"
-    #include "RobotTypes.h"
+    */
+    #include <chrono>
+    #include <thread>
 
     using namespace std;
-
     int main(void)
     {
-        FRRobot robot;                 //实例化机器人对象
-        robot.RPC("192.168.58.2");     //与机器人控制器建立通信连接
+        FRRobot robot; 
+        robot.RPC("192.168.58.2"); 
 
-        uint8_t status = 1; 
+        uint8_t status = 1;
         uint8_t smooth = 0;
         uint8_t block  = 0;
         uint8_t di = 0, tool_di = 0;
@@ -273,7 +283,7 @@
         {
             robot.SetDO(i, status, smooth, block);
             robot.WaitMs(1000);
-        }   
+        }
 
         status = 1;
 
@@ -289,24 +299,24 @@
         {
             robot.SetToolDO(i, status, smooth, block);
             robot.WaitMs(1000);
-        } 
+        }
 
         value = 50.0;
         robot.SetAO(0, value, block);
         value = 100.0;
-        robot.SetAO(1, value, block); 
+        robot.SetAO(1, value, block);
         robot.WaitMs(1000);
         value = 0.0;
         robot.SetAO(0, value, block);
         value = 0.0;
-        robot.SetAO(1, value, block); 
+        robot.SetAO(1, value, block);
 
         value = 100.0;
         robot.SetToolAO(0, value, block);
         robot.WaitMs(1000);
         value = 0.0;
-        robot.SetToolAO(0, value, block); 
-        
+        robot.SetToolAO(0, value, block);
+
         robot.GetDI(0, block, &di);
         printf("di0:%u\n", di);
         robot.WaitDI(0,1,0,2);              //一直等待
@@ -322,6 +332,18 @@
         tool_ai = robot.GetToolAI(0,block, &tool_ai);
         printf("tool_ai0:%f\n", tool_ai);
 
+        uint8_t _button_state = 0;
+        robot.GetAxlePointRecordBtnState(&_button_state);
+        printf("_button_state is: %u\n", _button_state);
+
+        uint8_t tool_do_state = 0;
+        robot.GetToolDO(&tool_do_state);
+        printf("tool DO state is: %u\n", tool_do_state);
+
+        uint8_t do_state_h = 0;
+        uint8_t do_state_l = 0;
+        robot.GetDO(&do_state_h, &do_state_l);
+        printf("DO state high is: %u \n DO state low is: %u\n", do_state_h, do_state_l);
         return 0;
     }
 
@@ -383,3 +405,61 @@
     * @param[out] endBoardversion 未端版固件版本
     */
     errno_t GetFirmwareVersion(char ctrlBoxBoardversion[128], char driver1version[128], char driver2version[128], char driver3version[128], char driver4version[128], char driver5version[128], char driver6version[128], char endBoardversion[128]);
+
+代码示例
++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.2.0
+
+.. code-block:: c++
+    :linenos:
+
+    #include "libfairino/robot.h"
+
+    //如果使用Windows，包含下面的头文件
+    #include <string.h>
+    #include <windows.h>
+    //如果使用linux，包含下面的头文件
+    /*
+    #include <cstdlib>
+    #include <iostream>
+    #include <stdio.h>
+    #include <cstring>
+    #include <unistd.h>
+    */
+    #include <chrono>
+    #include <thread>
+
+    using namespace std;
+    int main(void)
+    {
+        FRRobot robot; 
+        robot.RPC("192.168.58.2"); 
+
+        int retval = 0;
+        char robotModel[64] = {0};
+        char webversion[64] = {0};
+        char controllerVersion[64] = {0};
+
+        char ctrlBoxBoardversion[128] = {0};
+        char driver1version[128] = {0};
+        char driver2version[128] = {0};
+        char driver3version[128] = {0};
+        char driver4version[128] = {0};
+        char driver5version[128] = {0};
+        char driver6version[128] = {0};
+        char endBoardversion[128] = {0};
+
+        retval = robot.GetSoftwareVersion(robotModel, webversion, controllerVersion);
+        printf("Getsoftwareversion retval is: %d\n", retval);
+        printf("robotmodel is: %s, webversion is: %s, controllerVersion is: %s \n", robotModel, webversion, controllerVersion);
+
+        retval = robot.GetHardwareVersion(ctrlBoxBoardversion,  driver1version,  driver2version, driver3version,  driver4version,  driver5version, driver6version,  endBoardversion);
+        printf("GetHardwareversion retval is: %d\n", retval);
+        printf("GetHardwareversion get hardware versoin is: %s, %s, %s, %s, %s, %s, %s, %s\n", ctrlBoxBoardversion, driver1version, driver2version, driver3version, driver4version, driver5version, driver6version, endBoardversion);
+
+        retval = robot.GetFirmwareVersion(ctrlBoxBoardversion,  driver1version,  driver2version, driver3version,  driver4version,  driver5version, driver6version, endBoardversion);
+        printf("GetFirmwareversion retval is: %d\n", retval);
+        printf("GetHardwareversion get hardware versoin is: %s, %s, %s, %s, %s, %s, %s, %s\n", ctrlBoxBoardversion, driver1version, driver2version, driver3version, driver4version, driver5version, driver6version, endBoardversion);
+
+        return 0;
+    }

@@ -889,26 +889,35 @@
 
 传动带参数配置
 +++++++++++++++++++++++++++++++++++++++++++++
+.. versionchanged:: C++SDK-v2.1.2.0
+
 .. code-block:: c++
     :linenos:
 
-    /**
-     * @brief 传动带参数配置
-     * @param [in] 
-     * @return 错误码
-     */
+	/**
+	 * @brief 传动带参数配置
+	 * @param [in] para[0] 编码器通道 1~2
+	 * @param [in] para[1] 编码器转一圈的脉冲数
+	 * @param [in] para[2] 编码器转一圈传送带行走距离
+	 * @param [in] para[3] 工件坐标系编号 针对跟踪运动功能选择工件坐标系编号，跟踪抓取、TPD跟踪设为0
+	 * @param [in] para[4] 是否配视觉  0 不配  1 配
+	 * @param [in] para[5] 速度比  针对传送带跟踪抓取选项（1-100）  其他选项默认为1 
+	 * @return 错误码
+	 */
     errno_t ConveyorSetParam(float param[5]);
 
 传动带抓取点补偿
 +++++++++++++++++++++++++++++++++++++++++++++
+.. versionchanged:: C++SDK-v2.1.2.0
+
 .. code-block:: c++
     :linenos:
 
-    /**
-     * @brief 传动带抓取点补偿
-     * @param [in] cmp 补偿位置 
-     * @return 错误码
-     */
+	/**
+	 * @brief 传动带抓取点补偿
+	 * @param [in] cmp 补偿位置 double[3]{x, y, z}
+	 * @return 错误码
+	 */
     errno_t ConveyorCatchPointComp(double cmp[3]);
 
 直线运动
@@ -1075,5 +1084,244 @@
         flag = 0;
         robot.FT_Control(flag, sensor_id, select, &ft, ft_pid, adj_sign, ILC_sign, max_dis, max_ang);
 
+        return 0;
+    }
+
+代码示例
++++++++++++++++
+.. versionadded:: C++SDK-v2.1.2.0
+
+.. code-block:: c++
+    :linenos:
+
+    #include "libfairino/robot.h"
+
+    //如果使用Windows，包含下面的头文件
+    #include <string.h>
+    #include <windows.h>
+    //如果使用linux，包含下面的头文件
+    /*
+    #include <cstdlib>
+    #include <iostream>
+    #include <stdio.h>
+    #include <cstring>
+    #include <unistd.h>
+    */
+    #include <chrono>
+    #include <thread>
+    #include <string>
+
+    using namespace std;
+
+    int main(void)
+    {
+        FRRobot robot;         
+        robot.RPC("192.168.58.2"); 
+
+        int retval = 0;
+
+        retval = robot.LoadIdentifyDynFilterInit();
+        printf("LoadIdentifyDynFilterInit retval is: %d \n", retval);
+
+        retval = robot.LoadIdentifyDynVarInit();
+        printf("LoadIdentifyDynVarInit retval is: %d \n", retval);
+
+        double joint_toq[6] = {0};
+        double joint_pos[6] = {0};
+        retval = robot.LoadIdentifyMain(joint_toq, joint_pos,1);
+        printf("LoadIdentifyMain retval is: %d \n", retval);
+
+        double gain[12] = {0};
+        double weight = 0;
+        DescTran load_pos;
+        memset(&load_pos, 0, sizeof(DescTran));
+        retval = robot.LoadIdentifyGetResult(gain, &weight, &load_pos);
+        printf("LoadIdentifyGetResult retval is: %d \n", retval);
+        printf("weight is: %f, load pose is: %f, %f, %f\n", weight, load_pos.x, load_pos.y, load_pos.z);
+
+        retval = robot.WaitMs(10);
+        printf("WaitMs retval is: %d \n", retval);
+    }
+
+代码示例
++++++++++++++++
+.. versionadded:: C++SDK-v2.1.2.0
+
+.. code-block:: c++
+    :linenos:
+
+    #include "libfairino/robot.h"
+
+    //如果使用Windows，包含下面的头文件
+    #include <string.h>
+    #include <windows.h>
+    //如果使用linux，包含下面的头文件
+    /*
+    #include <cstdlib>
+    #include <iostream>
+    #include <stdio.h>
+    #include <cstring>
+    #include <unistd.h>
+    */
+    #include <chrono>
+    #include <thread>
+    #include <string>
+
+    using namespace std;
+
+    int main(void)
+    {
+        FRRobot robot; 
+        robot.RPC("192.168.58.2"); 
+
+        int retval = 0;
+
+        retval = robot.ConveyorStartEnd(1);
+        printf("ConveyorStartEnd retval is: %d\n", retval);
+
+        retval = robot.ConveyorPointIORecord();
+        printf("ConveyorPointIORecord retval is: %d\n", retval);
+
+        retval = robot.ConveyorPointARecord();
+        printf("ConveyorPointARecord retval is: %d\n", retval);
+
+        retval = robot.ConveyorRefPointRecord();
+        printf("ConveyorRefPointRecord retval is: %d\n", retval);
+
+        retval = robot.ConveyorPointBRecord();
+        printf("ConveyorPointBRecord retval is: %d\n", retval);
+
+        retval = robot.ConveyorStartEnd(0);
+        printf("ConveyorStartEnd retval is: %d\n", retval);
+        
+        retval = 0;
+        float param[6] ={1,10000,200,0,0,20};
+        retval = robot.ConveyorSetParam(param);
+        printf("ConveyorSetParam retval is: %d\n", retval);
+        
+        double cmp[3] = {0.0, 0.0, 0.0};
+        retval = robot.ConveyorCatchPointComp(cmp);
+        printf("ConveyorCatchPointComp retval is: %d\n", retval);
+
+        int index = 1;
+        int max_time = 30000;
+        uint8_t block = 0;
+        retval = 0;
+        
+        /* 下面是一个传送带抓取流程 */
+        DescPose desc_p1;
+        desc_p1.tran.x = -351.553;
+        desc_p1.tran.y = 87.913;
+        desc_p1.tran.z = 354.175;
+        desc_p1.rpy.rx = -179.680;
+        desc_p1.rpy.ry =  -0.133;
+        desc_p1.rpy.rz = 2.472;
+
+        DescPose desc_p2;
+        desc_p2.tran.x = -351.535;
+        desc_p2.tran.y = -247.222;
+        desc_p2.tran.z = 354.173;
+        desc_p2.rpy.rx = -179.680;
+        desc_p2.rpy.ry =  -0.137;
+        desc_p2.rpy.rz = 2.473;
+
+
+        retval = robot.MoveCart(&desc_p1, 1, 0, 100.0, 100.0, 100.0, -1.0, -1);
+        printf("MoveCart retval is: %d\n", retval);
+
+        retval = robot.WaitMs(1);
+        printf("WaitMs retval is: %d\n", retval);
+
+        retval = robot.ConveyorIODetect(10000);
+        printf("ConveyorIODetect retval is: %d\n", retval);
+
+        retval = robot.ConveyorGetTrackData(1);
+        printf("ConveyorGetTrackData retval is: %d\n", retval);
+
+        retval = robot.ConveyorTrackStart(1);
+        printf("ConveyorTrackStart retval is: %d\n", retval);
+
+        retval = robot.TrackMoveL("cvrCatchPoint",  1, 0, 100, 100, 100, -1.0, 0, 0);
+        printf("TrackMoveL retval is: %d\n", retval);
+
+        retval = robot.MoveGripper(index, 51, 40, 30, max_time, block);
+        printf("MoveGripper retval is: %d\n", retval);
+
+        retval = robot.TrackMoveL("cvrRaisePoint", 1, 0, 100, 100, 100, -1.0, 0, 0);
+        printf("TrackMoveL retval is: %d\n", retval);
+
+        retval = robot.ConveyorTrackEnd();
+        printf("ConveyorTrackEnd retval is: %d\n", retval);
+
+        robot.MoveCart(&desc_p2, 1, 0, 100.0, 100.0, 100.0, -1.0, -1);
+
+        retval = robot.MoveGripper(index, 100, 40, 10, max_time, block);
+        printf("MoveGripper retval is: %d\n", retval);
+
+        return 0;
+    }
+
+代码示例
++++++++++++++++
+.. versionadded:: C++SDK-v2.1.2.0
+
+.. code-block:: c++
+    :linenos:
+
+    #include "libfairino/robot.h"
+
+    //如果使用Windows，包含下面的头文件
+    #include <string.h>
+    #include <windows.h>
+    //如果使用linux，包含下面的头文件
+    /*
+    #include <cstdlib>
+    #include <iostream>
+    #include <stdio.h>
+    #include <cstring>
+    #include <unistd.h>
+    */
+    #include <chrono>
+    #include <thread>
+    #include <string>
+
+    using namespace std;
+
+    int main(void)
+    {
+        FRRobot robot;           
+        robot.RPC("192.168.58.2");
+
+        char file_path[256] = "/fruser/traj/test_computermd5.txt.txt";
+        char md5[256] = {0};
+        uint8_t emerg_state = 0;
+        uint8_t si0_state = 0;
+        uint8_t si1_state = 0;
+        int sdk_com_state = 0;
+
+        char ssh_keygen[1024] = {0};
+        int retval = robot.GetSSHKeygen(ssh_keygen);
+        printf("GetSSHKeygen retval is: %d\n", retval);
+        printf("ssh key is: %s \n", ssh_keygen);
+
+        char ssh_name[32] = "fr";
+        char ssh_ip[32] = "192.168.58.44";
+        char ssh_route[128] = "/home/fr";
+        char ssh_robot_url[128] = "/root/robot/dhpara.config";
+        retval = robot.SetSSHScpCmd(1, ssh_name, ssh_ip, ssh_route, ssh_robot_url);
+        printf("SetSSHScpCmd retval is: %d\n", retval);
+        printf("robot url is: %s\n", ssh_robot_url);
+
+        robot.ComputeFileMD5(file_path, md5);
+        printf("md5 is: %s \n", md5);
+
+        robot.GetRobotEmergencyStopState(&emerg_state);
+        printf("emergency state is: %u \n", emerg_state);
+
+        robot.GetSafetyStopState(&si0_state, &si1_state);
+        printf("safety stop state is: %u, %u \n", si0_state, si1_state);
+
+        robot.GetSDKComState(&sdk_com_state);
+        printf("sdk com state is: %d", sdk_com_state);
         return 0;
     }
