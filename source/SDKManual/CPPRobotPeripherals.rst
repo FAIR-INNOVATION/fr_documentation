@@ -603,7 +603,7 @@
 
 代码示例
 +++++++++++++++++++++++++++++++++++++++++++++
-.. versionchanged:: C++SDK-v2.1.1.0
+.. versionchanged:: C++SDK-v2.1.2.0
 
 .. code-block:: c++
     :linenos:
