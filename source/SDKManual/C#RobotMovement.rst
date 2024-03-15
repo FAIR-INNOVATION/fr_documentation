@@ -146,8 +146,8 @@ jog点动立即停止
     * @brief  关节空间运动
     * @param  [in] joint_pos  目标关节位置,单位deg
     * @param  [in] desc_pos   目标笛卡尔位姿
-    * @param  [in] tool  工具坐标号，范围[1~15]
-    * @param  [in] user  工件坐标号，范围[1~15]
+    * @param  [in] tool  工具坐标号，范围[0~14]
+    * @param  [in] user  工件坐标号，范围[0~14]
     * @param  [in] vel  速度百分比，范围[0~100]
     * @param  [in] acc  加速度百分比，范围[0~100],暂不开放
     * @param  [in] ovl  速度缩放因子，范围[0~100]
@@ -168,8 +168,8 @@ jog点动立即停止
     * @brief  笛卡尔空间直线运动
     * @param  [in] joint_pos  目标关节位置,单位deg
     * @param  [in] desc_pos   目标笛卡尔位姿
-    * @param  [in] tool  工具坐标号，范围[1~15]
-    * @param  [in] user  工件坐标号，范围[1~15]
+    * @param  [in] tool  工具坐标号，范围[0~14]
+    * @param  [in] user  工件坐标号，范围[0~14]
     * @param  [in] vel  速度百分比，范围[0~100]
     * @param  [in] acc  加速度百分比，范围[0~100],暂不开放
     * @param  [in] ovl  速度缩放因子，范围[0~100]
@@ -191,8 +191,8 @@ jog点动立即停止
     * @brief  笛卡尔空间圆弧运动
     * @param  [in] joint_pos_p  路径点关节位置,单位deg
     * @param  [in] desc_pos_p   路径点笛卡尔位姿
-    * @param  [in] ptool  工具坐标号，范围[1~15]
-    * @param  [in] puser  工件坐标号，范围[1~15]
+    * @param  [in] ptool  工具坐标号，范围[0~14]
+    * @param  [in] puser  工件坐标号，范围[0~14]
     * @param  [in] pvel  速度百分比，范围[0~100]
     * @param  [in] pacc  加速度百分比，范围[0~100],暂不开放
     * @param  [in] epos_p  扩展轴位置，单位mm
@@ -200,8 +200,8 @@ jog点动立即停止
     * @param  [in] offset_pos_p  位姿偏移量
     * @param  [in] joint_pos_t  目标点关节位置,单位deg
     * @param  [in] desc_pos_t   目标点笛卡尔位姿
-    * @param  [in] ttool  工具坐标号，范围[1~15]
-    * @param  [in] tuser  工件坐标号，范围[1~15]
+    * @param  [in] ttool  工具坐标号，范围[0~14]
+    * @param  [in] tuser  工件坐标号，范围[0~14]
     * @param  [in] tvel  速度百分比，范围[0~100]
     * @param  [in] tacc  加速度百分比，范围[0~100],暂不开放
     * @param  [in] epos_t  扩展轴位置，单位mm
@@ -222,15 +222,15 @@ jog点动立即停止
     * @brief  笛卡尔空间整圆运动
     * @param  [in] joint_pos_p  路径点1关节位置,单位deg
     * @param  [in] desc_pos_p   路径点1笛卡尔位姿
-    * @param  [in] ptool  工具坐标号，范围[1~15]
-    * @param  [in] puser  工件坐标号，范围[1~15]
+    * @param  [in] ptool  工具坐标号，范围[0~14]
+    * @param  [in] puser  工件坐标号，范围[0~14]
     * @param  [in] pvel  速度百分比，范围[0~100]
     * @param  [in] pacc  加速度百分比，范围[0~100],暂不开放
     * @param  [in] epos_p  扩展轴位置，单位mm
     * @param  [in] joint_pos_t  路径点2关节位置,单位deg
     * @param  [in] desc_pos_t   路径点2笛卡尔位姿
-    * @param  [in] ttool  工具坐标号，范围[1~15]
-    * @param  [in] tuser  工件坐标号，范围[1~15]
+    * @param  [in] ttool  工具坐标号，范围[0~14]
+    * @param  [in] tuser  工件坐标号，范围[0~14]
     * @param  [in] tvel  速度百分比，范围[0~100]
     * @param  [in] tacc  加速度百分比，范围[0~100],暂不开放
     * @param  [in] epos_t  扩展轴位置，单位mm
@@ -576,8 +576,8 @@ jog点动立即停止
     * @brief  关节空间样条运动
     * @param  [in] joint_pos  目标关节位置,单位deg
     * @param  [in] desc_pos   目标笛卡尔位姿
-    * @param  [in] tool  工具坐标号，范围[1~15]
-    * @param  [in] user  工件坐标号，范围[1~15]
+    * @param  [in] tool  工具坐标号，范围[0~14]
+    * @param  [in] user  工件坐标号，范围[0~14]
     * @param  [in] vel  速度百分比，范围[0~100]
     * @param  [in] acc  加速度百分比，范围[0~100],暂不开放
     * @param  [in] ovl  速度缩放因子，范围[0~100]   
