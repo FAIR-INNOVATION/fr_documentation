@@ -153,3 +153,122 @@
 
         return 0;
     }
+
+下载Lua文件
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. versionadded:: C++SDK-v2.1.2.0
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 下载Lua文件
+    * @param [in] fileName 要下载的lua文件名，例如：“test.lua”
+    * @param [in] savePath 保存文件本地路径，例如：“D://Down/”
+    * @return 错误码
+    */
+    errno_t LuaDownLoad(std::string fileName, std::string savePath);
+
+上传Lua文件
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. versionadded:: C++SDK-v2.1.2.0
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 上传Lua文件
+    * @param [in] filePath 本地lua文件路径名
+    * @return 错误码
+    */
+    errno_t LuaUpload(std::string filePath);
+
+删除Lua文件
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. versionadded:: C++SDK-v2.1.2.0
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 删除Lua文件
+    * @param [in] fileName 要删除的lua文件名，例如：“test.lua”
+    * @return 错误码
+    */
+    errno_t LuaDelete(std::string fileName);
+
+获取当前所有lua文件名称
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. versionadded:: C++SDK-v2.1.2.0
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 获取当前所有lua文件名称
+    * @param [out] luaNames lua文件名列表
+    * @return 错误码
+    */
+    errno_t GetLuaList(std::list<std::string>* luaNames);
+
+代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.2.0
+
+.. code-block:: c++
+    :linenos:
+
+    #include "libfairino/robot.h"
+
+    //如果使用Windows，包含下面的头文件
+    #include <string.h>
+    #include <windows.h>
+    //如果使用linux，包含下面的头文件
+    /*
+    #include <cstdlib>
+    #include <iostream>
+    #include <stdio.h>
+    #include <cstring>
+    #include <unistd.h>
+    */
+    #include <chrono>
+    #include <thread>
+    #include <string>
+
+    using namespace std;
+    int main(void)
+    {
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(3);
+        robot.RPC("192.168.58.2");
+
+        /* 获取lua名称 */
+        list<std::string> luaNames;
+        int res = robot.GetLuaList(&luaNames);
+        std::cout << "res is: " << res << std::endl;
+        std::cout << "size is: " << luaNames.size() <<std::endl;
+        for(auto it = luaNames.begin(); it != luaNames.end(); it++)
+        {
+            std::cout << it->c_str() << std::endl;
+        }
+
+        /* 下载lua */
+        res = robot.LuaDownLoad("test.lua", "D://Down/");
+        std::cout << "res is: " << res << std::endl;
+
+        /* 上传lua */
+        res = robot.LuaUpload("D://Down/test.lua");
+        std::cout << "res is: " << res << std::endl;
+
+        /* 删除lua */
+        res = robot.LuaDelete("test.lua");
+        std::cout << "res is: " << res << std::endl;
+
+        robot.CloseRPC();
+        return 0;
+    }

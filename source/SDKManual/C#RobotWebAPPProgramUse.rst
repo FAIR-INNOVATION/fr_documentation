@@ -140,3 +140,90 @@
         Thread.Sleep(1000);
         robot.ProgramStop();
     }
+
+下载作业程序
++++++++++++++++++++++++++++++++++++
+
+.. versionadded:: C#SDK-v1.0.5
+
+.. code-block:: c#
+    :linenos:
+
+    /** 
+    * @brief 下载作业程序
+    * @param [in] fileName 要下载的作业程序"test.lua"或"test.tar.gz"
+    * @param [in] savePath 保存作业程序本地路径“D://Down/”
+    * @return 错误码 
+    */
+    public int LuaDownLoad(string fileName, string savePath);
+
+上传作业程序
++++++++++++++++++++++++++++++++++++
+
+.. versionadded:: C#SDK-v1.0.5
+
+.. code-block:: c#
+    :linenos:
+
+    /** 
+    * @brief 上传作业程序
+    * @param [in] filePath 本地作业程序路径名 ".../test.lua"或".../test.tar.gz"
+    * @param [out] errStr 错误信息
+    * @return 错误码 
+    */
+    public int LuaUpload(string filePath, ref string errStr);
+
+删除作业程序
++++++++++++++++++++++++++++++++++++
+
+.. versionadded:: C#SDK-v1.0.5
+
+.. code-block:: c#
+    :linenos:
+
+    /** 
+    * @brief 删除作业程序
+    * @param [in] fileName 要删除的作业程序名"test.lua"
+    * @return 错误码 
+    */
+    public int LuaDelete(string fileName);
+
+获取当前所有作业程序名称
++++++++++++++++++++++++++++++++++++
+
+.. versionadded:: C#SDK-v1.0.5
+
+.. code-block:: c#
+    :linenos:
+
+    /** 
+    * @brief 获取当前所有作业程序名称
+    * @param [out] luaNames 作业程序名称列表
+    * @return 错误码 
+    */
+    public int GetLuaList(ref List<string> luaNames) ;
+
+
+代码示例
+++++++++++++
+
+.. versionadded:: C#SDK-v1.0.5
+
+.. code-block:: c#
+    :linenos:
+
+    private void btnUploadLua_Click(object sender, EventArgs e)
+    {
+        string errstr = "";
+        robot.LuaUpload("D://Upload/test.lua", ref errstr);
+        Console.WriteLine(errstr);
+        robot.LuaDownLoad("test.lua", "D://zDOWN/");
+        robot.LuaDelete("test.lua");
+        List<string> lualist = new List<string>();
+        robot.GetLuaList(ref lualist);
+        int n = lualist.Count;
+        for (int i = 0; i < n; i++)
+        {
+            Console.WriteLine(lualist[i]);
+        }
+    }
