@@ -34,3 +34,4 @@ Python
     PythonRobotForceControl
     PythonRobotConveyor
     PythonRobotWeld
+    PythonRobotOthers
