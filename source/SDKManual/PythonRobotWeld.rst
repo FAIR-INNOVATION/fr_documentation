@@ -6,7 +6,7 @@
 
 焊接开始
 ++++++++++++++++++++++++++++++++++
-.. versionadded:: python sdk-v2.0.1
+.. versionadded:: python SDK-v2.0.1
 
 .. csv-table:: 
     :stub-columns: 1
@@ -40,7 +40,7 @@
 
 焊接结束
 ++++++++++++++++++++++++++++++++++
-.. versionadded:: python sdk-v2.0.1
+.. versionadded:: python SDK-v2.0.1
     
 .. csv-table:: 
     :stub-columns: 1
@@ -74,7 +74,7 @@
 
 设置焊接电流与输出模拟量对应关系
 ++++++++++++++++++++++++++++++++++
-.. versionadded:: python sdk-v2.0.1
+.. versionadded:: python SDK-v2.0.1
     
 .. csv-table:: 
     :stub-columns: 1
@@ -130,7 +130,7 @@
 
 设置焊接电压与输出模拟量对应关系
 ++++++++++++++++++++++++++++++++++
-.. versionadded:: python sdk-v2.0.1
+.. versionadded:: python SDK-v2.0.1
     
 .. csv-table:: 
     :stub-columns: 1
@@ -147,7 +147,7 @@
 
 获取焊接电流与输出模拟量对应关系
 ++++++++++++++++++++++++++++++++++
-.. versionadded:: python sdk-v2.0.1
+.. versionadded:: python SDK-v2.0.1
     
 .. csv-table:: 
     :stub-columns: 1
@@ -166,7 +166,7 @@
 
 获取焊接电压与输出模拟量对应关系
 ++++++++++++++++++++++++++++++++++
-.. versionadded:: python sdk-v2.0.1
+.. versionadded:: python SDK-v2.0.1
     
 .. csv-table:: 
     :stub-columns: 1
@@ -185,7 +185,7 @@
 
 设置焊接电流
 ++++++++++++++++++++++++++++++++++
-.. versionadded:: python sdk-v2.0.1
+.. versionadded:: python SDK-v2.0.1
     
 .. csv-table:: 
     :stub-columns: 1
@@ -201,7 +201,7 @@
 
 设置焊接电压
 ++++++++++++++++++++++++++++++++++
-.. versionadded:: python sdk-v2.0.1
+.. versionadded:: python SDK-v2.0.1
     
 .. csv-table:: 
     :stub-columns: 1
@@ -217,7 +217,7 @@
 
 设置摆动参数
 ++++++++++++++++++++++++++++++++++
-.. versionadded:: python sdk-v2.0.1
+.. versionadded:: python SDK-v2.0.1
     
 .. csv-table:: 
     :stub-columns: 1
@@ -281,7 +281,7 @@
 
 即时设置摆动参数
 ++++++++++++++++++++++++++++++++++
-.. versionadded:: python sdk-v2.0.1
+.. versionadded:: python SDK-v2.0.1
     
 .. csv-table:: 
     :stub-columns: 1
@@ -303,7 +303,7 @@
 
 摆动开始
 ++++++++++++++++++++++++++++++++++
-.. versionadded:: python sdk-v2.0.1
+.. versionadded:: python SDK-v2.0.1
     
 .. csv-table:: 
     :stub-columns: 1
@@ -317,7 +317,7 @@
 
 摆动结束
 ++++++++++++++++++++++++++++++++++
-.. versionadded:: python sdk-v2.0.1
+.. versionadded:: python SDK-v2.0.1
     
 .. csv-table:: 
     :stub-columns: 1
@@ -331,7 +331,7 @@
 
 正向送丝
 ++++++++++++++++++++++++++++++++++
-.. versionadded:: python sdk-v2.0.1
+.. versionadded:: python SDK-v2.0.1
     
 .. csv-table:: 
     :stub-columns: 1
@@ -383,7 +383,7 @@
 
 反向送丝
 ++++++++++++++++++++++++++++++++++
-.. versionadded:: python sdk-v2.0.1
+.. versionadded:: python SDK-v2.0.1
     
 .. csv-table:: 
     :stub-columns: 1
@@ -398,7 +398,7 @@
 
 送气
 ++++++++++++++++++++++++++++++++++
-.. versionadded:: python sdk-v2.0.1
+.. versionadded:: python SDK-v2.0.1
     
 .. csv-table:: 
     :stub-columns: 1
@@ -413,7 +413,7 @@
 
 分段焊接启动
 ++++++++++++++++++++++++++++++++++
-.. versionadded:: python sdk-v2.0.1
+.. versionadded:: python SDK-v2.0.1
     
 .. csv-table:: 
     :stub-columns: 1

@@ -385,3 +385,55 @@
         rtn = robot.ProgramLoad("/fruser/test.lua");
         rtn = robot.ProgramRun();
     }
+
+初始化日志参数
++++++++++++++++++++++++++++++
+
+.. versionadded:: C#SDK-v1.0.5
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 初始化日志参数
+    * @param [in] logType：输出模式，DIRECT-直接输出；BUFFER-缓冲输出；ASYNC-异步输出
+    * @param [in] logLevel：日志过滤等级，ERROR-错误；WARNING-警告;INFO-信息；DEBUG-调试
+    * @param [in] filePath: 文件保存路径，如“D://Log/”
+    * @param [in] saveFileNum：保存文件个数，同时超出保存文件个数和保存文件天数的文件将被删除
+    * @param [in] saveDays: 保存文件天数，同时超出保存文件个数和保存文件天数的文件将被删除
+    * @return 错误码
+    */
+    public int LoggerInit(FrLogType logType = FrLogType.DIRECT, FrLogLevel logLevel = FrLogLevel.ERROR, string filePath = "", int saveFileNum = 10, int saveDays = 10);
+
+设置日志过滤等级
++++++++++++++++++++++++++++++
+
+.. versionadded:: C#SDK-v1.0.5
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 设置日志过滤等级;
+    * @param [in] logLevel: 日志过滤等级，ERROR-错误；WARNING-警告;INFO-信息；DEBUG-调试
+    * @return 错误码
+    */
+    public int SetLoggerLevel(FrLogLevel logLevel);
+
+
+代码示例
++++++++++
+
+.. versionadded:: C#SDK-v1.0.5
+
+.. code-block:: c#
+    :linenos:
+
+    private void btnTestLog_Click(object sender, EventArgs e)
+    {
+        robot = new Robot();//实例化机器人对象
+        robot.RPC("192.168.58.2"); //与控制箱建立连接
+        string path = "D://log/";
+        robot.LoggerInit(FrLogType.ASYNC, FrLogLevel.DEBUG, path, 5, 5);
+        robot.SetLoggerLevel(FrLogLevel.INFO);
+    }

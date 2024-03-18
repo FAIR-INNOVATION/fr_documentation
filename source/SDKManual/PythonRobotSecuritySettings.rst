@@ -248,7 +248,9 @@
     print("设置关节摩擦力补偿系数-自由装错误码:",error)
 
 下载点位表数据库
-.. versionadded:: python sdk-v2.0.1
++++++++++++++++++++++++++++++++
+
+.. versionadded:: python SDK-v2.0.1
 
 .. csv-table:: 
     :stub-columns: 1
@@ -275,7 +277,7 @@
  
 上传点位表数据库
 +++++++++++++++++++++++++++++++++
-.. versionadded:: python sdk-v2.0.1
+.. versionadded:: python SDK-v2.0.1
 
 .. csv-table:: 
     :stub-columns: 1
@@ -301,7 +303,7 @@
 
 点位表切换
 +++++++++++++++++++++++++++++++++
-.. versionadded:: python sdk-v2.0.1
+.. versionadded:: python SDK-v2.0.1
 
 .. csv-table:: 
     :stub-columns: 1
@@ -327,7 +329,7 @@
 
 点位表更新lua文件
 +++++++++++++++++++++++++++++++++
-.. versionadded:: python sdk-v2.0.1
+.. versionadded:: python SDK-v2.0.1
 
 .. csv-table:: 
     :stub-columns: 1

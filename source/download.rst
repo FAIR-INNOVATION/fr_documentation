@@ -25,16 +25,6 @@
 
 二次开发
 ---------------------------------
-    :download:`FAIRINO CPP SDK-v1 <https://gitee.com/fair-innovation/frcobot_cpp_sdk/repository/archive/master.zip>`
-
-    :download:`FAIRINO CPP SDK-v2 <https://gitee.com/fair-innovation/fairino-cpp-sdk/repository/archive/master.zip>`
-
-    :download:`FAIRINO C# SDK-v1 <https://gitee.com/fair-innovation/fairino-csharp-sdk/repository/archive/master.zip>`
-
-    :download:`FAIRINO Python SDK-v1 <https://gitee.com/fair-innovation/frcobot_python_sdk/repository/archive/master.zip>`
-
-    :download:`FAIRINO Python SDK-v2 <https://gitee.com/fair-innovation/fairino-python-sdk/repository/archive/master.zip>`
-
     :download:`FAIRINO ROS1 <https://gitee.com/fair-innovation/frcobot_ros/repository/archive/master.zip>`
 
     :download:`FAIRINO ROS2 <https://gitee.com/fair-innovation/frcobot_ros2/repository/archive/master.zip>`
@@ -61,4 +51,10 @@
 
 软件下载
 ---------------------------------
-    :download:`FAIRINO-CobotSoftware-V3.7.0-Release-240318 <https://pan.baidu.com/s/1gZKZA4uN62eAP1_fPNpnbA?pwd=t3ew>`
+    :download:`FAIRINO-CobotSoftware-V3.6.9-Release-240123 <https://pan.baidu.com/s/1zKgVSD71Gl136ucM6LEA_A?pwd=23id>`
+
+    :download:`FAIRINO CPP SDK-v2 <https://gitee.com/fair-innovation/fairino-cpp-sdk/repository/archive/master.zip>`
+
+    :download:`FAIRINO C# SDK-v1 <https://gitee.com/fair-innovation/fairino-csharp-sdk/repository/archive/master.zip>`
+
+    :download:`FAIRINO Python SDK-v2 <https://gitee.com/fair-innovation/fairino-python-sdk/repository/archive/master.zip>`

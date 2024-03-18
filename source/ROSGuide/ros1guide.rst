@@ -41,7 +41,8 @@ ROS安装要求
         ros-noetic-rosparam-shortcuts \
         ros-noetic-ros-control \
         ros-noetic-ros-controllers \
-        ros-noetic-moveit 
+        ros-noetic-moveit \
+        libxmlrpcpp-dev
 
 编译ROS包
 -------------

@@ -98,7 +98,7 @@
 
     /**
     * @brief  设置工具坐标系列表
-    * @param  [in] id 坐标系编号，范围[1~15]
+    * @param  [in] id 坐标系编号，范围[0~14]
     * @param  [in] coord  工具中心点相对于末端法兰中心位姿
     * @param  [in] type  0-工具坐标系，1-传感器坐标系
     * @param  [in] install 安装位置，0-机器人末端，1-机器人外部

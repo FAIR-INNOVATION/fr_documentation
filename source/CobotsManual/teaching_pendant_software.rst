@@ -1482,6 +1482,18 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
 
 .. centered:: 图表 4.7‑5-2 Lin指令界面
 
+.. important:: 当选择点名称为“seamPos”时，直线命令应用于焊接场景中使用激光传感器。由于焊接使用中的运行累计误差，故增加“是否偏移”和“偏移量”。
+
+   **是否偏移**：否、基坐标系偏移、工具坐标系偏移、激光原始数据偏移；
+
+   **偏移量**：∆x、∆y、∆z、∆rx、∆ry、∆rz，范围：-300~300；
+
+   .. image:: teaching_pendant_software/277.png
+      :width: 6in
+      :align: center
+
+   .. centered:: 图表 4.7‑5-3 Lin指令界面（焊接场景）
+
 圆弧命令
 ++++++++++++++++
 
@@ -1497,7 +1509,7 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-3 Arc指令界面
+.. centered:: 图表 4.7‑5-4 Arc指令界面
 
 整圆命令
 ++++++++++++++++
@@ -1514,7 +1526,7 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-4 Circle指令界面
+.. centered:: 图表 4.7‑5-5 Circle指令界面
 
 螺旋命令
 ++++++++++++++++
@@ -1528,7 +1540,7 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-5 Spiral指令界面
+.. centered:: 图表 4.7‑5-6 Spiral指令界面
 
 新螺旋命令
 ++++++++++++++++
@@ -1541,7 +1553,7 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-6 N-Spiral指令界面
+.. centered:: 图表 4.7‑5-7 N-Spiral指令界面
 
 水平螺旋命令
 ++++++++++++++++
@@ -1559,7 +1571,7 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-7 H-Spiral指令界面
+.. centered:: 图表 4.7‑5-8 H-Spiral指令界面
 
 样条命令
 ++++++++++++++++
@@ -1572,7 +1584,7 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-8 Spline指令界面
+.. centered:: 图表 4.7‑5-9 Spline指令界面
 
 新样条命令
 ++++++++++++++++
@@ -1592,28 +1604,36 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-9 N-Spline指令界面
+.. centered:: 图表 4.7‑5-10 N-Spline指令界面
 
 摆动命令
 ++++++++++++++++
 
-点击“摆动”图标进入Weave命令编辑界面
+点击“摆动”图标进入Weave命令编辑界面。“Weave”指令包含两部分：
 
-“Weave”指令包含两部分，第一部分选择配置好参数的摆焊编号，点击“开始摆焊”和“停止摆焊”并应用可将相关指令添加到程序中。
+- 选择配置好参数的摆焊编号，点击“开始摆焊”和“停止摆焊”并应用可将相关指令添加到程序中。
 
 .. image:: teaching_pendant_software/110.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-10 Weave指令界面
+.. centered:: 图表 4.7‑5-11 Weave指令界面
 
-点击“配置与测试”，可以对摆焊的参数进行配置，配置完成后可通过开始摆焊测试和停止摆焊测试按键测试该摆焊轨迹。
+- 点击“配置与测试”，可以根据使用场景选择摆动类型，对摆焊的参数进行配置，配置完成后可通过开始摆焊测试和停止摆焊测试按键测试该摆焊轨迹。目前摆动类型有：
+
+   - 三角波摆动（LIN/ARC）
+   - 垂直L型三角波摆动（LIN/ARC）
+   - 圆形摆动-顺时针（LIN）
+   - 圆形摆动-逆时针（LIN）
+   - 正弦波摆动（LIN/ARC）
+   - 垂直L型正弦波摆动（LIN/ARC）
+   - 立焊三角摆动
 
 .. image:: teaching_pendant_software/111.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-11 Weave配置与测试指令界面
+.. centered:: 图表 4.7‑5-12 Weave配置与测试指令界面
 
 轨迹复现命令
 ++++++++++++++++
@@ -1634,7 +1654,7 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-12 TPD指令界面
+.. centered:: 图表 4.7‑5-13 TPD指令界面
 
 点偏移命令
 ++++++++++++++++
@@ -1647,7 +1667,7 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-13 Offset指令界面
+.. centered:: 图表 4.7‑5-14 Offset指令界面
 
 伺服命令
 ++++++++++++++++
@@ -1660,7 +1680,7 @@ ServoCart伺服控制（笛卡尔空间运动）指令，该指令可以通过�
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-14 ServoCart指令界面
+.. centered:: 图表 4.7‑5-15 ServoCart指令界面
 
 绝对位姿控制程序实例：
 
@@ -1685,7 +1705,7 @@ ServoCart伺服控制（笛卡尔空间运动）指令，该指令可以通过�
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-15 Trajctory指令界面
+.. centered:: 图表 4.7‑5-16 Trajctory指令界面
 
 轨迹J命令
 ++++++++++++++++
@@ -1706,7 +1726,7 @@ Trajctory指令和TrajctoryJ指令适用于相机直接给定轨迹的通用接�
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-16 TrajctoryJ指令界面
+.. centered:: 图表 4.7‑5-17 TrajctoryJ指令界面
 
 DMP命令
 ++++++++++++++++
@@ -1719,7 +1739,7 @@ DMP是一种轨迹模仿学习的方法，需要事先规划参考轨迹。在�
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-17 DMP指令界面
+.. centered:: 图表 4.7‑5-18 DMP指令界面
 
 工件转换命令
 ++++++++++++++++
@@ -1732,7 +1752,7 @@ DMP是一种轨迹模仿学习的方法，需要事先规划参考轨迹。在�
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-18 WPTrsf指令界面
+.. centered:: 图表 4.7‑5-19 WPTrsf指令界面
 
 控制指令界面
 ~~~~~~~~~~~~~
@@ -2022,11 +2042,23 @@ Acc指令是实现机器人加速度可单独设置功能，通过调节运动�
 
 该指令包含激光命令、跟踪命令和寻位命令三部分，在添加该指令前，请确认用户外设中激光跟踪传感器是否已经配置成功。详见机器人外设章节。
 
+传感器加载模块中，根据功能选择显示相应“传感器命令”界面后，进行传感器命令配置：
+
+**睿牛/创想**：输入焊缝类型，范围：0~49整数
+
 .. image:: teaching_pendant_software/118.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7-8-3 Laser指令界面
+.. centered:: 图表 4.7-8-3-1 Laser指令界面(焊缝类型)
+
+**全视**：输入任务号，范围：0~255整数
+
+.. image:: teaching_pendant_software/278.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7-8-3-2 Laser指令界面(任务号)
 
 激光记录命令
 ++++++++++++++++
