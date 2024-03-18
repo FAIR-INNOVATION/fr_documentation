@@ -51,7 +51,7 @@
 
 软件下载
 ---------------------------------
-    :download:`FAIRINO-CobotSoftware-V3.6.9-Release-240123 <https://pan.baidu.com/s/1zKgVSD71Gl136ucM6LEA_A?pwd=23id>`
+    :download:`FAIRINO-CobotSoftware-V3.7.0-Release-240308 <https://pan.baidu.com/s/1gZKZA4uN62eAP1_fPNpnbA?pwd=t3ew>`
 
     :download:`FAIRINO CPP SDK-v2 <https://gitee.com/fair-innovation/fairino-cpp-sdk/repository/archive/master.zip>`
 
