@@ -49,6 +49,10 @@
 
     :download:`FRCobots-V6.0 STEP模型 <_static/_doc/FRCobots-V6.0 STEP Models.zip>`
 
+控制器虚拟机
+-----------------------
+    :download:`FAIRINO SimMachine <https://pan.baidu.com/s/11yp-X-AlN-OyhzWV9rDlbQ?pwd=lp85>`
+
 软件下载
 ---------------------------------
     :download:`FAIRINO-CobotSoftware-V3.7.0-Release-240318 <https://pan.baidu.com/s/1gZKZA4uN62eAP1_fPNpnbA?pwd=t3ew>`
