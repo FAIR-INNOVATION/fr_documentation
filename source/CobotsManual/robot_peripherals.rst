@@ -364,7 +364,7 @@
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.4‑5 激光跟踪指令编辑
+.. centered:: 图表 5.4‑7 激光跟踪指令编辑
 
 程序示例：
 
@@ -418,7 +418,7 @@
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.4‑6 轨迹复现指令编辑
+.. centered:: 图表 5.4‑8 轨迹复现指令编辑
 
 程序示例：
 
