@@ -1951,7 +1951,7 @@ Modbus命令
 - 等待状态：true/false
 - 超时时间(ms)：整数型
   
-.. image:: node_editor_software/126.png
+.. image:: node_editor_software/127.png
    :width: 6in
    :align: center
 
@@ -1964,18 +1964,18 @@ Modbus命令
 - 寄存器数量：整数型 0 ~ 128
 - 寄存器值：根据寄存器数量来定，可输入多个数值。
   
-.. image:: node_editor_software/127.png
+.. image:: node_editor_software/128.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 6.2.123 主站“等待模拟输入”指令节点界面
+.. centered:: 图表 6.2.123 从站“等待模拟输入”指令节点界面
 
 12.从站模拟输入设置,参数：
 
 - AI名称：根据实际情况配置
 - 寄存器数量：整数型 0 ~ 128
 
-.. image:: node_editor_software/128.png
+.. image:: node_editor_software/126.png
    :width: 6in
    :align: center
 
