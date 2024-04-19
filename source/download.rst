@@ -40,6 +40,8 @@
 
     :download:`CE-EMC认证证书 <_static/_doc/CE-EMC认证.zip>`
 
+    :download:`CE-MD认证证书 <_static/_doc/CE-MD认证证书.zip>`
+
     :download:`功能安全认证证书 <_static/_doc/功能安全认证.zip>`
 
 .. Ecological Accessories
