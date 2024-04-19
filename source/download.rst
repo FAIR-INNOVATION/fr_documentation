@@ -20,6 +20,28 @@
 
     :download:`法奥意威CR证书 <_static/_doc/法奥意威CR证书.pdf>`
 
+    :download:`高防护IP65测试认证证书 <_static/_doc/高防护IP65测试认证.zip>`
+
+    :download:`NSF认证证书 <_static/_doc/NSF认证.zip>`
+
+    :download:`碰撞力测试认证证书 <_static/_doc/碰撞力测试认证.zip>`
+
+    :download:`ROHS测试认证证书 <_static/_doc/ROHS测试认证.zip>`
+
+    :download:`零部件-电机认证证书 <_static/_doc/零部件-电机认证.zip>`
+
+    :download:`零部件-驱动器认证证书 <_static/_doc/零部件-驱动器认证.zip>`
+
+    :download:`零部件-核心板认证证书 <_static/_doc/零部件-核心板认证.zip>`
+
+    :download:`零部件-电源认证证书 <_static/_doc/零部件-电源认证.zip>`
+
+    :download:`防爆认证证书 <_static/_doc/防爆认证.zip>`
+
+    :download:`CE-EMC认证证书 <_static/_doc/CE-EMC认证.zip>`
+
+    :download:`功能安全认证证书 <_static/_doc/功能安全认证.zip>`
+
 .. Ecological Accessories
 .. ---------------------------
 
