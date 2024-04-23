@@ -1516,17 +1516,163 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
 
 点击“整圆”图标进入Circle命令编辑界面。
 
-“Circle”指令为整圆运动，包含两个点，第一点为整圆中间过渡点1，第二点为整圆中间过渡点2，过渡点2可以设置是否偏移，该偏移量同时生效于过渡点1和过渡点2。
+协作机器人通过添加整圆指令可以进行整圆轨迹运动，在添加整圆指令前需要先示教出整圆轨迹上的3个路径点，假设整圆轨迹上三个路径点分别为“P1”、“P2”、“P3”，其中“P1”为整圆轨迹起点，“P2”和“P3”分别为整圆轨迹中间点1和中间点2，分别移动机器人至上述三个点，并添加示教点位名称分别为“P1”、“P2”、“P3”。
 
 .. image:: teaching_pendant_software/087.png
-   :width: 6in
+   :width: 3in
    :align: center
+
+.. centered:: 图表 4.7‑5-5 整圆轨迹
 
 .. image:: teaching_pendant_software/088.png
+   :width: 3in
+   :align: center
+
+.. image:: teaching_pendant_software/279.png
+   :width: 3in
+   :align: center
+
+.. image:: teaching_pendant_software/280.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑5-6 示教“P1”、“P2”、“P3”点
+
+整圆指令添加
+**************
+
+**Step1**：新建用户程序“testCircle.lua”，点击“整圆”按钮，打开整圆指令添加页面。
+
+.. image:: teaching_pendant_software/281.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-5 Circle指令界面
+.. centered:: 图表 4.7‑5-7 添加整圆指令按钮
+
+**Step2**：在整圆指令添加页面中选择“整圆中间点1”为“P2”点，点击“下一页”。
+
+.. image:: teaching_pendant_software/282.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑5-8 整圆中间点1
+
+**Step3**：选择“整圆中间点2”为“P3”点，依次点击“添加”按钮和“应用”按钮。
+
+.. image:: teaching_pendant_software/283.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑5-9 整圆中间点2
+
+**Step4**：此时“testCircle.lua”已经增加整圆运动指令。
+
+.. image:: teaching_pendant_software/284.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑5-10 整圆运动指令添加
+
+上述整圆运动指令仅定义了整圆的两个路径点，还需要定义整圆运动的起点才能使机器人按照预定的整圆轨迹运动。添加直线运动指令，直线运动目标点为整圆轨迹起点“P1”点，且调整指令位置使机器人先运动到整圆起点“P1”，再执行路径中间点为“P2”和“P3”的整圆轨迹运动。
+
+.. image:: teaching_pendant_software/285.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑5-11 添加整圆运动起点
+
+将机器人切换到自动模式，在确保安全的前提下启动该程序，机器人即按整圆轨迹进行运动。
+
+整圆轨迹偏移
+**************
+
+协作机器人的整圆运动支持对整圆轨迹中间点1和整圆轨迹中间点2的位置进行偏移，偏移类型包括以下两种类型;
+
+**整圆两个轨迹中间点相同偏移量**：整圆轨迹中间点1（“P2”点）和整圆轨迹中间点2（“P3”点）采用相同的偏移量∆(dx, dy, dz, drx, dry, drz)进行偏移。
+
+**整圆两个轨迹中间点不同偏移量**：整圆轨迹中间点1（“P2”点）和整圆轨迹中间点2（“P3”点）分别采用两个不同的偏移量∆1(dx1, dy1, dz1, drx1, dry1, drz1)和∆2(dx2, dy2, dz2, drx2, dry2, drz2)进行偏移。
+
+下面分别演示“相同偏移量”和“不同偏移量”的用法。
+
+1. 相同偏移量
+
+所示，打开整圆指令添加页面，“偏移类型”选择“相同偏移量”，同样选择整圆中间点1为“P2”点，点击“下一页”按钮。
+
+.. image:: teaching_pendant_software/286.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑5-12 整圆相同偏移量
+
+整圆中间点2选择“P3”，“是否偏移”选择“基座标偏移”。
+
+.. note:: 您可以根据实际的工作情况选择“工具坐标偏移”。
+
+输入偏移量dx为10mm，依次点击页面下方的“添加”按钮和“应用”按钮。
+
+.. image:: teaching_pendant_software/287.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑5-13 设置偏移量
+
+此时一条整圆两个中间点“P2”和“P3”均沿基座标系的X轴方向偏移10mm的整圆指令已经添加到“testCircle.lua”程序中；当然在整圆运动指令前还需要添加一条直线运动指令使机器人运动到整圆的起点。
+
+.. image:: teaching_pendant_software/288.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑5-14 整圆相同偏移量程序
+
+将机器人切换至自动模式，在保证安全的情况下启动该程序，机器人的实际运动轨迹中穿过“P1”、“P2”和“P3”的圆，其中“P2”为原“P2”点沿X方向偏移10mm后的点，其中“P3”为原“P3”点沿X方向偏移10mm后的点。
+
+.. image:: teaching_pendant_software/289.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑5-15 相同偏移量X10mm轨迹
+
+2. 不同偏移量
+
+打开整圆指令添加页面，“偏移类型”选择“不同偏移量”，同样选择整圆中间点1为“P2”点，“是否偏移”选择为“基座标偏移”。
+
+.. note:: 您可以根据实际的工作情况选择“工具坐标偏移”。
+
+输入偏移量dy为10mm，点击“下一页”按钮。
+
+.. image:: teaching_pendant_software/290.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑5-16 不同偏移量
+
+整圆中间点选择“P3”，“是否偏移”选择“基座标偏移”。
+
+.. note:: 您可以根据实际的工作情况选择“工具坐标偏移”。
+
+输入偏移量dx为10mm，依次点击页面下方的“添加”按钮和“应用”按钮。
+
+.. image:: teaching_pendant_software/291.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑5-17 不同偏移量设置中间点2偏移
+
+此时一条整圆中间点“P2”沿基座标系Y方向偏移10mm和“P3”沿基座标系的X轴方向偏移10mm的整圆指令已经添加到“testCircle.lua”程序中；当然在整圆运动指令前还需要添加一条直线运动指令使机器人运动到整圆的起点。    
+
+.. image:: teaching_pendant_software/292.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑5-18 整圆两点不同偏移量程序
+
+将机器人切换至自动模式，在保证安全的情况下启动该程序，机器人的实际运动轨迹中穿过“P1”、“P2’”和“P3’”的圆，其中“P2’”为原“P2”点沿Y方向偏移10mm后的点，其中“P3’”为原“P3”点沿X方向偏移10mm后的点。
+
+.. image:: teaching_pendant_software/293.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑5-19 整圆两轨迹点分别偏移轨迹
 
 螺旋命令
 ++++++++++++++++
@@ -1540,7 +1686,7 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-6 Spiral指令界面
+.. centered:: 图表 4.7‑5-20 Spiral指令界面
 
 新螺旋命令
 ++++++++++++++++
@@ -1553,7 +1699,7 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-7 N-Spiral指令界面
+.. centered:: 图表 4.7‑5-21 N-Spiral指令界面
 
 水平螺旋命令
 ++++++++++++++++
@@ -1571,7 +1717,7 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-8 H-Spiral指令界面
+.. centered:: 图表 4.7‑5-22 H-Spiral指令界面
 
 样条命令
 ++++++++++++++++
@@ -1584,7 +1730,7 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-9 Spline指令界面
+.. centered:: 图表 4.7‑5-23 Spline指令界面
 
 新样条命令
 ++++++++++++++++
@@ -1604,7 +1750,7 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-10 N-Spline指令界面
+.. centered:: 图表 4.7‑5-24 N-Spline指令界面
 
 摆动命令
 ++++++++++++++++
@@ -1617,7 +1763,7 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-11 Weave指令界面
+.. centered:: 图表 4.7‑5-25 Weave指令界面
 
 - 点击“配置与测试”，可以根据使用场景选择摆动类型，对摆焊的参数进行配置，配置完成后可通过开始摆焊测试和停止摆焊测试按键测试该摆焊轨迹。目前摆动类型有：
 
@@ -1633,7 +1779,7 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-12 Weave配置与测试指令界面
+.. centered:: 图表 4.7‑5-26 Weave配置与测试指令界面
 
 轨迹复现命令
 ++++++++++++++++
@@ -1654,7 +1800,7 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-13 TPD指令界面
+.. centered:: 图表 4.7‑5-27 TPD指令界面
 
 点偏移命令
 ++++++++++++++++
@@ -1667,7 +1813,7 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-14 Offset指令界面
+.. centered:: 图表 4.7‑5-28 Offset指令界面
 
 伺服命令
 ++++++++++++++++
@@ -1680,7 +1826,7 @@ ServoCart伺服控制（笛卡尔空间运动）指令，该指令可以通过�
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-15 ServoCart指令界面
+.. centered:: 图表 4.7‑5-29 ServoCart指令界面
 
 绝对位姿控制程序实例：
 
@@ -1705,7 +1851,7 @@ ServoCart伺服控制（笛卡尔空间运动）指令，该指令可以通过�
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-16 Trajctory指令界面
+.. centered:: 图表 4.7‑5-30 Trajctory指令界面
 
 轨迹J命令
 ++++++++++++++++
@@ -1726,7 +1872,7 @@ Trajctory指令和TrajctoryJ指令适用于相机直接给定轨迹的通用接�
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-17 TrajctoryJ指令界面
+.. centered:: 图表 4.7‑5-31 TrajctoryJ指令界面
 
 DMP命令
 ++++++++++++++++
@@ -1739,7 +1885,7 @@ DMP是一种轨迹模仿学习的方法，需要事先规划参考轨迹。在�
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-18 DMP指令界面
+.. centered:: 图表 4.7‑5-32 DMP指令界面
 
 工件转换命令
 ++++++++++++++++
@@ -1752,7 +1898,7 @@ DMP是一种轨迹模仿学习的方法，需要事先规划参考轨迹。在�
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑5-19 WPTrsf指令界面
+.. centered:: 图表 4.7‑5-33 WPTrsf指令界面
 
 控制指令界面
 ~~~~~~~~~~~~~
@@ -2027,7 +2173,7 @@ Acc指令是实现机器人加速度可单独设置功能，通过调节运动�
 
 点击“段焊”图标进入Segment命令编辑界面
 
-该指令为焊接专用指令，主要用于一段焊，一段不焊的循环间断焊接场景。在起点与终点之间，使用该指令，选择起点和终点，设置调试速度，设置起弧的DO端口，执行长度，非执行长度，根据实际应用场景设置功能模式，摆动选择和取整规则即可实现段焊功能。
+该指令为焊接专用指令，主要用于一段焊，一段不焊的循环间断焊接场景。在起点与终点之间，使用该指令，选择起点和终点，设置调试速度，设置执行长度，非执行长度，根据实际应用场景设置功能模式，摆动选择和取整规则即可实现段焊功能。
 
 .. image:: teaching_pendant_software/112.png
    :width: 6in
