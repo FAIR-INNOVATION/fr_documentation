@@ -152,3 +152,87 @@
         retval = robot.PointTableUpdateLua(point_tablename, lua_name);
         cout << "retval is: " << retval << endl;
     }
+        
+获取机器人外设协议
+++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.3.0
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 获取机器人外设协议
+    * @param [out] protocol 机器人外设协议号 4096-扩展轴控制卡；4097-ModbusSlave；4098-ModbusMaster
+    * @return 错误码
+    */
+    errno_t GetExDevProtocol(int *protocol);
+
+设置机器人外设协议
+++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.3.0
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 设置机器人外设协议
+    * @param [in] protocol 机器人外设协议号 4096-扩展轴控制卡；4097-ModbusSlave；4098-ModbusMaster
+    * @return 错误码
+    */
+    errno_t SetExDevProtocol(int protocol);
+
+代码示例
+++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.3.0
+
+.. code-block:: c++
+    :linenos:
+    
+    #include "libfairino/robot.h"
+    //如果使用Windows，包含下面的头文件
+    #include <string.h>
+    #include <windows.h>
+    //如果使用linux，包含下面的头文件
+    /*
+    #include <cstdlib>
+    #include <iostream>
+    #include <stdio.h>
+    #include <cstring>
+    #include <unistd.h>
+    */
+    #include <chrono>
+    #include <thread>
+    #include <string>
+
+    using namespace std;
+
+    int main(void)
+    {
+        FRRobot robot; 
+        robot.LoggerInit();
+        robot.SetLoggerLevel();
+        robot.RPC("192.168.58.2");
+        int retval = 0;
+
+        ROBOT_STATE_PKG robot_pkg;
+        int i = 0;
+        while (i < 5)
+        {
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+            memset(&robot_pkg, 0, sizeof(ROBOT_STATE_PKG));
+            retval = robot.GetRobotRealTimeState(&robot_pkg);
+            std::cout << "program_state " << (int)robot_pkg.program_state<< "\n"
+                << "data_len " << (int)robot_pkg.data_len << "\n"
+                << "robot_state " << (int)robot_pkg.robot_state << "\n"
+                << "robot_mode " << (int)robot_pkg.robot_mode << std::endl;
+            i++;
+        }
+
+        int protocol = 4096;
+        retval = robot.SetExDevProtocol(protocol);
+        std::cout << "SetExDevProtocol retval " << retval << std::endl;
+        retval = robot.GetExDevProtocol(&protocol);
+        std::cout << "GetExDevProtocol retval " << retval <<" protocol is: " << protocol << std::endl;
+
+        return 0;
+    }
