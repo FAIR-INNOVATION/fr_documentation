@@ -607,16 +607,17 @@ jog点动立即停止
 +++++++++++++++++++
 新样条运动开始
 ------------------
+.. versionchanged:: python SDK-v2.0.3
+
 .. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``NewSplineStart(type)``"
+    "原型", "``NewSplineStart(type,averageTime)``"
     "描述", "新样条运动开始"
     "必选参数", "- ``type``:0-圆弧过渡，1-给定点位路径点"
-    "默认参数", "无"
+    "默认参数", "- ``averageTime``:全局平均衔接时间（ms）默认为 2000"
     "返回值", "错误码 成功-0  失败- errcode"
-
 
 新样条运动结束
 -------------------

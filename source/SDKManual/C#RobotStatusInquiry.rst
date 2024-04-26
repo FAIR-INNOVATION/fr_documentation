@@ -534,3 +534,34 @@
         robot.GetMotionQueueLength(ref length);
         Console.WriteLine($"GetMotionQueueLength  {length}");
     }
+
+获取机器人实时状态结构体
+++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-v1.0.6
+
+.. code-block:: c#
+    :linenos:
+
+    /** 
+    * @brief 获取机器人实时状态结构体
+    * @param [out] pkg 机器人实时状态结构体 
+    * @return 错误码 
+    */
+    int GetRobotRealTimeState(ref ROBOT_STATE_PKG pkg);
+
+代码示例
++++++++++++
+.. versionadded:: C#SDK-v1.0.6
+
+.. code-block:: c#
+    :linenos:
+
+    private void btnGetState_Click(object sender, EventArgs e)
+    {
+        Robot robot = new Robot();
+        robot.RPC("192.168.58.2");
+
+        ROBOT_STATE_PKG pKG = new ROBOT_STATE_PKG();
+        robot.GetRobotRealTimeState(ref pKG);
+        Console.WriteLine($"the state is {pKG.main_code}");
+    }

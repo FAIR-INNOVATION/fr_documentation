@@ -33,4 +33,5 @@ C++
     CPPRobotWebAPPProgramUse
     CPPRobotPeripherals
     CPPRobotForceControl
+    CPPRobotExtendedAxis
     CPPRobotOthers

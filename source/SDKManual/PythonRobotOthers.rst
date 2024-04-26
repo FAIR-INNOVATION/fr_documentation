@@ -163,3 +163,45 @@
     robot = Robot.RPC('192.168.58.2')
     robot.LoggerInit(output_model=0,file_path="D://Desktop/fairino.log",file_num=3)
     robot.SetLoggerLevel(3)
+
+设置机器人外设协议
++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.3
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetExDevProtocol(protocol)``"
+    "描述", "设置机器人外设协议"
+    "必选参数", "- ``protocol``：机器人外设协议号 4096-扩展轴控制卡；4097-ModbusSlave；4098-ModbusMaster"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+代码示例
+------------
+.. code-block:: python
+    :linenos: 
+
+    from fairino import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    ret =robot.SetExDevProtocol(4098)
+    print("SetExDevProtocol",ret)
+    ret =robot.GetExDevProtocol()
+    print("GetExDevProtocol",ret)
+
+获取机器人外设协议
++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.3
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetExDevProtocol()``"
+    "描述", "获取机器人外设协议"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode; 
+    - ``protocol（调用成功返回）``: 机器人外设协议号 4096-扩展轴控制卡；4097-ModbusSlave；4098-ModbusMaster"

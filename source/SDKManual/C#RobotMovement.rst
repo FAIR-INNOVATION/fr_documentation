@@ -646,15 +646,18 @@ jog点动立即停止
 
 新样条运动开始
 ++++++++++++++++++++++++++++++++++
+.. versionchanged:: C#SDK-v1.0.6
+
 .. code-block:: c#
     :linenos:
 
     /** 
     * @brief 新样条运动开始 
     * @param [in] type  0-圆弧过渡，1-给定点位为路径点
+    * @param [in] averageTime  全局平均衔接时间(ms)(10 ~  )，默认2000
     * @return 错误码 
     */ 
-    int NewSplineStart(int type);
+    int NewSplineStart(int type, int averageTime=2000);
     
 新样条指令点
 ++++++++++++++++++++++++++++++++++

@@ -31,4 +31,5 @@ C#
     C#RobotPeripherals
     C#RobotForceControl
     C#RobotWelding
+    C#RobotExtendedAxis
     C#RobotOther

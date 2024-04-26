@@ -407,7 +407,6 @@
 
 设置日志过滤等级
 +++++++++++++++++++++++++++++
-
 .. versionadded:: C#SDK-v1.0.5
 
 .. code-block:: c#
@@ -436,4 +435,51 @@
         string path = "D://log/";
         robot.LoggerInit(FrLogType.ASYNC, FrLogLevel.DEBUG, path, 5, 5);
         robot.SetLoggerLevel(FrLogLevel.INFO);
+    }
+
+设置机器人外设协议
++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-v1.0.6
+
+.. code-block:: c#
+    :linenos:
+
+    /** 
+    * @brief 设置机器人外设协议
+    * @param [in] protocol 机器人外设协议号 4096-扩展轴控制卡；4097-ModbusSlave；4098-ModbusMaster
+    * @return 错误码 
+    */
+    int SetExDevProtocol(int protocol);
+
+获取机器人外设协议
++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-v1.0.6
+
+.. code-block:: c#
+    :linenos:
+
+    /** 
+    * @brief 获取机器人外设协议
+    * @param [out] protocol 机器人外设协议号 4096-扩展轴控制卡；4097-ModbusSlave；4098-ModbusMaster
+    * @return 错误码 
+    */
+    int GetExDevProtocol(ref int protocol);
+
+代码示例
+++++++++++
+.. versionadded:: C#SDK-v1.0.6
+
+.. code-block:: c#
+    :linenos:
+
+    private void btnSetProto_Click(object sender, EventArgs e)
+    {
+        Robot robot = new Robot();
+        robot.RPC("192.168.58.2");
+
+        int protocol = 4098;//ModbusMaster 
+        robot.SetExDevProtocol(protocol);
+
+        robot.GetExDevProtocol(ref protocol);
+        Console.Writeline(“protocol is ” + protocol);
     }

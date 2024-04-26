@@ -119,6 +119,8 @@
 
 控制器状态反馈数据包
 +++++++++++++++++++++++++++
+.. versionchanged:: C++SDK-v2.1.3.0
+
 .. code-block:: c++
     :linenos:
 
@@ -213,4 +215,25 @@
         int8_t   gripper_current;           /* 夹爪电流 */
         int      gripper_temp;              /* 夹爪温度 */
         int      gripper_voltage;           /* 夹爪电压 */
+        robot_aux_state aux_state;
     }ROBOT_STATE_PKG;
+
+伺服控制器状态
++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.3.0
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief  伺服控制器状态
+    */
+    typedef struct ROBOT_AUX_STATE
+    {
+        uint8_t servoId;	// servoId 伺服驱动器ID，范围[1-15],对应从站ID
+        int servoErrCode;	//伺服驱动器故障码
+        int servoState;	//伺服驱动器状态 bit0:0-未使能；1-使能;  bit1:0-未运动；1-正在运动;  bit2 0-正限位未触发；1-正限位触发；bit3 0-负限位未触发；1-负限位触发；bit4 0-未定位完成；1-定位完成；  bit5：0-未回零；1-回零完成
+        double servoPos;	//伺服当前位置 mm或°
+        float servoVel;	//伺服当前速度 mm/s或°/s
+        float servoTorque;	//伺服当前转矩Nm
+    } robot_aux_state;
