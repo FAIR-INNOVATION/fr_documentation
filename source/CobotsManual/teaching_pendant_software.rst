@@ -2173,13 +2173,163 @@ Acc指令是实现机器人加速度可单独设置功能，通过调节运动�
 
 点击“段焊”图标进入Segment命令编辑界面
 
-该指令为焊接专用指令，主要用于一段焊，一段不焊的循环间断焊接场景。在起点与终点之间，使用该指令，选择起点和终点，设置调试速度，设置执行长度，非执行长度，根据实际应用场景设置功能模式，摆动选择和取整规则即可实现段焊功能。
+协作机器人通过添加段焊指令可以进行段焊操作，在添加段焊指令前需要先选择段焊模式，并示教起始点和终点。段焊模式分为不变化姿态和变化姿态，机器人根据所选段焊模式，来考虑焊接轨迹过程中是否变化姿态。
+
+示教起始点位“segment01”和终点“segment02”，确认焊接轨迹起始点和终点位置，如下图。
 
 .. image:: teaching_pendant_software/112.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7-8-2-1 起始点位“segment01”
+
+.. image:: teaching_pendant_software/294.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7-8-2-2 终点“segment02”
+
+段焊指令添加
+**************
+**Step1**：新建用户程序“testSegment1.lua”，点击“段焊”按钮，打开段焊指令添加页面。
+
+.. image:: teaching_pendant_software/295.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7-8-2 Segment指令界面
+.. centered:: 图表 4.7-8-2-3添加段焊指令按钮
+
+**Step2**：在段焊指令添加页面中选择“起始点”为“segment01”，选择“终点”为“segment02”。
+
+.. image:: teaching_pendant_software/296.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7-8-2-4 段焊起始点、终点
+
+**Step3**：配置调试速度、执行长度、非执行长度、功能模式、摆动选择和取整规则，依次点击“添加”按钮和“应用”按钮。
+
+**Step4**：此时“testSegment1.lua”已经增加段焊运动指令。
+
+.. image:: teaching_pendant_software/297.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7-8-2-5 段焊运动指令添加
+
+段焊运动轨迹姿态变化
+**********************
+协作机器人的段焊运动可选择段焊模式，模式类型包括以下两种类型;
+
+**不变化姿态**：机器人在焊接轨迹过程中始终保持焊接轨迹起始点姿态运行。
+
+**变化姿态**：机器人在焊接轨迹过程中，计算每一段轨迹的笛卡尔位姿和关节位置，在段焊运行过程中变化姿态。
+
+下面分别演示“不变化姿态”和“变化姿态”的用法。
+
+1. 不变化姿态
+   
+打开段焊指令添加页面，“段焊模式”选择“不变化姿态”，同样选择起始点”为“segment01”，“终点”为“segment02”，执行长度设置100，非执行长度设置成50，并选择其他相关配置后保存程序。
+
+.. image:: teaching_pendant_software/298.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7-8-2-6 不变化姿态段焊模式
+
+2. 变化姿态
+   
+打开段焊指令添加页面，“段焊模式”选择“变化姿态”，同样选择起始点”为“segment01”，“终点”为“segment02”，执行长度设置100，非执行长度设置成50，并选择其他相关配置后保存程序。
+
+.. image:: teaching_pendant_software/299.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7-8-2-7 变化姿态段焊模式
+
+3. 段焊运行类型
+
+运行程序，机器人段焊运行情况分为如下几种：
+
+1) 若功能模式选择第一段执行功能，摆动选择执行段摆动，取整规则不取整。则机器人100mm执行摆动运动，50mm执行直线运动交替进行，到终点时停止；
+
+.. image:: teaching_pendant_software/300.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7-8-2-8 第一段执行摆动功能不取整
+
+2) 若功能模式选择第一段不执行功能，摆动选择不执行段摆动，取整规则不取整。则机器人50mm执行摆动运动，100mm执行直线运动交替进行，到终点时停止；
+
+.. image:: teaching_pendant_software/301.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7-8-2-9 第一段不执行摆动功能不取整
+
+3) 若功能模式选择第一段执行功能，摆动选择执行段摆动，取整规则取整。则机器人100mm执行摆动运动，50mm执行直线运动交替进行，最后一段整体循环结束后，如果剩余距离小于150mm，则停止摆动；
+
+.. image:: teaching_pendant_software/302.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7-8-2-10 第一段执行摆动功能循环取整
+
+4) 若功能模式选择第一段执行功能，摆动选择不执行段摆动，取整规则取整。则机器人50mm执行摆动运动，100mm执行直线运动交替进行，最后一段整体循环结束后，如果剩余距离小于150mm，则停止摆动；
+
+.. image:: teaching_pendant_software/303.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7-8-2-11 第一段不执行摆动功能循环取整
+
+5) 若功能模式选择第一段执行功能，摆动选择执行段摆动，取整规则单段取整。则机器人100mm执行摆动运动，50mm执行直线运动交替进行，最后一段循环结束后，如果下一段是100mm执行摆动规划且剩余距离小于100mm，则停止摆动；如果下一段是50mm执行直线运动规划且剩余距离小于50mm，则运动停止；
+
+.. image:: teaching_pendant_software/304.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7-8-2-12 第一段执行摆动功能单段取整
+
+6) 若功能模式选择第一段执行功能，摆动选择不执行段摆动，取整规则单段取整。则机器人50mm执行摆动运动，100mm执行直线运动交替进行，最后一段循环结束后，如果下一段是50mm执行摆动规划且剩余距离小于50mm，则停止摆动；如果下一段是100mm执行直线运动规划且剩余距离小于100mm，则运动停止。
+
+.. image:: teaching_pendant_software/305.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7-8-2-13 第一段不执行摆动功能单段取整
+
+4. 姿态对比
+   
+配置不同段焊模式时，机器人焊接轨迹运行中的姿态也会不同，运行过程中姿态对比如下：
+
+.. image:: teaching_pendant_software/306.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7-8-2-14 焊接轨迹初始姿态
+
+.. image:: teaching_pendant_software/307.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7-8-2-15 运行过程中不变化姿态
+
+.. image:: teaching_pendant_software/308.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7-8-2-16 运行过程中变化姿态
+
+段焊实际场景
+**************
+在实际测试环境中，机器人需要安装焊枪等配置，根据创建的段焊指令，在焊接板上进行焊接操作，实际场景图如下：
+
+.. image:: teaching_pendant_software/309.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7-8-2-17 段焊实际场景
 
 激光跟踪命令
 ++++++++++++++++
@@ -2277,7 +2427,7 @@ Acc指令是实现机器人加速度可单独设置功能，通过调节运动�
 ++++++++++++++++
 
 焊机当前已测试可适配焊机型号型号与设定
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+****************************************
 
 .. centered:: 表格 4.1-2 当前已测试可适配焊机型号
 
@@ -2307,8 +2457,7 @@ Acc指令是实现机器人加速度可单独设置功能，通过调节运动�
      - 56
 
 PLC型号与设定
-^^^^^^^^^^^^^^^^^^^^^^^^
-
+************************
 .. centered:: 表格 4.1-4 PLC型号与设定
 
 .. list-table::
@@ -2342,7 +2491,7 @@ PLC型号与设定
 :download:`附件：PLC程序 <../_static/_doc/麦格米特焊机plc.zip>`
 
 电弧跟踪功能
-^^^^^^^^^^^^^^^^^^^^^
+*********************
 
 **1）设定电流电压与功能跟踪性能关系简介**
 
@@ -3707,6 +3856,180 @@ IO键位功能：
 
 .. centered:: 图表 4.9‑38 安全后台程序
 
+SmartTool+力传感器组合
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+在“用户外设配置”界面中选择“末端外设配置”，设备类型选择“扩展IO设备”，扩展IO设备配置信息分为厂商、类型、软件版本和挂载位置。不同厂商对应不同的类型，当前厂商为NSR和FR。
+
+用户可根据具体的生产需求来配置相应的设备信息，配置成功后展示设备信息表格。若用户需要更改配置，可先选择相应的编号，点击“清除”按钮，来清除相应的信息，并重新根据需求配置设备信息。
+
+.. important:: 点击清除配置前，相应的设备应处于未激活状态。
+
+.. image:: teaching_pendant_software/315.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.9‑39 NSR界面
+
+.. image:: teaching_pendant_software/316.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.9‑40 FR界面
+
+NSR
+++++++
+NSR对应的类型为：SmartTool
+
+1. 硬件安装
+
+1)将SmartTool 手柄拆开，取出中间的工装，安装在机器人末端。
+
+.. image:: teaching_pendant_software/317.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.9‑41 安装SmartTool 手柄中间的工装
+
+2)工装安装完成后，将SmartTool手柄拼接好，拼接成功后将连接线与机器人末端连接。
+
+.. image:: teaching_pendant_software/318.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.9‑42 SmartTool 手柄安装成功
+
+2. 设备信息配置
+
+.. important:: 请确保您的SmartTool手柄已经固定安装于机器人末端并正确连接机器人末端。
+
+1)在辅助应用中点击Smart Tool功能菜单，进入此功能配置页面，根据需求对末端手柄上的各个按键功能进行自定义，包括（新建程序、保持程序、PTP、Lin、ARC、摆焊开始、摆焊结束和IO端口）；
+
+.. image:: teaching_pendant_software/319.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.9‑43 SmartTool手柄按键功能配置界面
+
+2)SmartTool手柄按键功能配置完成后，在扩展IO设备配置厂商为“NSR”，选择“类型”、“软件版本”和“挂在位置”信息，点击“配置”按钮；
+
+.. image:: teaching_pendant_software/320.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.9‑44 NSR设备信息配置界面
+
+3)配置设备信息成功后，查看表格数据。
+
+
+3. 应用
+
+设备信息配置成功后，打开“示教模拟——程序示教”界面，新建“testSmartTool.lua”程序。根据需求按下SmartTool手柄按键（按键功能配置示例：A键——PTP、B键——LIN、C键——ARC、D键——新建程序、E键——保存程序、IO键——CO0），此时机器人接收反馈，对程序进行相应的操作。示教程序如下图：
+
+.. image:: teaching_pendant_software/321.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.9‑45 按下A键的testSmartTool.lua程序
+
+.. image:: teaching_pendant_software/322.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.9‑46 按下B键的testSmartTool.lua程序
+
+.. image:: teaching_pendant_software/323.png
+   :width: 6in
+   :align: center
+
+.. image:: teaching_pendant_software/324.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.9‑47 按下C键的testSmartTool.lua程序
+
+.. image:: teaching_pendant_software/325.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.9‑48 按下D键的testSmartTool.lua程序
+
+.. image:: teaching_pendant_software/326.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.9‑49 按下E键的testSmartTool.lua程序
+
+.. image:: teaching_pendant_software/327.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.9‑50 按下IO键的testSmartTool.lua程序
+
+FR
++++++
+FR对应的类型为“SmartTool ”与力传感器组合使用，协作机器人可适配鑫精诚、NSR和港智创信的三种力传感器，使用不同传感器时只需要加载对应的通信协议即可，具体如下：
+
+- SmartTool + XJC-6F-D82（鑫精诚）。
+- SmartTool + NSR-FT Sensor A（NSR）。
+- SmartTool + GZCX-6F-75A（港智创信）。
+
+1. 硬件安装
+1)将SmartTool手柄安装于机器人末端并正确连接机器人末端（详细安装参考NSR的硬件安装）。
+
+2)SmartTool手柄安装完毕后，将力传感器（以港智创信为例）安装于SmartTool手柄末端，并将连接线与SmartTool手柄连接。
+
+.. image:: teaching_pendant_software/328.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.9‑51 港智创信力传感器安装于SmartTool手柄末端
+
+2. 设备配置
+
+.. important:: 请确保您的SmartTool手柄已经固定安装于机器人末端并正确连接机器人末端以及力传感器已经固定安装于SmartTool手柄末端并正确连接SmartTool手柄。
+
+1)配置SmartTool手柄（参考NSR的SmartTool按键功能配置）。
+
+2)SmartTool手柄按键功能配置完成后，在扩展IO设备配置厂商为“FR”，选择“类型”、“软件版本”和“挂在位置”信息，点击“配置”按钮；
+
+.. image:: teaching_pendant_software/329.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.9‑52 FR设备信息配置界面
+
+3)配置设备信息成功后，选择已配置的力传感器，点击“激活”按钮激活力传感器，激活成功后点击“零点矫正”按钮进行力传感器的清零，查看表格数据；
+
+.. image:: teaching_pendant_software/330.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.9‑53 力传感器校零
+
+4)根据当前末端安装，在“末端负载”界面配置负载数据，在“工具坐标”界面配置工具坐标的数据、工具类型和安装位置。
+
+.. image:: teaching_pendant_software/331.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.9‑54 “末端负载”配置
+
+.. image:: teaching_pendant_software/332.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.9‑55 “工具坐标”配置
+
+3. 应用
+
+设备信息配置成功后，可以独立实现SmartTool按键功能和力传感器的功能，例如：测量力的大小及受力方向和基于力传感器的辅助拖动锁定。
+
+.. image:: teaching_pendant_software/333.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.9‑56 测量力的大小及受力方向
+
 系统设置
 -----------------
 
@@ -3986,6 +4309,61 @@ IO键位功能：
    :align: center
 
 .. centered:: 图表 4.10‑14 参数范围配置示意图
+
+WEB界面上锁
+++++++++++++++++
+
+1. 锁屏设置
+
+在“自定义信息”中查看web界面锁屏设置，设置该功能是否开启。选择开启该功能时，选择使用期限，如果未选择则提示“使用期限不能为空”。
+
+.. note:: 如果己开启锁屏功能，无法进行二次设置，同时无法更新系统时间。
+
+选择使用期限后，点击“配置”按钮。
+
+.. image:: teaching_pendant_software/310.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.10‑15 WEB界面锁屏关闭设置
+
+.. image:: teaching_pendant_software/311.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.10‑16 WEB界面锁屏开启设置
+
+2. 到期提示
+
+当web界面锁屏功能开启时，登录界面后有如下提示：
+
+1)设备到期前 5天，开机登录成功，弹窗提示使用期限剩余天数，复位可消除。
+
+.. image:: teaching_pendant_software/312.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.10‑17 开机提示
+
+2)如设备持续工作中，设备到期前 5天，在零点时自动弹窗提示使用期限剩余天数，复位可消除。
+
+.. image:: teaching_pendant_software/313.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.10‑18 持续工作提示
+
+3. 解锁登录
+
+当web界面锁屏功能开启时，设备到期后，首次登录webApp直接进入锁屏界面。设备持续工作时，零点获取锁屏数据后自动登出，进入锁屏界面。此时输入解锁码后解锁进入登录界面，输入登录信息进行登录。
+
+.. note:: 集成商操作生成加密的解锁码。
+ 
+.. image:: teaching_pendant_software/314.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.10‑19 锁屏界面  
 
 机器人型号配置
 -----------------
