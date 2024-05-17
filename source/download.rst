@@ -77,6 +77,10 @@
 -----------------------
     :download:`FAIRINO SimMachine <https://pan.baidu.com/s/11yp-X-AlN-OyhzWV9rDlbQ?pwd=lp85>`
 
+码垛机frcap
+---------------------------------
+    :download:`码垛机Palletizer-v2.0.0 <_static/_doc/码垛机Palletizer-v2.0.0.zip>`
+
 软件下载
 ---------------------------------
     :download:`FAIRINO-CobotSoftware-V3.7.1-Release-240428 <https://pan.baidu.com/s/1zNcwmtQ0QkbBpgsmhD1fSQ?pwd=zmda>`
