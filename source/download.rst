@@ -81,7 +81,11 @@
 
 码垛机frcap
 ---------------------------------
-    :download:`码垛机Palletizer-v2.0.0 <_static/_doc/码垛机Palletizer-v2.0.0.zip>`
+    :download:`码垛机Palletizer-v2.1.0 <_static/_doc/码垛机Palletizer-v2.1.0.zip>`
+
+AIRLab混合码垛
+-----------------------------
+    :download:`AIRLab混合码垛软件-v1.0.0 <https://pan.baidu.com/s/1h5b0rQ_x814pXTLFBiUKTg>`
 
 软件下载
 ---------------------------------

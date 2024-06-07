@@ -20,6 +20,7 @@
    SDKManual/index
    VMMachine/vm_intro
    FRCap/frcap_intro
+   AIRLab/airlab_intro
 
 .. toctree:: 
    :maxdepth: 6
