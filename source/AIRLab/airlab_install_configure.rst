@@ -19,7 +19,7 @@ ROS2安装
 设置语言环境
 ~~~~~~~~~~~~~~~~~
 
-.. code-block:: c++
+.. code-block:: console
     :linenos:
     
     locale  # check for UTF-8
@@ -89,7 +89,7 @@ ROS-Base 安装 (Bare Bones):通信库、消息包、命令行工具：
 ~~~~~~~~~~~~~~~~
 将source /opt/ros/humble/setup.bash添加到.bashrc中：
 
-.. code-block:: c++
+.. code-block:: console
     :linenos:
 
     echo 'source /opt/ros/humble/setup.bash' >> ~/.bashrc
