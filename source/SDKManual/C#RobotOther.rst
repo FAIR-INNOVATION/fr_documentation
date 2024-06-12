@@ -481,5 +481,5 @@
         robot.SetExDevProtocol(protocol);
 
         robot.GetExDevProtocol(ref protocol);
-        Console.Writeline(“protocol is ” + protocol);
+        Console.Writeline("protocol is" + protocol);
     }
