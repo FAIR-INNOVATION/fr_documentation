@@ -18,6 +18,39 @@
 -  能够查看控制IO状态；
 -  用户可以修改密码、查看系统信息等。
 
+机器人首次激活
+~~~~~~~~~~~~~~~
+
+1. 开启控制箱并将网线连接PC。
+
+2. PC打开浏览器访问目标网址192.168.58.2，机器人首次开机即进入激活页面。
+
+.. figure:: teaching_pendant_software/334.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 4.1‑1 激活界面
+
+3. 正确输入设备箱的SN码，输入完毕后点击“激活”按钮。
+   
+4. 系统将验证您的SN码。如果输入正确，将自动完成激活过程。
+
+.. figure:: teaching_pendant_software/335.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 4.1‑2 激活成功界面
+
+5. 激活成功，请手动重启控制箱。
+   
+6. 再次开机访问目标网址192.168.58.2即进入登录页面。
+
+.. figure:: teaching_pendant_software/001.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.1‑3 登录界面
+
 启动软件
 ~~~~~~~~~~~
 
@@ -79,7 +112,7 @@
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.1‑1 登录界面
+.. centered:: 图表 4.1‑4 登录界面
 
 登录成功后，系统会加载模型等数据，加载完毕后进入初始页面。
 
@@ -2004,6 +2037,44 @@ Aux-IO是机器人与PLC通讯控制外部扩展IO的指令功能，需要机器
 
 .. centered:: 图表 4.7‑6-8 MoveDO指令单次输出界面
 
+运动AO命令
+++++++++++++++++
+
+点击“运动AO”图标进入MoveAO命令编辑界面。
+
+1. 概述
+
+该指令配合运动指令使用时，可实现在运动过程中，根据实时TCP速度按比例输出AO信号。
+
+2. 运动AO指令说明
+
+运动AO指令位于示教模拟-程序示教指令编辑区域中，图标为控制指令-运动AO。
+
+.. image:: teaching_pendant_software/336.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑6-9 运动AO指令
+
+.. image:: teaching_pendant_software/337.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑6-10 运动AO指令明细
+
+- AO编号：下拉列表选择，Ctrl-AO0对应控制箱AO0，Ctrl-AO1对应控制箱AO1，End-AO0对应末端AO0。
+  
+- 最大TCP速度：机器人最大TCP速度值；作用：与实时TCP速度形成比例。
+  
+- 最大TCP速度AO百分比：机器人最大TCP速度值对应的AO百分比；作用：设置AO输出的上限值。
+  
+- 死区补偿值AO百分比：当比例阀存在死区时，可设置该参数以保证AO输出；作用：设置AO输出的下限值。
+
+.. important:: 
+   计算公式：输出AO百分比=实时TCP速度/设置最大TCP速度*设置最大TCP速度AO百分比。
+
+   该指令配套的运动指令如下：PTP/LIN/ARC/CIRCLE/SPLINE/NSPLINE/SERVOJ。
+
 坐标系命令
 ++++++++++++++++
 
@@ -2015,7 +2086,7 @@ Aux-IO是机器人与PLC通讯控制外部扩展IO的指令功能，需要机器
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑6-9 ToolList指令界面
+.. centered:: 图表 4.7‑6-11 ToolList指令界面
 
 模式切换命令
 ++++++++++++++++
@@ -2028,7 +2099,7 @@ Aux-IO是机器人与PLC通讯控制外部扩展IO的指令功能，需要机器
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑6-10 Mode指令界面
+.. centered:: 图表 4.7‑6-12 Mode指令界面
 
 碰撞等级命令
 ++++++++++++++++
@@ -2041,7 +2112,7 @@ Aux-IO是机器人与PLC通讯控制外部扩展IO的指令功能，需要机器
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑6-11 Collision指令界面
+.. centered:: 图表 4.7‑6-13 Collision指令界面
 
 加速度命令
 ++++++++++++++++
@@ -2054,7 +2125,7 @@ Acc指令是实现机器人加速度可单独设置功能，通过调节运动�
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑6-12 Acc指令界面
+.. centered:: 图表 4.7‑6-14 Acc指令界面
 
 外设指令界面 
 ~~~~~~~~~~~~~

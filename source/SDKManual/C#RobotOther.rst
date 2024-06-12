@@ -469,7 +469,7 @@
 ++++++++++
 .. versionadded:: C#SDK-v1.0.6
 
-.. code-block:: c#
+.. code-block:: console
     :linenos:
 
     private void btnSetProto_Click(object sender, EventArgs e)
