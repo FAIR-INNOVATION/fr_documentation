@@ -119,7 +119,7 @@
 
 控制器状态反馈数据包
 +++++++++++++++++++++++++++
-.. versionchanged:: C++SDK-v2.1.3.0
+.. versionchanged:: C++SDK-v2.1.4.0
 
 .. code-block:: c++
     :linenos:
@@ -216,6 +216,12 @@
         int      gripper_temp;              /* 夹爪温度 */
         int      gripper_voltage;           /* 夹爪电压 */
         robot_aux_state aux_state;
+        EXT_AXIS_STATUS extAxisStatus[4];  /* UDP扩展轴状态 */
+        uint16_t extDIState[8];        //扩展DI输入
+        uint16_t extDOState[8];        //扩展DO输出
+        uint16_t extAIState[4];        //扩展AI输入
+        uint16_t extAOState[4];        //扩展AO输出
+        uint16_t check_sum;            /* 和校验 */
     }ROBOT_STATE_PKG;
 
 伺服控制器状态

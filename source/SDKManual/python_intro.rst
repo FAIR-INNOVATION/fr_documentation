@@ -36,3 +36,4 @@ Python
     PythonRobotWeld
     PythonRoboExtendedAxis
     PythonRobotOthers
+    PythonRobotStatusFeedback

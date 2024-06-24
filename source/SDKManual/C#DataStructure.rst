@@ -135,7 +135,7 @@
 
 机器人状态反馈结构体类型
 +++++++++++++++++++++++++++
-.. versionadded:: C#SDK-v1.0.6
+.. versionchanged:: C#SDK-v1.0.7
 
 .. code-block:: c#
     :linenos:
@@ -207,6 +207,16 @@
     public byte gripper_current;     /* 夹爪电流 */
     public int gripper_tmp;          /* 夹爪温度 */
     public int gripper_voltage;      /* 夹爪电压 */                 
-    public ROBOT_AUX_STATE auxState; /* 485扩展轴状态 */            
+    public ROBOT_AUX_STATE auxState; /* 485扩展轴状态 */ 
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
+    public EXT_AXIS_STATUS[] extAxisStatus;  /* UDP扩展轴状态 */
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
+    public UInt16[] extDIState;//扩展DI输入
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
+    public UInt16[] extDOState;//扩展DO输出
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
+    public UInt16[] extAIState;//扩展AI输入
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
+    public UInt16[] extAOState;//扩展AO输出           
     public UInt16 check_sum;         /* 和校验 */                  
     }
