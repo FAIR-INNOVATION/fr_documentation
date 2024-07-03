@@ -520,13 +520,13 @@ UDP扩展轴参数配置
 
     /**
     * @brief 应用扩展轴坐标系
-    * @param [in]  axisCoordNum 坐标系编号
-    * @param [in]  toolNum 工具号
+    * @param [in]  applyAxisId 扩展轴编号 bit0-bit3对应扩展轴编号1-4，如应用扩展轴1和3，则是 0b 0000 0101；也就是5
+    * @param [in]  axisCoordNum 扩展轴坐标系编号
     * @param [in]  coord 坐标系值
     * @param [in]  calibFlag 标定标志 0-否，1-是
     * @return 错误码
     */
-    int ExtAxisActiveECoordSys(int axisCoordNum, int toolNum, DescPose coord, int calibFlag);
+    int ExtAxisActiveECoordSys(int applyAxisId, int axisCoordNum, DescPose coord, int calibFlag);
 
 代码示例
 ************
