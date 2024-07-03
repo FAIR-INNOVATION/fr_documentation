@@ -631,11 +631,11 @@ UDP扩展轴参数配置
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``ExtAxisActiveECoordSys(axisCoordNum,toolNum,coord,calibFlag)``"
+    "原型", "``ExtAxisActiveECoordSys(applyAxisId,axisCoordNum,coord,calibFlag)``"
     "描述", "应用扩展轴坐标系"
     "必选参数", "
-    - ``axisCoordNum``：坐标系编号；
-    - ``toolNum``：工具号；
+    - ``applyAxisId``:扩展轴编号 bit0-bit3对应扩展轴编号1-4，如应用扩展轴1和3，则是 0b 0000 0101,也就是5；
+    - ``axisCoordNum``：扩展轴坐标系编号；
     - ``coord``：坐标系值[x,y,z,rx,ry,rz]；
     - ``calibFlag``：标定标志 0-否，1-是；"
     "默认参数", "NULL"
