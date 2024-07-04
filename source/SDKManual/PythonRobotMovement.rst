@@ -766,3 +766,111 @@ jog点动立即停止
     print("笛卡尔空间直线运动点5:错误码", ret) 
     ret = robot.PointsOffsetDisable()
     print("点位整体偏移结束:错误码", ret)
+
+控制箱运动AO开始
++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.4
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+    
+    "原型", "``MoveAOStart(AONum,maxTCPSpeed=1000,maxAOPercent=100,zeroZoneCmp=20)``"
+    "描述", "控制箱运动AO开始"
+    "必选参数", "- ``AONum``:控制箱AO编号"
+    "默认参数", "
+    - ``maxTCPSpeed``:最大TCP速度值[1-5000mm/s]，默认1000；
+    - ``maxAOPercent``:最大TCP速度值对应的AO百分比，默认100%；
+    - ``zeroZoneCmp``:死区补偿值AO百分比，整形，默认为20%，范围[0-100]。"
+    "返回值", "错误码 成功-0  失败- errcode"
+    
+代码示例
+---------------
+
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    #控制箱运动AO开始
+    error = robot.MoveAOStart(0,100,98,1)
+    print("MoveAOStart",error)
+    error,joint_pos = robot.GetActualJointPosDegree()
+    print("GetActualJointPosDegree",error,joint_pos)
+    joint_pos[0] = joint_pos[0]+10
+    #机器人关节运动
+    error = robot.MoveJ(joint_pos,1,1)
+    print("MoveJ",error)
+    time.sleep(3)
+    #控制箱运动AO停止
+    error = robot.MoveAOStop()
+    print("MoveAOStop",error)
+
+控制箱运动AO结束
++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.4
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+    
+    "原型", "``MoveAOStop()``"
+    "描述", "控制箱运动AO结束"
+    "必选参数", "NULL"
+    "默认参数", "NULL"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+末端运动AO开始
++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.4
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+    
+    "原型", "``MoveToolAOStart(AONum,maxTCPSpeed=1000,maxAOPercent=100,zeroZoneCmp =20)``"
+    "描述", "末端运动AO开始"
+    "必选参数", "- ``AONum``:末端AO编号"
+    "默认参数", "
+    - ``maxTCPSpeed``:最大TCP速度值[1-5000mm/s]，默认1000；
+    - ``maxAOPercent``:最大TCP速度值对应的AO百分比，默认100%；
+    - ``zeroZoneCmp``:死区补偿值AO百分比，整形，默认为20%，范围[0-100]。"
+    "返回值", "错误码 成功-0  失败- errcode"
+        
+代码示例
+---------------
+
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    #末端运动AO开始
+    error = robot.MoveToolAOStart(0,100,98,1)
+    print("MoveToolAOStart",error)
+    error,desc_pos = robot.GetActualTCPPose()
+    print("GetActualTCPPose",error,desc_pos)
+    desc_pos[2] = desc_pos[2]-50
+    #笛卡尔空间直线运动
+    error = robot.MoveL(desc_pos,1,1)
+    print("MoveL",error)
+    time.sleep(3)
+    #末端运动AO停止
+    error = robot.MoveToolAOStop()
+    print("MoveToolAOStop",error)
+    
+末端运动AO结束
+--------------------
+.. versionadded:: python SDK-v2.0.4
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+    
+    "原型", "``MoveToolAOStop()``"
+    "描述", "末端运动AO结束"
+    "必选参数", "NULL"
+    "默认参数", "NULL"
+    "返回值", "错误码 成功-0  失败- errcode"

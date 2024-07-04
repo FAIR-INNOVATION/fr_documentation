@@ -3106,69 +3106,1955 @@ Thread命令为辅助线程功能，用户可以定义一个辅助线程与主�
 
 .. centered:: 图表 4.7‑24 当前程序备份
 
-Modbus TCP设置
-~~~~~~~~~~~~~~
+Modbus TCP通信
+~~~~~~~~~~~~~~~~~
+ModbusTCP是工业生产中常用的通信协议，法奥协作机器人提供ModbusTCP主站和ModbusTCP从站两种方式与您的设备进行通信。
 
-用户在使用Modbus TCP前，需要在Modbus TCP设置页面配置主站和从站数据。
+协作机器人最多支持8个ModbusTCP主站同时与外部设备进行通信，每个主站最多支持128个寄存器；协作机器人ModbusTCP从站具有128个线圈、128个离散输入、64个保持寄存器和64 个输入寄存器(保持寄存器和输入寄存器数据类型包含无符号、有符号和浮点型三种类型)，同时协作机器人部分ModbusTCP从站输入寄存器地址专用于反馈当前机器人的关节位置、运动速度等信息，部分线圈寄存器地址专用于控制机器人启动程序、停止程序、设置控制箱DO等功能。
 
-**Modbus主站设置**：在页面配置主站和对应主站寄存器地址。可进行“添加Modbus主站、添加主站寄存器”相关操作。
+机器人ModbusTCP从站仅支持与一个主站建立连接，机器人可同时作为主站和从站与不同的设备通信。下面是详细使用方法。
+ 
+ModbusTCP主站
++++++++++++++++++
 
-1) 主站信息：主站信息包含主站名称、从站ip、端口号、从站号和通信周期，可进行编辑、刷新和删除操作。
-  
-  - 主站名称：自定义命名，例如：Modbus_1，不可同名，最多8个主站
-  - 从站ip：int型，例如：192.168.57.3
-  - 端口号：int型，例如：2021
-  - 从站号：int型，例如：1
-  - 通讯周期：int型，例如：200 ms
+在使用协作机器人做ModbusTCP主站与您的设备进行通信前，请先检查您的设备与机器人的网络连接，并确认网络接口在同一网段。
 
-2) 主站寄存器信息：主站寄存器信息包含类型（DI、DO、AI、AO）、地址编号、名称和地址值(DI、AI类型时不可输入)，可进行编辑和删除操作。
-   
-  - 主站寄存器类型：DI、DO、AI(无符号、有符号、浮点型)、AO(无符号、有符号、浮点型)
-  
-     + 无符号：0~65535，个数为16
-     + 有符号：-32767~32768，个数为16
-     + 浮点型：最多三位小数，个数为32
-  
-  - 地址编号：int型，例如：2000
-  - 主站寄存器名称：Register_1，不可同名，最多128个主站寄存器
-  - 地址值：int型，DI、AI类型不可输入
+使用机器人ModbusTCP主站有以下几个步骤：①添加主站；②添加寄存器；③通信测试；④编写用户程序；⑤执行用户程序；
+
+添加ModbusTCP主站
+********************
+打开WebApp，依次点击“示教模拟”、“程序示教”，新建用户程序“testModbusMaster.lua”。
 
 .. image:: teaching_pendant_software/233.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑25 Modbus主站配置页面
+.. centered:: 图表 4.7‑25-1 创建ModbusTCP主站用户程序
 
-.. important:: 主站数量最多为8个，主站寄存器数量最多为128个。同时，主站和从站别名不能同名。
-
-**Modbus从站设置**：可进行数字输入、数字输出、模拟量输入、模拟量输出以及别名修改操作。
+依次点击“当前程序右侧内容弹出/隐藏”按钮。
 
 .. image:: teaching_pendant_software/234.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 4.7‑26 Modbus从站配置页面
+.. centered:: 图表 4.7‑25-2 当前程序右侧内容弹出
 
-1) 数字输入/输出
+点击“ModbusTCP设置”按钮，打开ModbusTCP功能配置页面。
+
+.. image:: teaching_pendant_software/338.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-3 打开ModbusTCP设置
+
+依次点击“主站设置”、“添加Modbus主站”，即完成添加一个ModbusTCP主站。
+
+.. image:: teaching_pendant_software/339.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-4 添加“ModbusTCP主站”
+
+根据您的设备情况依次输入“名称”、“从站ip”、“端口号”、“从站号”和“通信周期”，上述参数的具体含义如下：
+
+**名称**：机器人ModbusTCP主站名称，机器人最大支持创建8个主站与相应从站建立连接，不同主站可设置唯一的名称进行区分，如“PLC”、“相机”、“数据采集卡”、“FRRobot1”等；
+
+**从站ip**：机器人ModbusTCP主站要连接的从站IP地址；
+
+.. note:: 要先通过网线连接机器人与从站设备，并保证机器人与从站设备的IP地址在同一网段。
+
+**端口号**：要连接的ModbusTCP从站端口号；
+
+**从站号**：要连接的ModbusTCP从站号；
+
+**通信周期**：机器人ModbusTCP主站查询从站状态的周期(ms)，该周期仅影响“ModbusTCP设置”页面查看从站寄存器数据的更新速度，而不影响用户lua程序中读取或写入ModbusTCP从站寄存器数值的速度。
+
+.. image:: teaching_pendant_software/340.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-5 设置ModbusTCP主站参数
+
+正确输入上述参数后，机器人ModbusTCP主站自动与配置的从站建立连接，连接成功后，页面上的“连接状态”指示灯亮起。
+
+.. note:: 
+   若您已经确认对ModbusTCP主站的相关参数进行了正确的配置，但机器人与您的设备没有成功连接，请检查以下配置：
    
-   - 数字输入DI只读
-   - 数字输出DO点击后可控制指示灯开关，且个数都为128个
+   ①机器人与从站设备的物理网络连接；
 
-2) 模拟量输入
+   ②机器人示教器和控制箱两个网络物理端口的IP地址不同，请确认是否连接到正确的网络端口；
+
+   ③请确认机器人网络端口与从站设备的网络端口是否在同一网段，如机器人的IP地址为192.168.58.2，则从站设备的IP地址必须为192.168.58.0~192.168.58.255，且不能与机器人IP地址相同；
    
-   - 模拟量输入AI分为无符号
-   - 有符号和浮点型号(三位小数)，都为只读
-   - 其中无符号和有符号个数为16个，浮点型为32个
+   ④检查从站设备的端口号与设置的端口号是否相同。若连接状态指示灯处于闪烁状态，则表示该主站中的寄存器地址有误，请检查寄存器类型和地址是否正确。
 
-3) 模拟量输出，模拟量输出AO分为无符号、有符号和浮点型号(三位小数)
+.. image:: teaching_pendant_software/341.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-6 ModbusTCP主站连接状态
+
+至此我们已经完成一个机器人ModbusTCP主站的创建，若您再次点击“添加Modbus主站”，即可再次创建一个新的ModbusTCP主站，机器人最多支持8个主站同时与外部设备通信，双击Modbus主站右上角的“删除”按钮，即可删除该Modbus主站。
+
+.. image:: teaching_pendant_software/342.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-7 再次添加ModbusTCP主站
+
+ModbusTCP主站添加寄存器
+***************************
+点击“添加主站寄存器”按钮即可为该主站添加一个寄存器。
+
+.. image:: teaching_pendant_software/343.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-8 添加ModbusTCP主站寄存器
+
+依次选择主站寄存器类型、输入地址编号和名称，各参数意义如下：
+
+**类型**：寄存器类型，DI-离散输入；DO-线圈；AI无符号-无符号型输入寄存器(0-65535)；AI有符号-有符号型输入寄存器(-32768-32767)；AI浮点型-浮点数型输入寄存器(浮点型寄存器数据长度32位，占用两个有符号或无符号型寄存器)；AO无符号-无符号型保持寄存器(0-65535)；AI有符号-有符号型保持寄存器(-32768-32767)；AI浮点型-浮点数型保持寄存器(浮点型寄存器数据长度32位，占用两个有符号或无符号型寄存器)，其中AI、AO中的浮点型寄存器为大端显示;
+
+**地址编号**：要读取或写入的ModbusTCP从站寄存器地址；
+
+**名称**：寄存器的别名，机器人ModbusTCP主站最多可设置128个不同的寄存器，每个寄存器可根据实际意义设置不同的名称进行区分，如“开始”，“伺服到位”、“液位”等。
+
+.. image:: teaching_pendant_software/344.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-9 设置ModbusTCP主站寄存器参数
+
+再次点击“添加主站寄存器”按钮即可再添加一个主站寄存器，双击寄存器右侧的“删除”按钮，即可删除该寄存器，如下图为每种类型都添加了一个寄存器。
+
+.. note:: 若添加主站寄存后，主站连接状态指示灯闪烁，则表示该主站寄存器地址无法读取，请检查该寄存器类型和地址是否正确。
+
+.. image:: teaching_pendant_software/345.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-10 添加多个主站寄存器
+
+ModbusTCP主站通信测试
+***********************
+在通信测试前，请先检查ModbusTCP主站“连接状态”指示灯是否处于常亮状态，若指示灯常亮则表示当前连接已成功。
+
+机器人Modbus主站寄存器有“地址值”数值框用于显示当前寄存器的值，其中DI(离散输入)和AI(输入寄存器)类型的寄存器为只读类型，对应的地址值为灰色不可编辑数值框。
+
+当从站相应地址的数值改变时，机器人主站对应寄存器地址值同步显示当前的数值，而DO(线圈)和AO(保持寄存器)为可读可写寄存器，因此它的地址为白色可编辑数值框，既可以读取ModbusTCP从站相应寄存器的数值，也可以在机器人Modbus主站设置页面修改该寄存器数值。
+
+.. image:: teaching_pendant_software/346.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-11 Modbus主站地址值
+
+1. 主站DI、AI类型寄存器数值监控
+
+在外部ModbusTCP从站设备上将DI(离散输入)寄存器的255号地址值设为1，将AI(输入寄存器)的257号地址值改为123，258号寄存器地址值改为-123，259号寄存器地址值改为123.3。此时机器人Modbus主站设置页面对应寄存器的地址值将进行相应的显示。
+
+.. note:: 
+   由于设置地址259的寄存器为浮点型寄存器，因此它实际占用了259和260两个16位寄存器来存储一个浮点数，因此您不能再单独设置一个寄存器来操作AI的260号寄存器，否则会产生数值错误。
+
+.. image:: teaching_pendant_software/347.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-12 Modbus主站显示DI、AI寄存器数值
+
+2. 主站DO、AO类型寄存器数值写入
+在机器人Modbus主站设置页面中将名称为“开始”的DO(线圈)类型寄存器的255号地址值输入框中输入1，名称为“目标位置A”、“目标位置B”和“目标位置C”的AO(保持寄存器)的260、261、262号寄存器地址值输入框中分别输入65535、-32768和128.78，此时Modbus从站的相应寄存器地址已被写入相应的数值。
+
+.. image:: teaching_pendant_software/348.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-13 Modbus主站写入DO、AO寄存器
+
+3. 主站DO、AO类型寄存器数值监控
+在ModbusTCP从站中更改DO(线圈)、AO(保持寄存器)的值，ModbusTCP主站设置页面的寄存器地址值不会立即更新显示，需要点击主站配置右上角的“刷新”按钮，此时页面上DO、AO寄存器地址值才会更新。
+
+.. image:: teaching_pendant_software/349.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-14 刷新ModbusTCP主站DO、AO地址值
+
+编写ModbusTCP主站程序
+++++++++++++++++++++++++++
+
+依次点击“全部”、“通讯指令”，打开通讯指令添加页面。
+
+.. image:: teaching_pendant_software/350.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-15 打开通讯指令添加页面
+
+点击“Modbus”。
+
+.. image:: teaching_pendant_software/351.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-16 选择Modbus
+
+点击“Modbus_TCP”。
+
+.. image:: teaching_pendant_software/352.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-17 选择Modbus_TCP
    
-   - 无符号：0~65535，个数为16
-   - 有符号：-32767~32768，个数为16
-   - 浮点型：最多三位小数，个数为32
+选择“主站(客户端)”，打开ModbusTCP主站指令添加页面。
 
-**从站别名设置**：点击从站别名，可进行编辑操作，修改从站别名。
+.. image:: teaching_pendant_software/353.png
+   :width: 6in
+   :align: center
 
-.. important:: 同类型从站别名不能同名。
+.. centered:: 图表 4.7‑25-18 选择主站(客户端)
+
+.. image:: teaching_pendant_software/354.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑25-19 ModbusTCP主站指令添加
+
+1. 写单个数字输出DO(线圈)
+
+选择“Modbus主站名称”为之前在Modbus主站设置页面添加的主站“PLC”，DO名称为“开始”，寄存器数量为1，寄存器值为1，点击“写数字输出”按钮。最后翻至该页面最底端，点击“应用”按钮。
+
+.. image:: teaching_pendant_software/355.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑25-20 添加写单个数字输出
+
+.. image:: teaching_pendant_software/356.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑25-21 应用写单个数字输出指令
+
+此时机器人程序“testModbusMaster.lua”中已经添加一条机器人Modbus主站写单个数字输出的指令，将机器人切换到自动模式，点击启动按钮，机器人将主站“PLC”对应的线圈寄存器“启动”的地址值写为1。
+
+.. image:: teaching_pendant_software/357.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-22 写单个线圈LUA程序
+
+2. 写多个数字输出DO(线圈)
+打开ModbusTCP主站指令添加页面，选择“Modbus主站名称”为之前在Modbus主站设置页面添加的主站“PLC”，DO名称为“开始”，寄存器数量为5，寄存器值为1,0,1,0,1，其中寄存器值的个数要与设置的寄存器数量对应，且多个寄存器值之间用英文逗号隔开，点击“写数字输出”按钮。最后翻至该页面最底端，点击“应用”按钮。
+
+.. image:: teaching_pendant_software/358.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑25-23 配置写多个数字输出
+   
+.. image:: teaching_pendant_software/359.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑25-24 应用写多个数字输出
+
+此时机器人程序“testModbusMaster.lua”中已经添加一条机器人Modbus主站写多个数字输出的指令，将机器人切换到自动模式，点击启动按钮，机器人将主站“PLC”对应的线圈寄存器“启动”及其后面4个线圈的值分别写为1、0、1、0、1。
+   
+.. image:: teaching_pendant_software/360.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-25 写多个线圈LUA程序
+
+3. 读单个数字输出DO(线圈)
+   
+打开ModbusTCP主站指令添加页面，选择“Modbus主站名称”为之前在Modbus主站设置页面添加的主站“PLC”，DO名称为“开始”，寄存器数量为1，寄存器值不需要填写，点击“读数字输出”。最后翻至该页面最底端，点击“应用”按钮。
+   
+.. image:: teaching_pendant_software/361.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑25-26 配置读单个数字输出
+      
+.. image:: teaching_pendant_software/362.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑25-27 应用读单个数字输出
+
+此时机器人程序“testModbusMaster.lua”中已经添加一条机器人Modbus主站读单个数字输出的指令。
+      
+.. image:: teaching_pendant_software/363.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-28 读单个线圈程序
+
+通常读Modbus寄存器后将读到的数值存入变量里，因此需要定义一个变量用于存储读取的数值。点击“切换模式”按钮，将机器人lua程序切换至可编辑状态，在“ModbusMasterReadDO”指令前编写填加返回值变量“startValue”，执行程序后读到的数值将存在“startValue”里。
+      
+.. image:: teaching_pendant_software/364.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-29 读单个数字输出存入变量
+
+线圈类型的寄存器值只有0和1两种数值，在机器人程序中可以通过判断寄存器数值不同来进行不同的操作。点击“切换模式”按钮将机器人示教程序切换至不可编辑模式，添加两个关节运动指令分别运动到两个不同的点位“P1”和“P2”。
+      
+.. image:: teaching_pendant_software/365.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-30 添加不同点位的运动指令
+
+再次将程序切换至可编辑模式，并编写线圈值“startValue”的判断条件，当“startValue”值为1时，机器人运动到“P1”点，否则机器人运动到“P2”点。
+      
+.. image:: teaching_pendant_software/366.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-31 根据线圈值不同运动到不同的点位
+
+最后再将机器人程序切换至不可编辑模式，将机器人切换到自动模式，在确认安全的前提下启动运行程序。由于该程序的前两行都将名称为“开始”线圈DO值设为1，因此执行程序后机器人将运动到“P1”点。
+      
+.. image:: teaching_pendant_software/367.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-32 读取单个线圈寄存器数值并运动
+
+4. 读多个数字DO(线圈)
+打开ModbusTCP主站指令添加页面，选择“Modbus主站名称”为之前在Modbus主站设置页面添加的主站“PLC”，DO名称为“开始”，寄存器数量为6，寄存器值不需要填写，点击“读数字输出”。最后翻至该页面最底端，点击“应用”按钮。
+      
+.. image:: teaching_pendant_software/368.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑25-33 配置读多个数字输出
+         
+.. image:: teaching_pendant_software/369.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑25-34 应用读多个数字输出
+
+此时机器人程序“testModbusMaster.lua”中已经添加一条机器人Modbus主站读多个数字输出的指令。
+         
+.. image:: teaching_pendant_software/370.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-35 读多个数字输出程序
+
+点击“切换模式”按钮，将机器人lua程序切换至可编辑状态，由于读取的数量为6个，因此需要在“ModbusMasterReadDO”指令前编写填加6个返回值变“value1,value2,value3,value4,value5,valu e6”，执行程序后读到的6个寄存器数值将分别存在上述6个变量里，同样您可以判断“value1”~“value6”的值使机器人进行不同的动作。
+         
+.. image:: teaching_pendant_software/371.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-36 读多个数字输出存入变量
+
+5. 读数字输入DI(离散输入)
+打开ModbusTCP主站指令添加页面，选择“Modbus主站名称”为之前在Modbus主站设置页面添加的主站“PLC”，DI名称为“伺服到位”，寄存器数量为2，点击“读数字输入”。最后翻至该页面最底端，点击“应用”按钮。
+         
+.. image:: teaching_pendant_software/372.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑25-37 配置读数字输入
+            
+.. image:: teaching_pendant_software/373.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑25-38 应用读数字输入
+
+此时机器人程序“testModbusMaster.lua”中已经添加一条机器人Modbus主站读数字输入的指令。
+            
+.. image:: teaching_pendant_software/374.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-39 读数字输入程序指令
+
+点击“切换模式”按钮，将机器人lua程序切换至可编辑状态，在“ModbusMasterReadDO”指令前编写返回值变量“state1,state2”，执行程序后读到的两个数字输入数值将分别存在变量“state1”和“state2”里，您可以通过判断变量数值进而控制机器人做不同的操作。
+            
+.. image:: teaching_pendant_software/375.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-40 读数字输入存入变量
+
+6. 模拟输入AI(输入寄存器)和模拟输出AO(保持寄存器)的读写操作
+模拟输入AI(输入寄存器)、模拟输出AO(保持寄存器)的读写操作与数字输入DI(离散输入)、数字输出DO(线圈)的操作基本一致，区别在于后者的数据范围仅限于0或1，而前者的数据范围更大，因此具体的操作可参考数字输入和数字输出程序的编写，在此仅展示模拟输入AI的读操作和模拟输出AO的读写操作程序示例。
+            
+.. image:: teaching_pendant_software/376.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-41 读模拟输入AI
+            
+.. image:: teaching_pendant_software/377.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-42 读写模拟输出AO
+
+7. 等待数字输入
+打开ModbusTCP主站指令添加页面，找到“等待数字输入设置”即等待DI离散输入设置，选择DI名称为配置的“伺服到位”寄存器，等待状态为“True”，超时时间为5000ms。点击“添加”按钮，最后点击“应用”按钮。
+            
+.. image:: teaching_pendant_software/378.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑25-43 添加等待DI输入指令
+
+此时机器人程序“testModbusMaster.lua”中已经添加一条机器人Modbus主站等待数字输入DI的指令，启动程序后，机器人会一直等待“PLC”主站的“伺服到位”寄存器值变为true，也就是数值1，由于设置的超时时间为5s，因此当机器人等待5s后“伺服到位”信号仍为0时，机器人程序将会报超时错误，程序也自动停止运行。
+            
+.. image:: teaching_pendant_software/379.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-44 等待数字输入DI程序
+
+8. 等待模拟输入
+打开ModbusTCP主站指令添加页面，找到“等待模拟输入设置”即等待AI输入寄存器设置，选择AI名称为配置的“液位”寄存器，等待状态为“>”，寄存器值为255，超时时间为5000ms。点击“添加”按钮，最后点击“应用”按钮。
+            
+.. image:: teaching_pendant_software/380.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑25-45 添加等待模拟输入
+
+此时机器人程序“testModbusMaster.lua”中已经添加一条机器人Modbus主站等待AI输入寄存器值的指令，启动程序后，机器人会一直等待“PLC”主站的“液位”寄存器数值大于255，由于设置的超时时间为5s，因此当机器人等待5s后“液位”信号仍不大于255时，机器人程序将会报超时错误，程序也自动停止运行。
+            
+.. image:: teaching_pendant_software/381.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-46 等待AI输入寄存器程序
+
+ModbusTCP从站
+++++++++++++++++++
+
+机器人ModbusTCP从站提供通用数字输入(线圈)，通用数字输出(离散输入)，通用模拟输入(保持寄存器)和通用模拟输出(输入寄存器)四种类型的寄存器，其中通用数字输入和模拟输入主要用于机器人读取外部ModbusTCP主站数据从而控制机器人操作，而通用数字输出和模拟输出主要用于机器人向外部ModbusTCP主站设备发送数据信号，由外部主站设备读取相关寄存器数值进而控制其设备运行。除上述通用输入输出外，机器人还提供部分“功能数字输入(线圈)”用于外部主站设备控制机器人启动程序、停止程序等操作，提供部分输入寄存器用于显示当前机器人的状态信息，包括机器人当前笛卡尔位置、机器人当前运行状态等(具体定义请查看附件一：ModbusTCP从站地址映射表)。机器人ModbusTCP从站使用过程主要包括：①参数配置；②通讯测试；③程序编写。
+
+ModbusTCP从站通讯参数配置
+*******************************
+
+打开WebApp，依次点击“示教模拟”、“程序示教”，新建用户程序“testModbusSlave.lua”。
+            
+.. image:: teaching_pendant_software/382.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-47 创建ModbusTCP从站用户程序
+
+依次点击“当前程序右侧内容弹出/隐藏”按钮。
+            
+.. image:: teaching_pendant_software/383.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-48 当前程序右侧内容弹出
+
+点击“ModbusTCP设置”按钮，打开ModbusTCP功能配置页面。
+            
+.. image:: teaching_pendant_software/384.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-49 打开ModbusTCP设置
+
+依次点击“从站设置”，输入机器人从站的IP，端口号和从站号，其中“IP”为机器人从站ip地址，法奥协作机器人具有示教器和控制箱两个网络端口，两个端口的IP地址不同，根据外部设备连接机器人从站的网络端口输入正确的IP地址（推荐您使用控制箱上的网络端口），更改机器人ModbusTCP从站IP地址、端口号或从站号后需要重新启动机器人使其生效。
+            
+.. image:: teaching_pendant_software/385.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-50 ModbusTCP从站设置
+
+ModbusTCP从站参数设置完成并重启机器人后，外部主站设备即可通过设置的参数与机器人从站建立连接，连接成功后，机器人从站设置页面“连接状态”指示灯会亮起。
+            
+.. image:: teaching_pendant_software/386.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-51 从站连接状态指示灯
+
+ModbusTCP从站通讯测试
+*****************************
+
+1. 通用数字输入(线圈)
+
+机器人ModbusTCP从站提供128个线圈寄存器，它们的寄存器地址为100~127。
+
+.. note:: 具体定义请查看附件一：ModbusTCP从站地址映射表。
+
+机器人ModbusTCP从站的通用寄存器均可设置别名，修改机器人从站线圈寄存器DI0的名称为“A到位”，DI1的名称为“B到位”，根据地址映射表，“A到位”和“B到位”的Modbus线圈地址分别为100和101，在外部ModbusTCP主站设备上将机器人从站线圈寄存器地址100和101都置1，此时机器人ModbusTCP从站监控页面上两寄存器指示灯亮起。
+            
+.. image:: teaching_pendant_software/387.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-52 ModbusTCP从站线圈状态监控
+
+2. 通用数字输出(离散输入)
+
+机器人ModbusTCP从站提供128个离散输入寄存器，它们的寄存器地址为100~127。
+
+.. note:: 具体定义请查看附件一：ModbusTCP从站地址映射表。
+
+同样机器人ModbusTCP从站的离散输入寄存器也可以设置别名，点击“通用数字输出(离散输入)”修改机器人从站离散输入寄存器DO0的名称为“A启动”，DO1的名称为“B启动”，根据地址映射表，“A启动”和“B启动”的Modbus离散输入地址分别为100和101，点击“A启动”对应离散输入指示灯，该指示灯亮起，相应寄存器地址100的数值变为1，从外部ModbusTCP主站设备上可读到该寄存器数值。
+
+.. image:: teaching_pendant_software/388.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-53 ModbusTCP从站离散输入控制
+
+1. 模拟输入(保持寄存器)
+
+机器人提供无符号、有符号和浮点型三种类型的保持寄存器共64个，AI0~AI63的地址为100~195
+
+.. note:: text
+   具体定义请查看附件一：ModbusTCP从站地址映射表，其中无符号类型寄存器数据范围为0~65535，有符号型寄存器数据范围为-32768~32767，浮点型寄存器为大端显示。
+   
+   更改AI0和AI1的名称分别为“电压”和“电流”，从ModbusTCP从站地址映射表中查出两寄存器的地址分别为100和101，因此当连接的主站设备修改保持寄存器100和101寄存器地址值时，机器人ModbusTCP从站监控页面“电压”和“电流”寄存器地址值相应同步更新显示，机器人的模拟输入主要用于机器人读取外部主站设备数值信号。
+
+.. image:: teaching_pendant_software/389.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-54 ModbusTCP从站模拟输入监控
+
+4. 模拟输出(输入寄存器)
+
+机器人提供无符号、有符号和浮点型三种类型的输入寄存器共64个，AO0~AO63的地址为100~195
+   
+.. note:: text
+   具体定义请查看附件一：ModbusTCP从站地址映射表，其中无符号类型寄存器数据范围为0~65535，有符号型寄存器数据范围为-32768~32767，浮点型寄存器为大端显示。
+   
+   更改AO0和AO1的名称分别为“目标位置A”和“目标位置B”，输入量寄存器数值分别为2000和1500，从ModbusTCP从站地址映射表中查出两寄存器的地址分别为100和101，因此当连接的主站设备读取输入寄存器100和101寄存器地址值时，即可得到所设置的数值，机器人从站模拟输出主要用于机器人向外部主站设备传递数值信号。
+
+.. image:: teaching_pendant_software/390.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-55 Modbus从站修改模拟输入
+
+ModbusTCP从站程序编写
+**************************
+
+依次点击“全部”、“通讯指令”，打开通讯指令添加页面。
+
+.. image:: teaching_pendant_software/391.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-56 打开通讯指令添加页面
+
+点击“Modbus”。
+
+.. image:: teaching_pendant_software/392.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-57 选择Modbus
+
+点击“Modbus_TCP”。
+
+.. image:: teaching_pendant_software/393.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-58 选择Modbus_TCP
+
+选择“从站”，打开ModbusTCP从站指令添加页面。
+
+.. image:: teaching_pendant_software/394.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-59 选择从站
+
+.. image:: teaching_pendant_software/395.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑25-60 ModbusTCP从站指令添加
+
+1. 写单个数字输出DO(离散输入)
+
+选择DO名称为“A启动”，寄存器数量为1，寄存器值为0，点击“写单个数字输出”。最后翻至该页面最底端，点击“应用”按钮。
+
+.. image:: teaching_pendant_software/396.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑25-61 添加写单个数字输出指令
+   
+.. image:: teaching_pendant_software/397.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑25-62 应用写单个数字输出指令
+
+此时机器人程序“testModbusSlave.lua”中已经添加一条机器人Modbus从站写单个数字输出的指令，将机器人切换到自动模式，点击启动按钮，机器人将名称为“A启动”对应的数字输出的地址值写为0。
+   
+.. image:: teaching_pendant_software/398.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-63 写单个数字输出LUA程序
+
+2. 写多个数字输出DO(离散输入)
+
+打开ModbusTCP从站指令添加页面，找到“数字输出设置”，选择DO名称为“A启动”，寄存器数量为5，寄存器值为1,0,1,0,1，其中寄存器值的个数要与设置的寄存器数量对应，且多个寄存器值之间用英文逗号隔开，点击“写数字输出”。最后翻至该页面最底端，点击“应用”按钮。
+   
+.. image:: teaching_pendant_software/399.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑25-64 配置写多个数字输出
+      
+.. image:: teaching_pendant_software/400.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑25-65 应用写多个数字输出
+
+此时机器人程序“testModbusSlave.lua”中已经添加一条机器人Modbus从站写多个数字输出的指令，将机器人切换到自动模式，点击启动按钮，机器人将从站“A启动”其后面4个离散输入寄存器的值分别写为1、0、1、0、1。
+      
+.. image:: teaching_pendant_software/401.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-66 写多个数字输出LUA程序
+
+3. 读单个数字输出DO(离散输入)
+
+打开ModbusTCP主站指令添加页面，找到“数字输出设置”，DO名称为“A启动”，寄存器数量为1，寄存器值不需要填写，点击“读数字输出”。最后翻至该页面最底端，点击“应用”按钮。
+      
+.. image:: teaching_pendant_software/402.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑25-67 配置读单个数字输出
+         
+.. image:: teaching_pendant_software/403.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑25-68 应用读单个数字输出
+
+此时机器人程序“testModbusSlave.lua”中已经添加一条机器人Modbus从站读单个数字输出的指令。
+         
+.. image:: teaching_pendant_software/404.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-69 读单个数字输出程序
+
+通常读Modbus寄存器后将读到的数值存入变量里，因此需要定义一个变量用于存储读取的数值。点击“切换模式”按钮，将机器人lua程序切换至可编辑状态，在“ModbusSlaveReadDO”指令前编写填加返回值变量“AStartValue”，执行程序后读到的数值将存在“AStartValue”里。
+         
+.. image:: teaching_pendant_software/405.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-70 读单个数字输出存入变量
+
+线圈类型的寄存器值只有0和1两种数值，在机器人程序中可以通过判断寄存器数值不同来进行不同的操作。点击“切换模式”按钮将机器人示教程序切换至不可编辑模式，添加两个关节运动指令分别运动到两个不同的点位“P1”和“P2”。
+         
+.. image:: teaching_pendant_software/406.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-71 添加不同点位的运动指令
+
+再次将程序切换至可编辑模式，并编写数字输出值“AStartValue”的判断条件，当“AStartValue”值为1时，机器人运动到“P1”点，否则机器人运动到“P2”点。
+         
+.. image:: teaching_pendant_software/407.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-72 根据数字输出值不同运动到不同的点位
+
+最后再将机器人程序切换至不可编辑模式，将机器人切换到自动模式，在确认安全的前提下启动运行程序。由于该程序的第二行将名称为“A启动”数字输出DO值设为1，因此执行程序后机器人将运动到“P1”点。
+         
+.. image:: teaching_pendant_software/408.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-73 读取单个线圈寄存器数值并运动
+
+4. 读多个数字输出DO(离散输入)
+
+打开ModbusTCP主站指令添加页面，找到“数字输出设置”，选择DO名称为“A启动”，寄存器数量为2，寄存器值不需要填写，点击“读数字输出”。最后翻至该页面最底端，点击“应用”按钮。
+         
+.. image:: teaching_pendant_software/409.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑25-74 配置读多个数字输出
+            
+.. image:: teaching_pendant_software/410.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑25-75 应用读多个数字输出
+
+此时机器人程序“testModbusSlave.lua”中已经添加一条机器人Modbus从站读多个数字输出的指令。
+            
+.. image:: teaching_pendant_software/411.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-76 读多个数字输出程序
+
+点击“切换模式”按钮，将机器人lua程序切换至可编辑状态，由于读取的数量为2个，因此需要在“ModbusSlaveReadDO”指令前编写填加2个返回值变“value1,value2”，执行程序后读到的2个数字输出寄存器数值将分别存在上述2个变量里，同样您可以判断“value1”、“value6”的值使机器人进行不同的动作。
+            
+.. image:: teaching_pendant_software/412.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-77 读多个数字输出存入变量
+
+5. 读数字输入DI(线圈)
+
+打开ModbusTCP从站指令添加页面，找到“数字输入设置”，选择DI名称为“A到位”，寄存器数量为2，点击“读数字输入”。最后翻至该页面最底端，点击“应用”按钮。
+            
+.. image:: teaching_pendant_software/413.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑25-78 配置读数字输入
+               
+.. image:: teaching_pendant_software/414.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑25-79 应用读数字输入
+
+此时机器人程序“testModbusSlave.lua”中已经添加一条机器人Modbus从站读数字输入的指令。
+               
+.. image:: teaching_pendant_software/415.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-80 读数字输入程序指令
+
+点击“切换模式”按钮，将机器人lua程序切换至可编辑状态，在“ModbusSlaveReadDI”指令前编写返回值变量“AState,BState”，执行程序后读到的两个数字输入数值将分别存在变量“AState”和“BState”里，您可以通过判断变量数值进而控制机器人做不同的操作。
+              
+.. image:: teaching_pendant_software/416.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-81 读数字输入程序
+
+6. 模拟输出AO(输入寄存器)和模拟输入AI(保持寄存器)的读写操作
+
+模拟输出(输入寄存器)、模拟输入(保持寄存器)的读写操作与数字输出(离散输入)、数字输入(线圈)的操作基本一致，区别在于后者的数据范围仅限于0或1，而前者的数据范围更大，因此具体的操作可参考数字输出和数字输入程序的编写，在此仅展示模拟输入的读操作和模拟输出的读写操作程序示例。
+              
+.. image:: teaching_pendant_software/417.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-82 读模拟输入
+              
+.. image:: teaching_pendant_software/418.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-83 读写模拟输出
+
+7. 等待数字输入
+
+打开ModbusTCP从站指令添加页面，找到“等待数字输入设置”，选择DI名称为配置的“A到位”寄存器，等待状态为“True”，超时时间为5000ms。点击“添加”按钮，最后点击“应用”按钮。
+              
+.. image:: teaching_pendant_software/419.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑25-84 添加等待数字输入指令
+
+此时机器人程序“testModbusSlave.lua”中已经添加一条机器人Modbus从站等待数字输入的指令，启动程序后，机器人会一直等待从站的“A到位”线圈寄存器值变为true，也就是数值1，由于设置的超时时间为5s，因此当机器人等待5s后“A到位”信号仍为0时，机器人程序将会报超时错误，程序也自动停止运行。
+              
+.. image:: teaching_pendant_software/420.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-85 等待数字输入程序
+
+8. 等待模拟输入
+
+打开ModbusTCP从站指令添加页面，找到“等待模拟输入设置”选择AI名称为配置的“电压”寄存器，等待状态为“>”，寄存器值为255，超时时间为5000ms。点击“添加”按钮，最后点击“应用”按钮。
+
+.. image:: teaching_pendant_software/421.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.7‑25-86 添加等待模拟输入指令
+
+此时机器人程序“testModbusSlave.lua”中已经添加一条机器人Modbus从站等待模拟输入值的指令，启动程序后，机器人会一直等待从站的“电压”寄存器数值大于255，由于设置的超时时间为5s，因此当机器人等待5s后“电压”信号仍不大于255时，机器人程序将会报超时错误，程序也自动停止运行。
+              
+.. image:: teaching_pendant_software/422.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-87 等待模拟输入寄存器程序
+
+ModbusTCP从站机器人状态反馈与控制
+***********************************
+
+协作机器人ModbusTCP从站输入寄存器地址310~473用于反馈机器人实时状态(具体地址定义见附件一：ModbusTCP从站地址映射表)，您只需要用主站设备读取对应寄存器的数值即可获取对应的机器人实时状态数据。
+
+协作机器人ModbusTCP从站线圈寄存器地址300~599用于主站设备对机器人进行控制(具体地址定义见附件一：ModbusTCP从站地址映射表)，以线圈地址502为例，该地址功能表示“启动程序”。
+
+当机器人处于自动模式下，主站设备将地址502的值从0置1时，机器人自动开始运行当前配置的程序；再以线圈地址300为例，它用于控制机器人控制箱DO0的输出，当外部主站将线圈地址300从0置1时，控制箱DO0自动输出有效，同样外部主站将线圈地址300从1置0时，控制箱DO0输出无效。在ModbusTCP从站设置页面点击“功能数字输入(线圈)”，即可监控当前所有的功能数字输入情况。
+              
+.. image:: teaching_pendant_software/423.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.7‑25-88 机器人从站功能数字输入
+
+附件一：Modbus从站地址映射表
+
+.. list-table::
+   :widths: 10 20 25 15 15 10 10
+   :header-rows: 0
+   :align: center
+
+   * - **地址**
+     - **类型**
+     - **名称**
+     - **数据类型**
+     - **功能码**
+     - **读/写**
+     - **备注**
+
+   * - 100
+     - 
+     - DI0
+     -  
+     -  
+     -   
+     -   
+
+   * - 101
+     - 
+     - DI1
+     -  
+     -  
+     -   
+     -  
+
+   * - 102
+     - 通用数字输入(线圈)
+     - DI2
+     - BOOL 
+     - 0x02 
+     -   
+     - 读写 
+  
+   * - 103
+     - 
+     - DI3
+     -  
+     -   
+     -  
+     -  
+  
+   * - ...
+     - 
+     - ...
+     -  
+     -   
+     -  
+     -  
+  
+   * - 227
+     - 
+     - DI127
+     -  
+     -   
+     -  
+     -  
+  
+   * - 
+     - 
+     -   
+     - 
+     -  
+     -  
+     -  
+
+   * - 100
+     - 
+     - DO0
+     -   
+     -  
+     -  
+     -  
+
+   * - 101
+     - 
+     - DO1
+     -   
+     -  
+     -  
+     -  
+
+   * - 102
+     - 通用数字输出(离散)
+     - DO2
+     - BOOL 
+     - 0x01、0x05、0x15 
+     - 只读 
+     -   
+  
+   * - 103
+     - 
+     - DO3
+     -  
+     -  
+     -   
+     -  
+  
+   * - ...
+     - 
+     - ...
+     -  
+     -  
+     -   
+     -  
+  
+   * - 227
+     - 
+     - DO127
+     -  
+     -  
+     -   
+     -  
+  
+   * - 
+     - 
+     - 
+     -   
+     -  
+     -  
+     -  
+
+   * - 100
+     - 
+     - AI0
+     -  
+     -   
+     -  
+     -  
+
+   * - 101
+     - 
+     - AI1
+     -   
+     -  
+     -  
+     -  
+
+   * - 102
+     - 
+     - AI2
+     - UINT16
+     - 
+     -   
+     -  
+  
+   * - ...
+     - 
+     - ...
+     -  
+     -   
+     -  
+     -  
+  
+   * - 115
+     - 
+     - AI15
+     -  
+     -  
+     -   
+     -  
+  
+   * - 116
+     - 
+     - AI16
+     -  
+     -   
+     -  
+     -  
+  
+   * - 117
+     - 
+     - AI17
+     -  
+     -   
+     -  
+     -  
+  
+   * - 118
+     - 模拟输入(保持寄存器)
+     - AI18
+     - INT16 
+     - 0x04 
+     - 只读 
+     -   
+  
+   * - ...
+     - 
+     - ...
+     -   
+     -  
+     -  
+     -
+  
+   * - 131
+     - 
+     - AI31
+     -   
+     -  
+     -  
+     -
+  
+   * - 132
+     - 
+     - AI32
+     -   
+     -  
+     -  
+     -
+  
+   * - 133
+     - 
+     - AI33
+     - FLOAT32(大端显示) 
+     -   
+     -  
+     -
+  
+   * - ...
+     - 
+     - ...
+     -   
+     -  
+     -  
+     -
+  
+   * - 194
+     - 
+     - AI63
+     -  
+     -   
+     -  
+     -
+  
+   * - 195
+     - 
+     - 
+     -  
+     -   
+     -  
+     -
+  
+   * - 
+     - 
+     - 
+     -   
+     -  
+     -  
+     -  
+
+   * - 100
+     - 
+     - AO0
+     -  
+     -   
+     -  
+     -  
+
+   * - 101
+     - 
+     - AO1
+     -  
+     -  
+     -   
+     -  
+
+   * - 102
+     - 
+     - AO2
+     - UINT16
+     - 
+     -   
+     -  
+  
+   * - ...
+     - 
+     - ...
+     -  
+     -  
+     -   
+     -  
+  
+   * - 115
+     - 
+     - AO15
+     -  
+     -  
+     -   
+     -  
+  
+   * - 116
+     - 
+     - AO16
+     -  
+     -  
+     -   
+     -  
+  
+   * - 117
+     - 
+     - AO17
+     -  
+     -   
+     -  
+     -  
+  
+   * - 118
+     - 模拟输出(输入寄存器)
+     - AO18
+     - INT16 
+     - 0x03、0x06、0x16
+     - 读写 
+     -   
+  
+   * - ...
+     - 
+     - ...
+     -  
+     -  
+     -   
+     -
+  
+   * - 131
+     - 
+     - AO31
+     -  
+     -  
+     -   
+     -
+  
+   * - 132
+     - 
+     - AO32
+     -  
+     -   
+     -  
+     -
+  
+   * - 133
+     - 
+     - AO33
+     - FLOAT32(大端显示) 
+     -  
+     -   
+     -
+  
+   * - ...
+     - 
+     - ...
+     -  
+     -  
+     -   
+     -
+  
+   * - 194
+     - 
+     - AO63
+     -  
+     -  
+     -   
+     -
+  
+   * - 195
+     - 
+     - 
+     -  
+     -   
+     -  
+     -
+       
+   * - 
+     - 
+     - 
+     -  
+     -  
+     -   
+     -
+       
+   * - 机器人状态反馈 
+     - 
+     - 
+     - 
+     -  
+     -   
+     -
+       
+   * - 310 
+     - 
+     - 使能状态 0-未使能，1-使能
+     -  
+     -   
+     -  
+     -
+       
+   * - 311 
+     - 
+     - 机器人模式，1-手动模式，0-自动模式
+     -  
+     -   
+     -  
+     -
+       
+   * - 312 
+     - 
+     - 机器人运行状态 1-停止，2-运行，3-暂停，4-拖动
+     -  
+     -   
+     -  
+     -
+       
+   * - 313 
+     - 机器人状态(输入寄存器)
+     - 工具号
+     -  
+     -   
+     -  
+     -
+       
+   * - 314 
+     - 
+     - 工件号
+     -  
+     -   
+     -  
+     -
+       
+   * - 315 
+     - 
+     - 急停状态 0-未急停，1-急停
+     -  
+     -   
+     -  
+     -
+     
+   * - 316 
+     - 
+     - 超软限位故障
+     -  
+     -  
+     -   
+     -
+
+   * - 317
+     - 
+     - 主故障码
+     -  
+     -   
+     -  
+     -
+
+   * - 318
+     - 
+     - 子故障码
+     -  
+     -   
+     -  
+     -
+
+   * - 319
+     - 
+     - 碰撞检测，1-碰撞，0-无碰撞
+     -  
+     -   
+     -  
+     -
+
+   * - 320
+     - 
+     - 运动到位信号
+     -  
+     -   
+     -  
+     -
+
+   * - 321
+     - 
+     - 安全停止信号SI0
+     -  
+     -  
+     -   
+     -
+
+   * - 322
+     - 
+     - 安全停止信号SI1
+     -  
+     -  
+     -
+     -
+
+   * - 330
+     - 
+     - TCP速度
+     -  
+     -  
+     -   
+     -
+
+   * - 340
+     - 
+     - 关节1位置
+     -  
+     -  
+     -   
+     -
+
+   * - 342
+     - 
+     - 关节2位置
+     -  
+     -  
+     -   
+     -
+
+   * - 344
+     - 
+     - 关节3位置
+     -  
+     -   
+     -  
+     -
+
+   * - 346
+     - 
+     - 关节4位置
+     -   
+     -  
+     -  
+     -
+
+   * - 348
+     - 
+     - 关节5位置
+     -  
+     -  
+     -   
+     -
+
+   * - 350
+     - 
+     - 关节6位置
+     -   
+     -  
+     -  
+     -
+
+   * - 352
+     - 
+     - 关节1速度
+     -   
+     -  
+     -  
+     -
+
+   * - 354
+     - 
+     - 关节2速度
+     -  
+     -   
+     -  
+     -
+
+   * - 356
+     - 
+     - 关节3速度
+     -  
+     -  
+     -   
+     -
+
+   * - 358
+     - 
+     - 关节4速度
+     -  
+     -  
+     -   
+     -
+
+   * - 360
+     - 
+     - 关节5速度
+     -  
+     -   
+     -  
+     -
+
+   * - 362
+     - 
+     - 关节6速度
+     -  
+     -   
+     -  
+     -
+
+   * - 364
+     - 
+     - 关节1电流
+     - FLOAT32(大端显示) 
+     -   
+     -  
+     -
+
+   * - 366
+     - 
+     - 关节2电流
+     -  
+     -   
+     -  
+     -
+
+   * - 368
+     - 
+     - 关节3电流
+     -  
+     -   
+     -  
+     -
+
+   * - 370
+     - 
+     - 关节4电流
+     -  
+     -   
+     -  
+     -
+
+   * - 372
+     - 
+     - 关节5电流
+     -  
+     -  
+     -   
+     -
+
+   * - 374
+     - 
+     - 关节6电流
+     -  
+     -   
+     -  
+     -
+
+   * - 376
+     - 
+     - 关节1扭矩
+     -  
+     -   
+     -  
+     -
+
+   * - 378
+     - 
+     - 关节2扭矩
+     -  
+     -   
+     -  
+     -
+
+   * - 380
+     - 
+     - 关节3扭矩
+     -  
+     -  
+     -   
+     -
+
+   * - 382
+     - 
+     - 关节4扭矩
+     -  
+     -   
+     -  
+     -
+
+   * - 384
+     - 
+     - 关节5扭矩
+     -  
+     -  
+     -   
+     -
+
+   * - 386
+     - 
+     - 关节6扭矩
+     -  
+     -   
+     -  
+     -
+
+   * - 388
+     - 
+     - TCP位置X
+     -  
+     -  
+     -   
+     -
+
+   * - 390
+     - 
+     - TCP位置Y
+     -  
+     -  
+     -   
+     -
+
+   * - 392
+     - 
+     - TCP位置Z
+     -  
+     -   
+     -  
+     -
+
+   * - 394
+     - 
+     - TCP位置RX
+     -  
+     -   
+     -  
+     -
+
+   * - 396
+     - 
+     - TCP位置RY
+     -  
+     -   
+     -  
+     -
+
+   * - 398
+     - 
+     - TCP位置RZ
+     -   
+     -  
+     -  
+     -
+
+   * - 400
+     - 
+     - TCP速度X
+     -  
+     -  
+     -   
+     -
+
+   * - 402
+     - 
+     - TCP速度Y
+     -  
+     -   
+     -  
+     -
+
+   * - 404
+     - 
+     - TCP速度Z
+     -  
+     -   
+     -  
+     -
+
+   * - 406
+     - 
+     - TCP速度RX
+     -  
+     -   
+     -  
+     -
+
+   * - 408
+     - 
+     - TCP速度RY
+     -  
+     -   
+     -  
+     -
+
+   * - 410
+     - 
+     - TCP速度RZ
+     -  
+     -   
+     -  
+     -
+
+   * - 430
+     - 
+     - 控制箱模拟量输入AI0
+     -  
+     -  
+     -   
+     -
+
+   * - 432
+     - 
+     - 控制箱模拟量输入AI1
+     -  
+     -  
+     -   
+     -
+
+   * - 438
+     - 
+     - 工具模拟量输入AI0
+     -  
+     -  
+     -   
+     -
+
+   * - 450
+     - 
+     - 控制箱模拟量输出AO0
+     -  
+     -  
+     -   
+     -
+
+   * - 452
+     - 
+     - 控制箱模拟量输出AO1
+     -  
+     -   
+     -  
+     -
+
+   * - 458
+     - 
+     - 工具模拟量输出AO0
+     -  
+     -   
+     -  
+     -
+
+   * - 470
+     - 
+     - 控制箱数字输入Bit0-Bit7对应DI0-DI7，Bit8-Bit15对应CI0-CI7
+     - UINT16 
+     -   
+     -  
+     -
+
+   * - 471
+     - 
+     - 工具端数字输入 Bit0-Bit15对应DI0-DI15
+     -  
+     -   
+     -  
+     -
+
+   * - 472
+     - 
+     - 控制箱数字输出Bit0-Bit7对应DO0-DO7，Bit8-Bit15对应CO0-CO7
+     -  
+     -   
+     -  
+     -
+
+   * - 473
+     - 
+     - 工具端数字输出 Bit0-Bit15对应DO0-DO15
+     -  
+     -  
+     -   
+     -
+
+机器人控制表格如下：
+
+.. list-table::
+   :widths: 10 20 25 15 15 10 10
+   :header-rows: 0
+   :align: center
+   
+   * - **地址**
+     - **类型**
+     - **名称**
+     - **数据类型**
+     - **功能码**
+     - **读/写**
+     - **备注**
+
+   * - 300
+     - 数字输入(线圈)
+     - 控制箱DO0
+     - BOOL 
+     - 0x02 
+     - 读写
+     - 
+
+   * - 301
+     - 
+     - 控制箱DO1
+     -  
+     -  
+     - 
+     - 
+
+   * - 302
+     - 
+     - 控制箱DO2
+     -  
+     -  
+     - 
+     - 
+
+   * - 303
+     - 
+     - 控制箱DO3
+     -  
+     -  
+     - 
+     - 
+
+   * - 304
+     - 
+     - 控制箱DO4
+     -  
+     - 
+     -  
+     - 
+
+   * - 305
+     - 
+     - 控制箱DO5
+     -  
+     -  
+     - 
+     - 
+
+   * - 306
+     - 
+     - 控制箱DO6
+     -  
+     - 
+     -  
+     - 
+
+   * - 307
+     - 
+     - 控制箱DO7
+     -  
+     -  
+     - 
+     - 
+
+   * - 308
+     - 
+     - 控制箱CO0
+     -  
+     - 
+     -  
+     - 
+
+   * - 309
+     - 
+     - 控制箱CO1
+     - 
+     -  
+     -  
+     - 
+
+   * - 310
+     - 
+     - 控制箱CO2
+     -  
+     - 
+     -  
+     - 
+
+   * - 311
+     - 
+     - 控制箱CO3
+     -  
+     - 
+     -  
+     - 
+
+   * - 312
+     - 
+     - 控制箱CO4
+     - 
+     -  
+     -  
+     - 
+
+   * - 313
+     - 
+     - 控制箱CO5
+     -  
+     - 
+     -  
+     - 
+
+   * - 314
+     - 
+     - 控制箱CO6
+     -  
+     - 
+     -  
+     - 
+
+   * - 315
+     - 
+     - 控制箱CO7
+     -  
+     - 
+     -  
+     - 
+
+   * - 316
+     - 
+     - 工具DO0
+     -  
+     - 
+     -  
+     - 
+
+   * - 317
+     - 
+     - 工具DO1
+     -  
+     -  
+     - 
+     - 
+
+   * - 318 - 499
+     - 
+     - 预留
+     - 
+     -  
+     -  
+     - 
+
+   * - 500
+     - 
+     - 暂停
+     - 
+     -  
+     -  
+     - 
+
+   * - 501
+     - 
+     - 恢复
+     -  
+     - 
+     -  
+     - 
+
+
+   * - 502
+     - 
+     - 启动
+     - 
+     -  
+     -  
+     - 
+
+   * - 503
+     - 
+     - 停止
+     -  
+     - 
+     -  
+     - 
+
+   * - 504
+     - 
+     - 移至作业原点
+     -  
+     - 
+     -  
+     - 
+
+   * - 505
+     - 
+     - 手自动切换
+     - 
+     -  
+     -  
+     - 
+
+   * - 506
+     - 
+     - 启动主程序
+     -  
+     - 
+     -  
+     - 
+
+   * - 507
+     - 
+     - 一级缩减模式
+     -  
+     - 
+     -  
+     - 
+
+   * - 508
+     - 
+     - 二级缩减模式
+     - 
+     -  
+     -  
+     - 
+
+   * - 509
+     - 
+     - 三级缩减模式(停止)
+     - 
+     -  
+     -  
+     - 
+
+   * - 510
+     - 
+     - 清除所有故障
+     - 
+     -  
+     -  
+     - 
+
+   * - 511 - 599
+     - 
+     - 预留
+     -  
+     - 
+     -  
+     - 
 
 图形化编程
 ~~~~~~~~~~~~

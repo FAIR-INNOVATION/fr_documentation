@@ -45,9 +45,10 @@
     :download:`功能安全认证证书 <_static/_doc/功能安全认证.zip>`
 
     :download:`KCs认证证书 <_static/_doc/KCs证书-FR3+FR5+FR10+FR16+FR20.zip>`
+        
+    :download:`NRTL工业机器人认证证书 <_static/_doc/NRTL工业机器人认证证书.zip>`
     
-.. Ecological Accessories
-.. ---------------------------
+    :download:`NRTL协作机器人认证证书 <_static/_doc/FR协作机器人系列-NRTL认证证书.zip>`
 
 二次开发
 ---------------------------------
@@ -75,7 +76,7 @@
 
     :download:`FRCobots-V6.0 STEP模型 <_static/_doc/FRCobots-V6.0 STEP Models.zip>`
 
-控制器虚拟机
+FAIRINO SimMachine
 -----------------------
     :download:`FAIRINO SimMachine <https://pan.baidu.com/s/11yp-X-AlN-OyhzWV9rDlbQ?pwd=lp85>`
 

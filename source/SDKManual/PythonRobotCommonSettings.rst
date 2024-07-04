@@ -516,3 +516,27 @@
     robot = Robot.RPC('192.168.58.2')
     error = robot.WaitMs(1000)
     print("等待指定时间错误码",error)
+
+设置机器人加速度
++++++++++++++++++
+.. versionadded:: python SDK-v2.0.4
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetOaccScale(acc)``"
+    "描述", "设置机器人加速度"
+    "必选参数", "- ``acc``:机器人加速度百分比"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode "
+
+代码示例
+------------
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    robot.SetOaccScale (20)
