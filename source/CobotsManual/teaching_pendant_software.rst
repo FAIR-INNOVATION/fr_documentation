@@ -5987,6 +5987,89 @@ FR对应的类型为“SmartTool ”与力传感器组合使用，协作机器�
 
 .. centered:: 图表 4.9‑56 测量力的大小及受力方向
 
+机器人安全
+++++++++++++++++++  
+
+1)在辅助应用 -> 机器人安全 -> 安全停止页面，设置安全停止模式参数功能。
+
+.. image:: teaching_pendant_software/424.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.9‑57 安全停止模式配置
+
+2)在辅助应用 -> 机器人安全 -> 安全速度页面，设置安全速度。
+
+.. note:: TCP手动速度小于250mm/s。
+
+.. image:: teaching_pendant_software/425.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.9‑58 安全手动速度配置
+
+3)数字量输入DI0-DI15和数字量输出DO0-DO15有效状态设置16路数字量输入和16路数字量输出的有效电平配置，配置包括高电平有效和低电平有效。
+
+.. image:: teaching_pendant_software/426.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 4.9‑59 DI配置
+
+.. image:: teaching_pendant_software/427.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 4.9‑60 DO配置
+
+4)HMI提供对16路数字量输入和16路数字量输出的安全状态进行设置，可设置为有效或无效状态，当控制器判断到处于安全状态时，16路数字量输入和16路数字量输出被设置成安全状态。
+
+其中配置页面在辅助应用中的“机器人安全”->“DIO安全”，页面如下：
+
+.. image:: teaching_pendant_software/428.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 4.9‑61 DIO安全状态配置
+
+1. 在“DIO安全”中提供DIO安全功能，安全功能为双路DI或者DO，当检测到安全DI信号或安全状态标志触发时，输出DO。
+
+.. image:: teaching_pendant_software/429.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 4.9‑62 DIO安全功能配置
+
+2. 急停停机类型0、1a、1b、2可设置、停机时间限值可设置、停止距离限值可设置。
+
+- 通过控制器送控制箱板，急停停机类型0控制箱板直接断电；
+  
+- 急停停机类型1a为减速停机后，切断本体电源；
+  
+- 急停停机类型1b为减速停机后，不切断本体电源，本体去使能；
+
+.. image:: teaching_pendant_software/430.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.9‑63 急停停机配置
+
+3. 保护性停机类型0、1、2，保护性停机类型0控制箱板直接断电，保护性停机类型1控制箱板先通知控制器控制机器人停住然后控制器反馈控制箱板断电，保护性停机类型2控制箱板通知控制器控制机器人停住。
+
+.. image:: teaching_pendant_software/431.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.9‑64 保护性停机配置
+
+4. 安全数据状态标志和控制箱载板故障反馈通过Web端与控制器状态反馈中获取，当出现标志位为1时在WebAPP报警状态中提示安全数据状态异常。控制箱载板故障获取后的依据报错代码在WebAPP报警状态中展示具体报错信息。
+
+.. image:: teaching_pendant_software/432.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 4.9‑65 WebAPP报警状态
+
 系统设置
 -----------------
 
