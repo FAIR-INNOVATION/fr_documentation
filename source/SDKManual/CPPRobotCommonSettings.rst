@@ -478,3 +478,15 @@
         printf("ComputeWObjCoord retval is: %d\n", retval);
         printf("xyz is: %f, %f, %f; rpy is: %f, %f, %f\n", wobj_0_pose.tran.x, wobj_0_pose.tran.y, wobj_0_pose.tran.z, wobj_0_pose.rpy.rx, wobj_0_pose.rpy.ry, wobj_0_pose.rpy.rz);
     }
+
+设置机器人加速度
++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+	/**
+	 * @brief 设置机器人加速度
+	 * @param [in] acc 机器人加速度百分比
+	 * @return 错误码
+	 */
+	errno_t SetOaccScale(double acc);

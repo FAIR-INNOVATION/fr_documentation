@@ -365,3 +365,15 @@
     * @return  错误码
     */
     int WaitMs(int t_ms);
+
+设置机器人加速度
++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 设置机器人加速度
+    * @param [in] acc 机器人加速度百分比
+    * @return 错误码
+    */
+    int SetOaccScale(double acc)
