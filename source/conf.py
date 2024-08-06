@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = '法奥'
+project = '法奥意威协作机器人用户手册'
 copyright = '2022-2024, 法奥意威（苏州）机器人系统有限公司'
 author = '法奥意威（苏州）机器人系统有限公司'
 release = '3.7.3'
@@ -21,6 +21,9 @@ exclude_patterns = []
 
 language = 'zh_CN'
 locale_dirs = ['locale/']  # 设置本地化数据目录
+
+# 注：在生成html的时候这句话要注释
+# latex_engine = 'xelatex'
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output

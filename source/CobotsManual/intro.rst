@@ -8,6 +8,10 @@
     :align: center
     :figclass: align-center
 
+PDF下载
+------------------
+    :download:`法奥意威协作机器人用户手册 <https://pan.baidu.com/s/1pDox8SyHa148gxPjGh0mnA?pwd=xlxf >`
+
 快速开始
 ------------
 .. toctree:: 
