@@ -4,21 +4,21 @@
 
 宣传册
 --------------
-    :download:`法奥意威公司简介 <_static/_doc/法奥意威公司简介.pdf>`
+    :download:`法奥意威公司简介 <_static/_doc/法奥意威公司简介.zip>`
 
-    :download:`法奥意威产品手册 <_static/_doc/法奥意威产品手册.pdf>`
+    :download:`法奥意威产品手册 <_static/_doc/法奥意威产品手册.zip>`
 
-    :download:`法奥意威医疗行业案例 <_static/_doc/法奥意威医疗行业案例.pdf>`
+    :download:`法奥意威医疗行业案例 <_static/_doc/法奥意威医疗行业案例.zip>`
 
-    :download:`法奥意威焊接宣传册 <_static/_doc/法奥意威焊接宣传册.pdf>`
+    :download:`法奥意威焊接宣传册 <_static/_doc/法奥意威焊接宣传册.zip>`
 
-    :download:`法奥意威码垛宣传册 <_static/_doc/法奥意威码垛宣传册.pdf>`
+    :download:`法奥意威码垛宣传册 <_static/_doc/法奥意威码垛宣传册.zip>`
 
 资质认证
 ---------------------------------
-    :download:`法奥意威CE证书 <_static/_doc/法奥意威CE证书.pdf>`
+    :download:`法奥意威CE证书 <_static/_doc/法奥意威CE证书.zip>`
 
-    :download:`法奥意威CR证书 <_static/_doc/法奥意威CR证书.pdf>`
+    :download:`法奥意威CR证书 <_static/_doc/法奥意威CR证书.zip>`
 
     :download:`高防护IP65测试认证证书 <_static/_doc/高防护IP65测试认证.zip>`
 
