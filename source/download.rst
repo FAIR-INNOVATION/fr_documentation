@@ -4,51 +4,53 @@
 
 宣传册
 --------------
-    :download:`法奥意威公司简介 <_static/_doc/法奥意威公司简介.zip>`
+    :download:`法奥意威公司简介 <_static/_doc/法奥意威公司简介.pdf>`
 
-    :download:`法奥意威产品手册 <_static/_doc/法奥意威产品手册.zip>`
+    :download:`法奥意威产品手册 <_static/_doc/法奥意威产品手册.pdf>`
 
-    :download:`法奥意威医疗行业案例 <_static/_doc/法奥意威医疗行业案例.zip>`
+    :download:`法奥意威医疗行业案例 <_static/_doc/法奥意威医疗行业案例.pdf>`
 
-    :download:`法奥意威焊接宣传册 <_static/_doc/法奥意威焊接宣传册.zip>`
+    :download:`法奥意威焊接宣传册 <_static/_doc/法奥意威焊接宣传册.pdf>`
 
-    :download:`法奥意威码垛宣传册 <_static/_doc/法奥意威码垛宣传册.zip>`
+    :download:`法奥意威码垛宣传册 <_static/_doc/法奥意威码垛宣传册.pdf>`
 
 资质认证
 ---------------------------------
-    :download:`法奥意威CE证书 <_static/_doc/法奥意威CE证书.zip>`
+    :download:`法奥意威CE证书 <_static/_doc/法奥意威CE证书.pdf>`
 
-    :download:`法奥意威CR证书 <_static/_doc/法奥意威CR证书.zip>`
+    :download:`法奥意威CR证书 <_static/_doc/法奥意威CR证书.pdf>`
 
     :download:`高防护IP65测试认证证书 <_static/_doc/高防护IP65测试认证.zip>`
 
     :download:`NSF认证证书 <_static/_doc/NSF认证.zip>`
 
-    :download:`碰撞力测试认证证书 <_static/_doc/碰撞力测试认证.zip>`
+    :download:`碰撞力测试认证证书 <_static/_doc/碰撞力测试认证.pdf>`
 
     :download:`ROHS测试认证证书 <_static/_doc/ROHS测试认证.zip>`
 
-    :download:`零部件-电机认证证书 <_static/_doc/零部件-电机认证.zip>`
+    :download:`零部件-电机认证证书 <_static/_doc/零部件-电机认证.pdf>`
 
-    :download:`零部件-驱动器认证证书 <_static/_doc/零部件-驱动器认证.zip>`
+    :download:`零部件-驱动器认证证书 <_static/_doc/零部件-驱动器认证.pdf>`
 
-    :download:`零部件-核心板认证证书 <_static/_doc/零部件-核心板认证.zip>`
+    :download:`零部件-核心板认证证书 <_static/_doc/零部件-核心板认证.pdf>`
 
-    :download:`零部件-电源认证证书 <_static/_doc/零部件-电源认证.zip>`
+    :download:`零部件-电源认证证书 <_static/_doc/零部件-电源认证.pdf>`
 
     :download:`防爆认证证书 <_static/_doc/防爆认证.zip>`
 
-    :download:`CE-EMC认证证书 <_static/_doc/CE-EMC认证.zip>`
+    :download:`CE-EMC认证证书 <_static/_doc/CE-EMC认证.pdf>`
 
     :download:`CE-MD认证证书 <_static/_doc/CE-MD认证证书.zip>`
 
-    :download:`功能安全认证证书 <_static/_doc/功能安全认证.zip>`
+    :download:`功能安全认证证书 <_static/_doc/功能安全认证.pdf>`
 
     :download:`KCs认证证书 <_static/_doc/KCs证书-FR3+FR5+FR10+FR16+FR20.zip>`
+
+    :download:`SEMI认证证书 <_static/_doc/SEMI认证证书.pdf>`
         
-    :download:`NRTL工业机器人认证证书 <_static/_doc/NRTL工业机器人认证证书.zip>`
+    :download:`NRTL工业机器人认证证书 <_static/_doc/NRTL工业机器人认证证书.pdf>`
     
-    :download:`NRTL协作机器人认证证书 <_static/_doc/FR协作机器人系列-NRTL认证证书.zip>`
+    :download:`NRTL协作机器人认证证书 <_static/_doc/FR协作机器人系列-NRTL认证证书.pdf>`
 
 二次开发
 ---------------------------------
