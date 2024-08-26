@@ -22,7 +22,19 @@ WebApp 访问登录
 简单认识WebApp界面
 --------------------
 
-登录成功后系统进入“初始界面”，初始界面展示了示教器主要包含法奥LOGO及返回初始页面按钮、菜单栏、菜单栏缩放按钮、机器人操作区、控制区、状态区、三维模拟机器人以及位姿及IO信息区，一共八个区域。如下图系统初始界面示意图所示：
+登录成功后系统进入“初始界面”，主要包含：
+
+- 1、法奥LOGO；
+- 2、菜单栏缩放按钮；
+- 3、菜单栏；
+- 4、机器人控制区
+- 5、机器人状态区；
+- 6、三维模拟机器人——三维场景操作；
+- 7、三维模拟机器人——三维对象操作；
+- 8、机器人配套功能；
+- 9、机器人各类状态。
+
+如下图系统初始界面示意图所示：
 
 .. image:: teaching_pendant_software/002.png
    :align: center
@@ -81,7 +93,7 @@ WebApp 访问登录
 
 .. note:: 
    .. image:: teaching_pendant_software/007.png
-      :width: 2.25in
+      :width: 0.75in
       :height: 0.75in
       :align: left
 
@@ -91,17 +103,35 @@ WebApp 访问登录
 
 .. note:: 
    .. image:: teaching_pendant_software/008.png
-      :width: 2.25in
+      :width: 0.75in
       :height: 0.75in
       :align: left
 
    名称：**工具坐标系编号**
    
    作用：展示当前应用的工具坐标系编号
+.. note:: 
+   .. image:: teaching_pendant_software/449.png
+      :width: 0.75in
+      :height: 0.75in
+      :align: left
+
+   名称：**工件坐标系编号**
+   
+   作用：展示当前应用的工件坐标系编号
+.. note:: 
+   .. image:: teaching_pendant_software/450.png
+      :width: 0.75in
+      :height: 0.75in
+      :align: left
+
+   名称：**扩展轴坐标系编号**
+   
+   作用：展示当前应用的扩展轴坐标系编号
    
 .. note:: 
    .. image:: teaching_pendant_software/009.png
-      :width: 2.25in
+      :width: 0.75in
       :height: 0.75in
       :align: left
 
@@ -111,7 +141,7 @@ WebApp 访问登录
 
 .. note:: 
    .. image:: teaching_pendant_software/010.png
-      :width: 2.25in
+      :width: 0.75in
       :height: 0.75in
       :align: left
 
@@ -121,7 +151,7 @@ WebApp 访问登录
 
 .. note:: 
    .. image:: teaching_pendant_software/011.png
-      :width: 2.25in
+      :width: 0.75in
       :height: 0.75in
       :align: left
 
@@ -131,7 +161,7 @@ WebApp 访问登录
 
 .. note:: 
    .. image:: teaching_pendant_software/012.png
-      :width: 2.25in
+      :width: 0.75in
       :height: 0.75in
       :align: left
 
@@ -141,17 +171,17 @@ WebApp 访问登录
 
 .. note:: 
    .. image:: teaching_pendant_software/013.png
-      :width: 2.25in
+      :width: 0.75in
       :height: 0.75in
       :align: left
 
-   名称：**示教模式**
+   名称：**手动模式**
    
-   作用：机器人示教运行模式
+   作用：机器人手动模式，进行机器人示教操作
 
 .. note:: 
    .. image:: teaching_pendant_software/014.png
-      :width: 2.25in
+      :width: 0.75in
       :height: 0.75in
       :align: left
 
@@ -161,7 +191,7 @@ WebApp 访问登录
 
 .. note:: 
    .. image:: teaching_pendant_software/015.png
-      :width: 2.25in
+      :width: 0.75in
       :height: 0.75in
       :align: left
 
@@ -171,7 +201,7 @@ WebApp 访问登录
 
 .. note:: 
    .. image:: teaching_pendant_software/017.png
-      :width: 2.25in
+      :width: 0.75in
       :height: 0.75in
       :align: left
 
@@ -181,7 +211,7 @@ WebApp 访问登录
 
 .. note:: 
    .. image:: teaching_pendant_software/016.png
-      :width: 2.25in
+      :width: 0.75in
       :height: 0.75in
       :align: left
 
@@ -191,7 +221,7 @@ WebApp 访问登录
 
 .. note:: 
    .. image:: teaching_pendant_software/018.png
-      :width: 2.25in
+      :width: 0.75in
       :height: 0.75in
       :align: left
 
