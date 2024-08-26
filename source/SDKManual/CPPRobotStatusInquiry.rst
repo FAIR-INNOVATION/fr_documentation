@@ -358,7 +358,7 @@
     :linenos:
 
     /**
-    * @brief  获取机器人当前速度
+    * @brief  获取机器人默认速度
     * @param  [out]  vel  速度，单位mm/s
     * @return  错误码
     */   

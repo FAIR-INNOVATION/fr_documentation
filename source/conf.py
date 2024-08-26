@@ -9,7 +9,7 @@
 project = '法奥意威协作机器人用户手册'
 copyright = '2022-2024, 法奥意威（苏州）机器人系统有限公司'
 author = '法奥意威（苏州）机器人系统有限公司'
-release = '3.7.3'
+release = '3.7.4'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
