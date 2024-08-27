@@ -7,7 +7,7 @@
 基本参数
 -----------
 
-.. centered:: 表格 1.1-1 机器人基本参数
+.. centered:: 表格 2.1-1 机器人基本参数
 
 .. figure:: installation/017.png
 	:align: center
@@ -39,42 +39,42 @@
 	:width: 6in
 	:class: figure-border
 
-.. centered:: 图表 1.1-1 FR3型号协作机器人运动范围
+.. centered:: 图表 2.2-1 FR3型号协作机器人运动范围
 
 .. figure:: installation/019.png
 	:align: center
 	:width: 6in
 	:class: figure-border
 
-.. centered:: 图表 1.1-2 FR5型号协作机器人运动范围
+.. centered:: 图表 2.2-2 FR5型号协作机器人运动范围
 
 .. figure:: installation/020.png
 	:align: center
 	:width: 6in
 	:class: figure-border
 
-.. centered:: 图表 1.1-3 FR10型号协作机器人运动范围
+.. centered:: 图表 2.2-3 FR10型号协作机器人运动范围
 
 .. figure:: installation/021.png
 	:align: center
 	:width: 6in
 	:class: figure-border
 
-.. centered:: 图表 1.1-4 FR16型号协作机器人运动范围
+.. centered:: 图表 2.2-4 FR16型号协作机器人运动范围
 
 .. figure:: installation/022.png
 	:align: center
 	:width: 6in
 	:class: figure-border
 
-.. centered:: 图表 1.1-5 FR20型号协作机器人运动范围
+.. centered:: 图表 2.2-5 FR20型号协作机器人运动范围
 
 .. figure:: installation/068.png
 	:align: center
 	:width: 6in
 	:class: figure-border
 
-.. centered:: 图表 1.1-6 FR30型号协作机器人运动范围
+.. centered:: 图表 2.2-6 FR30型号协作机器人运动范围
 
 机器人坐标系
 ---------------
@@ -84,14 +84,14 @@
 	:width: 6in
 	:class: figure-border
 
-.. centered:: 图表 1.1-7 机器人DH参数坐标系
+.. centered:: 图表 2.3-1 机器人DH参数坐标系
 
 .. figure:: installation/024.png
 	:align: center
 	:width: 6in
 	:class: figure-border
 
-.. centered:: 图表 1.1-8 机器人末端法兰坐标系
+.. centered:: 图表 2.3-2 机器人末端法兰坐标系
 
 机器人DH参数
 --------------
@@ -103,11 +103,11 @@ DH参数用于计算 FR 系列协作机器人的运动学和动力学。
 	:width: 6in
 	:class: figure-border
 
-.. centered:: 图表 1.1-9 FR系列协作机器人DH参数
+.. centered:: 图表 2.4-1 FR系列协作机器人DH参数
 
 FR系列协作机器人DH参数展示如下：
 
-.. centered:: 表格 1.1-2 FR3 协作机器人DH参数表
+.. centered:: 表格 2.4-1 FR3 协作机器人DH参数表
 
 .. list-table::
    :widths: 70 50 50 50 50 70 50 120
@@ -178,7 +178,7 @@ FR系列协作机器人DH参数展示如下：
      - 0.261
      - [-0.05, -1.11, -20.05]
 
-.. centered:: 表格 1.1-3 FR5 协作机器人DH参数表
+.. centered:: 表格 2.4-2 FR5 协作机器人DH参数表
 
 .. list-table::
    :widths: 70 50 50 50 50 70 50 120
@@ -249,7 +249,7 @@ FR系列协作机器人DH参数展示如下：
      - 0.36
      - [0.93, 0.81, -20.05]
 
-.. centered:: 表格 1.1-4 FR10 协作机器人DH参数表
+.. centered:: 表格 2.4-3 FR10 协作机器人DH参数表
 
 .. list-table::
    :widths: 70 50 50 50 50 70 50 120
@@ -320,7 +320,7 @@ FR系列协作机器人DH参数展示如下：
      - 0.35
      - [1.24, 0.85, -20.34]
 
-.. centered:: 表格 1.1-5 FR16 协作机器人DH参数表
+.. centered:: 表格 2.4-4 FR16 协作机器人DH参数表
 
 .. list-table::
    :widths: 70 50 50 50 50 70 50 120
@@ -391,7 +391,7 @@ FR系列协作机器人DH参数展示如下：
      - 0.35
      - [1.24, 0.85, -20.34]
 
-.. centered:: 表格 1.1-6 FR20 协作机器人DH参数表
+.. centered:: 表格 2.4-5 FR20 协作机器人DH参数表
 
 .. list-table::
    :widths: 70 50 50 50 50 70 50 120
@@ -462,7 +462,7 @@ FR系列协作机器人DH参数展示如下：
      - 0.6
      - [-2.11, -1.96, -20.38]
 
-.. centered:: 表格 1.1-7 FR30 协作机器人DH参数表
+.. centered:: 表格 2.4-6 FR30 协作机器人DH参数表
 
 .. list-table::
    :widths: 70 50 50 50 50 70 50 120

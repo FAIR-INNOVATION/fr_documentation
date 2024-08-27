@@ -110,6 +110,7 @@ WebApp 访问登录
    名称：**工具坐标系编号**
    
    作用：展示当前应用的工具坐标系编号
+
 .. note:: 
    .. image:: teaching_pendant_software/449.png
       :width: 0.75in
@@ -119,6 +120,7 @@ WebApp 访问登录
    名称：**工件坐标系编号**
    
    作用：展示当前应用的工件坐标系编号
+   
 .. note:: 
    .. image:: teaching_pendant_software/450.png
       :width: 0.75in
