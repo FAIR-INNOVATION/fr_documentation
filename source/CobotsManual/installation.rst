@@ -35,21 +35,6 @@
 
 7. 在人被机器人夹住或围在里面等紧急和异常情况下，通过用力（至少700 N）推动或拉动机器人手臂，迫使关节移动。无电力驱动情况下手动移动机器人手臂仅限于紧急情况，并且可能会损坏关节。
 
-安全设置
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-在“初始设置——安全”的菜单栏下，点击“安全停止模式”进入安全停止模式功能界面。
-
-启用安全停止模式，当机器人报错或警告停止后，机器人会自动去使能，起到安全防护的作用。
-
-.. figure:: installation/001.png
-	:align: center
-	:width: 3in
-
-.. centered::  图表 3.1-1 安全停止模式
-
--  **降速模式**：该模式被激活后，机械臂在关节空间中的运动速度将受到限制，相应文本框中的数值即为各关节运动速度的极限值，其中1，2，3关节的设定范围为15~150°/s，4，5，6关节的设定范围为15~180°/s；机械臂在笛卡尔空间的运动速度极限即为TCP速度限制值，设定范围为0~80mm/s。
-
 危险识别
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -81,31 +66,31 @@
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 3.1-2 FR3型号协作机器人
+.. centered:: 图表 3.1-1 FR3型号协作机器人
 
 .. figure:: installation/003.png
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 3.1-3 FR5型号协作机器人
+.. centered:: 图表 3.1-2 FR5型号协作机器人
 
 .. figure:: installation/004.png
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 3.1-4 FR10型号协作机器人
+.. centered:: 图表 3.1-3 FR10型号协作机器人
 
 .. figure:: installation/005.png
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 3.1-5 FR16型号协作机器人
+.. centered:: 图表 3.1-4 FR16型号协作机器人
 
 .. figure:: installation/006.png
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 3.1-6 FR20型号协作机器人
+.. centered:: 图表 3.1-5 FR20型号协作机器人
 
 有效性和责任
 ~~~~~~~~~~~~~~~~
