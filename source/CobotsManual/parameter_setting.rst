@@ -49,7 +49,7 @@
 
    质心坐标设置范围为0-1000，单位mm。
 
-.. image:: teaching_pendant_software/044.png
+.. image:: base/016.png
    :width: 3in
    :align: center
 
@@ -65,7 +65,7 @@
 
 工具坐标可实现工具坐标的修改、清空与应用。在工具坐标系的下拉列表中，选择对应的坐标系后会在下方显示对应坐标值（坐标系名称可自定义），工具类型以及安装位置（仅在传感器类型工具下显示），选择某一坐标系后点击“应用”按钮，当前使用的工具坐标系变为所选择的坐标，如下所示。
 
-.. image:: teaching_pendant_software/027.png
+.. image:: base/001.png
    :width: 3in
    :align: center
    
@@ -81,7 +81,7 @@
 
 点击“修改”可根据提示对该编号的工具坐标系进行重新设置。工具标定方法分为四点法和六点法，四点法只标定工具TCP，即工具中心点的位置，其姿态默认与末端姿态一致，六点法则在四点法的基础上增加了两点，用于标定工具的姿态。
 
-.. image:: teaching_pendant_software/028.png
+.. image:: base/002.png
    :width: 3in
    :align: center
 
