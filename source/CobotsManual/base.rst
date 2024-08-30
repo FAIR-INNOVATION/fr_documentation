@@ -578,7 +578,7 @@ I/O配置
 
 .. centered:: 图表 6.4‑1 控制箱DI和DO配置
 
-末端DI默认配置：DI0拖动示教，DI1示教点记录。
+**末端DI默认配置**：DI0拖动示教，DI1示教点记录。
 
 .. image:: base/027.png
    :width: 3in
@@ -590,6 +590,19 @@ I/O配置
 
 .. important:: 
    已配置DI、DO禁止在程序编程中使用。
+
+
+**缩减模式配置（一级、二级、三级）**：一级和二级缩减模式可以配置关节速度和末端TCP速度，三级缩减模式是停止可以不用配置速度。
+
+.. image:: base/032.png
+   :width: 3in
+   :align: center
+
+.. image:: base/033.png
+   :width: 3in
+   :align: center
+
+.. centered:: 图表 4.9‑34 缩减模式配置
 
 I/O别名配置
 ~~~~~~~~~~~~~~~~~~~~
