@@ -30,7 +30,7 @@
 使用程序树底部的工具栏修改程序树。
 
 .. note:: 
-   .. image:: teaching_pendant_software/070.png
+   .. image:: coding/006.png
       :width: 1.5in
       :height: 0.75in
       :align: left
@@ -40,7 +40,7 @@
    作用：打开用户程序文件
 
 .. note:: 
-   .. image:: teaching_pendant_software/071.png
+   .. image:: coding/007.png
       :width: 1.5in
       :height: 0.75in
       :align: left
@@ -50,7 +50,7 @@
    作用：选择模板新建程序文件
    
 .. note:: 
-   .. image:: teaching_pendant_software/072.png
+   .. image:: coding/008.png
       :width: 1.5in
       :height: 0.75in
       :align: left
@@ -60,7 +60,7 @@
    作用：导入文件到用户程序文件夹中
 
 .. note:: 
-   .. image:: teaching_pendant_software/073.png
+   .. image:: coding/009.png
       :width: 1.5in
       :height: 0.75in
       :align: left
@@ -70,7 +70,7 @@
    作用：导出用户程序文件到本地点。
 
 .. note:: 
-   .. image:: teaching_pendant_software/074.png
+   .. image:: coding/010.png
       :width: 1.5in
       :height: 0.75in
       :align: left
@@ -80,7 +80,7 @@
    作用：保存文件编辑内容
 
 .. note:: 
-   .. image:: teaching_pendant_software/075.png
+   .. image:: coding/011.png
       :width: 1.5in
       :height: 0.75in
       :align: left
@@ -90,7 +90,7 @@
    作用：给文件重命名存放到用户程序或模板程序文件夹中。
 
 .. note:: 
-   .. image:: teaching_pendant_software/076.png
+   .. image:: coding/012.png
       :width: 1.5in
       :height: 0.75in
       :align: left
@@ -100,7 +100,7 @@
    作用：复制一个节点，并允许将其用于其他操作（例如：将其粘贴到程序树的其他位置）。
 
 .. note:: 
-   .. image:: teaching_pendant_software/077.png
+   .. image:: coding/013.png
       :width: 1.5in
       :height: 0.75in
       :align: left
@@ -110,7 +110,7 @@
    作用：允许您粘贴之前剪切或复制的节点。
 
 .. note:: 
-   .. image:: teaching_pendant_software/078.png
+   .. image:: coding/014.png
       :width: 1.5in
       :height: 0.75in
       :align: left
@@ -120,7 +120,7 @@
    作用：剪切一个节点，并允许将其用于其他操作（例如：将其粘贴到程序树的其他位置）。
 
 .. note:: 
-   .. image:: teaching_pendant_software/079.png
+   .. image:: coding/015.png
       :width: 1.5in
       :height: 0.75in
       :align: left
@@ -130,7 +130,7 @@
    作用：从程序树中删除一个节点。
 
 .. note:: 
-   .. image:: teaching_pendant_software/080.png
+   .. image:: coding/016.png
       :width: 1.5in
       :height: 0.75in
       :align: left
@@ -140,7 +140,7 @@
    作用：向上移动该节点。
 
 .. note:: 
-   .. image:: teaching_pendant_software/081.png
+   .. image:: coding/017.png
       :width: 1.5in
       :height: 0.75in
       :align: left
@@ -150,7 +150,7 @@
    作用：向下移动该节点。
 
 .. note:: 
-   .. image:: teaching_pendant_software/082.png
+   .. image:: coding/018.png
       :width: 1.5in
       :height: 0.75in
       :align: left
@@ -173,7 +173,7 @@
 
 在手动模式下，点击节点右侧第一个图标可以使机器人单独执行该指令，第二个图标为编辑该节点内容。
 
-.. image:: teaching_pendant_software/069.png
+.. image:: coding/001.png
    :width: 6in
    :align: center
 

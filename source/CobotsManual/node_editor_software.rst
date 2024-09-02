@@ -34,7 +34,7 @@
 .. centered:: 图表 6.1-2 操作工具栏
 
 .. note:: 
-   .. image:: teaching_pendant_software/070.png
+   .. image:: coding/006.png
       :width: 1.5in
       :height: 0.75in
       :align: left
@@ -44,7 +44,7 @@
    作用：打开用户程序文件，在弹出框中选择加载或删除文件
 
 .. note:: 
-   .. image:: teaching_pendant_software/074.png
+   .. image:: coding/010.png
       :width: 1.5in
       :height: 0.75in
       :align: left
@@ -64,7 +64,7 @@
    作用：重新加载上次操作的节点图内容到本地。
 
 .. note:: 
-   .. image:: teaching_pendant_software/071.png
+   .. image:: coding/007.png
       :width: 1.5in
       :height: 0.75in
       :align: left
@@ -84,7 +84,7 @@
    作用：加载初始设置的节点图内容。
 
 .. note:: 
-   .. image:: teaching_pendant_software/073.png
+   .. image:: coding/009.png
       :width: 1.5in
       :height: 0.75in
       :align: left
@@ -94,7 +94,7 @@
    作用：新建/打开节点图编程文件后，点击“导出”按钮弹出“导出节点图编程”弹出框，选择工作区文件名导出文件（json格式）。
 
 .. note:: 
-   .. image:: teaching_pendant_software/072.png
+   .. image:: coding/008.png
       :width: 1.5in
       :height: 0.75in
       :align: left
