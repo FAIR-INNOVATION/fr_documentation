@@ -26,7 +26,7 @@
 
 点击“开始运行”按钮，进行局部示教点的单点运行，将机器人移动到该点的位置。此外，用户可以通过名称搜索示教点。
 
-.. image:: teaching_pendant_software/140.png
+.. image:: points/001.png
    :width: 6in
    :align: center
 
