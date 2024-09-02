@@ -32,7 +32,7 @@ WebApp 访问登录
 - 6、三维模拟机器人——三维场景操作；
 - 7、三维模拟机器人——机器人本体操作；
 - 8、机器人配套功能；
-- 9、机器人各类状态。
+- 9、机器人及配套功能状态。
 
 如下图系统初始界面示意图所示：
 
@@ -112,7 +112,7 @@ WebApp 访问登录
    作用：展示当前应用的工具坐标系编号
 
 .. note:: 
-   .. image:: teaching_pendant_software/449.png
+   .. image:: teaching_pendant_software/027.png
       :width: 0.75in
       :height: 0.75in
       :align: left
@@ -122,7 +122,7 @@ WebApp 访问登录
    作用：展示当前应用的工件坐标系编号
 
 .. note:: 
-   .. image:: teaching_pendant_software/450.png
+   .. image:: teaching_pendant_software/028.png
       :width: 0.75in
       :height: 0.75in
       :align: left
