@@ -10,13 +10,13 @@
 夹爪程序示教步骤
 ~~~~~~~~~~~~~~~~~~~
 
-**Step1**：在用户外设配置界面中选择“末端外设配置”按钮，设备类型选择“夹爪设备”，夹爪的配置信息分为夹爪厂商、夹爪类型、软件版本和挂载位置，用户可根据具体的生产需求来配置相应的夹爪信息。若用户需要更改配置，可先选择相应的夹爪编号，点击“清除”按钮，来清除相应的按钮，并重新根据需求配置；
+**Step1**：在“初始设置——外设——末端工具”菜单栏中，点击“适配设备”进入末端外设配置界面。设备类型选择“夹爪设备”，夹爪的配置信息分为夹爪厂商、夹爪类型、软件版本和挂载位置，用户可根据具体的生产需求来配置相应的夹爪信息。若用户需要更改配置，可先选择相应的夹爪编号，点击“清除”按钮，来清除相应的按钮，并重新根据需求配置；
 
 .. figure:: robot_peripherals/001.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.1‑1 夹爪配置
+.. centered:: 图表 8.1‑1 夹爪配置
 
 .. important:: 
 	点击清除配置前，相应的夹爪应处于未激活状态。
@@ -27,7 +27,7 @@
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.1‑2 夹爪配置信息
+.. centered:: 图表 8.1‑2 夹爪配置信息
 
 **Step3**：选择配置完成的夹爪，点击“复位”按钮，页面弹出命令发送成功后，再点击“激活”按钮，可查看夹爪信息表中的激活状态，来判断是否激活成功；
 
@@ -40,7 +40,7 @@
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.1‑3 夹爪指令编辑
+.. centered:: 图表 8.1‑3 夹爪指令编辑
 
 夹爪程序示教
 ~~~~~~~~~~~~~~~
@@ -91,29 +91,29 @@ Lua开放协议支持力传感器、单个夹爪、多个夹爪、力传感器�
 
    上传末端固件升级包之前，需要进入boot模式。
 
-.. figure:: robot_peripherals/146.png
+.. figure:: robot_peripherals/004.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.1‑4 升级末端固件
+.. centered:: 图表 8.2‑1 升级末端固件
 
 **Step2**：进入外设->末端工具->开放协议->末端通讯协议界面，上传Lua末端开放协议，选择需要上传的Lua末端开放协议，进行上传操作。
 
 .. important:: 上传末端协议之前，需要进入boot模式。同时，文件名需要以AXLE_LUA_开头命名。
 
-.. figure:: robot_peripherals/147.png
+.. figure:: robot_peripherals/005.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.1‑5 上传Lua末端开放协议
+.. centered:: 图表 8.2‑2 上传Lua末端开放协议
 
 **Step3**：配置末端通讯参数，通讯参数包含波特率、数据位、停止位等，配置完成后，点击“设置”按钮。
 
-.. figure:: robot_peripherals/149.png
+.. figure:: robot_peripherals/006.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.1‑6 配置末端通讯参数
+.. centered:: 图表 8.2‑3 配置末端通讯参数
 
 末端通讯详细参数如下：
 
@@ -127,27 +127,27 @@ Lua开放协议支持力传感器、单个夹爪、多个夹爪、力传感器�
 
 **Step4**：末端Lua启用，点击“开启”按钮。
 
-.. figure:: robot_peripherals/150.png
+.. figure:: robot_peripherals/007.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.1‑7 末端Lua启用
+.. centered:: 图表 8.2‑4 末端Lua启用
 
 当Lua文件发生异常时，提示“末端Lua文件异常”警告，可进行“不恢复/恢复”处理。关闭Lua启用按钮，警告提示关闭。
 
-.. figure:: robot_peripherals/151.png
+.. figure:: robot_peripherals/008.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.1‑8 Lua文件异常
+.. centered:: 图表 8.2‑5 Lua文件异常
 
 进入状态信息->状态查询页面，可查询力/扭矩传感器原始数据图表，其中一维数据的正确性(Fz)，0kg  3kg  6kg验证成功，其他维度也可以采集到数据Fx,Fy,Mx,My,Mz，如下：
 
-.. figure:: robot_peripherals/152.png
+.. figure:: robot_peripherals/009.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.1‑9 力/扭矩传感器原始数据
+.. centered:: 图表 8.2‑6 力/扭矩传感器原始数据
 
 末端外设配置
 -------------------------
@@ -157,21 +157,22 @@ Lua开放协议支持力传感器、单个夹爪、多个夹爪、力传感器�
 
 设备类型选择力传感器->启用力传感器，已配置设备中显示力传感器。点击进入FT界面，查询力传感器数据。
 
-.. figure:: robot_peripherals/148.png
+.. figure:: robot_peripherals/010.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.1‑10 启用力传感器
+.. centered:: 图表 8.3‑1 启用力传感器
 
 夹爪
 ~~~~~~~~~~~
+
 **Step1**：设备类型选择夹爪->启用夹爪->选择夹爪ID->勾选夹爪适配的功能码->点击配置，已配置设备中显示夹爪的ID及功能码。
 
-.. figure:: robot_peripherals/194.png
+.. figure:: robot_peripherals/011.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.1‑11 配置夹爪
+.. centered:: 图表 8.3‑2 配置夹爪
 
 .. note:: 
   由于末端开放功能目前对夹爪设备地址支持范围为1~8，使用前应通过夹爪厂商的上位机调整夹爪设备地址。
@@ -180,36 +181,36 @@ Lua开放协议支持力传感器、单个夹爪、多个夹爪、力传感器�
 
 **Step2**：选择夹爪ID->复位->激活，夹爪进行一次初始化，具体初始化情况请参考夹爪厂商提供的产品说明书。
 
-.. figure:: robot_peripherals/195.png
+.. figure:: robot_peripherals/012.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.1‑12 激活夹爪
+.. centered:: 图表 8.3‑3 激活夹爪
 
 **Step3**：进入示教程序->程序编程->添加夹爪运动指令。
 
-.. figure:: robot_peripherals/196.png
+.. figure:: robot_peripherals/013.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.1‑13 添加夹爪运动指令
+.. centered:: 图表 8.3‑4 添加夹爪运动指令
 
-.. figure:: robot_peripherals/197.png
+.. figure:: robot_peripherals/014.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.1‑14 夹爪运动指令示例
+.. centered:: 图表 8.3‑5 夹爪运动指令示例
 
 多个夹爪
 ~~~~~~~~~~~
 
 激活和运动控制参考夹爪步骤。 
 
-.. figure:: robot_peripherals/198.png
+.. figure:: robot_peripherals/015.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.1‑15 配置多个夹爪
+.. centered:: 图表 8.3‑6 配置多个夹爪
 
 .. note:: 由于末端开放功能目前对夹爪设备地址支持范围为1~8，使用前应通过夹爪厂商的上位机调整夹爪设备地址。
 
@@ -218,37 +219,42 @@ Lua开放协议支持力传感器、单个夹爪、多个夹爪、力传感器�
 
 配置和启用参考力传感器和夹爪步骤。
 
-.. figure:: robot_peripherals/199.png
+.. figure:: robot_peripherals/016.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.1‑15 配置力传感器及夹爪
+.. centered:: 图表 8.3‑7 配置力传感器及夹爪
 
 喷枪外设配置
 -------------
+
 喷枪外设配置步骤
 ~~~~~~~~~~~~~~~~~~
 
-**Step1**：在用户外设配置界面中选择“喷枪配置”按钮，用户可以通过喷涂功能一键配置按键，对喷涂所需DO进行快速配置（默认配置DO10为喷涂启停，DO11为喷涂清枪）。 用户也可以根据自己的需求在“IO配置”界面，自定义配置DO；
+**Step1**：在“初始设置——外设”菜单栏中，点击“喷枪”进入喷枪配置界面。
+
+用户可以通过喷涂功能一键配置按键，对喷涂所需DO进行快速配置（默认配置DO10为喷涂启停，DO11为喷涂清枪）。 
+
+用户也可以根据自己的需求在“初始设置——基础——I/O设置”中，自定义配置DO。
 
 .. important:: 
 	使用喷涂功能之前，需要先建立相应的工具坐标系，并在程序示教时应用建立好的工具坐标系。
 
 **Step2**：配置完成后，点击“开始喷涂”、“停止喷涂”、“开始清枪”和“停止清枪”四个按钮，进行喷枪调试；
 
-.. figure:: robot_peripherals/005.png
+.. figure:: robot_peripherals/017.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.2‑1 喷枪配置
+.. centered:: 图表 8.4‑1 喷枪配置
 
-**Step3**：在程序示教命令界面选择“spray”命令。根据具体的程序示教需求，在相应的地方添加应用“开始喷涂”、“停止喷涂”、“开始清枪”和“停止清枪”四个指令。
+**Step3**：在程序编程命令界面选择“spray”命令。根据具体的程序示教需求，在相应的地方添加应用“开始喷涂”、“停止喷涂”、“开始清枪”和“停止清枪”四个指令。
 
-.. figure:: robot_peripherals/006.png
+.. figure:: robot_peripherals/018.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.2‑2 喷枪指令编辑
+.. centered:: 图表 8.4‑2 喷枪指令编辑
 
 喷涂程序示教
 ~~~~~~~~~~~~~~
@@ -290,6 +296,7 @@ Lua开放协议支持力传感器、单个夹爪、多个夹爪、力传感器�
 
 焊机外设配置
 -------------
+
 协作机器人携带焊枪进行焊接作业可以显著提高焊接效率和焊接质量，法奥协作机器人可以通过“控制器IO”或“数字通信协议”两种方法进行焊接控制：
 
 **控制器IO**：机器人通过设置控制箱模拟量输出(0-10V)进行焊接电流和焊接电压的大小控制，通过控制箱数字输出进行焊接起弧、送丝、送气的控制，通过控制箱数字输入采集焊机准备、起弧成功等信号输入。
@@ -303,22 +310,23 @@ Lua开放协议支持力传感器、单个夹爪、多个夹爪、力传感器�
 
 如图1，焊枪通过转接板安装于机器人末端，焊枪线缆需固定于机械臂上。
 
-.. figure:: robot_peripherals/008.png
+.. figure:: robot_peripherals/019.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.3-1 焊枪安装于机器人末端
+.. centered:: 图表 8.5‑1 焊枪安装于机器人末端
 
 焊枪固定安装完成后，通过六点法进行焊枪工具坐标系标定，并应用为当前工具坐标系(图2)，焊枪工具坐标系标定精度会影响实际焊接精度。
 
-.. figure:: robot_peripherals/062.png
+.. figure:: robot_peripherals/020.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.3-2 机器人工具坐标系标定及应用
+.. centered:: 图表 8.5-2 机器人工具坐标系标定及应用
 
 焊机参数配置
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 协作机器人可通过“控制器IO”信号或“数字通信协议”进行焊接过程控制，两种方式的配置操作主要有以下两个区别点：
 
 ①使用“控制器IO”时需要设置实际控制焊接电流电压与控制箱模拟量输出值之间的对应关系；
@@ -328,64 +336,64 @@ Lua开放协议支持力传感器、单个夹爪、多个夹爪、力传感器�
 “控制器IO”焊接控制配置
 +++++++++++++++++++++++++++++++++++
 
-如图3所示，打开WebApp，依次点击“初始设置”、“用户外设配置”、“焊机配置”。
+在“初始设置——外设”菜单栏中，点击“焊机”进入焊机配置界面。如下图所示：
 
-.. figure:: robot_peripherals/065.png
+.. figure:: robot_peripherals/021.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.3-3 打开焊机配置
+.. centered:: 图表 8.5-3 打开焊机配置
 
-如图4，选择控制类型为“控制箱I/O”。
+如下图所示，选择控制类型为“控制箱I/O”。
 
-.. figure:: robot_peripherals/158.png
+.. figure:: robot_peripherals/022.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.3-4 选择控制类型
+.. centered:: 图表 8.5-4 选择控制类型
 
 焊接IO信号配置
 ****************************
 
-如图5，选择焊机状态信号DI输入端口和焊机控制信号DO输出端口，点击“配置”按钮，各信号含义如下：
+如下图所示，选择焊机状态信号DI输入端口和焊机控制信号DO输出端口，点击“配置”按钮，各信号含义如下：
 
-.. figure:: robot_peripherals/159.png
+.. figure:: robot_peripherals/023.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.3-5 设置焊机信号端口
+.. centered:: 图表 8.5-5 设置焊机信号端口
 
 **焊机准备**：当焊机已经准备完成可以进行焊接作业时，焊机输出该信号至机器人；
 
-当焊机故障或其他原因未准备完成时，焊机未将该信号输入至机器人，此时机器人WebApp右上角提示“焊机未准备好”(图6)。若您的焊机没有焊机准备好信号，可将该项端口设置为“无”(图7)。
+当焊机故障或其他原因未准备完成时，焊机未将该信号输入至机器人，此时机器人WebApp右上角提示“焊机未准备好”。若您的焊机没有焊机准备好信号，可将该项端口设置为“无”。
 
-.. figure:: robot_peripherals/160.png
+.. figure:: robot_peripherals/024.png
    :align: center
-   :width: 6in
+   :width: 3in
 
-.. centered:: 图表 5.3-6 焊机未准备好报错
+.. centered:: 图表 8.5-6 焊机未准备好报错
 
-.. figure:: robot_peripherals/161.png
+.. figure:: robot_peripherals/025.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.3-7 焊机准备设置为“无”
+.. centered:: 图表 8.5-7 焊机准备设置为“无”
 
-**起弧成功**：焊机起弧已成功，机器人输出起弧信号至焊机后，等待焊机反馈起弧成功信号，在设定的超时时间内机器人未检测到焊机的起弧成功信号，机器人报“起弧超时”错误(图8)；
+**起弧成功**：焊机起弧已成功，机器人输出起弧信号至焊机后，等待焊机反馈起弧成功信号，在设定的超时时间内机器人未检测到焊机的起弧成功信号，机器人报“起弧超时”错误；
 
-使用机器人焊接功能时若未配置起弧成功信号仍可进行焊接，但机器人会报“起弧成功DI未配置”警告(图9)；若您的焊机有起弧成功信号输出，我们建议您配置此信号以进行更安全的焊接。
+使用机器人焊接功能时若未配置起弧成功信号仍可进行焊接，但机器人会报“起弧成功DI未配置”警告；若您的焊机有起弧成功信号输出，我们建议您配置此信号以进行更安全的焊接。
 
-.. figure:: robot_peripherals/162.png
+.. figure:: robot_peripherals/026.png
    :align: center
-   :width: 6in
+   :width: 3in
 
-.. centered:: 图表 5.3-8 起弧超时报错
+.. centered:: 图表 8.5-8 起弧超时报错
    
-.. figure:: robot_peripherals/163.png
+.. figure:: robot_peripherals/027.png
    :align: center
-   :width: 6in
+   :width: 3in
 
-.. centered:: 图表 5.3-9 起弧成功DI未配置警告
+.. centered:: 图表 8.5-9 起弧成功DI未配置警告
 
 **焊接中断恢复**：机器人焊接过程中电弧意外中断或操作人员主动暂停焊接时会触发焊接中断，焊接中断后外部向机器人输入该信号从无效变为有效时，机器人自动从原来中断的位置自动恢复焊接(需配置焊接中断恢复参数，具体参考本文4.1节)。
 
@@ -402,13 +410,13 @@ Lua开放协议支持力传感器、单个夹爪、多个夹爪、力传感器�
 焊接工艺参数配置
 ****************************
 
-如图10，在焊接配置页面找到“焊接工艺参数”栏，协作机器人提供0 ~ 99共100组焊接工艺参数，其中工艺编号0表示不使用焊接工艺曲线，工艺编号1-99使用焊接工艺曲线。
+如下图所示，在焊接配置页面找到“焊接工艺参数”栏，协作机器人提供0 ~ 99共100组焊接工艺参数，其中工艺编号0表示不使用焊接工艺曲线，工艺编号1-99使用焊接工艺曲线。
    
-.. figure:: robot_peripherals/164.png
+.. figure:: robot_peripherals/028.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.3-10 焊接工艺参数配置 
+.. centered:: 图表 8.5-10 焊接工艺参数配置 
 
 使用焊接工艺曲线时，以选择焊接工艺编号1为例，依次输入起弧电流 ~ 收弧时间参数如图8中所示，点击“配置”按钮，该工艺参数表示的实际焊接过程如下：
 
@@ -434,11 +442,11 @@ Lua开放协议支持力传感器、单个夹爪、多个夹爪、力传感器�
 
 ④机器人焊接到终点后立即熄灭电弧。
    
-.. figure:: robot_peripherals/165.png
+.. figure:: robot_peripherals/029.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.3-11 不使用焊接工艺曲线 
+.. centered:: 图表 8.5-11 不使用焊接工艺曲线 
 
 焊接电流电压与模拟量输出关系图设置
 ***************************************
@@ -449,43 +457,43 @@ Lua开放协议支持力传感器、单个夹爪、多个夹爪、力传感器�
 
 选择“A-V”，输入焊接电流范围0-1000A，模拟量输出电压0-10V，输出AO为“Ctrl-AO0”(焊接电流控制模拟量输出端口为AO0)，点击“配置”按钮；在该参数下，控制箱输出模拟量电压1.5V时，对应焊接电流为150A。
    
-.. figure:: robot_peripherals/166.png
+.. figure:: robot_peripherals/030.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.3-12 焊接电流与输出模拟量对应关系配置
+.. centered:: 图表 8.5-12 焊接电流与输出模拟量对应关系配置
 
 如图13，点击“V-V”设置焊接电压与控制箱模拟量输出电压之间的对应关系，输入焊接电压范围为0-60V，模拟量输出电压值为0-10V，输出AO为“Ctrl-AO1”(焊接电流控制模拟量输出端口为AO0)，点击“配置”按钮，此时。若控制箱AO1模拟量输出3.5V，实际控制焊接电压为21V。
    
-.. figure:: robot_peripherals/167.png
+.. figure:: robot_peripherals/031.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.3-13 焊接电压与输出模拟量对应关系配置
+.. centered:: 图表 8.5-13 焊接电压与输出模拟量对应关系配置
 
 焊机调试
 ******************
 
 如图14，在焊机配置页面中找到“焊机调试”，选择工艺编号1，输入超时时间为1000ms，点击“送气”，机器人即控制焊机开始输送保护气，点击“停气”按钮，机器人即控制焊机停止输送保护气。其他按钮“起弧”、“正向送丝”、“反向送丝”等操作方法相同，不再赘述。
    
-.. figure:: robot_peripherals/168.png
+.. figure:: robot_peripherals/032.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.3-14 焊机调试
+.. centered:: 图表 8.5-14 焊机调试
 
 “数字通信协议”焊接控制配置
 +++++++++++++++++++++++++++++++++++
 
 机器人通过“数字通信协议”进行焊接控制，本质上是机器人与PLC进行UDP通信，机器人通过UDP通信将起弧、送丝、送气、电流、电压等控制数据传至PLC，再由PLC端进一步通过CANOpen总线(或其他方式)对焊机进行控制，同时PLC端采集实际的焊接电流电压、起弧成功信号反馈至机器人。(机器人UDP通信协议内容见附件一)。
 
-如图15所示，打开WebApp，依次点击“初始设置”、“用户外设配置”、“焊机配置”。
+在“初始设置——外设”菜单栏中，点击“焊机”进入焊机配置界面。如下图所示：
    
-.. figure:: robot_peripherals/169.png
+.. figure:: robot_peripherals/021.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.3-15 打开焊机配置
+.. centered:: 图表 8.5-15 打开焊机配置
 
 如图16，选择控制类型为“数字通信协议”，由于机器人与PLC进行UDP通信，因此需要配置UDP通信参数，其中各项参数的含义如下：
 
@@ -505,54 +513,54 @@ Lua开放协议支持力传感器、单个夹爪、多个夹爪、力传感器�
 
 配置完成上述参数后，依次点击“配置”和“加载”按钮。
    
-.. figure:: robot_peripherals/170.png
+.. figure:: robot_peripherals/033.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.3-16 选择控制类型
+.. centered:: 图表 8.5-16 选择控制类型
 
 焊接IO信号配置
 ****************************
 
 如图17，选择焊机状态信号DI输入端口和焊机控制信号DO输出端口，点击“配置”按钮，各信号含义如下：
    
-.. figure:: robot_peripherals/171.png
+.. figure:: robot_peripherals/034.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.3-17 设置焊机信号端口
+.. centered:: 图表 8.5-17 设置焊机信号端口
 
 **焊机准备**：当焊机已经准备完成可以进行焊接作业时，焊机输出该信号至机器人；
 
 当焊机故障或其他原因未准备完成时，焊机未将该信号输入至机器人，此时机器人WebApp右上角提示“焊机未准备好”(图18)。若您的焊机没有焊机准备好信号，可将该项端口设置为“无”(图19)。
    
-.. figure:: robot_peripherals/172.png
+.. figure:: robot_peripherals/024.png
    :align: center
-   :width: 6in
+   :width: 3in
 
-.. centered:: 图表 5.3-18 焊机未准备好报错
+.. centered:: 图表 8.5-18 焊机未准备好报错
    
-.. figure:: robot_peripherals/173.png
+.. figure:: robot_peripherals/025.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.3-19 焊机准备设置为“无”
+.. centered:: 图表 8.5-19 焊机准备设置为“无”
 
 **起弧成功**：焊机起弧已成功，机器人输出起弧信号至焊机后，等待焊机反馈起弧成功信号，在设定的超时时间内机器人未检测到焊机的起弧成功信号，机器人报“起弧超时”错误(图20)；
 
 使用机器人焊接功能时若未配置起弧成功信号仍可进行焊接，但机器人会报“起弧成功DI未配置”警告(图21)；若您的焊机有起弧成功信号输出，我们建议您配置此信号以进行更安全的焊接。
    
-.. figure:: robot_peripherals/174.png
+.. figure:: robot_peripherals/026.png
    :align: center
-   :width: 6in
+   :width: 3in
 
-.. centered:: 图表 5.3-20 起弧超时报错	
+.. centered:: 图表 8.5-20 起弧超时报错	
       
-.. figure:: robot_peripherals/175.png
+.. figure:: robot_peripherals/027.png
    :align: center
-   :width: 6in
+   :width: 3in
 
-.. centered:: 图表 5.3-21 起弧成功DI未配置报错
+.. centered:: 图表 8.5-21 起弧成功DI未配置报错
 
 **焊接中断恢复**：机器人焊接过程中电弧意外中断或操作人员主动暂停焊接时会触发焊接中断，焊接中断后外部向机器人输入该信号从无效变为有效时，机器人自动从原来中断的位置自动恢复焊接(需配置焊接中断恢复参数，具体参考本文4.1节)。
 
@@ -571,11 +579,11 @@ Lua开放协议支持力传感器、单个夹爪、多个夹爪、力传感器�
 
 如图22，在焊接配置页面找到“焊接工艺参数”栏，协作机器人提供0 ~ 99共100组焊接工艺参数，其中工艺编号0表示不使用焊接工艺曲线，工艺编号1-99使用焊接工艺曲线。
       
-.. figure:: robot_peripherals/176.png
+.. figure:: robot_peripherals/035.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.3-22 焊接工艺参数配置
+.. centered:: 图表 8.5-22 焊接工艺参数配置
 
 使用焊接工艺曲线时，以选择焊接工艺编号1为例，依次输入起弧电流 ~ 收弧时间参数如图8中所示，点击“配置”按钮，该工艺参数表示的实际焊接过程如下：
 
@@ -601,126 +609,127 @@ Lua开放协议支持力传感器、单个夹爪、多个夹爪、力传感器�
 
 ④机器人焊接到终点后立即熄灭电弧。
       
-.. figure:: robot_peripherals/177.png
+.. figure:: robot_peripherals/029.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.3-23 不使用焊接工艺曲线
+.. centered:: 图表 8.5-23 不使用焊接工艺曲线
 
 焊机调试
 ******************
 
 如图24，在焊机配置页面中找到“焊机调试”，选择工艺编号1，输入超时时间为1000ms，点击“送气”，机器人即控制焊机开始输送保护气，点击“停气”按钮，机器人即控制焊机停止输送保护气。其他按钮“起弧”、“正向送丝”、“反向送丝”等操作方法相同，不再赘述。
 
-.. figure:: robot_peripherals/178.png
+.. figure:: robot_peripherals/032.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.3-24 焊机调试
+.. centered:: 图表 8.5-24 焊机调试
 
 焊接程序编写
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 使用焊接工艺曲线的程序编写
 ++++++++++++++++++++++++++++++++++++
-选择使用焊接工艺曲线时(即选择焊接工艺参数编号1 ~ 99)，焊接过程中的电压电流控制遵循某个工艺参数编号设置的曲线参数，不需要再单独添加设置焊接电压和电流的指令。如图25，点击“示教模拟”、“程序示教”，新建用户程序“testWeld.lua”。
 
-.. figure:: robot_peripherals/179.png
+选择使用焊接工艺曲线时(即选择焊接工艺参数编号1 ~ 99)，焊接过程中的电压电流控制遵循某个工艺参数编号设置的曲线参数，不需要再单独添加设置焊接电压和电流的指令。如图25，点击“示教程序——程序编程”，新建用户程序“testWeld.lua”。
+
+.. figure:: robot_peripherals/036.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.3-25 创建“testWeld.lua”程序
+.. centered:: 图表 8.5-25 创建“testWeld.lua”程序
 
 如图26，选择“焊接指令”。
 
-.. figure:: robot_peripherals/180.png
+.. figure:: robot_peripherals/037.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.3-26 选择“焊接指令”
+.. centered:: 图表 8.5-26 选择“焊接指令”
 
 如图27，点击“焊接”，打开焊接指令添加页面。
 
-.. figure:: robot_peripherals/181.png
+.. figure:: robot_peripherals/038.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.3-27 点击“焊接”
+.. centered:: 图表 8.5-27 点击“焊接”
 
 如图28，在打开的焊接指令添加页面中选择控制类型为“控制器I/O”(根据实际配置的焊接控制方式选择)，选择焊接工艺编号为1(工艺编号0不使用焊接工艺曲线，工艺编号1-99使用焊接工艺曲线)，最大等待时间为10000ms，依次点击“起弧”按钮和“收弧”按钮，最后点击“应用”。
 
-.. figure:: robot_peripherals/182.png
+.. figure:: robot_peripherals/039.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.3-28 焊接指令添加
+.. centered:: 图表 8.5-28 焊接指令添加
 
 如图29，此时“testWeld.lua”程序中已添加焊接起弧指令和焊接收弧指令，由于焊接起弧、收弧选择使用焊接工艺曲线编号1，因此焊接过程中的电压电流控制遵循工艺编号1设置的曲线参数，不需要再单独添加设置焊接电压和电流的指令。
 
-.. figure:: robot_peripherals/183.png
+.. figure:: robot_peripherals/040.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.3-29 起弧收弧程序
+.. centered:: 图表 8.5-29 起弧收弧程序
 
 如图30，添加两个直线运动指令，并调整指令顺序，使机器人先运动到“P1”点，执行起弧，再运动到“P2”点，执行收弧，实现机器人从“P1”点焊接至“P2”点。
 
-.. figure:: robot_peripherals/184.png
+.. figure:: robot_peripherals/041.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.3-30 机器人从P1点焊接至P2点
+.. centered:: 图表 8.5-30 机器人从P1点焊接至P2点
 
 不使用焊接工艺曲线的程序编写
 ++++++++++++++++++++++++++++++++++++
 
 选择不使用焊接工艺曲线时(即选择焊接工艺参数编号0)，焊接程序中需添加设置焊接电压、电流的指令以控制实际的焊接参数。如图31，点击“示教模拟”、“程序示教”，新建用户程序“testWeld.lua”。
 
-.. figure:: robot_peripherals/185.png
+.. figure:: robot_peripherals/036.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.3-31 创建“testWeld.lua”程序
+.. centered:: 图表 8.5-31 创建“testWeld.lua”程序
 
 如图32，选择“焊接指令”。
 
-.. figure:: robot_peripherals/186.png
+.. figure:: robot_peripherals/037.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.3-32 选择“焊接指令”
+.. centered:: 图表 8.5-32 选择“焊接指令”
 
 如图33，点击“焊接”，打开焊接指令添加页面。
 
-.. figure:: robot_peripherals/187.png
+.. figure:: robot_peripherals/038.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.3-33 点击“焊接”
+.. centered:: 图表 8.5-33 点击“焊接”
 
 如图34，在打开的焊接指令添加页面中选择控制类型为“控制器I/O”(根据实际配置的焊接控制方式选择)，选择焊接工艺编号为0(工艺编号0不使用焊接工艺曲线，工艺编号1-99使用焊接工艺曲线)，焊接电流控制AO为“Ctrl-AO0”，焊接电流为150A，点击“添加”按钮；设置焊接电压控制AO为“Ctrl-AO1”，焊接电压为21V，点击“添加”按钮；设置最大等待时间为10000ms，依次点击“起弧”按钮和“收弧”按钮，最后点击“应用”。
 
-.. figure:: robot_peripherals/188.png
+.. figure:: robot_peripherals/042.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.3-34 焊接指令添加
+.. centered:: 图表 8.5-34 焊接指令添加
 
 如图35，此时“testWeld.lua”程序中已添加焊接起弧指令和焊接收弧指令，由于焊接起弧、收弧指令选择焊接工艺编号0，程序执行设置焊接电压、电流指令时，机器人将根据设置的焊接电压、电流数值和焊机配置页面中设置的“焊接电压、电流与输出模拟量对应关系”自动输出对应的控制箱模拟量。
 
-.. figure:: robot_peripherals/189.png
+.. figure:: robot_peripherals/043.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.3-35 设置焊接电压、电流、起弧、收弧程序
+.. centered:: 图表 8.5-35 设置焊接电压、电流、起弧、收弧程序
 
 如图36，添加两个直线运动指令，并调整指令顺序，使机器人先运动到“P1”点，执行起弧，再运动到“P2”点，执行收弧，实现机器人从“P1”点焊接至“P2”点。
 
-.. figure:: robot_peripherals/190.png
+.. figure:: robot_peripherals/044.png
    :align: center
    :width: 6in 
 
-.. centered:: 图表 5.3-36 机器人从P1点焊接至P2点
+.. centered:: 图表 8.5-36 机器人从P1点焊接至P2点
 
 运行上述程序，即可实现一条直线P1 ~ P2的焊接，在运行程序前请检查：
 
@@ -756,7 +765,7 @@ Lua开放协议支持力传感器、单个夹爪、多个夹爪、力传感器�
 焊接中断恢复参数配置
 +++++++++++++++++++++++++++++
 
-如图37，点击“初始设置”、“用户外设配置”、“焊机配置”，找到“检测电弧中断参数配置”栏，打开“使能”，输入“确认时长”为20ms，点击“配置”按钮，即焊接过程中起弧成功信号无效时间超过20ms时，机器人会报出“焊接电弧中断”错误；找到“焊接中断再恢复参数配置”栏，打开“使能”，输入“重叠距离”为5mm，“速度”为10%，“运动方式”为“PTP”，点击“配置”按钮，上述三个参数解释如下：
+如图37，在“初始设置——外设”菜单栏中，点击“焊机”进入焊机配置界面，找到“检测电弧中断参数配置”栏，打开“使能”，输入“确认时长”为20ms，点击“配置”按钮，即焊接过程中起弧成功信号无效时间超过20ms时，机器人会报出“焊接电弧中断”错误；找到“焊接中断再恢复参数配置”栏，打开“使能”，输入“重叠距离”为5mm，“速度”为10%，“运动方式”为“PTP”，点击“配置”按钮，上述三个参数解释如下：
 
 **重叠距离**：焊接恢复时为了保证恢复后焊缝与中断前焊缝的连续性，恢复焊接的起弧点与原焊缝需要有一定的重叠距离。
 
@@ -764,28 +773,28 @@ Lua开放协议支持力传感器、单个夹爪、多个夹爪、力传感器�
 
 **运动方式**：焊接中断后往往需要将机器人移至安全位置并对焊缝进行处理，处理完成后执行焊接恢复时，机器人将从当前位置移至焊接再起弧点，该“运动方式”即表示机器人移动至再起弧点的运动方式，有“LIN”和“PTP”两种方式可供选择。
 
-.. figure:: robot_peripherals/191.png
+.. figure:: robot_peripherals/045.png
    :align: center
-   :width: 6in 
+   :width: 4in 
 
-.. centered:: 图表 5.3-37 焊接中断恢复参数配置
+.. centered:: 图表 8.5-37 焊接中断恢复参数配置
 
 焊接中断恢复应用
 +++++++++++++++++++++++++++++
 
 以图38中的程序为例，将机器人切换至自动模式，点击启动按钮，机器人开始进行焊接作业，在焊接过程中点击暂停按钮，此时焊接中断，在WebApp右上角弹出焊接中断恢复提示框(图39)，点击“恢复焊接”按钮，机器人自动移至再起弧点并执行后续的焊接作业。
 
-.. figure:: robot_peripherals/192.png
+.. figure:: robot_peripherals/046.png
    :align: center
    :width: 6in 
 
-.. centered:: 图表 5.3-38 执行焊接程序
+.. centered:: 图表 8.5-38 执行焊接程序
 
-.. figure:: robot_peripherals/193.png
+.. figure:: robot_peripherals/047.png
    :align: center
    :width: 6in 
 
-.. centered:: 图表 5.3-39 焊接恢复
+.. centered:: 图表 8.5-39 焊接恢复
 
 协作机器人焊接中断恢复功能仅可用于直线焊缝或圆弧焊缝，且lua程序中不能存在“if”、“while”等逻辑性程序，否则无法恢复焊接。
 
@@ -1765,10 +1774,12 @@ PLC -> 机器人控制器
 
 传感器外设配置
 ---------------
+
 法奥协作机器人与激光传感器配合使用，通过传感器识别焊缝等特征位置以达到简化编程、提高生产效率的目的。协作机器人可适配睿牛、创想和全视三种厂商的激光传感器，使用不同传感器时只需要加载对应的通信协议即可。
 
 硬件接线
 ~~~~~~~~~~~~~
+
 使用激光传感器前需要将激光传感器安装于合适位置，将激光传感器的网线直接连接或通过交换机连接到机器人控制箱的任一RJ45接口。
 
 传感器配置
@@ -1776,30 +1787,31 @@ PLC -> 机器人控制器
 
 请确保您的激光传感器和焊枪已经固定安装于机器人末端，激光传感器已经与机器人控制箱通过网线连接，并且激光传感器与机器人控制箱的IP地址处于同一网段，打开机器人和传感器电源，图1为睿牛激光传感器安装。
 
-.. figure:: robot_peripherals/011.png
+.. figure:: robot_peripherals/048.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.4‑1 激光传感器安装
+.. centered:: 图表 8.6‑1 激光传感器安装
 
-如图2，打开机器人WebApp，依次点击“初始设置”、“用户外设配置”、“传感器跟踪”，在通信配置栏中输入传感器的IP地址、端口号，点击“配置”按钮，采样周期默认为25，坐标系选择“激光平面坐标系”，根据您的传感器型号选择对应的通信协议，点击“加载”按钮。
+如图2，打开机器人WebApp，在“初始设置——外设——跟踪”中点击“传感器跟踪”，在通信配置栏中输入传感器的IP地址、端口号，点击“配置”按钮，采样周期默认为25，坐标系选择“激光平面坐标系”，根据您的传感器型号选择对应的通信协议，点击“加载”按钮。
 
-.. figure:: robot_peripherals/012.png
+.. figure:: robot_peripherals/049.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.4‑2 激光传感器配置
+.. centered:: 图表 8.6‑2 激光传感器配置
 
 如图3，在“传感器跟踪”页面中找到“跟踪传感器测试”栏，依次点击“打开传感器”和“关闭传感器”，观察传感器的激光是否打开或关闭，若激光正常打开或关闭则表示机器人与传感器已经正常建立通信，否则请检查IP地址和端口号等参数是否正确，以及传感器与机器人网络连接是否正确。
 
-.. figure:: robot_peripherals/013.png
+.. figure:: robot_peripherals/050.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.4‑3 激光传感器通讯测试
+.. centered:: 图表 8.6‑3 激光传感器通讯测试
 
 传感器标定
 ~~~~~~~~~~~~
+
 在使用激光传感器前需要先对激光传感器进行标定，标定精度直接影响激光传感器的跟踪精度。激光传感器的标定方法有五点法、六点法和八点法，以焊接应用场景下最常用的五点法为例，其标定原理为先通过工具（焊枪）指向一个固定标定点（如图4），再通过激光传感器从四个不同的姿态照射并识别到该点。
 
 .. note::
@@ -1807,163 +1819,166 @@ PLC -> 机器人控制器
 
 进而计算出传感器坐标位姿，下面详细介绍其标定过程：
 
-.. figure:: robot_peripherals/014.png
+.. figure:: robot_peripherals/051.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.4‑4 激光传感器标定点
+.. centered:: 图表 8.6‑4 激光传感器标定点
 
-**step1**：打开机器人WebApp，依次点击“初始设置”、“机器人设置”、“工具坐标”，选择一个未使用的工具坐标系，点击修改其名称为“焊枪”，工具类型为“工具”，安装位置为“末端”，如图5、6。
+**step1**：打开机器人WebApp，依次点击“初始设置——基础——坐标”，点击“工具”进入工具坐标系界面。选择一个未使用的工具坐标系，点击修改其名称为“焊枪”，工具类型为“工具”，安装位置为“末端”，如图5、6。
 
-.. figure:: robot_peripherals/015.png
+.. figure:: robot_peripherals/052.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.4‑5 设置“焊枪坐标系”
+.. centered:: 图表 8.6‑5 设置“焊枪坐标系”
 
-.. figure:: robot_peripherals/016.png
+.. figure:: robot_peripherals/053.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.4‑6 设置“焊枪”坐标系
+.. centered:: 图表 8.6‑6 设置“焊枪”坐标系
 
 如图7，再次选择一个未使用的坐标系，将其名称修改为“激光传感器”，选择工具类型为“传感器”，安装位置为“末端”。
 
-.. figure:: robot_peripherals/017.png
+.. figure:: robot_peripherals/054.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.4‑7 设置“激光传感器”坐标系
+.. centered:: 图表 8.6‑7 设置“激光传感器”坐标系
 
 **step2**：用六点法对焊枪的工具坐标系进行标定：选则“焊枪”坐标系，点击修改按钮（图8、9），使用六点法进行焊枪工具坐标系的标定（具体标定方法参照法奥文档，本文不做赘述）。
 
-.. figure:: robot_peripherals/018.png
+.. figure:: robot_peripherals/055.png
+   :align: center
+   :width: 4in
+
+.. centered:: 图表 8.6‑8 “焊枪”坐标系标定1
+
+.. figure:: robot_peripherals/056.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.4‑8 “焊枪”坐标系标定1
+.. centered:: 图表 8.6‑9 “焊枪”坐标系标定2
+
+**step3**：如图10，在“工具坐标系设置”中选择0号坐标系(基座标系)，默认名称为“toolcoord0”，点击“应用”，将当前的坐标系切换为基座标系。
+
+.. figure:: robot_peripherals/057.png
+   :align: center
+   :width: 4in
+
+.. centered:: 图表 8.6‑10 传感器标定步骤1
+
+**step4**：如图11，再次选择之前设置的“激光传感器”坐标系(不点击“应用”)，点击“修改”按钮，选择工具类型为“传感器”，传感器固定在“机器人末端”，修改向导选择“五点法”。
+
+.. figure:: robot_peripherals/058.png
+   :align: center
+   :width: 4in
+
+.. centered:: 图表 8.6‑11 传感器标定步骤2
+
+**step5**：拖动机器人使焊枪尖端对准标定点（如图12），选择“焊枪”坐标系，点击“应用”，点击“设置点1”，如图13。
+
+.. figure:: robot_peripherals/059.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.6‑12 传感器标定步骤3
+
+.. figure:: robot_peripherals/060.png
+   :align: center
+   :width: 4in
+
+.. centered:: 图表 8.6‑13 传感器标定步骤4
+
+**step6**：再次选择0号坐标系（“toolcoord0”），点击应用（图14）；然后选择“传感器”坐标系（不点击“应用”），点击“修改”（图15），即可继续进行标定。
+
+.. figure:: robot_peripherals/061.png
+   :align: center
+   :width: 4in
+
+.. centered:: 图表 8.6‑14 传感器标定步骤5
+
+.. figure:: robot_peripherals/062.png
+   :align: center
+   :width: 4in
+
+.. centered:: 图表 8.6‑15 传感器标定步骤6
+
+**step7**：移动激光传感器位置，使激光刚好扫描到标定点(图16)，点击“设置点2”；此时左侧的传感器输出值对应序号位置会显示当前的传感器数据（图18），若数据正常则表示当前标定点成功，否则需要重新标定。
+
+.. figure:: robot_peripherals/063.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.6‑16 传感器标定步骤7
+
+.. figure:: robot_peripherals/064.png
+   :align: center
+   :width: 4in
+
+.. centered:: 图表 8.6‑17 传感器标定步骤8
+
+.. figure:: robot_peripherals/065.png
+   :align: center
+   :width: 4in
+
+.. centered:: 图表 8.6‑18 传感器标定步骤9
+
+**step8**：依次使激光再从三个不同的姿态照射标定点，并分别点击“设置点3”、“设置点4”和“设置点5”，最后在确保每个点的数据都正常的情况下，点击“计算”按钮（图19）。
+
+.. figure:: robot_peripherals/066.png
+   :align: center
+   :width: 4in
+
+.. centered:: 图表 8.6‑19 传感器标定步骤10
+
+**step9**：此时WebApp上显示传感器的标定结果和标定精度，点击“应用”按钮（图20），即完成了激光传感器的标定。若标定精度过差，则可以选择点击“取消”按钮，并重新进行标定。
+
+.. figure:: robot_peripherals/067.png
+   :align: center
+   :width: 4in
+
+.. centered:: 图表 8.6‑20 传感器标定精度
+
+激光传感器应用
+~~~~~~~~~~~~~~~~
+
+使用激光传感器前，先将“焊枪”工具坐标系应用到当前工具坐标系（图21）。
+
+.. figure:: robot_peripherals/068.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.6‑21 应用焊枪坐标系
+
+激光传感器示教点
+++++++++++++++++++
+
+如图22，拖动机器人使激光传感器光线指向想要示教的焊缝点。如图23，在WebApp选择传感器为“激光传感器”，输入传感器点名称为“laserPt”，点击“添加”按钮。新建用户程序“testLaser.lua”，创建运动指令PTP，目标点选择“laserPt”，单步执行该指令，此时焊枪将运动到之前激光传感器的指向点（图24）。
+
+.. figure:: robot_peripherals/069.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.6‑22 激光传感焊缝点
+
+.. figure:: robot_peripherals/070.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.6‑23 示教传感器点
 
 .. figure:: robot_peripherals/071.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.4‑9 “焊枪”坐标系标定2
-
-**step3**：如图10，在“工具坐标系设置”中选择0号坐标系(基座标系)，默认名称为“toolcoord0”，点击“应用”，将当前的坐标系切换为基座标系。
-
-.. figure:: robot_peripherals/072.png
-   :align: center
-   :width: 6in
-
-.. centered:: 图表 5.4‑10 传感器标定步骤1
-
-**step4**：如图11，再次选择之前设置的“激光传感器”坐标系(不点击“应用”)，点击“修改”按钮，选择工具类型为“传感器”，传感器固定在“机器人末端”，修改向导选择“五点法”。
-
-.. figure:: robot_peripherals/086.png
-   :align: center
-   :width: 6in
-
-.. centered:: 图表 5.4‑11 传感器标定步骤2
-
-**step5**：拖动机器人使焊枪尖端对准标定点（如图12），选择“焊枪”坐标系，点击“应用”，点击“设置点1”，如图13。
-
-.. figure:: robot_peripherals/087.png
-   :align: center
-   :width: 6in
-
-.. centered:: 图表 5.4‑12 传感器标定步骤3
-
-.. figure:: robot_peripherals/088.png
-   :align: center
-   :width: 6in
-
-.. centered:: 图表 5.4‑13 传感器标定步骤4
-
-**step6**：再次选择0号坐标系（“toolcoord0”），点击应用（图14）；然后选择“传感器”坐标系（不点击“应用”），点击“修改”（图15），即可继续进行标定。
-
-.. figure:: robot_peripherals/089.png
-   :align: center
-   :width: 6in
-
-.. centered:: 图表 5.4‑14 传感器标定步骤5
-
-.. figure:: robot_peripherals/090.png
-   :align: center
-   :width: 6in
-
-.. centered:: 图表 5.4‑15 传感器标定步骤6
-
-**step7**：移动激光传感器位置，使激光刚好扫描到标定点(图16)，点击“设置点2”；此时左侧的传感器输出值对应序号位置会显示当前的传感器数据（图18），若数据正常则表示当前标定点成功，否则需要重新标定。
-
-.. figure:: robot_peripherals/091.png
-   :align: center
-   :width: 6in
-
-.. centered:: 图表 5.4‑16 传感器标定步骤7
-
-.. figure:: robot_peripherals/092.png
-   :align: center
-   :width: 6in
-
-.. centered:: 图表 5.4‑17 传感器标定步骤8
-
-.. figure:: robot_peripherals/093.png
-   :align: center
-   :width: 6in
-
-.. centered:: 图表 5.4‑18 传感器标定步骤9
-
-**step8**：依次使激光再从三个不同的姿态照射标定点，并分别点击“设置点3”、“设置点4”和“设置点5”，最后在确保每个点的数据都正常的情况下，点击“计算”按钮（图19）。
-
-.. figure:: robot_peripherals/094.png
-   :align: center
-   :width: 6in
-
-.. centered:: 图表 5.4‑19 传感器标定步骤10
-
-**step9**：此时WebApp上显示传感器的标定结果和标定精度，点击“应用”按钮（图20），即完成了激光传感器的标定。若标定精度过差，则可以选择点击“取消”按钮，并重新进行标定。
-
-.. figure:: robot_peripherals/095.png
-   :align: center
-   :width: 6in
-
-.. centered:: 图表 5.4‑20 传感器标定精度
-
-激光传感器应用
-~~~~~~~~~~~~~~~~
-使用激光传感器前，先将“焊枪”工具坐标系应用到当前工具坐标系（图21）。
-
-.. figure:: robot_peripherals/096.png
-   :align: center
-   :width: 6in
-
-.. centered:: 图表 5.4‑21 应用焊枪坐标系
-
-激光传感器示教点
-++++++++++++++++++
-如图22，拖动机器人使激光传感器光线指向想要示教的焊缝点。如图23，在WebApp选择传感器为“激光传感器”，输入传感器点名称为“laserPt”，点击“添加”按钮。新建用户程序“testLaser.lua”，创建运动指令PTP，目标点选择“laserPt”，单步执行该指令，此时焊枪将运动到之前激光传感器的指向点（图24）。
-
-.. figure:: robot_peripherals/097.png
-   :align: center
-   :width: 6in
-
-.. centered:: 图表 5.4‑22 激光传感焊缝点
-
-.. figure:: robot_peripherals/098.png
-   :align: center
-   :width: 6in
-
-.. centered:: 图表 5.4‑23 示教传感器点
-
-.. figure:: robot_peripherals/099.png
-   :align: center
-   :width: 6in
-
-.. centered:: 图表 5.4‑24 焊枪指向焊缝点
+.. centered:: 图表 8.6‑24 焊枪指向焊缝点
 
 激光寻位 + 跟踪
 ++++++++++++++++
-协作机器人与激光传感器配合完成激光寻位+激光跟踪功能共需要一下几步：
+
+协作机器人与激光传感器配合完成激光寻位 + 激光跟踪功能共需要一下几步：
 
 (1) 机器人运动到焊缝外部的某一点；
 
@@ -1977,138 +1992,142 @@ PLC -> 机器人控制器
 
 在寻位跟踪调试前，请先确保传感器已经正确安装、“焊枪”工具坐标系已经正确标定，激光传感器也已经正确标定完成。如图25，假设图中绿色直线为待焊焊缝，使机器人实现自动寻找焊接起点A点，并自动焊接至B点，需要进行如下指令编写：
 
-.. figure:: robot_peripherals/100.png
+.. figure:: robot_peripherals/072.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.4‑25 传感器安装
+.. centered:: 图表 8.6‑25 传感器安装
 
 编写寻位指令
 *************
 
 如图26，新建用户程序“laserTrack.lua”，选择“焊接指令”。
 
-.. figure:: robot_peripherals/101.png
+.. figure:: robot_peripherals/073.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.4‑26 添加寻位指令
+.. centered:: 图表 8.6‑26 添加寻位指令
 
 如图27，点击“激光跟踪”，弹出激光跟踪指令添加页面。
 
-.. figure:: robot_peripherals/102.png
+.. figure:: robot_peripherals/074.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.4‑27 激光跟踪指令
+.. centered:: 图表 8.6‑27 激光跟踪指令
 
 如图28，找到“寻位命令”，选择坐标系名称为“激光传感器”，方向选择“+x”表示机器人携带激光传感器从当前位置沿“焊枪”坐标系的“+x”方向边运动边搜寻焊缝，“速度”为激光传感器寻位的移动速度，长度为激光传感器的最大寻位长度，当机器人寻位距离超出该长度仍未寻找到焊缝时机器人将报错，最大寻位时间与长度类似，超出该时间仍未找到焊缝时机器人报错。请您根据实际场景正确输入上述相关参数。依次点击“寻位开始”和“寻位结束”指令，并点击“应用”按钮。
 
-.. figure:: robot_peripherals/103.png
+.. figure:: robot_peripherals/075.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.4‑28 添加寻位指令
+.. centered:: 图表 8.6‑28 添加寻位指令
 
 此时“laserTrack.lua”中将增加对应的激光寻位开始和结束的指令（图29）。
 
-.. figure:: robot_peripherals/104.png
+.. figure:: robot_peripherals/076.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.4‑29 寻位程序
+.. centered:: 图表 8.6‑29 寻位程序
 
 编写运动到寻位点指令
 *********************
+
 添加点到点运动LIN指令，如图，目标点为“seamPos”即激光传感器寻位点。
 
 .. note:: “seamPos点为机器人系统内部专用于激光传感器寻位的点位名称，不需要示教该点，激光传感器寻位后会自动将寻位点信息存入“seamPos点中”。
 
 寻位点可以设置偏移，偏移类型可选择“基座标系偏移”、“工具坐标系偏移”和“激光原始数据偏移”（图30）。
 
-.. figure:: robot_peripherals/105.png
+.. figure:: robot_peripherals/077.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.4‑30 寻位偏移选项
+.. centered:: 图表 8.6‑30 寻位偏移选项
 
 如图31，当启用寻位偏移功能时，可设置偏移参数，“dx”表示沿所选坐标系x方向的偏移距离，“drx”表示沿所选坐标系x轴旋转的角度。点击“添加”按钮，点击“应用”按钮。
 
-.. figure:: robot_peripherals/106.png
+.. figure:: robot_peripherals/078.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.4‑31 寻位偏移参数设置
+.. centered:: 图表 8.6‑31 寻位偏移参数设置
 
 此时“testTrack.lua”中将增加运动到寻位点的指令，如图32。
 
-.. figure:: robot_peripherals/107.png
+.. figure:: robot_peripherals/079.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.4‑32 寻位偏移程序
+.. centered:: 图表 8.6‑32 寻位偏移程序
 
 编写激光跟踪指令
 ******************
+
 再次打开“激光跟踪”指令添加页面，如图33。
 
-.. figure:: robot_peripherals/108.png
+.. figure:: robot_peripherals/080.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.4‑33 激光跟踪
+.. centered:: 图表 8.6‑33 激光跟踪
 
 如图34，在“激光跟踪”指令添加页面中依次点击“开始跟踪”和“停止跟踪”按钮，最后点击页面最下面的“应用”按钮。
 
-.. figure:: robot_peripherals/109.png
+.. figure:: robot_peripherals/081.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.4‑34 激光跟踪开始与停止
+.. centered:: 图表 8.6‑34 激光跟踪开始与停止
 
 此时的用户程序“testTrack.lua”如图35：
 
-.. figure:: robot_peripherals/110.png
+.. figure:: robot_peripherals/082.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.4‑35 激光跟踪程序
+.. centered:: 图表 8.6‑35 激光跟踪程序
 
 编写寻位开始点和跟踪终点指令
 *****************************
+
 在激光寻位开始前，需要先指定一个寻位起始点，机器人先运动到寻位起始点，然后再沿一定的方向和速度进行寻位，如图36，在激光传感器光线靠近焊缝起点A点附近示教寻位开始点“seamStartPt”，注意匹配寻位起始点与寻位方向，保证机器人能在设定的距离和最大寻位时间内找到焊缝位置。
 
-.. figure:: robot_peripherals/111.png
+.. figure:: robot_peripherals/083.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.4‑36 寻位起点
+.. centered:: 图表 8.6‑36 寻位起点
 
 如图37，在焊缝末端示教跟踪终止点“trackEndPt”。
 
-.. figure:: robot_peripherals/112.png
+.. figure:: robot_peripherals/084.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.4‑37 寻位终点
+.. centered:: 图表 8.6‑37 寻位终点
 
 将上述两个点添加到“testTrack.lua”用户程序中，最终的用户程序如下（图38）：
 
-.. figure:: robot_peripherals/113.png
+.. figure:: robot_peripherals/085.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.4‑38 寻位跟踪程序
+.. centered:: 图表 8.6‑38 寻位跟踪程序
 
 编写焊接相关指令
 *****************
+
 最后，在焊接寻位点“seampos”和“trackEndPt”之间加上焊接指令，最终的程序如下（图39）：
 
-.. figure:: robot_peripherals/114.png
+.. figure:: robot_peripherals/086.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.4‑39 寻位跟踪焊接程序
+.. centered:: 图表 8.6‑39 寻位跟踪焊接程序
 
 执行上述程序，机器人将携带激光传感器从寻位起点开始寻位运动，寻找到焊缝后，机器人立即运动到焊缝起点，并执行起弧操作，起弧成功后，机器人向焊缝终点运动并在运动过程中跟踪焊缝轨迹，机器人运动到焊缝终点后即停止焊接。
 
@@ -2125,98 +2144,103 @@ PLC -> 机器人控制器
 
 机器人轨迹记录指令编写
 ************************
+
 新建用户程序“testRecord.lua”，点击“激光记录”打开激光记录指令添加页面，找到“焊缝数据记录”，如图40，选择“开始记录”，点击“添加”按钮，选择停止记录，再次点击“添加”按钮；最后点击“应用”按钮（图41）。
 
-.. figure:: robot_peripherals/115.png
+.. figure:: robot_peripherals/087.png
+   :align: center
+   :width: 4in
+
+.. centered:: 图表 8.6‑40 激光记录
+
+.. figure:: robot_peripherals/088.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.4‑40 激光记录
-
-.. figure:: robot_peripherals/116.png
-   :align: center
-   :width: 3in
-
-.. centered:: 图表 5.4‑41 开始记录与停止记录
+.. centered:: 图表 8.6‑41 开始记录与停止记录
 
 此时页面上出现轨迹记录开始和停止指令（图42）。
 
-.. figure:: robot_peripherals/117.png
+.. figure:: robot_peripherals/089.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.4‑42 轨迹记录程序
+.. centered:: 图表 8.6‑42 轨迹记录程序
 
 如图43，假设图中绿色线段AB为焊缝，分别使激光照射到焊缝起始点A和焊缝中断B，并示教轨迹记录的起点“recordStartPt”和终点“recordEndPt”。
 
-.. figure:: robot_peripherals/118.png
+.. figure:: robot_peripherals/090.png
    :align: center
    :width: 6in
 
-.. figure:: robot_peripherals/119.png
+.. figure:: robot_peripherals/091.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.4‑43 轨迹记录起点和终点
+.. centered:: 图表 8.6‑43 轨迹记录起点和终点
 
 在“testRecord.lua”中添加两条直线(LIN)运动指令，分别为运动到轨迹记录起点“recordStartPt”和终点“recordEndPt”，并调整指令位置，使机器人进行如下操作：先运动到“recordStartPt”点，开始轨迹记录，机器人运动到“recordEndPt”点，停止轨迹记录（图44）。
 
-.. figure:: robot_peripherals/120.png
+.. figure:: robot_peripherals/092.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.4‑44 轨迹记录程序
+.. centered:: 图表 8.6‑44 轨迹记录程序
 
 机器人运动到轨迹记录起点指令编写
 *********************************
+
 如图45，点击“激光记录”打开激光记录指令添加页面，找到“运动至焊缝点”栏，选择运动方式为PTP，输入一定的运动速度，点击“运动至起点”，点击“应用”按钮。
 
-.. figure:: robot_peripherals/121.png
+.. figure:: robot_peripherals/093.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.4‑45 运动至轨迹起点
+.. centered:: 图表 8.6‑45 运动至轨迹起点
 
 此时“testRecord.lua”用户程序如下（图46）：
 
-.. figure:: robot_peripherals/122.png
+.. figure:: robot_peripherals/094.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.4‑46 运动至轨迹起点程序
+.. centered:: 图表 8.6‑46 运动至轨迹起点程序
 
 激光传感器轨迹复现指令编写
 ****************************
+
 点击“激光记录”打开激光记录指令添加页面，找到“焊缝数据记录”，如图，选择“轨迹复现”，点击“添加”按钮，点击“激光跟踪复现”按钮，最后点击“应用”按钮（图47）。
 
-.. figure:: robot_peripherals/123.png
+.. figure:: robot_peripherals/095.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.4‑47 轨迹复现
+.. centered:: 图表 8.6‑47 轨迹复现
 
 添加完成后的程序如下（图48）：
 
-.. figure:: robot_peripherals/124.png
+.. figure:: robot_peripherals/096.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.4‑48 轨迹复现程序
+.. centered:: 图表 8.6‑48 轨迹复现程序
 
 焊接相关指令编写
 ********************
+
 最后在轨迹复现开始前和结束后加上焊接开始和焊接结束指令（图49）：
 
-.. figure:: robot_peripherals/125.png
+.. figure:: robot_peripherals/097.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.4‑49 轨迹记录复现焊接程序
+.. centered:: 图表 8.6‑49 轨迹记录复现焊接程序
 
 执行上述程序，机器人将携带激光传感器先沿焊缝轨迹运动，并记录整个轨迹，然后机器人运动到轨迹记录的起点，机器人起弧并沿激光传感器记录的轨迹开始焊接，当机器人轨迹复现完成后，焊接电弧熄灭，完成焊接。
 
 寻位三点与四点求交点坐标
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 当角焊缝位置不方便直接示教时，协作机器人可以通过手动示教或寻位角焊缝两边板材平面位置的方式，计算得到两平面上采集点的交点来生成角焊缝所在位置。
 
 对于直角焊缝，可以选用三点寻位求交点坐标方法；对于非直角焊缝，则采用四点寻位求交点坐标方法。
@@ -2226,78 +2250,84 @@ PLC -> 机器人控制器
 
 **Step1**：采集三个平面接触点并保存为示教点；
 
-.. figure:: robot_peripherals/127.png
+.. figure:: robot_peripherals/098.png
    :align: center
-   :width: 3in
+   :width: 4in
 
-.. centered:: 图表 5.4‑50 选取三个寻位点
+.. centered:: 图表 8.6‑50 选取三个寻位点
 
 采集的接触点包含三个点，其中两点位于同一平面，另一点位于垂直平面。
 
 .. note:: 生成交点的姿态与P3点一致。
 
-**Step2**：点击初始设置->用户外设配置->传感器跟踪，进入三点与四点求交点坐标功能模块；
+**Step2**：在"初始设置——外设——跟踪"中，点击“传感器”进入传感器跟踪配置界面，找到三点与四点求交点坐标功能模块；
 
-.. figure:: robot_peripherals/128.png
+.. figure:: robot_peripherals/099.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.4‑51 选择求交点坐标的寻位点
+.. centered:: 图表 8.6‑51 选择求交点坐标的寻位点
 
 **Step3**：下拉框选择三点寻位，依次选择采集的三个接触点，点击计算，查看3D模型中生成交点的显示是否有误，将交点命名并保存；
 
-.. figure:: robot_peripherals/129.png
+.. figure:: robot_peripherals/100.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.4‑52 计算交点坐标并保存
+.. centered:: 图表 8.6‑52 计算交点坐标并保存
 
-.. figure:: robot_peripherals/130.png
+.. figure:: robot_peripherals/101.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.4‑53 将交点坐标保存成示教点
+.. centered:: 图表 8.6‑53 将交点坐标保存成示教点
 
 四点求交点坐标
 ++++++++++++++++++
+
 **Step1**：集四个平面接触点并保存为示教点；
 
-.. figure:: robot_peripherals/131.png
+.. figure:: robot_peripherals/102.png
    :align: center
-   :width: 3in
+   :width: 4in
 
-.. centered:: 图表 5.4‑54 选取四个寻位点
+.. centered:: 图表 8.6‑54 选取四个寻位点
 
 采集的接触点包含四个点，其中前两点位于同一平面，后两点位于垂直平面。
 
 .. note:: 生成交点的姿态与P4点一致。
 
-**Step2**：点击初始设置->用户外设配置->传感器跟踪，进入三点与四点求交点坐标功能模块；
+**Step2**：在"初始设置——外设——跟踪"中，点击“传感器”进入传感器跟踪配置界面，进入三点与四点求交点坐标功能模块；
 
-.. figure:: robot_peripherals/132.png
+.. figure:: robot_peripherals/103.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.4‑55 选择求交点坐标的寻位点
+.. centered:: 图表 8.6‑55 选择求交点坐标的寻位点
 
 **Step3**：下拉框选择四点寻位，依次选择采集的四个接触点，点击计算，查看3D模型中生成交点的显示是否有误，将交点命名并保存；
 
-.. figure:: robot_peripherals/133.png
+.. figure:: robot_peripherals/104.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.4‑56 计算交点坐标并保存
+.. centered:: 图表 8.6‑56 计算交点坐标并保存
 
-.. figure:: robot_peripherals/134.png
+.. figure:: robot_peripherals/105.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.4‑57 将交点坐标保存成示教点
+.. centered:: 图表 8.6‑57 将交点坐标保存成示教点
 
 扩展轴外设配置
 ----------------
 
-在用户外设配置界面中选择“扩展轴”按钮，进入扩展轴界面，选择组合方式进行对应的扩展轴外设配置。组合方式分为：控制器+PLC（UDP）和控制器+伺服驱动器（485）。
+在"初始设置——外设"中，点击“扩展轴”进入扩展轴配置界面，选择组合方式进行对应的扩展轴外设配置。
+
+组合方式分为：
+
+- 控制器+PLC（UDP）
+- 控制器+伺服驱动器（485）
 
 控制器+PLC（UDP）
 ~~~~~~~~~~~~~~~~~~~~
@@ -2317,11 +2347,11 @@ PLC -> 机器人控制器
 - 重连周期：1 ~ 1000 ms
 - 重连次数：1 ~ 100
 
-.. figure:: robot_peripherals/021.png
+.. figure:: robot_peripherals/106.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.5‑1 扩展轴通信配置
+.. centered:: 图表 8.7‑1 扩展轴通信配置
 
 .. important:: 
   1. 设置通讯断开确认时长后，当通讯异常超出该时长时才确认通讯断开并报错 
@@ -2329,46 +2359,46 @@ PLC -> 机器人控制器
 
 **Step2**：选择扩展轴编号1，点击“参数配置”按键进入右侧界面。设置轴类型，轴方向，运行速度，加速度，正方向限位，反方向限位，导程，编码器分辨率，起点偏置，厂家，型号和模式，点击配置即可配置完成。
 
-.. figure:: robot_peripherals/019.png
+.. figure:: robot_peripherals/107.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.5-2 扩展轴参数配置
+.. centered:: 图表 8.7-2 扩展轴参数配置
 	
 .. important:: 
 	使用扩展轴功能之前，需要先建立相应的扩展轴标系，并在程序示教时应用建立好的工具坐标系。扩展轴功能主要与焊机功能和激光跟踪传感器功能配合使用。
 
 **Step3**：使点击“零点设置”按键进入零点设置弹窗，如右侧图片所示。设定回零方式，寻零速度，零点箍位速度和轴方向，点击“设置”按键，扩展轴开始回零，回零状态会显示在轴方向下方空白处，当出现“回零已完成”提示表明扩展轴零点设置成功。
 
-.. figure:: robot_peripherals/020.png
+.. figure:: robot_peripherals/108.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.5‑3 扩展轴零点设置
+.. centered:: 图表 8.7‑3 扩展轴零点设置
 
 **Step4**：选择已经配置好参数的扩展轴编号，点击“伺服使能”后，设置运行速度，加速度和单次运行最大距离，可以进行正向转动和反向转动测试扩展轴。
 
-.. figure:: robot_peripherals/021.png
+.. figure:: robot_peripherals/109.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.5‑4 扩展轴测试
+.. centered:: 图表 8.7‑4 扩展轴测试
 
 **Step5**：扩展轴通常于激光传感器配合使用，此时激光传感器通常采用外部安装方式，传感器参考点配置需要采用三点法标定，而不是之前使用的六点法标定。将工具中心对准右侧横截面底部中间点（靠近相机那一侧）设定点1，将工具中心点对准另一截面即左侧横截面底部中间点，设定点2，将工具中心点移至传感器右侧横截面上边缘中间点，设定点3，计算并保存，点击应用完成三点法标定。
 
-.. figure:: robot_peripherals/022.png
+.. figure:: robot_peripherals/110.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.5‑5 传感器三点法标定
+.. centered:: 图表 8.7‑5 传感器三点法标定
 
 **Step6**：在程序示教命令界面选择“EAxis”命令。根据具体的程序示教需求，在相应的地方添加指令。
 
-.. figure:: robot_peripherals/023.png
+.. figure:: robot_peripherals/111.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.5‑6 扩展轴指令编辑
+.. centered:: 图表 8.7‑6 扩展轴指令编辑
 
 扩展轴配合激光跟踪焊接示教程序
 +++++++++++++++++++++++++++++++
@@ -2438,11 +2468,11 @@ PLC -> 机器人控制器
 
 图5.5‑7为法奥机器人mini控制箱电气接口示意图，使用RS485通信控制伺服扩展轴前，请先将伺服驱动器的RS485通信接口与机器人控制箱上的RS485通信接口建立连接。
 
-.. figure:: robot_peripherals/067.png
+.. figure:: robot_peripherals/112.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.5‑7 法奥机器人mini控制箱电气接口示意图
+.. centered:: 图表 8.7‑7 法奥机器人mini控制箱电气接口示意图
 
 以戴纳泰克伺服驱动器FD100-750C型号为例，图5.5‑8为改驱动器面板端子示意图，图5.5‑9为FD100-750C的X3A-IN端子定义，当机器人配置与FD100-750C伺服扩展轴通信时，需要将控制箱上的485-A0端子、485-B0端子分别与驱动器X3A-IN端子的4号和5号引脚连接。
 
@@ -2451,28 +2481,28 @@ PLC -> 机器人控制器
 
 同时，若连接多个伺服驱动器，且该驱动器为链路的最后一个，需要将面板上的RS485通信中断电阻拨码开关（2号拨码）打开。
 
-.. figure:: robot_peripherals/068.png
+.. figure:: robot_peripherals/113.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.5‑8 FD100-750C驱动器面板
+.. centered:: 图表 8.7‑8 FD100-750C驱动器面板
 
-.. figure:: robot_peripherals/069.png
+.. figure:: robot_peripherals/114.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.5‑9 FD100-750C的X3A-IN端子定义
+.. centered:: 图表 8.7‑9 FD100-750C的X3A-IN端子定义
 
 通信配置
 +++++++++++
 
-**Step1**：确保您的RS485通信线缆正确连接且机器人和伺服扩展轴都正常上电后，打开机器人WebApp，如图5.5‑10所示，依次点击“初始设置”、“用户外设配置”、“扩展轴”，打开“扩展轴配置”页面。
+**Step1**：确保您的RS485通信线缆正确连接且机器人和伺服扩展轴都正常上电后，打开机器人WebApp，如图5.5‑10所示，依次点击“初始设置——外设——扩展轴”，打开“扩展轴配置”页面。
 
-.. figure:: robot_peripherals/073.png
+.. figure:: robot_peripherals/115.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.5‑10 RS485扩展轴配置
+.. centered:: 图表 8.7‑10 RS485扩展轴配置
 
 **Step2**：在“扩展轴配置”页面中，选择组合方式为“控制器 + 伺服驱动器”，编号为“1”。
 
@@ -2483,11 +2513,11 @@ PLC -> 机器人控制器
 
 **Step3**：至此我们已经完成机器人与伺服驱动器的485通讯配置，您可以在WebApp中右侧的“伺服状态栏”中查看伺服的实时状态信息（图5.5‑11）。
 
-.. figure:: robot_peripherals/074.png
+.. figure:: robot_peripherals/116.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.5‑11 伺服状态栏
+.. centered:: 图表 8.7‑11 伺服状态栏
 
 现在您可以对扩展轴设备进行一定的运动测试，请在确保安全的前提下跟着本手册做如下测试操作。
 
@@ -2507,11 +2537,11 @@ PLC -> 机器人控制器
 
 - 点击“伺服驱动器调试”栏中的“去除使能”按钮，“伺服状态栏”中“伺服使能”状态灯熄灭，伺服使能关闭。
 
-.. figure:: robot_peripherals/075.png
+.. figure:: robot_peripherals/117.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.5‑12 伺服驱动器调试页面
+.. centered:: 图表 8.7‑12 伺服驱动器调试页面
 
 伺服回零
 *******************************
@@ -2523,11 +2553,11 @@ PLC -> 机器人控制器
 .. important:: 
   请您完全阅读本手册后，再将回零模式选择为“负限位回零”或“正限位回零”进行回零测试。
 
-.. figure:: robot_peripherals/076.png
+.. figure:: robot_peripherals/118.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.5‑13 伺服回零调试
+.. centered:: 图表 8.7‑13 伺服回零调试
 
 伺服运动
 *******************************
@@ -2545,11 +2575,11 @@ PLC -> 机器人控制器
 
 若目前您的伺服未处于“位置模式”，请将您的伺服切换至位置模式。输入“目标位置”为50mm，运行速度为5mm/s，在确认安全的条件下，点击“设置”按钮，此时伺服电机将按照您设置的参数运动，您可以在“伺服状态栏”中实时观察伺服的位置和速度等。
 
-.. figure:: robot_peripherals/077.png
+.. figure:: robot_peripherals/119.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.5‑14 伺服运动调试（位置模式）
+.. centered:: 图表 8.7‑14 伺服运动调试（位置模式）
 
 将伺服的控制模式改为“速度模式”，点击“去除使能”，再点击“伺服使能”，此时伺服切换为速度模式。
 
@@ -2558,62 +2588,62 @@ PLC -> 机器人控制器
 
 输入目标速度为5mm/s，点击“设置”按钮，伺服电机将以5mm/s的速度保持运动，同样您可以在“伺服状态栏”中实时观察伺服的位置和速度等。
 
-.. figure:: robot_peripherals/078.png
+.. figure:: robot_peripherals/120.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.5‑15 伺服运动调试（速度模式）
+.. centered:: 图表 8.7‑15 伺服运动调试（速度模式）
 
 扩展轴编程
 ++++++++++++
 
 **Step1**：新建一个用户程序“testServo.lua”，如图5.5‑16，选择“外设指令”。
 
-.. figure:: robot_peripherals/079.png
+.. figure:: robot_peripherals/121.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.5‑16 打开外设指令
+.. centered:: 图表 8.7‑16 打开外设指令
 
 **Step2**：如图5.5‑17，点击“扩展轴”，打开添加扩展轴指令界面。
 
-.. figure:: robot_peripherals/080.png
+.. figure:: robot_peripherals/122.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.5‑17 打开添加扩展轴指令页面
+.. centered:: 图表 8.7‑17 打开添加扩展轴指令页面
 
 **Step3**：如图5.5‑18，在添加扩展轴指令页面中选择组合方式为“控制器 + 伺服驱动器(485)”，将控制模式设为“位置模式”，点击右侧的“添加”按钮。
 
-.. figure:: robot_peripherals/081.png
+.. figure:: robot_peripherals/123.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.5‑18 设置扩展轴的控制模式
+.. centered:: 图表 8.7‑18 设置扩展轴的控制模式
 
 **Step4**：如图5.5‑19，将添加扩展轴指令界面翻到底部，点击“应用”按钮，并关闭添加扩展轴指令界面。
 
-.. figure:: robot_peripherals/082.png
+.. figure:: robot_peripherals/124.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.5‑19 应用扩展轴指令
+.. centered:: 图表 8.7‑19 应用扩展轴指令
 
 **Step5**：如图5.5‑20，此时“testServo.lua”程序中即出现一组切换伺服控制模式的指令，您可以将机器人切换到自动模式，并执行该程序。
 
-.. figure:: robot_peripherals/083.png
+.. figure:: robot_peripherals/125.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.5‑20 设置伺服控制模式程序
+.. centered:: 图表 8.7‑20 设置伺服控制模式程序
 
 **Step6**：如何通过用户程序控制伺服运动？同样打开添加扩展轴指令界面，如图5.5‑21，找到参数配置栏，以位置模式为例，输入目标位置和运行速度，点击“添加”按钮；将添加扩展轴指令界面翻到底部，点击“应用”按钮，并关闭添加扩展轴指令界面。
 
-.. figure:: robot_peripherals/084.png
+.. figure:: robot_peripherals/126.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.5‑21 增加位置模式运动指令
+.. centered:: 图表 8.7‑21 增加位置模式运动指令
 
 **Step7**：如图5.5‑22所示，“testServo.lua”程序中已增加伺服运动指令：
 
@@ -2625,11 +2655,11 @@ PLC -> 机器人控制器
 
 - 5：目标速度。
 
-.. figure:: robot_peripherals/085.png
+.. figure:: robot_peripherals/127.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.5‑22 位置模式伺服运动程序
+.. centered:: 图表 8.7‑22 位置模式伺服运动程序
 
 **Step8**：将机器人切换到自动模式，运行该程序，此时您的伺服将以5mm/s的速度运动到50mm的位置。
 
@@ -2708,45 +2738,45 @@ PLC -> 机器人控制器
 传送带跟踪配置步骤
 ~~~~~~~~~~~~~~~~~~~~~
 
-**Step1**：在用户外设配置界面中选择“传送带跟踪”按钮，进入传送带跟踪配置界面，点击“配置传送带IO”按键快速配置传送带功能所需IO，之后根据实际使用功能情况配置对应的参数，此处以无视觉跟踪抓取功能为例，需要配置传送带编码器通道，分辨率，导程，视觉搭配选择否，点击配置。
+**Step1**：在“初始设置——外设——跟踪”中选择“传送带”菜单项，进入传送带跟踪配置界面，点击“配置传送带IO”按键快速配置传送带功能所需IO，之后根据实际使用功能情况配置对应的参数，此处以无视觉跟踪抓取功能为例，需要配置传送带编码器通道，分辨率，导程，视觉搭配选择否，点击配置。
 
-.. figure:: robot_peripherals/025.png
+.. figure:: robot_peripherals/128.png
    :align: center
-   :width: 3in
+   :width: 4in
 
-.. centered:: 图表 5.6‑1 传送带配置
+.. centered:: 图表 8.8‑1 传送带配置
 
 **Step2**：接下来设置抓取点补偿值，为X,Y,Z三个方向上的补偿距离，可在调试过程中根据实际情况设置。
 
-.. figure:: robot_peripherals/026.png
+.. figure:: robot_peripherals/129.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.6‑2 传送带抓取点补偿配置
+.. centered:: 图表 8.8‑2 传送带抓取点补偿配置
 
 **Step3**：开启传送带，将标定的物体移动到定义的A点位置，停止传送带。移动机器人，将机器人末端的标定杆尖点与所标定的物体尖点对齐，点击起始点A按键，跳出对话框，显示当前编码器值和机器人位姿，点击标定完成起始点A标定。
 
-.. figure:: robot_peripherals/027.png
+.. figure:: robot_peripherals/130.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.6‑3 起始点A配置
+.. centered:: 图表 8.8‑3 起始点A配置
 
 **Step4**：点击参考点按键，进入参考点标定，记录参考点时记录机器人抓取时的高度和姿态，每次跟踪时都会以记录参考点的高度和姿态区跟踪抓取，可以和AB点不在一个高度，点击标定完成参考点标定。
 
-.. figure:: robot_peripherals/028.png
+.. figure:: robot_peripherals/131.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.6‑4 参考点配置
+.. centered:: 图表 8.8‑4 参考点配置
 
 **Step5**：开启传送带，将标定的物体移动到定义的B点位置，停止传送带。移动机器人，将机器人末端的标定杆尖点与所标定的物体尖点对齐，点击终点B按键，弹出对话框，显示当前编码器值和机器人位姿，点击标定完成终点B标定。
 
-.. figure:: robot_peripherals/029.png
+.. figure:: robot_peripherals/132.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.6‑5 终点B配置
+.. centered:: 图表 8.8‑5 终点B配置
 
 传送带跟踪示教程序
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -2822,24 +2852,24 @@ PLC -> 机器人控制器
 姿态自适应配置步骤
 ~~~~~~~~~~~~~~~~~~~~~~
 
-**Step1**：在用户外设配置界面中选择“跟踪姿态配置”按钮，进入姿态调整配置界面，选择板材类型和机器人实际工作运动方向，调整机器人姿态，分别设置姿态点A，姿态点B和姿态点C，通常A为平面姿态点，B为上升沿姿态点，C为下降沿姿态点。
+**Step1**：在“初始设置——外设——跟踪”中选择“跟踪姿态”菜单项，进入姿态调整配置界面，选择板材类型和机器人实际工作运动方向，调整机器人姿态，分别设置姿态点A，姿态点B和姿态点C，通常A为平面姿态点，B为上升沿姿态点，C为下降沿姿态点。
 
-.. figure:: robot_peripherals/031.png
+.. figure:: robot_peripherals/133.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.7‑1 姿态调整配置
+.. centered:: 图表 8.9‑1 姿态调整配置
 
 .. important:: 
 	A姿态和B姿态，A姿态和C姿态之间的姿态变化在满足应用需求下姿态变化越小越好。姿态自适应功能为辅助应用功能，通常配合焊缝跟踪使用。
 
 **Step2**：在程序示教命令界面选择“Adjust”命令。根据具体的程序示教需求，在相应的地方添加指令。
 
-.. figure:: robot_peripherals/032.png
+.. figure:: robot_peripherals/134.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.7‑2 姿态调整指令编辑
+.. centered:: 图表 8.9‑2 姿态调整指令编辑
 
 姿态自适应配合扩展轴和激光跟踪焊接示教程序
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2915,24 +2945,26 @@ PLC -> 机器人控制器
 力/扭矩传感器配置步骤
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**Step1**：在用户外设配置界面中选择“末端外设配置”按钮，设备类型选择“力传感器设备”，力传感器配置信息分为厂商、类型、软件版本和挂载位置，用户可根据具体的生产需求来配置相应的力传感器信息。若用户需要更改配置，可先选择相应的编号，点击“清除”按钮，来清除相应的信息，并重新根据需求配置；
+**Step1**：在“初始设置——外设——末端工具”的菜单栏下，点击“适配设备”进入末端外设配置界面。
 
-.. figure:: robot_peripherals/034.png
+设备类型选择“力传感器设备”，力传感器配置信息分为厂商、类型、软件版本和挂载位置，用户可根据具体的生产需求来配置相应的力传感器信息。若用户需要更改配置，可先选择相应的编号，点击“清除”按钮，来清除相应的信息，并重新根据需求配置；
+
+.. figure:: robot_peripherals/135.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.8‑1 力/矩传感器配置
+.. centered:: 图表 8.10‑1 力/矩传感器配置
 
 .. important:: 
 	点击清除配置前，相应的传感器应处于未激活状态。
 
 **Step2**：力传感器配置完成后，用户可在页面下方的信息表中查看相应的力传感器信息，若发现配置错误，可点击“清除”按钮，重新配置。
 
-.. figure:: robot_peripherals/035.png
+.. figure:: robot_peripherals/136.png
    :align: center
-   :width: 3in
+   :width: 4in
 
-.. centered:: 图表 5.8‑2 力/矩传感器配置信息
+.. centered:: 图表 8.10‑2 力/矩传感器配置信息
 
 **Step3**：选择配置完成的力传感器编号，点击“复位”按钮，页面弹出命令发送成功后，再点击“激活”按钮，可查看力传感器信息表中的激活状态，来判断是否激活成功；此外，力传感器会有初始值，用户根据使用需求选择“零点矫正”和“去除零点”。力传感器零点矫正需要确保力传感器水平垂直向下，且机器人未配置负载。
 
@@ -2941,7 +2973,7 @@ PLC -> 机器人控制器
 力/扭矩传感器负载辨识
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-在机器人配置界面中选择“力/扭矩传感器负载”进行配置。
+在“初始设置——基础——负载”菜单栏下，点击“传感器”，进入力/扭矩传感器负载界面。
 
 特定姿态辨识：清除末端负载数据，配置好力传感器后，建立传感器坐标系，将机器人末端姿态调整为垂直向下，进行“零点矫正”后安装末端负载。首先选择对应传感器工具坐标系，调整机器人，使得传感器及工具垂直向下，记录数据，计算质量。接着，调整机器人3个不同姿态，分别记录三组数据，计算出质心，确认无误后点击应用。
 
@@ -2949,22 +2981,22 @@ PLC -> 机器人控制器
 
 **自动校零**：传感器记录初始位置后，可自动校零。
 
-.. figure:: robot_peripherals/036.png
+.. figure:: robot_peripherals/137.png
    :align: center
-   :width: 3in
+   :width: 4in
 
-.. centered:: 图表 5.8‑3 力/扭矩传感器负载辨识
+.. centered:: 图表 8.10‑3 力/扭矩传感器负载辨识
 
 力/扭矩传感器辅助拖动
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 配置好传感器后，可以搭配传感器对拖动机器人进行更好的辅助。第一次使用时可以按照右侧图片的数据进行配置，应用完成后，此时无需进入拖动模式，直接对末端力传感器进行拖拽，即可控制机器人在固定姿态进行移动。（如下图中的数据为参考标准）
 
-.. figure:: robot_peripherals/037.png
+.. figure:: robot_peripherals/138.png
    :align: center
-   :width: 3in
+   :width: 4in
 
-.. centered:: 图表 5.8‑4 力/扭矩传感器拖动锁定
+.. centered:: 图表 8.10‑4 力/扭矩传感器拖动锁定
 
 **自适应选择**：在需要装配时开启，开启后拖动变重；
 
@@ -2994,11 +3026,11 @@ PLC -> 机器人控制器
 
 指令说明：“FT_Guard”指令为碰撞检测指令。选择对应的传感器坐标系，勾选生效的力矩方向检测，设置当前值，碰撞最大阈值和碰撞最小阈值三项，碰撞检测条件正常范围为（当前值-最小阈值，当前值+最大阈值），将“开启”和“关闭”指令加入到程序中在。
 
-.. figure:: robot_peripherals/038.png
+.. figure:: robot_peripherals/139.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.8‑5 FT_Guard指令编辑
+.. centered:: 图表 8.10‑5 FT_Guard指令编辑
 
 程序示例：
 
@@ -3028,11 +3060,11 @@ PLC -> 机器人控制器
 
 指令说明：“FT_Control”指令为力控运动指令，可以使机器人在设定力的附近运动，常用于打磨场景中。选择对应的传感器坐标系，勾选生效的力矩方向检测，设置检测阈值，以及各个方向上PID比例系数(一般设置p为0.001)，设置最大调整距离（对应X,Y,Z）和最大调整角度（对应RX,RY,RZ），将“开启”和“关闭”指令加入到程序中在。
 
-.. figure:: robot_peripherals/040.png
+.. figure:: robot_peripherals/140.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.8‑6 FT_Control指令编辑
+.. centered:: 图表 8.10‑6 FT_Control指令编辑
 
 程序示例：
 
@@ -3062,11 +3094,11 @@ PLC -> 机器人控制器
 
 指令说明：“FT_Spiral”指令为螺旋线探索插入，一般用于圆柱轴的轴孔装配动作。在运行动作之前，需要将机器人末端拖动至孔位的大致位置，根据当前场景，设定指令的参数，添加到程序中，运行后，机器人会以螺旋形的运动进行探索。
 
-.. figure:: robot_peripherals/042.png
+.. figure:: robot_peripherals/141.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.8‑7 FT_Spiral指令编辑
+.. centered:: 图表 8.10‑7 FT_Spiral指令编辑
 
 程序示例：
 
@@ -3096,11 +3128,11 @@ PLC -> 机器人控制器
 
 指令说明：“FT_Rot”指令为旋转探索插入，一般用于承接螺旋线插入动作，用于键轴的轴孔装配。在运行动作之前，需要将机器人末端移动至螺旋线探索找到的孔位或者完全对齐的示教孔位，根据当前场景，设定指令的参数，添加到程序中，运行后，机器人会以缓慢的旋转进行探索。
 
-.. figure:: robot_peripherals/044.png
+.. figure:: robot_peripherals/142.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.8‑8 FT_Rot指令编辑
+.. centered:: 图表 8.10‑8 FT_Rot指令编辑
 
 程序示例：
 
@@ -3130,11 +3162,11 @@ PLC -> 机器人控制器
 
 指令说明：“FT_Lin”指令为旋转探索插入，一般用于承接螺旋线插入动作或旋转插入动作，用于键轴的轴孔装配。在运行动作之前，需要将机器人末端移动至螺旋线探索找到的孔位，旋转插入动作结束的位置或者完全对齐的示教孔位，根据当前场景，设定指令的参数，添加到程序中，运行后，机器人会以设定的方向进行直线运动。
 
-.. figure:: robot_peripherals/046.png
+.. figure:: robot_peripherals/143.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.8‑9 FT_Lin指令编辑
+.. centered:: 图表 8.10‑9 FT_Lin指令编辑
 
 程序示例：
 
@@ -3164,11 +3196,11 @@ PLC -> 机器人控制器
 
 指令说明：“FT_FindSurface”指令为表面定位，一般用于寻找物体表面。根据当前场景，设置对应坐标系，移动方向、移动轴、探索直线速度、探索直线加速度、最大探索距离、动作终止力阈值等参数，添加到程序中，运行程序，动作开始执行，机器人末端开始缓慢向表面所在方向移动。
 
-.. figure:: robot_peripherals/048.png
+.. figure:: robot_peripherals/144.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.8‑10 FT_FindSurface指令编辑
+.. centered:: 图表 8.10‑10 FT_FindSurface指令编辑
 
 程序示例：
 
@@ -3194,11 +3226,11 @@ PLC -> 机器人控制器
 
 指令说明：“FT_CalCenter”指令为中心定位，一般用于寻找两表面的中间平面表面。根据当前场景，设置对应坐标系，移动方向、移动轴、探索直线速度、探索直线加速度、最大探索距离、动作终止力阈值等参数，分别寻找A平面和B平面，添加到程序中，运行程序，动作开始执行，机器人缓慢向表面A所在方向移动，定位到A面后，机器人缓慢向表面B所在方向移动，定位到B面后，即可算出中心平面位置。
 
-.. figure:: robot_peripherals/050.png
+.. figure:: robot_peripherals/145.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.8‑11 FT_CalCenter指令编辑
+.. centered:: 图表 8.10‑11 FT_CalCenter指令编辑
 
 程序示例：
 
@@ -3264,11 +3296,11 @@ PLC -> 机器人控制器
 
 指令说明：“FT_Click”指令为点按力探测，点按力探测用于探测一个点按力，通常和表面定位动作配合使用。设置好参数后，添加到程序中，运行程序，末端开始沿工具坐标系Z方向向目标移动，当Z正方向上的力达到点按力数值，则点按力探测完成。
 
-.. figure:: robot_peripherals/052.png
+.. figure:: robot_peripherals/146.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.8‑12 FT_Click指令编辑
+.. centered:: 图表 8.10‑12 FT_Click指令编辑
 
 程序示例：
 
@@ -3295,24 +3327,35 @@ PLC -> 机器人控制器
 扩展IO设备配置步骤
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**Step1**：在用户外设配置界面中选择“末端外设配置”按钮，设备类型选择“扩展IO设备”，扩展IO设备配置信息分为厂商、类型、软件版本和挂载位置，用户可根据具体的生产需求来配置相应的设备信息。若用户需要更改配置，可先选择相应的编号，点击“清除”按钮，来清除相应的信息，并重新根据需求配置；
+**Step1**：在“初始设置——外设——末端工具”中点击“适配设备”菜单项进入末端外设配置界面。
 
-.. figure:: robot_peripherals/054.png
+设备类型选择“扩展IO设备”，扩展IO设备配置信息分为厂商、类型、软件版本和挂载位置，用户可根据具体的生产需求来配置相应的设备信息。若用户需要更改配置，可先选择相应的编号，点击“清除”按钮，来清除相应的信息，并重新根据需求配置；
+
+.. figure:: robot_peripherals/147.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.9‑1 扩展IO设备配置
+.. centered:: 图表 8.11‑1 扩展IO设备配置
 
 .. important:: 
 	点击清除配置前，相应的设备应处于未激活状态。
 
-**Step2**：扩展IO设备配置完成后，用户可在辅助应用中点击“Smart Tool”功能菜单，进入此功能配置页面，用户可以对末端手柄上的各个按键功能进行自定义，包括（新建程序，保持程序，PTP，Lin，ARC，摆焊开始，摆焊结束，IO端口）。
+**Step2**：扩展IO设备配置完成后，用户可在“辅助应用——工具应用”中点击“Smart Tool”功能菜单，进入此功能配置页面，用户可以对末端手柄上的各个按键功能进行自定义，包括：
 
-.. figure:: robot_peripherals/055.png
+- 新建程序
+- 保持程序
+- PTP
+- Lin
+- ARC
+- 摆焊开始
+- 摆焊结束
+- IO端口
+
+.. figure:: robot_peripherals/148.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.9‑2 扩展IO设备功能配置
+.. centered:: 图表 8.11‑2 扩展IO设备功能配置
 
 码垛系统配置
 ---------------
@@ -3320,40 +3363,42 @@ PLC -> 机器人控制器
 码垛系统配置步骤
 ~~~~~~~~~~~~~~~~~~~~~~
 
-**Step1**：在用户外设配置界面中选择“码垛系统配置”按钮，第一次使用，需要首先进行配方创建，点击“配方创建”，输入配方名称，点击“创建”，创建成功后点击“开始配置”进入码垛配置页面。
+**Step1**：在“初始设置——外设”中点击“码垛”菜单项，进入码垛系统配置界面。
 
-.. figure:: robot_peripherals/056.png
+第一次使用，需要首先进行配方创建，点击“配方创建”，输入配方名称，点击“创建”，创建成功后点击“开始配置”进入码垛配置页面。
+
+.. figure:: robot_peripherals/149.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.10‑1 码垛配方配置
+.. centered:: 图表 8.12‑1 码垛配方配置
 
 **Step2**：在工件配置栏中点击“配置”进入工件配置弹窗，设置工件的“长度”，“宽度”，“高度”以及工件的抓取点，点击“确认配置”完成工件信息设置。
 
-.. figure:: robot_peripherals/057.png
+.. figure:: robot_peripherals/150.png
    :align: center
-   :width: 3in
+   :width: 4in
 
-.. centered:: 图表 5.10‑2 码垛工件配置
+.. centered:: 图表 8.12‑2 码垛工件配置
 
 **Step3**：在托盘配置栏中点击“配置”进入托盘配置弹窗，设置托盘“前边”，“侧边”和“高度”，接着设置工位和工位过渡点，点击“确认配置”完成托盘信息设置。
 
-.. figure:: robot_peripherals/058.png
+.. figure:: robot_peripherals/151.png
    :align: center
-   :width: 3in
+   :width: 4in
 
-.. centered:: 图表 5.10‑3 码垛托盘配置
+.. centered:: 图表 8.12‑3 码垛托盘配置
 
 **Step4**：在码垛设备尺寸配置栏中点击“配置”进入码垛设备尺寸配置配置弹窗，设置设备“X”、“Y”、“Z”和“Angle”，点击“确认配置”完成码垛设备尺寸配置信息设置。
 
 .. important:: 
    X、Y、Z为做托盘右上角或者右托盘左上角点相对于机器人基坐标系坐标值的绝对值，Angle为机器人安装时的旋转角度，推荐安装时为0。
 
-.. figure:: robot_peripherals/066.png
+.. figure:: robot_peripherals/152.png
    :align: center
-   :width: 3in
+   :width: 4in
 
-.. centered:: 图表 5.10‑4 码垛设备尺寸配置
+.. centered:: 图表 8.12‑4 码垛设备尺寸配置
 
 **Step5**：在模式配置栏中点击“配置”进入模式配置弹窗。
 
@@ -3373,17 +3418,17 @@ PLC -> 机器人控制器
    
    左托盘依据右托盘模式镜像放置工件。
 
-.. figure:: robot_peripherals/059.png
+.. figure:: robot_peripherals/153.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.10‑5 码垛模式A配置
+.. centered:: 图表 8.12‑5 码垛模式A配置
 
-.. figure:: robot_peripherals/070.png
+.. figure:: robot_peripherals/154.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.10‑6 码垛模式B配置
+.. centered:: 图表 8.12‑6 码垛模式B配置
 
 **Step6**：在示教程序生成栏点击“高级配置”进入高级配置弹窗，此时配置“取料抬升高度”、“第一次偏移距离”、“第二次偏移距离”和“吸料等待时间”。
 
@@ -3398,27 +3443,27 @@ PLC -> 机器人控制器
    - PTP平滑时间：无平滑过渡时间/等级1(200ms)/等级2(400ms)/等级3(600ms)/等级4(800ms)/等级5(1000ms)
    - LIN平滑半径：无平滑过渡半径/等级1(200mm)/等级2(400mm)/等级3(600mm)/等级4(800mm)/等级5(1000mm)
 
-.. figure:: robot_peripherals/063.png
+.. figure:: robot_peripherals/155.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.10‑7 码垛高级配置
+.. centered:: 图表 8.12‑7 码垛高级配置
 
 **Step7**：在示教程序生成栏选择“方式选择”，点击“生成程序”，打开“码垛监控页”，在此页面可以对“生成信息”，“报警信息”和“码垛程序”显示和查看。
 
-.. figure:: robot_peripherals/060.png
+.. figure:: robot_peripherals/156.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.10‑8 码垛系统监控
+.. centered:: 图表 8.12‑8 码垛系统监控
 
 **Step8**：码垛运行程序中途报错后，程序停止，用户首先清除报错后，再次选择码垛程序运行，此时会弹出“上次程序中断”弹出框，点击“接续”按钮接续运行，点击“重新开始”按钮重新开始运行程序。
 
-.. figure:: robot_peripherals/064.png
+.. figure:: robot_peripherals/157.png
    :align: center
-   :width: 6in
+   :width: 3in
 
-.. centered:: 图表 5.10‑9 码垛程序接续
+.. centered:: 图表 8.12‑9 码垛程序接续
 
 打磨设备配置
 ---------------
@@ -3426,7 +3471,9 @@ PLC -> 机器人控制器
 打磨设备配置步骤
 ~~~~~~~~~~~~~~~~~~~~~~
 
-**Step1**: 进入打磨设备配置页面，配置通讯信息，需要配置IP地址、端口、采样周期和通信协议。配置成功后，下次操作可自动显示。
+**Step1**: 在“初始设置——外设”菜单栏下点击“打磨”菜单项，进入打磨设备配置页面。
+
+配置通讯信息，需要配置IP地址、端口、采样周期和通信协议。配置成功后，下次操作可自动显示。
 
 **Step2**：完成通信配置后，可建立通信，通过加载/卸载打磨设备。
 
@@ -3434,11 +3481,11 @@ PLC -> 机器人控制器
 
 **Step4**：参数配置。可设置打磨设备的转速、接触力、伸出距离和控制模式。设置成功后，可在右侧"Polish"状态反馈栏显示相应数据和状态。
 
-.. figure:: robot_peripherals/061.png
+.. figure:: robot_peripherals/158.png
    :align: center
    :width: 6in
 
-.. centered:: 图表 5.11-1 打磨状态配置页面
+.. centered:: 图表 8.13-1 打磨状态配置页面
 
 基于力传感器的虚拟墙配置
 -------------------------------------------------
@@ -3447,101 +3494,104 @@ PLC -> 机器人控制器
 
 力传感器的安装配置
 ~~~~~~~~~~~~~~~~~~~~~~
+
 **Step1**：以“坤维”传感器为例，安装时需要力传感器的坐标系方向与末端法兰坐标系保持一致，如图1所示（图1中，红色为末端法兰坐标系X+方向，绿色为末端法兰坐标系Y+方向，蓝色为末端法兰坐标系Z+方向）；
 
-.. figure:: robot_peripherals/135.png
+.. figure:: robot_peripherals/159.png
    :align: center
    :width: 3in
 
-.. figure:: robot_peripherals/136.png
+.. figure:: robot_peripherals/160.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.12-1 力传感器安装
+.. centered:: 图表 8.14‑1 力传感器安装
 
-**Step2**：在“初始设置”中的“用户外设配置”的菜单栏下，点击“末端外设配置”进入末端外设配置界面；
+**Step2**：在“初始设置——外设——末端工具”的菜单栏下，点击“适配设备”进入末端外设配置界面。
 
 设备类型选择“力传感器设备”，力传感器配置信息分为厂商、类型、软件版本和挂载位置，用户可根据具体的生产需求来配置相应的力传感器信息。若用户需要更改配置，可先选择相应的编号，点击“清除”按钮，来清除相应的信息，并重新根据需求配置；具体操作如图2所示。
 
 **Step3**：选择配置完成的力传感器编号，点击“复位”按钮，页面弹出命令发送成功后，再点击“激活”按钮，可查看力传感器信息表中的激活状态，来判断是否激活成功；此外，力传感器会有初始值，用户根据使用需求选择“零点矫正”和“去除零点”。力传感器零点矫正需要确保力传感器水平垂直向下，且机器人未配置负载。
 
-.. figure:: robot_peripherals/137.png
+.. figure:: robot_peripherals/161.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.12-2 力传感器配置
+.. centered:: 图表 8.14‑2 力传感器配置
 
-.. figure:: robot_peripherals/138.png
+.. figure:: robot_peripherals/162.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.12-3 力传感器激活
+.. centered:: 图表 8.14‑3 力传感器激活
 
 虚拟墙配置
 ~~~~~~~~~~~~~~~~~~~~~~
+
 借助力传感器进行辅助拖动，需要在力传感器下安装拖动把手，并配置工具坐标系，具体操作如图4所示。此时，检测干涉区的方式以设置的工具坐标系位置为参考，不设置时以末端法兰为参考。
 
-**Step1**：在“辅助应用”中的“机器人本体”的菜单栏下，点击“干涉区配置”进入干涉区配置功能界面；
+**Step1**：在“辅助应用——工具应用——干涉区”的菜单栏下，点击“单个”进入干涉区配置功能界面；
 
 **Step2**：需要对干涉方式和进入干涉区操作进行配置；干涉方式选择“立方体干涉”，进入干涉区拖动配置为“不限制拖动”，进入干涉区运动配置均可；
 
 **Step3**：根据需求，可以对参数配置进行修改。检测方法分为“指令位置”和“反馈位置”两种，干涉区模式分为“范围内干涉”和“范围外干涉”两种，参考坐标系选择为“基坐标”，根据实际使用选择设置。详细操作见图5所示；
 
-.. figure:: robot_peripherals/139.png
+.. figure:: robot_peripherals/163.png
    :align: center
    :width: 3in
 
-.. figure:: robot_peripherals/140.png
+.. figure:: robot_peripherals/164.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.12-4 安装拖动把手并设置工具坐标系
+.. centered:: 图表 8.14‑4 安装拖动把手并设置工具坐标系
 
-.. figure:: robot_peripherals/141.png
+.. figure:: robot_peripherals/165.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.12-4 虚拟墙参数配置
+.. centered:: 图表 8.14‑5 虚拟墙参数配置
 
 **Step4**：参数配置下的干涉区模式分为“范围内干涉”和“范围外干涉”两种；
 
-.. figure:: robot_peripherals/142.png
+.. figure:: robot_peripherals/166.png
    :align: center
-   :width: 3in
+   :width: 4in
 
-.. centered:: 图表 5.12-5 范围内干涉
+.. centered:: 图表 8.14‑6 范围内干涉
 
-.. figure:: robot_peripherals/143.png
+.. figure:: robot_peripherals/167.png
    :align: center
-   :width: 3in
+   :width: 4in
 
-.. centered:: 图表 5.12-6 范围外干涉
+.. centered:: 图表 8.14‑7 范围外干涉
 
 **Step5**：建立干涉区，具体操作如图7和图8所示；建议在选择“范围外干涉”时，将干涉区域设置尽可能大。
 
-.. figure:: robot_peripherals/144.png
+.. figure:: robot_peripherals/168.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.12-7 两点法建立干涉区
+.. centered:: 图表 8.14‑8 两点法建立干涉区
 
-.. figure:: robot_peripherals/145.png
+.. figure:: robot_peripherals/169.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.12-8 中心点+边长法建立干涉区
+.. centered:: 图表 8.14‑9 中心点+边长法建立干涉区
 
 力传感器辅助拖动
 ~~~~~~~~~~~~~~~~~~~~~~
-**Step1**：在“辅助应用”中的“机器人本体”的菜单栏下，点击“拖动锁定”进入力传感器辅助锁定功能界面；
+
+**Step1**：在“辅助应用——工具应用”的菜单栏下，点击“拖动锁定”进入力传感器辅助锁定功能界面；
 
 **Step2**：按照如图9所示的参数进行设置，即可实现基于力传感器的虚拟墙功能。具体效果为：靠近虚拟墙，阻力变大；远离虚拟墙，基于力传感器辅助拖动功能正常。
 
-.. figure:: robot_peripherals/037.png
+.. figure:: robot_peripherals/138.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.12-9 力传感器辅助拖动的参数设置
+.. centered:: 图表 8.14‑10 力传感器辅助拖动的参数设置
 
 参数的具体作用：
 
@@ -3574,6 +3624,7 @@ PLC -> 机器人控制器
 
 概述
 ++++++
+
 六维力和关节阻抗混合拖动功能，是借助力传感器感知外力，机器人在拖动模式下进行辅助拖动，可以通过调整增益系数获得不同的拖动体验。而关节阻抗是采用阻抗控制对拖动力进行限制。
 
 力传感器的安装配置及校零操作
@@ -3587,55 +3638,58 @@ PLC -> 机器人控制器
 
 为便于拖动机器人，需要在传感器下方安装拖动把手，如图1所示。
 
-.. figure:: robot_peripherals/153.png
+.. figure:: robot_peripherals/170.png
    :align: center
    :width: 3in
 
-.. centered:: 图表 5.13-1 拖动把手
+.. centered:: 图表 8.14‑11 拖动把手
 
 **Step1**：根据实际把手的长度，设置工具坐标系，如图2所示。
 
-**Step2**：在初始设置中的“机器人设置”菜单栏下，点击“力/扭矩传感器负载”，进入对应界面。借助拖动按钮，调整机器人末端水平朝下，点击“力/扭矩传感器负载”界面的“传感器自动校零”一栏中的“记录初始位置”按钮。然后，切换机器人模式为自动模式，点击“自动校零”按钮。待程序运行结束，即完成传感器校零工作。详细操作见图3所示。
+**Step2**：在“初始设置——基础——负载”菜单栏下，点击“传感器”，进入力/扭矩传感器负载界面。
 
-.. figure:: robot_peripherals/154.png
+借助拖动按钮，调整机器人末端水平朝下，点击“力/扭矩传感器负载”界面的“传感器自动校零”一栏中的“记录初始位置”按钮。然后，切换机器人模式为自动模式，点击“自动校零”按钮。待程序运行结束，即完成传感器校零工作。详细操作见图3所示。
+
+.. figure:: robot_peripherals/171.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.13-2 工具坐标系设置
+.. centered:: 图表 8.14‑12 工具坐标系设置
 
-.. figure:: robot_peripherals/155.png
+.. figure:: robot_peripherals/172.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.13-3 力/扭矩传感器自动校零
+.. centered:: 图表 8.14‑13 力/扭矩传感器自动校零
 
 六维力和关节阻抗混合拖动
 ++++++++++++++++++++++++
 
 1. 辅助拖动
 
-**Step1**：在“辅助应用”中的“机器人本体”的菜单栏下，点击“拖动锁定”进入拖动锁定功能界面。
+**Step1**：在“辅助应用——工具应用”的菜单栏下，点击“拖动锁定”进入拖动锁定功能界面。
 
 **Step2**：在“六维力和关节阻抗混合拖动”一栏中，设置控制状态为“开启”，阻抗开启状态为“关闭”，设置拖动增益为，末端线速度为1000mm/s，角速度限制为100°/s，再点击“应用”按钮，功能即启用。具体配置如图4所示。
 
 **Step3**：切换机器人模式为拖动模式，即可拖动机器人。具体效果为：拖动机器人末端，拖动轻松，体验感好；拖动机器人关节，拖动重。
 
-.. figure:: robot_peripherals/156.png
+.. figure:: robot_peripherals/173.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.13-4 六维力辅助拖动的配置参数
+.. centered:: 图表 8.14‑14 六维力辅助拖动的配置参数
 
 2. 关节阻抗控制
 
 阻抗控制的作用是对拖动力和拖动位置进行限制，其默认状态为“关闭”。
+
 具体操作见图5所示，设置阻抗开启状态为“开启”，再按照图5所示设置阻尼系数和刚度系数。其中，刚度系数的功能暂未开放。
 
-.. figure:: robot_peripherals/157.png
+.. figure:: robot_peripherals/174.png
    :align: center
-   :width: 6in
+   :width: 4in
 
-.. centered:: 图表 5.13-5 关节阻抗的配置参数
+.. centered:: 图表 8.14‑15 关节阻抗的配置参数
 
 参数的具体作用：
 
