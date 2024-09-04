@@ -317,13 +317,13 @@ WEB界面上锁
    :width: 6in
    :align: center
 
-.. centered:: 图表 15.5‑1 WEB界面锁屏关闭设置
+.. centered:: 图表 15.4‑3 WEB界面锁屏关闭设置
 
 .. image:: system/024.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 15.5‑2 WEB界面锁屏开启设置
+.. centered:: 图表 15.4‑4 WEB界面锁屏开启设置
 
 2. 到期提示
 
@@ -335,7 +335,7 @@ WEB界面上锁
    :width: 6in
    :align: center
 
-.. centered:: 图表 15.5‑3 开机提示
+.. centered:: 图表 15.4‑5 开机提示
 
 2)如设备持续工作中，设备到期前 5天，在零点时自动弹窗提示使用期限剩余天数，复位可消除。
 
@@ -343,7 +343,7 @@ WEB界面上锁
    :width: 6in
    :align: center
 
-.. centered:: 图表 15.5‑4 持续工作提示
+.. centered:: 图表 15.4‑6 持续工作提示
 
 3. 解锁登录
 
@@ -355,7 +355,7 @@ WEB界面上锁
    :width: 6in
    :align: center
 
-.. centered:: 图表 15.5‑5 锁屏界面  
+.. centered:: 图表 15.4‑7 锁屏界面  
 
 机器人型号配置
 -----------------
