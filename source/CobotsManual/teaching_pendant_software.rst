@@ -528,7 +528,7 @@ Move移动
 传感器示教点，选择已经标定的传感器类型工具，输入点名称，点击添加，保存的点的位置为传感器识别到点的位置。
 
 .. image:: teaching_pendant_software/036.png
-   :width: 6in
+   :width: 5in
    :align: center
 
 .. centered:: 图表 5.3‑7 手动操作区示意图
@@ -542,7 +542,7 @@ I/O
 该界面中可实现对机器人控制箱中数字输出、模拟输出（0-10v）和末端工具数字输出、模拟输出（0-10v）进行手动控制。如下图所示：
 
 .. image:: teaching_pendant_software/037.png
-   :width: 6in
+   :width: 5in
    :align: center
 
 .. centered:: 图表 5.3‑8 I/O设置示意图
@@ -557,7 +557,7 @@ TPD（示教编程）
 - **Step2配置轨迹记录参数**：点击TPD进入“TPD”功能项配置轨迹记录参数，设定好轨迹文件的名称、位姿类型以及采样周期，配置DI和DO，可以在记录TPD轨迹的过程中，通过触发DI来记录对应需要输出的DO，如图表3.6-8；
 
 .. image:: teaching_pendant_software/038.png
-   :width: 6in
+   :width: 5in
    :align: center
 
 .. centered:: 图表 5.3‑9 TPD轨迹记录
@@ -580,7 +580,7 @@ TPD（示教编程）
 - **Step6示教编程**：点击新建，选择空白模板，点击进入PTP功能编程项，选择刚保存的初始位置点，点击“添加”按钮，应用完成后，在程序文件中会显示一条PTP指令；然后点击进入TPD功能编程项，选择刚刚记录的轨迹，设定是否平滑以及速度缩放比例，点击“添加”按钮，应用完成后，在程序文件中会显示一条MoveTPD指令，如下图所示；
 
 .. image:: teaching_pendant_software/040.png
-   :width: 3in
+   :width: 5in
    :align: center
 
 .. centered:: 图表 5.3‑11 TPD编程
@@ -610,7 +610,7 @@ Eaxis移动
 选择Eaxis移动，该功能为扩展轴的点动功能，需要在配置好扩展轴的前提下，使用该点动功能控制扩展轴，详见“第四章-机器人外设-扩展轴外设配置”。
 
 .. image:: teaching_pendant_software/041.png
-   :width: 6in
+   :width: 5in
    :align: center
 
 .. centered:: 图表 5.3‑12 Eaxis移动示意图
@@ -621,7 +621,7 @@ FT
 选择参考坐标作为力传感器拖动时的参考。
 
 .. image:: teaching_pendant_software/042.png
-   :width: 6in
+   :width: 5in
    :align: center
 
 .. centered:: 图表 5.3‑12 FT示意图
@@ -632,7 +632,7 @@ FT
 该功能主要应用于医疗穿透，设置远心不动点后，机器人末端始终在该点运动。
 
 .. image:: teaching_pendant_software/043.png
-   :width: 6in
+   :width: 5in
    :align: center
 
 .. centered:: 图表 5.3‑13 远心不动点示意图

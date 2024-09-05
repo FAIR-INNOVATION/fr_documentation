@@ -2149,7 +2149,7 @@ PLC -> 机器人控制器
 
 .. figure:: robot_peripherals/087.png
    :align: center
-   :width: 4in
+   :width: 3in
 
 .. centered:: 图表 8.6‑40 激光记录
 
@@ -3499,11 +3499,11 @@ PLC -> 机器人控制器
 
 .. figure:: robot_peripherals/159.png
    :align: center
-   :width: 3in
+   :width: 4in
 
 .. figure:: robot_peripherals/160.png
    :align: center
-   :width: 3in
+   :width: 4in
 
 .. centered:: 图表 8.14‑1 力传感器安装
 
@@ -3538,7 +3538,7 @@ PLC -> 机器人控制器
 
 .. figure:: robot_peripherals/163.png
    :align: center
-   :width: 3in
+   :width: 4in
 
 .. figure:: robot_peripherals/164.png
    :align: center
@@ -3640,7 +3640,7 @@ PLC -> 机器人控制器
 
 .. figure:: robot_peripherals/170.png
    :align: center
-   :width: 3in
+   :width: 4in
 
 .. centered:: 图表 8.14‑11 拖动把手
 
