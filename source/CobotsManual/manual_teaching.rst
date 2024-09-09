@@ -11,7 +11,7 @@
 
 示教到目标位置后，即可在“机器人配套功能——示教点记录”中保存示教点。保存示教点时，该示教点的坐标系为当前机器人应用的坐标系。
 
-.. image:: teaching_pendant_software/256.png
+.. image:: teaching_pendant_software/056.png
    :width: 6in
    :align: center
 

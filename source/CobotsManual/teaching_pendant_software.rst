@@ -25,7 +25,7 @@
 
 2. PC打开浏览器访问目标网址192.168.58.2，机器人首次开机即进入激活页面。
 
-.. figure:: teaching_pendant_software/334.png
+.. figure:: teaching_pendant_software/058.png
    :width: 4in
    :align: center
 
@@ -35,7 +35,7 @@
    
 4. 系统将验证您的SN码。如果输入正确，将自动完成激活过程。
 
-.. figure:: teaching_pendant_software/335.png
+.. figure:: teaching_pendant_software/059.png
    :width: 4in
    :align: center
 
@@ -138,6 +138,14 @@
    :width: 6in
 
 .. centered:: 图表 5.2‑1 系统初始界面示意图
+
+当进入 WebApp 的“初始设置”、“示教程序——程序编程”、“示教程序——图形化编程”和辅助应用时，此时三维模拟机器人模型页面是半展开的，点击铺开的图标可重新进入系统初始界面。
+
+.. image:: teaching_pendant_software/054.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 5.2‑2 三维模拟机器人模型页面可铺开图标
 
 控制区
 ~~~~~~~~~
