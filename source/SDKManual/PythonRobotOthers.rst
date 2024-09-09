@@ -203,5 +203,83 @@
     "描述", "获取机器人外设协议"
     "必选参数", "无"
     "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode; 
+    "返回值", "- 错误码 成功-0  失败- errcode; 
     - ``protocol（调用成功返回）``: 机器人外设协议号 4096-扩展轴控制卡；4097-ModbusSlave；4098-ModbusMaster"
+
+末端传感器配置
++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``AxleSensorConfig(idCompany, idDevice, idSoftware, idBus)``"
+    "描述", "末端传感器配置"
+    "必选参数", "
+    - ``idCompany``: 厂商，18-JUNKONG；25-HUIDE
+    - ``idDevice``: 类型，0-JUNKONG/RYR6T.V1.0
+    - ``idSoftware``: 软件版本，0-J1.0/HuiDe1.0(暂未开放)
+    - ``idBus``: 挂载位置，1-末端1号口；2-末端2号口...8-末端8号口(暂未开放)
+    "
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode"
+
+代码示例
+------------
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    import time
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+
+    robot = Robot.RPC('192.168.58.2')
+    error = robot.AxleSensorConfig(18,0,0,0)
+    print("AxleSensorConfig return:", error)
+
+    error = robot.AxleSensorConfigGet()
+    print("AxleSensorConfigGet return:", error)
+
+    error = robot.AxleSensorActivate(0)
+    print("AxleSensorActivate return:", error)
+    time.sleep(1)
+    error = robot.AxleSensorActivate(1)
+    print("AxleSensorActivate return:", error)
+
+    while(1):
+        error = robot.AxleSensorRegWrite(1, 4, 6, 1, 0, 0, 0)
+        print("AxleSensorRegWrite return:", error)
+        
+获取末端传感器配置
++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``AxleSensorConfigGet()``"
+    "描述", "获取末端传感器配置"
+    "必选参数", "NULL"
+    "默认参数", "NULL"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``返回值（调用成功返回） idCompany``: 厂商，18-JUNKONG；25-HUIDE
+    - ``返回值（调用成功返回） idDevice``: 类型，0-JUNKONG/RYR6T.V1.0
+    "
+        
+末端传感器激活
++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``AxleSensorActivate(actFlag)``"
+    "描述", "末端传感器激活"
+    "必选参数", "``actFlag``： 0-复位；1-激活"
+    "默认参数", "NULL"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``返回值（调用成功返回） coord``: 坐标系值[x,y,z,rx,ry,rz]
+    "

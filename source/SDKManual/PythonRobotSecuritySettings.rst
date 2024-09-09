@@ -352,3 +352,87 @@
     robot = Robot.RPC('192.168.58.2')
     error = robot.PointTableUpdateLua("point_table_a.db","testpoint.lua")
     print("PointTableUpdateLua:",error)
+
+设置机器人碰撞检测方法
++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetCollisionDetectionMethod(method)``"
+    "描述", "设置机器人碰撞检测方法"
+    "必选参数", "
+    - ``method``：碰撞检测方法：0-电流模式；1-双编码器；2-电流和双编码器同时开启  
+    "
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode"
+
+设置静态下碰撞检测开始关闭
++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetStaticCollisionOnOff(status)``"
+    "描述", "设置静态下碰撞检测开始关闭"
+    "必选参数", "
+    - ``status``： 0-关闭；1-开启
+    "
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode"
+
+设置碰撞检测开始关闭
++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetPowerLimit(status, power)``"
+    "描述", "设置静态下碰撞检测开始关闭"
+    "必选参数", "
+    - ``status``： 0-关闭；1-开启
+    "
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode"
+    
+代码示例
+------------
+.. code-block:: python
+    :linenos: 
+
+    from fairino import Robot
+    import time
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+
+    robot = Robot.RPC('192.168.58.2')
+
+    error = robot.SetPowerLimit(0,2)
+    print("SetPowerLimit return:",error)
+
+    error = robot.DragTeachSwitch(1)
+    print("DragTeachSwitch return:",error)
+
+    error,joint_torque = robot.GetJointTorques()
+    print("GetJointTorques return",joint_torque)
+    joint_torque = [joint_torque[0],joint_torque[1],joint_torque[2],joint_torque[3],joint_torque[4],joint_torque[5]]
+    error_joint = 0
+    count =100
+    error = robot.ServoJTStart()    #servoJT开始
+    print("ServoJTStart return",error)
+    while(count):
+        if error!=0:
+            error_joint =error
+        joint_torque[0] = joint_torque[0] + 10  #每次1轴增加0.1NM，运动100次
+        error = robot.ServoJT(joint_torque, 0.001)  # 关节空间伺服模式运动
+        count = count - 1
+        time.sleep(0.001)
+    print("ServoJTStart return",error_joint)
+    error = robot.ServoJTEnd()  #伺服运动结束
+    time.sleep(1)
+    print("ServoJTEnd return",error)

@@ -204,7 +204,7 @@ jog点动立即停止
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``MoveL(desc_pos, tool, user, joint_pos = [0.0,0.0,0.0,0.0,0.0,0.0], vel = 20.0, acc = 0.0 , ovl = 100.0, blendR = -1.0, exaxis_pos = [0.0,0.0,0.0,0.0], search = 0, offset_flag = 0, offset_pos = [0.0,0.0,0.0,0.0,0.0,0.0] )``"
+    "原型", "``MoveL(desc_pos, tool, user, joint_pos = [0.0,0.0,0.0,0.0,0.0,0.0], vel = 20.0, acc = 0.0 , ovl = 100.0, blendR = -1.0, exaxis_pos = [0.0,0.0,0.0,0.0], search = 0, offset_flag = 0, offset_pos = [0.0,0.0,0.0,0.0,0.0,0.0],overSpeedStrategy=0,speedPercent=10)``"
     "描述", "笛卡尔空间直线运动"
     "必选参数", "- ``desc_pos``:目标笛卡尔位姿，单位[mm][°]；
     - ``tool``:工具号，[0~14]；
@@ -217,7 +217,10 @@ jog点动立即停止
     - ``exaxis_pos``:外部轴 1 位置 ~ 外部轴 4 位置 默认[0.0,0.0,0.0,0.0];
     - ``search``:[0]-不焊丝寻位，[1]-焊丝寻位；
     - ``offset_flag``:offset_flag:[0]-不偏移，[1]-工件/基坐标系下偏移，[2]-工具坐标系下偏移 默认 0;
-    - ``offset_pos``:位姿偏移量，单位 [mm][°] 默认[0.0,0.0,0.0,0.0,0.0,0.0]"
+    - ``offset_pos``:位姿偏移量，单位 [mm][°] 默认[0.0,0.0,0.0,0.0,0.0,0.0]
+    - ``overSpeedStrategy``:超速处理策略，0-策略关闭；1-标准；2-超速时报错停止；3-自适应降速，默认为0
+    - ``speedPercent``:允许降速阈值百分比[0-100]，默认10%
+    "
     "返回值", "错误码 成功-0  失败- errcode"
 
 代码示例

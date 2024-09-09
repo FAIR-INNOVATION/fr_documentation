@@ -342,7 +342,7 @@
     - ``sign``:0-大于，1-小于
     - ``value``:输入电流或电压值百分比，范围[0~100]对应电流值[0~20mA]或电压[0~10V]；
     - ``maxtime``:最大等待时间，单位[ms]；
-    - `必选参数 `opt``:超时后策略，0-程序停止并提示超时，1-忽略超时提示程序继续执行，2-一直等待"
+    - ``opt``:超时后策略，0-程序停止并提示超时，1-忽略超时提示程序继续执行，2-一直等待"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
@@ -358,3 +358,231 @@
     #等待工具AI
     error = robot.WaitToolAI(0,0,50,max_waittime,0)
     print("WaitToolAI错误码",error)
+
+设置控制箱DO停止/暂停后输出是否复位
+++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetOutputResetCtlBoxDO(resetFlag)``"
+    "描述", "设置控制箱DO停止/暂停后输出是否复位"
+    "必选参数", "- ``resetFlag``：0-不复位；1-复位"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+代码示例
+------------
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    import time
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+
+    robot = Robot.RPC('192.168.58.2')
+    time.sleep(5)
+    error = robot.SetDO(1,1)
+    print("SetDO 1  return:",error)
+
+    error = robot.SetDO(3,1)
+    print("SetDO 3  return:",error)
+
+    error = robot.SetToolDO(1,1)
+    print("SetToolDO return:",error)
+
+    error = robot.SetAO(0,25)
+    print("SetAO 0   return:",error)
+
+    error = robot.SetAO(1,87)
+    print("SetAO 1  return:",error)
+
+    error = robot.SetToolAO(0,54)
+    print("SetToolAO return:",error)
+
+    error = robot.SetOutputResetCtlBoxDO(1)
+    print("SetOutputResetCtlBoxDO return:",error)
+
+    error = robot.SetOutputResetCtlBoxAO(1)
+    print("SetOutputResetCtlBoxAO return:",error)
+
+    error = robot.SetOutputResetAxleDO(1)
+    print("SetOutputResetCtlBoxDO return:",error)
+
+    error = robot.SetOutputResetAxleAO(1)
+    print("SetOutputResetCtlBoxAO return:",error)
+
+    error = robot.ProgramRun()
+    print("ProgramRun return:",error)
+    time.sleep(3)
+    error = robot.ProgramStop()
+    print("ProgramPause return:",error)
+
+    time.sleep(5)
+
+    error = robot.SetDO(1,1)
+    print("SetDO 1  return:",error)
+
+    error = robot.SetDO(3,1)
+    print("SetDO 3  return:",error)
+
+    error = robot.SetToolDO(1,1)
+    print("SetToolDO return:",error)
+
+    error = robot.SetAO(0,25)
+    print("SetAO 0   return:",error)
+
+    error = robot.SetAO(1,87)
+    print("SetAO 1  return:",error)
+
+    error = robot.SetToolAO(0,54)
+    print("SetToolAO return:",error)
+    error = robot.SetOutputResetCtlBoxDO(0)
+    print("SetOutputResetCtlBoxDO return:",error)
+
+    error = robot.SetOutputResetCtlBoxAO(0)
+    print("SetOutputResetCtlBoxAO return:",error)
+
+    error = robot.SetOutputResetAxleDO(0)
+    print("SetOutputResetCtlBoxDO return:",error)
+
+    error = robot.SetOutputResetAxleAO(0)
+    print("SetOutputResetCtlBoxAO return:",error)
+
+    error = robot.ProgramRun()
+    print("ProgramRun return:",error)
+    time.sleep(3)
+    error = robot.ProgramStop()
+    print("ProgramPause return:",error)
+
+设置控制箱AO停止/暂停后输出是否复位
+++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetOutputResetCtlBoxDO(resetFlag)``"
+    "描述", "设置控制箱AO停止/暂停后输出是否复位"
+    "必选参数", "- ``resetFlag``：0-不复位；1-复位"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+设置末端工具DO停止/暂停后输出是否复位
+++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetOutputResetAxleDO(resetFlag)``"
+    "描述", "设置末端工具DO停止/暂停后输出是否复位"
+    "必选参数", "- ``resetFlag``：0-不复位；1-复位"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+设置末端工具AO停止/暂停后输出是否复位
+++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetOutputResetAxleAO(resetFlag)``"
+    "描述", "设置末端工具AO停止/暂停后输出是否复位"
+    "必选参数", "- ``resetFlag``：0-不复位；1-复位"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+设置扩展DO停止/暂停后输出是否复位
+++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetOutputResetExtDO (resetFlag)``"
+    "描述", "设置扩展DO停止/暂停后输出是否复位"
+    "必选参数", "- ``resetFlag``：0-不复位；1-复位"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+代码示例
+------------
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    import time
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+
+    robot = Robot.RPC('192.168.58.2')
+
+    error = robot.SetAuxDO(1,True,False,False)
+    print("SetAuxDO 1  return:",error)
+
+    error = robot.SetAuxDO(3,True,False,False)
+    print("SetAuxDO 3  return:",error)
+
+    error = robot.SetAuxAO(0,10,False)
+    print("SetAuxAO 0   return:",error)
+
+    error = robot.SetAuxAO(1,87,False)
+    print("SetAuxAO 1  return:",error)
+
+    error = robot.SetOutputResetExtDO(1)
+    print("SetOutputResetExtDO return:",error)
+
+    error = robot.SetOutputResetExtAO(1)
+    print("SetOutputResetExtAO return:",error)
+
+    error = robot.ProgramRun()
+    print("ProgramRun return:",error)
+    time.sleep(3)
+    error = robot.ProgramStop()
+    print("ProgramPause return:",error)
+
+    time.sleep(3)
+    error = robot.SetAuxDO(1,True,False,False)
+    print("SetAuxDO 1  return:",error)
+
+    error = robot.SetAuxDO(3,True,False,False)
+    print("SetAuxDO 3  return:",error)
+
+    error = robot.SetAuxAO(0,10,False)
+    print("SetAuxAO 0   return:",error)
+
+    error = robot.SetAuxAO(1,87,False)
+    print("SetAuxAO 1  return:",error)
+
+    error = robot.SetOutputResetExtDO(0)
+    print("SetOutputResetExtDO return:",error)
+
+    error = robot.SetOutputResetExtAO(0)
+    print("SetOutputResetExtAO return:",error)
+
+    error = robot.ProgramRun()
+    print("ProgramRun return:",error)
+    time.sleep(3)
+    error = robot.ProgramStop()
+    print("ProgramPause return:",error)
+
+设置扩展AO停止/暂停后输出是否复位
+++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetOutputResetExtAO (resetFlag)``"
+    "描述", "设置扩展AO停止/暂停后输出是否复位"
+    "必选参数", "- ``resetFlag``：0-不复位；1-复位"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"

@@ -101,6 +101,8 @@
 
 设置力传感器参考坐标系
 +++++++++++++++++++++++++
+.. versionchanged:: python SDK-v2.0.5
+
 .. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
@@ -108,7 +110,7 @@
     "原型", "FT_SetRCS(ref)"
     "描述", "设置力传感器参考坐标系"
     "必选参数", "- ``ref``：0-工具坐标系，1-基坐标系"
-    "默认参数", "无"
+    "默认参数", "- ``coord``：[x,y,z,rx,ry,rz]自定义坐标系值,默认[0,0,0,0,0,0]"
     "返回值", "错误码 成功-0  失败- errcode "
 
 代码示例
@@ -809,3 +811,279 @@
     "返回值", "- 错误码 成功-0  失败- errcode
     - Return:（if success）weight 负载重量，cog 负载质心 [x,y,z]"
 
+力传感器辅助拖动
+++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "ForceAndJointImpedanceStartStop(status, impedanceFlag, lamdeDain, KGain, BGain, dragMaxTcpVel,dragMaxTcpOriVel)"
+    "描述", "力传感器辅助拖动"
+    "必选参数", "- ``status``：控制状态，0-关闭；1-开启
+    - ``impedanceFlag``：阻抗开启标志，0-关闭；1-开启
+    - ``lamdeDain``：[D1,D2,D3,D4,D5, D6] 拖动增益
+    - ``KGain``：[K1,K2,K3,K4,K5,K6]刚度增益
+    - ``BGain``：[B1,B2,B3,B4,B5,B]阻尼增益
+    - ``dragMaxTcpVel``：拖动末端最大线速度限制
+    - ``dragMaxTcpOriVel``：拖动末端最大角速度限制"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode"
+
+代码示例
+------------
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    import time
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+
+    robot = Robot.RPC('192.168.58.2')
+
+    status = 1 #控制状态，0-关闭；1-开启
+    asaptiveFlag = 1 #自适应开启标志，0-关闭；1-开启
+    interfereDragFlag = 1 #干涉区拖动标志，0-关闭；1-开启
+    M = [15, 15, 15, 0.5, 0.5, 0.1] #惯性系数
+    B = [150, 150, 150, 5, 5, 1] #阻尼系数
+    K = [0, 0, 0, 0, 0, 0] #刚度系数
+    F = [5, 5, 5, 1, 1, 1] #拖动六维力阈值
+    Fmax = 50 #最大拖动力限制
+    Vmax = 1810 #最大关节速度限制
+
+    error = robot.EndForceDragControl(status, asaptiveFlag, interfereDragFlag, M, B, K, F, Fmax, Vmax)
+    print("EndForceDragControl return:",error)
+
+    time.sleep(10)
+    status=0
+    error = robot.EndForceDragControl(status, asaptiveFlag, interfereDragFlag, M, B, K, F, Fmax, Vmax)
+    print("EndForceDragControl return:",error)
+
+报错清除后力传感器自动开启
+++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "SetForceSensorDragAutoFlag(status)"
+    "描述", "报错清除后力传感器自动开启"
+    "必选参数", "- ``status``：控制状态，0-关闭；1-开启"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode"
+    
+代码示例
+------------
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    import time
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+
+    error = robot. SetForceSensorDragAutoFlag (1)
+    print("SetForceSensorDragAutoFlag return:",error)
+    
+设置六维力和关节阻抗混合拖动开关及参数
+++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "EndForceDragControl(status, asaptiveFlag, interfereDragFlag, M, B, K, F, Fmax, Vmax)"
+    "描述", "设置六维力和关节阻抗混合拖动开关及参数"
+    "必选参数", "- ``status``：控制状态，0-关闭；1-开启
+    - ``asaptiveFlag``：自适应开启标志，0-关闭；1-开启
+    - ``interfereDragFlag``：干涉区拖动标志，0-关闭；1-开启
+    - ``M=[m1,m2,m3,m4,m5,m6]``：惯性系数
+    - ``B=[b1,b2,b3,b4,b5,b6]``：阻尼系数
+    - ``K=[k1,k2,k3,k4,k5,k6]``：刚度系数
+    - ``F=[f1,f2,f3,f4,f5,f6]``：拖动六维力阈值
+    - ``Fmax``：最大拖动力限制
+    - ``Vmax``：最大关节速度限制"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode"
+    
+代码示例
+------------
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    import time
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+
+    robot = Robot.RPC('192.168.58.2')
+
+    status = 1 #控制状态，0-关闭；1-开启
+    impedanceFlag = 1 #阻抗开启标志，0-关闭；1-开启
+    lamdeDain = [ 3.0, 2.0, 2.0, 2.0, 2.0, 3.0] # 拖动增益
+    KGain = [0.00, 0.00, 0.00, 0.00, 0.00, 0.00] # 刚度增益
+    BGain = [150, 150, 150, 5.0, 5.0, 1.0] # 阻尼增益
+    dragMaxTcpVel = 1000 #拖动末端最大线速度限制
+    dragMaxTcpOriVel = 180 #拖动末端最大角速度限制
+
+    error = robot.DragTeachSwitch(1)
+    print("DragTeachSwitch 1  return:",error)
+
+    error = robot.ForceAndJointImpedanceStartStop(status, impedanceFlag, lamdeDain, KGain, BGain,dragMaxTcpVel,dragMaxTcpOriVel)
+    print("ForceAndJointImpedanceStartStop return:",error)
+
+    error = robot.GetForceAndTorqueDragState()
+    print("GetForceAndTorqueDragState return:",error)
+
+    time.sleep(10)
+
+    status = 0 #控制状态，0-关闭；1-开启
+    impedanceFlag = 0 #阻抗开启标志，0-关闭；1-开启
+    error = robot.ForceAndJointImpedanceStartStop(status, impedanceFlag, lamdeDain, KGain, BGain,dragMaxTcpVel,dragMaxTcpOriVel)
+    print("ForceAndJointImpedanceStartStop return:",error)
+
+    error = robot.GetForceAndTorqueDragState()
+    print("GetForceAndTorqueDragState return:",error)
+
+    error = robot.DragTeachSwitch(0)
+    print("DragTeachSwitch 0  return:",error)
+        
+获取力传感器拖动开关状态
+++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "GetForceAndTorqueDragState()"
+    "描述", "获取力传感器拖动开关状态"
+    "必选参数", "NULL"
+    "默认参数", "NULL"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``返回值（调用成功返回）dragState``：力传感器辅助拖动控制状态，0-关闭；1-开启
+    - ``返回值（调用成功返回）sixDimensionalDragState``：六维力辅助拖动控制状态，0-关闭；1-开启"
+        
+设置力传感器下负载重量
+++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "SetForceSensorPayload(weight)"
+    "描述", "设置力传感器下负载重量"
+    "必选参数", " - ``weight``：负载重量 kg"
+    "默认参数", "NULL"
+    "返回值", "- 错误码 成功-0  失败- errcode"
+        
+代码示例
+------------
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    import time
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+
+    robot = Robot.RPC('192.168.58.2')
+
+    error = robot.SetForceSensorPayload(0.8)
+    print("SetForceSensorPayload return:",error)
+
+    error = robot.SetForceSensorPayloadCog(0.5,0.6,12.5)
+    print("SetForceSensorPayLoadCog return:",error)
+
+    error = robot.GetForceSensorPayload()
+    print("GetForceSensorPayLoad return:",error)
+
+    error = robot.GetForceSensorPayloadCog()
+    print("GetForceSensorPayLoadCog return:",error)
+            
+设置力传感器下负载质心
+++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "SetForceSensorPayloadCog(x,y,z)"
+    "描述", "设置力传感器下负载质心"
+    "必选参数", "
+    - ``x``：负载质心x mm
+    - ``y``：负载质心y mm
+    - ``z``：负载质心z mm
+    "
+    "默认参数", "NULL"
+    "返回值", "- 错误码 成功-0  失败- errcode"
+            
+获取力传感器下负载重量
+++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "GetForceSensorPayload()"
+    "描述", "获取力传感器下负载重量"
+    "必选参数", "NULL"
+    "默认参数", "NULL"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``返回值（调用成功返回） weight``：负载重量 kg"
+            
+获取力传感器下负载质心
+++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "GetForceSensorPayloadCog()"
+    "描述", "获取力传感器下负载质心"
+    "必选参数", "NULL"
+    "默认参数", "NULL"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``返回值（调用成功返回） x``：负载质心x mm 
+    - ``返回值（调用成功返回） y``：负载质心y mm 
+    - ``返回值（调用成功返回） z``：负载质心z mm"
+            
+力传感器自动校零
+++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "ForceSensorAutoComputeLoad()"
+    "描述", "力传感器自动校零"
+    "必选参数", "NULL"
+    "默认参数", "NULL"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``返回值（调用成功返回） weight``：传感器质量 kg
+    - ``返回值（调用成功返回） pos=[x,y,z]``：传感器质心 mm"
+        
+代码示例
+------------
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+
+    robot = Robot.RPC('192.168.58.2')
+
+    error = robot.SetForceSensorPayload(0)
+    print("SetForceSensorPayload return:",error)
+
+    error = robot.SetForceSensorPayloadCog(0,0,0)
+    print("SetForceSensorPayLoadCog return:",error)
+
+    error = robot.ForceSensorAutoComputeLoad()
+    print("ForceSensorAutoComputeLoad return:",error)

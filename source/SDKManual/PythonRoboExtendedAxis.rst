@@ -725,7 +725,30 @@ UDP扩展轴参数配置
     #变位机坐标系计算-四点法
     error,coord = robot.PositionorComputeECoordSys()
     print("PositionorComputeECoordSys() return:",error,coord)
-                     
+        
+末端传感器寄存器写入
+++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``AxleSensorRegWrite(devAddr, regHAddr, regLAddr, regNum, data1, data2, isNoBlock)``"
+    "描述", "末端传感器寄存器写入"
+    "必选参数", "
+    - ``devAddr``： 设备地址编号 0-255
+    - ``regHAddr``：寄存器地址高8位
+    - ``regLAddr``：寄存器地址低8位
+    - ``regNum``：寄存器个数 0-255
+    - ``data1``：写入寄存器数值1
+    - ``data2``：写入寄存器数值2
+    - ``isNoBlock``：0-阻塞；1-非阻塞
+    "
+    "默认参数", "NULL"
+    "返回值", "
+    - 错误码 成功-0  失败- errcode；"
+                          
 UDP扩展轴使能
 ++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: python SDK-v2.0.4
