@@ -90,7 +90,7 @@ FAIRINO SimMachine
 
 软件下载
 ---------------------------------
-    :download:`FAIRINO-CobotSoftware-V3.7.3-Release-240628 <https://pan.baidu.com/s/1QK3lZ29vRxX23QOTl31LTg?pwd=vc68>`
+    :download:`FAIRINO-CobotSoftware-V3.7.4-Release-240809 <https://pan.baidu.com/s/1gAVYZVOdtCQGGCZ2X2vMhw?pwd=wm2n>`
 
     :download:`FAIRINO CPP SDK-v2 <https://gitee.com/fair-innovation/fairino-cpp-sdk/repository/archive/master.zip>`
 
