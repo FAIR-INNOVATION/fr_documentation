@@ -7,7 +7,9 @@
 简介
 ~~~~~~~
 
-点击左侧命令可以向程序树添加程序节点。程序运行时，当前执行的程序节点绿色高亮显示。在手动模式下，点击节点右侧第一个图标可以使机器人单独执行该指令，第二个图标为编辑该节点内容
+点击左侧命令可以向程序树添加程序节点。程序运行时，当前执行的程序节点绿色高亮显示。
+
+在手动模式下，点击节点右侧第一个图标可以使机器人单独执行该指令，第二个图标为编辑该节点内容。
 
 .. image:: coding/001.png
    :width: 6in
@@ -15,34 +17,50 @@
 
 .. centered:: 图表 9.1-1 程序树界面
 
-点击“⇄”切换模式，可以将示教程序文本变为编辑状态，编辑状态下可以展开和收起编辑区域。
+点击“⇄”切换模式，可以将示教程序文本变为编辑状态。
 
 .. image:: coding/002.png
    :width: 6in
    :align: center
 
-.. image:: coding/003.png
-   :width: 6in
-   :align: center
-
 .. centered:: 图表 9.1‑2 示教程序编辑状态
 
-点击“当前程序右侧内容弹出/隐藏”按钮，可以展开或隐藏局部示教点位和当前程序备份内容。右侧内容展开后，点击“局部示教点位”和“当前程序备份”图标展示相对应的内容。
+程序名称右侧图标说明如下：
 
-.. image:: coding/004.png
-   :width: 6in
-   :align: center
+.. note:: 
+   .. image:: coding/003.png
+      :width: 1.5in
+      :height: 0.75in
+      :align: left
 
-.. image:: coding/005.png
-   :width: 6in
-   :align: center
+   名称：**展开/缩放**
+   
+   作用：展开/缩放程序树界面
 
-.. centered:: 图表 9.1‑3 当前程序右侧内容
+.. note:: 
+   .. image:: coding/004.png
+      :width: 1.5in
+      :height: 0.75in
+      :align: left
+
+   名称：**新增示教点**
+   
+   作用：新增当前程序的局部示教点
+
+.. note:: 
+   .. image:: coding/005.png
+      :width: 1.5in
+      :height: 0.75in
+      :align: left
+
+   名称：**重命名**
+   
+   作用：重新命名当前程序
 
 工具栏
 ~~~~~~~~~~
 
-使用程序树底部的工具栏修改程序树。
+使用程序树顶部的工具栏修改程序树。
 
 .. note:: 
    .. image:: coding/006.png
@@ -174,12 +192,77 @@
    
    作用：程序树模式和lua编辑模式互相切换。
 
+顶部右侧图标说明如下：
+
+.. note:: 
+   .. image:: coding/240.png
+      :width: 1.5in
+      :height: 0.75in
+      :align: left
+
+   名称：**程序编程添加/编辑**
+   
+   作用：添加/编辑当前程序命令的内容
+
+.. note:: 
+   .. image:: coding/241.png
+      :width: 1.5in
+      :height: 0.75in
+      :align: left
+
+   名称：**机器人模型**
+   
+   作用：返回机器人3D模型界面
+
+.. note:: 
+   .. image:: coding/242.png
+      :width: 1.5in
+      :height: 0.75in
+      :align: left
+
+   名称：**NewDofile子程序界面**
+   
+   作用：当前程序命令中存在NewDofile指令时，点击进入选择子程序名称查看子程序内容。
+
+.. note:: 
+   .. image:: coding/243.png
+      :width: 1.5in
+      :height: 0.75in
+      :align: left
+
+   名称：**Modbus TCP设置**
+   
+   作用：配置Modbus TCP通信的参数
+
+.. note:: 
+   .. image:: coding/244.png
+      :width: 1.5in
+      :height: 0.75in
+      :align: left
+
+   名称：**当前示教程序备份**
+   
+   作用：记录当前程序的修改内容
+
+.. note:: 
+   .. image:: coding/245.png
+      :width: 1.5in
+      :height: 0.75in
+      :align: left
+
+   名称：**局部示教点**
+   
+   作用：仅应用于当前程序的示教点
 
 程序命令
 ~~~~~~~~~~~
 
-左侧主要是程序命令的添加，点击各关键字上方图标进入详细界面，程序命令添加到文件中的操作主要分为两种，一种方式打开相关指令点击应用按键即可将该指令添加到程序中，另一种方式为先点击“添加”按键，此时命令并未保存到程序文件中，需要再点击“应用”方可将命令保存到文件中。第二种方式多出现在同类型指令多条下发的
-情况，我们对该类型命令增加添加按键和显示已添加指令内容功能，点击添加按键可添加一条指令，已添加指令显示所有已添加的指令，点击“应用”即可将添加的指令保存到右侧已打开的文件中。
+左侧主要是程序命令的添加，点击各关键字上方图标进入右侧程序命令添加的详细界面。程序命令添加到文件中的操作主要分为两种：
+
+- 1、打开相关指令点击应用按键即可将该指令添加到程序中；
+- 2、先点击“添加”按键，此时命令并未保存到程序文件中，需要再点击“应用”方可将命令保存到文件中。
+
+第二种方式多出现在同类型指令多条下发的情况，我们对该类型命令增加添加按键和显示已添加指令内容功能，点击添加按键可添加一条指令，已添加指令显示所有已添加的指令，点击“应用”即可将添加的指令保存到右侧已打开的文件中。
 
 逻辑指令界面
 ~~~~~~~~~~~~~
@@ -195,23 +278,62 @@
 
 点击“循环”图标进入While命令编辑界面
 
-在While后方的输入框中输入等待条件，在do后方的输入框中输入循环期间的动作指令，点击保存即可。（为方便操作，可任意输入do内容，在程序中编辑其他指令插入代替）
+选择While命令的循环场景，场景如下：
+
+- 始终循环
+- 有限次数循环：输入循环次数和变量名称
+- 表达式为真时循环：点击输入框弹出表达式编辑器，根据使用情形选择相应表达式
 
 .. image:: coding/020.png
-   :width: 3in
+   :width: 6in
    :align: center
 
-.. centered:: 图表 9.4-1 While指令界面
+.. centered:: 图表 9.4-1-1 While指令界面
+
+.. image:: coding/236.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.4-1-2 While指令——始终循环
+
+.. image:: coding/237.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.4-1-3 While指令——有限次数循环
+
+.. image:: coding/238.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.4-1-4 While指令——表达式编辑器
+
+.. image:: coding/239.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.4-1-5 While指令——表达式为真时循环
+
+为方便操作，可任意输入do内容，在程序中编辑其他指令插入代替。
 
 判断命令
 ++++++++++++++++
 
 点击“判断”按钮进入if…else命令编辑界面
 
-在右侧输入框中输入语句，编辑完毕后点击“添加”、“应用”即可。（该指令需要一定编程基础，如需帮助，请联系我们）
+该命令包含以下按钮：
+
+- 添加else if：当不存在“else”表达式时，点击该按钮添加“else if”表达式
+- 移除else if：当存在“else if”表达式时，点击该按钮删除“else if”表达式
+- 添加 else：点击该按钮添加“else”表达式
+- 移除else：点击该按钮删除“else”表达式
+
+点击对应按钮添加后，点击输入框弹出表达式编辑器，根据使用情形选择相应表达式。添加完毕后点击“添加”、“应用”即可。
+
+该指令需要一定编程基础，如需帮助，请联系我们。
 
 .. image:: coding/021.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.4-2 if…else指令界面
@@ -224,7 +346,7 @@
 Goto指令为跳转指令，在右侧输入框中输入语句，编辑完毕后点击“添加”、“应用”即可。（该指令需要一定编程基础，如需帮助，请联系我们）
 
 .. image:: coding/022.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.4-3 Goto指令界面
@@ -239,7 +361,7 @@ Goto指令为跳转指令，在右侧输入框中输入语句，编辑完毕后�
 “WaitTime”指令延时等待时间单位为毫秒，输入需要等待的毫秒数，点击“添加”、“应用”即可。
 
 .. image:: coding/023.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.4-4 WaitTime指令界面
@@ -247,7 +369,7 @@ Goto指令为跳转指令，在右侧输入框中输入语句，编辑完毕后�
 “WaitDI”指令，即单DI等待，选择需要等待的IO端口号、等待状态、等待最大时间和等待超时处理方式，点击“添加”、“应用”即可。
 
 .. image:: coding/024.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.4-5 WaitDI指令界面
@@ -255,7 +377,7 @@ Goto指令为跳转指令，在右侧输入框中输入语句，编辑完毕后�
 “WaitMultiDI”指令，即多DI等待，首先选择多DI成立条件，其次勾选需要等待的DI端口和状态，最后设置等待最大时间和等待超时处理方式，点击“添加”、“应用”即可。
 
 .. image:: coding/025.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.4-6 WaitMultiDI指令界面
@@ -263,7 +385,7 @@ Goto指令为跳转指令，在右侧输入框中输入语句，编辑完毕后�
 “WaitAI”指令，选择需要等待的模拟量、数值、等待的最大时间以及等待超时处理方式，点击“添加”、“应用”即可。
 
 .. image:: coding/026.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.4-7 WaitAI指令界面
@@ -276,7 +398,7 @@ Goto指令为跳转指令，在右侧输入框中输入语句，编辑完毕后�
 该指令为暂停指令，在程序中插入该指令，当程序执行到该指令时，机器人会处于暂停状态，若想继续运行，点击控制区“暂停/恢复”按键即可。
 
 .. image:: coding/027.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.4-8 Pause指令界面
@@ -289,7 +411,7 @@ Goto指令为跳转指令，在右侧输入框中输入语句，编辑完毕后�
 Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存被调用的子程序，而主程序若未改变可不用再次保存。Dofile指令支持二级调用，需要注意两个参数设置，一是该调用处于第几层，二是该调用的ID编号，ID编号原则上同一程序不能出现相同ID。
 
 .. image:: coding/028.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.4-9 Dofile指令界面
@@ -302,7 +424,7 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
 该指令为变量系统指令，分为Lua变量定义，变量查询和Sys变量重命名，获取值，设置值两部分，Lua变量定义可以声明一个变量并赋予初始值，与while，if-else等指令配合使用，Lua变量查询指令可以实时查询输入的变量名称的值，显示在状态栏。Sys变量个数是固定的，可以对其重命名，获取变量值以及设置变量值，该变量保存的值不随系统关机而清零。
 
 .. image:: coding/029.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.4-10 Var指令界面
@@ -326,7 +448,7 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
 可以选择需要到达的点，平滑过渡时间设置可以实现该点到下一点的运动是连续的，是否偏移设置，可以选择基于基坐标系偏移和基于工具坐标偏移，并弹出x，y，z，rx，ry，rz偏移量设置，PTP具体路径为运动控制器自动规划的最优路径，点击“添加”、“应用”后可保存该条指令。
 
 .. image:: coding/031.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.5-1 PTP指令界面
@@ -339,7 +461,7 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
 该指令功能与“PTP”指令相似，但该指令所到达点的路径为直线。
 
 .. image:: coding/032.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.5-2 Lin指令界面
@@ -351,7 +473,7 @@ Dofile指令调用的是控制器内部程序，使用Dofile指令需要保存�
    **偏移量**：∆x、∆y、∆z、∆rx、∆ry、∆rz，范围：-300~300；
 
    .. image:: coding/033.png
-      :width: 3in
+      :width: 6in
       :align: center
 
    .. centered:: 图表 9.5-2-1 Lin指令界面（焊接场景）
@@ -364,7 +486,7 @@ LIN指令关节超速处理功能
 **Step1**：点击直线运动指令按钮；
 
 .. image:: coding/034.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.5-3-1 点击直线运动指令按钮
@@ -372,7 +494,7 @@ LIN指令关节超速处理功能
 **Step2**：选择直线运动指令目标路点；
 
 .. image:: coding/035.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.5-3-2 选择直线运动目标路点
@@ -380,7 +502,7 @@ LIN指令关节超速处理功能
 **Step3**：打开关节超速保护开关；
 
 .. image:: coding/036.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.5-3-3 打开关节超速保护开关按钮
@@ -388,7 +510,7 @@ LIN指令关节超速处理功能
 **Step4**：选择关节超速处理策略(选择超速报错或自适应降速，其他均为默认策略无保护)；
 
 .. image:: coding/037.png
-   :width: 4in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.5-3-4 关节超速处理策略
@@ -399,7 +521,7 @@ LIN指令关节超速处理功能
    自适应降速策略下，减速阈值为线速度减少值相对设定线速度的百分比，当减速值超过设定阈值时，机器人会报错停止。
 
 .. image:: coding/038.png
-   :width: 4in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.5-3-5 关节超速处理策略选择与设置
@@ -424,14 +546,15 @@ LIN指令关节超速处理功能
 
 点击“圆弧”图标进入Arc命令编辑界面。
 
-“Arc”指令为圆弧运动，包含两个点，第一点为圆弧中间过渡点，第二点为终点，过渡点和终点都可以对是否偏移进行设置，可以选择基于基坐标系偏移和基于工具坐标偏移，并弹出x，y，z，rx，ry，rz偏移量设置，终点可以设置平滑过渡半径，实现运动连续效果。
+“Arc”指令为圆弧运动，包含三个点，第一点为圆弧起始点，第二点为圆弧中间过渡点，第三点为终点。
+
+过渡点和终点都可以对是否偏移进行设置，可以选择基于基坐标系偏移和基于工具坐标偏移，并弹出x，y，z，rx，ry，rz偏移量设置，终点可以设置平滑过渡半径，实现运动连续效果。
+
+.. important::
+   圆弧运动需要先添加PTP或者Lin指令先运动到起始点。
 
 .. image:: coding/040.png
-   :width: 3in
-   :align: center
-
-.. image:: coding/041.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.5-4 Arc指令界面
@@ -442,6 +565,9 @@ LIN指令关节超速处理功能
 点击“整圆”图标进入Circle命令编辑界面。
 
 协作机器人通过添加整圆指令可以进行整圆轨迹运动，在添加整圆指令前需要先示教出整圆轨迹上的3个路径点，假设整圆轨迹上三个路径点分别为“P1”、“P2”、“P3”，其中“P1”为整圆轨迹起点，“P2”和“P3”分别为整圆轨迹中间点1和中间点2，分别移动机器人至上述三个点，并添加示教点位名称分别为“P1”、“P2”、“P3”。
+
+.. important::
+   整圆轨迹运动需要先添加PTP或者Lin指令先运动到起始点。
 
 .. image:: coding/042.png
    :width: 3in
@@ -474,37 +600,37 @@ LIN指令关节超速处理功能
 
 .. centered:: 图表 9.5-7 添加整圆指令按钮
 
-**Step2**：在整圆指令添加页面中选择“整圆中间点1”为“P2”点，点击“下一页”。
-
-.. image:: coding/047.png
-   :width: 3in
-   :align: center
-
-.. centered:: 图表 9.5-8 整圆中间点1
-
-**Step3**：选择“整圆中间点2”为“P3”点，依次点击“添加”按钮和“应用”按钮。
-
-.. image:: coding/048.png
-   :width: 3in
-   :align: center
-
-.. centered:: 图表 9.5-9 整圆中间点2
-
-**Step4**：此时“testCircle.lua”已经增加整圆运动指令。
-
-.. image:: coding/049.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 9.5-10 整圆运动指令添加
-
-上述整圆运动指令仅定义了整圆的两个路径点，还需要定义整圆运动的起点才能使机器人按照预定的整圆轨迹运动。添加直线运动指令，直线运动目标点为整圆轨迹起点“P1”点，且调整指令位置使机器人先运动到整圆起点“P1”，再执行路径中间点为“P2”和“P3”的整圆轨迹运动。
+**Step2**：在整圆指令添加页面中选择起始点运动方式和起始点为“P1”。
 
 .. image:: coding/050.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.5-11 添加整圆运动起点
+.. centered:: 图表 9.5-8 起始点运动方式和起始点“P1”
+
+**Step3**：在整圆指令添加页面中选择“整圆中间点1”为“P2”点。
+
+.. image:: coding/047.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.5-9 整圆中间点1
+
+**Step4**：选择“整圆中间点2”为“P3”点，依次点击“添加”按钮和“应用”按钮。
+
+.. image:: coding/048.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.5-10 整圆中间点2
+
+**Step5**：此时“testCircle.lua”已经增加整圆运动指令。
+
+.. image:: coding/049.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.5-11 整圆运动指令添加
 
 将机器人切换到自动模式，在确保安全的前提下启动该程序，机器人即按整圆轨迹进行运动。
 
@@ -521,10 +647,10 @@ LIN指令关节超速处理功能
 
 1. 相同偏移量
 
-所示，打开整圆指令添加页面，“偏移类型”选择“相同偏移量”，同样选择整圆中间点1为“P2”点，点击“下一页”按钮。
+所示，打开整圆指令添加页面，“偏移类型”选择“相同偏移量”，同样选择起始点运动方式和起始点为“P1”，整圆中间点1为“P2”点。
 
 .. image:: coding/051.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.5-12 整圆相同偏移量
@@ -536,12 +662,12 @@ LIN指令关节超速处理功能
 输入偏移量dx为10mm，依次点击页面下方的“添加”按钮和“应用”按钮。
 
 .. image:: coding/052.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.5-13 设置偏移量
 
-此时一条整圆两个中间点“P2”和“P3”均沿基座标系的X轴方向偏移10mm的整圆指令已经添加到“testCircle.lua”程序中；当然在整圆运动指令前还需要添加一条直线运动指令使机器人运动到整圆的起点。
+此时一条整圆起始点为“P1”，两个中间点“P2”和“P3”均沿基座标系的X轴方向偏移10mm的整圆指令已经添加到“testCircle.lua”程序中。
 
 .. image:: coding/053.png
    :width: 6in
@@ -559,14 +685,15 @@ LIN指令关节超速处理功能
 
 2. 不同偏移量
 
-打开整圆指令添加页面，“偏移类型”选择“不同偏移量”，同样选择整圆中间点1为“P2”点，“是否偏移”选择为“基座标偏移”。
+打开整圆指令添加页面，“偏移类型”选择“不同偏移量”，同样选择起始点运动方式和起始点为“P1”，整圆中间点1为“P2”点，“是否偏移”选择为“基座标偏移”。
 
-.. note:: 您可以根据实际的工作情况选择“工具坐标偏移”。
+.. note:: 
+   您可以根据实际的工作情况选择“工具坐标偏移”。
 
-输入偏移量dy为10mm，点击“下一页”按钮。
+输入偏移量dy为10mm。
 
 .. image:: coding/055.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.5-16 不同偏移量
@@ -578,12 +705,12 @@ LIN指令关节超速处理功能
 输入偏移量dx为10mm，依次点击页面下方的“添加”按钮和“应用”按钮。
 
 .. image:: coding/056.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.5-17 不同偏移量设置中间点2偏移
 
-此时一条整圆中间点“P2”沿基座标系Y方向偏移10mm和“P3”沿基座标系的X轴方向偏移10mm的整圆指令已经添加到“testCircle.lua”程序中；当然在整圆运动指令前还需要添加一条直线运动指令使机器人运动到整圆的起点。    
+此时一条整圆起始点为“P1”，中间点“P2”沿基座标系Y方向偏移10mm和“P3”沿基座标系的X轴方向偏移10mm的整圆指令已经添加到“testCircle.lua”程序中。    
 
 .. image:: coding/057.png
    :width: 6in
@@ -608,7 +735,7 @@ LIN指令关节超速处理功能
 是否偏移，该偏移量生效于整个螺旋线的轨迹。
 
 .. image:: coding/059.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.5-20 Spiral指令界面
@@ -621,7 +748,7 @@ LIN指令关节超速处理功能
 “N-Spiral”指令为优化版螺旋线运动，该指令只需要一个点加各参数的配置实现螺旋线运动。机器人以当前位置作为起点，用户设置调试速度，是否偏移，螺旋圈数，螺旋倾角，初始半径，半径增量，转轴方向增量和旋转方向这几个参数，螺旋圈数即该螺旋线的运动圈数，螺旋倾角即工具Z轴与水平方向的夹角，姿态修正角修正的是螺旋线结束时的姿态与螺旋线第一点的姿态，初始半径即第一圈半径大小，半径增量即每一圈半径的增量，转轴方向增量即螺旋轴方向的增量，旋转方向即顺时针和逆时针。
 
 .. image:: coding/060.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.5-21 N-Spiral指令界面
@@ -639,7 +766,7 @@ LIN指令关节超速处理功能
    - 螺旋倾角: 0~40°
 
 .. image:: coding/061.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.5-22 H-Spiral指令界面
@@ -652,7 +779,7 @@ LIN指令关节超速处理功能
 该指令分为样条组起始，样条段和样条组结束三部分，样条组开始是样条运动的起始标志，样条段包含SPL、SLIN和SCIRC段，点击对应图标进入指令添加界面，样条组结束是样条运动的结束标志。
 
 .. image:: coding/062.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.5-23 Spline指令界面
@@ -672,7 +799,7 @@ LIN指令关节超速处理功能
 - 全局平均衔接时间：整数型，大于10，默认值为2000
 
 .. image:: coding/063.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.5-24 N-Spline指令界面
@@ -685,7 +812,7 @@ LIN指令关节超速处理功能
 - 选择配置好参数的摆焊编号，点击“开始摆焊”和“停止摆焊”并应用可将相关指令添加到程序中。
 
 .. image:: coding/064.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.5-25 Weave指令界面
@@ -701,7 +828,7 @@ LIN指令关节超速处理功能
    - 立焊三角摆动
 
 .. image:: coding/065.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.5-26 Weave配置与测试指令界面
@@ -738,7 +865,7 @@ LIN指令关节超速处理功能
 **Step3**：摆动指令参数配置页面点击“配置”按钮，“摆动类型”下拉框选择“三角波摆动”或“正弦波摆动”，输入相应“摆动方向方位角”，点击“应用”。
 
 .. image:: coding/069.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.5-26-4 摆动参数配置
@@ -779,7 +906,7 @@ LIN指令关节超速处理功能
    关于TPD详细操作可见示教编程（TPD）功能操作说明模块。
 
 .. image:: coding/073.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.5-27 TPD指令界面
@@ -792,7 +919,7 @@ LIN指令关节超速处理功能
 该指令为整体偏移指令，输入各个偏移量，将开启指令和关闭指令添加到程序中，在开始和关闭中间的运动指令会基于基坐标（或工件坐标）进行偏移。
 
 .. image:: coding/074.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.5-28 Offset指令界面
@@ -805,7 +932,7 @@ LIN指令关节超速处理功能
 ServoCart伺服控制（笛卡尔空间运动）指令，该指令可以通过绝对位姿控制或基于当前位姿偏移来控制机器人运动。
 
 .. image:: coding/075.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.5-29 ServoCart指令界面
@@ -830,7 +957,7 @@ ServoCart伺服控制（笛卡尔空间运动）指令，该指令可以通过�
 点击“轨迹”图标进入Trajctory命令编辑界面
 
 .. image:: coding/078.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.5-30 Trajctory指令界面
@@ -851,7 +978,7 @@ Trajctory指令和TrajctoryJ指令适用于相机直接给定轨迹的通用接�
 4.打印轨迹点编号：在机器人运行轨迹的过程中打印轨迹点编号，以便查看当前运动的进度
 
 .. image:: coding/079.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.5-31 TrajctoryJ指令界面
@@ -864,7 +991,7 @@ DMP命令
 DMP是一种轨迹模仿学习的方法，需要事先规划参考轨迹。在命令编辑界面 ，选择示教点作为新的起点，点击“添加”、“应用”后可保存该指令。DMP具体路径为以新的起点模仿参考轨迹的新轨迹。
 
 .. image:: coding/080.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.5-32 DMP指令界面
@@ -901,7 +1028,7 @@ DMP是一种轨迹模仿学习的方法，需要事先规划参考轨迹。在�
 “SetDO/SPLCSetDO”该指令可设定指定的输出DO状态，包括16路控制箱数字输出和2路工具数字输出，状态选项“False”为闭，“True”为开，是否阻塞选项选择“阻塞”表示运动停止后设置DO状态，选择“非阻塞”选项表示在上一条运动过程中设置DO状态。平滑轨迹选项选择“Break”表示在平滑过渡半径结束后设置DO状态，选择“Serious”表示在平滑过渡半径运动过程中设置DO状态。当该指令是添加在辅助线程中，是否应用线程需要选择是，其他地方使用该指令选择否。点击“添加”、“应用”即可。
 
 .. image:: coding/083.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.6-1 SetDO指令界面
@@ -909,7 +1036,7 @@ DMP是一种轨迹模仿学习的方法，需要事先规划参考轨迹。在�
 在“GetDI/SPLCGetDI”指令中，选择想要获取端口号的数值，是否阻塞选项选择“阻塞”表示运动停止后获取DI状态，选择“非阻塞”选项表示在上一条运动过程中获取DI状态。当该指令是添加在辅助线程中，是否应用线程需要选择是，其他地方使用该指令选择否。选择完毕后点击“添加”、“应用”按钮即可。
 
 .. image:: coding/084.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.6-2 GetDI指令界面
@@ -924,7 +1051,7 @@ DMP是一种轨迹模仿学习的方法，需要事先规划参考轨迹。在�
 “SetAO/SPLCSetAO”选择需要设置的模拟输出，输入需要设置的值，范围为0-10，是否阻塞选项选择“阻塞”表示运动停止后设置AO状态，选择“非阻塞”选项表示在上一条运动过程中设置AO状态。当该指令是添加在辅助线程中，是否应用线程需要选择是，其他地方使用该指令选择否。点击“添加”、“应用”即可。
 
 .. image:: coding/085.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.6-3 SetAO指令界面
@@ -932,7 +1059,7 @@ DMP是一种轨迹模仿学习的方法，需要事先规划参考轨迹。在�
 “GetAI/SPLCGetAI”选择需要获取的模拟输入，是否阻塞选项选择“阻塞”表示运动停止后获取AI状态，选择“非阻塞”选项表示在上一条运动过程中获取AI状态。当该指令是添加在辅助线程中，是否应用线程需要选择是，其他地方使用该指令选择否。点击“添加”、“应用”即可。
 
 .. image:: coding/086.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.6-4 GetAI指令界面
@@ -945,7 +1072,7 @@ DMP是一种轨迹模仿学习的方法，需要事先规划参考轨迹。在�
 该指令虚拟的IO控制指令，可以实现设置模拟外部DI和AI状态，获取模拟DI和AI状态。
 
 .. image:: coding/087.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.6-5 Vir-IO指令界面
@@ -958,7 +1085,7 @@ DMP是一种轨迹模仿学习的方法，需要事先规划参考轨迹。在�
 Aux-IO是机器人与PLC通讯控制外部扩展IO的指令功能，需要机器人与PLC建立UDP通讯，在原有的16路输入输出基础上，可以扩展128路输入输出，该指令用法与前文所讲的通用IO用法类似。使用此功能，有一定技术难度，前请联系我们咨询。
 
 .. image:: coding/088.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.6-6 Aux-IO指令界面
@@ -973,7 +1100,7 @@ Aux-IO是机器人与PLC通讯控制外部扩展IO的指令功能，需要机器
 - 连续输出模式：实现直线运动过程中，根据设定的间隔，连续输出DO信号功能。
 
 .. image:: coding/089.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.6-7 MoveDO指令连续输出界面
@@ -981,7 +1108,7 @@ Aux-IO是机器人与PLC通讯控制外部扩展IO的指令功能，需要机器
 - 单次输出模式：可进行匀速段输出和自由配置两种选择。运动开始后输出置位时间，运动结束前输出复位时间，范围[0, 1000]。
 
 .. image:: coding/090.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.6-8 MoveDO指令单次输出界面
@@ -1000,13 +1127,13 @@ Aux-IO是机器人与PLC通讯控制外部扩展IO的指令功能，需要机器
 运动AO指令位于示教模拟-程序示教指令编辑区域中，图标为控制指令-运动AO。
 
 .. image:: coding/091.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.6-9 运动AO指令
 
 .. image:: coding/092.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.6-10 运动AO指令明细
@@ -1032,7 +1159,7 @@ Aux-IO是机器人与PLC通讯控制外部扩展IO的指令功能，需要机器
 选择工具坐标系名称，点击“应用”添加该指令到程序中，当程序运行该语句，会设定机器人的工具坐标系。
 
 .. image:: coding/093.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.6-11 ToolList指令界面
@@ -1045,7 +1172,7 @@ Aux-IO是机器人与PLC通讯控制外部扩展IO的指令功能，需要机器
 该指令可切换机器人到手动模式，通常在一个程序结尾处添加，以便用户在程序运行结束后，使机器人自动切换到手动模式，拖动机器人。
 
 .. image:: coding/094.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.6-12 Mode指令界面
@@ -1058,7 +1185,7 @@ Aux-IO是机器人与PLC通讯控制外部扩展IO的指令功能，需要机器
 该指令碰撞等级设置，通过该指令可以在程序运行中实时调节各轴碰撞等级，更灵活的部署应用场景。
 
 .. image:: coding/095.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.6-13 Collision指令界面
@@ -1071,7 +1198,7 @@ Aux-IO是机器人与PLC通讯控制外部扩展IO的指令功能，需要机器
 Acc指令是实现机器人加速度可单独设置功能，通过调节运动指令加速度缩放因子，可以增加或减小加减速时间，实现机器人动作节拍时间可调。
 
 .. image:: coding/096.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.6-14 Acc指令界面
@@ -1093,7 +1220,7 @@ Acc指令是实现机器人加速度可单独设置功能，通过调节运动�
 在该指令中，分为夹爪运动控制指令和夹爪激活/复位指令，夹爪控制指令中，显示完成配置并且已被激活的夹爪编号，用户可以通过编辑框编辑，或者滑动条滑动至所需的值来完成对夹爪开闭、开闭速度和开闭力矩的设置，数值为百分比，是否阻塞功能选项，选择阻塞即夹爪运动需等待上一条运动指令执行完才执行，选择非阻塞即夹爪运动与上一条运动指令并行。点击“添加”、“应用”按钮，即可将设置的值保存至示教文件中。夹爪复位/激活指令，显示已经配置的夹爪编号，可以添加复位/激活指令到程序中。
 
 .. image:: coding/098.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.7-1 Gripper指令界面
@@ -1106,7 +1233,7 @@ Acc指令是实现机器人加速度可单独设置功能，通过调节运动�
 该指令为喷涂相关指令，控制喷枪“开始喷涂”、“停止喷涂”、“开始清枪”和“停止轻枪”。在编辑该程序命令时，需确认已经配置好喷枪外设，详见机器人外设章节。
 
 .. image:: coding/099.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.7-2 Spray指令界面
@@ -1114,12 +1241,15 @@ Acc指令是实现机器人加速度可单独设置功能，通过调节运动�
 外部轴命令
 ++++++++++++++++
 
-点击“外部轴”图标进入EAxis命令编辑界面，选择组合模式：控制器+伺服驱动器(485)/控制器+PLC(UDP)
+点击“外部轴”图标进入EAxis命令编辑界面，选择组合模式：
+
+- 控制器+伺服驱动器(485)
+- 控制器+PLC(UDP)
 
 选择控制器+PLC(UDP)，该指令针对使用外部轴的场景，与PTP指令组合使用，可将空间上一点X轴方向上的移动分解到外部轴运动。选择外部轴编号，运动方式选同步，选择需要到达的点，点击“添加”、“应用”后可保存该条指令。
 
 .. image:: coding/100.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.7-3 EAxis指令界面
@@ -1127,7 +1257,7 @@ Acc指令是实现机器人加速度可单独设置功能，通过调节运动�
 选择控制器+伺服驱动器(485)，该指令可对扩展轴参数进行配置。根据不同的控制模式设置不同的参数。已配置好的扩展轴，可对其零点设定。
 
 .. image:: coding/101.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.7-4 扩展轴指令界面
@@ -1140,7 +1270,7 @@ Acc指令是实现机器人加速度可单独设置功能，通过调节运动�
 该指令包含位置实时检测，IO实时检测，跟踪开启和跟踪关闭四条命令。详见机器人外设章节。
 
 .. image:: coding/102.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.7-5 Conveyor指令界面
@@ -1153,7 +1283,7 @@ Acc指令是实现机器人加速度可单独设置功能，通过调节运动�
 该指令可设置打磨设备的转速、接触力、伸出距离和控制模式。
 
 .. image:: coding/103.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.7-6 Polish命令界面
@@ -1174,16 +1304,13 @@ Acc指令是实现机器人加速度可单独设置功能，通过调节运动�
 
 该指令主要用于焊机外设，在添加该指令前请确认在用户外设中焊机配置是否完成，详见机器人外设章节。
 
-**Step1**：“A-V”配置和“V-V”配置，通过配置焊接电流、电压与控制器模拟量之间的对应关系，控制器计算得到对应模拟量电压，并输出到对应的模拟量输出口。
-
-- 输出电压范围：0~10V
 - 焊接电压范围： 0~700V 
 - 焊接电流范围： 0~1000A
 
 .. important:: 配置输出AO、焊接电流、焊接电压时，需要选择I/O类型。若选择控制器I/O，则需选择对应得输出AO。
 
 .. image:: coding/105.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.8-1 Weld指令界面
@@ -1211,18 +1338,19 @@ Acc指令是实现机器人加速度可单独设置功能，通过调节运动�
 
 段焊指令添加
 **************
+
 **Step1**：新建用户程序“testSegment1.lua”，点击“段焊”按钮，打开段焊指令添加页面。
 
 .. image:: coding/108.png
-   :width: 3in
+   :width: 6in
    :align: center
 
-.. centered:: 图表 9.8-2-3添加段焊指令按钮
+.. centered:: 图表 9.8-2-3 添加段焊指令按钮
 
 **Step2**：在段焊指令添加页面中选择“起始点”为“segment01”，选择“终点”为“segment02”。
 
 .. image:: coding/109.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.8-2-4 段焊起始点、终点
@@ -1239,6 +1367,7 @@ Acc指令是实现机器人加速度可单独设置功能，通过调节运动�
 
 段焊运动轨迹姿态变化
 **********************
+
 协作机器人的段焊运动可选择段焊模式，模式类型包括以下两种类型;
 
 **不变化姿态**：机器人在焊接轨迹过程中始终保持焊接轨迹起始点姿态运行。
@@ -1252,7 +1381,7 @@ Acc指令是实现机器人加速度可单独设置功能，通过调节运动�
 打开段焊指令添加页面，“段焊模式”选择“不变化姿态”，同样选择起始点”为“segment01”，“终点”为“segment02”，执行长度设置100，非执行长度设置成50，并选择其他相关配置后保存程序。
 
 .. image:: coding/111.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.8-2-6 不变化姿态段焊模式
@@ -1262,7 +1391,7 @@ Acc指令是实现机器人加速度可单独设置功能，通过调节运动�
 打开段焊指令添加页面，“段焊模式”选择“变化姿态”，同样选择起始点”为“segment01”，“终点”为“segment02”，执行长度设置100，非执行长度设置成50，并选择其他相关配置后保存程序。
 
 .. image:: coding/112.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.8-2-7 变化姿态段焊模式
@@ -1274,7 +1403,7 @@ Acc指令是实现机器人加速度可单独设置功能，通过调节运动�
 1) 若功能模式选择第一段执行功能，摆动选择执行段摆动，取整规则不取整。则机器人100mm执行摆动运动，50mm执行直线运动交替进行，到终点时停止；
 
 .. image:: coding/113.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.8-2-8 第一段执行摆动功能不取整
@@ -1282,7 +1411,7 @@ Acc指令是实现机器人加速度可单独设置功能，通过调节运动�
 2) 若功能模式选择第一段不执行功能，摆动选择不执行段摆动，取整规则不取整。则机器人50mm执行摆动运动，100mm执行直线运动交替进行，到终点时停止；
 
 .. image:: coding/114.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.8-2-9 第一段不执行摆动功能不取整
@@ -1290,7 +1419,7 @@ Acc指令是实现机器人加速度可单独设置功能，通过调节运动�
 3) 若功能模式选择第一段执行功能，摆动选择执行段摆动，取整规则取整。则机器人100mm执行摆动运动，50mm执行直线运动交替进行，最后一段整体循环结束后，如果剩余距离小于150mm，则停止摆动；
 
 .. image:: coding/115.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.8-2-10 第一段执行摆动功能循环取整
@@ -1298,7 +1427,7 @@ Acc指令是实现机器人加速度可单独设置功能，通过调节运动�
 4) 若功能模式选择第一段执行功能，摆动选择不执行段摆动，取整规则取整。则机器人50mm执行摆动运动，100mm执行直线运动交替进行，最后一段整体循环结束后，如果剩余距离小于150mm，则停止摆动；
 
 .. image:: coding/116.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.8-2-11 第一段不执行摆动功能循环取整
@@ -1306,7 +1435,7 @@ Acc指令是实现机器人加速度可单独设置功能，通过调节运动�
 5) 若功能模式选择第一段执行功能，摆动选择执行段摆动，取整规则单段取整。则机器人100mm执行摆动运动，50mm执行直线运动交替进行，最后一段循环结束后，如果下一段是100mm执行摆动规划且剩余距离小于100mm，则停止摆动；如果下一段是50mm执行直线运动规划且剩余距离小于50mm，则运动停止；
 
 .. image:: coding/117.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.8-2-12 第一段执行摆动功能单段取整
@@ -1314,7 +1443,7 @@ Acc指令是实现机器人加速度可单独设置功能，通过调节运动�
 6) 若功能模式选择第一段执行功能，摆动选择不执行段摆动，取整规则单段取整。则机器人50mm执行摆动运动，100mm执行直线运动交替进行，最后一段循环结束后，如果下一段是50mm执行摆动规划且剩余距离小于50mm，则停止摆动；如果下一段是100mm执行直线运动规划且剩余距离小于100mm，则运动停止。
 
 .. image:: coding/118.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.8-2-13 第一段不执行摆动功能单段取整
@@ -1363,7 +1492,7 @@ Acc指令是实现机器人加速度可单独设置功能，通过调节运动�
 **睿牛/创想**：输入焊缝类型，范围：0~49整数
 
 .. image:: coding/123.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.8-3-1 Laser指令界面(焊缝类型)
@@ -1371,7 +1500,7 @@ Acc指令是实现机器人加速度可单独设置功能，通过调节运动�
 **全视**：输入任务号，范围：0~255整数
 
 .. image:: coding/124.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.8-3-2 Laser指令界面(任务号)
@@ -1386,7 +1515,7 @@ Acc指令是实现机器人加速度可单独设置功能，通过调节运动�
 实现激光跟踪复现速度可调功能，使机器人可以用一个很快的速度进行记录，然后按照正常焊接速度进行复现，可以提高作业效率。
 
 .. image:: coding/125.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.8-4 LT-Rec指令界面
@@ -1399,7 +1528,7 @@ Acc指令是实现机器人加速度可单独设置功能，通过调节运动�
 该指令为焊丝寻位指令，包含寻位开始，寻位结束和计算偏移量三个指令，该指令一般应用于焊接场景中，需要焊机与机器人IO和运动指令相结合使用。
 
 .. image:: coding/126.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.8-5 W-Search指令界面
@@ -1410,7 +1539,7 @@ Acc指令是实现机器人加速度可单独设置功能，通过调节运动�
    :width: 4in
    :align: center
 
-.. centered:: 图表 9.8-6 W-Search示例（1D）
+.. centered:: 图表 9.8-5-1 W-Search示例（1D）
 
 电弧跟踪命令
 ++++++++++++++++
@@ -1422,26 +1551,26 @@ Acc指令是实现机器人加速度可单独设置功能，通过调节运动�
 **Step1**：上下补偿基准电流设定方式：反馈，设置上下基准电流开始计数和上下基准电流计数
 
 .. image:: coding/128.png
-   :width: 3in
+   :width: 6in
    :align: center
 
-.. centered:: 图表 9.8-7-1 Weld-Trc指令界面-反馈
+.. centered:: 图表 9.8-6-1 Weld-Trc指令界面-反馈
 
 **Step2**：上下补偿基准电流设定方式：常数，设置上下基准电流
 
 .. image:: coding/129.png
-   :width: 3in
+   :width: 6in
    :align: center
 
-.. centered:: 图表 9.8-7-2 Weld-Trc指令界面-常数
+.. centered:: 图表 9.8-6-2 Weld-Trc指令界面-常数
 
 **Step3**：左右补偿参数交互页面
 
 .. image:: coding/130.png
-   :width: 3in
+   :width: 6in
    :align: center
 
-.. centered:: 图表 9.8-7-3 Weld-Trc指令界面-左右补偿参数
+.. centered:: 图表 9.8-6-3 Weld-Trc指令界面-左右补偿参数
 
 电弧跟踪功能操作
 ++++++++++++++++
@@ -1521,7 +1650,7 @@ PLC型号与设定
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.8-7-4  短路过渡->半射流过渡->射流过渡
+.. centered:: 图表 9.8-7-1  短路过渡->半射流过渡->射流过渡
 
 .. note:: 电流与电压设定值越高，反馈焊接电流的毛刺幅值越小，焊接过程更稳定，焊缝跟踪更准确。
 
@@ -1694,7 +1823,7 @@ PLC型号与设定
    :width: 4in
    :align: center
 
-.. centered:: 图表 9.8-7-5 焊枪处于焊缝上方
+.. centered:: 图表 9.8-7-2 焊枪处于焊缝上方
 
 3) 设定轨迹与焊缝的偏差越大，每次最大补偿量与总计最大补偿量相应越大。
 4) 设定轨迹与焊缝的终止点偏差不应大于100mm/m，偏差过大可能会导致焊丝甚至焊枪撞工件，使焊接位置偏离预设轨迹(摆动不到位)，导致电弧跟踪功能无法正常起效。
@@ -1705,7 +1834,7 @@ PLC型号与设定
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.8-7-6 焊接场景
+.. centered:: 图表 9.8-7-3 焊接场景
 
 当焊接上下补偿方向与所选定的任意坐标系Z轴正方向一致时，调节系数为正值。
 
@@ -1726,7 +1855,7 @@ PLC型号与设定
 该指令针对焊接跟踪自适应调整焊枪姿态场景，记录好三个对应的姿态点后，根据机器人实际运动方向，添加姿态自适应调整指令。详见机器人外设章节。
 
 .. image:: coding/134.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.8-8 Adjust指令界面
@@ -1748,7 +1877,7 @@ PLC型号与设定
 该指令包含FT_Guard(碰撞检测)，FT_Control(恒力控制)，FT_Spiral(螺旋插入)，FT_Rot(旋转插入)，FT_Lin(直线插入)，FT_FindSurface(表面定位) ，FT_CalCenter(中心定位)七个指令，详见机器人外设章节。
 
 .. image:: coding/136.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.9-1 F/T指令界面
@@ -1761,7 +1890,7 @@ PLC型号与设定
 该指令为扭矩记录指令，实现扭矩实时记录碰撞检测功能。点击“扭矩记录启动”按钮，持续记录运动指令运行过程中的碰撞情况，记录的实时扭矩作为碰撞检测判断的理论值，以减少误报错概率。当超出设定阈值范围时，记录碰撞检测持续时间。点击“扭矩记录停止”按钮，停止记录。点击“扭矩记录复位”，状态恢复默认状态。
 
 .. image:: coding/137.png
-   :width: 3in
+   :width: 6in
    :align: center 
 
 .. centered:: 图表 9.9-2 Torque指令界面
@@ -1783,7 +1912,7 @@ PLC型号与设定
 该指令为3D视觉程序实例生成指令，用户可以根据生成的程序进行参考，与其他视觉设备进行通讯工作，包含相机标定和相机抓取两个程序案例参考。
 
 .. image:: coding/139.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.10-1 3D指令界面
@@ -1805,7 +1934,7 @@ PLC型号与设定
 该指令为码垛程序生成指令。
 
 .. image:: coding/141.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.11-1 Pallet指令界面
@@ -1813,15 +1942,15 @@ PLC型号与设定
 此功能通过设定三点坐标及行列层和层高等数值，来控制机器手规则移动，适用于常见的码垛应用。第一步选择机器人运动方式，“PTP”或者“Line”，第二步设定机器人运动路径，“头到尾走法”或“弓字形走法”，第三步设定堆叠方式，“堆垛”或“卸垛”。
 
 .. image:: coding/142.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.11‑2 矩阵移动
 
-第四步根据路径示教三个点，第一点为第一排起点，整个运动过程手臂姿态由该点决定，第二点为第一排终点，第三点为最后一排终点。第五步设点行数和列数，第六步设定层数和每一层高度，最后一步，命名该矩阵运动程序文件，一个矩阵移动程序生成成功。
+第四步根据路径示教三个点，第一点为第一排起点，整个运动过程手臂姿态由该点决定，第二点为第一排终点，第三点为最后一排终点。第五步设点行数和列数，第六步设定层数和每一层高度。
 
 .. image:: coding/143.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.11‑3 矩阵移动
@@ -1843,13 +1972,13 @@ Modbus命令
 该指令功能为基于ModbusTCP协议的总线功能，用户可以通过相关指令控制机器人与ModbusTCP client或server通讯（主站与从站通讯），对线圈，离散量，寄存器进行读写操作。
 
 .. image:: coding/145.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.12-1 modbus指令主站界面
 
 .. image:: coding/146.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.12-2 modbus指令从站界面
@@ -1864,7 +1993,7 @@ Xmlrpc命令
 XML-RPC是一种通过sockets使用xml在程序之间传输数据的远程过程调用方法。通过这种方法，机器人控制器可以在远端的程序/服务调用功能函数（可带参数）并获取返回的结构性数据。机器人控制器负责处理编写XML-RPC客户端消息以及处理数据类型与XML之间转换的所有细节。
 
 .. image:: coding/147.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.12-3 Xmlrpc指令界面
@@ -1919,7 +2048,7 @@ XML-RPC是一种通过sockets使用xml在程序之间传输数据的远程过程
 Thread命令为辅助线程功能，用户可以定义一个辅助线程与主线程同时运行，辅助线程主要与外部设备进行数据交互，支持socket通信，机器人DI状态获取，机器人DO状态设置，机器人状态信息获取，与主线程数据交互，主线程通过辅助线程获取的数据用于控制机器人运动逻辑的判断，用户程序示例截图：
 
 .. image:: coding/149.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.13-1 Thread程序示例
@@ -1932,7 +2061,7 @@ Thread命令为辅助线程功能，用户可以定义一个辅助线程与主�
 该指令为调用函数接口功能，将机器人接口函数提供给客户选择，并提示客户该函数所需要的参数，方便客户编写脚本指令，更多函数陆续添加中。
 
 .. image:: coding/150.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.13-2 Function指令界面
@@ -1945,7 +2074,7 @@ Thread命令为辅助线程功能，用户可以定义一个辅助线程与主�
 该指令主要用于系统模式和点位表模式之间的模式切换，通过切换点位表来应用不同点位表内的示教点位。详情见章节11——示教点。
 
 .. image:: coding/151.png
-   :width: 3in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 9.13-3 点位表指令界面
@@ -2084,10 +2213,17 @@ ModbusTCP主站
 
 在使用协作机器人做ModbusTCP主站与您的设备进行通信前，请先检查您的设备与机器人的网络连接，并确认网络接口在同一网段。
 
-使用机器人ModbusTCP主站有以下几个步骤：①添加主站；②添加寄存器；③通信测试；④编写用户程序；⑤执行用户程序；
+使用机器人ModbusTCP主站有以下几个步骤：
+
+- 添加主站；
+- 添加寄存器；
+- 通信测试；
+- 编写用户程序；
+- 执行用户程序。
 
 添加ModbusTCP主站
 ********************
+
 打开WebApp，依次点击“示教模拟”、“程序示教”，新建用户程序“testModbusMaster.lua”。
 
 .. image:: coding/163.png
@@ -2096,29 +2232,21 @@ ModbusTCP主站
 
 .. centered:: 图表 9.18-1 创建ModbusTCP主站用户程序
 
-依次点击“当前程序右侧内容弹出/隐藏”按钮。
+点击“ModbusTCP设置”按钮，打开ModbusTCP功能配置页面。
 
 .. image:: coding/164.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-2 当前程序右侧内容弹出
+.. centered:: 图表 9.18-2 打开ModbusTCP设置
 
-点击“ModbusTCP设置”按钮，打开ModbusTCP功能配置页面。
+依次点击“主站设置”、“添加Modbus主站”，即完成添加一个ModbusTCP主站。
 
 .. image:: coding/165.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-3 打开ModbusTCP设置
-
-依次点击“主站设置”、“添加Modbus主站”，即完成添加一个ModbusTCP主站。
-
-.. image:: coding/166.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 9.18-4 添加“ModbusTCP主站”
+.. centered:: 图表 9.18-3 添加“ModbusTCP主站”
 
 根据您的设备情况依次输入“名称”、“从站ip”、“端口号”、“从站号”和“通信周期”，上述参数的具体含义如下：
 
@@ -2134,11 +2262,11 @@ ModbusTCP主站
 
 **通信周期**：机器人ModbusTCP主站查询从站状态的周期(ms)，该周期仅影响“ModbusTCP设置”页面查看从站寄存器数据的更新速度，而不影响用户lua程序中读取或写入ModbusTCP从站寄存器数值的速度。
 
-.. image:: coding/167.png
+.. image:: coding/166.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-5 设置ModbusTCP主站参数
+.. centered:: 图表 9.18-4 设置ModbusTCP主站参数
 
 正确输入上述参数后，机器人ModbusTCP主站自动与配置的从站建立连接，连接成功后，页面上的“连接状态”指示灯亮起。
 
@@ -2153,29 +2281,30 @@ ModbusTCP主站
    
    ④检查从站设备的端口号与设置的端口号是否相同。若连接状态指示灯处于闪烁状态，则表示该主站中的寄存器地址有误，请检查寄存器类型和地址是否正确。
 
+.. image:: coding/167.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.18-5 ModbusTCP主站连接状态
+
+至此我们已经完成一个机器人ModbusTCP主站的创建，若您再次点击“添加Modbus主站”，即可再次创建一个新的ModbusTCP主站，机器人最多支持8个主站同时与外部设备通信，双击Modbus主站右上角的“删除”按钮，即可删除该Modbus主站。
+
 .. image:: coding/168.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-6 ModbusTCP主站连接状态
+.. centered:: 图表 9.18-6 再次添加ModbusTCP主站
 
-至此我们已经完成一个机器人ModbusTCP主站的创建，若您再次点击“添加Modbus主站”，即可再次创建一个新的ModbusTCP主站，机器人最多支持8个主站同时与外部设备通信，双击Modbus主站右上角的“删除”按钮，即可删除该Modbus主站。
+ModbusTCP主站添加寄存器
+***************************
+
+点击“添加主站寄存器”按钮即可为该主站添加一个寄存器。
 
 .. image:: coding/169.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-7 再次添加ModbusTCP主站
-
-ModbusTCP主站添加寄存器
-***************************
-点击“添加主站寄存器”按钮即可为该主站添加一个寄存器。
-
-.. image:: coding/170.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 9.18-8 添加ModbusTCP主站寄存器
+.. centered:: 图表 9.18-7 添加ModbusTCP主站寄存器
 
 依次选择主站寄存器类型、输入地址编号和名称，各参数意义如下：
 
@@ -2185,35 +2314,36 @@ ModbusTCP主站添加寄存器
 
 **名称**：寄存器的别名，机器人ModbusTCP主站最多可设置128个不同的寄存器，每个寄存器可根据实际意义设置不同的名称进行区分，如“开始”，“伺服到位”、“液位”等。
 
-.. image:: coding/171.png
+.. image:: coding/170.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-9 设置ModbusTCP主站寄存器参数
+.. centered:: 图表 9.18-8 设置ModbusTCP主站寄存器参数
 
 再次点击“添加主站寄存器”按钮即可再添加一个主站寄存器，双击寄存器右侧的“删除”按钮，即可删除该寄存器，如下图为每种类型都添加了一个寄存器。
 
 .. note:: 若添加主站寄存后，主站连接状态指示灯闪烁，则表示该主站寄存器地址无法读取，请检查该寄存器类型和地址是否正确。
 
-.. image:: coding/172.png
+.. image:: coding/171.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-10 添加多个主站寄存器
+.. centered:: 图表 9.18-9 添加多个主站寄存器
 
 ModbusTCP主站通信测试
 ***********************
+
 在通信测试前，请先检查ModbusTCP主站“连接状态”指示灯是否处于常亮状态，若指示灯常亮则表示当前连接已成功。
 
 机器人Modbus主站寄存器有“地址值”数值框用于显示当前寄存器的值，其中DI(离散输入)和AI(输入寄存器)类型的寄存器为只读类型，对应的地址值为灰色不可编辑数值框。
 
 当从站相应地址的数值改变时，机器人主站对应寄存器地址值同步显示当前的数值，而DO(线圈)和AO(保持寄存器)为可读可写寄存器，因此它的地址为白色可编辑数值框，既可以读取ModbusTCP从站相应寄存器的数值，也可以在机器人Modbus主站设置页面修改该寄存器数值。
 
-.. image:: coding/173.png
+.. image:: coding/172.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-11 Modbus主站地址值
+.. centered:: 图表 9.18-10 Modbus主站地址值
 
 1. 主站DI、AI类型寄存器数值监控
 
@@ -2222,284 +2352,256 @@ ModbusTCP主站通信测试
 .. note:: 
    由于设置地址259的寄存器为浮点型寄存器，因此它实际占用了259和260两个16位寄存器来存储一个浮点数，因此您不能再单独设置一个寄存器来操作AI的260号寄存器，否则会产生数值错误。
 
+.. image:: coding/173.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.18-11 Modbus主站显示DI、AI寄存器数值
+
+2. 主站DO、AO类型寄存器数值写入
+
+在机器人Modbus主站设置页面中将名称为“开始”的DO(线圈)类型寄存器的255号地址值输入框中输入1，名称为“目标位置A”、“目标位置B”和“目标位置C”的AO(保持寄存器)的260、261、262号寄存器地址值输入框中分别输入65535、-32768和128.78，此时Modbus从站的相应寄存器地址已被写入相应的数值。
+
 .. image:: coding/174.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-12 Modbus主站显示DI、AI寄存器数值
+.. centered:: 图表 9.18-12 Modbus主站写入DO、AO寄存器
 
-2. 主站DO、AO类型寄存器数值写入
-在机器人Modbus主站设置页面中将名称为“开始”的DO(线圈)类型寄存器的255号地址值输入框中输入1，名称为“目标位置A”、“目标位置B”和“目标位置C”的AO(保持寄存器)的260、261、262号寄存器地址值输入框中分别输入65535、-32768和128.78，此时Modbus从站的相应寄存器地址已被写入相应的数值。
+3. 主站DO、AO类型寄存器数值监控
+
+在ModbusTCP从站中更改DO(线圈)、AO(保持寄存器)的值，ModbusTCP主站设置页面的寄存器地址值不会立即更新显示，需要点击主站配置右上角的“刷新”按钮，此时页面上DO、AO寄存器地址值才会更新。
 
 .. image:: coding/175.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-13 Modbus主站写入DO、AO寄存器
-
-3. 主站DO、AO类型寄存器数值监控
-在ModbusTCP从站中更改DO(线圈)、AO(保持寄存器)的值，ModbusTCP主站设置页面的寄存器地址值不会立即更新显示，需要点击主站配置右上角的“刷新”按钮，此时页面上DO、AO寄存器地址值才会更新。
-
-.. image:: coding/176.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 9.18-14 刷新ModbusTCP主站DO、AO地址值
+.. centered:: 图表 9.18-13 刷新ModbusTCP主站DO、AO地址值
 
 编写ModbusTCP主站程序
 ++++++++++++++++++++++++++
 
 依次点击“全部”、“通讯指令”，打开通讯指令添加页面。
 
+.. image:: coding/176.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.18-14 打开通讯指令添加页面
+
+点击“Modbus”。
+
 .. image:: coding/177.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-15 打开通讯指令添加页面
+.. centered:: 图表 9.18-15 选择Modbus
 
-点击“Modbus”。
+点击“Modbus_TCP”。
 
 .. image:: coding/178.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-16 选择Modbus
-
-点击“Modbus_TCP”。
-
-.. image:: coding/179.png
-   :width: 3in
-   :align: center
-
-.. centered:: 图表 9.18-17 选择Modbus_TCP
+.. centered:: 图表 9.18-16 选择Modbus_TCP
    
 选择“主站(客户端)”，打开ModbusTCP主站指令添加页面。
 
-.. image:: coding/180.png
-   :width: 3in
+.. image:: coding/179.png
+   :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-18 选择主站(客户端)
-
-.. image:: coding/181.png
-   :width: 3in
-   :align: center
-
-.. centered:: 图表 9.18-19 ModbusTCP主站指令添加
+.. centered:: 图表 9.18-17 ModbusTCP主站指令添加
 
 1. 写单个数字输出DO(线圈)
 
 选择“Modbus主站名称”为之前在Modbus主站设置页面添加的主站“PLC”，DO名称为“开始”，寄存器数量为1，寄存器值为1，点击“写数字输出”按钮。最后翻至该页面最底端，点击“应用”按钮。
 
-.. image:: coding/182.png
-   :width: 3in
+.. image:: coding/180.png
+   :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-20 添加写单个数字输出
-
-.. image:: coding/183.png
-   :width: 3in
-   :align: center
-
-.. centered:: 图表 9.18-21 应用写单个数字输出指令
+.. centered:: 图表 9.18-18 添加写单个数字输出
 
 此时机器人程序“testModbusMaster.lua”中已经添加一条机器人Modbus主站写单个数字输出的指令，将机器人切换到自动模式，点击启动按钮，机器人将主站“PLC”对应的线圈寄存器“启动”的地址值写为1。
 
-.. image:: coding/184.png
+.. image:: coding/181.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-22 写单个线圈LUA程序
+.. centered:: 图表 9.18-19 写单个线圈LUA程序
 
 2. 写多个数字输出DO(线圈)
+
 打开ModbusTCP主站指令添加页面，选择“Modbus主站名称”为之前在Modbus主站设置页面添加的主站“PLC”，DO名称为“开始”，寄存器数量为5，寄存器值为1,0,1,0,1，其中寄存器值的个数要与设置的寄存器数量对应，且多个寄存器值之间用英文逗号隔开，点击“写数字输出”按钮。最后翻至该页面最底端，点击“应用”按钮。
 
-.. image:: coding/185.png
-   :width: 3in
+.. image:: coding/182.png
+   :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-23 配置写多个数字输出
-   
-.. image:: coding/186.png
-   :width: 3in
-   :align: center
-
-.. centered:: 图表 9.18-24 应用写多个数字输出
+.. centered:: 图表 9.18-20 配置写多个数字输出
 
 此时机器人程序“testModbusMaster.lua”中已经添加一条机器人Modbus主站写多个数字输出的指令，将机器人切换到自动模式，点击启动按钮，机器人将主站“PLC”对应的线圈寄存器“启动”及其后面4个线圈的值分别写为1、0、1、0、1。
    
-.. image:: coding/187.png
+.. image:: coding/183.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-25 写多个线圈LUA程序
+.. centered:: 图表 9.18-21 写多个线圈LUA程序
 
 3. 读单个数字输出DO(线圈)
    
 打开ModbusTCP主站指令添加页面，选择“Modbus主站名称”为之前在Modbus主站设置页面添加的主站“PLC”，DO名称为“开始”，寄存器数量为1，寄存器值不需要填写，点击“读数字输出”。最后翻至该页面最底端，点击“应用”按钮。
    
-.. image:: coding/188.png
-   :width: 3in
+.. image:: coding/184.png
+   :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-26 配置读单个数字输出
-      
-.. image:: coding/189.png
-   :width: 3in
-   :align: center
-
-.. centered:: 图表 9.18-27 应用读单个数字输出
+.. centered:: 图表 9.18-22 配置读单个数字输出
 
 此时机器人程序“testModbusMaster.lua”中已经添加一条机器人Modbus主站读单个数字输出的指令。
+      
+.. image:: coding/185.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.18-23 读单个线圈程序
+
+通常读Modbus寄存器后将读到的数值存入变量里，因此需要定义一个变量用于存储读取的数值。点击“切换模式”按钮，将机器人lua程序切换至可编辑状态，在“ModbusMasterReadDO”指令前编写填加返回值变量“startValue”，执行程序后读到的数值将存在“startValue”里。
+      
+.. image:: coding/186.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.18-24 读单个数字输出存入变量
+
+线圈类型的寄存器值只有0和1两种数值，在机器人程序中可以通过判断寄存器数值不同来进行不同的操作。点击“切换模式”按钮将机器人示教程序切换至不可编辑模式，添加两个关节运动指令分别运动到两个不同的点位“P1”和“P2”。
+      
+.. image:: coding/187.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.18-25 添加不同点位的运动指令
+
+再次将程序切换至可编辑模式，并编写线圈值“startValue”的判断条件，当“startValue”值为1时，机器人运动到“P1”点，否则机器人运动到“P2”点。
+      
+.. image:: coding/188.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.18-26 根据线圈值不同运动到不同的点位
+
+最后再将机器人程序切换至不可编辑模式，将机器人切换到自动模式，在确认安全的前提下启动运行程序。由于该程序的前两行都将名称为“开始”线圈DO值设为1，因此执行程序后机器人将运动到“P1”点。
+      
+.. image:: coding/189.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.18-27 读取单个线圈寄存器数值并运动
+
+4. 读多个数字DO(线圈)
+
+打开ModbusTCP主站指令添加页面，选择“Modbus主站名称”为之前在Modbus主站设置页面添加的主站“PLC”，DO名称为“开始”，寄存器数量为6，寄存器值不需要填写，点击“读数字输出”。最后翻至该页面最底端，点击“应用”按钮。
       
 .. image:: coding/190.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-28 读单个线圈程序
+.. centered:: 图表 9.18-28 配置读多个数字输出
 
-通常读Modbus寄存器后将读到的数值存入变量里，因此需要定义一个变量用于存储读取的数值。点击“切换模式”按钮，将机器人lua程序切换至可编辑状态，在“ModbusMasterReadDO”指令前编写填加返回值变量“startValue”，执行程序后读到的数值将存在“startValue”里。
-      
+此时机器人程序“testModbusMaster.lua”中已经添加一条机器人Modbus主站读多个数字输出的指令。
+         
 .. image:: coding/191.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-29 读单个数字输出存入变量
+.. centered:: 图表 9.18-29 读多个数字输出程序
 
-线圈类型的寄存器值只有0和1两种数值，在机器人程序中可以通过判断寄存器数值不同来进行不同的操作。点击“切换模式”按钮将机器人示教程序切换至不可编辑模式，添加两个关节运动指令分别运动到两个不同的点位“P1”和“P2”。
-      
+点击“切换模式”按钮，将机器人lua程序切换至可编辑状态，由于读取的数量为6个，因此需要在“ModbusMasterReadDO”指令前编写填加6个返回值变“value1,value2,value3,value4,value5,value6”，执行程序后读到的6个寄存器数值将分别存在上述6个变量里，同样您可以判断“value1”~“value6”的值使机器人进行不同的动作。
+         
 .. image:: coding/192.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-30 添加不同点位的运动指令
+.. centered:: 图表 9.18-30 读多个数字输出存入变量
 
-再次将程序切换至可编辑模式，并编写线圈值“startValue”的判断条件，当“startValue”值为1时，机器人运动到“P1”点，否则机器人运动到“P2”点。
-      
+5. 读数字输入DI(离散输入)
+
+打开ModbusTCP主站指令添加页面，选择“Modbus主站名称”为之前在Modbus主站设置页面添加的主站“PLC”，DI名称为“伺服到位”，寄存器数量为2，点击“读数字输入”。最后翻至该页面最底端，点击“应用”按钮。
+         
 .. image:: coding/193.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-31 根据线圈值不同运动到不同的点位
+.. centered:: 图表 9.18-31 配置读数字输入
 
-最后再将机器人程序切换至不可编辑模式，将机器人切换到自动模式，在确认安全的前提下启动运行程序。由于该程序的前两行都将名称为“开始”线圈DO值设为1，因此执行程序后机器人将运动到“P1”点。
-      
+此时机器人程序“testModbusMaster.lua”中已经添加一条机器人Modbus主站读数字输入的指令。
+            
 .. image:: coding/194.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-32 读取单个线圈寄存器数值并运动
+.. centered:: 图表 9.18-32 读数字输入程序指令
 
-4. 读多个数字DO(线圈)
-打开ModbusTCP主站指令添加页面，选择“Modbus主站名称”为之前在Modbus主站设置页面添加的主站“PLC”，DO名称为“开始”，寄存器数量为6，寄存器值不需要填写，点击“读数字输出”。最后翻至该页面最底端，点击“应用”按钮。
-      
+点击“切换模式”按钮，将机器人lua程序切换至可编辑状态，在“ModbusMasterReadDO”指令前编写返回值变量“state1,state2”，执行程序后读到的两个数字输入数值将分别存在变量“state1”和“state2”里，您可以通过判断变量数值进而控制机器人做不同的操作。
+            
 .. image:: coding/195.png
-   :width: 3in
+   :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-33 配置读多个数字输出
-         
+.. centered:: 图表 9.18-33 读数字输入存入变量
+
+6. 模拟输入AI(输入寄存器)和模拟输出AO(保持寄存器)的读写操作
+
+模拟输入AI(输入寄存器)、模拟输出AO(保持寄存器)的读写操作与数字输入DI(离散输入)、数字输出DO(线圈)的操作基本一致，区别在于后者的数据范围仅限于0或1，而前者的数据范围更大，因此具体的操作可参考数字输入和数字输出程序的编写，在此仅展示模拟输入AI的读操作和模拟输出AO的读写操作程序示例。
+            
 .. image:: coding/196.png
-   :width: 3in
+   :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-34 应用读多个数字输出
-
-此时机器人程序“testModbusMaster.lua”中已经添加一条机器人Modbus主站读多个数字输出的指令。
-         
+.. centered:: 图表 9.18-34 读模拟输入AI
+            
 .. image:: coding/197.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-35 读多个数字输出程序
+.. centered:: 图表 9.18-35 读写模拟输出AO
 
-点击“切换模式”按钮，将机器人lua程序切换至可编辑状态，由于读取的数量为6个，因此需要在“ModbusMasterReadDO”指令前编写填加6个返回值变“value1,value2,value3,value4,value5,valu e6”，执行程序后读到的6个寄存器数值将分别存在上述6个变量里，同样您可以判断“value1”~“value6”的值使机器人进行不同的动作。
-         
+7. 等待数字输入
+
+打开ModbusTCP主站指令添加页面，找到“等待数字输入设置”即等待DI离散输入设置，选择DI名称为配置的“伺服到位”寄存器，等待状态为“True”，超时时间为5000ms。点击“添加”按钮，最后点击“应用”按钮。
+            
 .. image:: coding/198.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-36 读多个数字输出存入变量
+.. centered:: 图表 9.18-36 添加等待DI输入指令
 
-5. 读数字输入DI(离散输入)
-打开ModbusTCP主站指令添加页面，选择“Modbus主站名称”为之前在Modbus主站设置页面添加的主站“PLC”，DI名称为“伺服到位”，寄存器数量为2，点击“读数字输入”。最后翻至该页面最底端，点击“应用”按钮。
-         
+此时机器人程序“testModbusMaster.lua”中已经添加一条机器人Modbus主站等待数字输入DI的指令，启动程序后，机器人会一直等待“PLC”主站的“伺服到位”寄存器值变为true，也就是数值1，由于设置的超时时间为5s，因此当机器人等待5s后“伺服到位”信号仍为0时，机器人程序将会报超时错误，程序也自动停止运行。
+            
 .. image:: coding/199.png
-   :width: 3in
+   :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-37 配置读数字输入
+.. centered:: 图表 9.18-37 等待数字输入DI程序
+
+8. 等待模拟输入
+
+打开ModbusTCP主站指令添加页面，找到“等待模拟输入设置”即等待AI输入寄存器设置，选择AI名称为配置的“液位”寄存器，等待状态为“>”，寄存器值为255，超时时间为5000ms。点击“添加”按钮，最后点击“应用”按钮。
             
 .. image:: coding/200.png
-   :width: 3in
+   :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-38 应用读数字输入
+.. centered:: 图表 9.18-38 添加等待模拟输入
 
-此时机器人程序“testModbusMaster.lua”中已经添加一条机器人Modbus主站读数字输入的指令。
+此时机器人程序“testModbusMaster.lua”中已经添加一条机器人Modbus主站等待AI输入寄存器值的指令，启动程序后，机器人会一直等待“PLC”主站的“液位”寄存器数值大于255，由于设置的超时时间为5s，因此当机器人等待5s后“液位”信号仍不大于255时，机器人程序将会报超时错误，程序也自动停止运行。
             
 .. image:: coding/201.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-39 读数字输入程序指令
-
-点击“切换模式”按钮，将机器人lua程序切换至可编辑状态，在“ModbusMasterReadDO”指令前编写返回值变量“state1,state2”，执行程序后读到的两个数字输入数值将分别存在变量“state1”和“state2”里，您可以通过判断变量数值进而控制机器人做不同的操作。
-            
-.. image:: coding/202.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 9.18-40 读数字输入存入变量
-
-6. 模拟输入AI(输入寄存器)和模拟输出AO(保持寄存器)的读写操作
-模拟输入AI(输入寄存器)、模拟输出AO(保持寄存器)的读写操作与数字输入DI(离散输入)、数字输出DO(线圈)的操作基本一致，区别在于后者的数据范围仅限于0或1，而前者的数据范围更大，因此具体的操作可参考数字输入和数字输出程序的编写，在此仅展示模拟输入AI的读操作和模拟输出AO的读写操作程序示例。
-            
-.. image:: coding/203.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 9.18-41 读模拟输入AI
-            
-.. image:: coding/204.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 9.18-42 读写模拟输出AO
-
-7. 等待数字输入
-打开ModbusTCP主站指令添加页面，找到“等待数字输入设置”即等待DI离散输入设置，选择DI名称为配置的“伺服到位”寄存器，等待状态为“True”，超时时间为5000ms。点击“添加”按钮，最后点击“应用”按钮。
-            
-.. image:: coding/205.png
-   :width: 3in
-   :align: center
-
-.. centered:: 图表 9.18-43 添加等待DI输入指令
-
-此时机器人程序“testModbusMaster.lua”中已经添加一条机器人Modbus主站等待数字输入DI的指令，启动程序后，机器人会一直等待“PLC”主站的“伺服到位”寄存器值变为true，也就是数值1，由于设置的超时时间为5s，因此当机器人等待5s后“伺服到位”信号仍为0时，机器人程序将会报超时错误，程序也自动停止运行。
-            
-.. image:: coding/206.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 9.18-44 等待数字输入DI程序
-
-8. 等待模拟输入
-打开ModbusTCP主站指令添加页面，找到“等待模拟输入设置”即等待AI输入寄存器设置，选择AI名称为配置的“液位”寄存器，等待状态为“>”，寄存器值为255，超时时间为5000ms。点击“添加”按钮，最后点击“应用”按钮。
-            
-.. image:: coding/207.png
-   :width: 3in
-   :align: center
-
-.. centered:: 图表 9.18-45 添加等待模拟输入
-
-此时机器人程序“testModbusMaster.lua”中已经添加一条机器人Modbus主站等待AI输入寄存器值的指令，启动程序后，机器人会一直等待“PLC”主站的“液位”寄存器数值大于255，由于设置的超时时间为5s，因此当机器人等待5s后“液位”信号仍不大于255时，机器人程序将会报超时错误，程序也自动停止运行。
-            
-.. image:: coding/208.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 9.18-46 等待AI输入寄存器程序
+.. centered:: 图表 9.18-39 等待AI输入寄存器程序
 
 ModbusTCP从站
 ++++++++++++++++++
@@ -2511,43 +2613,35 @@ ModbusTCP从站通讯参数配置
 
 打开WebApp，依次点击“示教模拟”、“程序示教”，新建用户程序“testModbusSlave.lua”。
             
-.. image:: coding/209.png
+.. image:: coding/202.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-47 创建ModbusTCP从站用户程序
-
-依次点击“当前程序右侧内容弹出/隐藏”按钮。
-            
-.. image:: coding/210.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 9.18-48 当前程序右侧内容弹出
+.. centered:: 图表 9.18-40 创建ModbusTCP从站用户程序
 
 点击“ModbusTCP设置”按钮，打开ModbusTCP功能配置页面。
             
-.. image:: coding/211.png
+.. image:: coding/203.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-49 打开ModbusTCP设置
+.. centered:: 图表 9.18-41 打开ModbusTCP设置
 
 依次点击“从站设置”，输入机器人从站的IP，端口号和从站号，其中“IP”为机器人从站ip地址，法奥协作机器人具有示教器和控制箱两个网络端口，两个端口的IP地址不同，根据外部设备连接机器人从站的网络端口输入正确的IP地址（推荐您使用控制箱上的网络端口），更改机器人ModbusTCP从站IP地址、端口号或从站号后需要重新启动机器人使其生效。
             
-.. image:: coding/212.png
+.. image:: coding/204.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-50 ModbusTCP从站设置
+.. centered:: 图表 9.18-42 ModbusTCP从站设置
 
 ModbusTCP从站参数设置完成并重启机器人后，外部主站设备即可通过设置的参数与机器人从站建立连接，连接成功后，机器人从站设置页面“连接状态”指示灯会亮起。
             
-.. image:: coding/213.png
+.. image:: coding/205.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-51 从站连接状态指示灯
+.. centered:: 图表 9.18-43 从站连接状态指示灯
 
 ModbusTCP从站通讯测试
 *****************************
@@ -2560,11 +2654,11 @@ ModbusTCP从站通讯测试
 
 机器人ModbusTCP从站的通用寄存器均可设置别名，修改机器人从站线圈寄存器DI0的名称为“A到位”，DI1的名称为“B到位”，根据地址映射表，“A到位”和“B到位”的Modbus线圈地址分别为100和101，在外部ModbusTCP主站设备上将机器人从站线圈寄存器地址100和101都置1，此时机器人ModbusTCP从站监控页面上两寄存器指示灯亮起。
             
-.. image:: coding/214.png
+.. image:: coding/206.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-52 ModbusTCP从站线圈状态监控
+.. centered:: 图表 9.18-44 ModbusTCP从站线圈状态监控
 
 2. 通用数字输出(离散输入)
 
@@ -2574,11 +2668,11 @@ ModbusTCP从站通讯测试
 
 同样机器人ModbusTCP从站的离散输入寄存器也可以设置别名，点击“通用数字输出(离散输入)”修改机器人从站离散输入寄存器DO0的名称为“A启动”，DO1的名称为“B启动”，根据地址映射表，“A启动”和“B启动”的Modbus离散输入地址分别为100和101，点击“A启动”对应离散输入指示灯，该指示灯亮起，相应寄存器地址100的数值变为1，从外部ModbusTCP主站设备上可读到该寄存器数值。
 
-.. image:: coding/215.png
+.. image:: coding/207.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-53 ModbusTCP从站离散输入控制
+.. centered:: 图表 9.18-45 ModbusTCP从站离散输入控制
 
 1. 模拟输入(保持寄存器)
 
@@ -2589,11 +2683,11 @@ ModbusTCP从站通讯测试
    
    更改AI0和AI1的名称分别为“电压”和“电流”，从ModbusTCP从站地址映射表中查出两寄存器的地址分别为100和101，因此当连接的主站设备修改保持寄存器100和101寄存器地址值时，机器人ModbusTCP从站监控页面“电压”和“电流”寄存器地址值相应同步更新显示，机器人的模拟输入主要用于机器人读取外部主站设备数值信号。
 
-.. image:: coding/216.png
+.. image:: coding/208.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-54 ModbusTCP从站模拟输入监控
+.. centered:: 图表 9.18-46 ModbusTCP从站模拟输入监控
 
 4. 模拟输出(输入寄存器)
 
@@ -2604,272 +2698,236 @@ ModbusTCP从站通讯测试
    
    更改AO0和AO1的名称分别为“目标位置A”和“目标位置B”，输入量寄存器数值分别为2000和1500，从ModbusTCP从站地址映射表中查出两寄存器的地址分别为100和101，因此当连接的主站设备读取输入寄存器100和101寄存器地址值时，即可得到所设置的数值，机器人从站模拟输出主要用于机器人向外部主站设备传递数值信号。
 
-.. image:: coding/217.png
+.. image:: coding/209.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-55 Modbus从站修改模拟输入
+.. centered:: 图表 9.18-47 Modbus从站修改模拟输入
 
 ModbusTCP从站程序编写
 **************************
 
 依次点击“全部”、“通讯指令”，打开通讯指令添加页面。
 
-.. image:: coding/218.png
+.. image:: coding/210.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-56 打开通讯指令添加页面
+.. centered:: 图表 9.18-48 打开通讯指令添加页面
 
 点击“Modbus”。
 
-.. image:: coding/219.png
+.. image:: coding/211.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-57 选择Modbus
+.. centered:: 图表 9.18-49 选择Modbus
 
 点击“Modbus_TCP”。
 
-.. image:: coding/220.png
-   :width: 3in
+.. image:: coding/178.png
+   :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-58 选择Modbus_TCP
+.. centered:: 图表 9.18-50 选择Modbus_TCP
 
 选择“从站”，打开ModbusTCP从站指令添加页面。
 
-.. image:: coding/221.png
-   :width: 3in
+.. image:: coding/212.png
+   :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-59 选择从站
-
-.. image:: coding/222.png
-   :width: 3in
-   :align: center
-
-.. centered:: 图表 9.18-60 ModbusTCP从站指令添加
+.. centered:: 图表 9.18-51 ModbusTCP从站指令添加
 
 1. 写单个数字输出DO(离散输入)
 
 选择DO名称为“A启动”，寄存器数量为1，寄存器值为0，点击“写单个数字输出”。最后翻至该页面最底端，点击“应用”按钮。
 
-.. image:: coding/223.png
-   :width: 3in
-   :align: center
-
-.. centered:: 图表 9.18-61 添加写单个数字输出指令
-   
-.. image:: coding/224.png
-   :width: 3in
-   :align: center
-
-.. centered:: 图表 9.18-62 应用写单个数字输出指令
-
-此时机器人程序“testModbusSlave.lua”中已经添加一条机器人Modbus从站写单个数字输出的指令，将机器人切换到自动模式，点击启动按钮，机器人将名称为“A启动”对应的数字输出的地址值写为0。
-   
-.. image:: coding/225.png
+.. image:: coding/213.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-63 写单个数字输出LUA程序
+.. centered:: 图表 9.18-52 添加写单个数字输出指令
+
+此时机器人程序“testModbusSlave.lua”中已经添加一条机器人Modbus从站写单个数字输出的指令，将机器人切换到自动模式，点击启动按钮，机器人将名称为“A启动”对应的数字输出的地址值写为0。
+   
+.. image:: coding/214.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.18-53 写单个数字输出LUA程序
 
 2. 写多个数字输出DO(离散输入)
 
 打开ModbusTCP从站指令添加页面，找到“数字输出设置”，选择DO名称为“A启动”，寄存器数量为5，寄存器值为1,0,1,0,1，其中寄存器值的个数要与设置的寄存器数量对应，且多个寄存器值之间用英文逗号隔开，点击“写数字输出”。最后翻至该页面最底端，点击“应用”按钮。
    
-.. image:: coding/226.png
-   :width: 3in
-   :align: center
-
-.. centered:: 图表 9.18-64 配置写多个数字输出
-      
-.. image:: coding/227.png
-   :width: 3in
-   :align: center
-
-.. centered:: 图表 9.18-65 应用写多个数字输出
-
-此时机器人程序“testModbusSlave.lua”中已经添加一条机器人Modbus从站写多个数字输出的指令，将机器人切换到自动模式，点击启动按钮，机器人将从站“A启动”其后面4个离散输入寄存器的值分别写为1、0、1、0、1。
-      
-.. image:: coding/228.png
+.. image:: coding/215.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-66 写多个数字输出LUA程序
+.. centered:: 图表 9.18-54 配置写多个数字输出
+
+此时机器人程序“testModbusSlave.lua”中已经添加一条机器人Modbus从站写多个数字输出的指令，将机器人切换到自动模式，点击启动按钮，机器人将从站“A启动”其后面4个离散输入寄存器的值分别写为1、0、1、0、1。
+      
+.. image:: coding/216.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.18-55 写多个数字输出LUA程序
 
 3. 读单个数字输出DO(离散输入)
 
 打开ModbusTCP主站指令添加页面，找到“数字输出设置”，DO名称为“A启动”，寄存器数量为1，寄存器值不需要填写，点击“读数字输出”。最后翻至该页面最底端，点击“应用”按钮。
       
-.. image:: coding/229.png
-   :width: 3in
+.. image:: coding/217.png
+   :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-67 配置读单个数字输出
-         
-.. image:: coding/230.png
-   :width: 3in
-   :align: center
-
-.. centered:: 图表 9.18-68 应用读单个数字输出
+.. centered:: 图表 9.18-56 配置读单个数字输出
 
 此时机器人程序“testModbusSlave.lua”中已经添加一条机器人Modbus从站读单个数字输出的指令。
          
-.. image:: coding/231.png
+.. image:: coding/218.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-69 读单个数字输出程序
+.. centered:: 图表 9.18-57 读单个数字输出程序
 
 通常读Modbus寄存器后将读到的数值存入变量里，因此需要定义一个变量用于存储读取的数值。点击“切换模式”按钮，将机器人lua程序切换至可编辑状态，在“ModbusSlaveReadDO”指令前编写填加返回值变量“AStartValue”，执行程序后读到的数值将存在“AStartValue”里。
          
-.. image:: coding/232.png
+.. image:: coding/219.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-70 读单个数字输出存入变量
+.. centered:: 图表 9.18-58 读单个数字输出存入变量
 
 线圈类型的寄存器值只有0和1两种数值，在机器人程序中可以通过判断寄存器数值不同来进行不同的操作。点击“切换模式”按钮将机器人示教程序切换至不可编辑模式，添加两个关节运动指令分别运动到两个不同的点位“P1”和“P2”。
          
-.. image:: coding/233.png
+.. image:: coding/220.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-71 添加不同点位的运动指令
+.. centered:: 图表 9.18-59 添加不同点位的运动指令
 
 再次将程序切换至可编辑模式，并编写数字输出值“AStartValue”的判断条件，当“AStartValue”值为1时，机器人运动到“P1”点，否则机器人运动到“P2”点。
          
-.. image:: coding/234.png
+.. image:: coding/221.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-72 根据数字输出值不同运动到不同的点位
+.. centered:: 图表 9.18-60 根据数字输出值不同运动到不同的点位
 
 最后再将机器人程序切换至不可编辑模式，将机器人切换到自动模式，在确认安全的前提下启动运行程序。由于该程序的第二行将名称为“A启动”数字输出DO值设为1，因此执行程序后机器人将运动到“P1”点。
          
-.. image:: coding/235.png
+.. image:: coding/222.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-73 读取单个线圈寄存器数值并运动
+.. centered:: 图表 9.18-61 读取单个线圈寄存器数值并运动
 
 4. 读多个数字输出DO(离散输入)
 
 打开ModbusTCP主站指令添加页面，找到“数字输出设置”，选择DO名称为“A启动”，寄存器数量为2，寄存器值不需要填写，点击“读数字输出”。最后翻至该页面最底端，点击“应用”按钮。
          
-.. image:: coding/236.png
-   :width: 3in
+.. image:: coding/223.png
+   :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-74 配置读多个数字输出
-            
-.. image:: coding/237.png
-   :width: 3in
-   :align: center
-
-.. centered:: 图表 9.18-75 应用读多个数字输出
+.. centered:: 图表 9.18-62 配置读多个数字输出
 
 此时机器人程序“testModbusSlave.lua”中已经添加一条机器人Modbus从站读多个数字输出的指令。
             
-.. image:: coding/238.png
+.. image:: coding/224.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-76 读多个数字输出程序
+.. centered:: 图表 9.18-63 读多个数字输出程序
 
 点击“切换模式”按钮，将机器人lua程序切换至可编辑状态，由于读取的数量为2个，因此需要在“ModbusSlaveReadDO”指令前编写填加2个返回值变“value1,value2”，执行程序后读到的2个数字输出寄存器数值将分别存在上述2个变量里，同样您可以判断“value1”、“value6”的值使机器人进行不同的动作。
             
-.. image:: coding/239.png
+.. image:: coding/225.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-77 读多个数字输出存入变量
+.. centered:: 图表 9.18-64 读多个数字输出存入变量
 
 5. 读数字输入DI(线圈)
 
 打开ModbusTCP从站指令添加页面，找到“数字输入设置”，选择DI名称为“A到位”，寄存器数量为2，点击“读数字输入”。最后翻至该页面最底端，点击“应用”按钮。
             
-.. image:: coding/240.png
-   :width: 3in
+.. image:: coding/226.png
+   :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-78 配置读数字输入
-               
-.. image:: coding/241.png
-   :width: 3in
-   :align: center
-
-.. centered:: 图表 9.18-79 应用读数字输入
+.. centered:: 图表 9.18-65 配置读数字输入
 
 此时机器人程序“testModbusSlave.lua”中已经添加一条机器人Modbus从站读数字输入的指令。
                
-.. image:: coding/242.png
+.. image:: coding/227.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-80 读数字输入程序指令
+.. centered:: 图表 9.18-66 读数字输入程序指令
 
 点击“切换模式”按钮，将机器人lua程序切换至可编辑状态，在“ModbusSlaveReadDI”指令前编写返回值变量“AState,BState”，执行程序后读到的两个数字输入数值将分别存在变量“AState”和“BState”里，您可以通过判断变量数值进而控制机器人做不同的操作。
               
-.. image:: coding/243.png
+.. image:: coding/228.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-81 读数字输入程序
+.. centered:: 图表 9.18-67 读数字输入程序
 
 6. 模拟输出AO(输入寄存器)和模拟输入AI(保持寄存器)的读写操作
 
 模拟输出(输入寄存器)、模拟输入(保持寄存器)的读写操作与数字输出(离散输入)、数字输入(线圈)的操作基本一致，区别在于后者的数据范围仅限于0或1，而前者的数据范围更大，因此具体的操作可参考数字输出和数字输入程序的编写，在此仅展示模拟输入的读操作和模拟输出的读写操作程序示例。
               
-.. image:: coding/244.png
+.. image:: coding/229.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-82 读模拟输入
+.. centered:: 图表 9.18-68 读模拟输入
               
-.. image:: coding/245.png
+.. image:: coding/230.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-83 读写模拟输出
+.. centered:: 图表 9.18-69 读写模拟输出
 
 7. 等待数字输入
 
 打开ModbusTCP从站指令添加页面，找到“等待数字输入设置”，选择DI名称为配置的“A到位”寄存器，等待状态为“True”，超时时间为5000ms。点击“添加”按钮，最后点击“应用”按钮。
               
-.. image:: coding/246.png
-   :width: 3in
-   :align: center
-
-.. centered:: 图表 9.18-84 添加等待数字输入指令
-
-此时机器人程序“testModbusSlave.lua”中已经添加一条机器人Modbus从站等待数字输入的指令，启动程序后，机器人会一直等待从站的“A到位”线圈寄存器值变为true，也就是数值1，由于设置的超时时间为5s，因此当机器人等待5s后“A到位”信号仍为0时，机器人程序将会报超时错误，程序也自动停止运行。
-              
-.. image:: coding/247.png
+.. image:: coding/231.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-85 等待数字输入程序
+.. centered:: 图表 9.18-70 添加等待数字输入指令
+
+此时机器人程序“testModbusSlave.lua”中已经添加一条机器人Modbus从站等待数字输入的指令，启动程序后，机器人会一直等待从站的“A到位”线圈寄存器值变为true，也就是数值1，由于设置的超时时间为5s，因此当机器人等待5s后“A到位”信号仍为0时，机器人程序将会报超时错误，程序也自动停止运行。
+              
+.. image:: coding/232.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.18-71 等待数字输入程序
 
 8. 等待模拟输入
 
 打开ModbusTCP从站指令添加页面，找到“等待模拟输入设置”选择AI名称为配置的“电压”寄存器，等待状态为“>”，寄存器值为255，超时时间为5000ms。点击“添加”按钮，最后点击“应用”按钮。
 
-.. image:: coding/248.png
-   :width: 3in
-   :align: center
-
-.. centered:: 图表 9.18-86 添加等待模拟输入指令
-
-此时机器人程序“testModbusSlave.lua”中已经添加一条机器人Modbus从站等待模拟输入值的指令，启动程序后，机器人会一直等待从站的“电压”寄存器数值大于255，由于设置的超时时间为5s，因此当机器人等待5s后“电压”信号仍不大于255时，机器人程序将会报超时错误，程序也自动停止运行。
-              
-.. image:: coding/249.png
+.. image:: coding/233.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-87 等待模拟输入寄存器程序
+.. centered:: 图表 9.18-72 添加等待模拟输入指令
+
+此时机器人程序“testModbusSlave.lua”中已经添加一条机器人Modbus从站等待模拟输入值的指令，启动程序后，机器人会一直等待从站的“电压”寄存器数值大于255，由于设置的超时时间为5s，因此当机器人等待5s后“电压”信号仍不大于255时，机器人程序将会报超时错误，程序也自动停止运行。
+              
+.. image:: coding/234.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.18-73 等待模拟输入寄存器程序
 
 ModbusTCP从站机器人状态反馈与控制
 ***********************************
@@ -2880,11 +2938,11 @@ ModbusTCP从站机器人状态反馈与控制
 
 当机器人处于自动模式下，主站设备将地址502的值从0置1时，机器人自动开始运行当前配置的程序；再以线圈地址300为例，它用于控制机器人控制箱DO0的输出，当外部主站将线圈地址300从0置1时，控制箱DO0自动输出有效，同样外部主站将线圈地址300从1置0时，控制箱DO0输出无效。在ModbusTCP从站设置页面点击“功能数字输入(线圈)”，即可监控当前所有的功能数字输入情况。
               
-.. image:: coding/250.png
+.. image:: coding/235.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.18-88 机器人从站功能数字输入
+.. centered:: 图表 9.18-74 机器人从站功能数字输入
 
 附件一：Modbus从站地址映射表
 
