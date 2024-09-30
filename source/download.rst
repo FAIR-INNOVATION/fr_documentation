@@ -16,6 +16,8 @@
 
 资质认证
 ---------------------------------
+    :download:`法奥意威ISO9001质量认证证书 <_static/_doc/法奥意威ISO9001质量认证证书.pdf>`
+
     :download:`法奥意威CE证书 <_static/_doc/法奥意威CE证书.pdf>`
 
     :download:`法奥意威CR证书 <_static/_doc/法奥意威CR证书.pdf>`
