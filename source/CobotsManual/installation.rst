@@ -593,7 +593,6 @@ FR机器人需要根据适用的国家法律法规及国家标准处置，详情
 	.. figure:: installation/064.png
 		:align: center
 		:width: 3in
-		:class: figure-border
 
 	.. centered:: 图表 3.4-1 避免安装在其它运动设备上
 
@@ -610,7 +609,6 @@ FR3机器人手臂安装要求
 .. figure:: installation/025.png
 	:align: center
 	:width: 6in
-	:class: figure-border
 
 .. centered:: 图表 3.4-2 FR3型号协作机器人安装尺寸
 
@@ -622,7 +620,6 @@ FR3机器人手臂安装要求
 	.. figure:: installation/062.png
 		:align: center
 		:width: 3in
-		:class: figure-border
 
 	.. centered:: 图表 3.4-3 FR3型号协作机器人低要求安装底座
 
@@ -631,7 +628,6 @@ FR3机器人手臂安装要求
 	.. figure:: installation/067.png
 		:align: center
 		:width: 3in
-		:class: figure-border
 
 	.. centered:: 图表 3.4-4 FR3型号协作机器人高要求安装底座
 
@@ -643,7 +639,6 @@ FR5机器人手臂安装要求
 .. figure:: installation/026.png
 	:align: center
 	:width: 6in
-	:class: figure-border
 
 .. centered:: 图表 3.4-5 FR5型号协作机器人安装尺寸
 
@@ -655,7 +650,6 @@ FR5机器人手臂安装要求
 	.. figure:: installation/062.png
 		:align: center
 		:width: 3in
-		:class: figure-border
 
 	.. centered:: 图表 3.4-6 FR5型号协作机器人低要求安装底座
 
@@ -664,7 +658,6 @@ FR5机器人手臂安装要求
 	.. figure:: installation/067.png
 		:align: center
 		:width: 3in
-		:class: figure-border
 
 	.. centered:: 图表 3.4-7 FR5型号协作机器人高要求安装底座
 
@@ -676,7 +669,6 @@ FR10、FR16机器人手臂安装要求
 .. figure:: installation/027.png
 	:align: center
 	:width: 6in
-	:class: figure-border
 
 .. centered:: 图表 3.4-8 FR10、FR16型号协作机器人安装尺寸
 	
@@ -688,7 +680,6 @@ FR10、FR16机器人手臂安装要求
 	.. figure:: installation/065.png
 		:align: center
 		:width: 3in
-		:class: figure-border
 
 	.. centered:: 图表 3.4-9 FR10、FR16型号协作机器人低要求安装底座
 
@@ -697,7 +688,6 @@ FR10、FR16机器人手臂安装要求
 	.. figure:: installation/067.png
 		:align: center
 		:width: 3in
-		:class: figure-border
 
 	.. centered:: 图表 3.4-10 FR10、FR16型号协作机器人高要求安装底座
 
@@ -709,7 +699,6 @@ FR20、FR30机器人手臂安装要求
 .. figure:: installation/029.png
 	:align: center
 	:width: 6in
-	:class: figure-border
 
 .. centered:: 图表 3.4-11 FR20、FR30型号协作机器人安装尺寸
 
@@ -720,7 +709,6 @@ FR20、FR30机器人手臂安装要求
 	.. figure:: installation/066.png
 		:align: center
 		:width: 3in
-		:class: figure-border
 
 	.. centered:: 图表 3.4-12 FR20、FR30型号协作机器人安装底座
 
@@ -733,14 +721,12 @@ FR20、FR30机器人手臂安装要求
 .. figure:: installation/030.png
 	:align: center
 	:width: 6in
-	:class: figure-border
 
 .. centered:: 图表 3.4-13 FR3/FR5/FR10/FR16型号机器人末端法兰图纸
 
 .. figure:: installation/031.png
 	:align: center
 	:width: 6in
-	:class: figure-border
 
 .. centered:: 图表 3.4-14 FR20/FR30型号机器人末端法兰图纸
 
@@ -897,7 +883,6 @@ RJ45网络接口组
 .. figure:: installation/041.png
 	:align: center
 	:width: 3in
-	:class: figure-border
 
 .. centered:: 图表 3.5-5 末端版电气接口示意图
 
@@ -909,16 +894,14 @@ RJ45网络接口组
 .. figure:: installation/042.png
 	:align: center
 	:width: 8in
-	:class: figure-border
 
 .. centered:: 图表 3.5-6 控制箱接地示意图
 
-2. 本体接地位于基座出线处的右侧位置，如下图所示。
+1. 本体接地位于基座出线处的右侧位置，如下图所示。
 
 .. figure:: installation/043.png
 	:align: center
 	:width: 4in
-	:class: figure-border
 
 .. centered:: 图表 3.5-7 本体接地示意图
 
@@ -960,6 +943,7 @@ RJ45网络接口组
 .. list-table::
    :widths: 30 20 10 10 10 10
    :header-rows: 0
+   :align: center
 
    * - **端子**
      - **参数**
@@ -1012,6 +996,7 @@ RJ45网络接口组
 .. list-table::
    :widths: 30 20 10 10 10 10
    :header-rows: 0
+   :align: center
 
    * - **端子**
      - **参数**
@@ -1097,6 +1082,7 @@ RJ45网络接口组
 .. list-table::
    :widths: 50 80 80
    :header-rows: 0
+   :align: center
 
    * - 
      - **紧急停止**
@@ -1211,6 +1197,7 @@ RJ45网络接口组
 .. list-table::
    :widths: 30 20 10 10 10 10
    :header-rows: 0
+   :align: center
 
    * - **端子**
      - **参数**
@@ -1368,7 +1355,6 @@ RJ45网络接口组
 .. figure:: installation/058.png
 	:align: center
 	:width: 6in
-	:class: figure-border
 
 .. centered:: 图表 3.6-1 第一版按钮盒
 
@@ -1387,7 +1373,6 @@ RJ45网络接口组
 .. figure:: installation/059.png
 	:align: center
 	:width: 6in
-	:class: figure-border
 
 .. centered:: 图表 3.6-2 第二版按钮盒
 
@@ -1413,14 +1398,12 @@ FR-HMI示教器简介
 .. figure:: installation/060.png
 	:align: center
 	:width: 6in
-	:class: figure-border
 
 .. centered:: 图表 3.6-3 FR-HMI示教器正面
 
 .. figure:: installation/061.png
 	:align: center
 	:width: 6in
-	:class: figure-border
 
 .. centered:: 图表 3.6-4 FR-HMI示教器背面
 
@@ -1447,6 +1430,7 @@ FR-HMI示教器简介
 .. list-table::
    :widths: 50 50
    :header-rows: 0
+   :align: center
 
    * - **功能**
      - **LED 颜色**

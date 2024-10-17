@@ -38,6 +38,7 @@
 .. list-table::
    :widths: 30 70
    :header-rows: 0
+   :align: center
 
    * - **标准**
      - **定义**

@@ -45,12 +45,6 @@
    
 6. 再次开机访问目标网址192.168.58.2即进入登录页面。
 
-.. figure:: teaching_pendant_software/001.png
-   :width: 6in
-   :align: center
-
-.. centered:: 图表 5.1‑3 登录界面
-
 启动软件
 ~~~~~~~~~~~
 
@@ -109,10 +103,137 @@
 登录界面如下图所示：
 
 .. figure:: teaching_pendant_software/001.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 5.1‑3 登录界面
+
+示教器多语言设置
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+多语言设置
+++++++++++++++++++
+
+1.控制箱连接示教器，并启动；
+
+2.登录账号admin，密码123。进入页面，点击系统设置-通用设置，确认示教器为启用状态。
+
+.. image:: teaching_pendant_software/061.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 5.1‑4 登录界面
+.. centered:: 图表 5.1‑4 示教器启用状态
+
+3.在登录界面（或首次激活界面均可设置），在右上角进行语言选择；
+
+.. image:: teaching_pendant_software/062.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 5.1‑5 激活界面设置语言
+
+.. image:: teaching_pendant_software/063.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 5.1‑6 登录界面设置语言
+
+4.以登录界面设置多语言为例，选择语言。出现以下提示（对应不同语言）即为设置成功，重启控制箱完成语言设置。
+
+.. image:: teaching_pendant_software/064.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 5.1‑7 设置中文
+
+.. image:: teaching_pendant_software/065.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 5.1‑8 设置英文
+
+.. image:: teaching_pendant_software/066.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 5.1‑9 设置日语
+
+.. image:: teaching_pendant_software/067.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 5.1‑10 设置法语
+
+.. image:: teaching_pendant_software/068.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 5.1‑11 设置韩语
+
+输入法切换
+++++++++++++++++++++++++++++
+
+默认输入法为英文输入法。
+
+1.打开右下角软键盘，点击输入框，例如点击用户名输入框。
+
+2.切换中文拼音输入法。
+
+点击两次CTRL键，按键状态变红色，点击空格进行选择输入法，以下为中文输入法。
+
+.. image:: teaching_pendant_software/069.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 5.1‑12 中文拼音输入法
+
+3.切换英文输入法
+
+点击两次CTRL键，按键状态变红色，点击空格进行选择输入法，以下为英文输入法。
+
+.. image:: teaching_pendant_software/070.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 5.1‑13 英文输入法
+
+4.切换日文输入法
+
+点击两次CTRL键，按键状态变红色，点击空格进行选择输入法，以下为日文输入法。
+
+.. image:: teaching_pendant_software/071.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 5.1‑14 日语输入法
+
+可在输入法悬浮窗中切换文字类型，如平假名、片假名。
+
+.. image:: teaching_pendant_software/072.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 5.1‑15 日语切换文字类型
+
+4.切换法文输入法
+
+点击两次CTRL键，按键状态变红色，点击空格进行选择输入法，以下为法语输入法。
+
+.. image:: teaching_pendant_software/073.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 5.1‑16 法语输入法
+
+5.切换韩文输入法
+
+点击两次CTRL键，按键状态变红色，点击空格进行选择输入法，以下为韩语输入法。
+
+.. image:: teaching_pendant_software/074.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 5.1‑17 韩语输入法
 
 登录成功后，系统会加载模型等数据，加载完毕后进入初始页面。
 
@@ -454,7 +575,7 @@
 TCP
 +++++++++++
 
-**Base点动**：在基坐标系下，可以点击对应坐标系按钮控制机器人，在X，Y，Z轴上直线移动或绕着RX，RY，RZ旋转。Base点动的功能与Joint运动中单轴点动的功能相似。界面如下图：
+**Base点动**：在基坐标系下，可以通过长按对应坐标系按钮来控制机器人，在X，Y，Z轴上直线移动或绕着RX，RY，RZ旋转。Base点动的功能与Joint运动中单轴点动的功能相似。界面如下图：
 
 .. image:: teaching_pendant_software/030.png
    :width: 3in
@@ -533,9 +654,18 @@ Move移动
 
 保存示教点时，该示教点的坐标系为当前机器人应用的坐标系。
 
+示教点记录分为“快速记点”和“命名记点”两种方式。
+
+- 快速记点：示教点自动记录，名称自动生成；
+- 命名记点：示教点命名自定义，由示教点前缀+示教点名称构成；
+
 传感器示教点，选择已经标定的传感器类型工具，输入点名称，点击添加，保存的点的位置为传感器识别到点的位置。
 
 .. image:: teaching_pendant_software/036.png
+   :width: 5in
+   :align: center
+
+.. image:: teaching_pendant_software/060.png
    :width: 5in
    :align: center
 

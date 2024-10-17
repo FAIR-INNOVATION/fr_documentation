@@ -37,42 +37,36 @@
 .. figure:: installation/018.png
 	:align: center
 	:width: 6in
-	:class: figure-border
 
 .. centered:: 图表 2.2-1 FR3型号协作机器人运动范围
 
 .. figure:: installation/019.png
 	:align: center
 	:width: 6in
-	:class: figure-border
 
 .. centered:: 图表 2.2-2 FR5型号协作机器人运动范围
 
 .. figure:: installation/020.png
 	:align: center
 	:width: 6in
-	:class: figure-border
 
 .. centered:: 图表 2.2-3 FR10型号协作机器人运动范围
 
 .. figure:: installation/021.png
 	:align: center
 	:width: 6in
-	:class: figure-border
 
 .. centered:: 图表 2.2-4 FR16型号协作机器人运动范围
 
 .. figure:: installation/022.png
 	:align: center
 	:width: 6in
-	:class: figure-border
 
 .. centered:: 图表 2.2-5 FR20型号协作机器人运动范围
 
 .. figure:: installation/068.png
 	:align: center
 	:width: 6in
-	:class: figure-border
 
 .. centered:: 图表 2.2-6 FR30型号协作机器人运动范围
 
@@ -82,14 +76,12 @@
 .. figure:: installation/023.png
 	:align: center
 	:width: 6in
-	:class: figure-border
 
 .. centered:: 图表 2.3-1 机器人DH参数坐标系
 
 .. figure:: installation/024.png
 	:align: center
 	:width: 6in
-	:class: figure-border
 
 .. centered:: 图表 2.3-2 机器人末端法兰坐标系
 
@@ -101,7 +93,6 @@ DH参数用于计算 FR 系列协作机器人的运动学和动力学。
 .. figure:: installation/063.png
 	:align: center
 	:width: 6in
-	:class: figure-border
 
 .. centered:: 图表 2.4-1 FR系列协作机器人DH参数
 

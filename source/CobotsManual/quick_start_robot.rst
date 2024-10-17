@@ -121,7 +121,6 @@
 .. figure:: quick_start_robot/008.png
    :align: center
    :width: 4in
-   :class: figure-border
 
 .. centered:: 图表 4.3-8 记录并添加点P1
 
@@ -130,7 +129,6 @@
 .. figure:: quick_start_robot/009.png
    :align: center
    :width: 4in
-   :class: figure-border
 
 .. centered:: 图表 4.3-9 记录并添加点P2  
 

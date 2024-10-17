@@ -99,9 +99,6 @@ body {
     margin-bottom: 0 !important
 }
 
-.figure-border {
-    border: 1px solid #404040;
-}
 .rst-content div.figure, 
 .rst-content figure {
     margin-bottom: 24px !important;

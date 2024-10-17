@@ -252,7 +252,7 @@ Lua开放协议支持力传感器、单个夹爪、多个夹爪、力传感器�
 
 .. figure:: robot_peripherals/018.png
    :align: center
-   :width: 3in
+   :width: 6in
 
 .. centered:: 图表 8.4‑2 喷枪指令编辑
 
