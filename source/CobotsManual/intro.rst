@@ -45,6 +45,7 @@ PDF下载
     status
     application
     system
+    teach_pendant
     appendix
     term
 
