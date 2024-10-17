@@ -11,7 +11,7 @@
 
 网络设置可以设置控制器IP，子网掩码，默认网关，DNS服务器和示教器IP(使用我们的FR-HMI示教器情况下该IP有效，在使用FR-HMI示教器情况下需要配置示教器启用状态为启用)，方便客户使用场景。
 
-- 系统目前自带有中文（汉语）、英语（English）、法语（français）和日语（日本語）四种语言
+- 系统目前自带有中文（汉语）、英语（English）、法语（français）、韩语（한국어）和日语（日本語）五种语言
 - 以下为语言对照表，其中非系统自带语言支持下载语言包翻译后导入系统
 - 导入的语言包名称必须为：[语言代码].json，例如：es.json，其中语言代码为ISO 639-1标准
 
@@ -118,6 +118,133 @@
   
 -  **设置网络**：点击“设置网络”按钮，提示正在配置中。配置完成后，需要重启设备。
 
+示教器多语言设置
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+多语言设置
+++++++++++++++++++
+
+1.控制箱连接示教器，并启动；
+
+2.登录账号admin，密码123。进入页面，点击系统设置-通用设置，确认示教器为启用状态。
+
+.. image:: system/028.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 15.1‑2 示教器启用状态
+
+3.在登录界面（或首次激活界面均可设置），在右上角进行语言选择；
+
+.. image:: system/029.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 15.1‑3 激活界面设置语言
+
+.. image:: system/030.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 15.1‑4 登录界面设置语言
+
+4.以登录界面设置多语言为例，选择语言。出现以下提示（对应不同语言）即为设置成功，重启控制箱完成语言设置。
+
+.. image:: system/031.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 15.1‑5 设置中文
+
+.. image:: system/032.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 15.1‑6 设置英文
+
+.. image:: system/033.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 15.1‑7 设置日语
+
+.. image:: system/034.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 15.1‑8 设置法语
+
+.. image:: system/035.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 15.1‑9 设置韩语
+
+输入法切换
+++++++++++++++++++++++++++++
+
+默认输入法为英文输入法。
+
+1.打开右下角软键盘，点击输入框，例如点击用户名输入框。
+
+2.切换中文拼音输入法。
+
+点击两次CTRL键，按键状态变红色，点击空格进行选择输入法，以下为中文输入法。
+
+.. image:: system/036.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 15.1‑10 中文拼音输入法
+
+3.切换英文输入法
+
+点击两次CTRL键，按键状态变红色，点击空格进行选择输入法，以下为英文输入法。
+
+.. image:: system/037.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 15.1‑11 英文输入法
+
+4.切换日文输入法
+
+点击两次CTRL键，按键状态变红色，点击空格进行选择输入法，以下为日文输入法。
+
+.. image:: system/038.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 15.1‑12 日语输入法
+
+可在输入法悬浮窗中切换文字类型，如平假名、片假名。
+
+.. image:: system/039.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 15.1‑13 日语切换文字类型
+
+4.切换法文输入法
+
+点击两次CTRL键，按键状态变红色，点击空格进行选择输入法，以下为法语输入法。
+
+.. image:: system/040.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 15.1‑14 法语输入法
+
+5.切换韩文输入法
+
+点击两次CTRL键，按键状态变红色，点击空格进行选择输入法，以下为韩语输入法。
+
+.. image:: system/041.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 15.1‑14 韩语输入法
+
 账户设置
 ---------------
 
@@ -162,7 +289,7 @@
 .. important::
    初始用户111以及当前登录用户无法删除。
 
-.. image:: system/005.png
+.. image:: system/002.png
    :width: 6in
    :align: center
 

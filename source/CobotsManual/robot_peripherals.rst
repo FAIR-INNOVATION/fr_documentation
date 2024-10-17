@@ -1798,7 +1798,7 @@ PLC -> 机器人控制器
 
 .. figure:: robot_peripherals/048.png
    :align: center
-   :width: 6in
+   :width: 4in
 
 .. centered:: 图表 8.6‑1 激光传感器安装
 
@@ -1830,7 +1830,7 @@ PLC -> 机器人控制器
 
 .. figure:: robot_peripherals/051.png
    :align: center
-   :width: 6in
+   :width: 4in
 
 .. centered:: 图表 8.6‑4 激光传感器标定点
 
@@ -1890,7 +1890,7 @@ PLC -> 机器人控制器
 
 .. figure:: robot_peripherals/059.png
    :align: center
-   :width: 6in
+   :width: 4in
 
 .. centered:: 图表 8.6‑12 传感器标定步骤3
 
@@ -1918,7 +1918,7 @@ PLC -> 机器人控制器
 
 .. figure:: robot_peripherals/063.png
    :align: center
-   :width: 6in
+   :width: 4in
 
 .. centered:: 图表 8.6‑16 传感器标定步骤7
 
@@ -1968,7 +1968,7 @@ PLC -> 机器人控制器
 
 .. figure:: robot_peripherals/069.png
    :align: center
-   :width: 6in
+   :width: 4in
 
 .. centered:: 图表 8.6‑22 激光传感焊缝点
 
@@ -1980,7 +1980,7 @@ PLC -> 机器人控制器
 
 .. figure:: robot_peripherals/071.png
    :align: center
-   :width: 6in
+   :width: 4in
 
 .. centered:: 图表 8.6‑24 焊枪指向焊缝点
 
@@ -2003,7 +2003,7 @@ PLC -> 机器人控制器
 
 .. figure:: robot_peripherals/072.png
    :align: center
-   :width: 6in
+   :width: 4in
 
 .. centered:: 图表 8.6‑25 传感器安装
 
@@ -2030,7 +2030,7 @@ PLC -> 机器人控制器
 
 .. figure:: robot_peripherals/075.png
    :align: center
-   :width: 3in
+   :width: 6in
 
 .. centered:: 图表 8.6‑28 添加寻位指令
 
@@ -2107,7 +2107,7 @@ PLC -> 机器人控制器
 
 .. figure:: robot_peripherals/083.png
    :align: center
-   :width: 6in
+   :width: 4in
 
 .. centered:: 图表 8.6‑36 寻位起点
 
@@ -2115,7 +2115,7 @@ PLC -> 机器人控制器
 
 .. figure:: robot_peripherals/084.png
    :align: center
-   :width: 6in
+   :width: 4in
 
 .. centered:: 图表 8.6‑37 寻位终点
 
@@ -2180,11 +2180,11 @@ PLC -> 机器人控制器
 
 .. figure:: robot_peripherals/090.png
    :align: center
-   :width: 6in
+   :width: 4in
 
 .. figure:: robot_peripherals/091.png
    :align: center
-   :width: 6in
+   :width: 4in
 
 .. centered:: 图表 8.6‑43 轨迹记录起点和终点
 
@@ -2668,13 +2668,15 @@ PLC -> 机器人控制器
 
 **Step7**：如图5.5‑22所示，“testServo.lua”程序中已增加伺服运动指令：
 
-“AuxServoSetTargetPos(1,50,5)”，指令函数中的三个参数含义分别为：
+“AuxServoSetTargetPos(1,50,5, 10)”，指令函数中的三个参数含义分别为：
 
 - 1：伺服编号为1。
 
 - 50：目标位置。
 
 - 5：目标速度。
+
+- 10：加速度百分比。
 
 .. figure:: robot_peripherals/127.png
    :align: center
@@ -2763,7 +2765,7 @@ PLC -> 机器人控制器
 
 .. figure:: robot_peripherals/128.png
    :align: center
-   :width: 4in
+   :width: 3in
 
 .. centered:: 图表 8.8‑1 传送带配置
 
