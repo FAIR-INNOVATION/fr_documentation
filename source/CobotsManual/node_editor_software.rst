@@ -28,14 +28,13 @@
 使用节点图编程页面左侧顶部的工具栏。
 
 .. image:: node_editor_software/002.png
-   :width: 6in
+   :width: 4in
    :align: center
 
 .. centered:: 图表 11.1-2 操作工具栏
 
 .. note:: 
    .. image:: coding/006.png
-      :width: 1.5in
       :height: 0.75in
       :align: left
 
@@ -45,7 +44,6 @@
 
 .. note:: 
    .. image:: coding/010.png
-      :width: 1.5in
       :height: 0.75in
       :align: left
 
@@ -55,7 +53,6 @@
 
 .. note:: 
    .. image:: node_editor_software/131.png
-      :width: 1.5in
       :height: 0.75in
       :align: left
 
@@ -65,7 +62,6 @@
 
 .. note:: 
    .. image:: coding/007.png
-      :width: 1.5in
       :height: 0.75in
       :align: left
 
@@ -75,7 +71,6 @@
 
 .. note:: 
    .. image:: node_editor_software/130.png
-      :width: 1.5in
       :height: 0.75in
       :align: left
 
@@ -85,7 +80,6 @@
 
 .. note:: 
    .. image:: coding/009.png
-      :width: 1.5in
       :height: 0.75in
       :align: left
 
@@ -95,7 +89,6 @@
 
 .. note:: 
    .. image:: coding/008.png
-      :width: 1.5in
       :height: 0.75in
       :align: left
 
@@ -105,7 +98,6 @@
 
 .. note:: 
    .. image:: node_editor_software/129.png
-      :width: 1.5in
       :height: 0.75in
       :align: left
 
@@ -546,7 +538,7 @@ While指令
 
 点击“摆动”指令节点,进入节点图编辑界面。
 
-该指令包含两部分，第一部分选择配置好参数的摆焊编号，连接Body代表连接节点的程序在“开始摆焊”和“停止摆焊”中间执行。
+该指令包含两部分，第一部分选择配置好参数的摆动编号，连接Body代表连接节点的程序在“开始摆动”和“停止摆动”中间执行。
 
 “摆动”指令节点,参数：
 

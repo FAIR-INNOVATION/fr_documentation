@@ -174,10 +174,10 @@
 程序示例截图：
 
 .. image:: application/011.png
-   :width: 4in
+   :width: 3in
    :align: center
 
-.. centered:: 图表 14.8‑2 Modbus-rtu通讯lua程序示例
+.. centered:: 图表 14.8‑2 Modbus-rtu通讯lua程序示例 
 
 主程序配置
 ------------------
@@ -219,7 +219,7 @@ A-E键位功能：
 -  **DO输出**：选择“DO输出”时，显示下拉框可选择输出DO0⁓DO7选项。
 
 .. image:: application/014.png
-   :width: 3in
+   :width: 4in
    :align: center
 
 .. centered:: 图表 14.11‑1 Smart Tool配置（A-E键位）
