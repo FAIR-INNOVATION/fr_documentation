@@ -1,20 +1,20 @@
 前言
 ++++++++++
-frcobot_ros2为法奥协作机器人基于ROS2开发的API接口，旨在针对入门级用户更便捷的使用法奥SDK。通过参数配置文件对默认参数的配置，即可适应不同的客户要求。 
+fairino_hardware为法奥协作机器人基于ROS2开发的API接口，旨在针对入门级用户更便捷的使用法奥SDK。通过参数配置文件对默认参数的配置，即可适应不同的客户要求。 
 
-fr_ros2
+fairino_hardware
 ++++++++++++++
 本章节说明APP运行环境如何配置。
 
 基本环境安装
 --------------
 
-推荐在Ubuntu22.04LTS(Jammy)上使用，系统安装完毕后，就可以安装ROS2，推荐用ros2-humble，ROS2的安装可以参考教程：https://docs.ros.org/en/humble/index.html。
+推荐在Ubuntu22.04LTS(Jammy)上使用，系统安装完毕后，就可以安装ROS2，推荐用ros2-humble，ROS2的安装可以参考教程：https://docs.ros.org/en/humble/index.html。在正式编译fairino_hardware前，需要安装官方ros2_control包，ros2_control安装可以参考教程：https://control.ros.org/humble/index.html。官方提供两种ros2_control安装方式，分别为指令安装方式和源码编译安装方式，由于指令安装方式可能会导致功能包安装不全，故推荐使用源码编译安装方式。
 
-编译及构建fr_ros2
+编译及构建fairino_hardware
 ---------------------
 1. 创建colcon工作区
-fr_ros2有两个功能包组成，一个是自定义数据结构的功能包frhal_msgs，另外一个是程序主体fr_ros2功能包。在安装好基本环境后，先创建一个colcon工作区，比如:
+fairino_hardware有两个功能包组成，一个是自定义数据结构的功能包fairino_msgs，另外一个是程序主体fairino_hardware功能包。在安装好基本环境后，先创建一个colcon工作区，比如:
 
 .. code-block:: shell
     :linenos:
@@ -28,14 +28,14 @@ fr_ros2有两个功能包组成，一个是自定义数据结构的功能包frha
 .. code-block:: shell
     :linenos:
 
-    colcon build --packages-select frhal_msgs
+    colcon build --packages-select fairino_msgs
 
 等待上一条命令完成编译后
 
 .. code-block::  shell
     :linenos:
 
-    colcon build --packages-select fr_ros2
+    colcon build --packages-select fairino_hardware
 
 快速开始
 ++++++++++++++
@@ -49,7 +49,7 @@ fr_ros2有两个功能包组成，一个是自定义数据结构的功能包frha
 
     cd ros2_ws
     source install/setup.bash
-    ros2 run fr_ros2 ros2_cmd_server
+    ros2 run fairino_hardware ros2_cmd_server
 
 .. image:: img/fr_ros2_001.png
     :width: 6in
@@ -91,7 +91,7 @@ fr_ros2有两个功能包组成，一个是自定义数据结构的功能包frha
     :width: 6in
     :align: center
 
-在GUI界面选择plugins->serivce->serivce caller，调出如下界面，选择/FR_ROS_API_service这项，在界面expression中输入指令字符串点击call即可看到下方对话框中跳出回复信息。
+在GUI界面选择plugins->serivce->serivce caller，调出如下界面，选择/fairino_remote_command_service这项，在界面expression中输入指令字符串点击call即可看到下方对话框中跳出回复信息。
 
 .. image:: img/fr_ros2_004.png
     :width: 6in
@@ -111,7 +111,7 @@ fr_ros2有两个功能包组成，一个是自定义数据结构的功能包frha
 --------------------------
 由于简化SDK是改进自原生的SDK接口，能够简化是因为赋予了一些参数默认值，而在实际使用过程中也会遇到默认参数无法满足要求的情况，这个时候可以通过修改对应默认参数的数值，然后加载到节点中。
 
-源代码文件中存在一个fr_ros2_para.yaml参数文件，文件中的参数为预先设置的默认参数，用于简化指令输入参数，可以根据自己的具体需要修改其中的参数，然后使用命令动态修改参数: ros2 param load FR_ROS_API_nod ~/ros2_ws/src/fr_ros2/fr_ros2_para.yaml。
+源代码文件中存在一个fairino_remotecmdinterface_para.yaml参数文件，文件中的参数为预先设置的默认参数，用于简化指令输入参数，可以根据自己的具体需要修改其中的参数，然后使用命令动态修改参数: ros2 param load fr_command_server ~/ros2_ws/src/fairino_hardware/fairino_remotecmdinterface_para.yaml。
 
 API说明
 ++++++++++++++
@@ -507,4 +507,3 @@ API说明
     函数功能描述:点位整体偏移结束
     */
     int PointsOffsetDisable();
-
