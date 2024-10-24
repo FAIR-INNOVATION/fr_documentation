@@ -3,7 +3,7 @@
 fairino_hardware为法奥协作机器人基于ROS2开发的API接口，旨在针对入门级用户更便捷的使用法奥SDK。通过参数配置文件对默认参数的配置，即可适应不同的客户要求。 
 
 fairino_hardware
-++++++++++++++
+++++++++++++++++++++++++++++
 本章节说明APP运行环境如何配置。
 
 基本环境安装
@@ -12,7 +12,7 @@ fairino_hardware
 推荐在Ubuntu22.04LTS(Jammy)上使用，系统安装完毕后，就可以安装ROS2，推荐用ros2-humble，ROS2的安装可以参考教程：https://docs.ros.org/en/humble/index.html。在正式编译fairino_hardware前，需要安装官方ros2_control包，ros2_control安装可以参考教程：https://control.ros.org/humble/index.html。官方提供两种ros2_control安装方式，分别为指令安装方式和源码编译安装方式，由于指令安装方式可能会导致功能包安装不全，故推荐使用源码编译安装方式。
 
 编译及构建fairino_hardware
----------------------
+------------------------------------------
 1. 创建colcon工作区
 fairino_hardware有两个功能包组成，一个是自定义数据结构的功能包fairino_msgs，另外一个是程序主体fairino_hardware功能包。在安装好基本环境后，先创建一个colcon工作区，比如:
 
