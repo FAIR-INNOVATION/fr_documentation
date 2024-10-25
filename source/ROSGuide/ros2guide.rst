@@ -9,12 +9,107 @@ fairino_hardware
 基本环境安装
 --------------
 
-推荐在Ubuntu22.04LTS(Jammy)上使用，系统安装完毕后，就可以安装ROS2，推荐用ros2-humble，ROS2的安装可以参考教程：https://docs.ros.org/en/humble/index.html。在正式编译fairino_hardware前，需要安装官方ros2_control包，ros2_control安装可以参考教程：https://control.ros.org/humble/index.html。官方提供两种ros2_control安装方式，分别为指令安装方式和源码编译安装方式，由于指令安装方式可能会导致功能包安装不全，故推荐使用源码编译安装方式。
+推荐在Ubuntu22.04LTS(Jammy)上使用，系统安装完毕后，需要安装ROS2，推荐用ros2-humble，全部的ROS2的安装可以参考教程：https://docs.ros.org/en/humble/index.html。
+在正式编译fairino_hardware前，还需要安装官方ros2_control包，全部的ros2_control安装可以参考教程：https://control.ros.org/humble/index.html。官方提供两种ros2_control安装方式，分别为指令安装方式和源码编译安装方式，由于指令安装方式可能会导致功能包安装不全，故推荐使用源码编译安装方式。
+
+下面对ROS2(humble)的过程详细阐述：
+
+1.打开shell窗口
+
+.. code-block:: shell
+    :linenos:
+
+    locale  # check for UTF-8
+
+    sudo apt update && sudo apt install locales
+    sudo locale-gen en_US en_US.UTF-8
+    sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+    export LANG=en_US.UTF-8
+
+    locale  # verify settings
+
+2.设置源
+
+.. code-block:: shell
+    :linenos:
+    
+    sudo apt install software-properties-common
+    sudo add-apt-repository universe
+
+    sudo apt update && sudo apt install curl -y
+    sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+
+3.安装ROS2
+
+.. code-block:: shell
+    :linenos:
+
+    sudo apt update
+    sudo apt upgrade
+    sudo apt install ros-humble-desktop
+
+4.最后安装dev工具
+
+.. code-block:: shell
+    :linenos:
+
+    sudo apt install ros-dev-tools
+
+下面对ros2_control的安装过程详细阐述：
+
+1.首先source ROS2的资源
+
+.. code-block:: shell
+    :linenos:
+
+    source /opt/ros/humble/setup.bash
+
+2.创建ros2_control工作空间，下载资源
+
+.. code-block:: shell
+    :linenos:
+
+    mkdir -p ~/ros2_control_ws/src
+    cd ~/ros2_control_ws/
+    wget https://raw.githubusercontent.com/ros-controls/ros2_control_ci/master/ros_controls.$ROS_DISTRO.repos
+    vcs import src < ros_controls.$ROS_DISTRO.repos
+
+3.安装依赖包
+
+.. code-block:: shell
+    :linenos:
+
+    rosdep update --rosdistro=$ROS_DISTRO
+    sudo apt-get update
+    rosdep install --from-paths src --ignore-src -r -y
+
+4.编译ros2_control
+
+.. code-block:: shell
+    :linenos:
+
+    . /opt/ros/${ROS_DISTRO}/setup.sh
+    colcon build --symlink-install
+
+
+
 
 编译及构建fairino_hardware
 ------------------------------------------
 1. 创建colcon工作区
 fairino_hardware有两个功能包组成，一个是自定义数据结构的功能包fairino_msgs，另外一个是程序主体fairino_hardware功能包。在安装好基本环境后，先创建一个colcon工作区，比如:
+
+首先必须source ROS2和ros2_control的资源
+
+.. code-block:: shell
+    :linenos:
+
+    source /opt/ros/humble/setup.bash
+    source ~/ros2_control_ws/install/setup.bash
+
+然后再创建工作区
 
 .. code-block:: shell
     :linenos:
