@@ -84,7 +84,7 @@ FAIRINO SimMachine
 -----------------------
     :download:`FAIRINO SimMachine Virtual Box <https://pan.baidu.com/s/11yp-X-AlN-OyhzWV9rDlbQ?pwd=lp85>`
 
-    :download:`FAIRINO SimMachine Docker <https://pan.baidu.com/s/1m0gd3KP9H27Tw7OM8yhDBA?pwd=99hp>`
+    :download:`FAIRINO SimMachine Docker <https://pan.baidu.com/s/1PacBwAJsN1SX4C1OQgT3Sg?pwd=u37q>`
 
 码垛机frcap
 ---------------------------------
