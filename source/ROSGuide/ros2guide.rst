@@ -519,10 +519,12 @@ API说明
     函数功能描述:关节空间运动
     string point_name - 预存点位名称,比如JNT1就是关节点位信息序号为1的点位,CART1就是笛卡尔点位信息序号为1的点位,MoveJ指令支持输入关节点位或者笛卡尔点位。需要注意的,MoveJ指令由于默认参数中有指定工具坐标系和工件坐标系,当这两个坐标系序号与当前加载的不一致时,该指令会导致报错,需要在默认参数中修改坐标系参数并load参数后再运行该运动指令。
     float vel - 指令速度百分比,范围0-100
+    int tool - 工具坐标系序号
+    int user - 工件坐标系序号
     */
-    int MoveJ(string point_name, float vel);//point_name是输入预存点位信息,
+    int MoveJ(string point_name, float vel,int tool, int user);//point_name是输入预存点位信息,
     // 例子
-    MoveJ(JNT1,10)
+    MoveJ(JNT1,10,1,1)
 
     /*
     函数功能描述:笛卡尔空间直线运动
