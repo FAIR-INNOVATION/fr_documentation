@@ -10,7 +10,7 @@
 
 PDF下载
 ------------------
-    :download:`法奥意威协作机器人用户手册 <https://pan.baidu.com/s/1tHP2YtumP10Kd_tsVUGyIg?pwd=31ht>`
+    :download:`法奥意威协作机器人用户手册 <https://pan.baidu.com/s/1jrMjDhCR3UayNLWq4GRiJA?pwd=2a5b>`
 
 快速开始
 ------------
@@ -46,6 +46,7 @@ PDF下载
     application
     system
     teach_pendant
+    custom_protocol_slave
     appendix
     term
 

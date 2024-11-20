@@ -80,6 +80,22 @@
 
     :download:`FRCobots-V6.0 STEP模型 <_static/_doc/FRCobots-V6.0 STEP Models.zip>`
 
+    :download:`mini控制箱2kw(直流+交流) STEP模型 <_static/_doc/mini控制箱2kw(直流+交流).zip>`
+
+    :download:`控制箱5kw(直流+交流) STEP模型 <_static/_doc/控制箱5kw(直流+交流).zip>`
+
+    :download:`示教器 STEP模型 <_static/_doc/示教器.zip>`
+
+    :download:`按钮盒 STEP模型 <_static/_doc/按钮盒.zip>`
+
+    :download:`码垛工作站 STEP模型 <_static/_doc/码垛.zip>`
+
+    :download:`分拣工作站 STEP模型 <_static/_doc/分拣.zip>`
+
+    :download:`星火计划教育工作平台 STEP模型 <_static/_doc/星火计划.zip>`
+
+    :download:`智能焊接工作站 STEP模型 <_static/_doc/智能焊接.zip>`
+
 FAIRINO SimMachine
 -----------------------
     :download:`FAIRINO SimMachine Virtual Box <https://pan.baidu.com/s/11yp-X-AlN-OyhzWV9rDlbQ?pwd=lp85>`
@@ -92,7 +108,7 @@ FAIRINO SimMachine
 
 软件下载
 ---------------------------------
-    :download:`FAIRINO-CobotSoftware-V3.7.5-Release-240930 <https://pan.baidu.com/s/1zYFZmGVZhe2st3xj5nwElA?pwd=htfv>`
+    :download:`FAIRINO-CobotSoftware-V3.7.6-Release-241118 <https://pan.baidu.com/s/1igtNgmNBdfg0VT2c2BPipw?pwd=s5je>`
 
     :download:`FAIRINO CPP SDK-v2 <https://gitee.com/fair-innovation/fairino-cpp-sdk/repository/archive/master.zip>`
 

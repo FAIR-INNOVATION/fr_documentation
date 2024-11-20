@@ -9,7 +9,7 @@
 project = '法奥意威协作机器人用户手册'
 copyright = '2022-2024, 法奥意威（苏州）机器人系统有限公司'
 author = '法奥意威（苏州）机器人系统有限公司'
-release = '3.7.5'
+release = '3.7.6'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -32,7 +32,7 @@ locale_dirs = ['locale/']  # 设置本地化数据目录
 html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
 html_css_files = ["custom.css"]
-html_logo = '_static/logo-zh.png'
+html_logo = '_static/logo.svg'
 html_theme_options = {
     'logo_only': True,
     'display_version': False,

@@ -543,7 +543,7 @@ UDP扩展轴参数配置
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``SetAxisDHParaConfig(axisConfig,axisDHd1,axisDHd2,axisDHd3,axisDHd4,axisDHa1, axisDHa2,axisDHa3,axisDHa4)``"
+    "原型", "``ExtAxisParamConfig(axisId, axisType, axisDirection, axisMax, axisMin, axisVel, axisAcc,axisLead, encResolution, axisOffect, axisCompany, axisModel, axisEncType)``"
     "描述", "UDP扩展轴参数配置"
     "必选参数", "
     - ``axisId``：轴号[1-4]；
