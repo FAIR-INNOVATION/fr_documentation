@@ -14,8 +14,8 @@
     "描述", "获取机器人安装角度"
     "必选参数", "无"
     "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回）[yangle,zangle] yangle-倾斜角,zangle-旋转角"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``[yangle,zangle]``：yangle-倾斜角,zangle-旋转角"
 
 代码示例
 ------------
@@ -38,8 +38,8 @@
     "描述", "获取系统变量值"
     "必选参数", "- ``id``：系统变量编号，范围[1~20]"
     "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回） var_value：系统变量值"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``var_value``：系统变量值"
 
 代码示例
 ------------
@@ -60,12 +60,12 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``GetActualJointPosDegree(flag = 1)``"
+    "原型", "``GetActualJointPosDegree(flag=1)``"
     "描述", "获取关节当前位置(角度)"
-    "必选参数", "- ``flag``：0-阻塞，1-非阻塞"
-    "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回） joint_pos=[j1,j2,j3,j4,j5,j6]"
+    "必选参数", "无"
+    "默认参数", "- ``flag``：0-阻塞，1-非阻塞，默认1"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``joint_pos=[j1,j2,j3,j4,j5,j6]``：当前关节位置(角度)"
 
 代码示例
 ------------
@@ -84,12 +84,12 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``GetActualJointPosRadian(flag = 1)``"
+    "原型", "``GetActualJointPosRadian(flag=1)``"
     "描述", "获取关节当前位置(弧度)"
     "必选参数", "无"
     "默认参数", "- ``flag``：0-阻塞，1-非阻塞 默认1"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回） joint_pos=[j1,j2,j3,j4,j5,j6]"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``joint_pos=[j1,j2,j3,j4,j5,j6]``：当前关节位置(弧度)"
 
 代码示例
 ------------
@@ -108,12 +108,12 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``GetActualJointSpeedsDegree (flag = 1 )``"
+    "原型", "``GetActualJointSpeedsDegree (flag=1)``"
     "描述", "获取关节反馈速度-deg/s"
     "必选参数", "无"
     "默认参数", "- ``flag``：0-阻塞，1-非阻塞 默认1"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回） speed=[j1,j2,j3,j4,j5,j6]"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``speed=[j1,j2,j3,j4,j5,j6]``：关节反馈速度-deg/s"
 
 代码示例
 ------------
@@ -132,12 +132,12 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``GetTargetTCPCompositeSpeed (flag = 1)``"
+    "原型", "``GetTargetTCPCompositeSpeed(flag=1)``"
     "描述", "获取TCP指令合速度"
     "必选参数", "无"
     "默认参数", "- ``flag``：0-阻塞，1-非阻塞 默认1"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回）[tcp_speed,ori_speed] tcp_speed 线性合速度 ori_speed 姿态合速度"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``[tcp_speed,ori_speed]``：tcp_speed-线性合速度 ori_speed-姿态合速度"
 
 代码示例
 ------------
@@ -156,12 +156,12 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``GetActualTCPCompositeSpeed (flag = 1)``"
+    "原型", "``GetActualTCPCompositeSpeed(flag=1)``"
     "描述", "获取TCP反馈合速度"
     "必选参数", "无"
     "默认参数", "- ``flag``：0-阻塞，1-非阻塞 默认1"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回）[tcp_speed,ori_speed] tcp_speed 线性合速度 ori_speed 姿态合速度"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``[tcp_speed,ori_speed]``：tcp_speed-线性合速度 ori_speed-姿态合速度"
 
 代码示例
 ------------
@@ -180,12 +180,12 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``GetTargetTCPSpeed (flag = 1)``"
+    "原型", "``GetTargetTCPSpeed(flag=1)``"
     "描述", "获取TCP指令速度"
     "必选参数", "无"
     "默认参数", "- ``flag``：0-阻塞，1-非阻塞 默认1"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回）speed [x,y,z,rx,ry,rz]"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``speed=[x,y,z,rx,ry,rz]``：TCP指令速度，mm/s"
 
 代码示例
 ------------
@@ -204,12 +204,12 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``GetActualTCPSpeed (flag = 1)``"
+    "原型", "``GetActualTCPSpeed(flag=1)``"
     "描述", "获取TCP反馈速度"
     "必选参数", "无"
     "默认参数", "- ``flag``：0-阻塞，1-非阻塞 默认1"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回）speed [x,y,z,rx,ry,rz]"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``speed=[x,y,z,rx,ry,rz]``：TCP反馈速度"
 
 代码示例
 ------------
@@ -228,12 +228,12 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``GetActualTCPPose (flag = 1)``"
+    "原型", "``GetActualTCPPose(flag=1)``"
     "描述", "获取当前工具位姿"
     "必选参数", "无"
     "默认参数", "- ``flag``：0-阻塞，1-非阻塞 默认1"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回）tcp_pose=[x,y,z,rx,ry,rz]"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``tcp_pose=[x,y,z,rx,ry,rz]``：当前工具位姿"
 
 代码示例
 ------------
@@ -252,12 +252,12 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``GetActualTCPNum (flag = 1)``"
+    "原型", "``GetActualTCPNum(flag=1)``"
     "描述", "获取当前工具坐标系编号"
     "必选参数", "无"
     "默认参数", "- ``flag``：0-阻塞，1-非阻塞 默认1"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回）tool_id:工具坐标系编号"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``tool_id``:工具坐标系编号"
 
 代码示例
 ------------
@@ -276,12 +276,12 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``GetActualWObjNum (flag = 1)``"
+    "原型", "``GetActualWObjNum(flag=1)``"
     "描述", "获取当前工件坐标系编号"
     "必选参数", "无"
-    "默认参数", "``flag``：0-阻塞，1-非阻塞  默认1"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回）wobj_id:工件坐标系编号"
+    "默认参数", "- ``flag``：0-阻塞，1-非阻塞  默认1"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``wobj_id``:工件坐标系编号"
 
 代码示例
 ------------
@@ -300,12 +300,12 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``GetActualToolFlangePose (flag = 1)``"
+    "原型", "``GetActualToolFlangePose(flag=1)``"
     "描述", "获取当前末端法兰位姿"
     "必选参数", "无"
     "默认参数", "- ``flag``：0-阻塞，1-非阻塞  默认1"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回）flange_pose=[x,y,z,rx,ry,rz]"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``flange_pose=[x,y,z,rx,ry,rz]``：当前末端法兰位姿"
 
 代码示例
 ------------
@@ -324,13 +324,13 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``GetInverseKin(type,desc_pos,config)``"
+    "原型", "``GetInverseKin(type,desc_pos,config=-1)``"
     "描述", "逆运动学，笛卡尔位姿求解关节位置 "
     "必选参数", "- ``type``:0-绝对位姿(基坐标系)，1-相对位姿（基坐标系），2-相对位姿（工具坐标系）
     - ``desc_pose``:[x,y,z,rx,ry,rz],工具位姿，单位[mm][°]"
     "默认参数", "- ``config``:关节配置，[-1]-参考当前关节位置求解，[0~7]-依据关节配置求解 默认-1"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回） joint_pos=[j1,j2,j3,j4,j5,j6]"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``joint_pos=[j1,j2,j3,j4,j5,j6]``：逆运动学解，笛卡尔位姿求解关节位置"
 
 代码示例
 ------------
@@ -357,8 +357,8 @@
     - ``desc_pos``：[x,y,z,rx,ry,rz]工具位姿，单位[mm][°]
     - ``joint_pos_ref``：[j1,j2,j3,j4,j5,j6]，关节参考位置，单位[°]"
     "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回） joint_pos=[j1,j2,j3,j4,j5,j6]"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``joint_pos=[j1,j2,j3,j4,j5,j6]``：逆运动学解，工具位姿求解关节位置"
 
 代码示例
 ------------
@@ -385,8 +385,8 @@
     - ``desc_pos``：[x,y,z,rx,ry,rz]工具位姿，单位[mm][°]
     - ``joint_pos_ref``：[j1,j2,j3,j4,j5,j6]，关节参考位置，单位[°]"
     "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回） result:“True”-有解，“False”-无解"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``result``:“True”-有解，“False”-无解"
 
 代码示例
 ------------
@@ -412,7 +412,7 @@
     "必选参数", "- ``joint_pos``:[j1,j2,j3,j4,j5,j6]:关节位置，单位[°]"
     "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回）desc_pos=[x,y,z,rx,ry,rz]"
+    - ``desc_pos=[x,y,z,rx,ry,rz]``：正运动学解，关节位置求解工具位姿"
 
 代码示例
 ------------
@@ -432,12 +432,12 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``GetJointTorques (flag = 1)``"
+    "原型", "``GetJointTorques(flag=1)``"
     "描述", "获取当前关节转矩"
     "必选参数", "无"
     "默认参数", "``flag``：0-阻塞，1-非阻塞  默认1"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回）torques=[j1,j2,j3,j4,j5,j6]"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``torques=[j1,j2,j3,j4,j5,j6]``：关节扭矩"
 
 代码示例
 ------------
@@ -456,12 +456,12 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``GetTargetPayload (flag = 1)``"
+    "原型", "``GetTargetPayload(flag=1)``"
     "描述", "获取当前负载的质量"
     "必选参数", "无"
     "默认参数", "``flag``：0-阻塞，1-非阻塞  默认1"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回）weight  单位 [kg]"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``weight``：当前负载重量，单位 [kg]"
 
 代码示例
 ------------
@@ -480,12 +480,12 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``GetTargetPayloadCog (flag = 1)``"
+    "原型", "``GetTargetPayloadCog(flag=1)``"
     "描述", "获取当前负载的质心"
     "必选参数", "无"
     "默认参数", "``flag``：0-阻塞，1-非阻塞  默认1"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回）cog=[x,y,z]: 质心坐标，单位 [mm]"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``cog=[x,y,z]``: 当前质心坐标，单位 [mm]"
 
 代码示例
 ------------
@@ -504,12 +504,12 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``GetTCPOffset (flag = 1)``"
+    "原型", "``GetTCPOffset(flag=1)``"
     "描述", "获取当前工具坐标系"
     "必选参数", "无"
     "默认参数", "``flag``：0-阻塞，1-非阻塞  默认1"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回）tcp_offset=[x,y,z,rx,ry,rz]: 相对位姿，单位 [mm][°]"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``tcp_offset=[x,y,z,rx,ry,rz]``: 当前工具坐标系相对位姿，单位[mm][°]"
 
 代码示例
 ------------
@@ -528,12 +528,12 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``GetWObjOffset (flag = 1)``"
+    "原型", "``GetWObjOffset(flag=1)``"
     "描述", "获取当前工件坐标系"
     "必选参数", "无"
-    "默认参数", "``flag``：0-阻塞，1-非阻塞  默认1"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回）wobj_offset=[x,y,z,rx,ry,rz]: 相对位姿，单位 [mm][°]"
+    "默认参数", "``flag``：0-阻塞，1-非阻塞，默认1"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``wobj_offset=[x,y,z,rx,ry,rz]``: 当前工件坐标系相对位姿，单位[mm][°]"
 
 代码示例
 ------------
@@ -552,12 +552,12 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``GetJointSoftLimitDeg (flag = 1)``"
+    "原型", "``GetJointSoftLimitDeg(flag=1)``"
     "描述", "获取关节软限位角度"
     "必选参数", "无"
     "默认参数", "``flag``：0-阻塞，1-非阻塞  默认1"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回）[j1min,j1max,j2min,j2max,j3min,j3max, j4min,j4max,j5min, j5max, j6min,j6max]:  轴 1~ 轴 6 关节负限位与正限位，单位 [mm]"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``[j1min,j1max,j2min,j2max,j3min,j3max, j4min,j4max,j5min, j5max, j6min,j6max]``：轴1~轴6，关节负限位与正限位，单位[mm]"
 
 代码示例
 ------------
@@ -580,8 +580,8 @@
     "描述", "获取系统时间"
     "必选参数", "无"
     "默认参数", "无"
-    "返回值", "-错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回）t_ms: 单位 [ms]"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``t_ms``: 系统时间，单位 [ms]"
 
 代码示例
 ------------
@@ -604,8 +604,8 @@
     "描述", "获取机器人当前关节配置"
     "必选参数", "无"
     "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回）config: 范围 [0~7]"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``config``: 机器人当前关节配置，范围 [0~7]"
 
 代码示例
 ------------
@@ -628,8 +628,8 @@
     "描述", "获取默认速度"
     "必选参数", "无"
     "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回）vel: 单位 [mm/s]"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``vel``: 默认速度，单位 [mm/s]"
 
 代码示例
 ------------
@@ -652,8 +652,8 @@
     "描述", "查询机器人运动是否完成"
     "必选参数", "无"
     "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回）state:0-未完成，1-完成"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``state``: 机器人运动状态，0-未完成，1-完成"
 
 代码示例
 ------------
@@ -676,8 +676,8 @@
     "描述", "查询机器人错误码"
     "必选参数", "无"
     "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回）[maincode subcode] maincode 主错误码 subcode 子错误码"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``[maincode subcode]``：机器人错误码，maincode-主错误码，subcode-子错误码"
 
 代码示例
 ------------
@@ -700,8 +700,8 @@
     "描述", "查询机器人示教管理点位数据"
     "必选参数", "``name``：点位名"
     "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回）点位数据[x,y,z,rx,ry,rz,j1,j2,j3,j4,j5,j6,tool, wobj,speed,acc,e1,e2,e3,e4]"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``[x,y,z,rx,ry,rz,j1,j2,j3,j4,j5,j6,tool,wobj,speed,acc,e1,e2,e3,e4]``：点位数据"
 
 代码示例
 ------------
@@ -724,8 +724,8 @@
     "描述", "获取SSH公钥"
     "必选参数", "无"
     "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回）keygen 公钥"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``keygen``：公钥"
 
 代码示例
 ------------
@@ -748,8 +748,8 @@
     "描述", "计算指定路径下文件的MD5值"
     "必选参数", "- ``file_path``：文件路径包含文件名，默认Traj文件夹路径为:/fruser/traj/,如/fruser/traj/trajHelix_aima_1.txt"
     "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回）keygen 公钥"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``md5``：文件MD5值"
 
 代码示例
 ------------
@@ -775,7 +775,9 @@
     "必选参数", "无"
     "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode
-    - Return:（if success）robotModel, webVersion, controllerVersion"
+    - ``robotModel``：机器人模型
+    - ``webVersion``：web版本
+    - ``controllerVersion``：控制器版本"
 
 代码示例
 ------------
@@ -802,7 +804,14 @@
     "必选参数", "无"
     "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode
-    - Return:（if success）ctrlBoxBoardVersion, driver1Version, driver2Version , driver3Version, driver4Version, driver5Version, driver6Version, endBoardVersion"
+    - ``ctrlBoxBoardVersion``：控制箱版本
+    - ``driver1Version``
+    - ``driver2Version``
+    - ``driver3Version``
+    - ``driver4Version``
+    - ``driver5Version``
+    - ``driver6Version``
+    - ``endBoardVersion``"
 
 代码示例
 ------------
@@ -828,7 +837,14 @@
     "必选参数", "无"
     "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode
-    - Return:（if success）ctrlBoxBoardVersion, driver1Version, driver2Version , driver3Version, driver4Version, driver5Version, driver6Version, endBoardVersion"
+    - ``ctrlBoxBoardVersion``：控制箱版本
+    - ``driver1Version``
+    - ``driver2Version``
+    - ``driver3Version``
+    - ``driver4Version``
+    - ``driver5Version``
+    - ``driver6Version``
+    - ``endBoardVersion``"
 
 代码示例
 ------------
@@ -854,7 +870,7 @@
     "必选参数", "无"
     "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode
-    - Return:（if success）dhCompensation 机器人DH参数补偿值(mm) [cmpstD1,cmpstA2,cmpstA3,cmpstD4,cmpstD5,cmpstD6]"
+    - ``dhCompensation=[cmpstD1,cmpstA2,cmpstA3,cmpstD4,cmpstD5,cmpstD6]``：机器人DH参数补偿值(mm)"
 
 代码示例
 ------------
@@ -866,3 +882,33 @@
     robot = Robot.RPC('192.168.58.2')
     error = robot.GetDHCompensation()
     print(error)
+
+获取关节驱动器当前扭矩
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetJointDriverTorque()``"
+    "描述", "获取关节驱动器当前扭矩"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode 
+    - ``data=[j1,j2,j3,j4,j5,j6]``：关节驱动器当前扭矩"
+
+获取关节驱动器当前温度
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetJointDriverTemperature()``"
+    "描述", "获取关节驱动器当前温度"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode 
+    - ``data=[t1,t2,t3,t4,t5,t6]``：关节驱动器当前温度"

@@ -26,9 +26,12 @@
     /**
     * @brief  设置碰撞后策略
     * @param  [in] strategy  0-报错停止，1-继续运行
-    * @return  错误码  
+    * @param  [in] safeTime  安全停止时间[1000 - 2000]ms
+    * @param  [in] safeDistance  安全停止距离[1-150]mm
+    * @param  [in] safetyMargin  j1-j6安全系数[1-10]
+    * @return  错误码
     */
-    int SetCollisionStrategy(int strategy); 
+    int SetCollisionStrategy(int strategy, int safeTime, int safeDistance, int[] safetyMargin); 
 
 设置正限位
 ++++++++++++++++++++++++++++++++

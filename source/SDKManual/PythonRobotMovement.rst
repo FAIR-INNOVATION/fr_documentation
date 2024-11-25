@@ -350,16 +350,10 @@ jog点动立即停止
 
     "原型", "``NewSpiral(desc_pos, tool, user, param, joint_pos = [0.0,0.0,0.0,0.0,0.0,0.0], vel = 20.0, acc = 0.0, exaxis_pos = [0.0,0.0,0.0,0.0], ovl = 100.0, offset_flag = 0, offset_pos = [0.0,0.0,0.0,0.0,0.0,0.0])``"
     "描述", "笛卡尔空间螺旋线运动"
-    "必选参数", "- ``desc_pos``:目标笛卡尔位姿，单位[mm][°]；
-    - ``tool``:工具号，[0~14]；
-    - ``user``:工件号，[0~14]；
-    - ``param``:[circle_num, circle_angle, rad_init, rad_add, rotaxis_add, rot_direction]：
-                        circle_num: 螺旋圈数;
-                        circle_angle: 螺旋倾角;
-                        rad_init: 螺旋初始半径;
-                        rad_add: 半径增量;
-                        rotaxis_add: 转轴方向增量;
-                        rot_direction: 旋转方向，0-顺时针，1-逆时针;"
+    "必选参数", "- ``desc_pos``:目标笛卡尔位姿，单位[mm][°];
+    - ``tool``:工具号，[0~14];
+    - ``user``:工件号，[0~14];
+    - ``param=[circle_num, circle_angle, rad_init, rad_add, rotaxis_add, rot_direction]``：circle_num: 螺旋圈数;circle_angle: 螺旋倾角;rad_init: 螺旋初始半径;rad_add: 半径增量;rotaxis_add: 转轴方向增量;rot_direction: 旋转方向，0-顺时针，1-逆时针;"
     "默认参数", "- ``joint_pos``:目标关节位置，单位 [°] 默认初值为[0.0,0.0,0.0,0.0,0.0,0.0]，默认值调用逆运动学求解返回值;
     - ``vel``:速度百分比，[0~100] 默认20.0;
     - ``acc``:加速度百分比，[0~100] 默认100.0;
@@ -421,9 +415,10 @@ jog点动立即停止
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``ServoJ(joint_pos, acc = 0.0, vel = 0.0, cmdT = 0.008, filterT = 0.0, gain = 0.0)``"
+    "原型", "``ServoJ(joint_pos, axisPos, acc = 0.0, vel = 0.0, cmdT = 0.008, filterT = 0.0, gain = 0.0)``"
     "描述", "关节空间伺服模式运动"
-    "必选参数", "- ``joint_pos``:目标关节位置，单位[°]；"
+    "必选参数", "- ``joint_pos``:目标关节位置，单位[°]；
+    - ``axisPos``:外部轴位置,单位mm；"
     "默认参数", "- ``acc``:加速度，范围 [0~100]，暂不开放，默认为 0.0;
     - ``vel``:速度，范围 [0~100]，暂不开放，默认为 0.0;
     - ``cmdT``:指令下发周期，单位s，建议范围[0.001~0.0016], 默认为0.008;
@@ -468,7 +463,7 @@ jog点动立即停止
     error = robot.ServoMoveStart()  #伺服运动开始
     print("伺服运动开始错误码",error)
     while(count):
-        error = robot.ServoJ(joint_pos)   #关节空间伺服模式运动
+        error = robot.ServoJ(joint_pos=joint_pos,axisPos=[0,0,0,0,0,0])   #关节空间伺服模式运动
         if error!=0:
             error_joint =error
         joint_pos[0] = joint_pos[0] + 0.1  #每次1轴运动0.1度，运动100次
@@ -566,8 +561,7 @@ jog点动立即停止
     - ``vel``:速度，范围 [0~100]，默认为 20.0;
     - ``acc``:加速度，范围 [0~100]，默认为 100.0;
     - ``ovl``:速度缩放因子，[0~100]，默认为 100.0"
-    "返回值", "- 成功：[0]
-    - 失败：[errcode]"
+    "返回值", "错误码 成功-0  失败- errcode"
 
 样条运动结束
 ----------------
@@ -616,7 +610,7 @@ jog点动立即停止
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``NewSplineStart(type,averageTime)``"
+    "原型", "``NewSplineStart(type,averageTime=2000)``"
     "描述", "新样条运动开始"
     "必选参数", "- ``type``:0-圆弧过渡，1-给定点位路径点"
     "默认参数", "- ``averageTime``:全局平均衔接时间（ms）默认为 2000"
@@ -632,8 +626,7 @@ jog点动立即停止
     "描述", "新样条运动结束"
     "必选参数", "无"
     "默认参数", "无"
-    "返回值", "- 成功：[0]
-    - 失败：[errcode]"
+    "返回值", "错误码 成功-0  失败- errcode"
 
 新样条指令点
 ----------------
@@ -820,8 +813,8 @@ jog点动立即停止
     
     "原型", "``MoveAOStop()``"
     "描述", "控制箱运动AO结束"
-    "必选参数", "NULL"
-    "默认参数", "NULL"
+    "必选参数", "无"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
 末端运动AO开始
@@ -874,6 +867,6 @@ jog点动立即停止
     
     "原型", "``MoveToolAOStop()``"
     "描述", "末端运动AO结束"
-    "必选参数", "NULL"
-    "默认参数", "NULL"
+    "必选参数", "无"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"

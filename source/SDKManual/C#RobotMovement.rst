@@ -178,9 +178,11 @@ jog点动立即停止
     * @param  [in] search  0-不焊丝寻位，1-焊丝寻位
     * @param  [in] offset_flag  0-不偏移，1-基坐标系/工件坐标系下偏移，2-工具坐标系下偏移
     * @param  [in] offset_pos  位姿偏移量
+    * @param  [in] overSpeedStrategy  超速处理策略，1-标准；2-超速时报错停止；3-自适应降速，默认为0
+    * @param  [in] speedPercent  允许降速阈值百分比[0-100]，默认10%
     * @return  错误码
     */   
-    int MoveL(JointPos joint_pos, DescPose desc_pos, int tool, int user, float vel, float acc, float ovl, float blendR, ExaxisPos epos, byte search, byte offset_flag, DescPose offset_pos); 
+    int MoveL(JointPos joint_pos, DescPose desc_pos, int tool, int user, float vel, float acc, float ovl, float blendR, ExaxisPos epos, byte search, byte offset_flag, DescPose offset_pos, int overSpeedStrategy = 0, int speedPercent = 10); 
 
 笛卡尔空间圆弧运动
 +++++++++++++++++++++++++++++
@@ -900,4 +902,61 @@ jog点动立即停止
         rtn = robot.MoveToolAOStop();
         //rtn = robot.MoveAOStop();
         Console.WriteLine(rtn);
+    }
+
+开始奇异位姿保护
++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-v1.0.9
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 开始奇异位姿保护
+    * @param [in] protectMode 奇异保护模式，0：关节模式；1-笛卡尔模式
+    * @param [in] minShoulderPos 肩奇异调整范围(mm), 默认100
+    * @param [in] minElbowPos 肘奇异调整范围(mm), 默认50
+    * @param [in] minWristPos 腕奇异调整范围(°), 默认10
+    * @return 错误码
+    */
+    int SingularAvoidStart(int protectMode, double minShoulderPos, double minElbowPos, double minWristPos);
+
+停止奇异位姿保护
++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-v1.0.9
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 停止奇异位姿保护
+    * @return 错误码
+    */
+    int SingularAvoidEnd();
+
+代码示例
+************
+.. versionadded:: C#SDK-v1.0.9
+    
+.. code-block:: c#
+    :linenos:
+
+    private void btnTestSingularAvoidEArc_Click(object sender, EventArgs e)
+    {
+        DescPose startdescPose = new DescPose(-352.437, -88.350, 226.471, 177.222, 4.924, 86.631);
+        JointPos startjointPos = new JointPos(-3.463, -84.308, 105.579, -108.475, -85.087, -0.334);
+
+        DescPose middescPose = new DescPose(-518.339, -23.706, 207.899, -178.420, 0.171, 71.697);
+        JointPos midjointPos = new JointPos(-8.587, -51.805, 64.914, -104.695, -90.099, 9.718);
+
+        DescPose enddescPose = new DescPose(-273.934, 323.003, 227.224, 176.398, 2.783, 66.064);
+        JointPos endjointPos = new JointPos(-63.460, -71.228, 88.068, -102.291, -90.149, -39.605);
+
+        ExaxisPos exaxisPos = new ExaxisPos(0, 0, 0, 0);
+        DescPose offdese = new DescPose(0, 0, 0, 0, 0, 0);
+
+        robot.MoveL(startjointPos, startdescPose, 0, 0, 50, 100, 100, -1, exaxisPos, 0, 0, offdese, 1, 1);
+        robot.SingularAvoidStart(1, 100, 50, 10);
+        robot.MoveC(midjointPos, middescPose, 0, 0, 50, 100, exaxisPos, 0, offdese, endjointPos, enddescPose, 0, 0, 100, 100, exaxisPos, 0, offdese, 100, -1);
+        robot.SingularAvoidEnd();
     }

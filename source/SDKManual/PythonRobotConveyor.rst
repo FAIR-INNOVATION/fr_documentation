@@ -10,9 +10,9 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "ConveyorStartEnd(status)"
+    "原型", "``ConveyorStartEnd(status)``"
     "描述", "传动带启动、停止"
-    "必选参数", "``status``： 状态，1-启动，0-停止"
+    "必选参数", "- ``status``： 传动带状态，1-启动，0-停止"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
@@ -43,7 +43,7 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "ConveyorPointIORecord()"
+    "原型", "``ConveyorPointIORecord()``"
     "描述", "记录IO检测点"
     "必选参数", "无"
     "默认参数", "无"
@@ -55,7 +55,7 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "ConveyorPointARecord()"
+    "原型", "``ConveyorPointARecord()``"
     "描述", "记录A点"
     "必选参数", "无"
     "默认参数", "无"
@@ -67,7 +67,7 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "ConveyorRefPointRecord()"
+    "原型", "``ConveyorRefPointRecord()``"
     "描述", "记录参考点"
     "必选参数", "无"
     "默认参数", "无"
@@ -90,7 +90,7 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "ConveyorPointBRecord()"
+    "原型", "``ConveyorPointBRecord()``"
     "描述", "记录B点"
     "必选参数", "无"
     "默认参数", "无"
@@ -113,9 +113,9 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "ConveyorSetParam(param)"
+    "原型", "``ConveyorSetParam(param)``"
     "描述", "传动带参数配置"
-    "必选参数", "`` param``： = [encChannel,resolution,lead,wpAxis,vision,speedRadio] 
+    "必选参数", "- `` param``： = [encChannel,resolution,lead,wpAxis,vision,speedRadio] 
                                     - ``encChannel``: 编码器通道 1-2
                                     - ``resolution``: 编码器分辨率 编码器旋转一圈脉冲个数
                                     - ``lead``: 机械传动比 编码器旋转一圈传送带移动距离
@@ -144,9 +144,9 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "ConveyorCatchPointComp(cmp)"
+    "原型", "``ConveyorCatchPointComp(cmp)``"
     "描述", "传动带抓取点补偿"
-    "必选参数", "``cmp``： 补偿位置 [x,y,z]"
+    "必选参数", "- ``cmp``： 补偿位置 [x,y,z]"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
@@ -156,9 +156,9 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "ConveyorIODetect(max_t)"
+    "原型", "``ConveyorIODetect(max_t)``"
     "描述", "传送带工件IO检测"
-    "必选参数", "``max_t``： 最大检测时间，单位ms"
+    "必选参数", "- ``max_t``： 最大检测时间，单位ms"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
@@ -198,9 +198,9 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "ConveyorGetTrackData(mode)"
+    "原型", "``ConveyorGetTrackData(mode)``"
     "描述", "获取物体当前位置"
-    "必选参数", "`` mode``： 1-跟踪抓取 2-跟踪运动 3-TPD跟踪"
+    "必选参数", "- ``mode``： 1-跟踪抓取 2-跟踪运动 3-TPD跟踪"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
@@ -210,9 +210,9 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "ConveyorTrackStart(status)"
+    "原型", "``ConveyorTrackStart(status)``"
     "描述", "传动带跟踪开始"
-    "必选参数", "`` status``： 状态，1-启动，0-停止"
+    "必选参数", "- ``status``： 状态，1-启动，0-停止"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
@@ -222,7 +222,7 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "ConveyorTrackEnd()"
+    "原型", "``ConveyorTrackEnd()``"
     "描述", "传动带跟踪停止"
     "必选参数", "无"
     "默认参数", "无"
@@ -234,9 +234,9 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "ConveyorTrackMoveL(name,tool,wobj,vel=20,acc=100,ovl=100,blendR=-1.0)"
+    "原型", "``ConveyorTrackMoveL(name,tool,wobj,vel=20,acc=100,ovl=100,blendR=-1.0)``"
     "描述", "直线运动"
-    "必选参数", "- `` name cvrCatchPoint 或cvrRaisePoint``
+    "必选参数", "- ``name``：cvrCatchPoint 或cvrRaisePoint
     - ``tool``: 工具号
     - ``wobj``:  工件号"
     "默认参数", "- ``vel``: 速度 默认20

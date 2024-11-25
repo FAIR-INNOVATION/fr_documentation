@@ -40,10 +40,12 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``SetCollisionStrategy (strategy)``"
+    "原型", "``SetCollisionStrategy(strategy,safeTime,safeDistance,safetyMargin)``"
     "描述", "设置碰撞后策略"
     "必选参数", "- ``strategy``：0-报错暂停，1-继续运行"
-    "默认参数", "无"
+    "默认参数", "- ``safeTime``：安全停止时间[1000-2000]ms，默认为：1000
+    - ``safeDistance``：安全停止距离[1-150]mm，默认为：100
+    - ``safetyMargin[6]``：安全系数[1-10]，默认为：[10,10,10,10,10,10]"
     "返回值", "错误码 成功-0  失败- errcode"
 
 代码示例
@@ -54,7 +56,7 @@
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
-    error = robot.SetCollisionStrategy(1)
+    error = robot.SetCollisionStrategy(strategy=1)
     print("设置碰撞后策略错误码:",error)
 
 设置正限位
@@ -256,7 +258,7 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``PointTableDownLoad(point_table_name, save_file_path)``"
+    "原型", "``PointTableDownLoad(point_table_name,save_file_path)``"
     "描述", "下载点位表数据库"
     "必选参数", "- ``point_table_name``：要下载的点位表名称    pointTable1.db;
     - ``save_file_path``:下载点位表的存储路径   C://test/;"
@@ -311,7 +313,7 @@
 
     "原型", "``PointTableSwitch(point_table_name)``"
     "描述", "点位表切换"
-    "必选参数", "- ``point_table_name``：要切换的点位表名称   pointTable1.db,当点位表为空，即""时，表示将lua程序更新为未应用点位表的初始程序"
+    "必选参数", "- ``point_table_name``：要切换的点位表名称pointTable1.db,当点位表为空，即""时，表示将lua程序更新为未应用点位表的初始程序"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
@@ -436,3 +438,62 @@
     error = robot.ServoJTEnd()  #伺服运动结束
     time.sleep(1)
     print("ServoJTEnd return",error)
+
+奇异位姿保护开启
++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SingularAvoidStart(protectMode, minShoulderPos=100, minElbowPos=50, minWristPos=10)``"
+    "描述", "开启奇异位姿保护"
+    "必选参数", "
+    - ``protectMode``：奇异位姿保护保护模式：0-关节模式；1-笛卡尔模式
+    "
+    "默认参数", "- ``minShoulderPos``：肩奇异调整范围(mm), 默认100.0
+    - ``minElbowPos``：肘奇异调整范围(mm), 默认50.0
+    - ``minWristPos``：腕奇异调整范围(°), 默认10.0"
+    "返回值", "- 错误码 成功-0  失败- errcode"
+
+奇异位姿保护关闭
++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SingularAvoidEnd()``"
+    "描述", "关闭奇异位姿保护"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode"
+
+代码示例
+------------
+.. code-block:: python
+    :linenos: 
+
+    from fairino import Robot
+    import time
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+
+    robot = Robot.RPC('192.168.58.2')
+
+    startdescPose = [-352.437, -88.350, 226.471, 177.222, 4.924, 86.631]
+    startjointPos = [-3.463, -84.308, 105.579, -108.475, -85.087, -0.334]
+
+    middescPose = [-518.339, -23.706, 207.899, -178.420, 0.171, 71.697]
+    midjointPos = [-8.587, -51.805, 64.914, -104.695, -90.099, 9.718]
+
+    enddescPose = [-273.934, 323.003, 227.224, 176.398, 2.783, 66.064]
+    endjointPos = [-63.460, -71.228, 88.068, -102.291, -90.149, -39.605]
+
+    robot.MoveL(desc_pos=startdescPose, tool=0, user=0,vel=50)
+    error = robot.SingularAvoidStart(1,100,50,10)
+    print("SingularAvoidStart return ", error)
+    robot.MoveC(desc_pos_p=middescPose,tool_p=0,user_p=0,desc_pos_t=enddescPose,tool_t=0,user_t=0,vel_p=50,vel_t=50)
+    error = robot.SingularAvoidEnd()
+    print("SingularAvoidEnd return ", error)

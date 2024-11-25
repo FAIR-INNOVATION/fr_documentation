@@ -80,6 +80,18 @@
     "extDOState","扩展数字输出状态"
     "extAIState","扩展模拟输入状态"
     "extAOState","扩展模拟输出状态"
+    "rbtEnableState","机器人使能状态"
+    "jointDriverTorque","关节驱动器当前扭矩"
+    "jointDriverTemperature","关节驱动器当前温度"
+    "year","年"
+    "mouth","月"
+    "day","日"
+    "hour","小时"
+    "minute","分"
+    "second","秒"
+    "millisecond","毫秒"
+    "softwareUpgradeState","机器人软件升级状态"
+    "endLuaErrCode","末端LUA运行状态"
     
 代码示例
 ---------------
@@ -212,3 +224,25 @@
     for i in range(4):
         print("extAIState:", i,robot.robot_state_pkg.extAIState[i])
         print("extAOState:", robot.robot_state_pkg.extAOState[i])
+    print("rbtEnableState:", robot.robot_state_pkg.rbtEnableState)
+    print("jointDriverTorque0:", robot.robot_state_pkg.jointDriverTorque[0])
+    print("jointDriverTorque1:", robot.robot_state_pkg.jointDriverTorque[1])
+    print("jointDriverTorque2:", robot.robot_state_pkg.jointDriverTorque[2])
+    print("jointDriverTorque3:", robot.robot_state_pkg.jointDriverTorque[3])
+    print("jointDriverTorque4:", robot.robot_state_pkg.jointDriverTorque[4])
+    print("jointDriverTorque5:", robot.robot_state_pkg.jointDriverTorque[5])
+    print("jointDriverTemperature:", robot.robot_state_pkg.jointDriverTemperature[0])
+    print("jointDriverTemperature:", robot.robot_state_pkg.jointDriverTemperature[1])
+    print("jointDriverTemperature:", robot.robot_state_pkg.jointDriverTemperature[2])
+    print("jointDriverTemperature:", robot.robot_state_pkg.jointDriverTemperature[3])
+    print("jointDriverTemperature:", robot.robot_state_pkg.jointDriverTemperature[4])
+    print("jointDriverTemperature:", robot.robot_state_pkg.jointDriverTemperature[5])
+    print("year:", robot.robot_state_pkg.year)
+    print("mouth:", robot.robot_state_pkg.mouth)
+    print("day:", robot.robot_state_pkg.day)
+    print("hour:", robot.robot_state_pkg.hour)
+    print("minute:", robot.robot_state_pkg.minute)
+    print("second:", robot.robot_state_pkg.second)
+    print("millisecond:", robot.robot_state_pkg.millisecond)
+    print("softwareUpgradeState:", robot.robot_state_pkg.softwareUpgradeState)
+    print("endLuaErrCode:", robot.robot_state_pkg.endLuaErrCode)

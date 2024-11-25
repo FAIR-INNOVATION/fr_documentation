@@ -10,7 +10,7 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``SetTPDParam(name, period_ms, type = 1,di_choose = 0, do_choose = 0)``"
+    "原型", "``SetTPDParam(name, period_ms, type=1,di_choose=0, do_choose=0)``"
     "描述", "设置轨迹记录参数"
     "必选参数", "- ``name``：轨迹名；
     - ``period_ms``：采样周期，固定值，2ms 或 4ms 或 8ms;"
@@ -55,7 +55,7 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``SetTPDStart(name, period_ms, type = 1,di_choose = 0, do_choose = 0)``"
+    "原型", "``SetTPDStart(name, period_ms, type=1,di_choose=0, do_choose=0)``"
     "描述", "开始轨迹记录"
     "必选参数", "- ``name``：轨迹名；
     - ``period_ms``：采样周期，固定值，2ms或4ms或8ms；"
@@ -133,8 +133,8 @@
     "描述", "获取轨迹起始位姿"
     "必选参数", "- ``name``:轨迹名"
     "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回）desc_pose [x,y,z,rx,ry,rz]"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``desc_pose=[x,y,z,rx,ry,rz]``：轨迹起始位姿"
 
 轨迹复现
 ++++++++++++
@@ -156,7 +156,7 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``LoadTrajectoryJ(name,ovl,opt = 1)``"
+    "原型", "``LoadTrajectoryJ(name,ovl,opt=1)``"
     "描述", "轨迹预处理"
     "必选参数", "- ``name``:轨迹名,如：/fruser/traj/trajHelix_aima_1.txt;
     - ``ovl``：速度缩放百分比，范围[0~100];"
@@ -184,9 +184,9 @@
     "原型", "``GetTrajectoryStartPose(name)``"
     "描述", "获取轨迹起始位姿"
     "必选参数", "``name``:轨迹名"
-    "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回）desc_pose [x,y,z,rx,ry,rz]"
+    "默认参数", "无"       
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``desc_pose=[x,y,z,rx,ry,rz]``：轨迹起始位姿"
 
 获取轨迹点编号
 ++++++++++++++++++++
@@ -198,8 +198,8 @@
     "描述", "获取轨迹点编号"
     "必选参数", "无"
     "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回）pnum"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``pnum``：轨迹点编号"
 
 设置轨迹运行中的速度
 ++++++++++++++++++++
@@ -221,7 +221,7 @@
 
     "原型", "``SetTrajectoryJForceTorque(ft)``"
     "描述", "设置轨迹运行中的力和扭矩"
-    "必选参数", "``ft [fx,fy,fz,tx,ty,tz]``:单位N和Nm"
+    "必选参数", "``ft=[fx,fy,fz,tx,ty,tz]``:单位N和Nm"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 

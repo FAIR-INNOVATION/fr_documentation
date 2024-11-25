@@ -94,7 +94,7 @@
 
     "原型", "``PointTableUpdateLua(point_table_name, lua_file_name)``"
     "描述", "点位表更新lua文件"
-    "必选参数", "- ``point_table_name``：要切换的点位表名称   pointTable1.db,当点位表为空，即""时，表示将lua程序更新为未应用点位表的初始程序
+    "必选参数", "- ``point_table_name``：要切换的点位表名称pointTable1.db,当点位表为空，即""时，表示将lua程序更新为未应用点位表的初始程序
     - ``lua_file_name``: 要更新的lua文件名称 testPointTable.lua"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
@@ -204,7 +204,7 @@
     "必选参数", "无"
     "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode; 
-    - ``protocol（调用成功返回）``: 机器人外设协议号 4096-扩展轴控制卡；4097-ModbusSlave；4098-ModbusMaster"
+    - ``protocol``: 机器人外设协议号 4096-扩展轴控制卡；4097-ModbusSlave；4098-ModbusMaster"
 
 末端传感器配置
 +++++++++++++++++++++++++++++++++
@@ -223,7 +223,7 @@
     - ``idBus``: 挂载位置，1-末端1号口；2-末端2号口...8-末端8号口(暂未开放)
     "
     "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode"
+    "返回值", "错误码 成功-0  失败- errcode"
 
 代码示例
 ------------
@@ -261,12 +261,11 @@
 
     "原型", "``AxleSensorConfigGet()``"
     "描述", "获取末端传感器配置"
-    "必选参数", "NULL"
-    "默认参数", "NULL"
+    "必选参数", "无"
+    "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode
-    - ``返回值（调用成功返回） idCompany``: 厂商，18-JUNKONG；25-HUIDE
-    - ``返回值（调用成功返回） idDevice``: 类型，0-JUNKONG/RYR6T.V1.0
-    "
+    - ``idCompany``: 厂商，18-JUNKONG；25-HUIDE
+    - ``idDevice``: 类型，0-JUNKONG/RYR6T.V1.0"
         
 末端传感器激活
 +++++++++++++++++++++++++++++++++
@@ -279,7 +278,188 @@
     "原型", "``AxleSensorActivate(actFlag)``"
     "描述", "末端传感器激活"
     "必选参数", "``actFlag``： 0-复位；1-激活"
-    "默认参数", "NULL"
+    "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode
-    - ``返回值（调用成功返回） coord``: 坐标系值[x,y,z,rx,ry,rz]
-    "
+    - ``coord``: 坐标系值[x,y,z,rx,ry,rz]"
+
+末端传感器寄存器写入
++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``AxleSensorRegWrite(devAddr, regHAddr, regLAddr, regNum, data1, data2, isNoBlock)``"
+    "描述", "末端传感器寄存器写入"
+    "必选参数", "- ``devAddr``：设备地址编号 0-255
+    - ``regHAddr``：寄存器地址高8位
+    - ``regLAddr``：寄存器地址低8位
+    - ``regNum``：寄存器个数 0-255
+    - ``data1``：写入寄存器数值1
+    - ``data2``：写入寄存器数值2
+    - ``isNoBlock``：是否阻塞 0-阻塞；1-非阻塞"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode "
+
+设置SmartTool停止/暂停后输出是否复位
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetOutputResetSmartToolDO(resetFlag)``"
+    "描述", "设置SmartTool停止/暂停后输出是否复位"
+    "必选参数", "- ``resetFlag``：是否复位，0-不复位，1-复位"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode "
+
+获取末端通讯参数
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetAxleCommunicationParam()``"
+    "描述", "获取末端通讯参数"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode 
+    - ``baudRate``：波特率:支持1-9600，2-14400，3-19200，4-38400，5-56000，6-67600，7-115200，8-128000
+    - ``dataBit``：数据位:数据位支持（8,9），目前常用为 8
+    - ``stopBit``：停止位:1-1，2-0.5，3-2，4-1.5，目前常用为 1
+    - ``verify``：校验位:0-None，1-Odd，2-Even,目前常用为 0
+    - ``timeout``：超时时间:1~1000ms，此值需要结合外设搭配设置合理的时间参数
+    - ``timeoutTimes``：超时次数:1~10，主要进行超时重发，减少偶发异常提高用户体验
+    - ``period``：周期性指令时间间隔:1~1000ms，主要用于周期性指令每次下发的时间间隔"
+
+设置末端通讯参数
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetAxleCommunicationParam(baudRate, dataBit, stopBit, verify, timeout, timeoutTimes, period)``"
+    "描述", "设置末端通讯参数"
+    "必选参数", "- ``baudRate``：波特率:支持1-9600，2-14400，3-19200，4-38400，5-56000，6-67600，7-115200，8-128000
+    - ``dataBit``：数据位:数据位支持（8,9），目前常用为 8
+    - ``stopBit``：停止位:1-1，2-0.5，3-2，4-1.5，目前常用为 1
+    - ``verify``：校验位:0-None，1-Odd，2-Even,目前常用为 0
+    - ``timeout``：超时时间:1~1000ms，此值需要结合外设搭配设置合理的时间参数
+    - ``timeoutTimes``：超时次数:1~10，主要进行超时重发，减少偶发异常提高用户体验
+    - ``period``：周期性指令时间间隔:1~1000ms，主要用于周期性指令每次下发的时间间隔"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode "
+
+设置末端文件传输类型
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetAxleFileType(type)``"
+    "描述", "设置末端文件传输类型"
+    "必选参数", "- ``type``：1-MCU升级文件,2-LUA文件"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode "
+
+设置启用末端LUA执行
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetAxleLuaEnable(enable)``"
+    "描述", "设置启用末端LUA执行"
+    "必选参数", "- ``enable``：0-不启用；1-启用"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode "
+
+末端LUA文件异常错误恢复
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetRecoverAxleLuaErr(enable)``"
+    "描述", "末端LUA文件异常错误恢复"
+    "必选参数", "- ``status``：0-不恢复；1-恢复"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode "
+
+获取末端LUA执行使能状态
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetAxleLuaEnableStatus()``"
+    "描述", "获取末端LUA执行使能状态"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode 
+    - ``enable``：0-不启用；1-启用"
+
+设置末端LUA末端设备启用类型
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetAxleLuaEnableDeviceType(forceSensorEnable, gripperEnable, IOEnable)``"
+    "描述", "设置末端LUA末端设备启用类型"
+    "必选参数", "- ``forceSensorEnable``：力传感器启用状态，0-不启用；1-启用
+    - ``gripperEnable``：夹爪启用状态，0-不启用；1-启用
+    - ``IOEnable``：IO设备启用状态，0-不启用；1-启用"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode "
+
+获取末端LUA末端设备启用类型
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetAxleLuaEnableDeviceType()``"
+    "描述", "获取末端LUA末端设备启用类型"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode 
+    - ``forceSensorEnable``：力传感器启用状态，0-不启用；1-启用
+    - ``gripperEnable``：夹爪启用状态，0-不启用；1-启用
+    - ``IOEnable``：IO设备启用状态，0-不启用；1-启用"
+
+获取当前配置的末端设备
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetAxleLuaEnableDevice()``"
+    "描述", "获取当前配置的末端设备"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode 
+    - ``forceSensorEnable[8]``：力传感器启用状态，0-不启用；1-启用
+    - ``gripperEnable[8]``：夹爪启用状态，0-不启用；1-启用
+    - ``IOEnable[8]``：IO设备启用状态，0-不启用；1-启用"

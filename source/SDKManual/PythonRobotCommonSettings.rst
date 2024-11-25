@@ -63,7 +63,7 @@
 
     "原型", "``SetToolPoint(point_num)``"
     "描述", "设置工具参考点-六点法"
-    "必选参数", "``point_num``：点编号,范围[1~6]"
+    "必选参数", "- ``point_num``：点编号,范围[1~6]"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
@@ -98,7 +98,7 @@
     "必选参数", "无"
     "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回）tcp_pose [x,y,z,rx,ry,rz] 工具坐标系"
+    - ``tcp_pose=[x,y,z,rx,ry,rz]``：工具坐标系"
 
 设置工具参考点-四点法
 +++++++++++++++++++++
@@ -111,7 +111,7 @@
     "必选参数", "``point_num``：点编号,范围[1~4]"
     "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回）tcp_pose [x,y,z,rx,ry,rz] 工具坐标系"
+    - ``tcp_pose=[x,y,z,rx,ry,rz]``：工具坐标系"
 
 代码示例
 ------------
@@ -144,7 +144,7 @@
     "必选参数", "无"
     "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode
-    - 返回值（调用成功返回）tcp_pose [x,y,z,rx,ry,rz]  工具坐标系"
+    - ``tcp_pose=[x,y,z,rx,ry,rz]``：工具坐标系"
 
 设置工具坐标系
 +++++++++++++++++
@@ -152,12 +152,14 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``SetToolCoord(id,t_coord,type,install)``"
+    "原型", "``SetToolCoord(id,t_coord,type,install,toolID,loadNum)``"
     "描述", "设置工具坐标系"
-    "必选参数", "- ``id``:坐标系编号，范围[0~14]；
+    "必选参数", "- ``id``:坐标系编号，范围[1~15]；
     - ``t_coord``:工具中心点相对末端法兰中心位姿，单位[mm][°]；
     - ``type``:0-工具坐标系，1-传感器坐标系；
-    - ``install``:安装位置，0-机器人末端，1-机器人外部"
+    - ``install``:安装位置，0-机器人末端，1-机器人外部
+    - ``toolID``:工具ID
+    - ``loadNum``:负载编号"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode "
 
@@ -171,7 +173,7 @@
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
     t_coord = [1.0,2.0,3.0,4.0,5.0,6.0]
-    error = robot.SetToolCoord(10,t_coord,0,0)
+    error = robot.SetToolCoord(10,t_coord,0,0,0,0)
     print("设置工具坐标系错误码",error)
 
 设置工具坐标系列表
@@ -180,12 +182,13 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``SetToolList(id,t_coord ,type,install)``"
+    "原型", "``SetToolList(id,t_coord ,type, install, loadNum)``"
     "描述", "设置工具坐标系列表"
-    "必选参数", "- ``id``:坐标系编号，范围[0~14]；
+    "必选参数", "- ``id``:坐标系编号，范围[1~15]；
     - ``t_coord``:[x,y,z,rx,ry,rz] 工具中心点相对末端法兰中心位姿，单位[mm][°]；
     - ``type``:0-工具坐标系，1-传感器坐标系；
-    - ``install``:安装位置，0-机器人末端，1-机器人外部"
+    - ``install``:安装位置，0-机器人末端，1-机器人外部
+    - ``loadNum``:负载编号"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode "
 
@@ -199,7 +202,7 @@
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
     t_coord = [1.0,2.0,3.0,4.0,5.0,6.0]
-    error = robot.SetToolList(10,t_coord,0,0)
+    error = robot.SetToolList(10,t_coord,0,0,0)
     print("设置工具坐标系列表错误码",error)
 
 设置外部工具参考点-三点法
@@ -210,7 +213,7 @@
 
     "原型", "``SetExTCPPoint(point_num)``"
     "描述", "设置外部工具参考点-三点法"
-    "必选参数", "``point_num``：点编号,范围[1~3]"
+    "必选参数", "- ``point_num``：点编号,范围[1~3]"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode "
 
@@ -247,7 +250,7 @@
     "必选参数", "``point_num``：点编号,范围[1~3]"
     "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode 
-    - etcp [x,y,z,rx,ry,rz] 外部工具坐标系"
+    - ``etcp=[x,y,z,rx,ry,rz]``：外部工具坐标系"
 
 设置外部工具坐标系
 ++++++++++++++++++++
@@ -255,7 +258,7 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``SetExToolCoord(id,etcp ,etool)``"
+    "原型", "``SetExToolCoord(id,etcp,etool)``"
     "描述", "设置外部工具坐标系"
     "必选参数", "- ``id``:坐标系编号，范围[0~14]；
     - ``etcp``:外部工具坐标系，单位[mm][°]；
@@ -333,7 +336,7 @@
         error = robot.SetWObjCoordPoint(i) #实际应当控制机器人按照要求移动到合适位置后再发送指令
         print("三点法设置工件坐标系，记录点",i,"错误码",error)
         time.sleep(1)
-    error, w_coord = robot.ComputeWObjCoord(0)
+    error, w_coord = robot.ComputeWObjCoord(0,0)
     print("三点法计算工件坐标系错误码",error,"工件坐标系", w_coord)
 
 计算工件坐标系-三点法
@@ -342,12 +345,13 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``ComputeWObjCoord()``"
-    "描述", "计算工件坐标系-三点法（三个参考点设置完后再进行计算;"
-    "必选参数", "``method 计算方式``:0：原点-x轴-z轴  1：原点-x轴-xy平面"
+    "原型", "``ComputeWObjCoord(method, refFrame)``"
+    "描述", "计算工件坐标系-三点法（三个参考点设置完成后再进行计算）;"
+    "必选参数", "- ``method``：计算方式0：原点-x轴-z轴，1：原点-x轴-xy平面
+    - ``refFrame``：参考坐标系"
     "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode 
-    - 返回值（调用成功返回）wobj_pose [x,y,z,rx,ry,rz] 工件坐标系"
+    - ``wobj_pose=[x,y,z,rx,ry,rz]``：工件坐标系"
 
 
 设置工件坐标系
@@ -356,10 +360,11 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``SetWObjCoord(id,w_coord)``"
+    "原型", "``SetWObjCoord(id, coord, refFrame)``"
     "描述", "设置工件坐标系"
     "必选参数", "- ``id``:坐标系编号，范围[0~14]；
-    - ``w_coord``:坐标系相对位姿，单位[mm][°]；"
+    - ``coord``:工件坐标系相对于末端法兰中心位姿，单位 [mm][°]
+    - ``refFrame``:参考坐标系"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
@@ -373,7 +378,7 @@
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
     w_coord = [11.0,12.0,13.0,14.0,15.0,16.0]
-    error = robot.SetWObjCoord(11,w_coord)
+    error = robot.SetWObjCoord(id=11,coord=w_coord,refFrame=0)
     print("设置工件坐标系错误码",error)
 
 设置工件坐标系列表
@@ -382,10 +387,11 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``SetWObjList(id,w_coord)``"
+    "原型", "``SetWObjList(id, coord, refFrame)``"
     "描述", "设置工件坐标系列表"
     "必选参数", "- ``id``:坐标系编号，范围[0~14]；
-    - ``w_coord``:坐标系相对位姿，单位[mm][°]；"
+    - ``coord``:工件坐标系相对于末端法兰中心位姿，单位 [mm][°]
+    - ``refFrame``:参考坐标系"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode "
 
@@ -399,7 +405,7 @@
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
     w_coord = [11.0,12.0,13.0,14.0,15.0,16.0]
-    error = robot.SetWObjList(11,w_coord)
+    error = robot.SetWObjList(id=11,coord=w_coord,refFrame=0)
     print("设置工件坐标系列表错误码",error)
 
 设置末端负载重量
@@ -479,7 +485,9 @@
 
     "原型", "``SetLoadCoord(x,y,z)``"
     "描述", "设置末端负载质心坐标,错误负载质心设置可能会导致拖动模式下机器人失控"
-    "必选参数", "- ``x:``,``y:``,``z``: 质心坐标，单位[mm]"
+    "必选参数", "- ``x``: 质心坐标，单位[mm]
+    - ``y``: 质心坐标，单位[mm]
+    - ``z``: 质心坐标，单位[mm]"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode "
 
@@ -540,3 +548,31 @@
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
     robot.SetOaccScale (20)
+
+设置机器指定姿态速度开启
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``AngularSpeedStart(ratio)``"
+    "描述", "指定姿态速度开启"
+    "必选参数", "- ``ratio``:姿态速度百分比[0-300]"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode "
+
+指定姿态速度关闭
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``AngularSpeedEnd()``"
+    "描述", "指定姿态速度关闭"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode "

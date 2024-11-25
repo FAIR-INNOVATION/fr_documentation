@@ -564,7 +564,7 @@
 
     /**
     * @brief 获取负载辨识结果
-    * @param [in] gain
+    * @param [in] gain  重力项系数double[6]，离心项系数double[6]
     * @param [out] weight 负载重量
     * @param [out] cog 负载质心
     * @return 错误码

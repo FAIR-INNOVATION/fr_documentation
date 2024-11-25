@@ -81,15 +81,17 @@
 .. code-block:: c#
     :linenos:
 
-    /** 
-    * @brief 设置工具坐标系 
-    * @param [in] id 坐标系编号，范围[0~14] 
-    * @param [in] coord 工具中心点相对于末端法兰中心位姿 
-    * @param [in] type 0-工具坐标系，1-传感器坐标系 
-    * @param [in] install 安装位置，0-机器人末端，1-机器人外部 
-    * @return 错误码 
-    */ 
-    int SetToolCoord(int id, DescPose coord, int type, int install);  
+    /**
+    * @brief  设置工具坐标系
+    * @param  [in] id 坐标系编号，范围[0~14]
+    * @param  [in] coord  工具中心点相对于末端法兰中心位姿
+    * @param  [in] type  0-工具坐标系，1-传感器坐标系
+    * @param  [in] install 安装位置，0-机器人末端，1-机器人外部
+    * param   [in] toolID 工具ID
+    * @param  [in] loadNum 负载编号
+    * @return  错误码
+    */
+    int SetToolCoord(int id, DescPose coord, int type, int install,int toolID, int loadNum);  
 
 设置工具坐标系列表
 ++++++++++++++++++++++++++++++++++
@@ -102,9 +104,10 @@
     * @param  [in] coord  工具中心点相对于末端法兰中心位姿
     * @param  [in] type  0-工具坐标系，1-传感器坐标系
     * @param  [in] install 安装位置，0-机器人末端，1-机器人外部
+    * @param  [in] loadNum 负载编号
     * @return  错误码
     */
-    int SetToolList(int id, DescPose coord, int type, int install);  
+    int SetToolList(int id, DescPose coord, int type, int install, int loadNum);  
 
 设置外部工具坐标参考点-三点法
 ++++++++++++++++++++++++++++++++++
@@ -175,13 +178,14 @@
 .. code-block:: c#
     :linenos:
 
-    /** 
-    * @brief 计算工件坐标系
-    * @param [in] method 计算方式 0：原点-x轴-z轴  1：原点-x轴-xy平面 
+    /**
+    * @brief  计算工件坐标系
+    * @param [in] method 计算方法 0：原点-x轴-z轴  1：原点-x轴-xy平面
+    * @param [in] refFrame 参考坐标系
     * @param [out] wobj_pose 工件坐标系
-    * @return 错误码 
-    */ 
-    int ComputeWObjCoord(int method, ref DescPose wobj_pose); 
+    * @return 错误码
+    */
+    int ComputeWObjCoord(int method, int refFrame, ref DescPose wobj_pose); 
 
 设置工件坐标系
 ++++++++++++++++++++++++++++++++++
@@ -190,11 +194,12 @@
 
     /**
     * @brief  设置工件坐标系
-    * @param  [in] id 坐标系编号，范围[0~14] 
+    * @param  [in] id 坐标系编号，范围[1~15]
     * @param  [in] coord  工件坐标系相对于末端法兰中心位姿
+    * @param  [in] refFrame 参考坐标系
     * @return  错误码
-    */    
-    int SetWObjCoord(int id, DescPose coord);
+    */
+    int SetWObjCoord(int id, DescPose coord, int refFrame);
 
 设置工件坐标系列表
 ++++++++++++++++++++++++++++++++++
@@ -205,9 +210,10 @@
     * @brief  设置工件坐标系列表
     * @param  [in] id 坐标系编号，范围[0~14] 
     * @param  [in] coord  工件坐标系相对于末端法兰中心位姿
+    * @param  [in] refFrame 参考坐标系
     * @return  错误码
     */    
-    int SetWObjList(int id, DescPose coord);
+    int SetWObjList(int id, DescPose coord, int refFrame);
 
 设置末端负载重量
 ++++++++++++++++++++++++++++++++++

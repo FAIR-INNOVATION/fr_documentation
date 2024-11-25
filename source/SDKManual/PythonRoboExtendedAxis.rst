@@ -300,11 +300,11 @@
     "必选参数", "- ``servoId``：伺服驱动器ID，范围[1-15],对应从站ID；"
     "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode;
-    - ``servoErrCode``：（调用成功返回）伺服驱动器故障码
-    - ``servoState``：（调用成功返回）伺服驱动器状态 bit0:0-未使能；1-使能;  bit1:0-未运动；1-正在运动;  bit2 0-正限位未触发；1-正限位触发；bit3 0-负限位未触发；1-负限位触发；bit4 0-未定位完成；1-定位完成；  bit5：0-未回零；1-回零完成；
-    - ``servoPos``：（调用成功返回）伺服当前位置 mm或°；
-    - ``servoSpeed``：（调用成功返回）伺服当前速度 mm/s或°/s；
-    - ``servoTorque``：（调用成功返回）伺服当前转矩Nm；"
+    - ``servoErrCode``：伺服驱动器故障码
+    - ``servoState``：伺服驱动器状态 bit0:0-未使能；1-使能;  bit1:0-未运动；1-正在运动;  bit2 0-正限位未触发；1-正限位触发；bit3 0-负限位未触发；1-负限位触发；bit4 0-未定位完成；1-定位完成；  bit5：0-未回零；1-回零完成；
+    - ``servoPos``：伺服当前位置 mm或°；
+    - ``servoSpeed``：伺服当前速度 mm/s或°/s；
+    - ``servoTorque``：伺服当前转矩Nm；"
 
 代码示例
 ---------------------------------
@@ -324,6 +324,68 @@
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
+设置485扩展轴运动加减速度
+++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``AuxServoSetAcc(acc, dec)``"
+    "描述", "设置485扩展轴运动加减速度"
+    "必选参数", "- ``acc``：485扩展轴运动加速度
+    - ``dec``：485扩展轴运动减速度"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+设置485扩展轴急停加减速度
+++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``AuxServoSetEmergencyStopAcc(acc, dec)``"
+    "描述", "设置485扩展轴急停加减速度"
+    "必选参数", "- ``acc``：485扩展轴急停加速度
+    - ``dec``：485扩展轴急停减速度"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+获取485扩展轴急停加减速度
+++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``AuxServoGetEmergencyStopAcc()``"
+    "描述", "获取485扩展轴急停加减速度"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``acc``：485扩展轴急停加速度
+    - ``dec``：485扩展轴急停减速度"
+
+获取485扩展轴运动加减速度
+++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``AuxServoGetAcc()``"
+    "描述", "获取485扩展轴运动加减速度"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``acc``：485扩展轴运动加速度
+    - ``dec``：485扩展轴运动减速度"
+
 UDP扩展轴通讯参数配置
 ++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: python SDK-v2.0.4
@@ -332,7 +394,7 @@ UDP扩展轴通讯参数配置
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``ExtDevSetUDPComParam(ip,port,period,lossPkgTime,lossPkgNum,disconnectTime,reconnectEnable,reconnectPeriod,reconnectNum)``"
+    "原型", "``ExtDevSetUDPComParam(ip, port, period, lossPkgTime, lossPkgNum, disconnectTime, reconnectEnable, reconnectPeriod, reconnectNum)``"
     "描述", "UDP扩展轴通讯参数配置"
     "必选参数", "
     - ``ip``：PLC IP地址；
@@ -374,19 +436,19 @@ UDP扩展轴通讯参数配置
 
     "原型", "``ExtDevGetUDPComParam()``"
     "描述", "获取UDP扩展轴通讯参数"
-    "必选参数", "NULL"
-    "默认参数", "NULL"
+    "必选参数", "无"
+    "默认参数", "无"
     "返回值", "
     - 错误码 成功-0  失败- errcode；
-    - ``返回值（调用成功返回）ip``：PLC IP地址；
-    - ``返回值（调用成功返回）port``：端口号；
-    - ``返回值（调用成功返回）period``：通讯周期(ms，暂不开放)；
-    - ``返回值（调用成功返回）lossPkgTime``：丢包检测时间(ms)；
-    - ``返回值（调用成功返回）lossPkgNum``：丢包次数；
-    - ``返回值（调用成功返回）disconnectTime``：通讯断开确认时长；
-    - ``返回值（调用成功返回）reconnectEnable``：通讯断开自动重连使能 0-不使能 1-使能；
-    - ``返回值（调用成功返回）reconnectPeriod``：重连周期间隔(ms)；
-    - ``返回值（调用成功返回）reconnectNum``：重连次数"
+    - ``ip``：PLC IP地址；
+    - ``port``：端口号；
+    - ``period``：通讯周期(ms，暂不开放)；
+    - ``lossPkgTime``：丢包检测时间(ms)；
+    - ``lossPkgNum``：丢包次数；
+    - ``disconnectTime``：通讯断开确认时长；
+    - ``reconnectEnable``：通讯断开自动重连使能 0-不使能 1-使能；
+    - ``reconnectPeriod``：重连周期间隔(ms)；
+    - ``reconnectNum``：重连次数"
  
 加载UDP通信
 ++++++++++++++++++++++++++++++++++++++++
@@ -398,8 +460,8 @@ UDP扩展轴通讯参数配置
 
     "原型", "``ExtDevLoadUDPDriver()``"
     "描述", "加载UDP通信"
-    "必选参数", "NULL"
-    "默认参数", "NULL"
+    "必选参数", "无"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
 代码示例
@@ -429,8 +491,8 @@ UDP扩展轴通讯参数配置
 
     "原型", "``ExtDevUnloadUDPDriver()``"
     "描述", "卸载UDP通信"
-    "必选参数", "NULL"
-    "默认参数", "NULL"
+    "必选参数", "无"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
      
 UDP扩展轴通信异常断开后恢复连接
@@ -443,8 +505,8 @@ UDP扩展轴通信异常断开后恢复连接
 
     "原型", "``ExtDevUDPClientComReset()``"
     "描述", "UDP扩展轴通信异常断开后恢复连接"
-    "必选参数", "NULL"
-    "默认参数", "NULL"
+    "必选参数", "无"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
     
 代码示例
@@ -474,8 +536,8 @@ UDP扩展轴通信异常断开后关闭通讯
 
     "原型", "``ExtDevUDPClientComClose()``"
     "描述", "UDP扩展轴通信异常断开后关闭通讯"
-    "必选参数", "NULL"
-    "默认参数", "NULL"
+    "必选参数", "无"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
          
 设置扩展机器人相对扩展轴位置
@@ -489,7 +551,7 @@ UDP扩展轴通信异常断开后关闭通讯
     "原型", "``SetRobotPosToAxis(installType)``"
     "描述", "设置扩展机器人相对扩展轴位置"
     "必选参数", "- ``installType``：0-机器人安装在外部轴上，1-机器人安装在外部轴外；"
-    "默认参数", "NULL"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
         
 代码示例
@@ -532,7 +594,7 @@ UDP扩展轴通信异常断开后关闭通讯
     - ``axisDHa2``：外部轴DH参数a2 mm；
     - ``axisDHa3``：外部轴DH参数a3 mm；
     - ``axisDHa4``：外部轴DH参数a4 mm；"
-    "默认参数", "NULL"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
 UDP扩展轴参数配置
@@ -557,9 +619,9 @@ UDP扩展轴参数配置
     - ``encResolution``：编码器分辨率；
     - ``axisOffect``：焊缝起始点扩展轴偏移量；
     - ``axisCompany``：驱动器厂家 1-禾川；2-汇川；3-松下；
-    - ``axisModel``：动器型号 1-禾川-SV-XD3EA040L-E，2-禾川-SV-X2EA150A-A，1-汇川-SV620PT5R4I，1-松下-MADLN15SG，2-松下-MSDLN25SG，3-松下-MCDLN35SG；
+    - ``axisModel``：驱动器型号 1-禾川-SV-XD3EA040L-E，2-禾川-SV-X2EA150A-A，1-汇川-SV620PT5R4I，1-松下-MADLN15SG，2-松下-MSDLN25SG，3-松下-MCDLN35SG；
     - ``axisEncType``：编码器类型  0-增量；1-绝对值；"
-    "默认参数", "NULL"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
          
 设置扩展轴坐标系参考点-四点法
@@ -573,7 +635,7 @@ UDP扩展轴参数配置
     "原型", "``ExtAxisSetRefPoint(pointNum)``"
     "描述", "设置扩展轴坐标系参考点-四点法"
     "必选参数", "- ``pointNum``：点编号[1-4]；"
-    "默认参数", "NULL"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
             
 代码示例
@@ -600,11 +662,10 @@ UDP扩展轴参数配置
 
     "原型", "``ExtAxisComputeECoordSys()``"
     "描述", "计算扩展轴坐标系-四点法"
-    "必选参数", "NULL"
-    "默认参数", "NULL"
-    "返回值", "
-    - 错误码 成功-0  失败- errcode;
-    - ``返回值（调用成功返回）coord``：坐标系值[x,y,z,rx,ry,rz]；"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode;
+    - ``coord``：扩展轴坐标系值[x,y,z,rx,ry,rz]；"
                   
 代码示例
 ------------
@@ -638,7 +699,7 @@ UDP扩展轴参数配置
     - ``axisCoordNum``：扩展轴坐标系编号；
     - ``coord``：坐标系值[x,y,z,rx,ry,rz]；
     - ``calibFlag``：标定标志 0-否，1-是；"
-    "默认参数", "NULL"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
              
 设置标定参考点在变位机末端坐标系下位姿
@@ -652,7 +713,7 @@ UDP扩展轴参数配置
     "原型", "``SetRefPointInExAxisEnd(pos)``"
     "描述", "设置标定参考点在变位机末端坐标系下位姿"
     "必选参数", "- ``pos``：位姿值[x,y,z,rx,ry,rz]；"
-    "默认参数", "NULL"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
                       
 代码示例
@@ -679,7 +740,7 @@ UDP扩展轴参数配置
     "原型", "``PositionorSetRefPoint(pointNum)``"
     "描述", "变位机坐标系参考点设置-四点法"
     "必选参数", "- ``pointNum``：点编号[1-4]；"
-    "默认参数", "NULL"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
                           
 代码示例
@@ -706,11 +767,10 @@ UDP扩展轴参数配置
 
     "原型", "``PositionorComputeECoordSys()``"
     "描述", "变位机坐标系计算-四点法"
-    "必选参数", "NULL"
-    "默认参数", "NULL"
-    "返回值", "
-    - 错误码 成功-0  失败- errcode;
-    - ``返回值（调用成功返回）coord``：坐标系值[x,y,z,rx,ry,rz]；"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode;
+    - ``coord``：变位机坐标系值[x,y,z,rx,ry,rz]；"
                             
 代码示例
 ------------
@@ -745,9 +805,8 @@ UDP扩展轴参数配置
     - ``data2``：写入寄存器数值2
     - ``isNoBlock``：0-阻塞；1-非阻塞
     "
-    "默认参数", "NULL"
-    "返回值", "
-    - 错误码 成功-0  失败- errcode；"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode；"
                           
 UDP扩展轴使能
 ++++++++++++++++++++++++++++++++++++++++
@@ -757,12 +816,11 @@ UDP扩展轴使能
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``ExtAxisServoOn()``"
+    "原型", "``ExtAxisServoOn(axisID, status)``"
     "描述", "UDP扩展轴使能"
-    "必选参数", "
-    - ``axisID``：轴号[1-4]；
+    "必选参数", "- ``axisID``：轴号[1-4]；
     - ``status``：0-去使能；1-使能；"
-    "默认参数", "NULL"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
                                 
 代码示例
@@ -801,13 +859,14 @@ UDP扩展轴回零
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``ExtAxisSetHoming()``"
+    "原型", "``ExtAxisSetHoming(axisID, mode, searchVel, latchVel)``"
     "描述", "UDP扩展轴回零"
     "必选参数", "
     - ``axisID``：轴号[1-4]；
-    - ``mode``：回零方式 0当前位置回零，1负限位回零，2-正限位回零searchVel 寻零速度(mm/s)；
+    - ``mode``：回零方式 0当前位置回零，1负限位回零，2-正限位回零；
+    - ``searchVel``：寻零速度(mm/s)；
     - ``latchVel``：寻零箍位速度(mm/s)；"
-    "默认参数", "NULL"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
 UDP扩展轴点动开始
@@ -826,7 +885,7 @@ UDP扩展轴点动开始
     - ``vel``：速度(mm/s)；
     - ``acc``：加速度(mm/s)；
     - ``maxDistance``：最大点动距离；"
-    "默认参数", "NULL"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
 UDP扩展轴点动停止
@@ -840,7 +899,7 @@ UDP扩展轴点动停止
     "原型", "``ExtAxisStopJog(axisID)``"
     "描述", "UDP扩展轴点动停止"
     "必选参数", "- ``axisID``：轴号[1-4]；"
-    "默认参数", "NULL"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
     
 设置扩展DO
@@ -858,7 +917,7 @@ UDP扩展轴点动停止
     - ``bOpen``：开关 True-开,False-关；
     - ``smooth``：是否平滑 True -是, False -否；
     - ``block``：是否阻塞 True -是, False -否；"
-    "默认参数", "NULL"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
                                     
 代码示例
@@ -903,13 +962,13 @@ UDP扩展轴点动停止
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``SetAuxAO(self,AONum,value,block)``"
+    "原型", "``SetAuxAO(AONum,value,block)``"
     "描述", "设置扩展AO"
     "必选参数", "
     - ``AONum``： AO编号；
     - ``value``：模拟量值[0-4095]；
     - ``block``：是否阻塞 True -是, False -否；"
-    "默认参数", "NULL"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
         
 设置扩展DI输入滤波时间
@@ -923,7 +982,7 @@ UDP扩展轴点动停止
     "原型", "``SetAuxDIFilterTime(filterTime)``"
     "描述", "设置扩展DI输入滤波时间"
     "必选参数", "- ``filterTime``： 滤波时间(ms)；"
-    "默认参数", "NULL"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
         
 设置扩展AI输入滤波时间
@@ -939,7 +998,7 @@ UDP扩展轴点动停止
     "必选参数", "
     - ``AINum``： AI编号；
     - ``filterTime``： 滤波时间(ms)；"
-    "默认参数", "NULL"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
         
 等待扩展DI输入
@@ -957,7 +1016,7 @@ UDP扩展轴点动停止
     - ``bOpen``：开关 True-开,False-关；
     - ``time``：最大等待时间(ms)；
     - ``errorAlarm``：是否继续运动 True-是,False-否"
-    "默认参数", "NULL"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
         
 等待扩展AI输入
@@ -976,7 +1035,7 @@ UDP扩展轴点动停止
     - ``value``：AI值；
     - ``time``：最大等待时间(ms)；
     - ``errorAlarm``：是否继续运动 True-是,False-否"
-    "默认参数", "NULL"
+    "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
         
 获取扩展DI值
@@ -992,10 +1051,9 @@ UDP扩展轴点动停止
     "必选参数", "
     - ``DINum``： DI编号；
     - ``isNoBlock``：是否阻塞 True-阻塞 false-非阻塞；"
-    "默认参数", "NULL"
-    "返回值", "
-    - 错误码 成功-0  失败- errcode；
-    - ``返回值（调用成功返回） isOpen``： 0-关；1-开；"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode；
+    - ``isOpen``： 0-关；1-开；"
           
 获取扩展AI值
 ++++++++++++++++++++++++++++++++++++++++
@@ -1010,10 +1068,9 @@ UDP扩展轴点动停止
     "必选参数", "
     - ``AINum``： AI编号；
     - ``isNoBlock``：是否阻塞 True-阻塞 False-非阻塞"
-    "默认参数", "NULL"
-    "返回值", "
-    - 错误码 成功-0  失败- errcode；
-    - ``返回值（调用成功返回）value``：输入值；"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode；
+    - ``value``：输入值；"
           
 UDP扩展轴运动
 ++++++++++++++++++++++++++++++++++++++++
@@ -1025,11 +1082,10 @@ UDP扩展轴运动
 
     "原型", "``ExtAxisMove(pos,ovl)``"
     "描述", "UDP扩展轴运动"
-    "必选参数", "
-    - ``pos``： 目标位置 轴 1 位置 ~ 轴 4 位置,pos=[exaxis[0],exaxis[1],exaxis[2],exaxis[3]]；
+    "必选参数", "- ``pos=[exaxis[0],exaxis[1],exaxis[2],exaxis[3]]``：目标位置 轴1位置~轴4位置;
     - ``ovl``：速度百分比"
-    "默认参数", "NULL"
-    "返回值", "错误码 成功-0  失败- errcode；"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
                                         
 代码示例
 ------------
@@ -1144,8 +1200,8 @@ UDP扩展轴与机器人直线运动同步运动
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``ExtAxisSyncMoveL(self, joint_pos,desc_pos, tool, user,exaxis_pos, vel=20.0, acc=0.0, ovl=100.0, blendR=-1.0, search=0, offset_flag=0, offset_pos=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0])``"
-    "描述", " UDP扩展轴与机器人直线运动同步运动"
+    "原型", "``ExtAxisSyncMoveL(self, joint_pos,desc_pos, tool, user, exaxis_pos, vel=20.0, acc=0.0, ovl=100.0, blendR=-1.0, search=0, offset_flag=0, offset_pos=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0])``"
+    "描述", "UDP扩展轴与机器人直线运动同步运动"
     "必选参数", "
     - ``joint_pos``： 目标关节位置，单位 [°]；
     - ``desc_pos``：目标笛卡尔位姿，单位 [mm][°]；
@@ -1233,3 +1289,105 @@ UDP扩展轴与机器人圆弧运动同步运动
     time.sleep(3)
     error = robot.ExtAxisSyncMoveC(joint_pos_mid,desc_pos_mid,1,1,[-10,0,0,0],joint_pos_end,desc_pos_end,1,1,[-20,0,0,0])
     print("ExtAxisSyncMoveC",error)
+
+可移动装置控制
++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+可移动装置使能
+---------------------------------
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``TractorEnable(enable)``"
+    "描述", "可移动装置使能"
+    "必选参数", "- ``enable``：使能状态，0-去使能，1-使能"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+可移动装置回零
+---------------------------------
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``TractorHoming()``"
+    "描述", "可移动装置回零"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+可移动装置直线运动
+---------------------------------
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``TractorMoveL(distance, vel)``"
+    "描述", "可移动装置直线运动"
+    "必选参数", "- ``distance``：直线运动距离（mm）
+    - ``vel``：直线运动速度百分比（0-100）"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+可移动装置圆弧运动
+---------------------------------
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``TractorMoveC(radio, angle, vel)``"
+    "描述", "可移动装置圆弧运动"
+    "必选参数", "- ``radio``：圆弧运动半径（mm）
+    - ``angle``：圆弧运动角度（°）
+    - ``vel``：圆弧运动速度百分比（0-100）"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+可移动装置停止运动
+---------------------------------
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``ProgramStop()``"
+    "描述", "可移动装置停止运动"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+代码示例
+------------
+
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    robot.ExtDevSetUDPComParam("192.168.58.2", 2021, 2, 50, 5, 50, 1, 50, 10)
+    robot.ExtDevLoadUDPDriver()
+    robot.ExtAxisParamConfig(1, 0, 0, 50000, -50000, 1000, 1000, 6.280, 16384, 200, 0, 0, 0)
+    robot.ExtAxisParamConfig(2, 0, 0, 50000, -50000, 1000, 1000, 6.280, 16384, 200, 0, 0, 0)
+    robot.SetAxisDHParaConfig(5, 0, 0, 0, 0, 0, 0, 0, 0)
+
+    robot.TractorEnable(False)
+    time.sleep(2)
+    robot.TractorEnable(True)
+    time.sleep(2)
+    robot.TractorHoming()
+    time.sleep(2)
+    robot.TractorMoveL(100, 20)
+    time.sleep(5)
+    robot.TractorMoveL(-100, 20)
+    time.sleep(5)
+    robot.TractorMoveC(300, 90, 20)
+    time.sleep(4)
+    error = robot.TractorStop()
+    print("TractorStop return ", error)
