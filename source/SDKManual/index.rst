@@ -6,6 +6,6 @@ SDK
 
     cpp_intro
     c#_intro
-    java intro
+    java_intro
     python_intro
     errcode

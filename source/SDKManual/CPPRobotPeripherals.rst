@@ -49,20 +49,26 @@
 
 控制夹爪
 ++++++++++++++++++++++++++
+.. versionchanged:: C++SDK-v2.1.5.0
+
 .. code-block:: c++
     :linenos:
 
     /**
-    * @brief  控制夹爪
-    * @param  [in] index  夹爪编号
-    * @param  [in] pos  位置百分比，范围[0~100]
-    * @param  [in] vel  速度百分比，范围[0~100]
-    * @param  [in] force  力矩百分比，范围[0~100]
-    * @param  [in] max_time  最大等待时间，范围[0~30000]，单位ms
-    * @param  [in] block  0-阻塞，1-非阻塞
-    * @return  错误码
-    */
-    errno_t  MoveGripper(int index, int pos, int vel, int force, int max_time, uint8_t block);
+	 * @brief  控制夹爪
+	 * @param  [in] index  夹爪编号
+	 * @param  [in] pos  位置百分比，范围[0~100]
+	 * @param  [in] vel  速度百分比，范围[0~100]
+	 * @param  [in] force  力矩百分比，范围[0~100]
+	 * @param  [in] max_time  最大等待时间，范围[0~30000]，单位ms
+	 * @param  [in] block  0-阻塞，1-非阻塞
+	 * @param  [in] type 夹爪类型，0-平行夹爪；1-旋转夹爪
+	 * @param  [in] rotNum 旋转圈数
+	 * @param  [in] rotVel 旋转速度百分比[0-100]
+	 * @param  [in] rotTorque 旋转力矩百分比[0-100]
+	 * @return  错误码
+	 */
+	errno_t MoveGripper(int index, int pos, int vel, int force, int max_time, uint8_t block, int type, double rotNum, int rotVel, int rotTorque);
 
 
 
