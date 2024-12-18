@@ -6,7 +6,9 @@
 --------------
     :download:`法奥意威公司简介 <_static/_doc/法奥意威公司简介.pdf>`
 
-    :download:`法奥意威产品手册 <_static/_doc/法奥意威产品手册.pdf>`
+    :download:`法奥意威产品手册 <_static/_doc/FAIRINO产品手册.pdf>`
+
+    :download:`法奥意威生态产品手册 <_static/_doc/FAIRINO生态产品手册.pdf>`
 
     :download:`法奥意威医疗行业案例 <_static/_doc/法奥意威医疗行业案例.pdf>`
 
@@ -106,12 +108,36 @@ FAIRINO SimMachine
 ---------------------------------
     :download:`码垛机Palletizer-v2.1.0 <_static/_doc/码垛机Palletizer-v2.1.0.zip>`
 
-软件下载
+CPP SDK
 ---------------------------------
-    :download:`FAIRINO-CobotSoftware-V3.7.6-Release-241118 <https://pan.baidu.com/s/1igtNgmNBdfg0VT2c2BPipw?pwd=s5je>`
 
-    :download:`FAIRINO CPP SDK-v2 <https://gitee.com/fair-innovation/fairino-cpp-sdk/repository/archive/master.zip>`
+    最新版本：:download:`FAIRINO CPP SDK-v2 <https://gitee.com/fair-innovation/fairino-cpp-sdk/repository/archive/master.zip>`
 
-    :download:`FAIRINO C# SDK-v1 <https://gitee.com/fair-innovation/fairino-csharp-sdk/repository/archive/master.zip>`
+    \ `历史版本 <https://gitee.com/fair-innovation/fairino-cpp-sdk/tags>`__\
 
-    :download:`FAIRINO Python SDK-v2 <https://gitee.com/fair-innovation/fairino-python-sdk/repository/archive/master.zip>`
+C# SDK
+---------------------------------
+
+    最新版本：:download:`FAIRINO C# SDK-v1 <https://gitee.com/fair-innovation/fairino-csharp-sdk/repository/archive/master.zip>`
+
+    \ `历史版本 <https://gitee.com/fair-innovation/fairino-csharp-sdk/tags>`__\
+
+Python SDK
+---------------------------------
+
+    最新版本：:download:`FAIRINO Python SDK-v2 <https://gitee.com/fair-innovation/fairino-python-sdk/repository/archive/master.zip>`
+
+    \ `历史版本 <https://gitee.com/fair-innovation/fairino-python-sdk/tags>`__\
+
+Java SDK
+---------------------------------
+
+    最新版本：:download:`FAIRINO Java SDK-v1 <https://gitee.com/fair-innovation/fairino-java-sdk/repository/archive/master.zip>`
+
+    \ `历史版本 <https://gitee.com/fair-innovation/fairino-java-sdk/tags>`__\
+
+机器人软件下载
+---------------------------------
+    :download:`FAIRINO-CobotSoftware-QNX-V3.7.6-Release-241201 <https://pan.baidu.com/s/16aPgxEKYqFaKSAxFKzdQrw?pwd=piyk>`
+
+    :download:`FAIRINO-CobotSoftware-Linux-V3.7.6-Release-241201 <https://pan.baidu.com/s/1HnJenhXVhrh3tU_YDuZn6g?pwd=ujtd>`
