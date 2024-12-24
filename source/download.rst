@@ -20,41 +20,200 @@
 ---------------------------------
     :download:`法奥意威ISO9001质量认证证书 <_static/_doc/法奥意威ISO9001质量认证证书.pdf>`
 
-    :download:`法奥意威CE证书 <_static/_doc/法奥意威CE证书.pdf>`
+.. list-table::
+   :widths: 24 4 4 4 4 4 4 4 20
+   :header-rows: 0
+   :class: sheet-center
 
-    :download:`法奥意威CR证书 <_static/_doc/法奥意威CR证书.pdf>`
+   * - **认证证书/机型**
+     - **FR3**
+     - **FR5**
+     - **FR10**
+     - **FR16**
+     - **FR20**
+     - **FR30**
+     - **FR3MT**
+     - **证书下载**
 
-    :download:`高防护IP65测试认证证书 <_static/_doc/高防护IP65测试认证.zip>`
+   * - **高防护IP65测试认证证书**
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - --
+     - :download:`下载 <_static/_doc/高防护IP65测试认证.zip>`
 
-    :download:`NSF认证证书 <_static/_doc/NSF认证.zip>`
+   * - **NSF认证证书**
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - :download:`下载 <_static/_doc/NSF认证.zip>`
 
-    :download:`碰撞力测试认证证书 <_static/_doc/碰撞力测试认证.pdf>`
+   * - **碰撞力测试认证证书**
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - --
+     - :download:`下载 <_static/_doc/碰撞力测试认证证书.zip>`
 
-    :download:`ROHS测试认证证书 <_static/_doc/ROHS测试认证.zip>`
+   * - **ROHS测试认证证书**
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - --
+     - --
+     - :download:`下载 <_static/_doc/ROHS测试认证.zip>`
 
-    :download:`零部件-电机认证证书 <_static/_doc/零部件-电机认证.pdf>`
+   * - **零部件-电机认证证书**
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - :download:`下载 <_static/_doc/零部件-电机认证.pdf>`
 
-    :download:`零部件-驱动器认证证书 <_static/_doc/零部件-驱动器认证.pdf>`
+   * - **零部件-驱动器认证证书**
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - :download:`下载 <_static/_doc/零部件-驱动器认证.pdf>`
 
-    :download:`零部件-核心板认证证书 <_static/_doc/零部件-核心板认证.pdf>`
+   * - **零部件-核心板认证证书**
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - :download:`下载 <_static/_doc/零部件-核心板认证.pdf>`
 
-    :download:`零部件-电源认证证书 <_static/_doc/零部件-电源认证.pdf>`
+   * - **零部件-电源认证证书**
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - :download:`下载 <_static/_doc/零部件-电源认证.pdf>`
 
-    :download:`防爆认证证书 <_static/_doc/防爆认证.zip>`
+   * - **防爆认证证书**
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - :download:`下载 <_static/_doc/防爆认证.zip>`
 
-    :download:`CE-EMC认证证书 <_static/_doc/CE-EMC认证.pdf>`
+   * - **CE-EMC认证证书**
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - --
+     - :download:`下载 <_static/_doc/CE-EMC认证.pdf>`
 
-    :download:`CE-MD认证证书 <_static/_doc/CE-MD认证证书.zip>`
+   * - **CE-MD认证证书**
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - --
+     - :download:`下载 <_static/_doc/CE-MD认证证书.zip>`
 
-    :download:`功能安全认证证书 <_static/_doc/功能安全认证.pdf>`
+   * - **控制箱CE认证证书**
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - :download:`下载 <_static/_doc/FRC100-AC-x000-A版本控制箱CE(MD+EMC)证书.pdf>`
 
-    :download:`KCs认证证书 <_static/_doc/KCs证书-FR3+FR5+FR10+FR16+FR20.zip>`
+   * - **功能安全认证证书**
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - --
+     - :download:`下载 <_static/_doc/功能安全认证证书.zip>`
 
-    :download:`SEMI认证证书 <_static/_doc/SEMI认证证书.pdf>`
-        
-    :download:`NRTL工业机器人认证证书 <_static/_doc/NRTL工业机器人认证证书.pdf>`
+   * - **KCs认证证书**
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - --
+     - --
+     - :download:`下载 <_static/_doc/KCs证书(FR3-FR20).pdf>`
+
+   * - **SEMI认证证书**
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - --
+     - :download:`下载 <_static/_doc/SEMI认证证书.pdf>`
+
+   * - **NRTL工业机器人认证证书**
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - --
+     - :download:`下载 <_static/_doc/FR3-30工业机器人NRTL认证证书.pdf>`
+
+   * - **NRTL协作机器人认证证书**
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - --
+     - :download:`下载 <_static/_doc/NRTL协作机器人认证证书.pdf>`
     
-    :download:`NRTL协作机器人认证证书 <_static/_doc/FR协作机器人系列-NRTL认证证书.pdf>`
+   * - **CR认证证书**
+     - --
+     - ✅
+     - --
+     - --
+     - --
+     - --
+     - --
+     - :download:`下载 <_static/_doc/法奥意威CR证书.pdf>`
 
 二次开发
 ---------------------------------
