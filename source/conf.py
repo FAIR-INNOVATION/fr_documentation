@@ -7,9 +7,9 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = '法奥意威协作机器人用户手册'
-copyright = '2022-2024, 法奥意威（苏州）机器人系统有限公司'
+copyright = '2022-2025, 法奥意威（苏州）机器人系统有限公司'
 author = '法奥意威（苏州）机器人系统有限公司'
-release = '3.7.6'
+release = '3.7.7'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
