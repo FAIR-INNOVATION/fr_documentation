@@ -10,14 +10,14 @@
     :linenos:
 
     /**
-    * @brief  配置力传感器
-    * @param  [in] company  力传感器厂商，17-坤维科技
-    * @param  [in] device  设备号，暂不使用，默认为0
-    * @param  [in] softvesion  软件版本号，暂不使用，默认为0
-    * @param  [in] bus 设备挂在末端总线位置，暂不使用，默认为0
-    * @return  错误码
-    */
-    errno_t  FT_SetConfig(int company, int device, int softvesion, int bus);
+	 * @brief  配置力传感器
+	 * @param  [in] company  力传感器厂商，17-坤维科技，19-航天十一院，20-ATI传感器，21-中科米点，22-伟航敏芯，23-NBIT，24-鑫精诚(XJC)，26-NSR
+	 * @param  [in] device  设备号，坤维(0-KWR75B)，航天十一院(0-MCS6A-200-4)，ATI(0-AXIA80-M8)，中科米点(0-MST2010)，伟航敏芯(0-WHC6L-YB-10A)，NBIT(0-XLH93003ACS)，鑫精诚XJC(0-XJC-6F-D82)，NSR(0-NSR-FTSensorA)
+	 * @param  [in] softvesion  软件版本号，暂不使用，默认为0
+	 * @param  [in] bus 设备挂在末端总线位置，暂不使用，默认为0
+	 * @return  错误码
+	 */
+    errno_t FT_SetConfig(int company, int device, int softvesion, int bus);
 
 获取力传感器配置
 +++++++++++++++++++++++

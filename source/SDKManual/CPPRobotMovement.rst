@@ -1159,3 +1159,60 @@ jog点动立即停止
         
         return 0;
     }
+
+开始Ptp运动FIR滤波
++++++++++++++++++++++++++++++
+.. versionadded:: V3.7.7
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+	* @brief 开始Ptp运动FIR滤波
+	* @param [in] maxAcc 最大加速度极值(deg/s2)
+	* @return 错误码
+	*/
+	errno_t PtpFIRPlanningStart(double maxAcc);
+
+关闭Ptp运动FIR滤波
++++++++++++++++++++++++++++++
+.. versionadded:: V3.7.7
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+	* @brief 关闭Ptp运动FIR滤波
+	* @return 错误码
+	*/
+	errno_t PtpFIRPlanningEnd();
+
+开始LIN、ARC运动FIR滤波
++++++++++++++++++++++++++++++
+.. versionadded:: V3.7.7
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+	* @brief 开始LIN、ARC运动FIR滤波
+	* @param [in] maxAccLin 线加速度极值(mm/s2)
+	* @param [in] maxAccDeg 角加速度极值(deg/s2)
+	* @param [in] maxJerkLin 线加加速度极值(mm/s3)
+	* @param [in] maxJerkDeg 角加加速度极值(deg/s3)
+	* @return 错误码
+	*/
+	errno_t LinArcFIRPlanningStart(double maxAccLin, double maxAccDeg, double maxJerkLin, double maxJerkDeg);
+
+关闭LIN、ARC运动FIR滤波
++++++++++++++++++++++++++++++
+.. versionadded:: V3.7.7
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+	* @brief 关闭LIN、ARC运动FIR滤波
+	* @return 错误码
+	*/
+	errno_t LinArcFIRPlanningEnd();

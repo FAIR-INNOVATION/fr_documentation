@@ -794,3 +794,78 @@
 
         return 0;
     }
+
+获取旋转夹爪的旋转圈数
++++++++++++++++++++++++++++++++++++++++++++++
+
+.. versionadded:: 3.7.6版本加入
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+	 * @brief  获取旋转夹爪的旋转圈数
+	 * @param  [out] fault  0-无错误，1-有错误
+	 * @param  [out] num  旋转圈数
+	 * @return  错误码
+	 */
+	errno_t GetGripperRotNum(uint16_t* fault, double* num);
+
+获取旋转夹爪的旋转速度
++++++++++++++++++++++++++++++++++++++++++++++
+
+.. versionadded:: V3.7.6
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+	 * @brief  获取旋转夹爪的旋转速度
+	 * @param  [out] fault  0-无错误，1-有错误
+	 * @param  [out] speed  旋转速度百分比
+	 * @return  错误码
+	 */
+	errno_t GetGripperRotSpeed(uint16_t* fault, int* speed);
+
+获取旋转夹爪的旋转力矩
++++++++++++++++++++++++++++++++++++++++++++++
+
+.. versionadded:: V3.7.6
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+	 * @brief  获取旋转夹爪的旋转力矩
+	 * @param  [out] fault  0-无错误，1-有错误
+	 * @param  [out] torque  旋转力矩百分比
+	 * @return  错误码
+	 */
+	errno_t GetGripperRotTorque(uint16_t* fault, int* torque);
+
+示例程序
+********************
+
+.. versionadded:: V3.7.6
+
+.. code-block:: c++
+    :linenos:
+
+    int MoveRotGripper(FRRobot* robot, int pos, double rotPos)
+    {
+        robot->ResetAllError();
+        robot->ActGripper(1, 1);
+        robot->Sleep(1000);
+        int rtn = robot->MoveGripper(1, pos, 50, 50, 5000, 1, 1, rotPos, 50, 100);
+        printf("move gripper rtn is %d\n", rtn);
+        uint16_t fault = 0;
+        double rotNum = 0.0;
+        int rotSpeed = 0;
+        int rotTorque = 0;
+        robot->GetGripperRotNum(&fault, &rotNum);
+        robot->GetGripperRotSpeed (&fault, &rotSpeed);
+        robot->GetGripperRotTorque(&fault, &rotTorque);
+        printf("gripper rot num : %lf, gripper rotSpeed : %d, gripper rotTorque : %d\n", rotNum, rotSpeed, rotTorque);
+
+        return 0;
+    }

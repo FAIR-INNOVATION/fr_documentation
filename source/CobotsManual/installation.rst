@@ -92,6 +92,12 @@
 
 .. centered:: 图表 3.1-5 FR20型号协作机器人
 
+.. figure:: installation/007.png
+	:align: center
+	:width: 6in
+
+.. centered:: 图表 3.1-6 FR30型号协作机器人
+
 有效性和责任
 ~~~~~~~~~~~~~~~~
 

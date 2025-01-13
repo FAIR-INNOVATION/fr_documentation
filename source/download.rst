@@ -171,9 +171,9 @@
      - ✅
      - ✅
      - ✅
+     - ✅
      - --
-     - --
-     - :download:`下载 <_static/_doc/KCs证书(FR3-FR20).pdf>`
+     - :download:`下载 <_static/_doc/KCs证书.zip>`
 
    * - **SEMI认证证书**
      - ✅

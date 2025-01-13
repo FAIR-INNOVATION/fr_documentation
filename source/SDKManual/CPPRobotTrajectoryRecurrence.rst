@@ -429,3 +429,52 @@ TPD轨迹复现
         retval = robot.MoveTrajectoryJ();
         printf("MoveTrajectoryJ retval is: %d\n", retval);
     }
+
+上传轨迹J文件
++++++++++++++++++++++++++++++
+.. versionadded:: V3.7.7
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+	 * @brief 上传轨迹J文件
+	 * @param [in] filePath 上传轨迹文件的全路径名   C://test/testJ.txt
+	 * @return 错误码
+	 */
+	errno_t TrajectoryJUpLoad(const std::string& filePath);
+
+删除轨迹J文件
++++++++++++++++++++++++++++++
+.. versionadded:: V3.7.7
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+	 * @brief 删除轨迹J文件
+	 * @param [in] fileName 文件名称 testJ.txt
+	 * @return 错误码
+	 */
+	errno_t TrajectoryJDelete(const std::string& fileName);
+
+代码示例
+******************
+.. versionadded:: V3.7.7
+
+.. code-block:: c++
+    :linenos:
+
+    void TrajectoryJUpload(FRRobot* robot)
+    {
+        int rtn = -1;
+        rtn = robot->TrajectoryJUpLoad("D://zUP/testA.txt");
+        printf("Upload TrajectoryJ A %d\n", rtn);
+        rtn = robot->TrajectoryJUpLoad("D://zUP/testB.txt");
+        printf("Upload TrajectoryJ B %d\n", rtn);
+
+        rtn = robot->TrajectoryJDelete("testA.txt");
+        printf("Delete TrajectoryJ A %d\n", rtn);
+        rtn = robot->TrajectoryJDelete("testB.txt");
+        printf("Delete TrajectoryJ B %d\n", rtn);
+    }
