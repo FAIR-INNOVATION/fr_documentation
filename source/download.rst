@@ -71,7 +71,7 @@
      - ✅
      - ✅
      - ✅
-     - --
+     - ✅
      - --
      - :download:`下载 <_static/_doc/ROHS测试认证.zip>`
 
@@ -298,3 +298,5 @@ Java SDK
 机器人软件下载
 ---------------------------------
     :download:`FAIRINO-CobotSoftware-QNX-V3.7.7-Release-241230 <https://pan.baidu.com/s/1rgovEmjCuDJDrWPdoQgAPA?pwd=pryj>`
+    
+    :download:`FAIRINO-CobotSoftware-Linux-V3.7.7-Release-250114 <https://pan.baidu.com/s/12KrK9lOG6NLC6ejvkLl5tA?pwd=bn3n>`
