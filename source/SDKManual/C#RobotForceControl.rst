@@ -570,3 +570,129 @@
     * @return 错误码
     */
     int LoadIdentifyGetResult(double[] gain, ref double weight, ref DescTran cog);
+
+力传感器辅助拖动
++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  力传感器辅助拖动
+    * @param  [in] status 控制状态，0-关闭；1-开启
+    * @param  [in] asaptiveFlag 自适应开启标志，0-关闭；1-开启
+    * @param  [in] interfereDragFlag 干涉区拖动标志，0-关闭；1-开启
+    * @param  [in] M 惯性系数
+    * @param  [in] B 阻尼系数
+    * @param  [in] K 刚度系数
+    * @param  [in] F 拖动六维力阈值
+    * @param  [in] Fmax 最大拖动力限制 Nm
+    * @param  [in] Vmax 最大关节速度限制 °/s
+    * @return  错误码
+    */
+    int EndForceDragControl(int status, int asaptiveFlag, int interfereDragFlag, double[] M, double[] B, double[] K, double[] F, double Fmax, double Vmax);
+
+获取力传感器拖动开关状态
++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  获取力传感器拖动开关状态
+    * @param  [out] dragState 力传感器辅助拖动控制状态，0-关闭；1-开启
+    * @param  [out] sixDimensionalDragState 六维力辅助拖动控制状态，0-关闭；1-开启
+    * @return  错误码
+    */
+    int GetForceAndTorqueDragState(ref int dragState, ref int sixDimensionalDragState);
+
+力传感器自动校零
++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  力传感器自动校零
+    * @param  [out] weight 传感器质量 kg 
+    * @param  [out] pos 传感器质心 mm
+    * @return  错误码
+    */
+    int ForceSensorAutoComputeLoad(ref double weight, ref DescTran pos);
+
+设置六维力和关节阻抗混合拖动开关及参数
++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  设置六维力和关节阻抗混合拖动开关及参数
+    * @param  [in] status 控制状态，0-关闭；1-开启
+    * @param  [in] impedanceFlag 阻抗开启标志，0-关闭；1-开启
+    * @param  [in] lamdeDain 拖动增益
+    * @param  [in] KGain 刚度增益
+    * @param  [in] BGain 阻尼增益
+    * @param  [in] dragMaxTcpVel 拖动末端最大线速度限制
+    * @param  [in] dragMaxTcpOriVel 拖动末端最大角速度限制
+    * @return  错误码
+    */
+    int ForceAndJointImpedanceStartStop(int status, int impedanceFlag, double[] lamdeDain, double[] KGain, double[] BGain, double dragMaxTcpVel, double dragMaxTcpOriVel);
+
+
+设置力传感器下负载重量
++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  设置力传感器下负载重量
+    * @param  [in] weight 负载重量 kg
+    * @return  错误码
+    */
+    int SetForceSensorPayLoad(double weight);
+
+设置力传感器下负载质心
++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  设置力传感器下负载质心
+    * @param  [in] x 负载质心x mm 
+    * @param  [in] y 负载质心y mm
+    * @param  [in] z 负载质心z mm
+    * @return  错误码
+    */
+    int SetForceSensorPayLoadCog(double x, double y, double z);
+
+获取力传感器下负载重量
++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  获取力传感器下负载重量
+    * @param  [in] weight 负载重量 kg
+    * @return  错误码
+    */
+    int GetForceSensorPayLoad(ref double weight);
+
+获取力传感器下负载质心
++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  获取力传感器下负载质心
+    * @param  [out] x 负载质心x mm 
+    * @param  [out] y 负载质心y mm
+    * @param  [out] z 负载质心z mm
+    * @return  错误码
+    */
+    int GetForceSensorPayLoadCog(ref double x, ref double y, ref double z);
+

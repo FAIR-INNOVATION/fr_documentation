@@ -366,6 +366,19 @@
     */
     int PointTableUpdateLua(string pointTableName, string luaFileName, ref string errorStr);
 
+切换点位表并应用
++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /** 
+    * @brief 切换点位表并应用
+    * @param [in] pointTableName 要切换的点位表名称   "pointTable1.db"
+    * @param [out] errorStr 切换点位表错误信息   
+    * @return 错误码 
+    */
+    int PointTableSwitch(string pointTableName, ref string errorStr);
+
 代码示例
 +++++++++
 .. code-block:: c#
@@ -484,3 +497,76 @@
         Console.Writeline("protocol is" + protocol);
     }
 
+末端传感器配置
++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  末端传感器配置
+    * @param  [in] idCompany 厂商，18-JUNKONG；25-HUIDE
+    * @param  [in] idDevice 类型，0-JUNKONG/RYR6T.V1.0
+    * @param  [in] idSoftware 软件版本，0-J1.0/HuiDe1.0(暂未开放)
+    * @param  [in] idBus 挂载位置，1-末端1号口；2-末端2号口...8-末端8号口(暂未开放)
+    * @return  错误码
+    */
+    int AxleSensorConfig(int idCompany, int idDevice, int idSoftware, int idBus);
+
+获取末端传感器配置
++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  获取末端传感器配置
+    * @param  [out] idCompany 厂商，18-JUNKONG；25-HUIDE
+    * @param  [out] idDevice 类型，0-JUNKONG/RYR6T.V1.0
+    * @return  错误码
+    */
+    int AxleSensorConfigGet(ref int idCompany, ref int idDevice);
+
+末端传感器激活
++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  末端传感器激活
+    * @param  [in] actFlag 0-复位；1-激活
+    * @return  错误码
+    */
+    int AxleSensorActivate(int actFlag);
+
+末端传感器寄存器写入
++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  末端传感器寄存器写入
+    * @param  [in] devAddr  设备地址编号 0-255
+    * @param  [in] regHAddr 寄存器地址高8位
+    * @param  [in] regLAddr 寄存器地址低8位
+    * @param  [in] regNum  寄存器个数 0-255
+    * @param  [in] data1 写入寄存器数值1
+    * @param  [in] data2 写入寄存器数值2
+    * @param  [in] isNoBlock 0-阻塞；1-非阻塞
+    * @return  错误码
+    */
+     int AxleSensorRegWrite(int devAddr, int regHAddr, int regLAddr, int regNum, int data1, int data2, int isNoBlock);
+
+代码示例
++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    private void button2_Click_1(object sender, EventArgs e)
+    {
+        robot.AxleSensorConfig(18, 0, 0, 1);
+        int company = -1;
+        int type = -1;
+        robot.AxleSensorConfigGet(ref company, ref type);
+        Console.WriteLine($"company is {company}, type is {type}");
+        robot.AxleSensorActivate(1);
+        robot.AxleSensorRegWrite(1, 4, 6, 1, 0, 0, 0);       
+    }

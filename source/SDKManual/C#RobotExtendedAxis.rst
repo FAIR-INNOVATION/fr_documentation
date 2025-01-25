@@ -81,12 +81,12 @@
 
     private void btnWeldStart_Click(object sender, EventArgs e)
     {
-    Robot robot = new Robot();
-    robot.RPC("192.168.58.2");
+        Robot robot = new Robot();
+        robot.RPC("192.168.58.2");
 
-    robot.AuxServoSetParam(1, 1, 1, 1, 131072, 36);//设置配置参数
-    int ID = -1, company = -1, model = -1, soft = -1, servoResolution= -1;
-    int radio = -1;
+        robot.AuxServoSetParam(1, 1, 1, 1, 131072, 36);//设置配置参数
+        int ID = -1, company = -1, model = -1, soft = -1, servoResolution= -1;
+        int radio = -1;
         robot.AuxServoGetParam(1, ref company, ref model, ref soft, ref servoResolution, ref radio);//获取配置参数
         
         Thread.Sleep(100);
@@ -1009,160 +1009,6 @@ UDP扩展轴与机器人圆弧运动同步运动
         robot.ExtAxisSyncMoveC(midjointPos, middescPose, 1, 1, 100, 100, midexaxisPos, 0, offdese, endjointPos, enddescPose, 1, 1, 100, 100, endexaxisPos, 0, offdese, 100, 0);
     }
 
-设置焊丝寻位扩展IO端口
-+++++++++++++++++++++++++++++
-.. versionadded:: C#SDK-v1.0.9
-
-.. code-block:: c#
-    :linenos:
-
-    /**
-    * @brief 设置焊丝寻位扩展IO端口
-    * @param searchDoneDINum 焊丝寻位成功DO端口(0-127)
-    * @param searchStartDONum 焊丝寻位启停控制DO端口(0-127)
-    * @return 错误码
-    */
-    int  SetWireSearchExtDIONum(int searchDoneDINum, int searchStartDONum);
-
-代码示例
-************
-.. versionadded:: C#SDK-v1.0.9
-    
-.. code-block:: c#
-    :linenos:
-
-    private void button7_Click(object sender, EventArgs e)
-    {
-        //UDP焊丝寻位
-        robot.ExtDevSetUDPComParam("192.168.58.2", 2021, 2, 50, 5, 50, 1, 50, 10);
-        robot.ExtDevLoadUDPDriver();
-        robot.SetWireSearchExtDIONum(0, 0);
-
-        int rtn0, rtn1, rtn2 = 0;
-        ExaxisPos exaxisPos = new ExaxisPos(0.0, 0.0, 0.0, 0.0);
-        DescPose offdese = new DescPose(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-
-        DescPose descStart = new DescPose(-158.767, -510.596, 271.709, -179.427, -0.745, -137.349);
-        JointPos jointStart = new JointPos(61.667, -79.848, 108.639, -119.682, -89.700, -70.985);
-
-        DescPose descEnd = new DescPose(0.332, -516.427, 270.688, 178.165, 0.017, -119.989);
-        JointPos jointEnd = new JointPos(79.021, -81.839, 110.752, -118.298, -91.729, -70.981);
-
-        robot.MoveL(jointStart, descStart, 1, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese);
-        robot.MoveL(jointEnd, descEnd, 1, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese);
-
-        DescPose descREF0A = new DescPose(-66.106, -560.746, 270.381, 176.479, -0.126, -126.745);
-        JointPos jointREF0A = new JointPos(73.531, -75.588, 102.941, -116.250, -93.347, -69.689);
-
-        DescPose descREF0B = new DescPose(-66.109, -528.440, 270.407, 176.479, -0.129, -126.744);
-        JointPos jointREF0B = new JointPos(72.534, -79.625, 108.046, -117.379, -93.366, -70.687);
-
-        DescPose descREF1A = new DescPose(72.975, -473.242, 270.399, 176.479, -0.129, -126.744);
-        JointPos jointREF1A = new JointPos(87.169, -86.509, 115.710, -117.341, -92.993, -56.034);
-        DescPose descREF1B = new DescPose(31.355, -473.238, 270.405, 176.480, -0.130, -126.745);
-        JointPos jointREF1B = new JointPos(82.117, -87.146, 116.470, -117.737, -93.145, -61.090);
-        rtn0 = robot.WireSearchStart(0, 10, 100, 0, 10, 100, 0);
-        robot.MoveL(jointREF0A, descREF0A, 1, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese);  //起点
-        robot.MoveL(jointREF0B, descREF0B, 1, 0, 10, 100, 100, -1, exaxisPos, 1, 0, offdese);  //方向点
-        rtn1 = robot.WireSearchWait("REF0");
-        rtn2 = robot.WireSearchEnd(0, 10, 100, 0, 10, 100, 0);
-        rtn0 = robot.WireSearchStart(0, 10, 100, 0, 10, 100, 0);
-        robot.MoveL(jointREF1A, descREF1A, 1, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese);  //起点
-        robot.MoveL(jointREF1B, descREF1B, 1, 0, 10, 100, 100, -1, exaxisPos, 1, 0, offdese);  //方向点
-        rtn1 = robot.WireSearchWait("REF1");
-        rtn2 = robot.WireSearchEnd(0, 10, 100, 0, 10, 100, 0);
-
-        rtn0 = robot.WireSearchStart(0, 10, 100, 0, 10, 100, 0);
-        robot.MoveL(jointREF0A, descREF0A, 1, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese);  //起点
-        robot.MoveL(jointREF0B, descREF0B, 1, 0, 10, 100, 100, -1, exaxisPos, 1, 0, offdese);  //方向点
-        rtn1 = robot.WireSearchWait("RES0");
-        rtn2 = robot.WireSearchEnd(0, 10, 100, 0, 10, 100, 0);
-
-        rtn0 = robot.WireSearchStart(0, 10, 100, 0, 10, 100, 0);
-        robot.MoveL(jointREF1A, descREF1A, 1, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese);  //起点
-        robot.MoveL(jointREF1B, descREF1B, 1, 0, 10, 100, 100, -1, exaxisPos, 1, 0, offdese);  //方向点
-        rtn1 = robot.WireSearchWait("RES1");
-        rtn2 = robot.WireSearchEnd(0, 10, 100, 0, 10, 100, 0);
-        List<string> varNameRef1 = new List<string> { "REF0", "REF1", "#", "#", "#", "#" };
-        List<string> varNameRes1 = new List<string> { "RES0", "RES1", "#", "#", "#", "#" };
-        string[] varNameRef = varNameRef1.ToArray();
-        string[] varNameRes = varNameRes1.ToArray();
-        int offectFlag = 0;
-        DescPose offectPos = new DescPose(0, 0, 0, 0, 0, 0);
-        rtn0 = robot.GetWireSearchOffset(0, 0, varNameRef, varNameRes, ref offectFlag, ref offectPos);
-        robot.PointsOffsetEnable(0, offectPos);
-        robot.MoveL(jointStart, descStart, 1, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese);
-        robot.MoveL(jointEnd, descEnd, 1, 0, 100, 100, 100, -1, exaxisPos, 1, 0, offdese);
-        robot.PointsOffsetDisable();
-    }
-
-设置焊机控制模式扩展DO端口
-+++++++++++++++++++++++++++++
-.. versionadded:: C#SDK-v1.0.9
-
-.. code-block:: c#
-    :linenos:
-
-    /**
-    * @brief 设置焊机控制模式扩展DO端口
-    * @param DONum 焊机控制模式DO端口(0-127)
-    * @return 错误码
-    */
-    int  SetWeldMachineCtrlModeExtDoNum(int DONum);
-
-设置焊机控制模式
-+++++++++++++++++++++++++++++
-.. versionadded:: C#SDK-v1.0.9
-
-.. code-block:: c#
-    :linenos:
-
-    /**
-    * @brief 设置焊机控制模式
-    * @param mode 焊机控制模式;0-一元化
-    * @return 错误码
-    */
-    int SetWeldMachineCtrlMode(int mode);
-
-代码示例
-************
-.. versionadded:: C#SDK-v1.0.9
-    
-.. code-block:: c#
-    :linenos:
-
-    private void button8_Click(object sender, EventArgs e)
-    {
-        robot.ExtDevSetUDPComParam("192.168.58.88", 2021, 2, 50, 5, 50, 1, 50, 10);
-        robot.ExtDevLoadUDPDriver();
-
-        robot.SetWeldMachineCtrlModeExtDoNum(17);
-        for (int i = 0; i < 5; i++)
-        {
-            robot.SetWeldMachineCtrlMode(1);
-            Thread.Sleep(500);
-            robot.SetWeldMachineCtrlMode(0);
-            Thread.Sleep(500);
-        }
-
-        robot.SetWeldMachineCtrlModeExtDoNum(18);
-        for (int i = 0; i < 5; i++)
-        {
-            robot.SetWeldMachineCtrlMode(1);
-            Thread.Sleep(500);
-            robot.SetWeldMachineCtrlMode(0);
-            Thread.Sleep(500);
-        }
-        robot.SetWeldMachineCtrlModeExtDoNum(19);
-        for (int i = 0; i < 5; i++)
-        {
-            robot.SetWeldMachineCtrlMode(1);
-            Thread.Sleep(500);
-            robot.SetWeldMachineCtrlMode(0);
-            Thread.Sleep(500);
-        }
-    }
-
 可移动装置使能
 +++++++++++++++++++++++++++++
 .. versionadded:: C#SDK-v1.0.9
@@ -1427,33 +1273,87 @@ UDP扩展轴与机器人圆弧运动同步运动
 
     private void btnAIDI_Click(object sender, EventArgs e)
     {
-    Robot robot = new Robot();
-    robot.RPC("192.168.58.2");
+        Robot robot = new Robot();
+        robot.RPC("192.168.58.2");
 
-    robot.SetAuxDIFilterTime(10);
-    robot.SetAuxAIFilterTime(10);
+        robot.SetAuxDIFilterTime(10);
+        robot.SetAuxAIFilterTime(10);
 
-    for (int i = 0; i < 20; i++)
-    {
-        bool curValue = false;
-        int rtn = robot.GetAuxDI(i, false, ref curValue);
-        txtRtn.Text = rtn.ToString();
-        Console.Write($"DI{i}  {curValue}  ");
-        Console.WriteLine("  ");
+        for (int i = 0; i < 20; i++)
+        {
+            bool curValue = false;
+            int rtn = robot.GetAuxDI(i, false, ref curValue);
+            txtRtn.Text = rtn.ToString();
+            Console.Write($"DI{i}  {curValue}  ");
+            Console.WriteLine("  ");
+        }
+
+        int curValue = -1;
+        int rtn = 0;
+        for (int i = 0; i < 4; i++)
+        {
+            rtn = robot.GetAuxAI(i, true, ref curValue);
+            txtRtn.Text = rtn.ToString();
+            Console.Write($"AI{i} {curValue}   rtn is {rtn} ");
+            Console.WriteLine("  ");
+        }
+
+        robot.WaitAuxDI(1, true, 1000, false);
+        robot.WaitAuxAI(1, 1, 132, 1000, false);
     }
 
-    int curValue = -1;
-    int rtn = 0;
-    for (int i = 0; i < 4; i++)
-    {
-        rtn = robot.GetAuxAI(i, true, ref curValue);
-        txtRtn.Text = rtn.ToString();
-        Console.Write($"AI{i} {curValue}   rtn is {rtn} ");
-        Console.WriteLine("  ");
-    }
+设置485扩展轴运动加减速度
++++++++++++++++++++++++
+.. code-block:: C#
+    :linenos:
 
-    robot.WaitAuxDI(1, true, 1000, false);
-    robot.WaitAuxAI(1, 1, 132, 1000, false);
-    }
+    /**
+    * @brief 设置485扩展轴运动加减速度
+    * @param [in] acc 485扩展轴运动加速度
+    * @param [in] dec 485扩展轴运动减速度
+    * @return  错误码
+    */
+    int AuxServoSetAcc(double acc, double dec);
+
+设置485扩展轴急停加减速度
++++++++++++++++++++++++
+.. code-block:: C#
+    :linenos:
+
+    /**
+    * @brief 设置485扩展轴急停加减速度
+    * @param [in] acc 485扩展轴急停加速度
+    * @param [in] dec 485扩展轴急停减速度
+    * @return  错误码
+    */
+    int AuxServoSetEmergencyStopAcc(double acc, double dec);
+
+获取485扩展轴运动加减速度
++++++++++++++++++++++++
+.. code-block:: C#
+    :linenos:
+
+    /**
+    * @brief 获取485扩展轴运动加减速度
+    * @param [out] acc 485扩展轴运动加速度
+    * @param [out] dec 485扩展轴运动减速度
+    * @return  错误码
+    */
+    int AuxServoGetAcc(ref double acc, ref double dec);
+
+获取485扩展轴急停加减速度
++++++++++++++++++++++++
+.. code-block:: C#
+    :linenos:
+
+    /**
+    * @brief 获取485扩展轴急停加减速度
+    * @param [out] acc 485扩展轴急停加速度
+    * @param [out] dec 485扩展轴急停减速度
+    * @return  错误码
+    */
+    int AuxServoGetEmergencyStopAcc(ref double acc, ref double dec);
+
+
 
 

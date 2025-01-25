@@ -935,7 +935,7 @@ jog点动立即停止
     int SingularAvoidEnd();
 
 代码示例
-************
++++++++++++++++++++++++++++++
 .. versionadded:: C#SDK-v1.0.9
     
 .. code-block:: c#
@@ -959,4 +959,127 @@ jog点动立即停止
         robot.SingularAvoidStart(1, 100, 50, 10);
         robot.MoveC(midjointPos, middescPose, 0, 0, 50, 100, exaxisPos, 0, offdese, endjointPos, enddescPose, 0, 0, 100, 100, exaxisPos, 0, offdese, 100, -1);
         robot.SingularAvoidEnd();
+    }
+
+安全停止触发
+++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 安全停止触发信号
+    * @return 错误码99
+    */
+    int GetSafetyCode();
+
+开始Ptp运动FIR滤波
+++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 开始Ptp运动FIR滤波
+    * @param [in] maxAcc 最大加速度极值(deg/s2)
+    * @return 错误码
+    */
+    int PtpFIRPlanningStart(double maxAcc);
+
+关闭Ptp运动FIR滤波
+++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 关闭Ptp运动FIR滤波
+    * @return 错误码
+    */
+    int PtpFIRPlanningEnd();
+
+开始LIN、ARC运动FIR滤波
+++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 开始LIN、ARC运动FIR滤波
+    * @param [in] maxAccLin 线加速度极值(mm/s2)
+    * @param [in] maxAccDeg 角加速度极值(deg/s2)
+    * @param [in] maxJerkLin 线加加速度极值(mm/s3)
+    * @param [in] maxJerkDeg 角加加速度极值(deg/s3)
+    * @return 错误码
+    */
+    int LinArcFIRPlanningStart(double maxAccLin, double maxAccDeg, double maxJerkLin, double maxJerkDeg);
+
+关闭LIN、ARC运动FIR滤波
+++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 关闭LIN、ARC运动FIR滤波
+    * @return 错误码
+    */
+    int LinArcFIRPlanningEnd();
+
+代码示例
++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-v1.0.9
+    
+.. code-block:: c#
+    :linenos:
+
+    void FIRPTP( bool enable)
+    {
+        DescPose startdescPose = new DescPose(-569.710, -132.595, 395.147, 178.418, -1.893, 171.051);
+        JointPos startjointPos = new JointPos(-2.334, -79.300, 108.196, -120.594, -91.790, -83.386);
+
+        DescPose enddescPose = new DescPose(-366.397, -572.427, 418.339, -178.972, 1.829, -142.970);
+        JointPos endjointPos = new JointPos(43.651, -70.284, 91.057, -109.075, -88.768, -83.382);
+
+        ExaxisPos exaxisPos = new ExaxisPos(0, 0, 0, 0);
+        DescPose offdese = new DescPose(0, 0, 0, 0, 0, 0);
+
+        if (enable)
+        {
+            robot.PtpFIRPlanningStart(1000);
+            robot.MoveJ(startjointPos, startdescPose, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
+            robot.MoveJ(endjointPos, enddescPose, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
+            robot.PtpFIRPlanningEnd();
+        }
+        else
+        {
+            robot.MoveJ(startjointPos, startdescPose, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
+            robot.MoveJ(endjointPos, enddescPose, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
+        }
+    }
+    void FIRLin( bool enable)
+    {
+        DescPose startdescPose = new DescPose(-569.710, -132.595, 395.147, 178.418, -1.893, 171.051);
+        JointPos startjointPos = new JointPos(-2.334, -79.300, 108.196, -120.594, -91.790, -83.386);
+
+        DescPose enddescPose = new DescPose(-366.397, -572.427, 418.339, -178.972, 1.829, -142.970);
+        JointPos endjointPos = new JointPos(43.651, -70.284, 91.057, -109.075, -88.768, -83.382);
+
+        ExaxisPos exaxisPos = new ExaxisPos(0, 0, 0, 0);
+        DescPose offdese = new DescPose(0, 0, 0, 0, 0, 0);
+
+        if (enable)
+        {
+            robot.LinArcFIRPlanningStart(5000, 5000, 5000, 5000);
+            robot.MoveL(startjointPos, startdescPose, 0, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese, 1, 1);
+            robot.MoveL(endjointPos, enddescPose, 0, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese, 1, 1);
+            robot.LinArcFIRPlanningEnd();
+        }
+        else
+        {
+            robot.MoveL(startjointPos, startdescPose, 0, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese, 1, 1);
+            robot.MoveL(endjointPos, enddescPose, 0, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese, 1, 1);
+        }
+    }
+    private void button4_Click(object sender, EventArgs e)
+    {
+        FIRPTP(false);
+        FIRPTP(true);
+        //FIRLin(false);
+        //FIRLin(true);
     }
