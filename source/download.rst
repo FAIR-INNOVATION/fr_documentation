@@ -20,6 +20,8 @@
 ---------------------------------
     :download:`法奥意威ISO9001质量认证证书 <_static/_doc/法奥意威ISO9001质量认证证书.pdf>`
 
+机器人认证证书：
+
 .. list-table::
    :widths: 24 4 4 4 4 4 4 4 20
    :header-rows: 0
@@ -35,7 +37,7 @@
      - **FR3MT**
      - **证书下载**
 
-   * - **高防护IP65测试认证证书**
+   * - **高防护IP65测试证书**
      - ✅
      - ✅
      - ✅
@@ -45,7 +47,7 @@
      - --
      - :download:`下载 <_static/_doc/高防护IP65测试认证.zip>`
 
-   * - **NSF认证证书**
+   * - **NSF证书**
      - ✅
      - ✅
      - ✅
@@ -55,7 +57,7 @@
      - ✅
      - :download:`下载 <_static/_doc/NSF认证.zip>`
 
-   * - **碰撞力测试认证证书**
+   * - **碰撞力测试证书**
      - ✅
      - ✅
      - ✅
@@ -65,7 +67,7 @@
      - --
      - :download:`下载 <_static/_doc/碰撞力测试认证证书.zip>`
 
-   * - **ROHS测试认证证书**
+   * - **ROHS测试证书**
      - ✅
      - ✅
      - ✅
@@ -75,47 +77,7 @@
      - --
      - :download:`下载 <_static/_doc/ROHS测试认证.zip>`
 
-   * - **零部件-电机认证证书**
-     - ✅
-     - ✅
-     - ✅
-     - ✅
-     - ✅
-     - ✅
-     - ✅
-     - :download:`下载 <_static/_doc/零部件-电机认证.pdf>`
-
-   * - **零部件-驱动器认证证书**
-     - ✅
-     - ✅
-     - ✅
-     - ✅
-     - ✅
-     - ✅
-     - ✅
-     - :download:`下载 <_static/_doc/零部件-驱动器认证.pdf>`
-
-   * - **零部件-核心板认证证书**
-     - ✅
-     - ✅
-     - ✅
-     - ✅
-     - ✅
-     - ✅
-     - ✅
-     - :download:`下载 <_static/_doc/零部件-核心板认证.pdf>`
-
-   * - **零部件-电源认证证书**
-     - ✅
-     - ✅
-     - ✅
-     - ✅
-     - ✅
-     - ✅
-     - ✅
-     - :download:`下载 <_static/_doc/零部件-电源认证.pdf>`
-
-   * - **防爆认证证书**
+   * - **防爆证书**
      - ✅
      - ✅
      - ✅
@@ -125,7 +87,7 @@
      - ✅
      - :download:`下载 <_static/_doc/防爆认证.zip>`
 
-   * - **CE-EMC认证证书**
+   * - **CE-EMC证书**
      - ✅
      - ✅
      - ✅
@@ -135,7 +97,7 @@
      - --
      - :download:`下载 <_static/_doc/CE-EMC认证.pdf>`
 
-   * - **CE-MD认证证书**
+   * - **CE-MD证书**
      - ✅
      - ✅
      - ✅
@@ -145,17 +107,7 @@
      - --
      - :download:`下载 <_static/_doc/CE-MD认证证书.zip>`
 
-   * - **控制箱CE认证证书**
-     - ✅
-     - ✅
-     - ✅
-     - ✅
-     - ✅
-     - ✅
-     - ✅
-     - :download:`下载 <_static/_doc/FRC100-AC-x000-A版本控制箱CE(MD+EMC)证书.pdf>`
-
-   * - **功能安全认证证书**
+   * - **功能安全证书**
      - ✅
      - ✅
      - ✅
@@ -165,7 +117,7 @@
      - --
      - :download:`下载 <_static/_doc/功能安全认证证书.zip>`
 
-   * - **KCs认证证书**
+   * - **KCs证书**
      - ✅
      - ✅
      - ✅
@@ -175,7 +127,7 @@
      - --
      - :download:`下载 <_static/_doc/KCs证书.zip>`
 
-   * - **SEMI认证证书**
+   * - **SEMI证书**
      - ✅
      - ✅
      - ✅
@@ -185,7 +137,7 @@
      - --
      - :download:`下载 <_static/_doc/SEMI认证证书.pdf>`
 
-   * - **NRTL工业机器人认证证书**
+   * - **NRTL工业机器人证书**
      - ✅
      - ✅
      - ✅
@@ -195,7 +147,7 @@
      - --
      - :download:`下载 <_static/_doc/FR3-30工业机器人NRTL认证证书.pdf>`
 
-   * - **NRTL协作机器人认证证书**
+   * - **NRTL协作机器人证书**
      - ✅
      - ✅
      - ✅
@@ -205,7 +157,7 @@
      - --
      - :download:`下载 <_static/_doc/NRTL协作机器人认证证书.pdf>`
     
-   * - **CR认证证书**
+   * - **CR证书**
      - --
      - ✅
      - --
@@ -214,6 +166,43 @@
      - --
      - --
      - :download:`下载 <_static/_doc/法奥意威CR证书.pdf>`
+
+控制箱认证证书：
+
+.. list-table::
+   :widths: 45 125 35
+   :header-rows: 0
+   :class: sheet-center
+
+   * - **认证证书**
+     - **产品型号**
+     - **下载**
+   * - **控制箱CE(MD+EMC)证书**
+     - FRC100-AC-2000-A, FRC100-AC-5000-A
+     - :download:`下载 <_static/_doc/FRC100-AC-x000-A版本控制箱CE(MD+EMC)证书.pdf>`
+
+零部件认证证书：
+
+.. list-table::
+   :widths: 45 125 35
+   :header-rows: 0
+   :class: sheet-center
+
+   * - **认证证书**
+     - **产品型号**
+     - **下载**
+   * - **电机证书**
+     - FR60-100, FR60-200, FR80-470, FR130-960, FR130-1500
+     - :download:`下载 <_static/_doc/零部件-电机认证.pdf>`
+   * - **驱动器证书**
+     - FR01-SD6-14, FR01-SD6-17, FR01-SD8-25, FR01-SD13-32, FR01-SD13-40
+     - :download:`下载 <_static/_doc/零部件-驱动器认证.pdf>`
+   * - **电源证书**
+     - FRP-800-4824
+     - :download:`下载 <_static/_doc/零部件-电源认证.pdf>`
+   * - **核心板证书**
+     - PETREL
+     - :download:`下载 <_static/_doc/零部件-核心板认证.pdf>`
 
 二次开发
 ---------------------------------
@@ -297,6 +286,5 @@ Java SDK
 
 机器人软件下载
 ---------------------------------
-    :download:`FAIRINO-CobotSoftware-QNX-V3.7.7-Release-241230 <https://pan.baidu.com/s/1rgovEmjCuDJDrWPdoQgAPA?pwd=pryj>`
+    :download:`FAIRINO-CobotSoftware-QNX-V3.7.8-Release-250120 <https://pan.baidu.com/s/1lXSvZ9MH6AeZzRpWdCCMbA?pwd=jrzt>`
     
-    :download:`FAIRINO-CobotSoftware-Linux-V3.7.7-Release-250114 <https://pan.baidu.com/s/12KrK9lOG6NLC6ejvkLl5tA?pwd=bn3n>`
