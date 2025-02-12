@@ -58,14 +58,16 @@
 
 力传感器配置
 +++++++++++++++++++++++++
+.. versionchanged:: Python SDK-v2.0.8-3.7.8
+
 .. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
     "原型", "``FT_SetConfig(company,device,softversion=0,bus=0)``"
     "描述", "力传感器配置"
-    "必选参数", "- ``company``：传感器厂商，17-坤维科技，19-航天十一院，20-ATI传感器，21-中科米点，22-伟航敏芯；
-    - ``device``：设备号，坤维(0-KWR75B)，航天十一院(0-MCS6A-200-4)，ATI(0-AXIA80-M8)，中科米点(0-MST2010)，伟航敏芯(0-WHC6L-YB-10A)；"
+    "必选参数", "- ``company``：传感器厂商，17-坤维科技，19-航天十一院，20-ATI传感器，21-中科米点，22-伟航敏芯，23-NBIT，24-鑫精诚(XJC)，26-NSR；
+    - ``device``：设备号，坤维(0-KWR75B)，航天十一院(0-MCS6A-200-4)，ATI(0-AXIA80-M8)，中科米点(0-MST2010)，伟航敏芯(0-WHC6L-YB-10A)，NBIT(0-XLH93003ACS)，鑫精诚XJC(0-XJC-6F-D82)，NSR(0-NSR-FTSensorA)；"
     "默认参数", "- ``softversion``：软件版本号，暂不使用，默认为0；
     - ``bus``：设备挂载末端总线位置，暂不使用，默认为 0；"
     "返回值", "错误码 成功-0  失败- errcode"

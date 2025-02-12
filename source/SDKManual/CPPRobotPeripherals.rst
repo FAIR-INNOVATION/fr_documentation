@@ -869,3 +869,140 @@
 
         return 0;
     }
+
+设置机器人焊接电弧意外中断检测参数
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.8-3.7.8
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+	 * @brief 设置机器人焊接电弧意外中断检测参数
+	 * @param [in] checkEnable 是否使能检测；0-不使能；1-使能
+	 * @param [in] arcInterruptTimeLength 电弧中断确认时长(ms)
+	 * @return 错误码
+    */
+	errno_t WeldingSetCheckArcInterruptionParam(int checkEnable, int arcInterruptTimeLength);
+
+获取机器人焊接电弧意外中断检测参数
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.8-3.7.8
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+	 * @brief 获取机器人焊接电弧意外中断检测参数
+	 * @param [out] checkEnable 是否使能检测；0-不使能；1-使能
+	 * @param [out] arcInterruptTimeLength 电弧中断确认时长(ms)
+	 * @return 错误码
+    */
+	errno_t WeldingGetCheckArcInterruptionParam(int* checkEnable, int* arcInterruptTimeLength);
+
+设置机器人焊接中断恢复参数
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.8-3.7.8
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+	 * @brief 设置机器人焊接中断恢复参数
+	 * @param [in] enable 是否使能焊接中断恢复
+	 * @param [in] length 焊缝重叠距离(mm)
+	 * @param [in] velocity 机器人回到再起弧点速度百分比(0-100)
+	 * @param [in] moveType 机器人运动到再起弧点方式；0-LIN；1-PTP
+	 * @return 错误码
+    */
+	errno_t WeldingSetReWeldAfterBreakOffParam(int enable, double length, double velocity, int moveType);
+    
+获取机器人焊接中断恢复参数
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.8-3.7.8
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+	 * @brief 获取机器人焊接中断恢复参数
+	 * @param [out] enable 是否使能焊接中断恢复
+	 * @param [out] length 焊缝重叠距离(mm)
+	 * @param [out] velocity 机器人回到再起弧点速度百分比(0-100)
+	 * @param [out] moveType 机器人运动到再起弧点方式；0-LIN；1-PTP
+	 * @return 错误码
+    */
+	errno_t WeldingGetReWeldAfterBreakOffParam(int* enable, double* length, double* velocity, int* moveType);
+
+设置机器人焊接中断后恢复焊接
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.8-3.7.8
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+	 * @brief 设置机器人焊接中断后恢复焊接
+	 * @return 错误码
+    */
+	errno_t WeldingStartReWeldAfterBreakOff();
+
+设置机器人焊接中断后退出焊接
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.8-3.7.8
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+	 * @brief 设置机器人焊接中断后退出焊接
+	 * @return 错误码
+	 */
+	errno_t WeldingAbortWeldAfterBreakOff();
+
+示例程序
+********************
+.. versionadded:: C++SDK-v2.1.8-3.7.8
+
+.. code-block:: c++
+    :linenos:
+
+    void TestReWeld(FRRobot* robot)
+    {
+        int rtn = -1;
+        rtn = robot->WeldingSetCheckArcInterruptionParam(1, 200);
+        printf("WeldingSetCheckArcInterruptionParam    %d\n", rtn);
+        rtn = robot->WeldingSetReWeldAfterBreakOffParam(1, 5.7, 98.2, 0);
+        printf("WeldingSetReWeldAfterBreakOffParam    %d\n", rtn);
+        int enable = 0;
+        double length = 0;
+        double velocity = 0;
+        int moveType = 0;
+        int checkEnable = 0;
+        int arcInterruptTimeLength = 0;
+        rtn = robot->WeldingGetCheckArcInterruptionParam(&checkEnable, &arcInterruptTimeLength);
+        printf("WeldingGetCheckArcInterruptionParam  checkEnable  %d   arcInterruptTimeLength  %d\n", checkEnable, arcInterruptTimeLength);
+        rtn = robot->WeldingGetReWeldAfterBreakOffParam(&enable, &length, &velocity, &moveType);
+        printf("WeldingGetReWeldAfterBreakOffParam  enable = %d, length = %lf, velocity = %lf, moveType = %d\n", enable, length, velocity, moveType);
+
+        robot->ProgramLoad("/fruser/test.lua");
+        robot->ProgramRun();
+
+        robot->Sleep(5000);
+
+        while (true)
+        {
+            ROBOT_STATE_PKG pkg = {};
+            robot->GetRobotRealTimeState(&pkg);
+            printf("welding breakoff state is     %d\n", pkg.weldingBreakOffState.breakOffState);
+            if (pkg.weldingBreakOffState.breakOffState == 1)
+            {
+                printf("welding breakoff ! \n");
+                robot->Sleep(2000);
+                rtn = robot->WeldingStartReWeldAfterBreakOff();
+                printf("WeldingStartReWeldAfterBreakOff    %d\n", rtn);
+                break;
+            }
+            robot->Sleep(100);
+        }
+    }

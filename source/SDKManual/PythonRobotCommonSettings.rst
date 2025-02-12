@@ -410,13 +410,16 @@
 
 设置末端负载重量
 ++++++++++++++++++
+.. versionchanged:: Python SDK-v2.0.8-3.7.8
+
 .. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``SetLoadWeight(weight)``"
+    "原型", "``SetLoadWeight(loadNum, weight)``"
     "描述", "设置末端负载重量,错误负载重量设置可能会导致拖动模式下机器人失控"
-    "必选参数", "- ``weight``:单位[kg]"
+    "必选参数", "- ``loadNum``:负载编号
+    - ``weight``:单位[kg]"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode "
 
@@ -428,7 +431,7 @@
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
-    error = robot.SetLoadWeight(0)#！！！负载重量设置应于实际相符(错误负载重量设置可能会导致拖动模式下机器人失控)
+    error = robot.SetLoadWeight(0,0)#！！！负载重量设置应于实际相符(错误负载重量设置可能会导致拖动模式下机器人失控)
 
 设置机器人安装方式-固定安装
 ++++++++++++++++++++++++++++++
@@ -576,3 +579,170 @@
     "必选参数", "无"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode "
+
+工具坐标系转换开始
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Python SDK-v2.0.8-3.7.8
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``ToolTrsfStart(toolNum)``"
+    "描述", "工具坐标系转换开始"
+    "必选参数", "- ``toolNum``:工具坐标系编号[0-14]"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode "
+
+工具坐标系转换结束
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Python SDK-v2.0.8-3.7.8
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``ToolTrsfEnd()``"
+    "描述", "工具坐标系转换结束"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode "
+    
+代码示例
+------------
+.. versionadded:: Python SDK-v2.0.8-3.7.8
+
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+
+    startjointPos = [52.850, -84.327, 102.163, -112.843, -84.131, 0.063]
+    startdescPose = [-226.699, -501.969, 264.638, -174.973, 5.852, 143.301]
+    endjointPos = [52.850, -77.596, 111.785, -129.196, -84.131, 0.062]
+    enddescPose = [-226.702, -501.973, 155.833, -174.973, 5.852, 143.301]
+
+    robot.ToolTrsfStart(1)
+    rtn = robot.MoveJ(startjointPos, 0, 0, startdescPose)
+    print("rtn is ", rtn)
+    rtn = robot.MoveJ(endjointPos, 0, 0, enddescPose)
+    print("rtn is ", rtn)
+    robot.ToolTrsfEnd()
+
+根据点位信息计算工具坐标系
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Python SDK-v2.0.8-3.7.8
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``ComputeToolCoordWithPoints(method, pos)``"
+    "描述", "根据点位信息计算工具坐标系"
+    "必选参数", "- ``method``：计算方法；0-四点法；1-六点法
+    - ``pos``：关节位置组，四点法时数组长度为4个，六点法时数组长度为6个"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode 
+    - ``tcp_offset=[x,y,z,rx,ry,rz]``：根据点位信息计算得到的工具坐标系，单位 [mm][°]"
+
+代码示例
+------------
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+
+    p1Desc = [-394.073, -276.405, 399.451, -133.692, 7.657, -139.047]
+    p1Joint = [15.234, -88.178, 96.583, -68.314, -52.303, -122.926]
+
+    p2Desc = [-187.141, -444.908, 432.425, 148.662, 15.483, -90.637]
+    p2Joint = [61.796, -91.959, 101.693, -102.417, -124.511, -122.767]
+
+    p3Desc = [-368.695, -485.023, 426.640, -162.588, 31.433, -97.036]
+    p3Joint = [43.896, -64.590, 60.087, -50.269, -94.663, -122.652]
+
+    p4Desc = [-291.069, -376.976, 467.560, -179.272, -2.326, -107.757]
+    p4Joint = [39.559, -94.731, 96.307, -93.141, -88.131, -122.673]
+
+    p5Desc = [-284.140, -488.041, 478.579, 179.785, -1.396, -98.030]
+    p5Joint = [49.283, -82.423, 81.993, -90.861, -89.427, -122.678]
+
+    p6Desc = [-296.307, -385.991, 484.492, -178.637, -0.057, -107.059]
+    p6Joint = [40.141, -92.742, 91.410, -87.978, -88.824, -122.808]
+
+    exaxisPos = [0, 0, 0, 0]
+    offdese = [0, 0, 0, 0, 0, 0]
+
+    posJ = [p1Joint, p2Joint, p3Joint, p4Joint, p5Joint, p6Joint]
+    rtn, coordRtn = robot.ComputeToolCoordWithPoints(1, posJ)
+    print("ComputeToolCoordWithPoints ", rtn, "coord is ", coordRtn[0], coordRtn[1], coordRtn[2], coordRtn[3], coordRtn[4], coordRtn[5])
+
+    robot.MoveJ(p1Joint, 0, 0, p1Desc)
+    robot.SetToolPoint(1)
+    robot.MoveJ(p2Joint, 0, 0, p2Desc)
+    robot.SetToolPoint(2)
+    robot.MoveJ(p3Joint, 0, 0, p3Desc)
+    robot.SetToolPoint(3)
+    robot.MoveJ(p4Joint, 0, 0, p4Desc)
+    robot.SetToolPoint(4)
+    robot.MoveJ(p5Joint, 0, 0, p5Desc)
+    robot.SetToolPoint(5)
+    robot.MoveJ(p6Joint, 0, 0, p6Desc)
+    robot.SetToolPoint(6)
+    rtn, coordRtn = robot.ComputeTool()
+    print("ComputeTool ", rtn, "coord is ", coordRtn[0], coordRtn[1], coordRtn[2], coordRtn[3], coordRtn[4], coordRtn[5])
+
+根据点位信息计算工件坐标系
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Python SDK-v2.0.8-3.7.8
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``ComputeWObjCoordWithPoints(method, pos, refFrame)``"
+    "描述", "根据点位信息计算工件坐标系"
+    "必选参数", "- ``method``：计算方法；0：原点-x轴-z轴  1：原点-x轴-xy平面
+    - ``pos``：三个TCP位置组
+    - ``refFrame``：参考坐标系"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode 
+    - ``wobj_offset=[x,y,z,rx,ry,rz]``：根据点位信息计算得到的工件坐标系，单位 [mm][°]"
+
+代码示例
+------------
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+
+    p1Desc = [-275.046, -293.122, 28.747, 174.533, -1.301, -112.101]
+    p1Joint = [35.207, -95.350, 133.703, -132.403, -93.897, -122.768]
+
+    p2Desc = [-280.339, -396.053, 29.762, 174.621, -3.448, -102.901]
+    p2Joint = [44.304, -85.020, 123.889, -134.679, -92.658, -122.768]
+
+    p3Desc = [-270.597, -290.603, 83.034, 179.314, 0.808, -114.171]
+    p3Joint = [32.975, -99.175, 125.966, -116.484, -91.014, -122.857]
+
+    exaxisPos = [0, 0, 0, 0]
+    offdese = [0, 0, 0, 0, 0, 0]
+
+    posTCP = [p1Desc, p2Desc, p3Desc]
+    rtn, coordRtn = robot.ComputeWObjCoordWithPoints(1, posTCP, 0)
+    print("ComputeWObjCoordWithPoints ", rtn, "coord is ", coordRtn[0], coordRtn[1], coordRtn[2], coordRtn[3], coordRtn[4], coordRtn[5])
+
+    robot.MoveJ(p1Joint, 1, 0, p1Desc)
+    robot.SetWObjCoordPoint(1)
+    robot.MoveJ(p2Joint, 1, 0, p2Desc)
+    robot.SetWObjCoordPoint(2)
+    robot.MoveJ(p3Joint, 1, 0, p3Desc)
+    robot.SetWObjCoordPoint(3)
+    rtn, coordRtn = robot.ComputeWObjCoord(1, 0)
+    print("ComputeTool ", rtn, "coord is ", coordRtn[0], coordRtn[1], coordRtn[2], coordRtn[3], coordRtn[4], coordRtn[5])

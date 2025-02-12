@@ -365,6 +365,8 @@
 
 上传轨迹J文件
 ++++++++++++++++++++++++++++++
+.. versionadded:: C# SDK-v1.1.0-3.7.8
+
 .. code-block:: c#
     :linenos:
 
@@ -377,6 +379,8 @@
 
 删除轨迹J文件
 ++++++++++++++++++++++++++++++
+.. versionadded:: C# SDK-v1.1.0-3.7.8
+
 .. code-block:: c#
     :linenos:
 
@@ -389,6 +393,8 @@
 
 代码示例
 ++++++++++++++++++++++++++++
+.. versionadded:: C# SDK-v1.1.0-3.7.8
+
 .. code-block:: c#
     :linenos:
 

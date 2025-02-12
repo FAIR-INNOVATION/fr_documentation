@@ -963,17 +963,21 @@ jog点动立即停止
 
 安全停止触发
 ++++++++++++++++++++++++++++++
+.. versionadded:: C# SDK-v1.1.0-3.7.8
+
 .. code-block:: c#
     :linenos:
 
     /**
     * @brief 安全停止触发信号
-    * @return 错误码99
+    * @return 错误码
     */
     int GetSafetyCode();
 
 开始Ptp运动FIR滤波
 ++++++++++++++++++++++++++++++
+.. versionadded:: C# SDK-v1.1.0-3.7.8
+
 .. code-block:: c#
     :linenos:
 
@@ -986,6 +990,8 @@ jog点动立即停止
 
 关闭Ptp运动FIR滤波
 ++++++++++++++++++++++++++++++
+.. versionadded:: C# SDK-v1.1.0-3.7.8
+
 .. code-block:: c#
     :linenos:
 
@@ -997,6 +1003,8 @@ jog点动立即停止
 
 开始LIN、ARC运动FIR滤波
 ++++++++++++++++++++++++++++++
+.. versionadded:: C# SDK-v1.1.0-3.7.8
+
 .. code-block:: c#
     :linenos:
 
@@ -1012,6 +1020,8 @@ jog点动立即停止
 
 关闭LIN、ARC运动FIR滤波
 ++++++++++++++++++++++++++++++
+.. versionadded:: C# SDK-v1.1.0-3.7.8
+
 .. code-block:: c#
     :linenos:
 
@@ -1023,8 +1033,8 @@ jog点动立即停止
 
 代码示例
 +++++++++++++++++++++++++++++
-.. versionadded:: C#SDK-v1.0.9
-    
+.. versionadded:: C# SDK-v1.1.0-3.7.8
+
 .. code-block:: c#
     :linenos:
 

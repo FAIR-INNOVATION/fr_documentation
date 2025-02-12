@@ -419,7 +419,7 @@ UDP扩展轴参数配置
     * @param [in] axisAcc 加速度mm/s2
     * @param [in] axisLead 导程mm
     * @param [in] encResolution 编码器分辨率
-    * @param [in] axisOffect焊缝起始点扩展轴偏移量
+    * @param [in] axisOffect 焊缝起始点扩展轴偏移量
     * @param [in] axisCompany 驱动器厂家 1-禾川；2-汇川；3-松下
     * @param [in] axisModel 驱动器型号 1-禾川-SV-XD3EA040L-E，2-禾川-SV-X2EA150A-A，1-汇川-SV620PT5R4I，1-松下-MADLN15SG，2-松下-MSDLN25SG，3-松下-MCDLN35SG
     * @param [in] axisEncType 编码器类型  0-增量；1-绝对值
@@ -455,7 +455,7 @@ UDP扩展轴参数配置
     * @param [in]  axisDHd2 外部轴DH参数d2 mm
     * @param [in]  axisDHd3 外部轴DH参数d3 mm
     * @param [in]  axisDHd4 外部轴DH参数d4 mm
-    * @param [in]  axisDHa1 外部轴DH参数11 mm
+    * @param [in]  axisDHa1 外部轴DH参数a1 mm
     * @param [in]  axisDHa2 外部轴DH参数a2 mm
     * @param [in]  axisDHa3 外部轴DH参数a3 mm
     * @param [in]  axisDHa4 外部轴DH参数a4 mm
@@ -1303,7 +1303,9 @@ UDP扩展轴与机器人圆弧运动同步运动
     }
 
 设置485扩展轴运动加减速度
-+++++++++++++++++++++++
+++++++++++++++++++++++++++++
+.. versionadded:: C# SDK-v1.1.0-3.7.8
+
 .. code-block:: C#
     :linenos:
 
@@ -1316,7 +1318,9 @@ UDP扩展轴与机器人圆弧运动同步运动
     int AuxServoSetAcc(double acc, double dec);
 
 设置485扩展轴急停加减速度
-+++++++++++++++++++++++
+++++++++++++++++++++++++++++
+.. versionadded:: C# SDK-v1.1.0-3.7.8
+
 .. code-block:: C#
     :linenos:
 
@@ -1329,7 +1333,9 @@ UDP扩展轴与机器人圆弧运动同步运动
     int AuxServoSetEmergencyStopAcc(double acc, double dec);
 
 获取485扩展轴运动加减速度
-+++++++++++++++++++++++
+++++++++++++++++++++++++++++
+.. versionadded:: C# SDK-v1.1.0-3.7.8
+
 .. code-block:: C#
     :linenos:
 
@@ -1342,7 +1348,9 @@ UDP扩展轴与机器人圆弧运动同步运动
     int AuxServoGetAcc(ref double acc, ref double dec);
 
 获取485扩展轴急停加减速度
-+++++++++++++++++++++++
+++++++++++++++++++++++++++++
+.. versionadded:: C# SDK-v1.1.0-3.7.8
+    
 .. code-block:: C#
     :linenos:
 

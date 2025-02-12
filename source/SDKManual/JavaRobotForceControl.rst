@@ -4,17 +4,19 @@
 .. toctree:: 
     :maxdepth: 5
 
-力传感器配置
+配置力传感器
 +++++++++++++++++++++++
+.. versionchanged:: Java SDK-v1.0.1-3.7.8
+
 .. code-block:: Java
     :linenos:
 
     /**
     * @brief  配置力传感器
-    * @param  [in] config company:力传感器厂商，17-坤维科技，19-航天十一院，20-ATI传感器，21-中科米点，22-伟航敏芯
-    * @param  [in] config device:设备号，坤维(0-KWR75B)，航天十一院(0-MCS6A-200-4)，ATI(0-AXIA80-M8)，中科米点(0-MST2010)，伟航敏芯(0-WHC6L-YB-10A)
-    * @param  [in] config softvesion:软件版本号，暂不使用，默认为0
-    * @param  [in] config bus:设备挂在末端总线位置，暂不使用，默认为0
+    * @param  config company:力传感器厂商，17-坤维科技，19-航天十一院，20-ATI传感器，21-中科米点，22-伟航敏芯，23-NBIT，24-鑫精诚(XJC)，26-NSR
+    * @param  config device: 设备号，坤维(0-KWR75B)，航天十一院(0-MCS6A-200-4)，ATI(0-AXIA80-M8)，中科米点(0-MST2010)，伟航敏芯(0-WHC6L-YB-10A)，NBIT(0-XLH93003ACS)，鑫精诚XJC(0-XJC-6F-D82)，NSR(0-NSR-FTSensorA)
+    * @param  config softvesion:软件版本号，暂不使用，默认为0
+    * @param  config bus:设备挂在末端总线位置，暂不使用，默认为0
     * @return  错误码
     */
     int FT_SetConfig(DeviceConfig config); 

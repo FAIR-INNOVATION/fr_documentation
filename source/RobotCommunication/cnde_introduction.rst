@@ -33,11 +33,11 @@ CNDE简介
      - UINT8
      - 控制箱标准DI输入(bit0 ~ bit7表示DI0 ~ DI7)
 
-   * - std_DI_box
+   * - cfg_DI_box
      - UINT8
      - 控制箱可配置CI输入(bit0 ~ bit7表示CI0 ~ CI7)
 
-   * - std_DI_box
+   * - cfg_DI_tool
      - UINT8
      - 控制箱可配置工具DI输入(bit0 ~ bit2表示toolDI0 ~ toolDI1)
 
@@ -161,7 +161,7 @@ CNDE简介
      - DOUBLE
      - 负载质量(kg)
 
-   * - payload_cog
+   * - pay_cog
      - DOUBLE_3
      - 负载质心(x,y,z)(mm)
 
@@ -180,6 +180,10 @@ CNDE简介
    * - output_DOUBLE_reg_X
      - DOUBLE_X
      - DOUBLE型机器人输出寄存器(X表示寄存器个数，若您需要16个DOUBLE型输出寄存器，则实际名称为：“output_DOUBLE_reg_16”，机器人最多支持64个DOUBLE型输出寄存器)
+
+   * - ft_sensor_data
+     - DOUBLE_6
+     - 力传感器数据
 
 .. centered:: 表1-2 机器人输入控制配置功能
 

@@ -317,8 +317,26 @@
       public float servoTorque = 0;      //伺服当前转矩    25
     }
 
+焊接中断状态
++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.1-3.7.8
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  焊接中断状态
+    */
+    public class WELDING_BREAKOFF_STATE
+    {
+      public int breakOffState = 0;  //焊接中断状态
+      public int weldArcState = 0;   //焊接电弧中断状态
+    }
+
 机器人状态反馈结构体类型
 +++++++++++++++++++++++++++
+.. versionchanged:: Java SDK-v1.0.1-3.7.8
+
 .. code-block:: Java
     :linenos:
 
@@ -389,6 +407,15 @@
       public ROBOT_TIME robotTime = new ROBOT_TIME();
       public int softwareUpgradeState = 0;   //机器人软件升级状态 0-空闲中或上传升级包中；1~100：升级完成百分比；-1:升级软件失败；-2：校验失败；-3：版本校验失败；-4：解压失败；-5：用户配置升级失败；-6：外设配置升级失败；-7：扩展轴配置升级失败；-8：机器人配置升级失败；-9：DH参数配置升级失败
       public int endLuaErrCode;              //末端LUA运行状态
+
+      public int[] cl_analog_output=new int[2];  //控制箱模拟量输出
+      public int tl_analog_output;              //工具模拟量输出
+      public float gripperRotNum;               //旋转夹爪当前旋转圈数
+      ublic int gripperRotSpeed;                //旋转夹爪当前旋转速度百分比
+      public int gripperRotTorque;	            //旋转夹爪当前旋转力矩百分比
+
+      public  WELDING_BREAKOFF_STATE weldingBreakOffstate=new WELDING_BREAKOFF_STATE();//焊接中断状态
+
       public short check_sum = 0;          /* 和校验 */
 
       public ROBOT_STATE_PKG()

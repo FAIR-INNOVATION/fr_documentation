@@ -218,7 +218,7 @@
 
 设置摆动参数
 ++++++++++++++++++++++++++++++++++
-.. versionchanged:: python SDK-v2.0.5
+.. versionchanged:: Python SDK-v2.0.8-3.7.8
     
 .. csv-table:: 
     :stub-columns: 1
@@ -231,6 +231,9 @@
     - ``weaveFrequency``： 摆动频率(Hz)
     - ``weaveIncStayTime``： 等待模式 0-周期不包含等待时间；1-周期包含等待时间必选参数
     - ``weaveRange``： 摆动幅度(mm)
+    - ``weaveLeftRange``： 垂直三角摆动左弦长度(mm)
+    - ``weaveRightRange``： 垂直三角摆动右弦长度(mm)
+    - ``additionalStayTime``： 垂直三角摆动垂三角点停留时间(mm)
     - ``weaveLeftStayTime``： 摆动左停留时间(ms)
     - ``weaveRightStayTime``：  摆动右停留时间(ms)
     - ``weaveCircleRadio``： 圆形摆动-回调比率(0-100%)
@@ -994,7 +997,7 @@
         
 获取焊接工艺曲线参数
 ++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.5
+.. versionadded:: Python SDK-v2.0.8-3.7.8
 
 .. csv-table:: 
     :stub-columns: 1
@@ -1007,7 +1010,7 @@
     "
     "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode
-    - ``返回值（调用成功返回） startCurrent``：起弧电流(A)
+    - ``startCurrent``：起弧电流(A)
     - ``startVoltage``： 起弧电压(V)
     - ``startTime``：起弧时间(ms)
     - ``weldCurrent``：焊接电流(A)
@@ -1311,3 +1314,142 @@
     "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode 
     - ``offset``：计算结果偏移量"
+
+设置机器人焊接电弧意外中断检测参数
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Python SDK-v2.0.8-3.7.8
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``WeldingSetCheckArcInterruptionParam(checkEnable, arcInterruptTimeLength)``"
+    "描述", "设置机器人焊接电弧意外中断检测参数"
+    "必选参数", "- ``checkEnable``：是否使能检测；0-不使能；1-使能
+    - ``arcInterruptTimeLength``：电弧中断确认时长(ms)"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode "
+
+获取机器人焊接电弧意外中断检测参数
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Python SDK-v2.0.8-3.7.8
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``WeldingGetCheckArcInterruptionParam()``"
+    "描述", "获取机器人焊接电弧意外中断检测参数"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode 
+    - ``checkEnable``：是否使能检测；0-不使能；1-使能
+    - ``arcInterruptTimeLength``：电弧中断确认时长(ms)"
+
+设置机器人焊接中断恢复参数
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.8-3.7.8
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``WeldingSetReWeldAfterBreakOffParam(enable, length, velocity, moveType)``"
+    "描述", "设置机器人焊接中断恢复参数"
+    "必选参数", "- ``enable``：是否使能焊接中断恢复
+    - ``length``：焊缝重叠距离(mm)
+    - ``velocity``：机器人回到再起弧点速度百分比(0-100)
+    - ``moveType``：机器人运动到再起弧点方式；0-LIN；1-PTP"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode "
+
+获取机器人焊接中断恢复参数
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.8-3.7.8
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``WeldingGetReWeldAfterBreakOffParam()``"
+    "描述", "获取机器人焊接中断恢复参数"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode 
+    - ``enable``：是否使能焊接中断恢复
+    - ``length``：焊缝重叠距离(mm)
+    - ``velocity``：机器人回到再起弧点速度百分比(0-100)
+    - ``moveType``：机器人运动到再起弧点方式；0-LIN；1-PTP"
+
+设置机器人焊接中断后恢复焊接
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.8-3.7.8
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``WeldingStartReWeldAfterBreakOff()``"
+    "描述", "设置机器人焊接中断后恢复焊接"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode "
+
+设置机器人焊接中断后退出焊接
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.8-3.7.8
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``WeldingAbortWeldAfterBreakOff()``"
+    "描述", "设置机器人焊接中断后退出焊接"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode "
+
+代码示例
+------------
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+
+    rtn = -1
+    rtn = robot.WeldingSetCheckArcInterruptionParam(1, 200)
+    print("WeldingSetCheckArcInterruptionParam return", rtn)
+    rtn = robot.WeldingSetReWeldAfterBreakOffParam(1, 5.7, 98.2, 0)
+    print("WeldingSetReWeldAfterBreakOffParam return", rtn)
+    enable = 0
+    length = 0
+    velocity = 0
+    moveType = 0
+    checkEnable = 0
+    arcInterruptTimeLength = 0
+    rtn, checkEnable, arcInterruptTimeLength = robot.WeldingGetCheckArcInterruptionParam()
+    print("WeldingGetCheckArcInterruptionParam checkEnable:", checkEnable)
+    print("WeldingGetCheckArcInterruptionParam arcInterruptTimeLength:", arcInterruptTimeLength)
+    rtn, enable, length, velocity, moveType = robot.WeldingGetReWeldAfterBreakOffParam()
+    print("*****")
+    print("WeldingGetReWeldAfterBreakOffParam enable:", enable)
+    print("WeldingGetReWeldAfterBreakOffParam length:", length)
+    print("WeldingGetReWeldAfterBreakOffParam velocity:", velocity)
+    print("WeldingGetReWeldAfterBreakOffParam moveType:", moveType)
+
+    robot.ProgramLoad("/fruser/test.lua")
+    robot.ProgramRun()
+
+    time.sleep(5)
+
+    while True:
+        print("welding breakoff state is ", robot.robot_state_pkg.weldingBreakOffState.breakOffState)
+        if robot.robot_state_pkg.weldingBreakOffState.breakOffState == 1:
+            print("welding breakoff !")
+            time.sleep(2)
+            rtn = robot.WeldingStartReWeldAfterBreakOff()
+            print("WeldingStartReWeldAfterBreakOff return", rtn)
+            break
+        time.sleep(0.1)

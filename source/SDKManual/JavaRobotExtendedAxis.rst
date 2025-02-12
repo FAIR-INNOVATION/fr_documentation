@@ -391,7 +391,7 @@ UDP扩展轴参数配置
     * @param [in]  axisDHd2 外部轴DH参数d2 mm
     * @param [in]  axisDHd3 外部轴DH参数d3 mm
     * @param [in]  axisDHd4 外部轴DH参数d4 mm
-    * @param [in]  axisDHa1 外部轴DH参数11 mm
+    * @param [in]  axisDHa1 外部轴DH参数a1 mm
     * @param [in]  axisDHa2 外部轴DH参数a2 mm
     * @param [in]  axisDHa3 外部轴DH参数a3 mm
     * @param [in]  axisDHa4 外部轴DH参数a4 mm

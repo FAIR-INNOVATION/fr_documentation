@@ -232,15 +232,18 @@
 
 设置末端负载重量
 ++++++++++++++++++++++++++++++++++
+.. versionchanged:: C++SDK-v2.1.8-3.7.8
+
 .. code-block:: c++
     :linenos:
 
     /**
-    * @brief  设置末端负载重量
-    * @param  [in] weight  负载重量，单位kg
-    * @return  错误码
+	 * @brief  设置末端负载重量
+	 * @param  [in] loadNum 负载编号
+	 * @param  [in] weight  负载重量，单位kg
+	 * @return  错误码
     */
-    errno_t  SetLoadWeight(float weight);
+    errno_t SetLoadWeight(int loadNum = 0, float weight);
 
 设置末端负载质心坐标
 +++++++++++++++++++++++++++++++
@@ -499,3 +502,121 @@
 	 * @return 错误码
 	 */
 	errno_t SetOaccScale(double acc);
+
+根据点位信息计算工具坐标系
++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.8-3.7.8
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+	 * @brief 根据点位信息计算工具坐标系
+	 * @param [in] method 计算方法；0-四点法；1-六点法
+	 * @param [in] pos 关节位置组，四点法时数组长度为4个，六点法时数组长度为6个
+	 * @param [out] coord 工具坐标系结果
+	 * @return 错误码
+    */
+	errno_t ComputeToolCoordWithPoints(int method, JointPos pos[], DescPose& coord);
+    
+根据点位信息计算工件坐标系
++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.8-3.7.8
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+	 * @brief 根据点位信息计算工件坐标系
+	 * @param [in] method 计算方法；0：原点-x轴-z轴  1：原点-x轴-xy平面
+	 * @param [in] pos 三个TCP位置组
+	 * @param [in] refFrame 参考坐标系
+	 * @param [out] coord 工具坐标系结果
+	 * @return 错误码
+    */
+	errno_t ComputeWObjCoordWithPoints(int method, DescPose pos[], int refFrame, DescPose& coord);
+
+代码示例
++++++++++++++++
+.. versionadded:: C++SDK-v2.1.8-3.7.8
+
+.. code-block:: c++
+    :linenos:
+
+    void TestTCP6(FRRobot* robot)
+    {
+        DescPose p1Desc(-394.073, -276.405, 399.451, -133.692, 7.657, -139.047);
+        JointPos p1Joint(15.234, -88.178, 96.583, -68.314, -52.303, -122.926);
+
+        DescPose p2Desc(-187.141, -444.908, 432.425, 148.662, 15.483, -90.637);
+        JointPos p2Joint(61.796, -91.959, 101.693, -102.417, -124.511, -122.767);
+
+        DescPose p3Desc(-368.695, -485.023, 426.640, -162.588, 31.433, -97.036);
+        JointPos p3Joint(43.896, -64.590, 60.087, -50.269, -94.663, -122.652);
+
+        DescPose p4Desc(-291.069, -376.976, 467.560, -179.272, -2.326, -107.757);
+        JointPos p4Joint(39.559, -94.731, 96.307, -93.141, -88.131, -122.673);
+
+        DescPose p5Desc(-284.140, -488.041, 478.579, 179.785, -1.396, -98.030);
+        JointPos p5Joint(49.283, -82.423, 81.993, -90.861, -89.427, -122.678);
+
+        DescPose p6Desc(-296.307, -385.991, 484.492, -178.637, -0.057, -107.059);
+        JointPos p6Joint(40.141, -92.742, 91.410, -87.978, -88.824, -122.808);
+
+        ExaxisPos exaxisPos(0, 0, 0, 0);
+        DescPose offdese(0, 0, 0, 0, 0, 0);
+
+        JointPos posJ[6] = { p1Joint , p2Joint , p3Joint , p4Joint , p5Joint , p6Joint };
+        DescPose coordRtn = {};
+        int rtn = robot->ComputeToolCoordWithPoints(1, posJ, coordRtn);
+        printf("ComputeToolCoordWithPoints    %d  coord is %f %f %f %f %f %f \n", rtn, coordRtn.tran.x, coordRtn.tran.y, coordRtn.tran.z, coordRtn.rpy.rx, coordRtn.rpy.ry, coordRtn.rpy.rz);
+
+
+        robot->MoveJ(&p1Joint, &p1Desc, 0, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+        robot->SetToolPoint(1);
+        robot->MoveJ(&p2Joint, &p2Desc, 0, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+        robot->SetToolPoint(2);
+        robot->MoveJ(&p3Joint, &p3Desc, 0, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+        robot->SetToolPoint(3);
+        robot->MoveJ(&p4Joint, &p4Desc, 0, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+        robot->SetToolPoint(4);
+        robot->MoveJ(&p5Joint, &p5Desc, 0, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+        robot->SetToolPoint(5);
+        robot->MoveJ(&p6Joint, &p6Desc, 0, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+        robot->SetToolPoint(6);
+        robot->ComputeTool(&coordRtn);
+        printf("ComputeTool                   %d  coord is %f %f %f %f %f %f \n", rtn, coordRtn.tran.x, coordRtn.tran.y, coordRtn.tran.z, coordRtn.rpy.rx, coordRtn.rpy.ry, coordRtn.rpy.rz);
+
+    }
+
+    void TestWObj(FRRobot* robot)
+    {
+        DescPose p1Desc(-275.046, -293.122, 28.747, 174.533, -1.301, -112.101);
+        JointPos p1Joint(35.207, -95.350, 133.703, -132.403, -93.897, -122.768);
+
+        DescPose p2Desc(-280.339, -396.053, 29.762, 174.621, -3.448, -102.901);
+        JointPos p2Joint(44.304, -85.020, 123.889, -134.679, -92.658, -122.768);
+
+        DescPose p3Desc(-270.597, -290.603, 83.034, 179.314, 0.808, -114.171);
+        JointPos p3Joint(32.975, -99.175, 125.966, -116.484, -91.014, -122.857);
+
+        
+
+        ExaxisPos exaxisPos(0, 0, 0, 0);
+        DescPose offdese(0, 0, 0, 0, 0, 0);
+
+        DescPose posTCP[3] = { p1Desc , p2Desc , p3Desc };
+        DescPose coordRtn = {};
+        int rtn = robot->ComputeWObjCoordWithPoints(1, posTCP, 0, coordRtn);
+        printf("ComputeToolCoordWithPoints    %d  coord is %f %f %f %f %f %f \n", rtn, coordRtn.tran.x, coordRtn.tran.y, coordRtn.tran.z, coordRtn.rpy.rx, coordRtn.rpy.ry, coordRtn.rpy.rz);
+
+
+        robot->MoveJ(&p1Joint, &p1Desc, 1, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+        robot->SetWObjCoordPoint(1);
+        robot->MoveJ(&p2Joint, &p2Desc, 1, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+        robot->SetWObjCoordPoint(2);
+        robot->MoveJ(&p3Joint, &p3Desc, 1, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+        robot->SetWObjCoordPoint(3);
+        robot->ComputeWObjCoord(1, 0, &coordRtn);
+        printf("ComputeTool                   %d  coord is %f %f %f %f %f %f \n", rtn, coordRtn.tran.x, coordRtn.tran.y, coordRtn.tran.z, coordRtn.rpy.rx, coordRtn.rpy.ry, coordRtn.rpy.rz);
+    }

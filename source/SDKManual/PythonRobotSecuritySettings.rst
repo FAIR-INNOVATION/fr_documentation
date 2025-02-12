@@ -36,15 +36,18 @@
 
 设置碰撞后策略
 ++++++++++++++++++
+.. versionchanged:: Python SDK-v2.0.8-3.7.8
+
 .. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``SetCollisionStrategy(strategy,safeTime,safeDistance,safetyMargin)``"
+    "原型", "``SetCollisionStrategy(strategy,safeTime,safeDistance,safeVel,safetyMargin)``"
     "描述", "设置碰撞后策略"
-    "必选参数", "- ``strategy``：0-报错暂停，1-继续运行"
+    "必选参数", "- ``strategy``：0-报错暂停，1-继续运行，2-报错停止，3-重力矩模式，4-震荡相应模式，5-碰撞回弹模式"
     "默认参数", "- ``safeTime``：安全停止时间[1000-2000]ms，默认为：1000
     - ``safeDistance``：安全停止距离[1-150]mm，默认为：100
+    - ``safeVel``：安全停止速度[50-250]mm/s，默认为：250
     - ``safetyMargin[6]``：安全系数[1-10]，默认为：[10,10,10,10,10,10]"
     "返回值", "错误码 成功-0  失败- errcode"
 

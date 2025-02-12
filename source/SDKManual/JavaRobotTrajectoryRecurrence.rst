@@ -353,4 +353,81 @@
         robot.MoveTrajectoryJ();
     }
 
+上传轨迹J文件
+++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.1-3.7.8
 
+.. code-block:: Java
+    :linenos:
+
+    /** 
+    * @brief 上传轨迹J文件  
+    * @param [in] filePath 上传轨迹文件的全路径名   C://test/testJ.txt
+    * @return 错误码 
+    */
+    int TrajectoryJUpLoad(String filePath);
+
+删除轨迹J文件
+++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.1-3.7.8
+
+.. code-block:: Java
+    :linenos:
+
+    /** 
+    * @brief 删除轨迹J文件  
+    * @param [in] fileName 文件名称 testJ.txt
+    * @return 错误码 
+    */
+    int TrajectoryJDelete(String fileName);
+
+代码示例
+++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.1-3.7.8
+
+.. code-block:: Java
+    :linenos:
+
+    public static void main(String[] args)
+    {
+        Robot robot = new Robot();
+        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
+        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
+        int rtn = robot.RPC("192.168.58.2");
+        if(rtn == 0)
+        {
+            System.out.println("rpc连接 success");
+        }
+        else
+        {
+            System.out.println("rpc连接 fail");
+            return ;
+        }
+
+        robot.TrajectoryJDelete("testA.txt");//删除轨迹文件
+        robot.TrajectoryJUpLoad("D://zUP/testA.txt");//上传轨迹J文件
+
+        int retval = 0;
+        String traj_file_name= "/fruser/traj/testA.txt";
+        retval = robot.LoadTrajectoryJ(traj_file_name, 100, 1);
+        System.out.println("LoadTrajectoryJ %s, retval is:"+traj_file_name+retval);
+
+        DescPose traj_start_pose=new DescPose(0,0,0,0,0,0);
+        retval = robot.GetTrajectoryStartPose(traj_file_name, traj_start_pose);
+        System.out.println("GetTrajectoryStartPose is: %d"+retval);
+        System.out.println("desc_pos:"+"("+traj_start_pose.tran.x+","+traj_start_pose.tran.y+","+traj_start_pose.tran.z+","+traj_start_pose.rpy.rx+","+traj_start_pose.rpy.ry+","+traj_start_pose.rpy.rz+")");
+
+        robot.SetSpeed(30);
+        robot.MoveCart(traj_start_pose, 1, 0, 100, 100, 100, -1, -1);
+
+        robot.Sleep(5000);
+
+        int traj_num = 0;
+
+        ROBOT_STATE_PKG pkg = robot.GetRobotRealTimeState();
+        traj_num=pkg.trajectory_pnum;
+        System.out.println("GetTrajectoryStartPose traj num is:"+traj_num);
+
+        retval = robot.MoveTrajectoryJ();
+        System.out.println("MoveTrajectoryJ retval is:"+retval);
+    }

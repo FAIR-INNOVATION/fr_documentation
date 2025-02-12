@@ -23,7 +23,7 @@
 机器人认证证书：
 
 .. list-table::
-   :widths: 24 4 4 4 4 4 4 4 20
+   :widths: 24 4 4 4 4 4 4 4 24
    :header-rows: 0
    :class: sheet-center
 
@@ -156,6 +156,16 @@
      - ✅
      - --
      - :download:`下载 <_static/_doc/NRTL协作机器人认证证书.pdf>`
+
+   * - **洁净机器人CLASS3证书**
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - --
+     - --
+     - --
+     - :download:`下载 <_static/_doc/洁净机器人CLASS3证书（FR3-FR16）.pdf>`
     
    * - **CR证书**
      - --
