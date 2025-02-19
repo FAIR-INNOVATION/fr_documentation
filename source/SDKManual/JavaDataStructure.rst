@@ -411,7 +411,7 @@
       public int[] cl_analog_output=new int[2];  //控制箱模拟量输出
       public int tl_analog_output;              //工具模拟量输出
       public float gripperRotNum;               //旋转夹爪当前旋转圈数
-      ublic int gripperRotSpeed;                //旋转夹爪当前旋转速度百分比
+      public int gripperRotSpeed;                //旋转夹爪当前旋转速度百分比
       public int gripperRotTorque;	            //旋转夹爪当前旋转力矩百分比
 
       public  WELDING_BREAKOFF_STATE weldingBreakOffstate=new WELDING_BREAKOFF_STATE();//焊接中断状态
