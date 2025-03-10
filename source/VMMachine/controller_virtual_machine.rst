@@ -642,7 +642,7 @@ Ubuntu安装好后，Ubuntu系统默认root用户是不能登录的，密码也�
    systemctl status docker
    --如果是在运行中输入命令后会看到绿色的active
 
-7. docker镜像相关 :
+7. docker容器 :
 
 .. code-block:: console
    :linenos:
@@ -658,7 +658,7 @@ Ubuntu安装好后，Ubuntu系统默认root用户是不能登录的，密码也�
    docker rmi -f 镜像id或name: 删除镜像
    docker build：构建镜像
 
-8. docker镜像相关 :
+8. docker容器 :
 
 .. code-block:: console
    :linenos:

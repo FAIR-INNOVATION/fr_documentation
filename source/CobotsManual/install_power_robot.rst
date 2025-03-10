@@ -91,14 +91,23 @@ C. 100-240VAC~50-60HZ
 按钮盒
 ~~~~~~~~~
 
-V1.0版本
-********************
+60按钮盒(POE)(BX01)
+++++++++++++++++++++++++++++++
+
+.. figure:: installation/058.png
+	:align: center
+	:width: 6in
+
+.. centered:: 图表 1.3-1 60按钮盒（POE）
+
+60按钮盒(POE)(BX02)-V1.0
+++++++++++++++++++++++++++++++
 
 .. image:: installation/059.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 1.3-1 控制箱接线面板
+.. centered:: 图表 1.3-2 控制箱接线面板
 
 .. centered:: 表格 1.3-1 控制箱接线面板按键说明
 
@@ -134,14 +143,14 @@ V1.0版本
    * - 拖动模式
      - 进入/退出拖动模式
 
-V2.0版本
-********************
+60按钮盒(POE)(BX02)-V2.0
++++++++++++++++++++++++++++++++++++
 
 .. image:: installation/079.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 1.3-2 控制箱接线面板
+.. centered:: 图表 1.3-3 控制箱接线面板
 
 .. centered:: 表格 1.3-2 控制箱接线面板按键说明
 
