@@ -27,6 +27,18 @@
 - **示教点位优化**：
     说明：示教点位添加提示信息优化。
 
+- **基于FOCAS的CNC功能包功能**：
+    说明：增加FOCAS的CNC功能。
+
+- **从站指令适配板卡**：
+    说明：从站指令适配EnTalk miniPCIe板卡（Profinet协议、Ethernet/IP协议、CC-Link协议），适配CIFX 9OE-RE/F/PNS miniPCIe板卡（Profinet协议、Ethernet/IP协议、Ethercat协议、CC-Link协议）。
+
+- **checkpoint时间戳反馈功能**：
+    说明：servo J运动可以收到时间戳结果，包含指令号及下发、入队、出队、执行时间戳。
+
+- **激光传感器适配控制器外设开放协议**：
+    说明：增加激光外设开放协议通信功能。
+   
 版本 V3.7.8
 -----------------
 
