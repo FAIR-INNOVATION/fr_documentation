@@ -14,11 +14,11 @@
 
 语言切换
 
-    \ `繁体中文 <https://fairino-doc-zht.readthedocs.io/latest/>`__\
+    \ `繁體中文 <https://fairino-doc-zht.readthedocs.io/latest/>`__\
 
-    \ `英文 <https://fairino-doc-en.readthedocs.io/latest/>`__\ 
+    \ `English <https://fairino-doc-en.readthedocs.io/latest/>`__\ 
 
-    \ `日文 <https://fairino-doc-ja.readthedocs.io/latest/>`__\ 
+    \ `日本語 <https://fairino-doc-ja.readthedocs.io/latest/>`__\ 
 
 .. toctree::
    :maxdepth: 6
