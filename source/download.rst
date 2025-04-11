@@ -264,7 +264,7 @@ FAIRINO SimMachine
 -----------------------
     :download:`FAIRINO SimMachine Virtual Box <https://pan.baidu.com/s/11yp-X-AlN-OyhzWV9rDlbQ?pwd=lp85>`
 
-    :download:`FAIRINO SimMachine Docker <https://pan.baidu.com/s/1PacBwAJsN1SX4C1OQgT3Sg?pwd=u37q>`
+    :download:`FAIRINO SimMachine Docker <https://pan.baidu.com/s/1PtdtsA2Y7WFqMBKvmI3oqQ?pwd=rqd5>`
 
 码垛机frcap
 ---------------------------------
@@ -297,6 +297,11 @@ Java SDK
     最新版本：:download:`FAIRINO Java SDK-v1 <https://gitee.com/fair-innovation/fairino-java-sdk/repository/archive/master.zip>`
 
     \ `历史版本 <https://gitee.com/fair-innovation/fairino-java-sdk/tags>`__\
+
+通讯指令协议
+---------------------------------
+
+    :download:`机器人控制器通讯指令协议 <_static/_doc/协作机器人控制器通讯指令协议用户手册.pdf>`
 
 机器人软件下载
 ---------------------------------

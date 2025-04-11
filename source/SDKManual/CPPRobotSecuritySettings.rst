@@ -179,3 +179,58 @@
 
         return 0;
     }
+
+自定义碰撞检测阈值功能开始、结束
+++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.2.0-3.8.0
+
+接口描述
+************************
+
+.. code-block:: c++
+    :linenos:
+
+	 /**
+	 * @brief  自定义碰撞检测阈值功能开始，设置关节端和TCP端的碰撞检测阈值
+	 * @param  [in] flag 1-仅关节检测开启；2-仅TCP检测开启；3-关节和TCP检测同时开启
+	 * @param  [in] jointDetectionThreshould 关节碰撞检测阈值 j1-j6
+	 * @param  [in] tcpDetectionThreshould TCP碰撞检测阈值，xyzabc
+	 * @param  [in] block 0-非阻塞；1-阻塞
+	 * @return  错误码
+	 */
+	errno_t CustomCollisionDetectionStart(int flag, double jointDetectionThreshould[6], double tcpDetectionThreshould[6], int block);
+
+	/**
+	 * @brief  自定义碰撞检测阈值功能关闭
+	 * @return  错误码
+	 */
+	errno_t CustomCollisionDetectionEnd();
+
+代码示例
+************************
+
+.. code-block:: c++
+    :linenos:
+
+    void CustomCollisionTest(FRRobot* robot)
+    {
+        DescPose p1Desc(228.879, -503.594, 453.984, -175.580, 8.293, 171.267);
+        JointPos p1Joint(102.700, -85.333, 90.518, -102.365, -83.932, 22.134);
+        DescPose p2Desc(-333.302, -435.580, 449.866, -174.997, 2.017, 109.815);
+        JointPos p2Joint(41.862, -85.333, 90.526, -100.587, -90.014, 22.135);
+        ExaxisPos exaxisPos(0.0, 0.0, 0.0, 0.0);
+        DescPose offdese(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+        robot->MoveL(&p2Joint, &p2Desc, 0, 0, 100, 100, 100, 2, &exaxisPos, 0, 0, &offdese);
+        robot->ResetAllError();
+        int safety[6] = { 5,5,5,5,5,5 };
+        robot->SetCollisionStrategy(3, 1000, 150, 250, safety);
+        double jointDetectionThreshould[6] = { 0.1, 0.1, 0.1, 0.1, 0.1, 0.1};
+        double tcpDetectionThreshould[6] = { 60,60,60,60,60,60 };
+        int rtn = robot->CustomCollisionDetectionStart(3, jointDetectionThreshould, tcpDetectionThreshould, 0);
+        cout << "CustomCollisionDetectionStart rtn is " << rtn << endl;
+
+        robot->MoveL(&p1Joint, &p1Desc, 0, 0, 100, 100, 100, -1, &exaxisPos, 0, 0, &offdese);
+        robot->MoveL(&p2Joint, &p2Desc, 0, 0, 100, 100, 100, -1, &exaxisPos, 0, 0, &offdese);
+        rtn = robot->CustomCollisionDetectionEnd();
+        cout << "CustomCollisionDetectionEnd rtn is " << rtn << endl;
+    }
