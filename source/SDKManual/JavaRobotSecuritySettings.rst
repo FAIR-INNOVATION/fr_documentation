@@ -107,6 +107,77 @@
         robot.ResetAllError();
     }
 
+自定义碰撞检测阈值功能开始
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.3-3.8.0
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  自定义碰撞检测阈值功能开始，设置关节端和TCP端的碰撞检测阈值
+    * @param  [in] flag 1-仅关节检测开启；2-仅TCP检测开启；3-关节和TCP检测同时开启
+    * @param  [in] jointDetectionThreshould 关节碰撞检测阈值 j1-j6
+    * @param  [in] tcpDetectionThreshould  TCP碰撞检测阈值，xyzabc
+    * @param  [in] block 0-非阻塞；1-阻塞
+    * @return  错误码
+    */   
+    public int CustomCollisionDetectionStart(int flag, double[] jointDetectionThreshould, double[] tcpDetectionThreshould, int block);
+
+自定义碰撞检测阈值功能关闭
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.3-3.8.0
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  自定义碰撞检测阈值功能关闭
+    * @return  错误码
+    */   
+    public int CustomCollisionDetectionEnd();
+
+代码示例
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static void main(String[] args)
+    {
+        Robot robot = new Robot();
+        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
+        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
+        int rtn = robot.RPC("192.168.58.2");
+        if(rtn == 0)
+        {
+            System.out.println("rpc连接 success");
+        }
+        else
+        {
+            System.out.println("rpc连接 fail");
+            return ;
+        }
+        int[] safety = { 5,5,5,5,5,5 };
+        robot.SetCollisionStrategy(3, 1000, 150, 250, safety);
+        double[] jointDetectionThreshould= { 0.3, 0.3, 0.3, 0.3, 0.3, 0.3};
+        double[] tcpDetectionThreshould = { 60,60,60,60,60,60 };
+        int rtn = robot.CustomCollisionDetectionStart(1, jointDetectionThreshould, tcpDetectionThreshould, 1);
+
+        DescPose p1Desc=new DescPose(228.879, -503.594, 453.984, -175.580, 8.293, 171.267);
+        JointPos p1Joint=new JointPos(102.700, -85.333, 90.518, -102.365, -83.932, 22.134);
+
+        DescPose p2Desc=new DescPose(-333.302, -435.580, 449.866, -174.997, 2.017, 109.815);
+        JointPos p2Joint=new JointPos(41.862, -85.333, 90.526, -100.587, -90.014, 22.135);
+
+        ExaxisPos exaxisPos=new ExaxisPos(0.0, 0.0, 0.0, 0.0);
+        DescPose offdese=new DescPose(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+        for(int i=0;i<10;++i) {
+            robot.MoveL(p1Joint, p1Desc, 0, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese, 0, 10);
+            robot.MoveL(p2Joint, p2Desc, 0, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese, 0, 10);
+        }
+        rtn = robot.CustomCollisionDetectionEnd();
+    }
+
 关节摩擦力补偿开关
 ++++++++++++++++++++++++++++++++
 .. code-block:: Java

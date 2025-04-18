@@ -28,10 +28,11 @@
     * @param  [in] strategy  0-报错停止，1-继续运行
     * @param  [in] safeTime  安全停止时间[1000 - 2000]ms
     * @param  [in] safeDistance  安全停止距离[1-150]mm
+    * @param  [in] safeVel  tcp安全停止速度 [50-250]mm/s
     * @param  [in] safetyMargin  j1-j6安全系数[1-10]
     * @return  错误码
     */
-    int SetCollisionStrategy(int strategy, int safeTime, int safeDistance, int[] safetyMargin); 
+    int SetCollisionStrategy(int strategy, int safeTime, int safeDistance, int safeVel,int[] safetyMargin);
 
 设置正限位
 ++++++++++++++++++++++++++++++++
@@ -146,7 +147,8 @@
         robot.SetAnticollision(mode, level1, config);
         mode = 1;
         robot.SetAnticollision(mode, level2, config);
-        robot.SetCollisionStrategy(2);
+        int[] safetyMargin = { 1, 1, 1, 1, 1, 1 };
+        robot.SetCollisionStrategy(5, 1000, 150,150,safetyMargin);
 
         double[] plimit = new double[6] { 170.0, 80.0, 150.0, 80.0, 170.0, 160.0 };
         int rtn = robot.SetLimitPositive(plimit);
@@ -171,3 +173,65 @@
         rtn = robot.SetFrictionValue_freedom(fcoeff);
         Console.WriteLine($"SetFrictionValue_freedom  rtn  {rtn}");
     }
+
+自定义碰撞检测阈值功能开始
+++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  自定义碰撞检测阈值功能开始，设置关节端和TCP端的碰撞检测阈值
+    * @param  [in] flag 1-仅关节检测开启；2-仅TCP检测开启；3-关节和TCP检测同时开启
+    * @param  [in] jointDetectionThreshould 关节碰撞检测阈值 j1-j6
+    * @param  [in] tcpDetectionThreshould TCP碰撞检测阈值，xyzabc
+    * @param  [in] block 0-非阻塞；1-阻塞
+    * @return  错误码
+    */
+    int CustomCollisionDetectionStart(int flag, double[] jointDetectionThreshould, double[] tcpDetectionThreshould, int block);
+
+自定义碰撞检测阈值功能关闭
+++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  自定义碰撞检测阈值功能关闭
+    * @return  错误码
+    */
+    int CustomCollisionDetectionEnd()
+
+代码示例
+++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    private void btnRobotSafetySet_Click(object sender, EventArgs e)
+    {
+        while (true)
+        {
+            int[] safety = { 5, 5, 5, 5, 5, 5 };
+            robot.SetCollisionStrategy(3, 1000, 150, 250, safety);
+
+            double[] jointDetectionThreshold = { 0.3, 0.3, 0.3, 0.3, 0.3, 0.3 };
+            double[] tcpDetectionThreshold = { 80, 80, 80, 80, 80, 80 };
+            int rtn = robot.CustomCollisionDetectionStart(3, jointDetectionThreshold, tcpDetectionThreshold, 0);
+            Console.WriteLine($"CustomCollisionDetectionStart rtn is {rtn}");
+
+            DescPose p1Desc = new DescPose(228.879, -503.594, 453.984, -175.580, 8.293, 171.267);
+            JointPos p1Joint = new JointPos(102.700, -85.333, 90.518, -102.365, -83.932, 22.134);
+
+            DescPose p2Desc = new DescPose(-333.302, -435.580, 449.866, -174.997, 2.017, 109.815);
+            JointPos p2Joint = new JointPos(41.862, -85.333, 90.526, -100.587, -90.014, 22.135);
+
+            ExaxisPos exaxisPos = new ExaxisPos(0.0, 0.0, 0.0, 0.0);
+            DescPose offdese = new DescPose(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+
+            // 假设MoveL方法签名如下：
+            robot.MoveL(p1Joint, p1Desc, 0, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese);
+            robot.MoveL(p2Joint, p2Desc, 0, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese);
+
+            rtn = robot.CustomCollisionDetectionEnd();
+            Console.WriteLine($"CustomCollisionDetectionEnd rtn is {rtn}");
+        }
+    }
+

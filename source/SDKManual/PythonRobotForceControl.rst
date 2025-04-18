@@ -840,6 +840,7 @@
     status = 1 #控制状态，0-关闭；1-开启
     asaptiveFlag = 1 #自适应开启标志，0-关闭；1-开启
     interfereDragFlag = 1 #干涉区拖动标志，0-关闭；1-开启
+    ingularityConstraintsFlag = 0 #奇异点策略，0-规避；1-穿越
     M = [15, 15, 15, 0.5, 0.5, 0.1] #惯性系数
     B = [150, 150, 150, 5, 5, 1] #阻尼系数
     K = [0, 0, 0, 0, 0, 0] #刚度系数
@@ -847,12 +848,12 @@
     Fmax = 50 #最大拖动力限制
     Vmax = 1810 #最大关节速度限制
 
-    error = robot.EndForceDragControl(status, asaptiveFlag, interfereDragFlag, M, B, K, F, Fmax, Vmax)
+    error = robot.EndForceDragControl(status, asaptiveFlag, interfereDragFlag, ingularityConstraintsFlag, M, B, K, F, Fmax, Vmax)
     print("EndForceDragControl return:",error)
 
     time.sleep(10)
     status=0
-    error = robot.EndForceDragControl(status, asaptiveFlag, interfereDragFlag, M, B, K, F, Fmax, Vmax)
+    error = robot.EndForceDragControl(status, asaptiveFlag, interfereDragFlag, ingularityConstraintsFlag, M, B, K, F, Fmax, Vmax)
     print("EndForceDragControl return:",error)
 
 报错清除后力传感器自动开启
@@ -890,11 +891,12 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``EndForceDragControl(status, asaptiveFlag, interfereDragFlag, M, B, K, F, Fmax, Vmax)``"
+    "原型", "``EndForceDragControl(status, asaptiveFlag, interfereDragFlag, ingularityConstraintsFlag, M, B, K, F, Fmax, Vmax)``"
     "描述", "设置六维力和关节阻抗混合拖动开关及参数"
     "必选参数", "- ``status``：控制状态，0-关闭；1-开启
     - ``asaptiveFlag``：自适应开启标志，0-关闭；1-开启
     - ``interfereDragFlag``：干涉区拖动标志，0-关闭；1-开启
+    - ``ingularityConstraintsFlag``：奇异点策略，0-规避；1-穿越
     - ``M=[m1,m2,m3,m4,m5,m6]``：惯性系数
     - ``B=[b1,b2,b3,b4,b5,b6]``：阻尼系数
     - ``K=[k1,k2,k3,k4,k5,k6]``：刚度系数

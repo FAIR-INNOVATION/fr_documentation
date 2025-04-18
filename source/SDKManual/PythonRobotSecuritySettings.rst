@@ -500,3 +500,64 @@
     robot.MoveC(desc_pos_p=middescPose,tool_p=0,user_p=0,desc_pos_t=enddescPose,tool_t=0,user_t=0,vel_p=50,vel_t=50)
     error = robot.SingularAvoidEnd()
     print("SingularAvoidEnd return ", error)
+
+自定义碰撞检测阈值功能开始，设置关节端和TCP端的碰撞检测阈值
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.0
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``CustomCollisionDetectionStart(flag, jointDetectionThreshould, tcpDetectionThreshould, block)``"
+    "描述", "自定义碰撞检测阈值功能开始，设置关节端和TCP端的碰撞检测阈值"
+    "必选参数", "- ``flag``： 1-仅关节检测开启；2-仅TCP检测开启；3-关节和TCP检测同时开启
+    - ``jointDetectionThreshould``： 关节碰撞检测阈值 j1-j6
+    - ``tcpDetectionThreshould``： TCP碰撞检测阈值，xyzabc
+    - ``block``： 0-非阻塞；1-阻塞"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode"
+
+自定义碰撞检测阈值功能关闭
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.0
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``CustomCollisionDetectionEnd()``"
+    "描述", "自定义碰撞检测阈值功能关闭"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode"
+
+代码示例
+------------
+.. code-block:: python
+    :linenos: 
+
+    from fairino import Robot
+    import time
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+
+    robot = Robot.RPC('192.168.58.2')
+    safety = [5, 5, 5, 5, 5, 5]
+    robot.SetCollisionStrategy(3, 1000, 150, 250, safety)
+    jAointDetectionThreshould = [0.3, 0.3, 0.3, 0.3, 0.3, 0.3]
+    tcpDetectionThreshould = [80, 80, 80, 80, 80, 80]
+    rtn = robot.CustomCollisionDetectionStart(3, jAointDetectionThreshould, tcpDetectionThreshould, 0)
+    print("CustomCollisionDetectionStart rtn is ", rtn)
+    p1Desc = [228.879, -503.594, 453.984, -175.580, 8.293, 171.267]
+    p1Joint = [102.700, -85.333, 90.518, -102.365, -83.932, 22.134]
+
+    p2Desc = [-333.302, -435.580, 449.866, -174.997, 2.017, 109.815]
+    p2Joint = [41.862, -85.333, 90.526, -100.587, -90.014, 22.135]
+
+    exaxisPos = [0.0, 0.0, 0.0, 0.0]
+    offdese = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    while True:
+        robot.MoveL(desc_pos=p1Desc, tool=0, user=0, vel=100, acc=100, ovl=100)
+        robot.MoveL(desc_pos=p2Desc, tool=0, user=0, vel=100, acc=100, ovl=100)
+    rtn = robot.CustomCollisionDetectionEnd()
+    print("CustomCollisionDetectionEnd rtn is ", rtn)

@@ -272,6 +272,33 @@
         robot.WeaveEnd(0);
     } 
 
+摆动渐变开始
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.2-3.8.0
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 摆动渐变开始
+    * @param [in] weaveNum 摆动编号
+    * @return 错误码
+    */
+    int WeaveChangeStart(int weaveNum);
+
+摆动渐变结束
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.2-3.8.0
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 摆动渐变结束
+    * @return 错误码
+    */
+    int WeaveChangeEnd(); 
+
 正向送丝
 ++++++++++++++++++++++++++++++++++
 .. code-block:: Java
@@ -574,7 +601,9 @@
     }
 
 电弧跟踪控制
-++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionchanged:: Java SDK-v1.0.2-3.8.0
+
 .. code-block:: Java
     :linenos:
 
@@ -597,9 +626,11 @@
     * @param [in] referSampleStartUd 上下基准电流采样开始计数(反馈)，cyc
     * @param [in] referSampleCountUd 上下基准电流采样循环计数(反馈)，cyc
     * @param [in] referenceCurrent 上下基准电流mA
+    * @param [in] offsetType 偏置跟踪类型，0-不偏置；1-采样；2-百分比
+    * @param [in] offsetParameter 偏置参数；采样(偏置采样开始时间，默认采一周期)；百分比(偏置百分比(-100 ~ 100))
     * @return 错误码 
     */
-    int ArcWeldTraceControl(int flag, double delaytime, int isLeftRight, double klr, double tStartLr, double stepMaxLr, double sumMaxLr, int isUpLow, double kud, double tStartUd, double stepMaxUd, double sumMaxUd, int axisSelect, int referenceType, double referSampleStartUd, double referSampleCountUd, double referenceCurrent);
+    int ArcWeldTraceControl(int flag, double delaytime, int isLeftRight, double klr, double tStartLr, double stepMaxLr, double sumMaxLr, int isUpLow, double kud, double tStartUd, double stepMaxUd, double sumMaxUd, int axisSelect, int referenceType, double referSampleStartUd, double referSampleCountUd, double referenceCurrent,int offsetType, int offsetParameter);
 
 仿真摆动开始
 ++++++++++++++++++++++++++++++++++
