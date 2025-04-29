@@ -310,6 +310,11 @@ Java SDK
 
     \ `历史版本 <https://gitee.com/fair-innovation/fairino-java-sdk/tags>`__\
 
+状态反馈协议
+---------------------------------
+
+    :download:`机器人控制器8083端口状态反馈 <_static/_doc/机器人控制器8083端口状态反馈用户手册.pdf>`
+
 通讯指令协议
 ---------------------------------
 
@@ -318,3 +323,5 @@ Java SDK
 机器人软件下载
 ---------------------------------
     :download:`FAIRINO-CobotSoftware-V3.8.1-QX-Release-250414 <https://pan.baidu.com/s/1a5Sd1KpX4hahSt62s_n30Q?pwd=3844>`
+
+    :download:`FAIRINO-CobotSoftware-v3.8.1-LA-Release-250424 <https://pan.baidu.com/s/1WG611nutTO_bgjVrhzenTA?pwd=b295>`
