@@ -89,6 +89,10 @@ CNDE简介
      - DOUBLE_6
      - 关节1-6当前电流(A)
 
+   * - actual_joint_torque
+     - DOUBLE_6
+     - 关节1-6目标扭矩(Nm)
+
    * - actual_TCP_pos
      - DOUBLE_6
      - 工具当前位置DKR(mm)
@@ -168,6 +172,30 @@ CNDE简介
    * - motion_queue_len
      - INT32
      - 当前运动队列长度
+   
+   * - ft_sensor_data
+     - DOUBLE_6
+     - 力传感器原始数据
+
+   * - main_code
+     - INT32
+     - 主故障码
+
+   * - sub_code
+     - INT32
+     - 子故障码
+
+   * - emergency_stop
+     - UINT8
+     - 急停状态
+
+   * - motion_done
+     - INT32
+     - 运动完成状态
+
+   * - timestamp_us
+     - UINT64
+     - 机器人系统时间(us)
 
    * - output_BIT_reg_8xX
      - UINT8_X
