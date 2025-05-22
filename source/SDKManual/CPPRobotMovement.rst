@@ -450,9 +450,9 @@ jog点动立即停止
     :linenos:
 
     /**
-     * @brief 伺服运动开始，配合ServoJ、ServoCart指令使用
-     * @return  错误码
-     */
+    * @brief 伺服运动开始，配合ServoJ、ServoCart指令使用
+    * @return 错误码
+    */
     errno_t ServoMoveStart();
 
 伺服运动结束
@@ -461,9 +461,9 @@ jog点动立即停止
     :linenos:
 
     /**
-     * @brief 伺服运动结束，配合ServoJ、ServoCart指令使用
-     * @return  错误码
-     */
+    * @brief 伺服运动结束，配合ServoJ、ServoCart指令使用
+    * @return 错误码
+    */
     errno_t ServoMoveEnd();
 
 关节空间伺服模式运动
@@ -731,9 +731,9 @@ jog点动立即停止
 
     /**
     * @brief 新样条运动开始
-    * @param  [in] type   0-圆弧过渡，1-给定点位为路径点
-    * @param  [in] averageTime  全局平均衔接时间(ms)(10 ~  )，默认2000
-    * @return  错误码
+    * @param [in] type  0-圆弧过渡，1-给定点位为路径点
+    * @param [in] averageTime 全局平均衔接时间(ms)(10 ~ )，默认2000
+    * @return 错误码
     */
     errno_t NewSplineStart(int type, int averageTime=2000);
 
@@ -743,19 +743,19 @@ jog点动立即停止
     :linenos:
 
     /**
-     * @brief 新样条指令点
-     * @param  [in] joint_pos  目标关节位置,单位deg
-     * @param  [in] desc_pos   目标笛卡尔位姿
-     * @param  [in] tool  工具坐标号，范围[0~14]
-     * @param  [in] user  工件坐标号，范围[0~14]
-     * @param  [in] vel  速度百分比，范围[0~100]
-     * @param  [in] acc  加速度百分比，范围[0~100],暂不开放
-     * @param  [in] ovl  速度缩放因子，范围[0~100]
-     * @param  [in] blendR [-1.0]-运动到位(阻塞)，[0~1000.0]-平滑半径(非阻塞)，单位mm 
-     * @param  [in] lastFlag 是否为最后一个点，0-否，1-是
-     * @return  错误码
-     */  
-    errno_t  NewSplinePoint(JointPos *joint_pos, DescPose *desc_pos, int tool, int user, float vel, float acc, float ovl, float blendR, int lastFlag);
+    * @brief 新样条指令点
+    * @param [in] joint_pos 目标关节位置,单位deg
+    * @param [in] desc_pos  目标笛卡尔位姿
+    * @param [in] tool 工具坐标号，范围[0~14]
+    * @param [in] user 工件坐标号，范围[0~14]
+    * @param [in] vel 速度百分比，范围[0~100]
+    * @param [in] acc 加速度百分比，范围[0~100],暂不开放
+    * @param [in] ovl 速度缩放因子，范围[0~100]
+    * @param [in] blendR [-1.0]-运动到位(阻塞)，[0~1000.0]-平滑半径(非阻塞)，单位mm 
+    * @param  [in] lastFlag 是否为最后一个点，0-否，1-是
+    * @return 错误码
+    */ 
+    errno_t NewSplinePoint(JointPos *joint_pos, DescPose *desc_pos, int tool, int user, float vel, float acc, float ovl, float blendR, int lastFlag);
 
 新样条运动结束
 ++++++++++++++++++++++++++++++++++
@@ -763,10 +763,10 @@ jog点动立即停止
     :linenos:
 
     /**
-     * @brief 新样条运动结束
-     * @return  错误码
-     */
-    errno_t  NewSplineEnd();
+    * @brief 新样条运动结束
+    * @return 错误码
+    */
+    errno_t NewSplineEnd();
 
 终止运动
 ++++++++++++++++++++++++++++++++++
@@ -785,10 +785,10 @@ jog点动立即停止
     :linenos:
 
     /**
-     * @brief 暂停运动
-     * @return  错误码
-     */
-    errno_t  PauseMotion(); 
+    * @brief 暂停运动
+    * @return 错误码
+    */
+    errno_t PauseMotion(); 
 
 代码示例
 ++++++++++++++
@@ -885,10 +885,10 @@ jog点动立即停止
     :linenos:
     
     /**
-     * @brief 恢复运动
-     * @return  错误码
-     */
-    errno_t  ResumeMotion();
+    * @brief 恢复运动
+    * @return 错误码
+    */
+    errno_t ResumeMotion();
 
 点位整体偏移开始
 ++++++++++++++++++++++++++++++++++
@@ -1216,3 +1216,55 @@ jog点动立即停止
 	* @return 错误码
 	*/
 	errno_t LinArcFIRPlanningEnd();
+
+加速度平滑开启
++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.2.1-3.8.1
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 加速度平滑开启
+    * @param [in] saveFlag 是否断电保存
+    * @return 错误码
+    */
+    errno_t AccSmoothStart(bool saveFlag);
+
+加速度平滑关闭
++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.2.1-3.8.1
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 加速度平滑关闭
+    * @param [in] saveFlag 是否断电保存
+    * @return 错误码
+    */
+    errno_t AccSmoothEnd(bool saveFlag);
+
+代码示例
+*****************************
+
+.. code-block:: c++
+    :linenos:
+
+    void TestAccSmoothJ(FRRobot* robot)
+    {
+      DescPose startdescPose(88.739, -527.617, 514.939, -179.039, 1.494, 70.209);
+      JointPos startjointPos(88.927, -85.834, 80.289, -85.561, -91.388, 108.718);
+
+      DescPose enddescPose(-433.125, -334.428, 497.139, -179.723, -0.745, 8.437);
+      JointPos endjointPos(27.036, -83.909, 80.284, -85.579, -90.027, 108.604);
+
+      ExaxisPos exaxisPos(0, 0, 0, 0);
+      DescPose offdese(0, 0, 0, 0, 0, 0);
+      int rtn = robot->AccSmoothStart(0);
+      cout << "AccSmoothStart rtn is " << rtn << endl;
+      robot->MoveJ(&startjointPos, &startdescPose, 0, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+      robot->MoveJ(&endjointPos, &enddescPose, 0, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+      rtn = robot->AccSmoothEnd(0);
+      cout << "AccSmoothEnd rtn is " << rtn << endl;
+    }

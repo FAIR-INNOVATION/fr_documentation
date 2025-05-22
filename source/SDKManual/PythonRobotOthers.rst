@@ -463,3 +463,90 @@
     - ``forceSensorEnable[8]``：力传感器启用状态，0-不启用；1-启用
     - ``gripperEnable[8]``：夹爪启用状态，0-不启用；1-启用
     - ``IOEnable[8]``：IO设备启用状态，0-不启用；1-启用"
+
+控制器日志下载
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.1
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``RbLogDownload(savePath)``"
+    "描述", "控制器日志下载"
+    "必选参数", "- ``savePath``：保存文件路径D://zDown/"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+所有数据源下载
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.1
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``AllDataSourceDownload(savePath)``"
+    "描述", "所有数据源下载"
+    "必选参数", "- ``savePath``：保存文件路径D://zDown/"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+数据备份包下载
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.1
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``DataPackageDownload(savePath)``"
+    "描述", "数据备份包下载"
+    "必选参数", "- ``savePath``：保存文件路径D://zDown/"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+获取机器人状态
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.1
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetRobotRealTimeState()``"
+    "描述", "获取机器人状态"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode 
+    - ``robot_state_pkg``：机器人状态结构体"
+
+获取控制箱SN码
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.1
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetRobotSN()``"
+    "描述", "获取控制箱SN码"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``SNCode``：控制箱SN码"
+
+关闭机器人操作系统
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.1
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``ShutDownRobotOS()``"
+    "描述", "关闭机器人操作系统"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+    

@@ -740,9 +740,9 @@
     :linenos:
 
     /**
-     * @brief 负载辨识初始化
-     * @return 错误码
-     */
+    * @brief 负载辨识初始化
+    * @return 错误码
+    */
     errno_t LoadIdentifyDynFilterInit();
 
 负载辨识初始化
@@ -751,9 +751,9 @@
     :linenos:
 
     /**
-     * @brief 负载辨识初始化
-     * @return 错误码
-     */
+    * @brief 负载辨识初始化
+    * @return 错误码
+    */
     errno_t LoadIdentifyDynVarInit();
 
 负载辨识主程序
@@ -762,12 +762,12 @@
     :linenos:
 
     /**
-     * @brief 负载辨识主程序
-     * @param [in] joint_torque 关节扭矩
-     * @param [in] joint_pos 关节位置
-     * @param [in] t 采样周期
-     * @return 错误码
-     */
+    * @brief 负载辨识主程序
+    * @param [in] joint_torque 关节扭矩
+    * @param [in] joint_pos 关节位置
+    * @param [in] t 采样周期
+    * @return 错误码
+    */
     errno_t LoadIdentifyMain(double joint_torque[6], double joint_pos[6], double t);
 
 获取负载辨识结果
@@ -776,12 +776,12 @@
     :linenos:
 
     /**
-     * @brief 获取负载辨识结果
-     * @param [in] gain  
-     * @param [out] weight 负载重量
-     * @param [out] cog 负载质心
-     * @return 错误码
-     */
+    * @brief 获取负载辨识结果
+    * @param [in] gain 
+    * @param [out] weight 负载重量
+    * @param [out] cog 负载质心
+    * @return 错误码
+    */
     errno_t LoadIdentifyGetResult(double gain[12], double *weight, DescTran *cog);
 
 传动带启动、停止
@@ -790,10 +790,10 @@
     :linenos:
 
     /**
-     * @brief 传动带启动、停止
-     * @param [in] status 状态，1-启动，0-停止 
-     * @return 错误码
-     */
+    * @brief 传动带启动、停止
+    * @param [in] status 状态，1-启动，0-停止 
+    * @return 错误码
+    */
     errno_t ConveyorStartEnd(uint8_t status);
 
 记录IO检测点
@@ -802,9 +802,9 @@
     :linenos:
 
     /**
-     * @brief 记录IO检测点
-     * @return 错误码
-     */
+    * @brief 记录IO检测点
+    * @return 错误码
+    */
     errno_t ConveyorPointIORecord();
 
 记录A点
@@ -813,9 +813,9 @@
     :linenos:
 
     /**
-     * @brief 记录A点
-     * @return 错误码
-     */
+    * @brief 记录A点
+    * @return 错误码
+    */
     errno_t ConveyorPointARecord();
 
 记录参考点
@@ -824,9 +824,9 @@
     :linenos:
 
     /**
-     * @brief 记录参考点
-     * @return 错误码
-     */
+    * @brief 记录参考点
+    * @return 错误码
+    */
     errno_t ConveyorRefPointRecord();
 
 记录B点
@@ -835,9 +835,9 @@
     :linenos:
 
     /**
-     * @brief 记录B点
-     * @return 错误码
-     */
+    * @brief 记录B点
+    * @return 错误码
+    */
     errno_t ConveyorPointBRecord();
 
 传送带工件IO检测
@@ -846,10 +846,10 @@
     :linenos:
 
     /**
-     * @brief 传送带工件IO检测
-     * @param [in] max_t 最大检测时间，单位ms
-     * @return 错误码
-     */
+    * @brief 传送带工件IO检测
+    * @param [in] max_t 最大检测时间，单位ms
+    * @return 错误码
+    */
     errno_t ConveyorIODetect(int max_t);
 
 获取物体当前位置
@@ -858,10 +858,10 @@
     :linenos:
 
     /**
-     * @brief 获取物体当前位置
-     * @param [in] mode 
-     * @return 错误码
-     */
+    * @brief 获取物体当前位置
+    * @param [in] mode 
+    * @return 错误码
+    */
     errno_t ConveyorGetTrackData(int mode);
 
 传动带跟踪开始
@@ -870,10 +870,10 @@
     :linenos:
 
     /**
-     * @brief 传动带跟踪开始
-     * @param [in] status 状态，1-启动，0-停止 
-     * @return 错误码
-     */
+    * @brief 传动带跟踪开始
+    * @param [in] status 状态，1-启动，0-停止 
+    * @return 错误码
+    */
     errno_t ConveyorTrackStart(uint8_t status);
 
 传动带跟踪停止
@@ -882,29 +882,32 @@
     :linenos:
 
     /**
-     * @brief 传动带跟踪停止
-     * @return 错误码
-     */
+    * @brief 传动带跟踪停止
+    * @return 错误码
+    */
     errno_t ConveyorTrackEnd();
 
 传动带参数配置
 +++++++++++++++++++++++++++++++++++++++++++++
-.. versionchanged:: C++SDK-v2.1.2.0
+.. versionchanged:: C++SDK-v2.2.1-3.8.1
 
 .. code-block:: c++
     :linenos:
 
-	/**
-	 * @brief 传动带参数配置
-	 * @param [in] para[0] 编码器通道 1~2
-	 * @param [in] para[1] 编码器转一圈的脉冲数
-	 * @param [in] para[2] 编码器转一圈传送带行走距离
-	 * @param [in] para[3] 工件坐标系编号 针对跟踪运动功能选择工件坐标系编号，跟踪抓取、TPD跟踪设为0
-	 * @param [in] para[4] 是否配视觉  0 不配  1 配
-	 * @param [in] para[5] 速度比  针对传送带跟踪抓取选项（1-100）  其他选项默认为1 
-	 * @return 错误码
-	 */
-    errno_t ConveyorSetParam(float param[5]);
+    /**
+    * @brief 传动带参数配置
+    * @param [in] para[0] 编码器通道 1~2
+    * @param [in] para[1] 编码器转一圈的脉冲数
+    * @param [in] para[2] 编码器转一圈传送带行走距离
+    * @param [in] para[3] 工件坐标系编号 针对跟踪运动功能选择工件坐标系编号，跟踪抓取、TPD跟踪设为0
+    * @param [in] para[4] 是否配视觉 0 不配 1 配
+    * @param [in] para[5] 速度比 针对传送带跟踪抓取选项（1-100） 其他选项默认为1 
+    * @param [in] followType 跟踪运动类型，0-跟踪运动；1-追检运动
+    * @param [in] startDis 追检抓取需要设置， 跟踪起始距离， -1：自动计算(工件到达机器人下方后自动追检)，单位mm， 默认值0
+    * @param [in] endDis 追检抓取需要设置，跟踪终止距离， 单位mm， 默认值100
+    * @return 错误码
+    */
+    errno_t ConveyorSetParam(float para[6], int followType = 0, int startDis = 0, int endDis = 100);
 
 传动带抓取点补偿
 +++++++++++++++++++++++++++++++++++++++++++++
@@ -926,10 +929,10 @@
     :linenos:
 
     /**
-     * @brief 直线运动
-     * @param [in] status 状态，1-启动，0-停止 
-     * @return 错误码
-     */
+    * @brief 直线运动
+    * @param [in] status 状态，1-启动，0-停止 
+    * @return 错误码
+    */
     errno_t TrackMoveL(char name[32], int tool, int wobj, float vel, float acc, float ovl, float blendR, uint8_t flag, uint8_t type);
 
 获取SSH公钥
@@ -938,10 +941,10 @@
     :linenos:
 
     /**
-     * @brief 获取SSH公钥
-     * @param [out] keygen 公钥
-     * @return 错误码
-     */
+    * @brief 获取SSH公钥
+    * @param [out] keygen 公钥
+    * @return 错误码
+    */
     errno_t GetSSHKeygen(char keygen[1024]);
 
 下发SCP指令
@@ -950,14 +953,14 @@
     :linenos:
 
     /**
-     * @brief 下发SCP指令
-     * @param [in] mode 0-上传（上位机->控制器），1-下载（控制器->上位机）
-     * @param [in] sshname 上位机用户名
-     * @param [in] sship 上位机ip地址
-     * @param [in] usr_file_url 上位机文件路径
-     * @param [in] robot_file_url 机器人控制器文件路径
-     * @return 错误码
-     */
+    * @brief 下发SCP指令
+    * @param [in] mode 0-上传（上位机->控制器），1-下载（控制器->上位机）
+    * @param [in] sshname 上位机用户名
+    * @param [in] sship 上位机ip地址
+    * @param [in] usr_file_url 上位机文件路径
+    * @param [in] robot_file_url 机器人控制器文件路径
+    * @return 错误码
+    */
     errno_t SetSSHScpCmd(int mode, char sshname[32], char sship[32], char usr_file_url[128], char robot_file_url[128]);
 
 计算指定路径下文件的MD5值
@@ -966,11 +969,11 @@
     :linenos:
 
     /**
-     * @brief 计算指定路径下文件的MD5值
-     * @param [in] file_path 文件路径包含文件名，默认Traj文件夹路径为:"/fruser/traj/",如"/fruser/traj/trajHelix_aima_1.txt"
-     * @param [out] md5 文件MD5值
-     * @return 错误码
-     */
+    * @brief 计算指定路径下文件的MD5值
+    * @param [in] file_path 文件路径包含文件名，默认Traj文件夹路径为:"/fruser/traj/",如"/fruser/traj/trajHelix_aima_1.txt"
+    * @param [out] md5 文件MD5值
+    * @return 错误码
+    */
     errno_t ComputeFileMD5(char file_path[256], char md5[256]);
 
 获取机器人急停状态
@@ -979,10 +982,10 @@
     :linenos:
 
     /**
-     * @brief 获取机器人急停状态
-     * @param [out] state 急停状态，0-非急停，1-急停
-     * @return 错误码  
-     */
+    * @brief 获取机器人急停状态
+    * @param [out] state 急停状态，0-非急停，1-急停
+    * @return 错误码 
+    */
     errno_t GetRobotEmergencyStopState(uint8_t *state);
 
 获取SDK与机器人的通讯状态
@@ -991,9 +994,9 @@
     :linenos:
 
     /**
-     * @brief 获取SDK与机器人的通讯状态
-     * @param [out]  state 通讯状态，0-通讯正常，1-通讯异常
-     */
+    * @brief 获取SDK与机器人的通讯状态
+    * @param [out] state 通讯状态，0-通讯正常，1-通讯异常
+    */
     errno_t GetSDKComState(int *state);
 
 获取安全停止信号
@@ -1002,10 +1005,10 @@
     :linenos:
 
     /**
-     * @brief 获取安全停止信号
-     * @param [out]  si0_state 安全停止信号SI0，0-无效，1-有效
-     * @param [out]  si1_state 安全停止信号SI1，0-无效，1-有效
-     */
+    * @brief 获取安全停止信号
+    * @param [out] si0_state 安全停止信号SI0，0-无效，1-有效
+    * @param [out] si1_state 安全停止信号SI1，0-无效，1-有效
+    */
     errno_t GetSafetyStopState(uint8_t *si0_state, uint8_t *si1_state);
 
 代码示例
@@ -1376,12 +1379,12 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief  报错清除后力传感器自动开启
-      * @param  [in] status 控制状态，0-关闭；1-开启
-      * @return  错误码
-      */
-     errno_t SetForceSensorDragAutoFlag(int status);
+    /**
+     * @brief 报错清除后力传感器自动开启
+     * @param [in] status 控制状态，0-关闭；1-开启
+     * @return 错误码
+     */
+    errno_t SetForceSensorDragAutoFlag(int status);
 
 示例程序
 +++++++++++++++
@@ -1408,18 +1411,18 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief  设置六维力和关节阻抗混合拖动开关及参数
-      * @param  [in] status 控制状态，0-关闭；1-开启
-      * @param  [in] impedanceFlag 阻抗开启标志，0-关闭；1-开启
-      * @param  [in] lamdeDain 拖动增益
-      * @param  [in] KGain 刚度增益
-      * @param  [in] BGain 阻尼增益
-      * @param  [in] dragMaxTcpVel 拖动末端最大线速度限制
-      * @param  [in] dragMaxTcpOriVel 拖动末端最大角速度限制
-      * @return  错误码
-      */
-     errno_t ForceAndJointImpedanceStartStop(int status, int impedanceFlag, std::vector<double> lamdeDain, std::vector<double> KGain, std::vector<double> BGain, double dragMaxTcpVel, double dragMaxTcpOriVel);
+    /**
+     * @brief 设置六维力和关节阻抗混合拖动开关及参数
+     * @param [in] status 控制状态，0-关闭；1-开启
+     * @param [in] impedanceFlag 阻抗开启标志，0-关闭；1-开启
+     * @param [in] lamdeDain 拖动增益
+     * @param [in] KGain 刚度增益
+     * @param [in] BGain 阻尼增益
+     * @param [in] dragMaxTcpVel 拖动末端最大线速度限制
+     * @param [in] dragMaxTcpOriVel 拖动末端最大角速度限制
+     * @return 错误码
+     */
+    errno_t ForceAndJointImpedanceStartStop(int status, int impedanceFlag, std::vector<double> lamdeDain, std::vector<double> KGain, std::vector<double> BGain, double dragMaxTcpVel, double dragMaxTcpOriVel);
 
 示例程序
 +++++++++++++++
@@ -1451,13 +1454,13 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief  获取力传感器拖动开关状态
-      * @param  [out] dragState 力传感器辅助拖动控制状态，0-关闭；1-开启
-      * @param  [out] sixDimensionalDragState 六维力辅助拖动控制状态，0-关闭；1-开启
-      * @return  错误码
-      */
-     errno_t GetForceAndTorqueDragState(int& dragState, int& sixDimensionalDragState);
+    /**
+     * @brief 获取力传感器拖动开关状态
+     * @param [out] dragState 力传感器辅助拖动控制状态，0-关闭；1-开启
+     * @param [out] sixDimensionalDragState 六维力辅助拖动控制状态，0-关闭；1-开启
+     * @return 错误码
+     */
+    errno_t GetForceAndTorqueDragState(int& dragState, int& sixDimensionalDragState);
 
 示例程序
 +++++++++++++++
@@ -1510,12 +1513,12 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief  设置力传感器下负载重量
-      * @param  [in] weight 负载重量 kg
-      * @return  错误码
-      */
-     errno_t SetForceSensorPayload(double weight);
+    /**
+     * @brief 设置力传感器下负载重量
+     * @param [in] weight 负载重量 kg
+     * @return 错误码
+     */
+    errno_t SetForceSensorPayload(double weight);
 
 设置力传感器下负载质心
 +++++++++++++++++++++++++++++++++++++++
@@ -1524,14 +1527,14 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief  设置力传感器下负载质心
-      * @param  [in] x 负载质心x mm
-      * @param  [in] y 负载质心y mm
-      * @param  [in] z 负载质心z mm
-      * @return  错误码
-      */
-     errno_t SetForceSensorPayloadCog(double x, double y, double z);
+    /**
+     * @brief 设置力传感器下负载质心
+     * @param [in] x 负载质心x mm
+     * @param [in] y 负载质心y mm
+     * @param [in] z 负载质心z mm
+     * @return 错误码
+     */
+    errno_t SetForceSensorPayloadCog(double x, double y, double z);
 
 获取力传感器下负载重量
 +++++++++++++++++++++++++++++++++++++++
@@ -1540,12 +1543,12 @@
 .. code-block:: c++
     :linenos:
     
-     /**
-      * @brief  获取力传感器下负载重量
-      * @param  [in] weight 负载重量 kg
-      * @return  错误码
-      */
-     errno_t GetForceSensorPayload(double& weight);
+    /**
+     * @brief 获取力传感器下负载重量
+     * @param [in] weight 负载重量 kg
+     * @return 错误码
+     */
+    errno_t GetForceSensorPayload(double& weight);
 
 获取力传感器下负载质心
 +++++++++++++++++++++++++++++++++++++++
@@ -1554,14 +1557,14 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief  获取力传感器下负载质心
-      * @param  [out] x 负载质心x mm
-      * @param  [out] y 负载质心y mm
-      * @param  [out] z 负载质心z mm
-      * @return  错误码
-      */
-     errno_t GetForceSensorPayloadCog(double& x, double& y, double& z);
+    /**
+     * @brief 获取力传感器下负载质心
+     * @param [out] x 负载质心x mm
+     * @param [out] y 负载质心y mm
+     * @param [out] z 负载质心z mm
+     * @return 错误码
+     */
+    errno_t GetForceSensorPayloadCog(double& x, double& y, double& z);
 
 示例程序
 +++++++++++++++
@@ -1578,7 +1581,7 @@
     double x = 0, y = 0, z = 0;
     robot->GetForceSensorPayload(weight);
     robot->GetForceSensorPayloadCog(x, y, z);
-    printf("the FT load is   %lf,  %lf  %lf  %lf\n", weight, x, y, z);
+    printf("the FT load is  %lf, %lf %lf %lf\n", weight, x, y, z);
 
     return 0;
     }
@@ -1590,13 +1593,13 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief  力传感器自动校零
-      * @param  [out] weight 传感器质量 kg
-      * @param  [out] pos 传感器质心 mm
-      * @return  错误码
-      */
-     errno_t ForceSensorAutoComputeLoad(double& weight, DescTran& pos);
+    /**
+     * @brief 力传感器自动校零
+     * @param [out] weight 传感器质量 kg
+     * @param [out] pos 传感器质心 mm
+     * @return 错误码
+     */
+    errno_t ForceSensorAutoComputeLoad(double& weight, DescTran& pos);
 
 示例程序
 +++++++++++++++
@@ -1612,7 +1615,7 @@
     double weight = 0;
     DescTran tran = {};
     robot->ForceSensorAutoComputeLoad(weight, tran);
-    cout << "the result is weight " << weight << " pos is  " << tran.x << "  " << tran.y << "  " << tran.z << endl;
+    cout << "the result is weight " << weight << " pos is " << tran.x << " " << tran.y << " " << tran.z << endl;
     return 0;
     }
 
@@ -1623,20 +1626,20 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief  设置焊接工艺曲线参数
-      * @param  [in] id 焊接工艺编号(1-99)
-      * @param  [in] startCurrent 起弧电流(A)
-      * @param  [in] startVoltage 起弧电压(V)
-      * @param  [in] startTime 起弧时间(ms)
-      * @param  [in] weldCurrent 焊接电流(A)
-      * @param  [in] weldVoltage 焊接电压(V)
-      * @param  [in] endCurrent 收弧电流(A)
-      * @param  [in] endVoltage 收弧电压(V)
-      * @param  [in] endTime 收弧时间(ms)
-      * @return  错误码
-      */
-     errno_t WeldingSetProcessParam(int id, double startCurrent, double startVoltage, double startTime, double weldCurrent, double weldVoltage, double endCurrent, double endVoltage, double endTime);
+    /**
+     * @brief 设置焊接工艺曲线参数
+     * @param [in] id 焊接工艺编号(1-99)
+     * @param [in] startCurrent 起弧电流(A)
+     * @param [in] startVoltage 起弧电压(V)
+     * @param [in] startTime 起弧时间(ms)
+     * @param [in] weldCurrent 焊接电流(A)
+     * @param [in] weldVoltage 焊接电压(V)
+     * @param [in] endCurrent 收弧电流(A)
+     * @param [in] endVoltage 收弧电压(V)
+     * @param [in] endTime 收弧时间(ms)
+     * @return 错误码
+     */
+    errno_t WeldingSetProcessParam(int id, double startCurrent, double startVoltage, double startTime, double weldCurrent, double weldVoltage, double endCurrent, double endVoltage, double endTime);
 
 获取焊接工艺曲线参数
 +++++++++++++++++++++++++++++++++++++++
@@ -1645,20 +1648,20 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief  获取焊接工艺曲线参数
-      * @param  [in] id 焊接工艺编号(1-99)
-      * @param  [out] startCurrent 起弧电流(A)
-      * @param  [out] startVoltage 起弧电压(V)
-      * @param  [out] startTime 起弧时间(ms)
-      * @param  [out] weldCurrent 焊接电流(A)
-      * @param  [out] weldVoltage 焊接电压(V)
-      * @param  [out] endCurrent 收弧电流(A)
-      * @param  [out] endVoltage 收弧电压(V)
-      * @param  [out] endTime 收弧时间(ms)
-      * @return  错误码
-      */
-     errno_t WeldingGetProcessParam(int id, double& startCurrent, double& startVoltage, double& startTime, double& weldCurrent, double& weldVoltage, double& endCurrent, double& endVoltage, double& endTime);
+    /**
+     * @brief 获取焊接工艺曲线参数
+     * @param [in] id 焊接工艺编号(1-99)
+     * @param [out] startCurrent 起弧电流(A)
+     * @param [out] startVoltage 起弧电压(V)
+     * @param [out] startTime 起弧时间(ms)
+     * @param [out] weldCurrent 焊接电流(A)
+     * @param [out] weldVoltage 焊接电压(V)
+     * @param [out] endCurrent 收弧电流(A)
+     * @param [out] endVoltage 收弧电压(V)
+     * @param [out] endTime 收弧时间(ms)
+     * @return 错误码
+     */
+    errno_t WeldingGetProcessParam(int id, double& startCurrent, double& startVoltage, double& startTime, double& weldCurrent, double& weldVoltage, double& endCurrent, double& endVoltage, double& endTime);
 
 示例程序
 +++++++++++++++
@@ -1682,10 +1685,10 @@
     double endTime = 0;
 
     robot->WeldingGetProcessParam(1, startCurrent, startVoltage, startTime, weldCurrent, weldVoltage, endCurrent, endVoltage, endTime);
-    cout << "the Num 1 process param is " << startCurrent << "  " << startVoltage<< "  " <<startTime<<"  " <<weldCurrent<< "  " <<weldVoltage<< "  " <<endCurrent<< "  " <<endVoltage<< "  " <<endTime << endl;
+    cout << "the Num 1 process param is " << startCurrent << " " << startVoltage<< " " <<startTime<<" " <<weldCurrent<< " " <<weldVoltage<< " " <<endCurrent<< " " <<endVoltage<< " " <<endTime << endl;
 
     robot->WeldingGetProcessParam(2, startCurrent, startVoltage, startTime, weldCurrent, weldVoltage, endCurrent, endVoltage, endTime);
-    cout << "the Num 2 process param is " << startCurrent << "  " << startVoltage << "  " << startTime << "  " << weldCurrent << "  " << weldVoltage << "  " << endCurrent << "  " << endVoltage << "  " << endTime << endl;
+    cout << "the Num 2 process param is " << startCurrent << " " << startVoltage << " " << startTime << " " << weldCurrent << " " << weldVoltage << " " << endCurrent << " " << endVoltage << " " << endTime << endl;
     return 0;
     }
 
@@ -1697,12 +1700,12 @@
     :linenos:
 
     /**
-    * @brief  末端传感器配置
-    * @param  [in] idCompany 厂商，18-JUNKONG；25-HUIDE
-    * @param  [in] idDevice 类型，0-JUNKONG/RYR6T.V1.0
-    * @param  [in] idSoftware 软件版本，0-J1.0/HuiDe1.0(暂未开放)
-    * @param  [in] idBus 挂载位置，1-末端1号口；2-末端2号口...8-末端8号口(暂未开放)
-    * @return  错误码
+    * @brief 末端传感器配置
+    * @param [in] idCompany 厂商，18-JUNKONG；25-HUIDE
+    * @param [in] idDevice 类型，0-JUNKONG/RYR6T.V1.0
+    * @param [in] idSoftware 软件版本，0-J1.0/HuiDe1.0(暂未开放)
+    * @param [in] idBus 挂载位置，1-末端1号口；2-末端2号口...8-末端8号口(暂未开放)
+    * @return 错误码
     */
     errno_t AxleSensorConfig(int idCompany, int idDevice, int idSoftware, int idBus);
 
@@ -1713,12 +1716,12 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief  获取末端传感器配置
-      * @param  [out] idCompany 厂商，18-JUNKONG；25-HUIDE
-      * @param  [out] idDevice 类型，0-JUNKONG/RYR6T.V1.0
-      * @return  错误码
-      */
+    /**
+     * @brief 获取末端传感器配置
+     * @param [out] idCompany 厂商，18-JUNKONG；25-HUIDE
+     * @param [out] idDevice 类型，0-JUNKONG/RYR6T.V1.0
+     * @return 错误码
+     */
     errno_t AxleSensorConfigGet(int& idCompany, int& idDevice);
 
 末端传感器激活
@@ -1728,11 +1731,11 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief  末端传感器激活
-      * @param  [in] actFlag 0-复位；1-激活
-      * @return  错误码
-      */
+    /**
+     * @brief 末端传感器激活
+     * @param [in] actFlag 0-复位；1-激活
+     * @return 错误码
+     */
     errno_t AxleSensorActivate(int actFlag);
 
 末端传感器寄存器写入
@@ -1742,17 +1745,17 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief  末端传感器寄存器写入
-      * @param  [in] devAddr  设备地址编号 0-255
-      * @param  [in] regHAddr 寄存器地址高8位
-      * @param  [in] regLAddr 寄存器地址低8位
-      * @param  [in] regNum  寄存器个数 0-255
-      * @param  [in] data1 写入寄存器数值1
-      * @param  [in] data2 写入寄存器数值2
-      * @param  [in] isNoBlock 0-阻塞；1-非阻塞
-      * @return  错误码
-      */
+    /**
+     * @brief 末端传感器寄存器写入
+     * @param [in] devAddr 设备地址编号 0-255
+     * @param [in] regHAddr 寄存器地址高8位
+     * @param [in] regLAddr 寄存器地址低8位
+     * @param [in] regNum 寄存器个数 0-255
+     * @param [in] data1 写入寄存器数值1
+     * @param [in] data2 写入寄存器数值2
+     * @param [in] isNoBlock 0-阻塞；1-非阻塞
+     * @return 错误码
+     */
     errno_t AxleSensorRegWrite(int devAddr, int regHAddr, int regLAddr, int regNum, int data1, int data2, int isNoBlock);
 
 示例程序
@@ -1789,10 +1792,10 @@
     :linenos:
 
     /**
-     * @brief  设置控制箱DO停止/暂停后输出是否复位
-     * @param  [in] resetFlag  0-不复位；1-复位
-     * @return  错误码
-     */
+    * @brief 设置控制箱DO停止/暂停后输出是否复位
+    * @param [in] resetFlag 0-不复位；1-复位
+    * @return 错误码
+    */
     errno_t SetOutputResetCtlBoxDO(int resetFlag);
 
 设置控制箱AO停止/暂停后输出是否复位
@@ -1802,11 +1805,11 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief  设置控制箱AO停止/暂停后输出是否复位
-      * @param  [in] resetFlag  0-不复位；1-复位
-      * @return  错误码
-      */
+    /**
+     * @brief 设置控制箱AO停止/暂停后输出是否复位
+     * @param [in] resetFlag 0-不复位；1-复位
+     * @return 错误码
+     */
     errno_t SetOutputResetCtlBoxAO(int resetFlag);
 
 设置末端工具DO停止/暂停后输出是否复位
@@ -1816,13 +1819,13 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief  设置末端工具DO停止/暂停后输出是否复位
-      * @param  [in] resetFlag  0-不复位；1-复位
-      * @return  错误码
-      */
+    /**
+     * @brief 设置末端工具DO停止/暂停后输出是否复位
+     * @param [in] resetFlag 0-不复位；1-复位
+     * @return 错误码
+     */
     errno_t SetOutputResetAxleDO(int resetFlag);
- 
+
 设置末端工具AO停止/暂停后输出是否复位
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -1830,13 +1833,13 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief  设置末端工具AO停止/暂停后输出是否复位
-      * @param  [in] resetFlag  0-不复位；1-复位
-      * @return  错误码
-      */
+    /**
+     * @brief 设置末端工具AO停止/暂停后输出是否复位
+     * @param [in] resetFlag 0-不复位；1-复位
+     * @return 错误码
+     */
     errno_t SetOutputResetAxleAO(int resetFlag);
- 
+
 设置扩展DO停止/暂停后输出是否复位
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -1844,13 +1847,13 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief  设置扩展DO停止/暂停后输出是否复位
-      * @param  [in] resetFlag  0-不复位；1-复位
-      * @return  错误码
-      */
+    /**
+     * @brief 设置扩展DO停止/暂停后输出是否复位
+     * @param [in] resetFlag 0-不复位；1-复位
+     * @return 错误码
+     */
     errno_t SetOutputResetExtDO(int resetFlag);
- 
+
 设置扩展AO停止/暂停后输出是否复位
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -1858,13 +1861,13 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief  设置扩展AO停止/暂停后输出是否复位
-      * @param  [in] resetFlag  0-不复位；1-复位
-      * @return  错误码
-      */
+    /**
+     * @brief 设置扩展AO停止/暂停后输出是否复位
+     * @param [in] resetFlag 0-不复位；1-复位
+     * @return 错误码
+     */
     errno_t SetOutputResetExtAO(int resetFlag);
- 
+
 设置SmartTool停止/暂停后输出是否复位
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -1872,11 +1875,11 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief  设置SmartTool停止/暂停后输出是否复位
-      * @param  [in] resetFlag  0-不复位；1-复位
-      * @return  错误码
-      */
+    /**
+     * @brief 设置SmartTool停止/暂停后输出是否复位
+     * @param [in] resetFlag 0-不复位；1-复位
+     * @return 错误码
+     */
     errno_t SetOutputResetSmartToolDO(int resetFlag);
 
 示例程序
@@ -1898,7 +1901,7 @@
     robot->SetOutputResetSmartToolDO(resetFlag);
     return 0;
     }
- 
+
 仿真摆动开始
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -1906,13 +1909,13 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief  仿真摆动开始
-      * @param  [in] weaveNum  摆动参数编号
-      * @return  错误码
-      */
+    /**
+     * @brief 仿真摆动开始
+     * @param [in] weaveNum 摆动参数编号
+     * @return 错误码
+     */
     errno_t WeaveStartSim(int weaveNum);
- 
+
 仿真摆动结束
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -1920,13 +1923,13 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief  仿真摆动结束
-      * @param  [in] weaveNum  摆动参数编号
-      * @return  错误码
-      */
+    /**
+     * @brief 仿真摆动结束
+     * @param [in] weaveNum 摆动参数编号
+     * @return 错误码
+     */
     errno_t WeaveEndSim(int weaveNum);
- 
+
 开始轨迹检测预警(不运动)
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -1934,13 +1937,13 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief  开始轨迹检测预警(不运动)
-      * @param  [in] weaveNum   摆动参数编号
-      * @return  错误码
-      */
+    /**
+     * @brief 开始轨迹检测预警(不运动)
+     * @param [in] weaveNum  摆动参数编号
+     * @return 错误码
+     */
     errno_t WeaveInspectStart(int weaveNum);
- 
+
 结束轨迹检测预警(不运动)
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -1948,11 +1951,11 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief 结束轨迹检测预警(不运动)
-      * @param  [in] weaveNum   摆动参数编号
-      * @return  错误码
-      */
+    /**
+     * @brief 结束轨迹检测预警(不运动)
+     * @param [in] weaveNum  摆动参数编号
+     * @return 错误码
+     */
     errno_t WeaveInspectEnd(int weaveNum);
 
 示例程序
@@ -1962,7 +1965,7 @@
 .. code-block:: c++
     :linenos:
 
-     int WeaveSim(FRRobot* robot)
+    int WeaveSim(FRRobot* robot)
     {
     DescPose startdescPose = { 238.209, -403.633, 251.291, 177.222, -1.433, 133.675 };
     JointPos startjointPos = { -48.728, -86.235, -95.288, -90.025, 92.715, 87.595 };
@@ -1995,7 +1998,7 @@
     robot->WeaveInspectEnd(0);
     return 0;
     }
- 
+
 扩展IO-配置焊机气体检测信号
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2003,13 +2006,13 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief 扩展IO-配置焊机气体检测信号
-      * @param  [in] DONum  气体检测信号扩展DO编号
-      * @return  错误码
-      */
+    /**
+     * @brief 扩展IO-配置焊机气体检测信号
+     * @param [in] DONum 气体检测信号扩展DO编号
+     * @return 错误码
+     */
     errno_t SetAirControlExtDoNum(int DONum);
- 
+
 扩展IO-配置焊机起弧信号
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2017,13 +2020,13 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief 扩展IO-配置焊机起弧信号
-      * @param  [in] DONum  焊机起弧信号扩展DO编号
-      * @return  错误码
-      */
+    /**
+     * @brief 扩展IO-配置焊机起弧信号
+     * @param [in] DONum 焊机起弧信号扩展DO编号
+     * @return 错误码
+     */
     errno_t SetArcStartExtDoNum(int DONum);
- 
+
 扩展IO-配置焊机反向送丝信号
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2031,13 +2034,13 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief 扩展IO-配置焊机反向送丝信号
-      * @param  [in] DONum  反向送丝信号扩展DO编号
-      * @return  错误码
-      */
+    /**
+     * @brief 扩展IO-配置焊机反向送丝信号
+     * @param [in] DONum 反向送丝信号扩展DO编号
+     * @return 错误码
+     */
     errno_t SetWireReverseFeedExtDoNum(int DONum);
- 
+
 扩展IO-配置焊机正向送丝信号
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2045,13 +2048,13 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief 扩展IO-配置焊机正向送丝信号
-      * @param  [in] DONum  正向送丝信号扩展DO编号
-      * @return  错误码
-      */
+    /**
+     * @brief 扩展IO-配置焊机正向送丝信号
+     * @param [in] DONum 正向送丝信号扩展DO编号
+     * @return 错误码
+     */
     errno_t SetWireForwardFeedExtDoNum(int DONum);
- 
+
 扩展IO-配置焊机起弧成功信号
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2059,13 +2062,13 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief 扩展IO-配置焊机起弧成功信号
-      * @param  [in] DINum  起弧成功信号扩展DI编号
-      * @return  错误码
-      */
+    /**
+     * @brief 扩展IO-配置焊机起弧成功信号
+     * @param [in] DINum 起弧成功信号扩展DI编号
+     * @return 错误码
+     */
     errno_t SetArcDoneExtDiNum(int DINum);
- 
+
 扩展IO-配置焊机准备信号
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2073,13 +2076,13 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief 扩展IO-配置焊机准备信号
-      * @param  [in] DINum  焊机准备信号扩展DI编号
-      * @return  错误码
-      */
+    /**
+     * @brief 扩展IO-配置焊机准备信号
+     * @param [in] DINum 焊机准备信号扩展DI编号
+     * @return 错误码
+     */
     errno_t SetWeldReadyExtDiNum(int DINum);
- 
+
 扩展IO-配置焊接中断恢复信号
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2087,12 +2090,12 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief 扩展IO-配置焊接中断恢复信号
-      * @param  [in] reWeldDINum  焊接中断后恢复焊接信号扩展DI编号
-      * @param  [in] abortWeldDINum  焊接中断后退出焊接信号扩展DI编号
-      * @return  错误码
-      */
+    /**
+     * @brief 扩展IO-配置焊接中断恢复信号
+     * @param [in] reWeldDINum 焊接中断后恢复焊接信号扩展DI编号
+     * @param [in] abortWeldDINum 焊接中断后退出焊接信号扩展DI编号
+     * @return 错误码
+     */
     errno_t SetExtDIWeldBreakOffRecover(int reWeldDINum, int abortWeldDINum);
 
 示例程序
@@ -2114,7 +2117,7 @@
     robot->SetExtDIWeldBreakOffRecover(70, 80);
     return 0;
     }
- 
+
 设置机器人碰撞检测方法
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2122,13 +2125,13 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief 设置机器人碰撞检测方法
-      * @param  [in] method 碰撞检测方法：0-电流模式；1-双编码器；2-电流和双编码器同时开启
-      * @return  错误码
-      */
+    /**
+     * @brief 设置机器人碰撞检测方法
+     * @param [in] method 碰撞检测方法：0-电流模式；1-双编码器；2-电流和双编码器同时开启
+     * @return 错误码
+     */
     errno_t SetCollisionDetectionMethod(int method);
- 
+
 设置静态下碰撞检测开始关闭
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2136,11 +2139,11 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief 设置静态下碰撞检测开始关闭
-      * @param  [in] status 0-关闭；1-开启
-      * @return  错误码
-      */
+    /**
+     * @brief 设置静态下碰撞检测开始关闭
+     * @param [in] status 0-关闭；1-开启
+     * @return 错误码
+     */
     errno_t SetStaticCollisionOnOff(int status);
 
 示例程序
@@ -2158,7 +2161,7 @@
     robot->SetStaticCollisionOnOff(0);
     return 0;
     }
- 
+
 关节扭矩功率检测
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2166,14 +2169,14 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief 关节扭矩功率检测
-      * @param  [in] status 0-关闭；1-开启
-      * @param  [in] power 设定最大功率(W);
-      * @return  错误码
-      */
-     errno_t SetPowerLimit(int status, double power);
- 
+    /**
+     * @brief 关节扭矩功率检测
+     * @param [in] status 0-关闭；1-开启
+     * @param [in] power 设定最大功率(W);
+     * @return 错误码
+     */
+    errno_t SetPowerLimit(int status, double power);
+
 关节扭矩控制开始
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2183,10 +2186,10 @@
 
     /**
     * @brief 关节扭矩控制开始
-    * @return  错误码
+    * @return 错误码
     */
     errno_t ServoJTStart();
- 
+
 关节扭矩控制
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2196,12 +2199,12 @@
 
     /**
     * @brief 关节扭矩控制
-    * @param  [in] torque j1~j6关节扭矩，单位Nm
-    * @param  [in] interval 指令周期，单位s，范围[0.001~0.008]
-    * @return  错误码
+    * @param [in] torque j1~j6关节扭矩，单位Nm
+    * @param [in] interval 指令周期，单位s，范围[0.001~0.008]
+    * @return 错误码
     */
     errno_t ServoJT(float torque[], double interval);
- 
+
 关节扭矩控制结束
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2211,7 +2214,7 @@
 
     /**
     * @brief 关节扭矩控制结束
-    * @return  错误码
+    * @return 错误码
     */
     errno_t ServoJTEnd();
 
@@ -2230,20 +2233,20 @@
     robot->GetJointTorques(1, torques);
 
     int count = 100;
-    robot->ServoJTStart(); //   #servoJT开始
+    robot->ServoJTStart(); //  #servoJT开始
     int error = 0;
     while (count > 0)
     {
-    torques[0] = torques[0] + 0.1;//  #每次1轴增加0.1NM，运动100次
-    error = robot->ServoJT(torques, 0.001);  //# 关节空间伺服模式运动
+    torques[0] = torques[0] + 0.1;// #每次1轴增加0.1NM，运动100次
+    error = robot->ServoJT(torques, 0.001); //# 关节空间伺服模式运动
     count = count - 1;
     robot->Sleep(1);
     }
 
-    error = robot->ServoJTEnd();  //#伺服运动结束
+    error = robot->ServoJTEnd(); //#伺服运动结束
     return 0;
     }
- 
+
 设置机器人 20004 端口反馈周期
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2252,12 +2255,12 @@
     :linenos:
 
     /**
-     * @brief 设置机器人 20004 端口反馈周期
-     * @param [in] period 机器人 20004 端口反馈周期(ms)
-     * @return  错误码
-     */
+    * @brief 设置机器人 20004 端口反馈周期
+    * @param [in] period 机器人 20004 端口反馈周期(ms)
+    * @return 错误码
+    */
     errno_t SetRobotRealtimeStateSamplePeriod(int period);
- 
+
 获取机器人 20004 端口反馈周期
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2266,10 +2269,10 @@
     :linenos:
 
     /**
-     * @brief  获取机器人 20004 端口反馈周期
-     * @param [out] period 机器人 20004 端口反馈周期(ms)
-     * @return  错误码
-     */
+    * @brief 获取机器人 20004 端口反馈周期
+    * @param [out] period 机器人 20004 端口反馈周期(ms)
+    * @return 错误码
+    */
     errno_t GetRobotRealtimeStateSamplePeriod(int& period);
 
 示例程序
@@ -2279,15 +2282,15 @@
 .. code-block:: c++
     :linenos:
 
-     void TestRealTimePeriod(FRRobot* robot)
-     {
-     robot->SetRobotRealtimeStateSamplePeriod(10);
-     int getPeriod = 0;
-     robot->GetRobotRealtimeStateSamplePeriod(getPeriod);
-     cout << "period is " << getPeriod << endl;
-     robot->Sleep(1000);
-     }
- 
+    void TestRealTimePeriod(FRRobot* robot)
+    {
+    robot->SetRobotRealtimeStateSamplePeriod(10);
+    int getPeriod = 0;
+    robot->GetRobotRealtimeStateSamplePeriod(getPeriod);
+    cout << "period is " << getPeriod << endl;
+    robot->Sleep(1000);
+    }
+
 获取机器人关节驱动器温度(℃)
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2300,7 +2303,7 @@
     * @return 错误码
     */
     errno_t GetJointDriverTemperature(double temperature[]);
- 
+
 获取机器人关节驱动器扭矩(Nm)
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2309,9 +2312,9 @@
     :linenos:
 
     /**
-     * @brief 获取机器人关节驱动器扭矩(Nm)
-     * @return 错误码
-     */
+    * @brief 获取机器人关节驱动器扭矩(Nm)
+    * @return 错误码
+    */
     errno_t GetJointDriverTorque(double torque[]);
 
 示例程序
@@ -2321,22 +2324,22 @@
 .. code-block:: c++
     :linenos:
 
-     void TestTorue(FRRobot* robot)
-     {
-     robot->ProgramLoad("/fruser/test2.lua");
-     robot->ProgramRun();
-     int rtn = 0;
-     while (true)
-     {
-     double temperature[6] = {};
-     rtn = robot->GetJointDriverTemperature(temperature);
-     double torque[6] = {};
-     rtn = robot->GetJointDriverTorque(torque);
-     printf("test torque is %f %f %f %f %f %f  temperature is %f %f %f %f %f %f\n", torque[0], torque[1], torque[2], torque[3], torque[4], torque[5], temperature[0], temperature[1], temperature[2], temperature[3], temperature[4], temperature[5]);
-     robot->Sleep(100);
-     }
-     }
- 
+    void TestTorue(FRRobot* robot)
+    {
+    robot->ProgramLoad("/fruser/test2.lua");
+    robot->ProgramRun();
+    int rtn = 0;
+    while (true)
+    {
+    double temperature[6] = {};
+    rtn = robot->GetJointDriverTemperature(temperature);
+    double torque[6] = {};
+    rtn = robot->GetJointDriverTorque(torque);
+    printf("test torque is %f %f %f %f %f %f temperature is %f %f %f %f %f %f\n", torque[0], torque[1], torque[2], torque[3], torque[4], torque[5], temperature[0], temperature[1], temperature[2], temperature[3], temperature[4], temperature[5]);
+    robot->Sleep(100);
+    }
+    }
+
 电弧追踪 + 多层多道补偿开启
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2345,11 +2348,11 @@
     :linenos:
 
     /**
-     * @brief 电弧追踪 + 多层多道补偿开启
-     * @return 错误码
-     */
+    * @brief 电弧追踪 + 多层多道补偿开启
+    * @return 错误码
+    */
     errno_t ArcWeldTraceReplayStart();
- 
+
 电弧追踪 + 多层多道补偿关闭
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2358,11 +2361,11 @@
     :linenos:
 
     /**
-     * @brief 电弧追踪 + 多层多道补偿关闭
-     * @return 错误码
-     */
+    * @brief 电弧追踪 + 多层多道补偿关闭
+    * @return 错误码
+    */
     errno_t ArcWeldTraceReplayEnd();
- 
+
 偏移量坐标变化-多层多道焊
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2371,9 +2374,9 @@
     :linenos:
 
     /**
-     * @brief 偏移量坐标变化-多层多道焊
-     * @return 错误码
-     */
+    * @brief 偏移量坐标变化-多层多道焊
+    * @return 错误码
+    */
     errno_t MultilayerOffsetTrsfToBase(DescTran pointO, DescTran pointX, DescTran pointZ, double dx, double dy, double db, DescPose& offset);
 
 示例程序
@@ -2384,186 +2387,186 @@
     :linenos:
 
     void TestWeldTraceReply(FRRobot* robot)
-     {
-     JointPos mulitilineorigin1_joint;
-     mulitilineorigin1_joint.jPos[0] = -24.090;
-     mulitilineorigin1_joint.jPos[1] = -63.501;
-     mulitilineorigin1_joint.jPos[2] = 84.288;
-     mulitilineorigin1_joint.jPos[3] = -111.940;
-     mulitilineorigin1_joint.jPos[4] = -93.426;
-     mulitilineorigin1_joint.jPos[5] = 57.669;
-     
-     DescPose mulitilineorigin1_desc;
-     mulitilineorigin1_desc.tran.x = -677.559;
-     mulitilineorigin1_desc.tran.y = 190.951;
-     mulitilineorigin1_desc.tran.z = -1.205;
-     mulitilineorigin1_desc.rpy.rx = 1.144;
-     mulitilineorigin1_desc.rpy.ry = -41.482;
-     mulitilineorigin1_desc.rpy.rz = -82.577;
+    {
+    JointPos mulitilineorigin1_joint;
+    mulitilineorigin1_joint.jPos[0] = -24.090;
+    mulitilineorigin1_joint.jPos[1] = -63.501;
+    mulitilineorigin1_joint.jPos[2] = 84.288;
+    mulitilineorigin1_joint.jPos[3] = -111.940;
+    mulitilineorigin1_joint.jPos[4] = -93.426;
+    mulitilineorigin1_joint.jPos[5] = 57.669;
+    
+    DescPose mulitilineorigin1_desc;
+    mulitilineorigin1_desc.tran.x = -677.559;
+    mulitilineorigin1_desc.tran.y = 190.951;
+    mulitilineorigin1_desc.tran.z = -1.205;
+    mulitilineorigin1_desc.rpy.rx = 1.144;
+    mulitilineorigin1_desc.rpy.ry = -41.482;
+    mulitilineorigin1_desc.rpy.rz = -82.577;
 
-     DescTran mulitilineX1_desc;
-     mulitilineX1_desc.x = -677.556;
-     mulitilineX1_desc.y = 211.949;
-     mulitilineX1_desc.z = -1.206;
+    DescTran mulitilineX1_desc;
+    mulitilineX1_desc.x = -677.556;
+    mulitilineX1_desc.y = 211.949;
+    mulitilineX1_desc.z = -1.206;
 
-     DescTran mulitilineZ1_desc;
-     mulitilineZ1_desc.x = -677.564;
-     mulitilineZ1_desc.y = 190.956;
-     mulitilineZ1_desc.z = 19.817;
+    DescTran mulitilineZ1_desc;
+    mulitilineZ1_desc.x = -677.564;
+    mulitilineZ1_desc.y = 190.956;
+    mulitilineZ1_desc.z = 19.817;
 
-     JointPos mulitilinesafe_joint;
-     mulitilinesafe_joint.jPos[0] = -25.734;
-     mulitilinesafe_joint.jPos[1] = -63.778;
-     mulitilinesafe_joint.jPos[2] = 81.502;
-     mulitilinesafe_joint.jPos[3] = -108.975;
-     mulitilinesafe_joint.jPos[4] = -93.392;
-     mulitilinesafe_joint.jPos[5] = 56.021;
+    JointPos mulitilinesafe_joint;
+    mulitilinesafe_joint.jPos[0] = -25.734;
+    mulitilinesafe_joint.jPos[1] = -63.778;
+    mulitilinesafe_joint.jPos[2] = 81.502;
+    mulitilinesafe_joint.jPos[3] = -108.975;
+    mulitilinesafe_joint.jPos[4] = -93.392;
+    mulitilinesafe_joint.jPos[5] = 56.021;
 
-     DescPose mulitilinesafe_desc;
-     mulitilinesafe_desc.tran.x = -677.561;
-     mulitilinesafe_desc.tran.y = 211.950;
-     mulitilinesafe_desc.tran.z = 19.812;
-     mulitilinesafe_desc.rpy.rx = 1.144;
-     mulitilinesafe_desc.rpy.ry = -41.482;
-     mulitilinesafe_desc.rpy.rz = -82.577;
+    DescPose mulitilinesafe_desc;
+    mulitilinesafe_desc.tran.x = -677.561;
+    mulitilinesafe_desc.tran.y = 211.950;
+    mulitilinesafe_desc.tran.z = 19.812;
+    mulitilinesafe_desc.rpy.rx = 1.144;
+    mulitilinesafe_desc.rpy.ry = -41.482;
+    mulitilinesafe_desc.rpy.rz = -82.577;
 
-     JointPos mulitilineorigin2_joint;
-     mulitilineorigin2_joint.jPos[0] = -29.743;
-     mulitilineorigin2_joint.jPos[1] = -75.623;
-     mulitilineorigin2_joint.jPos[2] = 101.241;
-     mulitilineorigin2_joint.jPos[3] = -116.354;
-     mulitilineorigin2_joint.jPos[4] = -94.928;
-     mulitilineorigin2_joint.jPos[5] = 55.735;
+    JointPos mulitilineorigin2_joint;
+    mulitilineorigin2_joint.jPos[0] = -29.743;
+    mulitilineorigin2_joint.jPos[1] = -75.623;
+    mulitilineorigin2_joint.jPos[2] = 101.241;
+    mulitilineorigin2_joint.jPos[3] = -116.354;
+    mulitilineorigin2_joint.jPos[4] = -94.928;
+    mulitilineorigin2_joint.jPos[5] = 55.735;
 
-     DescPose mulitilineorigin2_desc;
-     mulitilineorigin2_desc.tran.x = -563.961;
-     mulitilineorigin2_desc.tran.y = 215.359;
-     mulitilineorigin2_desc.tran.z = -0.681;
-     mulitilineorigin2_desc.rpy.rx = 2.845;
-     mulitilineorigin2_desc.rpy.ry = -40.476;
-     mulitilineorigin2_desc.rpy.rz = -87.443;
-     
-     DescTran mulitilineX2_desc;
-     mulitilineX2_desc.x = -563.965;
-     mulitilineX2_desc.y = 220.355;
-     mulitilineX2_desc.z = -0.680;
+    DescPose mulitilineorigin2_desc;
+    mulitilineorigin2_desc.tran.x = -563.961;
+    mulitilineorigin2_desc.tran.y = 215.359;
+    mulitilineorigin2_desc.tran.z = -0.681;
+    mulitilineorigin2_desc.rpy.rx = 2.845;
+    mulitilineorigin2_desc.rpy.ry = -40.476;
+    mulitilineorigin2_desc.rpy.rz = -87.443;
+    
+    DescTran mulitilineX2_desc;
+    mulitilineX2_desc.x = -563.965;
+    mulitilineX2_desc.y = 220.355;
+    mulitilineX2_desc.z = -0.680;
 
-     DescTran mulitilineZ2_desc;
-     mulitilineZ2_desc.x = -563.968;
-     mulitilineZ2_desc.y = 215.362;
-     mulitilineZ2_desc.z = 4.331;
+    DescTran mulitilineZ2_desc;
+    mulitilineZ2_desc.x = -563.968;
+    mulitilineZ2_desc.y = 215.362;
+    mulitilineZ2_desc.z = 4.331;
 
-     ExaxisPos epos;
-     epos.ePos[0] = 0;
-     epos.ePos[1] = 0;
-     epos.ePos[2] = 0;
-     epos.ePos[3] = 0;
-     DescPose offset;
-     offset.tran.x = 0;
-     offset.tran.y = 0;
-     offset.tran.z = 0;
-     offset.rpy.rx = 0;
-     offset.rpy.ry = 0;
-     offset.rpy.rz = 0;
+    ExaxisPos epos;
+    epos.ePos[0] = 0;
+    epos.ePos[1] = 0;
+    epos.ePos[2] = 0;
+    epos.ePos[3] = 0;
+    DescPose offset;
+    offset.tran.x = 0;
+    offset.tran.y = 0;
+    offset.tran.z = 0;
+    offset.rpy.rx = 0;
+    offset.rpy.ry = 0;
+    offset.rpy.rz = 0;
 
-     robot->Sleep(10);
-     int error = robot->MoveJ(&mulitilinesafe_joint, &mulitilinesafe_desc, 13, 0, 10, 100, 100, &epos, -1, 0, &offset);
-     printf("MoveJ return:  %d\n", error);
+    robot->Sleep(10);
+    int error = robot->MoveJ(&mulitilinesafe_joint, &mulitilinesafe_desc, 13, 0, 10, 100, 100, &epos, -1, 0, &offset);
+    printf("MoveJ return: %d\n", error);
 
-     error = robot->MoveL(&mulitilineorigin1_joint, &mulitilineorigin1_desc, 13, 0, 10, 100, 100, -1, &epos, 0, 0, &offset, 0, 100);
-     printf("MoveL return:  %d\n", error);
+    error = robot->MoveL(&mulitilineorigin1_joint, &mulitilineorigin1_desc, 13, 0, 10, 100, 100, -1, &epos, 0, 0, &offset, 0, 100);
+    printf("MoveL return: %d\n", error);
 
-     error = robot->MoveJ(&mulitilinesafe_joint, &mulitilinesafe_desc, 13, 0, 10, 100, 100, &epos, -1, 0, &offset);
-     printf("MoveJ return:  %d\n", error);
+    error = robot->MoveJ(&mulitilinesafe_joint, &mulitilinesafe_desc, 13, 0, 10, 100, 100, &epos, -1, 0, &offset);
+    printf("MoveJ return: %d\n", error);
 
-     error = robot->MoveL(&mulitilineorigin2_joint, &mulitilineorigin2_desc, 13, 0, 10, 100, 100, -1, &epos, 0, 0, &offset, 0, 100);
-     printf("MoveL return:  %d\n", error);
+    error = robot->MoveL(&mulitilineorigin2_joint, &mulitilineorigin2_desc, 13, 0, 10, 100, 100, -1, &epos, 0, 0, &offset, 0, 100);
+    printf("MoveL return: %d\n", error);
 
-     error = robot->MoveJ(&mulitilinesafe_joint, &mulitilinesafe_desc, 13, 0, 10, 100, 100, &epos, -1, 0, &offset);
-     printf("MoveJ return:  %d\n", error);
+    error = robot->MoveJ(&mulitilinesafe_joint, &mulitilinesafe_desc, 13, 0, 10, 100, 100, &epos, -1, 0, &offset);
+    printf("MoveJ return: %d\n", error);
 
-     error = robot->MoveL(&mulitilineorigin1_joint, &mulitilineorigin1_desc, 13, 0, 10, 100, 100, -1, &epos, 0, 0, &offset, 0, 100);
-     printf("MoveL return:  %d\n", error);
+    error = robot->MoveL(&mulitilineorigin1_joint, &mulitilineorigin1_desc, 13, 0, 10, 100, 100, -1, &epos, 0, 0, &offset, 0, 100);
+    printf("MoveL return: %d\n", error);
 
-     error = robot->ARCStart(1, 0, 3000);
-     printf("ARCStart return:  %d\n", error);
+    error = robot->ARCStart(1, 0, 3000);
+    printf("ARCStart return: %d\n", error);
 
-     error = robot->WeaveStart(0);
-     printf("WeaveStart return:  %d\n", error);
+    error = robot->WeaveStart(0);
+    printf("WeaveStart return: %d\n", error);
 
-     error = robot->ArcWeldTraceControl(1, 0, 1, 0.06, 5, 5, 50, 1, 0.06, 5, 5, 55, 0, 0, 4, 1, 10);
-     printf("ArcWeldTraceControl return:  %d\n", error);
+    error = robot->ArcWeldTraceControl(1, 0, 1, 0.06, 5, 5, 50, 1, 0.06, 5, 5, 55, 0, 0, 4, 1, 10);
+    printf("ArcWeldTraceControl return: %d\n", error);
 
-     error = robot->MoveL(&mulitilineorigin2_joint, &mulitilineorigin2_desc, 13, 0, 1, 100, 100, -1, &epos, 0, 0, &offset, 0, 100);
-     printf("MoveL return:  %d\n", error);
+    error = robot->MoveL(&mulitilineorigin2_joint, &mulitilineorigin2_desc, 13, 0, 1, 100, 100, -1, &epos, 0, 0, &offset, 0, 100);
+    printf("MoveL return: %d\n", error);
 
-     error = robot->ArcWeldTraceControl(0, 0, 1, 0.06, 5, 5, 50, 1, 0.06, 5, 5, 55, 0, 0, 4, 1, 10);
-     printf("ArcWeldTraceControl return:  %d\n", error);
+    error = robot->ArcWeldTraceControl(0, 0, 1, 0.06, 5, 5, 50, 1, 0.06, 5, 5, 55, 0, 0, 4, 1, 10);
+    printf("ArcWeldTraceControl return: %d\n", error);
 
-     error = robot->WeaveEnd(0);
-     printf("WeaveEnd return:  %d\n", error);
+    error = robot->WeaveEnd(0);
+    printf("WeaveEnd return: %d\n", error);
 
-     error = robot->ARCEnd(1, 0, 10000);
-     printf("ARCEnd return:  %d\n", error);
+    error = robot->ARCEnd(1, 0, 10000);
+    printf("ARCEnd return: %d\n", error);
 
-     error = robot->MoveJ(&mulitilinesafe_joint, &mulitilinesafe_desc, 13, 0, 10, 100, 100, &epos, -1, 0, &offset);
-     printf("MoveJ return:  %d\n", error);
+    error = robot->MoveJ(&mulitilinesafe_joint, &mulitilinesafe_desc, 13, 0, 10, 100, 100, &epos, -1, 0, &offset);
+    printf("MoveJ return: %d\n", error);
 
-     error = robot->MultilayerOffsetTrsfToBase(mulitilineorigin1_desc.tran, mulitilineX1_desc, mulitilineZ1_desc, 10.0, 0.0, 0.0, offset);
-     printf("MultilayerOffsetTrsfToBase return:  %d   offect is %f %f %f \n", error, offset.tran.x, offset.tran.y, offset.tran.z);
+    error = robot->MultilayerOffsetTrsfToBase(mulitilineorigin1_desc.tran, mulitilineX1_desc, mulitilineZ1_desc, 10.0, 0.0, 0.0, offset);
+    printf("MultilayerOffsetTrsfToBase return: %d  offect is %f %f %f \n", error, offset.tran.x, offset.tran.y, offset.tran.z);
 
-     error = robot->MoveL(&mulitilineorigin1_joint, &mulitilineorigin1_desc, 13, 0, 10, 100, 100, -1, &epos, 0, 1, &offset, 0, 100);
-     printf("MoveL return:  %d\n", error);
+    error = robot->MoveL(&mulitilineorigin1_joint, &mulitilineorigin1_desc, 13, 0, 10, 100, 100, -1, &epos, 0, 1, &offset, 0, 100);
+    printf("MoveL return: %d\n", error);
 
-     error = robot->ARCStart(1, 0, 3000);
-     printf("ARCStart return:  %d\n", error);
+    error = robot->ARCStart(1, 0, 3000);
+    printf("ARCStart return: %d\n", error);
 
-     error = robot->MultilayerOffsetTrsfToBase(mulitilineorigin2_desc.tran, mulitilineX2_desc, mulitilineZ2_desc, 10, 0, 0, offset);
-     printf("MultilayerOffsetTrsfToBase return:  %d   offect is %f %f %f \n", error, offset.tran.x, offset.tran.y, offset.tran.z);
+    error = robot->MultilayerOffsetTrsfToBase(mulitilineorigin2_desc.tran, mulitilineX2_desc, mulitilineZ2_desc, 10, 0, 0, offset);
+    printf("MultilayerOffsetTrsfToBase return: %d  offect is %f %f %f \n", error, offset.tran.x, offset.tran.y, offset.tran.z);
 
-     error = robot->ArcWeldTraceReplayStart();
-     printf("ArcWeldTraceReplayStart return:  %d\n", error);
+    error = robot->ArcWeldTraceReplayStart();
+    printf("ArcWeldTraceReplayStart return: %d\n", error);
 
-     error = robot->MoveL(&mulitilineorigin2_joint, &mulitilineorigin2_desc, 13, 0, 2, 100, 100, -1, &epos, 0, 1, &offset, 0, 100);
-     printf("MoveL return:  %d\n", error);
+    error = robot->MoveL(&mulitilineorigin2_joint, &mulitilineorigin2_desc, 13, 0, 2, 100, 100, -1, &epos, 0, 1, &offset, 0, 100);
+    printf("MoveL return: %d\n", error);
 
-     error = robot->ArcWeldTraceReplayEnd();
-     printf("ArcWeldTraceReplayEnd return:  %d\n", error);
+    error = robot->ArcWeldTraceReplayEnd();
+    printf("ArcWeldTraceReplayEnd return: %d\n", error);
 
-     error = robot->ARCEnd(1, 0, 10000);
-     printf("ARCEnd return:  %d\n", error);
+    error = robot->ARCEnd(1, 0, 10000);
+    printf("ARCEnd return: %d\n", error);
 
-     error = robot->MoveJ(&mulitilinesafe_joint, &mulitilinesafe_desc, 13, 0, 10, 100, 100, &epos, -1, 0, &offset);
-     printf("MoveJ return:  %d\n", error);
+    error = robot->MoveJ(&mulitilinesafe_joint, &mulitilinesafe_desc, 13, 0, 10, 100, 100, &epos, -1, 0, &offset);
+    printf("MoveJ return: %d\n", error);
 
-     error = robot->MultilayerOffsetTrsfToBase(mulitilineorigin1_desc.tran, mulitilineX1_desc, mulitilineZ1_desc, 0, 10, 0, offset);
-     printf("MultilayerOffsetTrsfToBase return:  %d   offect is %f %f %f \n", error, offset.tran.x, offset.tran.y, offset.tran.z);
+    error = robot->MultilayerOffsetTrsfToBase(mulitilineorigin1_desc.tran, mulitilineX1_desc, mulitilineZ1_desc, 0, 10, 0, offset);
+    printf("MultilayerOffsetTrsfToBase return: %d  offect is %f %f %f \n", error, offset.tran.x, offset.tran.y, offset.tran.z);
 
-     error = robot->MoveL(&mulitilineorigin1_joint, &mulitilineorigin1_desc, 13, 0, 10, 100, 100, -1, &epos, 0, 1, &offset, 0, 100);
-     printf("MoveL return:  %d\n", error);
+    error = robot->MoveL(&mulitilineorigin1_joint, &mulitilineorigin1_desc, 13, 0, 10, 100, 100, -1, &epos, 0, 1, &offset, 0, 100);
+    printf("MoveL return: %d\n", error);
 
-     error = robot->ARCStart(1, 0, 3000);
-     printf("ARCStart return:  %d\n", error);
+    error = robot->ARCStart(1, 0, 3000);
+    printf("ARCStart return: %d\n", error);
 
-     error = robot->MultilayerOffsetTrsfToBase(mulitilineorigin2_desc.tran, mulitilineX2_desc, mulitilineZ2_desc, 0, 10, 0, offset);
-     printf("MultilayerOffsetTrsfToBase return:  %d   offect is %f %f %f \n", error, offset.tran.x, offset.tran.y, offset.tran.z);
+    error = robot->MultilayerOffsetTrsfToBase(mulitilineorigin2_desc.tran, mulitilineX2_desc, mulitilineZ2_desc, 0, 10, 0, offset);
+    printf("MultilayerOffsetTrsfToBase return: %d  offect is %f %f %f \n", error, offset.tran.x, offset.tran.y, offset.tran.z);
 
-     error = robot->ArcWeldTraceReplayStart();
-     printf("MoveJ return:  %d\n", error);
+    error = robot->ArcWeldTraceReplayStart();
+    printf("MoveJ return: %d\n", error);
 
-     error = robot->MoveL(&mulitilineorigin2_joint, &mulitilineorigin2_desc, 13, 0, 2, 100, 100, -1, &epos, 0, 1, &offset, 0, 100);
-     printf("MoveL return:  %d\n", error);
+    error = robot->MoveL(&mulitilineorigin2_joint, &mulitilineorigin2_desc, 13, 0, 2, 100, 100, -1, &epos, 0, 1, &offset, 0, 100);
+    printf("MoveL return: %d\n", error);
 
-     error = robot->ArcWeldTraceReplayEnd();
-     printf("ArcWeldTraceReplayEnd return:  %d\n", error);
+    error = robot->ArcWeldTraceReplayEnd();
+    printf("ArcWeldTraceReplayEnd return: %d\n", error);
 
-     error = robot->ARCEnd(1, 0, 3000);
-     printf("ARCEnd return:  %d\n", error);
+    error = robot->ARCEnd(1, 0, 3000);
+    printf("ARCEnd return: %d\n", error);
 
-     error = robot->MoveJ(&mulitilinesafe_joint, &mulitilinesafe_desc, 13, 0, 10, 100, 100, &epos, -1, 0, &offset);
-     printf("MoveJ return:  %d\n", error);
-     }
- 
+    error = robot->MoveJ(&mulitilinesafe_joint, &mulitilinesafe_desc, 13, 0, 10, 100, 100, &epos, -1, 0, &offset);
+    printf("MoveJ return: %d\n", error);
+    }
+
 指定姿态速度开启
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2574,10 +2577,10 @@
     /**
     * @brief 指定姿态速度开启
     * @param [in] ratio 姿态速度百分比[0-300]
-    * @return  错误码
+    * @return 错误码
     */
     errno_t AngularSpeedStart(int ratio);
- 
+
 指定姿态速度关闭
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2586,11 +2589,11 @@
     :linenos:
 
     /**
-     * @brief 指定姿态速度关闭
-     * @return  错误码
-     */
+    * @brief 指定姿态速度关闭
+    * @return 错误码
+    */
     errno_t AngularSpeedEnd();
- 
+
 代码示例
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2599,57 +2602,57 @@
     :linenos:
 
     void TestAngular(FRRobot* robot)
-     {
-     JointPos JP1(-68.030, -63.537, -105.223, -78.368, 72.828, 24.876);
-     DescPose DP1(-60.984, -533.958, 279.089, -22.052, -4.777, 172.406);
+    {
+    JointPos JP1(-68.030, -63.537, -105.223, -78.368, 72.828, 24.876);
+    DescPose DP1(-60.984, -533.958, 279.089, -22.052, -4.777, 172.406);
 
-     JointPos JP2(-80.916, -76.030, -108.901, -70.956, 99.026, -74.533);
-     DescPose DP2(36.750, -488.721, 145.781, -37.539, -11.211, -96.491);
+    JointPos JP2(-80.916, -76.030, -108.901, -70.956, 99.026, -74.533);
+    DescPose DP2(36.750, -488.721, 145.781, -37.539, -11.211, -96.491);
 
-     JointPos JP3(-86.898, -95.200, -103.665, -70.570, 98.266, -93.321);
-     DescPose DP3(-21.462, -509.234, 25.706, -41.780, -1.042, -83.611);
+    JointPos JP3(-86.898, -95.200, -103.665, -70.570, 98.266, -93.321);
+    DescPose DP3(-21.462, -509.234, 25.706, -41.780, -1.042, -83.611);
 
-     JointPos JP4(-85.364, -102.697, -94.674, -70.557, 95.302, -93.116);
-     DescPose DP4(-24.075, -580.525, 25.881, -44.818, -2.357, -82.259);
+    JointPos JP4(-85.364, -102.697, -94.674, -70.557, 95.302, -93.116);
+    DescPose DP4(-24.075, -580.525, 25.881, -44.818, -2.357, -82.259);
 
-     JointPos JP5(-78.815, -94.279, -105.315, -65.348, 87.328, 3.220);
-     DescPose DP5(-29.155, -580.477, 25.884, -44.795, -2.374, -172.261);
+    JointPos JP5(-78.815, -94.279, -105.315, -65.348, 87.328, 3.220);
+    DescPose DP5(-29.155, -580.477, 25.884, -44.795, -2.374, -172.261);
 
-     JointPos JP6(-81.057, -94.494, -105.107, -65.241, 87.527, 0.987);
-     DescPose DP6(-49.270, -580.460, 25.886, -44.796, -2.374, -172.263);
+    JointPos JP6(-81.057, -94.494, -105.107, -65.241, 87.527, 0.987);
+    DescPose DP6(-49.270, -580.460, 25.886, -44.796, -2.374, -172.263);
 
-     JointPos JP7(-76.519, -101.428, -94.915, -76.521, 85.041, 95.758);
-     DescPose DP7(-54.189, -580.362, 25.878, -44.779, -2.353, 97.740);
+    JointPos JP7(-76.519, -101.428, -94.915, -76.521, 85.041, 95.758);
+    DescPose DP7(-54.189, -580.362, 25.878, -44.779, -2.353, 97.740);
 
-     JointPos JP8(-74.406, -90.991, -106.574, -75.480, 85.150, 97.875);
-     DescPose DP8(-54.142, -503.358, 25.865, -44.780, -2.353, 97.740);
+    JointPos JP8(-74.406, -90.991, -106.574, -75.480, 85.150, 97.875);
+    DescPose DP8(-54.142, -503.358, 25.865, -44.780, -2.353, 97.740);
 
-     ExaxisPos epos(0, 0, 0, 0);
-     DescPose offset(0, 0, 0, 0, 0, 0);
+    ExaxisPos epos(0, 0, 0, 0);
+    DescPose offset(0, 0, 0, 0, 0, 0);
 
-     int tool = 7;
-     int user = 0;
-     double vel = 100.0;
-     double acc = 100.0;
-     double ovl = 50.0;
-     int blend = -1;
-     int offsetFlag = 0;
+    int tool = 7;
+    int user = 0;
+    double vel = 100.0;
+    double acc = 100.0;
+    double ovl = 50.0;
+    int blend = -1;
+    int offsetFlag = 0;
 
-     int error = robot->MoveJ(&JP1, &DP1, tool, user, vel, acc, ovl, &epos, blend, offsetFlag, &offset);
-     error = robot->MoveJ(&JP2, &DP2, tool, user, vel, acc, ovl, &epos, blend, offsetFlag, &offset);
-     error = robot->MoveL(&JP3, &DP3, tool, user, vel, acc, ovl, blend, &epos, 0, offsetFlag, &offset, 0, 100);
-     robot->SetOaccScale(100);
-     error = robot->MoveL(&JP4, &DP4, tool, user, vel, acc, ovl * 0.1, blend, &epos, 0, offsetFlag, &offset, 0, 100);
-     robot->AngularSpeedStart(50);
-     error = robot->MoveL(&JP5, &DP5, tool, user, vel, acc, ovl * 0.1, blend, &epos, 0, offsetFlag, &offset, 0, 100);
-     robot->AngularSpeedEnd();
-     error = robot->MoveL(&JP6, &DP6, tool, user, vel, acc, ovl * 0.1, blend, &epos, 0, offsetFlag, &offset, 0, 100);
-     robot->AngularSpeedStart(50);
-     error = robot->MoveL(&JP7, &DP7, tool, user, vel, acc, ovl * 0.1, blend, &epos, 0, offsetFlag, &offset, 0, 100);
-     robot->AngularSpeedEnd();
-     error = robot->MoveL(&JP8, &DP8, tool, user, vel, acc, ovl * 0.1, blend, &epos, 0, offsetFlag, &offset, 0, 100);
-     }
- 
+    int error = robot->MoveJ(&JP1, &DP1, tool, user, vel, acc, ovl, &epos, blend, offsetFlag, &offset);
+    error = robot->MoveJ(&JP2, &DP2, tool, user, vel, acc, ovl, &epos, blend, offsetFlag, &offset);
+    error = robot->MoveL(&JP3, &DP3, tool, user, vel, acc, ovl, blend, &epos, 0, offsetFlag, &offset, 0, 100);
+    robot->SetOaccScale(100);
+    error = robot->MoveL(&JP4, &DP4, tool, user, vel, acc, ovl * 0.1, blend, &epos, 0, offsetFlag, &offset, 0, 100);
+    robot->AngularSpeedStart(50);
+    error = robot->MoveL(&JP5, &DP5, tool, user, vel, acc, ovl * 0.1, blend, &epos, 0, offsetFlag, &offset, 0, 100);
+    robot->AngularSpeedEnd();
+    error = robot->MoveL(&JP6, &DP6, tool, user, vel, acc, ovl * 0.1, blend, &epos, 0, offsetFlag, &offset, 0, 100);
+    robot->AngularSpeedStart(50);
+    error = robot->MoveL(&JP7, &DP7, tool, user, vel, acc, ovl * 0.1, blend, &epos, 0, offsetFlag, &offset, 0, 100);
+    robot->AngularSpeedEnd();
+    error = robot->MoveL(&JP8, &DP8, tool, user, vel, acc, ovl * 0.1, blend, &epos, 0, offsetFlag, &offset, 0, 100);
+    }
+
 机器人软件升级
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2658,13 +2661,13 @@
     :linenos:
 
     /**
-     * @brief 机器人软件升级
-     * @param [in] filePath 软件升级包全路径
-     * @param [in] block 是否阻塞至升级完成 true:阻塞；false:非阻塞
-     * @return  错误码
-     */
+    * @brief 机器人软件升级
+    * @param [in] filePath 软件升级包全路径
+    * @param [in] block 是否阻塞至升级完成 true:阻塞；false:非阻塞
+    * @return 错误码
+    */
     errno_t SoftwareUpgrade(std::string filePath, bool block);
- 
+
 获取机器人软件升级状态
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2673,9 +2676,9 @@
     :linenos:
 
     /**
-    * @brief  获取机器人软件升级状态
+    * @brief 获取机器人软件升级状态
     * @param [out] state 机器人软件包升级状态(0-空闲中或上传升级包中；1~100：升级完成百分比；-1:升级软件失败；-2：校验失败；-3：版本校验失败；-4：解压失败；-5：用户配置升级失败；-6：外设配置升级失败；-7：扩展轴配置升级失败；-8：机器人配置升级失败；-9：DH参数配置升级失败)
-    * @return  错误码
+    * @return 错误码
     */
     errno_t GetSoftwareUpgradeState(int &state);
 
@@ -2686,18 +2689,18 @@
 .. code-block:: c++
     :linenos:
 
-     void TestUpgrade(FRRobot* robot)
-     {
-     robot->SoftwareUpgrade("D://test/software.tar.gz", false);
-     while (true)
-     {
-     int curState = -1;
-     robot->GetSoftwareUpgradeState(curState);
-     printf("upgrade state is %d\n", curState);
-     robot->Sleep(300);
-     }
-     }
- 
+    void TestUpgrade(FRRobot* robot)
+    {
+    robot->SoftwareUpgrade("D://test/software.tar.gz", false);
+    while (true)
+    {
+    int curState = -1;
+    robot->GetSoftwareUpgradeState(curState);
+    printf("upgrade state is %d\n", curState);
+    robot->Sleep(300);
+    }
+    }
+
 设置485扩展轴运动加减速度
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2706,13 +2709,13 @@
     :linenos:
 
     /**
-     * @brief 设置485扩展轴运动加减速度
-     * @param [in] acc 485扩展轴运动加速度
-     * @param [in] dec 485扩展轴运动减速度
-     * @return  错误码
-     */
+    * @brief 设置485扩展轴运动加减速度
+    * @param [in] acc 485扩展轴运动加速度
+    * @param [in] dec 485扩展轴运动减速度
+    * @return 错误码
+    */
     errno_t AuxServoSetAcc(double acc, double dec);
- 
+
 设置485扩展轴急停加减速度
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2721,13 +2724,13 @@
     :linenos:
 
     /**
-     * @brief 设置485扩展轴急停加减速度
-     * @param [in] acc 485扩展轴急停加速度
-     * @param [in] dec 485扩展轴急停减速度
-     * @return  错误码
-     */
+    * @brief 设置485扩展轴急停加减速度
+    * @param [in] acc 485扩展轴急停加速度
+    * @param [in] dec 485扩展轴急停减速度
+    * @return 错误码
+    */
     errno_t AuxServoSetEmergencyStopAcc(double acc, double dec);
- 
+
 获取485扩展轴运动加减速度
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2736,13 +2739,13 @@
     :linenos:
 
     /**
-     * @brief 获取485扩展轴运动加减速度
-     * @param [out] acc 485扩展轴运动加速度
-     * @param [out] dec 485扩展轴运动减速度
-     * @return  错误码
-     */
+    * @brief 获取485扩展轴运动加减速度
+    * @param [out] acc 485扩展轴运动加速度
+    * @param [out] dec 485扩展轴运动减速度
+    * @return 错误码
+    */
     errno_t AuxServoGetAcc(double& acc, double& dec);
- 
+
 获取485扩展轴急停加减速度
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2751,11 +2754,11 @@
     :linenos:
 
     /**
-     * @brief 获取485扩展轴急停加减速度
-     * @param [out] acc 485扩展轴急停加速度
-     * @param [out] dec 485扩展轴急停减速度
-     * @return  错误码
-     */
+    * @brief 获取485扩展轴急停加减速度
+    * @param [out] acc 485扩展轴急停加速度
+    * @param [out] dec 485扩展轴急停减速度
+    * @return 错误码
+    */
     errno_t AuxServoGetEmergencyStopAcc(double& acc, double& dec);
 
 示例程序
@@ -2766,48 +2769,48 @@
     :linenos:
         
     void TestAuxservo(FRRobot* robot)
-     {
-     robot->AuxServoSetParam(1, 1, 1, 1, 130172, 15.45);
-     robot->AuxServoEnable(1, 0);
-     robot->Sleep(1000);
-     robot->AuxServoSetControlMode(1, 1);
-     robot->Sleep(1000);
-     robot->AuxServoEnable(1, 1);
-     robot->Sleep(1000);
-     robot->AuxServoHoming(1, 1, 10, 10, 100);
-     robot->Sleep(4000);
-     robot->AuxServoSetAcc(3000, 3000);
-     robot->AuxServoSetEmergencyStopAcc(5000, 5000);
-     robot->Sleep(1000);
-     double emagacc = 0;
-     double emagdec = 0;
-     robot->AuxServoGetEmergencyStopAcc(emagacc, emagdec);
-     printf("emergency acc is %f  dec is %f \n", emagacc ,emagdec);
+    {
+    robot->AuxServoSetParam(1, 1, 1, 1, 130172, 15.45);
+    robot->AuxServoEnable(1, 0);
+    robot->Sleep(1000);
+    robot->AuxServoSetControlMode(1, 1);
+    robot->Sleep(1000);
+    robot->AuxServoEnable(1, 1);
+    robot->Sleep(1000);
+    robot->AuxServoHoming(1, 1, 10, 10, 100);
+    robot->Sleep(4000);
+    robot->AuxServoSetAcc(3000, 3000);
+    robot->AuxServoSetEmergencyStopAcc(5000, 5000);
+    robot->Sleep(1000);
+    double emagacc = 0;
+    double emagdec = 0;
+    robot->AuxServoGetEmergencyStopAcc(emagacc, emagdec);
+    printf("emergency acc is %f dec is %f \n", emagacc ,emagdec);
 
-     robot->AuxServoSetTargetSpeed(1, 500, 100);
+    robot->AuxServoSetTargetSpeed(1, 500, 100);
 
-     robot->ProgramLoad("/fruser/testPTP.lua");
-     robot->ProgramRun();
-     int i = 0;
-     while (true)
-     {
-     i++;
-     if (i > 400)
-     {
-     robot->ResetAllError();
-     i = 0;
+    robot->ProgramLoad("/fruser/testPTP.lua");
+    robot->ProgramRun();
+    int i = 0;
+    while (true)
+    {
+    i++;
+    if (i > 400)
+    {
+    robot->ResetAllError();
+    i = 0;
 
-     robot->AuxServoSetTargetSpeed(1, 500, 100);
-     }
-     ROBOT_STATE_PKG pkg;
-     robot->GetRobotRealTimeState(&pkg);
-     printf("%d:%d  cur velocity is %f   cur 485 axis emergency state is %d   robot collision state is %d  robot emergency state is %d\n",
-     pkg.robotTime.second,pkg.robotTime.millisecond,pkg.aux_state.servoVel, ((pkg.aux_state.servoState >> 7) & 0x01), pkg.collisionState, pkg.EmergencyStop);
-     robot->Sleep(5);
-     ROBOT_STATE_PKG pkg;
-     robot->GetRobotRealTimeState(&pkg);
-     printf("cur velocity is %f   cur emergency state is %d \n", pkg.aux_state.servoVel, ((pkg.aux_state.servoState >> 7) & 0x01));
-     robot->Sleep(20);
+    robot->AuxServoSetTargetSpeed(1, 500, 100);
+    }
+    ROBOT_STATE_PKG pkg;
+    robot->GetRobotRealTimeState(&pkg);
+    printf("%d:%d cur velocity is %f  cur 485 axis emergency state is %d  robot collision state is %d robot emergency state is %d\n",
+    pkg.robotTime.second,pkg.robotTime.millisecond,pkg.aux_state.servoVel, ((pkg.aux_state.servoState >> 7) & 0x01), pkg.collisionState, pkg.EmergencyStop);
+    robot->Sleep(5);
+    ROBOT_STATE_PKG pkg;
+    robot->GetRobotRealTimeState(&pkg);
+    printf("cur velocity is %f  cur emergency state is %d \n", pkg.aux_state.servoVel, ((pkg.aux_state.servoState >> 7) & 0x01));
+    robot->Sleep(20);
     robot->AuxServoSetAcc(5000, 5000);
     robot->AuxServoSetTargetPos(1, 1000, 500, 100);
     robot->Sleep(2000);
@@ -2831,9 +2834,9 @@
     robot->Sleep(2000);
     robot->AuxServoSetTargetSpeed(1, 0, 10);
     robot->Sleep(2000);
-     }
-     }
- 
+    }
+    }
+
 可移动装置使能
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2842,12 +2845,12 @@
     :linenos:
 
     /**
-     * @brief 可移动装置使能
-     * @param enable false-去使能；true-使能
-     * @return 错误码
-     */
+    * @brief 可移动装置使能
+    * @param enable false-去使能；true-使能
+    * @return 错误码
+    */
     errno_t TractorEnable(bool enable);
- 
+
 可移动装置回零
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2856,11 +2859,11 @@
     :linenos:
 
     /**
-     * @brief 可移动装置回零
-     * @return 错误码
-     */
+    * @brief 可移动装置回零
+    * @return 错误码
+    */
     errno_t TractorHoming();
- 
+
 可移动装置直线运动
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2869,13 +2872,13 @@
     :linenos:
     
     /**
-     * @brief 可移动装置直线运动
-     * @param distance 直线运动距离（mm）
-     * @param vel 直线运动速度百分比（0-100）
-     * @return 错误码
-     */
+    * @brief 可移动装置直线运动
+    * @param distance 直线运动距离（mm）
+    * @param vel 直线运动速度百分比（0-100）
+    * @return 错误码
+    */
     errno_t TractorMoveL(double distance, double vel);
- 
+
 可移动装置圆弧运动
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2884,14 +2887,14 @@
     :linenos:
 
     /**
-     * @brief 可移动装置圆弧运动
-     * @param radio 圆弧运动半径（mm）
-     * @param angle 圆弧运动角度（°）
-     * @param vel 直线运动速度百分比（0-100）
-     * @return 错误码
-     */
+    * @brief 可移动装置圆弧运动
+    * @param radio 圆弧运动半径（mm）
+    * @param angle 圆弧运动角度（°）
+    * @param vel 直线运动速度百分比（0-100）
+    * @return 错误码
+    */
     errno_t TractorMoveC(double radio, double angle, double vel);
- 
+
 可移动装置停止运动
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2900,9 +2903,9 @@
     :linenos:
 
     /**
-     * @brief 可移动装置停止运动
-     * @return 错误码
-     */
+    * @brief 可移动装置停止运动
+    * @return 错误码
+    */
     errno_t TractorStop();
 
 示例程序
@@ -2913,30 +2916,30 @@
     :linenos:
 
     void TestTractorMove(FRRobot* robot)
-     {
-     robot->ExtDevSetUDPComParam("192.168.58.2", 2021, 2, 50, 5, 50, 1, 50, 10);
-     robot->ExtDevLoadUDPDriver();
-     robot->ExtAxisParamConfig(1, 0, 0, 50000, -50000, 1000, 1000, 6.280, 16384, 200, 0, 0, 0);
-     robot->ExtAxisParamConfig(2, 0, 0, 50000, -50000, 1000, 1000, 6.280, 16384, 200, 0, 0, 0);
-     robot->SetAxisDHParaConfig(5, 0, 0, 0, 0, 0, 0, 0, 0);
+    {
+    robot->ExtDevSetUDPComParam("192.168.58.2", 2021, 2, 50, 5, 50, 1, 50, 10);
+    robot->ExtDevLoadUDPDriver();
+    robot->ExtAxisParamConfig(1, 0, 0, 50000, -50000, 1000, 1000, 6.280, 16384, 200, 0, 0, 0);
+    robot->ExtAxisParamConfig(2, 0, 0, 50000, -50000, 1000, 1000, 6.280, 16384, 200, 0, 0, 0);
+    robot->SetAxisDHParaConfig(5, 0, 0, 0, 0, 0, 0, 0, 0);
 
-     robot->TractorEnable(false);
-     robot->Sleep(2000);
-     robot->TractorEnable(true);
-     robot->Sleep(2000);
-     robot->TractorHoming();
-     robot->Sleep(2000);
-     robot->TractorMoveL(100, 2);
-     robot->Sleep(5000);
-     robot->TractorStop();
-     robot->TractorMoveL(-100, 20);
-     robot->Sleep(5000);
-     robot->TractorMoveC(300, 90, 20);
-     robot->Sleep(10000);
-     robot->TractorMoveC(300, -90, 20);
-     robot->Sleep(1);
-     }
- 
+    robot->TractorEnable(false);
+    robot->Sleep(2000);
+    robot->TractorEnable(true);
+    robot->Sleep(2000);
+    robot->TractorHoming();
+    robot->Sleep(2000);
+    robot->TractorMoveL(100, 2);
+    robot->Sleep(5000);
+    robot->TractorStop();
+    robot->TractorMoveL(-100, 20);
+    robot->Sleep(5000);
+    robot->TractorMoveC(300, 90, 20);
+    robot->Sleep(10000);
+    robot->TractorMoveC(300, -90, 20);
+    robot->Sleep(1);
+    }
+
 设置焊丝寻位扩展IO端口
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -2945,11 +2948,11 @@
     :linenos:
 
     /**
-     * @brief 设置焊丝寻位扩展IO端口
-     * @param searchDoneDINum 焊丝寻位成功DO端口(0-127)
-     * @param searchStartDONum 焊丝寻位启停控制DO端口(0-127)
-     * @return 错误码
-     */
+    * @brief 设置焊丝寻位扩展IO端口
+    * @param searchDoneDINum 焊丝寻位成功DO端口(0-127)
+    * @param searchStartDONum 焊丝寻位启停控制DO端口(0-127)
+    * @return 错误码
+    */
     errno_t SetWireSearchExtDIONum(int searchDoneDINum, int searchStartDONum);
 
 示例程序
@@ -2959,73 +2962,73 @@
 .. code-block:: c++
     :linenos:
 
-     void TestUDPWireSearch(FRRobot* robot)
-     {
-     robot->ExtDevSetUDPComParam("192.168.58.88", 2021, 2, 50, 5, 50, 1, 50, 10);
-     robot->ExtDevLoadUDPDriver();
+    void TestUDPWireSearch(FRRobot* robot)
+    {
+    robot->ExtDevSetUDPComParam("192.168.58.88", 2021, 2, 50, 5, 50, 1, 50, 10);
+    robot->ExtDevLoadUDPDriver();
 
-     robot->SetWireSearchExtDIONum(0, 0);
+    robot->SetWireSearchExtDIONum(0, 0);
 
-     int rtn0, rtn1, rtn2 = 0;
-     ExaxisPos exaxisPos = { 0.0, 0.0, 0.0, 0.0 };
-     DescPose offdese = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
-     
-     DescPose descStart = { -158.767, -510.596, 271.709, -179.427, -0.745, -137.349 };
-     JointPos jointStart = { 61.667, -79.848, 108.639, -119.682, -89.700, -70.985 };
-     
-     DescPose descEnd = { 0.332, -516.427, 270.688, 178.165, 0.017, -119.989 };
-     JointPos jointEnd = { 79.021, -81.839, 110.752, -118.298, -91.729, -70.981 };
+    int rtn0, rtn1, rtn2 = 0;
+    ExaxisPos exaxisPos = { 0.0, 0.0, 0.0, 0.0 };
+    DescPose offdese = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+    
+    DescPose descStart = { -158.767, -510.596, 271.709, -179.427, -0.745, -137.349 };
+    JointPos jointStart = { 61.667, -79.848, 108.639, -119.682, -89.700, -70.985 };
+    
+    DescPose descEnd = { 0.332, -516.427, 270.688, 178.165, 0.017, -119.989 };
+    JointPos jointEnd = { 79.021, -81.839, 110.752, -118.298, -91.729, -70.981 };
 
-     robot->MoveL(&jointStart, &descStart, 1, 0, 100, 100, 100, -1, &exaxisPos, 0, 0, &offdese);
-     robot->MoveL(&jointEnd, &descEnd, 1, 0, 100, 100, 100, -1, &exaxisPos, 0, 0, &offdese);
-     
-     DescPose descREF0A = { -66.106, -560.746, 270.381, 176.479, -0.126, -126.745 };
-     JointPos jointREF0A = { 73.531, -75.588, 102.941, -116.250, -93.347, -69.689 };
-     
-     DescPose descREF0B = { -66.109, -528.440, 270.407, 176.479, -0.129, -126.744 };
-     JointPos jointREF0B = { 72.534, -79.625, 108.046, -117.379, -93.366, -70.687 };
-     
-     DescPose descREF1A = { 72.975, -473.242, 270.399, 176.479, -0.129, -126.744 };
-     JointPos jointREF1A = { 87.169, -86.509, 115.710, -117.341, -92.993, -56.034 };
-     
-     DescPose descREF1B = { 31.355, -473.238, 270.405, 176.480, -0.130, -126.745 };
-     JointPos jointREF1B = { 82.117, -87.146, 116.470, -117.737, -93.145, -61.090 };
+    robot->MoveL(&jointStart, &descStart, 1, 0, 100, 100, 100, -1, &exaxisPos, 0, 0, &offdese);
+    robot->MoveL(&jointEnd, &descEnd, 1, 0, 100, 100, 100, -1, &exaxisPos, 0, 0, &offdese);
+    
+    DescPose descREF0A = { -66.106, -560.746, 270.381, 176.479, -0.126, -126.745 };
+    JointPos jointREF0A = { 73.531, -75.588, 102.941, -116.250, -93.347, -69.689 };
+    
+    DescPose descREF0B = { -66.109, -528.440, 270.407, 176.479, -0.129, -126.744 };
+    JointPos jointREF0B = { 72.534, -79.625, 108.046, -117.379, -93.366, -70.687 };
+    
+    DescPose descREF1A = { 72.975, -473.242, 270.399, 176.479, -0.129, -126.744 };
+    JointPos jointREF1A = { 87.169, -86.509, 115.710, -117.341, -92.993, -56.034 };
+    
+    DescPose descREF1B = { 31.355, -473.238, 270.405, 176.480, -0.130, -126.745 };
+    JointPos jointREF1B = { 82.117, -87.146, 116.470, -117.737, -93.145, -61.090 };
 
-     rtn0 = robot->WireSearchStart(0, 10, 100, 0, 10, 100, 0);
-     robot->MoveL(&jointREF0A, &descREF0A, 1, 0, 100, 100, 100, -1, &exaxisPos, 0, 0, &offdese);  //起点
-     robot->MoveL(&jointREF0B, &descREF0B, 1, 0, 10, 100, 100, -1, &exaxisPos, 1, 0, &offdese);  //方向点
-     rtn1 = robot->WireSearchWait("REF0");
-     rtn2 = robot->WireSearchEnd(0, 10, 100, 0, 10, 100, 0);
+    rtn0 = robot->WireSearchStart(0, 10, 100, 0, 10, 100, 0);
+    robot->MoveL(&jointREF0A, &descREF0A, 1, 0, 100, 100, 100, -1, &exaxisPos, 0, 0, &offdese); //起点
+    robot->MoveL(&jointREF0B, &descREF0B, 1, 0, 10, 100, 100, -1, &exaxisPos, 1, 0, &offdese); //方向点
+    rtn1 = robot->WireSearchWait("REF0");
+    rtn2 = robot->WireSearchEnd(0, 10, 100, 0, 10, 100, 0);
 
-     rtn0 = robot->WireSearchStart(0, 10, 100, 0, 10, 100, 0);
-     robot->MoveL(&jointREF1A, &descREF1A, 1, 0, 100, 100, 100, -1, &exaxisPos, 0, 0, &offdese);  //起点
-     robot->MoveL(&jointREF1B, &descREF1B, 1, 0, 10, 100, 100, -1, &exaxisPos, 1, 0, &offdese);  //方向点
-     rtn1 = robot->WireSearchWait("REF1");
-     rtn2 = robot->WireSearchEnd(0, 10, 100, 0, 10, 100, 0);
+    rtn0 = robot->WireSearchStart(0, 10, 100, 0, 10, 100, 0);
+    robot->MoveL(&jointREF1A, &descREF1A, 1, 0, 100, 100, 100, -1, &exaxisPos, 0, 0, &offdese); //起点
+    robot->MoveL(&jointREF1B, &descREF1B, 1, 0, 10, 100, 100, -1, &exaxisPos, 1, 0, &offdese); //方向点
+    rtn1 = robot->WireSearchWait("REF1");
+    rtn2 = robot->WireSearchEnd(0, 10, 100, 0, 10, 100, 0);
 
-     rtn0 = robot->WireSearchStart(0, 10, 100, 0, 10, 100, 0);
-     robot->MoveL(&jointREF0A, &descREF0A, 1, 0, 100, 100, 100, -1, &exaxisPos, 0, 0, &offdese);  //起点
-     robot->MoveL(&jointREF0B, &descREF0B, 1, 0, 10, 100, 100, -1, &exaxisPos, 1, 0, &offdese);  //方向点
-     rtn1 = robot->WireSearchWait("RES0");
-     rtn2 = robot->WireSearchEnd(0, 10, 100, 0, 10, 100, 0);
+    rtn0 = robot->WireSearchStart(0, 10, 100, 0, 10, 100, 0);
+    robot->MoveL(&jointREF0A, &descREF0A, 1, 0, 100, 100, 100, -1, &exaxisPos, 0, 0, &offdese); //起点
+    robot->MoveL(&jointREF0B, &descREF0B, 1, 0, 10, 100, 100, -1, &exaxisPos, 1, 0, &offdese); //方向点
+    rtn1 = robot->WireSearchWait("RES0");
+    rtn2 = robot->WireSearchEnd(0, 10, 100, 0, 10, 100, 0);
 
-     rtn0 = robot->WireSearchStart(0, 10, 100, 0, 10, 100, 0);
-     robot->MoveL(&jointREF1A, &descREF1A, 1, 0, 100, 100, 100, -1, &exaxisPos, 0, 0, &offdese);  //起点
-     robot->MoveL(&jointREF1B, &descREF1B, 1, 0, 10, 100, 100, -1, &exaxisPos, 1, 0, &offdese);  //方向点
-     rtn1 = robot->WireSearchWait("RES1");
-     rtn2 = robot->WireSearchEnd(0, 10, 100, 0, 10, 100, 0);
+    rtn0 = robot->WireSearchStart(0, 10, 100, 0, 10, 100, 0);
+    robot->MoveL(&jointREF1A, &descREF1A, 1, 0, 100, 100, 100, -1, &exaxisPos, 0, 0, &offdese); //起点
+    robot->MoveL(&jointREF1B, &descREF1B, 1, 0, 10, 100, 100, -1, &exaxisPos, 1, 0, &offdese); //方向点
+    rtn1 = robot->WireSearchWait("RES1");
+    rtn2 = robot->WireSearchEnd(0, 10, 100, 0, 10, 100, 0);
 
-     vector <string> varNameRef = { "REF0", "REF1", "#", "#", "#", "#" };
-     vector <string> varNameRes = { "RES0", "RES1", "#", "#", "#", "#" };
-     int offectFlag = 0;
-     DescPose offectPos = { 0, 0, 0, 0, 0, 0 };
-     rtn0 = robot->GetWireSearchOffset(0, 0, varNameRef, varNameRes, offectFlag, offectPos);
-     robot->PointsOffsetEnable(0, &offectPos);
-     robot->MoveL(&jointStart, &descStart, 1, 0, 100, 100, 100, -1, &exaxisPos, 0, 0, &offdese);
-     robot->MoveL(&jointEnd, &descEnd, 1, 0, 100, 100, 100, -1, &exaxisPos, 0, 0, &offdese);
-     robot->PointsOffsetDisable();
-     }
- 
+    vector <string> varNameRef = { "REF0", "REF1", "#", "#", "#", "#" };
+    vector <string> varNameRes = { "RES0", "RES1", "#", "#", "#", "#" };
+    int offectFlag = 0;
+    DescPose offectPos = { 0, 0, 0, 0, 0, 0 };
+    rtn0 = robot->GetWireSearchOffset(0, 0, varNameRef, varNameRes, offectFlag, offectPos);
+    robot->PointsOffsetEnable(0, &offectPos);
+    robot->MoveL(&jointStart, &descStart, 1, 0, 100, 100, 100, -1, &exaxisPos, 0, 0, &offdese);
+    robot->MoveL(&jointEnd, &descEnd, 1, 0, 100, 100, 100, -1, &exaxisPos, 0, 0, &offdese);
+    robot->PointsOffsetDisable();
+    }
+
 设置焊机控制模式扩展DO端口
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -3034,12 +3037,12 @@
     :linenos:
 
     /**
-     * @brief 设置焊机控制模式扩展DO端口
-     * @param DONum 焊机控制模式DO端口(0-127)
-     * @return 错误码
-     */
+    * @brief 设置焊机控制模式扩展DO端口
+    * @param DONum 焊机控制模式DO端口(0-127)
+    * @return 错误码
+    */
     errno_t SetWeldMachineCtrlModeExtDoNum(int DONum);
- 
+
 设置焊机控制模式
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -3048,10 +3051,10 @@
     :linenos:
 
     /**
-     * @brief 设置焊机控制模式
-     * @param mode 焊机控制模式;0-一元化
-     * @return 错误码
-     */
+    * @brief 设置焊机控制模式
+    * @param mode 焊机控制模式;0-一元化
+    * @return 错误码
+    */
     errno_t SetWeldMachineCtrlMode(int mode);
 
 示例程序
@@ -3062,38 +3065,38 @@
     :linenos:
 
     void TestWeldmechineMode(FRRobot* robot)
-     {
-     robot->ExtDevSetUDPComParam("192.168.58.88", 2021, 2, 50, 5, 50, 1, 50, 10);
-     robot->ExtDevLoadUDPDriver();
+    {
+    robot->ExtDevSetUDPComParam("192.168.58.88", 2021, 2, 50, 5, 50, 1, 50, 10);
+    robot->ExtDevLoadUDPDriver();
 
-     robot->SetWeldMachineCtrlModeExtDoNum(17);
-     for (int i = 0; i < 5; i++)
-     {
-     robot->SetWeldMachineCtrlMode(0);
-     robot->Sleep(1000);
-     robot->SetWeldMachineCtrlMode(1);
-     robot->Sleep(1000);
-     }
+    robot->SetWeldMachineCtrlModeExtDoNum(17);
+    for (int i = 0; i < 5; i++)
+    {
+    robot->SetWeldMachineCtrlMode(0);
+    robot->Sleep(1000);
+    robot->SetWeldMachineCtrlMode(1);
+    robot->Sleep(1000);
+    }
 
-     robot->SetWeldMachineCtrlModeExtDoNum(18);
-     for (int i = 0; i < 5; i++)
-     {
-     robot->SetWeldMachineCtrlMode(0);
-     robot->Sleep(1000);
-     robot->SetWeldMachineCtrlMode(1);
-     robot->Sleep(1000);
-     }
+    robot->SetWeldMachineCtrlModeExtDoNum(18);
+    for (int i = 0; i < 5; i++)
+    {
+    robot->SetWeldMachineCtrlMode(0);
+    robot->Sleep(1000);
+    robot->SetWeldMachineCtrlMode(1);
+    robot->Sleep(1000);
+    }
 
-     robot->SetWeldMachineCtrlModeExtDoNum(19);
-     for (int i = 0; i < 5; i++)
-     {
-     robot->SetWeldMachineCtrlMode(0);
-     robot->Sleep(1000);
-     robot->SetWeldMachineCtrlMode(1);
-     robot->Sleep(1000);
-     }
-     }
- 
+    robot->SetWeldMachineCtrlModeExtDoNum(19);
+    for (int i = 0; i < 5; i++)
+    {
+    robot->SetWeldMachineCtrlMode(0);
+    robot->Sleep(1000);
+    robot->SetWeldMachineCtrlMode(1);
+    robot->Sleep(1000);
+    }
+    }
+
 设置与机器人通讯重连参数
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -3102,11 +3105,11 @@
     :linenos:
 
     /**
-    * @brief  设置与机器人通讯重连参数
-    * @param  [in] enable  网络故障时使能重连 true-使能 false-不使能
-    * @param  [in] reconnectTime 重连时间，单位ms
-    * @param  [in] period 重连周期，单位ms
-    * @return  错误码
+    * @brief 设置与机器人通讯重连参数
+    * @param [in] enable 网络故障时使能重连 true-使能 false-不使能
+    * @param [in] reconnectTime 重连时间，单位ms
+    * @param [in] period 重连周期，单位ms
+    * @return 错误码
     */
     errno_t SetReConnectParam(bool enable, int reconnectTime = 30000, int period = 50);
 
@@ -3117,25 +3120,25 @@
 .. code-block:: c++
     :linenos:
 
-     int main(void)
-     {
-     ROBOT_STATE_PKG pkg = {};
-     FRRobot robot;
+    int main(void)
+    {
+    ROBOT_STATE_PKG pkg = {};
+    FRRobot robot;
 
-     robot.LoggerInit();
-     robot.SetLoggerLevel(1);
-     int rtn = robot.RPC("192.168.58.2");
-     robot.SetReConnectParam(true, 30000, 500);
+    robot.LoggerInit();
+    robot.SetLoggerLevel(1);
+    int rtn = robot.RPC("192.168.58.2");
+    robot.SetReConnectParam(true, 30000, 500);
 
-     while (true)
-     {
-     int rtn = robot.GetRobotRealTimeState(&pkg);
-     printf("the robot motiondone state is %d\n", pkg.jt_cur_pos[0]);
-     robot.Sleep(200);
-     }
-     return 0;
-     }
- 
+    while (true)
+    {
+    int rtn = robot.GetRobotRealTimeState(&pkg);
+    printf("the robot motiondone state is %d\n", pkg.jt_cur_pos[0]);
+    robot.Sleep(200);
+    }
+    return 0;
+    }
+
 开始奇异位姿保护
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -3152,7 +3155,7 @@
 	* @return 错误码
 	*/
 	errno_t SingularAvoidStart(int protectMode, double minShoulderPos, double minElbowPos, double minWristPos);
- 
+
 停止奇异位姿保护
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -3186,4 +3189,85 @@
         robot->SingularAvoidStart(0, 150, 50, 20);
         robot->MoveL(&endjointPos, &enddescPose, 0, 0, 100, 100, 100, -1, &exaxisPos, 0, 0, &offdese, 1, 1);
         robot->SingularAvoidEnd();
+    }
+
+传送带通讯输入检测
+++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.2.1-3.8.1
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 传送带通讯输入检测
+    * @param [in] timeout 等待超时时间ms
+    * @return 错误码
+    */
+    errno_t ConveyorComDetect(int timeout);
+
+传送带通讯输入检测触发
+++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.2.1-3.8.1
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 传送带通讯输入检测触发
+    * @return 错误码
+    */
+    errno_t ConveyorComDetectTrigger();
+
+代码示例
+************************
+    
+.. code-block:: c++
+    :linenos:
+
+    void Trigger(FRRobot* robot)
+    {
+      int i;
+      cout << "please input a number to trigger:" << endl;
+      std::cin >> i;
+      int rtn = robot->ConveyorComDetectTrigger();
+      printf("ConveyorComDetectTrigger retval is: %d\n", rtn);
+    }
+
+    int ConveyorTest(FRRobot * robot)
+    {
+      int retval = 0;
+      float param[6] = { 1,10000,200,0,0,20 };
+      retval = robot->ConveyorSetParam(param, 1, 0, 0);
+      printf("ConveyorSetParam retval is: %d\n", retval);
+      int index = 1;
+      int max_time = 30000;
+      uint8_t block = 0;
+      retval = 0;
+      DescPose startdescPose(139.176, 4.717, 9.088, -179.999, -0.004, -179.990);
+      JointPos startjointPos(-34.129, -88.062, 97.839, -99.780, -90.003, -34.140);
+        DescPose homePose(139.177, 4.717, 69.084, -180.000, -0.004, -179.989);
+      JointPos homejointPos(-34.129, -88.618, 84.039, -85.423, -90.003, -34.140);
+      ExaxisPos exaxisPos(0, 0, 0, 0);
+      DescPose offdese(0, 0, 0, 0, 0, 0);
+      retval = robot->MoveL(&homejointPos, &homePose, 1, 1, 100, 100, 100, -1, &exaxisPos, 0, 0, &offdese, 1, 1);
+      printf("MoveL to safety retval is: %d\n", retval);
+     std::thread textT(Trigger, robot);
+      textT.detach();
+
+      retval = robot->ConveyorComDetect(1000 * 10);
+      printf("ConveyorComDetect retval is: %d\n", retval);
+
+      retval = robot->ConveyorGetTrackData(2);
+      printf("ConveyorGetTrackData retval is: %d\n", retval);
+
+      retval = robot->ConveyorTrackStart(2);
+      printf("ConveyorTrackStart retval is: %d\n", retval);
+
+      robot->MoveL(&startjointPos, &startdescPose, 1, 1, 100, 100, 100, -1, &exaxisPos, 0, 0, &offdese, 1, 1);
+      robot->MoveL(&startjointPos, &startdescPose, 1, 1, 100, 100, 100, -1, &exaxisPos, 0, 0, &offdese, 1, 1);
+
+      retval = robot->ConveyorTrackEnd();
+      printf("ConveyorTrackEnd retval is: %d\n", retval);
+      robot->MoveL(&homejointPos, &homePose, 1, 1, 100, 100, 100, -1, &exaxisPos, 0, 0, &offdese, 1, 1);
+        return 0;
     }

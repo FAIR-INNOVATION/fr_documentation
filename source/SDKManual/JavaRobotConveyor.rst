@@ -61,7 +61,9 @@
     int ConveyorPointBRecord(); 
 
 传动带参数配置
-+++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionchanged:: Java SDK-v1.0.4-3.8.1
+
 .. code-block:: Java
     :linenos:
 
@@ -73,9 +75,12 @@
     * @param [in] wpAxis 工件坐标系编号 针对跟踪运动功能选择工件坐标系编号，跟踪抓取、TPD跟踪设为0
     * @param [in] vision 是否配视觉  0 不配  1 配
     * @param [in] speedRadio 速度比  针对传送带跟踪抓取选项（1-100）  其他选项默认为1
+    * @param [in] followType 跟踪运动类型，0-跟踪运动；1-追检运动
+    * @param [in] startDis 追检抓取需要设置， 跟踪起始距离， -1：自动计算(工件到达机器人下方后自动追检)，单位mm， 默认值0
+    * @param [in] endDis 追检抓取需要设置，跟踪终止距离， 单位mm， 默认值100
     * @return 错误码
     */
-    int ConveyorSetParam(int encChannel, int resolution, double lead, int wpAxis, int vision, double speedRadio); 
+    int ConveyorSetParam(int encChannel, int resolution, double lead, int wpAxis, int vision, double speedRadio, int followType, int startDis, int endDis); 
 
 设置传动带抓取点补偿
 +++++++++++++++++++++++++++++++++++++++++
@@ -229,4 +234,32 @@
 
         rtn = robot.MoveGripper(1, 100, 60, 30, 30000, 0);
         System.out.println("MoveGripper: rtn  " + rtn);
-    } 
+    }
+
+传送带通讯输入检测
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.4-3.8.1
+
+.. code-block:: Java
+    :linenos:
+
+    /** 
+    * @brief 传送带通讯输入检测
+    * @param [in] timeout 等待超时时间ms
+    * @return 错误码
+    */
+    int ConveyorComDetect(int timeout);
+
+传送带通讯输入检测触发
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.4-3.8.1
+
+.. code-block:: Java
+    :linenos:
+
+    /** 
+    * @brief 传送带通讯输入检测触发
+    * @param [in] timeout 等待超时时间ms
+    * @return 错误码
+    */
+    int ConveyorComDetectTrigger();

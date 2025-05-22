@@ -113,16 +113,18 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``ConveyorSetParam(param)``"
+    "原型", "``ConveyorSetParam(param, followType, startDis, endDis)``"
     "描述", "传动带参数配置"
-    "必选参数", "- `` param``： = [encChannel,resolution,lead,wpAxis,vision,speedRadio] 
-                                    - ``encChannel``: 编码器通道 1-2
-                                    - ``resolution``: 编码器分辨率 编码器旋转一圈脉冲个数
-                                    - ``lead``: 机械传动比 编码器旋转一圈传送带移动距离
-                                    - ``wpAxis``: 工件坐标系编号 针对跟踪运动功能选择工件坐标系编号，跟踪抓取、TPD跟踪设为0
-                                    - ``vision``: 是否配视觉  0-不配 1-配,
-                                    - ``speedRadio``: 速度比  针对传送带跟踪抓取速度范围为（1-100）  跟踪运动、TPD跟踪设置为1"
-    "默认参数", "无"
+    "必选参数", "- ``param``： = [encChannel,resolution,lead,wpAxis,vision,speedRadio] 
+                    - ``encChannel``: 编码器通道 1-2
+                    - ``resolution``: 编码器分辨率 编码器旋转一圈脉冲个数
+                    - ``lead``: 机械传动比 编码器旋转一圈传送带移动距离
+                    - ``wpAxis``: 工件坐标系编号 针对跟踪运动功能选择工件坐标系编号，跟踪抓取、TPD跟踪设为0
+                    - ``vision``: 是否配视觉  0-不配 1-配,
+                    - ``speedRadio``: 速度比  针对传送带跟踪抓取速度范围为（1-100）  跟踪运动、TPD跟踪设置为1
+    - ``followType``：跟踪运动类型，0-跟踪运动；1-追检运动"
+    "默认参数", "- ``startDis``：追检抓取需要设置， 跟踪起始距离， -1：自动计算(工件到达机器人下方后自动追检)，单位mm， 默认值0
+    - ``endDis``：追检抓取需要设置，跟踪终止距离， 单位mm， 默认值100"
     "返回值", "错误码 成功-0  失败- errcode"
 
 代码示例
@@ -135,7 +137,7 @@
     # 与机器人控制器建立连接。 成功连接返回机器人对象
     robot = Robot.RPC('192.168.58.2')
     param=[1,10000,200,0,0,20]
-    ret = robot.ConveyorSetParam(param)
+    ret = robot.ConveyorSetParam(param,0,0,0)
     print("Set Conveyor Param",ret)
 
 传动带抓取点补偿
@@ -256,10 +258,110 @@
     robot = Robot.RPC('192.168.58.2')
     #参数配置
     param=[1,10000,200,0,0,20]
-    ret = robot.ConveyorSetParam(param)
+    ret = robot.ConveyorSetParam(param,0,0,0)
     print("传送带参数配置错误码",ret)
     time.sleep(1)
     #抓取点补偿
     comp = [0.00, 0.00, 0.00]
     ret1 = robot.ConveyorCatchPointComp(comp)
     print("传动带抓取点补偿错误码",ret1)
+
+传送带通讯输入检测
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.1
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``ConveyorComDetect(timeout)``"
+    "描述", "传送带通讯输入检测"
+    "必选参数", "- ``timeout``：等待超时时间ms"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+传送带通讯输入检测触发
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.1
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``ConveyorComDetectTrigger()``"
+    "描述", "传送带通讯输入检测触发"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+代码示例
+------------
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    import time
+    import threading
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+
+    def Trigger(robot):
+        i = int(input("请输入一个数字以触发 (please input a number to trigger): "))
+
+        rtn = robot.ConveyorComDetectTrigger()
+        print(f"ConveyorComDetectTrigger retval is: {rtn}")
+
+    def ConveyorTest(robot):
+        retval = 0
+
+        # Uncomment if needed
+        # param = [1, 10000, 200, 0, 0, 20]
+        # retval = robot.ConveyorSetParam(param, 0, 0, 0)
+        # print(f"ConveyorSetParam retval is: {retval}")
+
+        index = 1
+        max_time = 30000
+        block = 0
+        retval = 0
+
+        # Define poses and joint positions
+        startdescPose = [139.176, 4.717, 9.088, -179.999, -0.004, -179.990]
+        startjointPos = [-34.129, -88.062, 97.839, -99.780, -90.003, -34.140]
+
+        homePose = [139.177, 4.717, 69.084, -180.000, -0.004, -179.989]
+        homejointPos = [-34.129, -88.618, 84.039, -85.423, -90.003, -34.140]
+
+        exaxisPos = [0, 0, 0, 0]
+        offdese = [0, 0, 0, 0, 0, 0]
+
+        # Move to home position
+        retval = robot.MoveL(desc_pos=homePose, tool=1, user=1)
+        print(f"MoveL to safety retval is: {retval}")
+
+        # Start trigger thread
+        textT = threading.Thread(target=Trigger, args=(robot,))
+        textT.daemon = True
+        textT.start()
+
+        # Conveyor operations
+        retval = robot.ConveyorComDetect(10000)
+        print(f"ConveyorComDetect retval is: {retval}")
+
+        retval = robot.ConveyorGetTrackData(2)
+        print(f"ConveyorGetTrackData retval is: {retval}")
+
+        retval = robot.ConveyorTrackStart(2)
+        print(f"ConveyorTrackStart retval is: {retval}")
+
+        # Movement commands
+        robot.MoveL(desc_pos=startdescPose, tool=1, user=1)
+        robot.MoveL(desc_pos=startdescPose, tool=1, user=1)
+
+        # End conveyor tracking
+        retval = robot.ConveyorTrackEnd()
+        print(f"ConveyorTrackEnd retval is: {retval}")
+
+        # Return to home position
+        robot.MoveL(desc_pos=homePose, tool=1, user=1)
+
+    ConveyorTest(robot)

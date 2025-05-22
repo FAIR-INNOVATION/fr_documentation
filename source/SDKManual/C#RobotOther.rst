@@ -112,17 +112,20 @@
 .. code-block:: c#
     :linenos:
 
-    /** 
-    * @brief 传动带参数配置 
-    * @param [in] encChannel 编码器通道 1~2
-    * @param [in] resolution 编码器转一圈的脉冲数
-    * @param [in] lead 编码器转一圈传送带行走距离
-    * @param [in] wpAxis 工件坐标系编号 针对跟踪运动功能选择工件坐标系编号，跟踪抓取、TPD跟踪设为0
-    * @param [in] vision 是否配视觉  0-不配，1-配
-    * @param [in] speedRadio 速度比:针对传送带跟踪抓取选项（1-100）其他选项默认为1
-    * @return 错误码 
+    /**
+    * @brief 传动带参数配置
+    * @param [in] para[0] 编码器通道 1~2
+    * @param [in] para[1] 编码器转一圈的脉冲数
+    * @param [in] para[2] 编码器转一圈传送带行走距离
+    * @param [in] para[3] 工件坐标系编号 针对跟踪运动功能选择工件坐标系编号，跟踪抓取、TPD跟踪设为0
+    * @param [in] para[4] 是否配视觉  0 不配  1 配
+    * @param [in] para[5] 速度比  针对传送带跟踪抓取选项（1-100）  其他选项默认为1 
+    * @param [in] followType 跟踪运动类型，0-跟踪运动；1-追检运动
+    * @param [in] startDis 追检抓取需要设置， 跟踪起始距离， -1：自动计算(工件到达机器人下方后自动追检)，单位mm， 默认值0
+    * @param [in] endDis 追检抓取需要设置，跟踪终止距离， 单位mm， 默认值100
+    * @return 错误码
     */
-    int ConveyorSetParam(int encChannel, int resolution, double lead, int wpAxis, int vision, double speedRadio);
+    int ConveyorSetParam(int encChannel, int resolution, double lead, int wpAxis, int vision, double speedRadio, int followType, int startDis=0, int endDis=100);
 
 设置传动带抓取点补偿
 +++++++++++++++++++++++++++++
@@ -580,3 +583,122 @@
         robot.AxleSensorActivate(1);
         robot.AxleSensorRegWrite(1, 4, 6, 1, 0, 0, 0);       
     }
+
+控制器日志下载
++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  控制器日志下载
+    * @param [in] savePath 保存文件路径"D://zDown/"
+    * @return  错误码
+    */
+    int RbLogDownload(string savePath);
+
+代码示例
++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    private void button6_Click(object sender, EventArgse)
+    {  
+        Console.WriteLine("RbLogDownload start");
+        int rtn = robot.RbLogDownload(@"D:\zDOWN1\");
+        Console.WriteLine($"RbLogDownload rtn is {rtn}");
+    }
+
+所有数据源下载
++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 所有数据源下载
+    * @param [in] savePath 保存文件路径"D://zDown/"
+    * @return  错误码
+    */
+    int AllDataSourceDownload(string savePath);
+
+代码示例
++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    private void button6_Click(object sender, EventArgse)
+    {   
+        Console.WriteLine("AllDataSourceDownload start");
+        int rtn = robot.AllDataSourceDownload(@"D:\zDOWN\");
+        Console.WriteLine($"AllDataSourceDownload rtn is {rtn}");
+    }
+
+数据备份包下载
++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 数据备份包下载
+    * @param [in] savePath 保存文件路径"D://zDown/"
+    * @return  错误码
+    */
+    int DataPackageDownload(string savePath);
+
+代码示例
++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    private void button6_Click(object sender, EventArgse)
+    {   
+        Console.WriteLine("DataPackageDownload start");
+        int rtn = robot.DataPackageDownload(@"D:\zDOWN\");
+        Console.WriteLine($"DataPackageDownload rtn is {rtn}");
+    }
+
+获取控制箱SN码
++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 获取控制箱SN码
+    * @param [out] SNCode 控制箱SN码
+    * @return 错误码
+    */
+    int GetRobotSN(string SNCode);
+
+代码示例
++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    private void button6_Click(object sender, EventArgse)
+    {   
+        string SN = "";
+        int rtn = robot.GetRobotSN(ref SN); 
+        Console.WriteLine($"robot SN is {SN}");
+    }
+
+关闭机器人操作系统
++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 关闭机器人操作系统
+    * @return 错误码
+    */
+    int ShutDownRobotOS();
+
+代码示例
++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    private void button6_Click(object sender, EventArgse)
+    {   
+        int rtn = robot.ShutDownRobotOS();
+        Console.WriteLine($"ShutDownRobotOS rtn is {rtn}");
+    }
+

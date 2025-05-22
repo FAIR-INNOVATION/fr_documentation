@@ -1003,3 +1003,69 @@ jog点动立即停止
     robot.MoveL(startdescPose, 0, 0,vel=100)
     robot.MoveL(enddescPose, 0, 0,vel=100)
     robot.LinArcFIRPlanningEnd()
+
+停止运动
++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.1
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+    
+    "原型", "``StopMove()``"
+    "描述", "停止运动"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"  
+
+
+加速度平滑开启
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.1
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``AccSmoothStart(saveFlag_flag)``"
+    "描述", "加速度平滑开启"
+    "必选参数", "- ``saveFlag_flag``：是否断电保存"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+加速度平滑关闭
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.1
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``AccSmoothEnd(saveFlag_flag)``"
+    "描述", "加速度平滑关闭"
+    "必选参数", "- ``saveFlag_flag``：是否断电保存"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+代码示例
+------------
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+
+    JP1 = [88.927,-85.834,80.289,-85.561,-91.388,108.718]
+    DP1 = [88.739,-527.617,514.939,-179.039,1.494,70.209]
+
+    JP2 = [27.036,-83.909,80.284,-85.579,-90.027,108.604]
+    DP2 = [-433.125,-334.428,497.139,-179.723,-0.745,8.437]
+    error = robot.AccSmoothStart(saveFlag=0)
+    print("AccSmoothStart return:",error)
+    error = robot.MoveJ(JP1, tool=0, user=0, vel=100)
+    error = robot.MoveJ(JP2, tool=0, user=0, vel=100)
+    error = robot.MoveJ(JP1, tool=0, user=0, vel=100)
+    error = robot.MoveJ(JP2, tool=0, user=0, vel=100)
+    error = robot.AccSmoothEnd(saveFlag=0)
+    print("AccSmoothEnd return:", error)

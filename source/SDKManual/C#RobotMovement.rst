@@ -1093,3 +1093,57 @@ jog点动立即停止
         //FIRLin(false);
         //FIRLin(true);
     }
+
+加速度平滑开启
+++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 加速度平滑开启
+    * @param  [in] saveFlag 是否断电保存
+    * @return  错误码
+    */
+    int AccSmoothStart(bool saveFlag);
+
+加速度平滑关闭
+++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 加速度平滑关闭
+    * @param  [in] saveFlag 是否断电保存
+    * @return  错误码
+    */
+    int AccSmoothEnd(bool saveFlag);
+
+代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            bool saveFlag = false;
+
+            int rtn = 0;
+            JointPos p1Joint = new JointPos(88.927, -85.834, 80.289, -85.561, -91.388, 108.718);
+            DescPose p1Desc = new DescPose(88.739, -527.617, 514.939, -179.039, 1.494, 70.209);
+
+            JointPos p2Joint = new JointPos(27.036, -83.909, 80.284, -85.579, -90.027, 108.604);
+            DescPose p2Desc = new DescPose(-433.125, -334.428, 497.139, -179.723, -0.745, 8.437);
+            JointPos p3Joint = new JointPos(60.219, -94.324, 62.906, -62.005, -87.159, 108.598);
+            DescPose p3Desc = new DescPose(-112.215, -409.323, 686.497, 176.217, 2.338, 41.625);
+            ExaxisPos exaxisPos = new ExaxisPos(0, 0, 0, 0);
+            DescPose offdese = new DescPose(0, 0, 0, 0, 0, 0);
+            robot.AccSmoothStart(saveFlag);
+            robot.MoveL(p1Joint, p1Desc, 0, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese, 0, 10);
+            robot.MoveL(p2Joint, p2Desc, 0, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese, 0, 10);
+            robot.MoveL(p1Joint, p1Desc, 0, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese, 0, 10);
+            robot.MoveL(p2Joint, p2Desc, 0, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese, 0, 10);
+
+            robot.AccSmoothEnd(saveFlag);
+        }

@@ -580,3 +580,114 @@
 
         robot->EndForceDragControl(0, 0, 0, M, B, K, F, 50, 100);
     }
+
+控制器日志下载
++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.2.1-3.8.1
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 控制器日志下载
+    * @param [in] savePath 保存文件路径"D://zDown/"
+    * @return 错误码
+    */
+    errno_t RbLogDownload(std::string savePath);
+
+所有数据源下载
++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.2.1-3.8.1
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 所有数据源下载
+    * @param [in] savePath 保存文件路径"D://zDown/"
+    * @return 错误码
+    */
+    errno_t AllDataSourceDownload(std::string savePath);
+
+数据备份包下载
++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.2.1-3.8.1
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 数据备份包下载
+    * @param [in] savePath 保存文件路径"D://zDown/"
+    * @return 错误码
+    */
+    errno_t DataPackageDownload(std::string savePath);
+
+代码示例
+*********************
+
+.. code-block:: c++
+    :linenos:
+
+    int TestDownload(FRRobot* robot)
+    {
+      int rtn = robot->RbLogDownload("D://zDOWN/");
+      cout << "RbLogDownload rtn is " << rtn << endl;
+      
+      rtn = robot->AllDataSourceDownload("D://zDOWN/");
+      cout << "AllDataSourceDownload rtn is " << rtn << endl;
+
+      rtn = robot->DataPackageDownload("D://zDOWN/");
+      cout << "DataPackageDownload rtn is " << rtn << endl;
+    }
+
+获取控制箱SN码
++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.2.1-3.8.1
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 获取控制箱SN码
+    * @param [out] SNCode 控制箱SN码
+    * @return 错误码
+    */
+    errno_t GetRobotSN(std::string& SNCode);
+
+代码示例
+*********************
+
+.. code-block:: c++
+    :linenos:
+
+    int TestSN(FRRobot* robot)
+    {
+        string SN = "";
+        robot->GetRobotSN(SN);
+        cout << "robot SN is " << SN << endl;
+    }
+
+关闭机器人操作系统
++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.2.1-3.8.1
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 关闭机器人操作系统
+    * @return 错误码
+    */
+    errno_t ShutDownRobotOS();
+
+代码示例
+*********************
+
+.. code-block:: c++
+    :linenos:
+
+    int TestShutDown(FRRobot* robot)
+    {
+        robot->ShutDownRobotOS();
+    }
