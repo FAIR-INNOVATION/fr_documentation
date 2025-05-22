@@ -542,6 +542,10 @@ WEB界面上锁
    * - 902
      - FRCustom(9)-V1-001(FR10YD)
      - FR10YD
+
+   * - 904
+     - FRCustom(9)-V1-001(FR3C)
+     - FR3C
      
    * - ...
      - 预留
