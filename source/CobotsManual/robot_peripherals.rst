@@ -1200,15 +1200,15 @@ Lua开放协议支持力传感器、单个夹爪、多个夹爪、力传感器�
 
    * - 56
      - D254
-     - DINT
+     - INT
      - 
-     - 4#转矩偏置（预留）
+     - 预留
 
    * - 57
      - D255
-     - DINT
+     - INT
      - 
-     - 4#转矩偏置（预留）
+     - 焊接模式设置（0-直流一元、1-脉冲一元、2-JOB模式、3-近控模式、4-分别模式、5-CC/CV、6-TIG、7-CMT模式）
 
    * - 58
      - D256
@@ -4945,3 +4945,963 @@ CNC功能包支持在示教程序中调用控制指令，并实时获取机床�
 .. centered:: 图表 8.18‑11 一段典型的传送带阻塞跟踪抓取运动程序
 
 当连续示教两个相同的跟踪运动目标（可包含偏置距离），同时中间插入夹爪运动时，机器人将在该目标位置位置持续跟踪传送带直至夹爪运动完成，实现阻塞跟踪抓取。
+
+控制器外设开放协议-焊机协议
+-------------------------------------------------
+
+概述
+~~~~~~~~~~~~~~~~~~
+
+控制器外设开放协议通常是一个可运行的LUA程序，程序包含通讯创建指令、循环向从站设备写入控制数据和读取实时状态数据指令，执行该LUA程序时，机器人与设备建立通讯，并进行数据交互。控制器外设开放协议LUA程序中可自定义IP地址、端口号、周期等通讯参数，用户在使用时需要根据实际设备情况对该协议内容进行修改。控制器外设开放协议支持的设备包括打磨头、激光传感器、CNC、焊机等。控制器外设开放协议文件名称需以CtrlDev_开头，如“CtrlDev_Welding.lua”，最多支持4个开放协议同时运行。
+
+在机器人WebApp中依次点击“初始设置”、“外设”、“控制箱”、“控制器外设开放协议”，点击“上传”按钮，将编写完成的开放协议LUA程序文件上传至控制器中。选择一个开放协议ID和开放协议名称，点击“配置”按钮(选择协议ID需与开放协议文件中编写的ID一致)，为每个开放协议指定一个ID。
+
+.. figure:: robot_peripherals/254.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.19‑1 控制器外设开放协议上传与配置
+
+在已配置的协议中，点击“加载”按钮，运行状态指示灯亮起，表示该开放协议已正常加载。
+
+.. figure:: robot_peripherals/255.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.19‑2 控制器外设开放协议加载与运行指示
+
+焊机开放协议
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+机器人与焊机通过控制器外设开放协议进行ModbusTCP通讯，根据焊机从站寄存器定义编写对应通讯协议LUA文件，在该文件中对焊机IP地址、端口号等通讯参数和起弧控制、送丝控制等寄存器地址进行配置，将该协议上传至机器人控制器，并加载该协议，即可实现机器人与焊机之间的通讯。
+
+焊机开放协议示例
++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: console
+   :linenos:
+
+   local id = 1 --协议编号,需与WebApp配置的协议编号匹配
+   local ctrlValues = {0, 0, 0, 0, 0, 0}
+   local realTimeState = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+   ModbusTCPMasterClose(id)
+   ModbusTCPMasterCreate('192.168.58.45', 502, 1, id)
+   while(1) do
+   setArcStart, setWireForward, setWireReverse, setShieldingGas, setTouchEnable, setRobotError,setRobotEnableState,default1,default2, default3, default4, setCurrent, setVoltage, SetMode = WeldingGetCtrlState()
+   local ctrlWord = 0  
+   ctrlWord = SetBitWithIndex(ctrlWord, 0, setArcStart)
+   ctrlWord = SetBitWithIndex(ctrlWord, 1, setWireForward)
+   ctrlWord = SetBitWithIndex(ctrlWord, 2, setWireReverse)
+   ctrlWord = SetBitWithIndex(ctrlWord, 3, setShieldingGas)
+   ctrlWord = SetBitWithIndex(ctrlWord, 4, setTouchEnable)
+   ctrlWord = SetBitWithIndex(ctrlWord, 7, setRobotError)
+   ctrlValues[1] = setRobotEnableState
+   ctrlValues[2] = ctrlWord
+   ctrlValues[3] = 0
+   ctrlValues[4] = setCurrent
+   ctrlValues[5] = setVoltage
+   ctrlValues[6] = 0
+   ModbusTCPMasterSetHoldRegs(id, 201, 6, ctrlValues, "U16")
+   localtmpCtrlMode={0,0,0,0}
+   tmpCtrlMode[1]=SetMode
+   ModbusTCPMasterSetHoldRegs(id,0x1000,1,tmpCtrlMode,"U16")
+   sleep_ms(10)
+
+   getWeldState, getCurrent, getVoltage,default1, default2, getWelderErrorCode = ModbusTCPMasterGetHoldRegs(id, 211, 6, "U16")
+   realTimeState[1] = GetBitWithIndex(getWeldState, 0) + GetBitWithIndex(getWeldState, 1) * 2  --welderType
+   realTimeState[2] = GetBitWithIndex(getWeldState, 5) --arc state(WCR)
+   realTimeState[3] = GetBitWithIndex(getWeldState, 4) --touch state
+   realTimeState[4] = GetBitWithIndex(getWeldState, 7) --welder error state
+   realTimeState[12] = getCurrent                      --current
+   realTimeState[13] = getVoltage                      --voltage
+   realTimeState[14] = getWelderErrorCode              --welder error code
+   realTimeState[15] = getWeldState / 255             --heart jump
+   WeldingSetRealtimeState(realTimeState)
+
+   local stopFlag = GetOpenLUAStopFlag(id)
+   if(stopFlag ~= 0) then 
+   ModbusTCPMasterClose(id)
+   break
+   end
+
+   sleep_ms(10)
+   end
+
+焊机开放协议解析
++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+焊机开放协议主要包括三个部分：
+
+**①建立通讯连接**：主指定协议编号id(加载开放协议时设置的协议编号需要与协议文件中的编号一致)、焊机IP地址、端口号等参数，通过“ModbusTCPMasterCreate()”指令使实现机器人与焊机之间建立ModbusTCP连接。
+
+**②循环向焊机写入控制数据**：焊机开放协议执行时先从机器人控制器内部读取当前的焊机控制数据，再将数据写入焊机控制焊机动作。协议中读取机器人控制焊接数据指令“WeldingGetCtrlState()”返回值定义如表2-1，可根据实际焊机控制寄存器定义对控制数据进行分解，再通过ModbusTCP将数据写入焊机。
+
+.. centered:: 表 8.19-1 WeldingGetCtrlState()返回值
+
+.. list-table:: 
+   :widths: 10 20 30 40
+   :align: center
+   :class: sheet-center
+   
+   * - **序号**
+     - **类型**
+     - **名称**
+     - **描述**
+
+   * - 1
+     - uint16_t
+     - setArcStart
+     - 起弧信号；0-熄弧；1-起弧
+
+   * - 2
+     - uint16_t
+     - setWireForward
+     - 正向送丝：0-停止送丝；1-正向送丝
+
+   * - 3
+     - uint16_t
+     - setWireReverse
+     - 反向送丝：0-停止送丝；1-反向送丝
+
+   * - 4
+     - uint16_t
+     - setShieldingGas
+     - 保护气控制：0-停气；1-送气
+
+   * - 5
+     - uint16_t
+     - setTouchEnable
+     - 焊丝寻位使能：0-去使能；1-使能
+
+   * - 6
+     - uint16_t
+     - setRobotError
+     - 机器人故障：0-无故障；1-故障
+
+   * - 7
+     - uint16_t
+     - setRobotEnableState
+     - 机器人使能状态：0-未使能；1-使能
+
+   * - 8
+     - uint16_t
+     - default1
+     - 预留
+
+   * - 9
+     - uint16_t
+     - default2
+     - 预留
+
+   * - 10
+     - uint16_t
+     - default3
+     - 预留
+
+   * - 11
+     - uint16_t
+     - default4
+     - 预留
+
+   * - 12
+     - uint16_t
+     - setCurrent
+     - 设置焊接电流(0.1A)
+
+   * - 13
+     - uint16_t
+     - setVoltage
+     - 设置焊接电压(0.01V)
+
+   * - 14
+     - uint16_t
+     - SetMode
+     - 设置焊接模式：0-直流一元、1-脉冲一元、2-JOB模式、3-近控模式、4-分别模式、5-CC/CV、6-TIG、7-CMT模式
+
+   * - 15
+     - uint16_t
+     - default6
+     - 预留
+
+   * - 16
+     - uint16_t
+     - default7
+     - 预留
+
+   * - 17
+     - uint16_t
+     - default8
+     - 预留
+
+   * - 18
+     - uint16_t
+     - default9
+     - 预留
+
+   * - 19
+     - uint16_t
+     - default10
+     - 预留
+
+   * - 20
+     - uint16_t
+     - default11
+     - 预留
+
+**③循环从焊机读取状态数据**：焊机开放协议先通过ModbusTCP从焊机读取实时的状态数据，再将相关数据写入机器人控制器，使机器人能监控到焊机实时动作状态。协议向机器人设置焊机状态接口“WeldingSetRealtimeState()”参数为一个包含所有焊机状态的数组（注意：在开放协议LUA中，数组索引从1开始）如表2-2，可根据实际焊机状态寄存器定义通过ModbusTCP读取焊机状态数据，再组合成焊机状态数组并写入机器人控制器。
+
+.. centered:: 表 8.19-2 WeldingSetRealtimeState()详细参数
+
+.. list-table:: 
+   :widths: 10 20 30 40
+   :align: center
+   :class: sheet-center
+   
+   * - **类型**
+     - **名称**
+     - **数组索引**
+     - **描述**
+
+   * - uint16_t[20]
+     - realTimeState
+     - 1
+     - 焊机型号
+
+   * - uint16_t[20]
+     - realTimeState
+     - 2
+     - 电弧状态：0-未起弧；1-已起弧
+
+   * - uint16_t[20]
+     - realTimeState
+     - 3
+     - 焊丝接触状态：0-未接触；1-已接触
+
+   * - uint16_t[20]
+     - realTimeState
+     - 4
+     - 焊机故障状态：0-无故障；1-焊机故障
+
+   * - uint16_t[20]
+     - realTimeState
+     - 5
+     - 预留
+
+   * - uint16_t[20]
+     - realTimeState
+     - 6
+     - 预留
+
+   * - uint16_t[20]
+     - realTimeState
+     - 7
+     - 预留
+
+   * - uint16_t[20]
+     - realTimeState
+     - 8
+     - 预留
+
+   * - uint16_t[20]
+     - realTimeState
+     - 9
+     - 预留
+
+   * - uint16_t[20]
+     - realTimeState
+     - 10
+     - 预留
+
+   * - uint16_t[20]
+     - realTimeState
+     - 11
+     - 预留
+
+   * - uint16_t[20]
+     - realTimeState
+     - 12
+     - 实时焊接电流(0.1A)
+
+   * - uint16_t[20]
+     - realTimeState
+     - 13
+     - 实时焊接电压(0.01V)
+
+   * - uint16_t[20]
+     - realTimeState
+     - 14
+     - 焊机故障码
+
+   * - uint16_t[20]
+     - realTimeState
+     - 15
+     - 焊机通讯心跳数据
+
+   * - uint16_t[20]
+     - realTimeState
+     - 16
+     - 预留
+
+   * - uint16_t[20]
+     - realTimeState
+     - 17
+     - 预留
+
+   * - uint16_t[20]
+     - realTimeState
+     - 18
+     - 预留
+
+   * - uint16_t[20]
+     - realTimeState
+     - 19
+     - 预留
+
+   * - uint16_t[20]
+     - realTimeState
+     - 20
+     - 预留
+
+焊机开放协议上传与加载
+++++++++++++++++++++++++++++++++++++++++++++++++++
+
+依次点击“初始设置”、“外设”、“控制箱”、“外设开放协议”，点击“上传”按钮，上传焊机开放协议“CtrlDev_WELDING.lua”(协议文件名称需以CtrlDev_开头，且后缀名为“.lua”)。
+
+.. figure:: robot_peripherals/256.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.19‑3 焊机开放协议上传
+
+在“协议配置”中选择一个“协议编号”(需要与开放协议文件中的协议编号匹配)，此处以编号1为例，并选择“协议名称”为焊机开放协议“CtrlDev_WELDING.lua”，点击“配置”按钮，此时在“设备操作及状态”中显示已配置的焊机开放协议。
+
+.. figure:: robot_peripherals/257.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.19‑4 焊机开放协议配置
+
+点击“连接”按钮加载焊机开放协议，运行状态指示灯亮起表示机器人和焊机正在通讯。
+
+.. figure:: robot_peripherals/258.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.19‑5 焊机开放协议加载
+
+焊机调试与焊接程序编写
++++++++++++++++++++++++++++++++++++++++++++++
+
+机器人对焊机的控制方式主要有三种方式：
+
+**①数字量/模拟量(控制箱IO)**：机器人通过控制箱上的数字输出DO、模拟输出AO端口控制焊机，使用时需要配置起弧、送丝、送气控制的数字输出DO端口编号，焊接电流、焊接电压控制的模拟输出AO端口编号，以及焊接电流、焊接电压与模拟输出电压之间的对应关系。
+
+**②数字通信协议(UDP)**：机器人控制箱与PLC进行UDP通信，PLC再进而与焊机进行进行通讯控制。使用时需建立机器人与PLC之间、PLC与焊机之间的通信连接。
+
+**③数字通信协议(ModbusTCP)**：机器人加载焊机开放协议，在开放协议中进行通讯参数和相关数据寄存器地址定义，实现机器人对焊机的控制。
+
+在进行焊接作业前，需要根据不同的焊接控制类型进行相应的配置操作，而在不同配置下进行焊机调试与焊接程序编写操作类似。
+
+焊机调试
+**************************
+在进行焊机调试前，请先确保焊机开放协议已正常加载，相关寄存器地址配置正确。
+
+依次点击“初始设置”、“外设”、“焊机”，选择“数字通信协议(ModbusTcp)”。
+
+.. figure:: robot_peripherals/259.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.19‑6 选择“数字通信协议(ModbusTcp)”
+
+点击“起弧”、“收弧”、“送气”、“关气”等按钮，观察实际焊机动作是否与设置一致，若焊机未进行设置的动作，则检查焊机开放协议中寄存器配置是否有误，并做进一步调试。
+
+.. figure:: robot_peripherals/260.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.19‑7 焊机调试
+
+焊接程序编写
+********************************
+
+点击“初始设置”、“示教程序”、“程序编程”，新建一个程序“testWeld.lua”。
+
+.. figure:: robot_peripherals/261.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.19‑8 创建焊接LUA程序
+
+选择“焊接指令”。
+
+.. figure:: robot_peripherals/262.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.19‑9 选择“焊接指令”
+
+点击“焊接”按钮。
+
+.. figure:: robot_peripherals/263.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.19‑10 点击“焊接”指令
+
+在弹出焊接指令添加页面中选择“数字通信协议(Modbus Tcp)”，依次选择“起弧”、点击“添加”、点击“收弧”、点击“添加”按钮，最后点击“应用”按钮。
+
+.. figure:: robot_peripherals/264.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.19‑11 添加起弧、收弧指令
+
+此时“testWeld.lua”中即添加起弧、收弧指令完成。
+
+.. figure:: robot_peripherals/265.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.19‑12 添加起弧、收弧指令
+
+依次添加完成焊接起始点和焊接终止点。将机器人切换至自动模式，在确保安全的条件下，启动程序，机器人即控制焊机进行一条焊缝的焊接作业。
+
+.. figure:: robot_peripherals/266.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.19‑13 焊接程序
+
+焊机开放协议卸载
+++++++++++++++++++++++++++++++++++
+
+依次点击“初始设置”、“外设”、“控制箱”、“外设开放协议”，在“设备操作及状态”中点击“卸载”按钮。
+
+.. figure:: robot_peripherals/267.png
+   :align: center
+   :width: 4in
+
+.. centered:: 图表 8.19‑14 卸载开放协议
+
+此时协议运行状态指示灯熄灭。
+
+.. figure:: robot_peripherals/268.png
+   :align: center
+   :width: 4in
+
+.. centered:: 图表 8.19‑15 开放协议卸载
+
+此时进行焊接调试或执行焊接程序，机器人在WebApp左下角报出“协议未加载错误”。
+
+.. figure:: robot_peripherals/269.png
+   :align: center
+   :width: 2in
+
+.. centered:: 图表 8.19‑16 协议未加载报错
+
+末端Lua开放协议适配焊接手柄功能
+-------------------------------------------------------------
+
+协议配置
+~~~~~~~~~~~~~~~~~~~~~~
+
+使用开放协议适配焊接手柄时，在机器人上电启动后需要先进入web页面进行开放协议上传配置。
+
+依次点击“初始设置”->“外设”->“末端工具”-“开放协议”，点击“末端协议通讯”，点击“进入Boot”，点击“上传”开放协议，上传完成后重启设备，即可使用末端lua开放协议适配焊接手柄。
+
+.. figure:: robot_peripherals/270.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.20‑1 末端开放协议上传
+
+依次点击“初始设置”->“外设”->“末端工具”-“开放协议”，点击“末端协议启用”，选择设备类型为“焊接手柄”，点击启用即可适配焊接手柄，启用后断电重启参数保持。
+
+.. figure:: robot_peripherals/271.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.20‑2 末端开放协议启用
+
+开放协议模板
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+以佳士达适配开放协议为例：
+
+.. code-block:: console
+
+   function Getbit(X,Bit)                   --提取X的对应bit位
+   return ((X&(1<<Bit))>>Bit)
+   end
+   while(1)
+   do
+   IwdgTaskHandle()
+   MainLoop()
+   UpDownLoadHandle()
+   SdoRwPara()
+   EndErrClear()
+   local BFlag=LuaBreak()
+   if(BFlag==1)then
+   break
+   end
+   RxData={}
+   T0={0x7D,0x08,0x22,0xB3,0x01,0x00}
+   T1={0x7D,0x08,0x22,0xB4,0x03,0x00}
+   T2={0x7D,0X08,0X22,0XB5,0x1E,0x00}
+   DelayMs(5)
+   RxLen=WeldToolMasterGetCmd(RxData)                                    --WeldToolMasterGetCmd()函数用于获取焊接手柄发送的指令（用于焊接手柄作为主站的情况）。使用时需要入栈一个空表（X={}）
+   if (RxData[1]==0x7D)and(RxData[2]==0x08)and(RxData[3]==0x22) then
+   if(RxData[4] == 0xB3)then                                              
+      --以佳士达焊接手柄的功能码为例，此处为0xB3(设置焊接参数)。
+   local SetParams={A2=RxData[7],A1=RxData[8],A6=(ByteToDwFloat(RxData[9],RxData[10],RxData[11],RxData[12]))*1000,
+   A8=(ByteToDwFloat(RxData[13],RxData[14],RxData[15],RxData[16])),A7=(ByteToDwFloat(RxData[17],RxData[18],RxData[19],RxData[20])),
+   A4=(ByteToDwFloat(RxData[21],RxData[22],RxData[23],RxData[24]))*1000,A5=(ByteToDwFloat(RxData[25],RxData[26],RxData[27],RxData[28]))*1000}
+   SetWeldParams(SetParams)                                                --SetWeldParams()函数用于设置控制器的焊接参数，需要参考焊接手柄自定义参数表，确定需要修改的焊接参数（总共划分了3个区域A,B,C）
+   Dword=GetRobotState()                                                   --GetRobotState()函数用于获取机器人的相关状态，目前bit0为机器人使能状况，bit1为机器人故障状态,bit2为机器人移动状态，bit3为起弧收弧指令信号，可参考末端全外设协议V2.7
+   T0[7]=((Dword)&(1<<1))
+   T0[8],T0[9]=WeldToolCrcValue(T0)                                        --WeldToolCrcValue()法奥自定义协议CRC校验
+   T0[10]=0x0E
+   EndTxWeldData(T0)                                                       --EndTxWeldData()函数用于发送组包数据（此处为响应焊接手柄设置焊接参数指令）
+   DelayMs(5)
+   end
+   if(RxData[4] == 0xB4)then                                               --0xB4实时控制指令
+   local key={K0=Getbit(RxData[7],0),K1=Getbit(RxData[7],1),K2=Getbit(RxData[7],2),K3=Getbit(RxData[7],3),
+   K4=Getbit(RxData[7],4),K5=Getbit(RxData[7],5),K6=Getbit(RxData[7],6),K7=Getbit(RxData[7],7),
+   K8=Getbit(RxData[8],0),K9=Getbit(RxData[8],1),K10=Getbit(RxData[8],2),K11=Getbit(RxData[8],3),
+   K12=Getbit(RxData[8],4),K13=Getbit(RxData[8],5),K14=Getbit(RxData[8],6),K15=Getbit(RxData[9],0),
+   K16=Getbit(RxData[9],1),K17=Getbit(RxData[9],2),K18=Getbit(RxData[9],3),K19=Getbit(RxData[9],4),
+   K20=Getbit(RxData[9],5),K21=Getbit(RxData[9],6),K22=Getbit(RxData[9],7),K23=Getbit(RxData[10],0),
+   K24=Getbit(RxData[10],1)}                                               --按键值需要参考末端全外设协议V2.7表26，K0-K31对应DWordInput10的bit0-bit31,K32-K63对应DWordInput9的bit0-bit31
+   SetWeldToolKeys(key)                                                    --SetWeldToolKeys()函数用于将焊接手柄按键状态上传，可根据焊接手柄实际情况调整表中填写的按键值
+   Dword=GetRobotState()
+   T1[7]=(Dword)&(0x1)
+   T1[8]=(Dword>>1)&(0x1)
+   T1[9]=(Dword>>2)&(0x1)
+   T1[10],T1[11]=WeldToolCrcValue(T1)
+   T1[12]=0X0E
+   EndTxWeldData(T1)
+   DelayMs(5)
+   end
+   if(RxData[4] == 0xB5)then                                               
+   --读取焊接参数(从控制器中获取，给到焊接手柄)
+   local wldpams={"A2","A1","A6","A8","A7","A4","A5"}                      
+   --根据焊接手柄实际需要的焊接参数进行填写，此处佳士达需要这些，可参考末端全外设协议V2.7的表26
+   GetWeldParams(wldpams)                                                  --GetWeldParams()获取对应的焊接参数，并将其值替换到表中(假设A2=100，则调用函数后，wldpams[1]=100)
+   T2[7]=wldpams[1]
+   T2[8]=wldpams[2]
+   wldpams[3]=wldpams[3]/1000
+   wldpams[6]=wldpams[6]/1000
+   wldpams[7]=wldpams[7]/1000
+   for i=0,4 do
+   T2[9+(i*4)+3],T2[9+(i*4)+2],T2[9+(i*4)+1],T2[9+(i*4)+0]=DwFloatToByte(wldpams[3+i])
+   end
+   for i=0,7 do
+   T2[29+i]=0
+   end
+   T2[37],T2[38]=WeldToolCrcValue(T2)
+   T2[39]=0x0E
+   EndTxWeldData(T2)
+   DelayMs(5)
+   end
+   end
+   LuaGc()
+   end
+
+开放协议可支持指令
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+可在开放协议中配置以下指令，同时39-63预留，后续可扩展。
+
+.. centered:: 表格 8.20-1 开放协议可支持指令
+
+.. list-table:: 
+   :widths: 20 80
+   :header-rows: 0
+   :align: center
+   :class: sheet-center
+
+   * - **Bit**
+     - **说明**
+   * - 0
+     - 清空程序
+   * - 1
+     - 保存程序
+   * - 2
+     - 生成安全点（LIN指令）
+   * - 3
+     - 生成直线运行点（LIN指令）
+   * - 4
+     - 添加圆弧过渡点
+   * - 5
+     - 添加圆弧终点并生成ARC指令
+   * - 6
+     - 切换模式，默认处于手动模式
+   * - 7
+     - 切换机器人运行状态
+   * - 8
+     - 切换机器人拖动状态
+   * - 9
+     - 开始点焊
+   * - 10
+     - 添加开始摆弧指令
+   * - 11
+     - 添加结束摆弧指令
+   * - 12
+     - X正方向点动
+   * - 13
+     - X负方向点动
+   * - 14
+     - Y正方向点动
+   * - 15
+     - Y负方向点动
+   * - 16
+     - Z正方向点动
+   * - 17
+     - Z负方向点动
+   * - 18
+     - RX正方向点动
+   * - 19
+     - RX负方向点动
+   * - 20
+     - RY正方向点动
+   * - 21
+     - RY负方向点动
+   * - 22
+     - RZ正方向点动
+   * - 23
+     - RZ负方向点动
+   * - 24
+     - 生成起始点
+   * - 25
+     - PTP
+   * - 26
+     - 固定姿态拖动
+   * - 27
+     - 焊接中断恢复
+   * - 28
+     - 焊接中断退出
+   * - 29
+     - SetDO
+   * - 30
+     - offline
+   * - 31
+     - 配置参数更新
+   * - 32
+     - 起弧ArcStart
+   * - 33
+     - 收弧ArcEnd
+   * - 34
+     - Lin+ArcStart+weaveStart
+   * - 35
+     - Lin+ArcEnd+weaveEnd
+   * - 36
+     - Lin+ArcStart
+   * - 37
+     - Lin+ArcEnd
+   * - 38
+     - 撤销程序
+   * - 39
+     - 预留
+   * - ...
+     - 预留
+   * - 63
+     - 预留
+
+开放协议可配置参数
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+可在开放协议中配置以下参数。
+
+.. centered:: 表格 8.20-2 开放协议可配置参数
+
+.. list-table:: 
+   :widths: 10 40 20 30
+   :header-rows: 0
+   :align: center
+   :class: sheet-center
+
+   * - **索引**
+     - **数据内容**
+     - **数据类型**
+     - **范围**
+
+   * - 0
+     - 焊接速度
+     - float
+     - 0-100%
+
+   * - 1
+     - 空行速度
+     - float
+     - 0-100%
+
+   * - 2
+     - 起、收弧超时时间
+     - float
+     - 0-65535(ms)
+
+   * - 3
+     - 摆动左停留时间
+     - float
+     - 0-99999（ms）
+
+   * - 4
+     - 摆动右停留时间
+     - float
+     - 0-99999（ms）
+
+   * - 5
+     - 点焊时间
+     - float
+     - 0-99999（ms）
+
+   * - 6
+     - 摆动宽度
+     - float
+     - 0-1000（0.1mm）
+
+   * - 7
+     - 摆动频率
+     - float
+     - 0-100(0.1Hz)
+
+   * - 8
+     - 焊机控制类型；0-控制箱IO；1-数字通信协议(UDP)
+     - float
+     - 0-255
+
+   * - 9
+     - 焊接工艺编号(0-99)
+     - float
+     - 0-99
+
+   * - 10
+     - 摆动类型
+     - float
+     - 0-255
+
+   * - 11
+     - 电流控制输出模拟量输出端口
+     - float
+     - 0-1
+
+   * - 12
+     - 电压控制输出模拟量输出端口
+     - float
+     - 0-1
+
+   * - 13
+     - 操作DO端口号
+     - float
+     - 0-15
+
+   * - 14
+     - 摆动参数编号
+     - float
+     - 0-255
+
+   * - 15
+     - 手动模式全局速度
+     - float
+     - 0-100%
+
+   * - 16
+     - 自动模式全局速度
+     - float
+     - 0-100%
+
+   * - 17
+     - 焊接电流
+     - float
+     - 0-999990（0.1A）
+
+   * - 18
+     - 焊接电压
+     - float
+     - 0-999990（0.1V）
+
+   * - 19
+     - 单次点动最大距离
+     - float
+     - 0-1000（0.1mm）
+
+   * - 20
+     - 焊机准备扩展DI端口
+     - float
+     - 0-127
+
+   * - 21
+     - 起弧成功扩展DI端口
+     - float
+     - 0-127
+
+   * - 22
+     - 焊接中断恢复扩展DI端口
+     - float
+     - 0-127
+
+   * - 23
+     - 焊接中断退出扩展DI端口
+     - float
+     - 0-127
+
+   * - 24
+     - 焊机起弧扩展DO端口
+     - float
+     - 0-127
+
+   * - 25
+     - 气体检测扩展D0端口
+     - float
+     - 0-127
+
+   * - 26
+     - 正向送丝扩展D0端口
+     - float
+     - 0-127
+
+   * - 27
+     - 反向送丝扩展D0端口
+     - float
+     - 0-127
+
+   * - 28
+     - 焊接中断恢复使能
+     - float
+     - 0-1
+
+   * - 29
+     - 去再恢复点速度
+     - float
+     - 0-100%
+
+   * - 30
+     - 运动方式
+     - float
+     - 0-1
+
+   * - 31
+     - 焊接电弧中断检测使能
+     - float
+     - 0-1
+
+   * - 32
+     - 是否包括等待时间(ms)
+     - float
+     - 0-1
+
+   * - 33
+     - 摆动回调比率
+     - float
+     - 0-100%
+
+   * - 34
+     - 摆动位置等待类型
+     - float
+     - 0-255
+
+   * - 35
+     - 起弧时间
+     - float
+     - 0-65535（ms）
+
+   * - 36
+     - 收弧时间
+     - float
+     - 0-65535（ms）
+
+   * - 37
+     - 焊接电弧中断确认时长
+     - float
+     - 0-65535（ms）
+
+   * - 38
+     - 重叠距离
+     - float
+     - 0-1000(0.1mm)
+
+   * - 39
+     - 起弧电流
+     - float
+     - 0-999990(0.1A)
+
+   * - 40
+     - 起弧电压
+     - float
+     - 0-999990(0.1V)
+
+   * - 41
+     - 收弧电流
+     - float
+     - 0-999990(0.1A)
+
+   * - 42
+     - 收弧电压
+     - float
+     - 0-999990(0.1V)
+
+   * - 43
+     - 最小焊接电流
+     - float
+     - 0-999990(0.1A)
+
+   * - 44
+     - 最大焊接电流
+     - float
+     - 0-999990(0.1A)
+
+   * - 45
+     - 最小焊接电流对应输出模拟量
+     - float
+     - 0-100(0.1A)
+
+   * - 46
+     - 最大焊接电流对应输出模拟量
+     - float
+     - 0-100(0.1A)
+
+   * - 47
+     - 最小焊接电压
+     - float
+     - 0-2000(0.1V)
+
+   * - 48
+     - 最大焊接电压
+     - float
+     - 0-2000(0.1V)
+
+   * - 49
+     - 最小焊接电压对应输出模拟量
+     - float
+     - 0-100(0.1V)
+
+   * - 50
+     - 最大焊接电压对应输出模拟量
+     - float
+     - 0-100(0.1V)
+
+   * - 51
+     - 立三角摆动左弦长度
+     - float
+     - 0-1000(0.1mm)
+
+   * - 52
+     - 立三角摆动右弦长度
+     - float
+     - 0-1000(0.1mm)
+
+   * - 53
+     - 摆动方向方位角
+     - float
+     - -1800-1800(0.1°)
+
+   * - 54
+     - 摆动方向侧倾角
+     - float
+     - -1800-1800(0.1°)
+
+   * - 55
+     - 立三角摆动三角尖点等待时间
+     - float
+     - 0-99999(ms)

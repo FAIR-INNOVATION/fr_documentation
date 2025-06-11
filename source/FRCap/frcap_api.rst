@@ -419,3 +419,121 @@ socket recv
 
     socket_cmd.recv();//8065
     socket_file.recv();//8067
+
+文件操作指令
+---------------------------
+
+写入文件内容
+++++++++++++++++++++++++++++++++
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @param String filename文件路径
+    * @param string content要写入的内容
+    * @return true/false
+    */
+
+    write(filename, content);
+
+读取文件内容
+++++++++++++++++++++++++++++++++
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @param String filename文件路径
+    * @param string content要写入的内容
+    * @return String 文件内容
+    */
+
+    read(filename);
+
+修改文件权限
+++++++++++++++++++++++++++++++++
+
+.. code-block:: c++
+    :linenos:
+    
+    /**
+    * @param String filename文件路径
+    * @param Number mode权限模式（如0644）
+    * @return true/false
+    */
+
+    chmod(filename, mode);
+
+读取目录内容，包括子目录
+++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c++
+    :linenos:
+    
+    /**
+    * @param String path文件路径
+    * @return Array 文件名数组
+    */
+
+    readdir(path);
+
+压缩解压指令
+---------------------------
+
+.. note:: 
+    区分LA与QX版本：
+
+    LA模块导入：var execSync = require('child_process').execSync;
+
+    QX模块导入：var tar_utils = require('/usr/local/etc/node/sys/tools/tar_utils');
+
+创建tar.gz压缩文件
++++++++++++++++++++++++++++++++++
+
+创建tar.gz压缩文件示例(LA)：
+
+.. code-block:: javascript
+    :linenos:
+    
+    var cmd = 'cd / && tar -zcvf ' + FILENAME + '-C ' + DIR;
+    execSync(cmd);
+    
+创建tar.gz压缩文件指令描述(QX)：
+
+.. code-block:: c++
+    :linenos:
+    
+    /**
+    * @param {Array|String} sourcePaths 源文件/目录路径数组或单个路径
+    * @param String targetFile目标压缩文件路径
+    * @param Function callback 回调函数，参数为(error) 
+    * @param String basePath基础路径，默认为'/'
+    * @return \
+    */
+
+    createTarGz(sourcePaths, targetFile, callback, basePath);
+
+解压tar.gz文件
++++++++++++++++++++++++++++++++++
+
+解压tar.gz文件示例(LA)：
+
+.. code-block:: javascript
+    :linenos:
+
+    var cmd = 'cd / && tar -zxvf ' + FILENAME;
+    execSync(cmd);
+
+解压tar.gz文件指令描述(QX)：
+
+.. code-block:: c++
+    :linenos:
+    
+    /**
+    * @param String sourceFile源压缩文件路径
+    * @param String targetDir目标解压目录
+    * @param Function callback 回调函数，参数为(error) 
+    * @return \
+    */
+    extractTarGz(sourceFile, targetDir, callback);

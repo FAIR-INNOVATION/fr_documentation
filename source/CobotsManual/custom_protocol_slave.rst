@@ -12,12 +12,12 @@
 1) CC-Link slave 协议支持；
 2) Profinet slave 协议支持；
 3) Ethernet/IP slave 协议支持；
-4) EtherCAT slave 协议支持；
+4) EtherCAT slave 协议支持（EnTalk板卡不支持）；
 
 环境配置
 --------------------------
 
-硬件环境搭建
+赫优讯板卡硬件环境搭建
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 1. 将赫优讯板卡安装到集成式mini控制箱，如图所示。
@@ -71,6 +71,88 @@
 
 .. important:: 当协议切换为EtherCAT总线时，板卡的网口需要区分为EtherCAT_IN和EtherCAT_OUT，此时，欧姆龙PLC的EtherCAT网口需要与板卡的EtherCAT_IN网口通过一根网线直连。
 
+EnTalk板卡硬件环境搭建
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1. 将板卡安装到集成式mini控制箱，如图所示。
+
+.. image:: custom_protocol_slave/044.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 17.2-7 EnTalk板卡网口
+
+2. 机器人控制箱和PLC接线如下图所示。
+
+.. image:: custom_protocol_slave/003.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 17.2-8 控制箱&三菱PLC接线图
+
+.. image:: custom_protocol_slave/004.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 17.2-9 控制箱&西门子PLC接线图
+
+.. image:: custom_protocol_slave/005.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 17.2-10 控制箱&汇川PLC接线图
+
+.. note:: 
+    1：机器人控制箱（板卡网口）；
+    2：交换机；
+    3：笔记本PC；
+    4：三菱PLC（CC-link网口）；
+    5：西门子PLC（Profinet网口）；
+    6：汇川PLC（Ethernet/IP）；
+
+3. EnTalk板卡进行协议切换时，需进行固件升级。在进行固件升级时，需将连接板卡PC的IP地址修为“192.168.0.xxx”，然后打开“网关工具集”软件->选择需要连接的PC网卡设备->点击右下角“开始”按钮->点击右上角“搜索”按钮，搜索板卡设备。
+
+.. image:: custom_protocol_slave/045.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 17.2-11 连接板卡设备
+
+4. 点击左下角“升级”按钮->选中板卡设备->点击右上角“…”按钮，选择需要的协议固件->点击“升级”按钮，等待固件升级完成即可。
+
+.. image:: custom_protocol_slave/046.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 17.2-12 板卡协议切换
+
+.. note:: 板卡进行协议切换后，板卡的IP地址会进行改变，具体如下表所示。
+
+.. centered:: 表格 17.2-1 板卡IP地址
+
+.. list-table:: 
+   :widths: 20 80
+   :header-rows: 1
+   :align: center
+
+   * - **协议**
+     - **IP地址**
+
+   * - CC-link
+     - 192.168.0.113
+
+   * - Ethernet/IP
+     - 192.168.0.112
+
+   * - Profinet
+     - 192.168.0.2
+
+当协议配置为CC-link时，控制器会将板卡IP修改为“192.168.0.113”。
+
+当协议配置为Ethernet/IP时，控制器会将板卡IP修改为“192.168.0.112”。
+
+当协议切换为Profinet时，并且从站设备名称与主站一致时，主站会自动配置从站的 IP 地址。
+
 软件环境搭建
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -80,7 +162,7 @@
    :width: 6in
    :align: center
 
-.. centered:: 图表 17.2-7 Web登录界面
+.. centered:: 图表 17.2-13 Web登录界面
 
 2. 点击辅助应用->工具应用->系统升级界面，选择software.tar.gz文件，上传升级包。
 
@@ -88,9 +170,9 @@
    :width: 4in
    :align: center
 
-.. centered:: 图表 17.2-8 软件升级
+.. centered:: 图表 17.2-14 软件升级
 
-.. note:: qnx控制箱web版本需要3.7.6及以上，linux控制箱web版本需要3.7.4及以上。
+.. note:: QX控制箱web版本需要3.8.0及以上，LA控制箱web版本需要3.8.0及以上。
 
 3. 进入外设->远程控制， 控制模式选择“Profinet控制”，厂商选择“Hilscher”，循环周期选择“4ms”，点击“设置”。
 
@@ -98,7 +180,7 @@
    :width: 4in
    :align: center
 
-.. centered:: 图表 17.2-9 接口配置
+.. centered:: 图表 17.2-15 接口配置
 
 4. 点击右上角“本地模式”->切换远程模式。
 
@@ -106,7 +188,7 @@
    :width: 4in
    :align: center
 
-.. centered:: 图表 17.2-10 切换远程模式
+.. centered:: 图表 17.2-16 切换远程模式
 
 5. 选择控制器从站协议，点击“设置”按钮。
 
@@ -114,7 +196,7 @@
    :width: 6in
    :align: center
 
-.. centered:: 图表 17.2-11 配置通讯协议
+.. centered:: 图表 17.2-17 配置通讯协议
 
 .. note:: 切换不同的协议，需要重启控制箱再进行协议的配置。
 
