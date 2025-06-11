@@ -455,8 +455,18 @@
 
 1) 码垛设备尺寸：码垛工作台的尺寸。
 
+.. image:: frcap_pictures/074.png
+   :width: 6in
+   :align: center
+
+.. image:: frcap_pictures/075.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 10-3-24 码垛工作台
+
 .. important::
-   X、Y、Z为做托盘右上角或者右托盘左上角点相对于机器人基坐标系坐标值的绝对值，Angle为机器人安装时的旋转角度，推荐安装时为0。
+   X、Y、Z为左托盘右上角或者右托盘左上角点相对于机器人基坐标系坐标值的绝对值，Angle为机器人安装时的旋转角度，推荐安装时为0。
 
 2) 取料抬升高度：用户自定义取料成功后，从抓取点取料成功后抬升的高度。
 
@@ -476,13 +486,13 @@
    :width: 6in
    :align: center
 
-.. centered:: 图表 10-3-24 隔板配置
+.. centered:: 图表 10-3-25 隔板配置
 
 .. image:: frcap_pictures/071.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 10-3-25 配方管理——高级配置显示隔板配置
+.. centered:: 图表 10-3-26 配方管理——高级配置显示隔板配置
 
 接着设置隔板过渡点，隔板过渡点为三个，设置目的是抓取隔板后大致规划一个运动路径，避免发生碰撞而无法完成放置隔板的动作。
 
@@ -492,19 +502,19 @@
    :width: 3in
    :align: center
 
-.. centered:: 图表 10-3-26 隔板过渡点1（以右工位为例）
+.. centered:: 图表 10-3-27 隔板过渡点1（以右工位为例）
 
 .. image:: frcap_pictures/036.png
    :width: 3in
    :align: center
 
-.. centered:: 图表 10-3-27 隔板过渡点2（以右工位为例）
+.. centered:: 图表 10-3-28 隔板过渡点2（以右工位为例）
 
 .. image:: frcap_pictures/037.png
    :width: 3in
    :align: center
 
-.. centered:: 图表 10-3-28 隔板过渡点3（以右工位为例）
+.. centered:: 图表 10-3-29 隔板过渡点3（以右工位为例）
 
 接着设置抓取点（保持抓取点在隔板的中心，吸盘底部与隔板接触时呈现挤压状态）和放置点，点击“确认”完成隔板信息设置。
 
@@ -512,13 +522,13 @@
    :width: 3in
    :align: center
 
-.. centered:: 图表 10-3-29 隔板抓取点（以右工位为例）
+.. centered:: 图表 10-3-30 隔板抓取点（以右工位为例）
 
 .. image:: frcap_pictures/039.png
    :width: 3in
    :align: center
 
-.. centered:: 图表 10-3-30 隔板放置点（以右工位为例）
+.. centered:: 图表 10-3-31 隔板放置点（以右工位为例）
 
 6) 升降轴：用户自定义配置升降轴启停、通讯参数（IP地址、端口号和通讯周期）、开始升降的层号以及选择升降轴的启停。
 
@@ -530,19 +540,19 @@
    :width: 6in
    :align: center
 
-.. centered:: 图表 10-3-31 升降轴配置
+.. centered:: 图表 10-3-32 升降轴配置
 
 .. image:: frcap_pictures/072.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 10-3-32 配方管理——高级配置显示升降轴
+.. centered:: 图表 10-3-33 配方管理——高级配置显示升降轴
 
 .. image:: frcap_pictures/073.png
    :width: 4in
    :align: center
 
-.. centered:: 图表 10-3-33 升降轴测试
+.. centered:: 图表 10-3-34 升降轴测试
 
 程序生成
 ------------
@@ -561,12 +571,12 @@
 
 .. centered:: 图表 10-4-1 程序生成
 
-码垛状态页启停
------------------
-在“状态页”栏中启用该功能，进入码垛工作状态页，可以对“生产信息”、“报警信息”和“码垛程序”查看。
+.. 码垛状态页启停
+.. -----------------
+.. 在“状态页”栏中启用该功能，进入码垛工作状态页，可以对“生产信息”、“报警信息”和“码垛程序”查看。
 
-.. image:: frcap_pictures/044.png
-   :width: 6in
-   :align: center
+.. .. image:: frcap_pictures/044.png
+..    :width: 6in
+..    :align: center
 
-.. centered:: 图表 10-5-1 码垛状态页
+.. .. centered:: 图表 10-5-1 码垛状态页
