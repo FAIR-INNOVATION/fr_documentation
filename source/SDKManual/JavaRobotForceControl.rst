@@ -512,7 +512,7 @@
     List<Number> LoadIdentifyGetResult(Object[] gain);
 
 获取力传感器拖动开关状态
-+++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
@@ -543,7 +543,7 @@
     * @param [in] Vmax 最大关节速度限制 °/s
     * @return 错误码
     */
-    int EndForceDragControl(int status, int asaptiveFlag, int interfereDragFlag, int ingularityConstraintsFlag, Object[] M, Object[] B, Object[] K, Object[] F, double Fmax, double Vmax);
+    int EndForceDragControl(int status, int asaptiveFlag, int interfereDragFlag,int ingularityConstraintsFlag, Object[] M, Object[] B, Object[] K, Object[] F, double Fmax, double Vmax)
 
 代码示例
 +++++++++++++++
@@ -565,24 +565,26 @@
             System.out.println("rpc连接 fail");
             return ;
         }
-        List<Integer> rtnArray = robot.GetForceAndTorqueDragState();
-        System.out.println("the drag state is  " + rtnArray.get(1) + "  ForceAndJointImpedance state  " + rtnArray.get(2));
-
-        robot.Sleep(1000);
         Object[] M = { 15.0, 15.0, 15.0, 0.5, 0.5, 0.1 };
         Object[] B = { 150.0, 150.0, 150.0, 5.0, 5.0, 1.0 };
         Object[] K = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
         Object[] F = { 10.0, 10.0, 10.0, 1.0, 1.0, 1.0 };
+        int rtn = robot.EndForceDragControl(1, 0, 0, 0, M, B, K, F, 50, 100);
+        System.out.println("force drag control start rtn is:"+ rtn);
+        robot.Sleep(5000);
+
+        rtn = robot.EndForceDragControl(0, 0, 0, 0, M, B, K, F, 50, 100);
+        System.out.println("force drag control end rtn is:"+ rtn);
+
+        rtn = robot.ResetAllError();
+        System.out.println("ResetAllError rtn is:"+ rtn);
+
         robot.EndForceDragControl(1, 0, 0, 0, M, B, K, F, 50, 100);
+        System.out.println("force drag control start again rtn is:"+ rtn);
+        robot.Sleep(5000);
 
-        rtnArray = robot.GetForceAndTorqueDragState();
-        System.out.println("the drag state is" + rtnArray.get(1) + "  ForceAndJointImpedance state  " + rtnArray.get(2));
-
-        robot.Sleep(1000 * 10);
-        robot.EndForceDragControl(0, 0, 0, 0, M, B, K, F, 50, 100);
-
-        rtnArray = robot.GetForceAndTorqueDragState();
-        System.out.println("the drag state is" + rtnArray.get(1) + "  ForceAndJointImpedance state  " + rtnArray.get(2));
+        rtn = robot.EndForceDragControl(0, 0, 0, 0, M, B, K, F, 50, 100);
+        System.out.println("force drag control end again rtn is:"+ rtn);
     }
 
 设置六维力和关节阻抗混合拖动开关及参数
@@ -722,3 +724,18 @@
     * @return 错误码
     */
     int ForceSensorAutoComputeLoad(MassCenter massCenter);
+
+设置机器人碰撞检测方法
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionchanged:: Java SDK-v1.0.5-3.8.2
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 设置机器人碰撞检测方法
+    * @param [in] method 碰撞检测方法：0-电流模式；1-双编码器；2-电流和双编码器同时开启
+    * @param [in] thresholdMode 碰撞等级阈值方式；0-碰撞等级固定阈值方式；1-自定义碰撞检测阈值
+    * @return 错误码
+    */
+    int SetCollisionDetectionMethod(int method,int thresholdMode)

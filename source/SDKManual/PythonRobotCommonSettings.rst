@@ -410,8 +410,6 @@
 
 设置末端负载重量
 ++++++++++++++++++
-.. versionchanged:: Python SDK-v2.0.8-3.7.8
-
 .. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
@@ -610,8 +608,6 @@
     
 代码示例
 ------------
-.. versionadded:: Python SDK-v2.0.8-3.7.8
-
 .. code-block:: python
     :linenos:
 

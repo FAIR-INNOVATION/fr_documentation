@@ -5,7 +5,7 @@
     :maxdepth: 5
 
 配置夹爪
-++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
@@ -20,7 +20,7 @@
     int SetGripperConfig(DeviceConfig config);
 
 获取夹爪配置
-++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
@@ -35,7 +35,7 @@
     int GetGripperConfig(DeviceConfig config);
 
 激活夹爪
-++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
@@ -48,7 +48,7 @@
     int ActGripper(int index, int act); 
 
 控制夹爪
-++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
@@ -69,7 +69,7 @@
     int MoveGripper(int index, int pos, int vel, int force, int max_time, int block, int type, double rotNum, int rotVel, int rotTorque); 
 
 获取夹爪运动状态
-++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
@@ -80,7 +80,7 @@
     List<Integer> GetGripperMotionDone(); 
 
 代码示例
-++++++++++++++++
+++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
@@ -230,7 +230,7 @@
     }
 
 计算预抓取点-视觉
-++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
@@ -245,7 +245,7 @@
     int ComputePrePick(DescPose desc_pos, double zlength, double zangle, DescPose pre_pos);
 
 计算撤退点-视觉
-++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 

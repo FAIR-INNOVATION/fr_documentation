@@ -388,13 +388,13 @@
 
 UDP扩展轴通讯参数配置
 ++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.4
+.. versionadded:: python SDK-v3.8.2
 
 .. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``ExtDevSetUDPComParam(ip, port, period, lossPkgTime, lossPkgNum, disconnectTime, reconnectEnable, reconnectPeriod, reconnectNum)``"
+    "原型", "``ExtDevSetUDPComParam(ip, port, period, lossPkgTime, lossPkgNum, disconnectTime, reconnectEnable, reconnectPeriod, reconnectNum, selfConnect)``"
     "描述", "UDP扩展轴通讯参数配置"
     "必选参数", "
     - ``ip``：PLC IP地址；
@@ -405,7 +405,8 @@ UDP扩展轴通讯参数配置
     - ``disconnectTime``：通讯断开确认时长；
     - ``reconnectEnable``：通讯断开自动重连使能 0-不使能 1-使能；
     - ``reconnectPeriod``：重连周期间隔(ms)；
-    - ``reconnectNum``：重连次数"
+    - ``reconnectNum``：重连次数
+    - ``selfConnect``：断电重启是否自动建立连接；0-不建立连接；1-建立连接"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
@@ -420,7 +421,7 @@ UDP扩展轴通讯参数配置
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
     #UDP扩展轴通讯参数配置
-    error = robot.ExtDevSetUDPComParam('192.168.58.88',2021,2,50,5,50,1,2,5)
+    error = robot.ExtDevSetUDPComParam('192.168.58.88',2021,2,50,5,50,1,2,5,0)
     print("ExtDevSetUDPComParam return:",error)
     #UDP扩展轴通讯参数配置
     error = robot.ExtDevGetUDPComParam()
@@ -1156,7 +1157,7 @@ UDP扩展轴与机器人关节运动同步运动
     # robot.SetToolCoord(id, coord,type,install)  #设置应用工具坐标系
     # robot.SetToolList(id, coord,type,install)   #设置应用工具坐标系列表
     #2.设置UDP通信参数，并加载UDP通信
-    robot.ExtDevSetUDPComParam("192.168.58.88", 2021, 2, 100, 3, 100, 1, 100, 10);
+    robot.ExtDevSetUDPComParam("192.168.58.88", 2021, 2, 100, 3, 100, 1, 100, 10, 0);
     robot.ExtDevLoadUDPDriver();
     #3.设置扩展轴参数，包括扩展轴类型、扩展轴驱动器参数、扩展轴DH参数
     robot.SetAxisDHParaConfig(4, 200, 200, 0, 0, 0, 0, 0, 0)#单轴变位机及DH参数
@@ -1371,7 +1372,7 @@ UDP扩展轴与机器人圆弧运动同步运动
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
-    robot.ExtDevSetUDPComParam("192.168.58.2", 2021, 2, 50, 5, 50, 1, 50, 10)
+    robot.ExtDevSetUDPComParam("192.168.58.2", 2021, 2, 50, 5, 50, 1, 50, 10, 0)
     robot.ExtDevLoadUDPDriver()
     robot.ExtAxisParamConfig(1, 0, 0, 50000, -50000, 1000, 1000, 6.280, 16384, 200, 0, 0, 0)
     robot.ExtAxisParamConfig(2, 0, 0, 50000, -50000, 1000, 1000, 6.280, 16384, 200, 0, 0, 0)
@@ -1391,3 +1392,18 @@ UDP扩展轴与机器人圆弧运动同步运动
     time.sleep(4)
     error = robot.TractorStop()
     print("TractorStop return ", error)
+
+获取扩展轴坐标系
++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v3.8.2
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``ExtAxisGetCoord()``"
+    "描述", "获取扩展轴坐标系"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``coord``：扩展轴坐标系"

@@ -36,8 +36,6 @@
 
 设置碰撞后策略
 ++++++++++++++++++
-.. versionchanged:: Python SDK-v2.0.8-3.7.8
-
 .. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
@@ -360,16 +358,17 @@
 
 设置机器人碰撞检测方法
 +++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.5
+.. versionadded:: python SDK-v3.8.2
 
 .. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``SetCollisionDetectionMethod(method)``"
+    "原型", "``SetCollisionDetectionMethod(method, thresholdMode)``"
     "描述", "设置机器人碰撞检测方法"
     "必选参数", "
-    - ``method``：碰撞检测方法：0-电流模式；1-双编码器；2-电流和双编码器同时开启  
+    - ``method``：碰撞检测方法：0-电流模式；1-双编码器；2-电流和双编码器同时开启
+    - ``thresholdMode``：碰撞等级阈值方式；0-碰撞等级固定阈值方式；1-自定义碰撞检测阈值  
     "
     "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode"

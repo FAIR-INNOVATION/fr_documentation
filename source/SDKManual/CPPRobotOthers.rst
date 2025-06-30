@@ -4,20 +4,201 @@
 .. toctree:: 
     :maxdepth: 5
 
-获取机器人DH参数补偿值
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-.. versionadded:: C++SDK-v2.1.1.0
-
+获取SSH公钥
++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: c++
     :linenos:
 
     /**
-    * @brief 获取机器人DH参数补偿值
-    * @param [out] dhCompensation 机器人DH参数补偿值(mm) [cmpstD1,cmpstA2,cmpstA3,cmpstD4,cmpstD5,cmpstD6]
+    * @brief 获取SSH公钥
+    * @param [out] keygen 公钥
     * @return 错误码
     */
-    errno_t GetDHCompensation(double dhCompensation[6]);
+    errno_t GetSSHKeygen(char keygen[1024]);
+
+下发SCP指令
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 下发SCP指令
+    * @param [in] mode 0-上传（上位机->控制器），1-下载（控制器->上位机）
+    * @param [in] sshname 上位机用户名
+    * @param [in] sship 上位机ip地址
+    * @param [in] usr_file_url 上位机文件路径
+    * @param [in] robot_file_url 机器人控制器文件路径
+    * @return 错误码
+    */
+    errno_t SetSSHScpCmd(int mode, char sshname[32], char sship[32], char usr_file_url[128], char robot_file_url[128]);
+
+计算指定路径下文件的MD5值
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 计算指定路径下文件的MD5值
+    * @param [in] file_path 文件路径包含文件名，默认Traj文件夹路径为:"/fruser/traj/",如"/fruser/traj/trajHelix_aima_1.txt"
+    * @param [out] md5 文件MD5值
+    * @return 错误码
+    */
+    errno_t ComputeFileMD5(char file_path[256], char md5[256]);
+
+机器人SSH、MD5指令代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    int TestSSHMd5(void)
+    {
+      ROBOT_STATE_PKG pkg = {};
+      FRRobot robot;
+      robot.LoggerInit();
+      robot.SetLoggerLevel(1);
+      int rtn = robot.RPC("192.168.58.2");
+      if (rtn != 0)
+      {
+        return -1;
+      }
+      robot.SetReConnectParam(true, 30000, 500);
+      char file_path[256] = "/fruser/airlab.lua";
+      char md5[256] = { 0 };
+      uint8_t emerg_state = 0;
+      uint8_t si0_state = 0;
+      uint8_t si1_state = 0;
+      int sdk_com_state = 0;
+      char ssh_keygen[1024] = { 0 };
+      int retval = robot.GetSSHKeygen(ssh_keygen);
+      printf("GetSSHKeygen retval is: %d\n", retval);
+      printf("ssh key is: %s \n", ssh_keygen);
+      char ssh_name[32] = "fr";
+      char ssh_ip[32] = "192.168.58.45";
+      char ssh_route[128] = "/home/fr";
+      char ssh_robot_url[128] = "/root/robot/dhpara.config";
+      retval = robot.SetSSHScpCmd(1, ssh_name, ssh_ip, ssh_route, ssh_robot_url);
+      printf("SetSSHScpCmd retval is: %d\n", retval);
+      printf("robot url is: %s\n", ssh_robot_url);
+      robot.ComputeFileMD5(file_path, md5);
+      printf("md5 is: %s \n", md5);
+      robot.CloseRPC();
+      return 0;
+    }
+
+设置机器人 20004 端口反馈周期
+++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.5.0
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 设置机器人 20004 端口反馈周期
+    * @param [in] period 机器人 20004 端口反馈周期(ms)
+    * @return 错误码
+    */
+    errno_t SetRobotRealtimeStateSamplePeriod(int period);
+
+获取机器人 20004 端口反馈周期
+++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.5.0
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 获取机器人 20004 端口反馈周期
+    * @param [out] period 机器人 20004 端口反馈周期(ms)
+    * @return 错误码
+    */
+    errno_t GetRobotRealtimeStateSamplePeriod(int& period);
+
+机器人20004端口状态反馈周期配置代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    int TestRealtimePeriod(void)
+    {
+      ROBOT_STATE_PKG pkg = {};
+      FRRobot robot;
+      robot.LoggerInit();
+      robot.SetLoggerLevel(1);
+      int rtn = robot.RPC("192.168.58.2");
+      if (rtn != 0)
+      {
+        return -1;
+      }
+      robot.SetReConnectParam(true, 30000, 500);
+      robot.SetRobotRealtimeStateSamplePeriod(10);
+      int getPeriod = 0;
+      robot.GetRobotRealtimeStateSamplePeriod(getPeriod);
+      cout << "period is " << getPeriod << endl;
+      robot.Sleep(1000);
+      robot.CloseRPC();
+      return 0;
+    }
+
+
+机器人软件升级
+++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.5.0
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 机器人软件升级
+    * @param [in] filePath 软件升级包全路径
+    * @param [in] block 是否阻塞至升级完成 true:阻塞；false:非阻塞
+    * @return 错误码
+    */
+    errno_t SoftwareUpgrade(std::string filePath, bool block);
+
+获取机器人软件升级状态
+++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.5.0
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 获取机器人软件升级状态
+    * @param [out] state 机器人软件包升级状态(0-空闲中或上传升级包中；1~100：升级完成百分比；-1:升级软件失败；-2：校验失败；-3：版本校验失败；-4：解压失败；-5：用户配置升级失败；-6：外设配置升级失败；-7：扩展轴配置升级失败；-8：机器人配置升级失败；-9：DH参数配置升级失败)
+    * @return 错误码
+    */
+    errno_t GetSoftwareUpgradeState(int &state);
+
+机器人软件升级代码示例
++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    int TestUpgrade(void)
+    {
+      ROBOT_STATE_PKG pkg = {};
+      FRRobot robot;
+      robot.LoggerInit();
+      robot.SetLoggerLevel(3);
+      int rtn = robot.RPC("192.168.58.2");
+      if (rtn != 0)
+      {
+        return -1;
+      }
+      robot.SetReConnectParam(true, 30000, 500);
+      robot.SoftwareUpgrade("D://zUP/QNX/software.tar.gz", false);
+      while (true)
+      {
+        int curState = -1;
+        robot.GetSoftwareUpgradeState(curState);
+        printf("upgrade state is %d\n", curState);
+        robot.Sleep(300);
+      }
+      robot.CloseRPC();
+      return 0;
+    }
 
 下载点位表数据库
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -67,518 +248,37 @@
     */
     errno_t PointTableUpdateLua(const std::string &pointTableName, const std::string &luaFileName);
 
-初始化日志参数
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-.. versionadded:: C++SDK-v2.1.2.0
+机器人点位表操作代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. code-block:: c++
     :linenos:
 
-    /**
-    * @brief 初始化日志参数;
-    * @param output_model：输出模式，0-直接输出；1-缓冲输出；2-异步输出;
-    * @param file_path: 文件保存路径+名称，,长度上限256，名称必须是xxx.log的形式，比如/home/fr/linux/fairino.log;
-    * @param file_num：滚动存储的文件数量，1~20个.单个文件上限50M;
-    * @return errno_t 错误码;
-    */
-	errno_t LoggerInit(int output_model = 0, std::string file_path = "", int file_num = 5);
-
-设置日志过滤等级
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.2.0
-
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief 设置日志过滤等级;
-    * @param lvl: 过滤等级值，值越小输出日志越少，默认值是1. 1-error, 2-warnning, 3-inform, 4-debug;
-    */
-    void SetLoggerLevel(int lvl = 1);
-
-代码示例
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.2.0
-
-.. code-block:: c++
-    :linenos:
-
-    #include "libfairino/robot.h"
-
-    //如果使用Windows，包含下面的头文件
-    #include <string.h>
-    #include <windows.h>
-    //如果使用linux，包含下面的头文件
-    /*
-    #include <cstdlib>
-    #include <iostream>
-    #include <stdio.h>
-    #include <cstring>
-    #include <unistd.h>
-    */
-    #include <chrono>
-    #include <thread>
-    #include <string>
-
-    using namespace std;
-
-    int main(void)
+    int TestPointTable(void)
     {
-        FRRobot robot;
-        robot.LoggerInit(2, "C:/Users/fr/Desktop/c++sdk//sdk_with_log/abcd.log", 2);
-        // robot.LoggerInit();
-        robot.SetLoggerLevel(3);
-        // robot.SetLoggerLevel();
-        robot.RPC("192.168.58.2");
-
-        double dh[6] = {0};
-        int retval = 0;
-        retval = robot.GetDHCompensation(dh);
-        cout << "retval is: " << retval << endl;
-        cout << "dh is: " << dh[0] << " " << dh[1] << " " << dh[2] << " " << dh[3] << " " << dh[4] << " " << dh[5] << endl;
-
-        string save_path = "D://sharkLog/";
-        string point_table_name = "point_table_a.db";
-        retval = robot.PointTableDownLoad(point_table_name, save_path);
-        cout<<"download : "<<point_table_name<<" fail: "<<retval<< endl;
-
-        string upload_path = "D://sharkLog/0.db";
-        retval = robot.PointTableUpLoad(upload_path);
-        cout << "retval is: "<<retval<<endl;
-
-        string point_tablename = "point_table_test.db";
-        string lua_name = "testPoint.lua";
-        retval = robot.PointTableUpdateLua(point_tablename, lua_name);
-        cout << "retval is: " << retval << endl;
-    }
-        
-获取机器人外设协议
-++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.3.0
-
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief 获取机器人外设协议
-    * @param [out] protocol 机器人外设协议号 4096-扩展轴控制卡；4097-ModbusSlave；4098-ModbusMaster
-    * @return 错误码
-    */
-    errno_t GetExDevProtocol(int *protocol);
-
-设置机器人外设协议
-++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.3.0
-
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief 设置机器人外设协议
-    * @param [in] protocol 机器人外设协议号 4096-扩展轴控制卡；4097-ModbusSlave；4098-ModbusMaster
-    * @return 错误码
-    */
-    errno_t SetExDevProtocol(int protocol);
-
-代码示例
-++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.3.0
-
-.. code-block:: c++
-    :linenos:
-    
-    #include "libfairino/robot.h"
-    //如果使用Windows，包含下面的头文件
-    #include <string.h>
-    #include <windows.h>
-    //如果使用linux，包含下面的头文件
-    /*
-    #include <cstdlib>
-    #include <iostream>
-    #include <stdio.h>
-    #include <cstring>
-    #include <unistd.h>
-    */
-    #include <chrono>
-    #include <thread>
-    #include <string>
-
-    using namespace std;
-
-    int main(void)
-    {
-        FRRobot robot; 
-        robot.LoggerInit();
-        robot.SetLoggerLevel();
-        robot.RPC("192.168.58.2");
-        int retval = 0;
-
-        ROBOT_STATE_PKG robot_pkg;
-        int i = 0;
-        while (i < 5)
-        {
-            std::this_thread::sleep_for(std::chrono::seconds(1));
-            memset(&robot_pkg, 0, sizeof(ROBOT_STATE_PKG));
-            retval = robot.GetRobotRealTimeState(&robot_pkg);
-            std::cout << "program_state " << (int)robot_pkg.program_state<< "\n"
-                << "data_len " << (int)robot_pkg.data_len << "\n"
-                << "robot_state " << (int)robot_pkg.robot_state << "\n"
-                << "robot_mode " << (int)robot_pkg.robot_mode << std::endl;
-            i++;
-        }
-
-        int protocol = 4096;
-        retval = robot.SetExDevProtocol(protocol);
-        std::cout << "SetExDevProtocol retval " << retval << std::endl;
-        retval = robot.GetExDevProtocol(&protocol);
-        std::cout << "GetExDevProtocol retval " << retval <<" protocol is: " << protocol << std::endl;
-
-        return 0;
-    }
-
-获取末端通讯参数
-++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.5.0
-
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief 获取末端通讯参数
-    * @param param 末端通讯参数
-    * @return  错误码
-    */
-    errno_t GetAxleCommunicationParam(AxleComParam* param);
-
-设置末端通讯参数
-++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.5.0
-
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief 设置末端通讯参数
-    * @param param  末端通讯参数
-    * @return  错误码
-    */
-    errno_t SetAxleCommunicationParam(AxleComParam param);
-
-设置末端文件传输类型
-++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.5.0
-
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief 设置末端文件传输类型
-    * @param type 1-MCU升级文件；2-LUA文件
-    * @return  错误码
-    */
-    errno_t SetAxleFileType(int type);
-
-设置启用末端LUA执行
-++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.5.0
-
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief 设置启用末端LUA执行
-    * @param enable 0-不启用；1-启用
-    * @return  错误码
-    */
-    errno_t SetAxleLuaEnable(int enable);
-
-末端LUA文件异常错误恢复
-++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.5.0
-
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief 末端LUA文件异常错误恢复
-    * @param status 0-不恢复；1-恢复
-    * @return  错误码
-    */
-    errno_t SetRecoverAxleLuaErr(int status);
-
-末端LUA文件异常错误恢复
-++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.5.0
-
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief 获取末端LUA执行使能状态
-    * @param status status[0]: 0-未使能；1-已使能
-    * @return  错误码
-    */
-    errno_t GetAxleLuaEnableStatus(int status[]);
-
-设置末端LUA末端设备启用类型
-++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.5.0
-
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief 设置末端LUA末端设备启用类型
-    * @param forceSensorEnable 力传感器启用状态，0-不启用；1-启用
-    * @param gripperEnable 夹爪启用状态，0-不启用；1-启用
-    * @param IOEnable IO设备启用状态，0-不启用；1-启用
-    * @return  错误码
-    */
-    errno_t SetAxleLuaEnableDeviceType(int forceSensorEnable, int gripperEnable, int IOEnable);
-
-设置末端LUA末端设备启用类型
-++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.5.0
-
-.. code-block:: c++
-    :linenos:
-        
-    /**
-    * @brief 获取末端LUA末端设备启用类型
-    * @param enable enable[0]:forceSensorEnable 力传感器启用状态，0-不启用；1-启用
-    * @param enable enable[1]:gripperEnable 夹爪启用状态，0-不启用；1-启用
-    * @param enable enable[2]:IOEnable IO设备启用状态，0-不启用；1-启用
-    * @return  错误码
-    */
-    errno_t GetAxleLuaEnableDeviceType(int* forceSensorEnable, int* gripperEnable, int* IOEnable);
-
-获取当前配置的末端设备
-++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.5.0
-
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief 获取当前配置的末端设备
-    * @param forceSensorEnable 力传感器启用设备编号 0-未启用；1-启用
-    * @param gripperEnable 夹爪启用设备编号，0-不启用；1-启用
-    * @param IODeviceEnable IO设备启用设备编号，0-不启用；1-启用
-    * @return  错误码
-    */
-    errno_t GetAxleLuaEnableDevice(int forceSensorEnable[], int gripperEnable[], int IODeviceEnable[]);
-
-设置启用夹爪动作控制功能
-++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.5.0
-
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief 设置启用夹爪动作控制功能
-    * @param id 夹爪设备编号
-    * @param func func[0]-夹爪使能；func[1]-夹爪初始化；2-位置设置；3-速度设置；4-力矩设置；6-读夹爪状态；7-读初始化状态；8-读故障码；9-读位置；10-读速度；11-读力矩
-    * @return  错误码
-    */
-    errno_t SetAxleLuaGripperFunc(int id, int func[]);
-
-获取启用夹爪动作控制功能
-++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.5.0
-
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief 获取启用夹爪动作控制功能
-    * @param id 夹爪设备编号
-    * @param func func[0]-夹爪使能；func[1]-夹爪初始化；2-位置设置；3-速度设置；4-力矩设置；6-读夹爪状态；7-读初始化状态；8-读故障码；9-读位置；10-读速度；11-读力矩
-    * @return  错误码
-    */
-    errno_t GetAxleLuaGripperFunc(int id, int func[]);
-
-机器人Ethercat从站文件写入
-++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.5.0
-
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief 机器人Ethercat从站文件写入
-    * @param type 从站文件类型，1-升级从站文件；2-升级从站配置文件
-    * @param slaveID 从站号
-    * @param fileName 上传文件名
-    * @return  错误码
-    */
-    errno_t SlaveFileWrite(int type, int slaveID, std::string fileName);
-
-上传末端Lua开放协议文件
-++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.5.0
-
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief 上传末端Lua开放协议文件
-    * @param filePath 本地lua文件路径名 ".../AXLE_LUA_End_DaHuan.lua"
-    * @return 错误码
-    */
-    errno_t AxleLuaUpload(std::string filePath);
-
-机器人Ethercat从站进入boot模式
-++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.5.0
-
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief 机器人Ethercat从站进入boot模式
-    * @return  错误码
-    */
-    errno_t SetSysServoBootMode();
-
-示例程序1
-++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.5.0
-
-.. code-block:: c++
-    :linenos:
-
-    void TestAxleLuaGripper(FRRobot* robot)
-    {
-        robot->AxleLuaUpload("D://zUP/AXLE_LUA_End_DaHuan.lua"); 
-
-        //Restart robot     
-
-        ROBOT_STATE_PKG pkg;
-        memset(&pkg, 0, sizeof(pkg));
-        AxleComParam param(7, 8, 1, 0, 5, 3, 1);
-        //AxleComParam param = new AxleComParam(8,7,2,1,6,4,2);
-        robot->SetAxleCommunicationParam(param);
-
-        AxleComParam getParam;
-        robot->GetAxleCommunicationParam(&getParam);
-        printf("GetAxleCommunicationParam param is %d %d %d %d %d %d %d\n", getParam.baudRate, getParam.dataBit, getParam.stopBit, getParam.verify, getParam.timeout, getParam.timeoutTimes, getParam.period);
-
-        robot->SetAxleLuaEnable(1);
-        int luaEnableStatus = 0;
-        robot->GetAxleLuaEnableStatus(&luaEnableStatus);
-        robot->SetAxleLuaEnableDeviceType(0, 1, 0);
-        
-        int forceEnable = 0;
-        int gripperEnable = 0;
-        int ioEnable = 0;
-        robot->GetAxleLuaEnableDeviceType(&forceEnable, &gripperEnable, &ioEnable);
-        printf("GetAxleLuaEnableDeviceType param is %d %d %d\n", forceEnable, gripperEnable, ioEnable);
-
-        //int func[16] = {0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0};
-        int func[16] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
-        robot->SetAxleLuaGripperFunc(1, func);
-        int getFunc[16] = {0};
-        robot->GetAxleLuaGripperFunc(1, getFunc);
-        int getforceEnable[16] = {0};
-        int getgripperEnable[16] = {0};
-        int getioEnable[16] = {0};
-        robot->GetAxleLuaEnableDevice(getforceEnable, getgripperEnable, getioEnable);
-        printf("\ngetforceEnable status : ");
-        for (int i = 0; i < 16; i++)
-        {
-            printf("%d,", getforceEnable[i]);
-        }
-        printf("\ngetgripperEnable status : ");
-        for (int i = 0; i < 16; i++)
-        {
-            printf("%d,", getgripperEnable[i]);
-        }
-        printf("\ngetioEnable status : ");
-        for (int i = 0; i < 16; i++)
-        {
-            printf("%d,", getioEnable[i]);
-        }
-        printf("\n");
-        robot->ActGripper(1, 0);
-        robot->Sleep(2000);
-        robot->ActGripper(1, 1);
-        robot->Sleep(2000);
-        robot->MoveGripper(1, 90, 10, 100, 50000, 0);
-        int pos = 0;
-        while (true)
-        {
-            robot->GetRobotRealTimeState(&pkg);
-            printf("gripper pos is %u\n", pkg.gripper_position);
-            robot->Sleep(100);
-        }
-    }
-
-示例程序2
-++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.5.0
-
-.. code-block:: c++
-    :linenos:
-
-    void TestAxleLuaForceSensor(FRRobot* robot)
-    {
-        robot->AxleLuaUpload("D://zUP/AXLE_LUA_End_DaHuan.lua");
-
-        //Restart robot  
-
-        ROBOT_STATE_PKG pkg;
-        memset(&pkg, 0, sizeof(pkg));
-        AxleComParam param(7, 8, 1, 0, 5, 3, 1);
-        robot->SetAxleCommunicationParam(param);
-
-        AxleComParam getParam;
-        robot->GetAxleCommunicationParam(&getParam);
-        printf("GetAxleCommunicationParam param is %d %d %d %d %d %d %d\n", getParam.baudRate, getParam.dataBit, getParam.stopBit, getParam.verify, getParam.timeout, getParam.timeoutTimes, getParam.period);
-
-        robot->SetAxleLuaEnable(1);
-        int luaEnableStatus = 0;
-        robot->GetAxleLuaEnableStatus(&luaEnableStatus);
-        robot->SetAxleLuaEnableDeviceType(1, 0, 0);
-
-        int forceEnable = 0;
-        int gripperEnable = 0;
-        int ioEnable = 0;
-        robot->GetAxleLuaEnableDeviceType(&forceEnable, &gripperEnable, &ioEnable);
-        printf("GetAxleLuaEnableDeviceType param is %d %d %d\n", forceEnable, gripperEnable, ioEnable);
-
-        
-        int getforceEnable[16] = { 0 };
-        int getgripperEnable[16] = { 0 };
-        int getioEnable[16] = { 0 };
-        robot->GetAxleLuaEnableDevice(getforceEnable, getgripperEnable, getioEnable);
-        printf("\ngetforceEnable status : ");
-        for (int i = 0; i < 16; i++)
-        {
-            printf("%d,", getforceEnable[i]);
-        }
-        printf("\ngetgripperEnable status : ");
-        for (int i = 0; i < 16; i++)
-        {
-            printf("%d,", getgripperEnable[i]);
-        }
-        printf("\ngetioEnable status : ");
-        for (int i = 0; i < 16; i++)
-        {
-            printf("%d,", getioEnable[i]);
-        }
-        printf("\n");
-        
-        vector <double> M = { 15.0, 15.0, 15.0, 0.5, 0.5, 0.1 };
-        vector <double> B = { 150.0, 150.0, 150.0, 5.0, 5.0, 1.0 };
-        vector <double> K = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
-        vector <double> F = { 10.0, 10.0, 10.0, 1.0, 1.0, 1.0 };
-        robot->EndForceDragControl(1, 0, 0, M, B, K, F, 50, 100);
-
-        robot->Sleep(10 * 1000);
-
-        robot->EndForceDragControl(0, 0, 0, M, B, K, F, 50, 100);
+      ROBOT_STATE_PKG pkg = {};
+      FRRobot robot;
+      robot.LoggerInit();
+      robot.SetLoggerLevel(1);
+      int rtn = robot.RPC("192.168.58.2");
+      if (rtn != 0)
+      {
+        return -1;
+      }
+      robot.SetReConnectParam(true, 30000, 500);
+      string save_path = "D://zDOWN/";
+      string point_table_name = "point_table_FR5.db";
+      rtn = robot.PointTableDownLoad(point_table_name, save_path);
+      cout << "download : " << point_table_name << " fail: " << rtn << endl;
+      string upload_path = "D://zUP/point_table_FR5.db";
+      rtn = robot.PointTableUpLoad(upload_path);
+      cout << "retval is: " << rtn << endl;
+      string point_tablename = "point_table_FR5.db";
+      string lua_name = "airlab.lua";
+      rtn = robot.PointTableUpdateLua(point_tablename, lua_name);
+      cout << "retval is: " << rtn << endl;
+      robot.CloseRPC();
+      return 0;
     }
 
 控制器日志下载
@@ -623,71 +323,31 @@
     */
     errno_t DataPackageDownload(std::string savePath);
 
-代码示例
-*********************
+下载控制器数据代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. code-block:: c++
     :linenos:
 
-    int TestDownload(FRRobot* robot)
+    int TestDownLoadRobotData(void)
     {
-      int rtn = robot->RbLogDownload("D://zDOWN/");
+      ROBOT_STATE_PKG pkg = {};
+      FRRobot robot;
+      robot.LoggerInit();
+      robot.SetLoggerLevel(1);
+      int rtn = robot.RPC("192.168.58.2");
+      if (rtn != 0)
+      {
+        return -1;
+      }
+      robot.SetReConnectParam(true, 30000, 500);
+      rtn = robot.RbLogDownload("D://zDOWN/");
       cout << "RbLogDownload rtn is " << rtn << endl;
-      
-      rtn = robot->AllDataSourceDownload("D://zDOWN/");
+      rtn = robot.AllDataSourceDownload("D://zDOWN/");
       cout << "AllDataSourceDownload rtn is " << rtn << endl;
-
-      rtn = robot->DataPackageDownload("D://zDOWN/");
+      rtn = robot.DataPackageDownload("D://zDOWN/");
       cout << "DataPackageDownload rtn is " << rtn << endl;
+      robot.CloseRPC();
+      return 0;
     }
 
-获取控制箱SN码
-+++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.2.1-3.8.1
-
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief 获取控制箱SN码
-    * @param [out] SNCode 控制箱SN码
-    * @return 错误码
-    */
-    errno_t GetRobotSN(std::string& SNCode);
-
-代码示例
-*********************
-
-.. code-block:: c++
-    :linenos:
-
-    int TestSN(FRRobot* robot)
-    {
-        string SN = "";
-        robot->GetRobotSN(SN);
-        cout << "robot SN is " << SN << endl;
-    }
-
-关闭机器人操作系统
-+++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.2.1-3.8.1
-
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief 关闭机器人操作系统
-    * @return 错误码
-    */
-    errno_t ShutDownRobotOS();
-
-代码示例
-*********************
-
-.. code-block:: c++
-    :linenos:
-
-    int TestShutDown(FRRobot* robot)
-    {
-        robot->ShutDownRobotOS();
-    }

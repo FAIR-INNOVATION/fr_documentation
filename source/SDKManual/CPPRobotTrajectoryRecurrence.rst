@@ -59,47 +59,6 @@
     */   
     errno_t  SetTPDDelete(char name[30]);
 
-代码示例
-++++++++++++++
-.. code-block:: c++
-    :linenos:
-
-    #include <cstdlib>
-    #include <iostream>
-    #include <stdio.h>
-    #include <cstring>
-    #include <unistd.h>
-    #include "FRRobot.h"
-    #include "RobotTypes.h"
-
-    using namespace std;
-
-    int main(void)
-    {
-        FRRobot robot;                 //实例化机器人对象
-        robot.RPC("192.168.58.2");     //与机器人控制器建立通信连接
-
-        int type = 1;
-        char name[30] = "tpd2023";
-        int period_ms = 4;
-        uint16_t di_choose = 0;
-        uint16_t do_choose = 0;
-
-        robot.SetTPDParam(type, name, period_ms, di_choose, do_choose);
-
-        robot.Mode(1);
-        sleep(1);
-        robot.DragTeachSwitch(1);
-        robot.SetTPDStart(type, name, period_ms, di_choose, do_choose);
-        sleep(30);
-        robot.SetWebTPDStop();
-        robot.DragTeachSwitch(0);
-
-        //robot.SetTPDDelete(name);
-
-        return 0;
-    }
-
 TPD轨迹预加载
 ++++++++++++++++++++++++++++
 .. code-block:: c++
@@ -138,71 +97,52 @@ TPD轨迹复现
      */     
     errno_t  GetTPDStartPose(char name[30], DescPose *desc_pose);
 
-代码示例
-++++++++++++++++++
-.. versionchanged:: C++SDK-v2.1.2.0
+机器人TPD轨迹记录代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. code-block:: c++
     :linenos:
 
-    #include "libfairino/robot.h"
-
-    //如果使用Windows，包含下面的头文件
-    #include <string.h>
-    #include <windows.h>
-    //如果使用linux，包含下面的头文件
-    /*
-    #include <cstdlib>
-    #include <iostream>
-    #include <stdio.h>
-    #include <cstring>
-    #include <unistd.h>
-    */
-    #include <chrono>
-    #include <thread>
-    #include <string>
-    using namespace std;
-
-    int main(void)
+    int TestTPD(void)
     {
-        FRRobot robot; 
-        robot.RPC("192.168.58.2"); 
-
-        char name[30] = "tpd2023";
-        int tool = 0;
-        int user = 0;
-        float vel = 50.0;
-        float acc = 100.0;
-        float ovl = 100.0;
-        float blendT = -1.0;
-        int config = -1;
-        uint8_t blend = 0;
-        int retval = 0;
-
-        DescPose desc_pose;
-        memset(&desc_pose, 0, sizeof(DescPose));
-        DescPose start_pose;
-        memset(&start_pose, 0, sizeof(DescPose));
-
-        desc_pose.tran.x = 358.820099;
-        desc_pose.tran.y = -419.684113;
-        desc_pose.tran.z = 525.055115;
-        desc_pose.rpy.rx = -85.994499;
-        desc_pose.rpy.ry = -28.797600;
-        desc_pose.rpy.rz = -133.960007;
-
-        retval = robot.LoadTPD(name);
-        printf("LoadTPD retval is: %d\n", retval);
-        //robot.MoveCart(&desc_pose, tool, user, vel, acc, ovl, blendT, config);
-        
-        robot.GetTPDStartPose(name, &start_pose);
-        printf("start pose, xyz is: %f %f %f. rpy is: %f %f %f \n", start_pose.tran.x, start_pose.tran.y, start_pose.tran.z, start_pose.rpy.rx, start_pose.rpy.ry, start_pose.rpy.rz);
-        std::this_thread::sleep_for(std::chrono::milliseconds(5000));
-        
-        retval = robot.MoveTPD(name, blend, ovl);
-        printf("MoveTPD retval is: %d\n", retval);
-        std::this_thread::sleep_for(std::chrono::milliseconds(5000));
-        return 0;
+      ROBOT_STATE_PKG pkg = {};
+      FRRobot robot;
+      robot.LoggerInit();
+      robot.SetLoggerLevel(1);
+      int rtn = robot.RPC("192.168.58.2");
+      if (rtn != 0)
+      {
+        return -1;
+      }
+      robot.SetReConnectParam(true, 30000, 500);
+      int type = 1;
+      char name[30] = "tpd2025";
+      int period_ms = 4;
+      uint16_t di_choose = 0;
+      uint16_t do_choose = 0;
+      robot.SetTPDParam(type, name, period_ms, di_choose, do_choose);
+      robot.Mode(1);
+      robot.Sleep(1000);
+      robot.DragTeachSwitch(1);
+      robot.SetTPDStart(type, name, period_ms, di_choose, do_choose);
+      robot.Sleep(10000);
+      robot.SetWebTPDStop();
+      robot.DragTeachSwitch(0);
+      float ovl = 100.0;
+      uint8_t blend = 0;
+      DescPose start_pose = {};
+      rtn = robot.LoadTPD(name);
+      printf("LoadTPD rtn is: %d\n", rtn);
+      robot.GetTPDStartPose(name, &start_pose);
+      printf("start pose, xyz is: %f %f %f. rpy is: %f %f %f \n", start_pose.tran.x, start_pose.tran.y, start_pose.tran.z, start_pose.rpy.rx, start_pose.rpy.ry, start_pose.rpy.rz);
+      robot.MoveCart(&start_pose, 0, 0, 100, 100, ovl, -1, -1);
+      robot.Sleep(1000);
+      rtn = robot.MoveTPD(name, blend, ovl);
+      printf("MoveTPD rtn is: %d\n", rtn);
+      std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+      robot.SetTPDDelete(name);
+      robot.CloseRPC();
+      return 0;
     }
 
 轨迹预处理
@@ -254,7 +194,7 @@ TPD轨迹复现
     errno_t  GetTrajectoryPointNum(int *pnum);
 
 设置轨迹运行中的速度
-++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++
 .. code-block:: c++
     :linenos:
 
@@ -266,7 +206,7 @@ TPD轨迹复现
     errno_t  SetTrajectoryJSpeed(float ovl);
 
 设置轨迹运行中的力和扭矩
-++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: c++
     :linenos:
 
@@ -278,7 +218,7 @@ TPD轨迹复现
     errno_t  SetTrajectoryJForceTorque(ForceTorque *ft);
 
 设置轨迹运行中的沿x方向的力
-++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: c++
     :linenos:
 
@@ -290,7 +230,7 @@ TPD轨迹复现
     errno_t  SetTrajectoryJForceFx(double fx);
 
 设置轨迹运行中的沿y方向的力
-++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++
 .. code-block:: c++
     :linenos:
 
@@ -302,7 +242,7 @@ TPD轨迹复现
     errno_t  SetTrajectoryJForceFy(double fy);
 
 设置轨迹运行中的沿z方向的力
-++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: c++
     :linenos:
 
@@ -314,7 +254,7 @@ TPD轨迹复现
     errno_t  SetTrajectoryJForceFz(double fz);
 
 设置轨迹运行中的绕x轴的扭矩
-++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: c++
     :linenos:
 
@@ -326,7 +266,7 @@ TPD轨迹复现
     errno_t  SetTrajectoryJTorqueTx(double tx);
 
 设置轨迹运行中的绕y轴的扭矩
-++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: c++
     :linenos:
 
@@ -338,7 +278,7 @@ TPD轨迹复现
     errno_t  SetTrajectoryJTorqueTy(double ty);
 
 设置轨迹运行中的绕z轴的扭矩
-++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: c++
     :linenos:
 
@@ -348,87 +288,6 @@ TPD轨迹复现
      * @return  错误码
      */     
     errno_t  SetTrajectoryJTorqueTz(double tz);
-
-代码示例
-++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.2.0
-    
-.. code-block:: c++
-    :linenos:
-
-    #include "libfairino/robot.h"
-
-    //如果使用Windows，包含下面的头文件
-    #include <string.h>
-    #include <windows.h>
-    //如果使用linux，包含下面的头文件
-    /*
-    #include <cstdlib>
-    #include <iostream>
-    #include <stdio.h>
-    #include <cstring>
-    #include <unistd.h>
-    */
-    #include <chrono>
-    #include <thread>
-    #include <string>
-    using namespace std;
-
-    int main(void)
-    {
-        FRRobot robot; 
-        robot.RPC("192.168.58.2");
-
-        int retval = 0;
-        char traj_file_name[30] = "/fruser/traj/tra我.txt";
-        retval = robot.LoadTrajectoryJ(traj_file_name, 100, 1);
-        printf("LoadTrajectoryJ %s, retval is: %d\n",traj_file_name, retval);
-
-        DescPose traj_start_pose;
-        memset(&traj_start_pose, 0, sizeof(DescPose));
-        retval = robot.GetTrajectoryStartPose(traj_file_name, &traj_start_pose);
-        printf("GetTrajectoryStartPose is: %d\n", retval);
-        printf("desc_pos:%f,%f,%f,%f,%f,%f\n",traj_start_pose.tran.x,traj_start_pose.tran.y,traj_start_pose.tran.z,	traj_start_pose.rpy.rx,traj_start_pose.rpy.ry,traj_start_pose.rpy.rz);
-
-        std::this_thread::sleep_for(std::chrono::seconds(5));
-
-        robot.SetSpeed(50);
-        robot.MoveCart(&traj_start_pose, 0, 0, 100, 100, 100, -1, -1);
-
-        int traj_num = 0;
-        retval = robot.GetTrajectoryPointNum(&traj_num);
-        printf("GetTrajectoryStartPose retval is: %d, traj num is: %d\n", retval, traj_num);
-
-        retval = robot.SetTrajectoryJSpeed(50.0);
-        printf("SetTrajectoryJSpeed is: %d\n", retval);
-
-        ForceTorque traj_force;
-        memset(&traj_force, 0, sizeof(ForceTorque));
-        traj_force.fx = 10;
-        retval = robot.SetTrajectoryJForceTorque(&traj_force);
-        printf("SetTrajectoryJForceTorque retval is: %d\n", retval);
-
-        retval = robot.SetTrajectoryJForceFx(10.0);
-        printf("SetTrajectoryJForceFx retval is: %d\n", retval);
-
-        retval = robot.SetTrajectoryJForceFy(0.0);
-        printf("SetTrajectoryJForceFy retval is: %d\n", retval);
-
-        retval = robot.SetTrajectoryJForceFz(0.0);
-        printf("SetTrajectoryJForceFz retval is: %d\n", retval);
-
-        retval = robot.SetTrajectoryJTorqueTx(10.0);
-        printf("SetTrajectoryJTorqueTx retval is: %d\n", retval);
-
-        retval = robot.SetTrajectoryJTorqueTy(10.0);
-        printf("SetTrajectoryJTorqueTy retval is: %d\n", retval);
-
-        retval = robot.SetTrajectoryJTorqueTz(10.0);
-        printf("SetTrajectoryJTorqueTz retval is: %d\n", retval);
-
-        retval = robot.MoveTrajectoryJ();
-        printf("MoveTrajectoryJ retval is: %d\n", retval);
-    }
 
 上传轨迹J文件
 +++++++++++++++++++++++++++++
@@ -458,33 +317,67 @@ TPD轨迹复现
 	 */
 	errno_t TrajectoryJDelete(const std::string& fileName);
 
-代码示例
-******************
-.. versionadded:: V3.7.7
+机器人轨迹J文件复现代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. code-block:: c++
     :linenos:
 
-    void TrajectoryJUpload(FRRobot* robot)
+    int TestTraj(void)
     {
-        int rtn = -1;
-        rtn = robot->TrajectoryJUpLoad("D://zUP/testA.txt");
-        printf("Upload TrajectoryJ A %d\n", rtn);
-        rtn = robot->TrajectoryJUpLoad("D://zUP/testB.txt");
-        printf("Upload TrajectoryJ B %d\n", rtn);
-
-        rtn = robot->TrajectoryJDelete("testA.txt");
-        printf("Delete TrajectoryJ A %d\n", rtn);
-        rtn = robot->TrajectoryJDelete("testB.txt");
-        printf("Delete TrajectoryJ B %d\n", rtn);
+      ROBOT_STATE_PKG pkg = {};
+      FRRobot robot;
+      robot.LoggerInit();
+      robot.SetLoggerLevel(1);
+      int rtn = robot.RPC("192.168.58.2");
+      if (rtn != 0)
+      {
+        return -1;
+      }
+      robot.SetReConnectParam(true, 30000, 500);
+      rtn = robot.TrajectoryJUpLoad("D://zUP/traj1.txt");
+      printf("Upload TrajectoryJ A %d\n", rtn);
+      char traj_file_name[30] = "/fruser/traj/traj1.txt";
+      rtn = robot.LoadTrajectoryJ(traj_file_name, 100, 1);
+      printf("LoadTrajectoryJ %s, rtn is: %d\n", traj_file_name, rtn);
+      DescPose traj_start_pose;
+      memset(&traj_start_pose, 0, sizeof(DescPose));
+      rtn = robot.GetTrajectoryStartPose(traj_file_name, &traj_start_pose);
+      printf("GetTrajectoryStartPose is: %d\n", rtn);
+      printf("desc_pos:%f,%f,%f,%f,%f,%f\n", traj_start_pose.tran.x, traj_start_pose.tran.y, traj_start_pose.tran.z, traj_start_pose.rpy.rx, traj_start_pose.rpy.ry, traj_start_pose.rpy.rz);
+      std::this_thread::sleep_for(std::chrono::seconds(1));
+      robot.SetSpeed(50);
+      robot.MoveCart(&traj_start_pose, 0, 0, 100, 100, 100, -1, -1);
+      int traj_num = 0;
+      rtn = robot.GetTrajectoryPointNum(&traj_num);
+      printf("GetTrajectoryStartPose rtn is: %d, traj num is: %d\n", rtn, traj_num);
+      rtn = robot.SetTrajectoryJSpeed(50.0);
+      printf("SetTrajectoryJSpeed is: %d\n", rtn);
+      ForceTorque traj_force;
+      memset(&traj_force, 0, sizeof(ForceTorque));
+      traj_force.fx = 10;
+      rtn = robot.SetTrajectoryJForceTorque(&traj_force);
+      printf("SetTrajectoryJForceTorque rtn is: %d\n", rtn);
+      rtn = robot.SetTrajectoryJForceFx(10.0);
+      printf("SetTrajectoryJForceFx rtn is: %d\n", rtn);
+      rtn = robot.SetTrajectoryJForceFy(0.0);
+      printf("SetTrajectoryJForceFy rtn is: %d\n", rtn);
+      rtn = robot.SetTrajectoryJForceFz(0.0);
+      printf("SetTrajectoryJForceFz rtn is: %d\n", rtn);
+      rtn = robot.SetTrajectoryJTorqueTx(10.0);
+      printf("SetTrajectoryJTorqueTx rtn is: %d\n", rtn);
+      rtn = robot.SetTrajectoryJTorqueTy(10.0);
+      printf("SetTrajectoryJTorqueTy rtn is: %d\n", rtn);
+      rtn = robot.SetTrajectoryJTorqueTz(10.0);
+      printf("SetTrajectoryJTorqueTz rtn is: %d\n", rtn);
+      rtn = robot.MoveTrajectoryJ();
+      printf("MoveTrajectoryJ rtn is: %d\n", rtn);
+      robot.CloseRPC();
+      return 0;
     }
 
-轨迹预处理(轨迹前瞻)、轨迹复现(轨迹前瞻)
+轨迹预处理(轨迹前瞻)
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.2.0-3.8.0
-
-接口描述
-************************
 
 .. code-block:: c++
     :linenos:
@@ -503,32 +396,51 @@ TPD轨迹复现
 	 */
     errno_t LoadTrajectoryLA(char name[30], int mode, double errorLim, int type, double precision, double vamx, double amax, double jmax);
 
+轨迹复现(轨迹前瞻)
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c++
+    :linenos:
+
     /**
     * @brief  轨迹复现(轨迹前瞻)
     * @return  错误码
     */
     errno_t MoveTrajectoryLA();
 
-代码示例
-""""""""""""""""""""""""
+轨迹复现(轨迹前瞻)代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. code-block:: c++
     :linenos:
 
-    void TestTrajectoryLA(FRRobot* robot)
+    int TestLoadTrajLA(void)
     {
-    int rtn = 0;
-    rtn = robot->TrajectoryJUpLoad("D://zUP/A.txt");
-    cout << "TrajectoryJUpLoad A.txt rtn is " << rtn << endl;
-    rtn = robot->TrajectoryJUpLoad("D://zUP/B.txt");
-    cout << "TrajectoryJUpLoad B.txt rtn is " << rtn << endl;
-    char nameA[30] = "/fruser/traj/A.txt";
-    char nameB[30] = "/fruser/traj/B.txt";
-
-    robot->LoadTrajectoryLA(nameA, 1, 2, 0, 2, 100, 200, 1000);   
-    DescPose startPos(0, 0, 0, 0, 0, 0);
-    robot->GetTrajectoryStartPose(nameA, &startPos);
-    robot->MoveCart(&startPos, 1, 0, 100, 100, 100, -1, -1);
-    rtn = robot->MoveTrajectoryLA();
-    cout << "MoveTrajectoryLA rtn is " << rtn << endl;
+      ROBOT_STATE_PKG pkg = {};
+      FRRobot robot;
+      robot.LoggerInit();
+      robot.SetLoggerLevel(1);
+      int rtn = robot.RPC("192.168.58.2");
+      if (rtn != 0)
+      {
+        return -1;
+      }
+      robot.SetReConnectParam(true, 30000, 500);
+      rtn = robot.TrajectoryJUpLoad("D://zUP/traj.txt");
+      printf("Upload TrajectoryJ A %d\n", rtn);
+      char traj_file_name[30] = "/fruser/traj/traj.txt";
+      rtn = robot.LoadTrajectoryLA(traj_file_name, 1, 2, 0, 2, 100, 200, 1000);
+      printf("LoadTrajectoryLA %s, rtn is: %d\n", traj_file_name, rtn);
+      DescPose traj_start_pose;
+      memset(&traj_start_pose, 0, sizeof(DescPose));
+      rtn = robot.GetTrajectoryStartPose(traj_file_name, &traj_start_pose);
+      printf("GetTrajectoryStartPose is: %d\n", rtn);
+      printf("desc_pos:%f,%f,%f,%f,%f,%f\n", traj_start_pose.tran.x, traj_start_pose.tran.y, traj_start_pose.tran.z, traj_start_pose.rpy.rx, traj_start_pose.rpy.ry, traj_start_pose.rpy.rz);
+      std::this_thread::sleep_for(std::chrono::seconds(1));
+      robot.SetSpeed(50);
+      robot.MoveCart(&traj_start_pose, 0, 0, 100, 100, 100, -1, -1);
+      rtn = robot.MoveTrajectoryLA();
+      printf("MoveTrajectoryLA rtn is: %d\n", rtn);
+      robot.CloseRPC();
+      return 0;
     }

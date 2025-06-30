@@ -199,12 +199,13 @@ jog点动立即停止
 
 笛卡尔空间直线运动
 +++++++++++++++++++
+.. versionadded:: python SDK-v3.8.2
 
 .. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``MoveL(desc_pos, tool, user, joint_pos = [0.0,0.0,0.0,0.0,0.0,0.0], vel = 20.0, acc = 0.0 , ovl = 100.0, blendR = -1.0, exaxis_pos = [0.0,0.0,0.0,0.0], search = 0, offset_flag = 0, offset_pos = [0.0,0.0,0.0,0.0,0.0,0.0],overSpeedStrategy=0,speedPercent=10)``"
+    "原型", "``MoveL(desc_pos, tool, user, joint_pos = [0.0,0.0,0.0,0.0,0.0,0.0], vel = 20.0, acc = 0.0 , ovl = 100.0, blendR = -1.0, blendMode = 0, exaxis_pos = [0.0,0.0,0.0,0.0], search = 0, offset_flag = 0, offset_pos = [0.0,0.0,0.0,0.0,0.0,0.0],overSpeedStrategy=0,speedPercent=10)``"
     "描述", "笛卡尔空间直线运动"
     "必选参数", "- ``desc_pos``:目标笛卡尔位姿，单位[mm][°]；
     - ``tool``:工具号，[0~14]；
@@ -213,10 +214,11 @@ jog点动立即停止
     - ``vel``:速度百分比，[0~100] 默认20.0；
     - ``acc``:加速度百分比，[0~100]，暂不开放 默认0.0；
     - ``ovl``:速度缩放因子，[0~100] 默认100.0；
-    - ``blendR``:blendR:[-1.0]-运动到位 (阻塞)，[0~1000]-平滑半径 (非阻塞)，单位 [mm] 默认-1.0;
+    - ``blendR``:[-1.0]-运动到位 (阻塞)，[0~1000]-平滑半径 (非阻塞)，单位 [mm] 默认-1.0;
+    - ``blendMode``:过渡方式；0-内切过渡；1-角点过渡,默认-0;
     - ``exaxis_pos``:外部轴 1 位置 ~ 外部轴 4 位置 默认[0.0,0.0,0.0,0.0];
     - ``search``:[0]-不焊丝寻位，[1]-焊丝寻位；
-    - ``offset_flag``:offset_flag:[0]-不偏移，[1]-工件/基坐标系下偏移，[2]-工具坐标系下偏移 默认 0;
+    - ``offset_flag``:[0]-不偏移，[1]-工件/基坐标系下偏移，[2]-工具坐标系下偏移 默认 0;
     - ``offset_pos``:位姿偏移量，单位 [mm][°] 默认[0.0,0.0,0.0,0.0,0.0,0.0]
     - ``overSpeedStrategy``:超速处理策略，0-策略关闭；1-标准；2-超速时报错停止；3-自适应降速，默认为0
     - ``speedPercent``:允许降速阈值百分比[0-100]，默认10%
@@ -901,15 +903,16 @@ jog点动立即停止
 
 开始Ptp运动FIR滤波
 +++++++++++++++++++++++
-.. versionadded:: Python SDK-v2.0.8-3.7.8
+.. versionadded:: python SDK-v3.8.2
 
 .. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
     
-    "原型", "``PtpFIRPlanningStart(maxAcc)``"
+    "原型", "``PtpFIRPlanningStart(maxAcc, maxJek)``"
     "描述", "开始Ptp运动FIR滤波"
-    "必选参数", "- ``maxAcc``:最大加速度极值(deg/s2)"
+    "必选参数", "- ``maxAcc``:最大加速度极值(deg/s2)
+    - ``maxJek``:统一关节急动度极值(deg/s3)"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
@@ -929,7 +932,6 @@ jog点动立即停止
 
 代码示例
 ---------------
-.. versionadded:: Python SDK-v2.0.8-3.7.8
 
 .. code-block:: python
     :linenos:
@@ -945,7 +947,7 @@ jog点动立即停止
     offdese = [0, 0, 0, 0, 0, 0]
 
     # Ptp运动FIR滤波开启
-    robot.PtpFIRPlanningStart(maxAcc=1000)
+    robot.PtpFIRPlanningStart(maxAcc=1000.0,maxJek=1000.0)
     robot.MoveJ(startjointPos, 0, 0,vel=50)
     robot.MoveJ(endjointPos, 0, 0,vel=50)
     robot.PtpFIRPlanningEnd()
@@ -983,8 +985,7 @@ jog点动立即停止
 
 代码示例
 ---------------
-.. versionadded:: Python SDK-v2.0.8-3.7.8
-    
+
 .. code-block:: python
     :linenos:
 
@@ -1017,7 +1018,6 @@ jog点动立即停止
     "必选参数", "无"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"  
-
 
 加速度平滑开启
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

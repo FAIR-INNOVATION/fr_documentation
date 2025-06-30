@@ -278,9 +278,9 @@
 
 UDP扩展轴通讯参数配置
 ++++++++++++++++++++++++++++++++++
-.. versionadded:: C#SDK-v1.0.7
-
-.. code-block:: C#
+.. versionadded:: C#SDK-V1.1.3  Web-3.8.2
+    
+.. code-block:: c#
     :linenos:
 
     /**
@@ -294,10 +294,11 @@ UDP扩展轴通讯参数配置
     * @param [in] reconnectEnable	通讯断开自动重连使能 0-不使能 1-使能
     * @param [in] reconnectPeriod	重连周期间隔(ms)
     * @param [in] reconnectNum	重连次数
+    * @param [in] selfConnect 断电重启是否自动建立连接；0-不建立连接；1-建立连接
     * @return 错误码
     */
-    int ExtDevSetUDPComParam(std::string ip, int port, int period, int lossPkgTime, int lossPkgNum, int disconnectTime, int reconnectEnable, int reconnectPeriod, int reconnectNum);
-        
+    int ExtDevSetUDPComParam(std::string ip, int port, int period, int lossPkgTime, int lossPkgNum, int disconnectTime, int reconnectEnable, int reconnectPeriod, int reconnectNum, int selfConnect);
+         
 获取UDP扩展轴通讯参数配置
 ++++++++++++++++++++++++++++++++++
 .. versionadded:: C#SDK-v1.0.7
@@ -419,7 +420,7 @@ UDP扩展轴参数配置
     * @param [in] axisAcc 加速度mm/s2
     * @param [in] axisLead 导程mm
     * @param [in] encResolution 编码器分辨率
-    * @param [in] axisOffect 焊缝起始点扩展轴偏移量
+    * @param [in] axisOffect焊缝起始点扩展轴偏移量
     * @param [in] axisCompany 驱动器厂家 1-禾川；2-汇川；3-松下
     * @param [in] axisModel 驱动器型号 1-禾川-SV-XD3EA040L-E，2-禾川-SV-X2EA150A-A，1-汇川-SV620PT5R4I，1-松下-MADLN15SG，2-松下-MSDLN25SG，3-松下-MCDLN35SG
     * @param [in] axisEncType 编码器类型  0-增量；1-绝对值

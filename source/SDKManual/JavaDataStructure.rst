@@ -333,6 +333,28 @@
       public int weldArcState = 0;   //焊接电弧中断状态
     }
 
+UDP扩展轴通讯参数
+++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  焊接中断状态
+    */
+    public class WELDING_BREAKOFF_STATE
+    {
+      public String ip = "192.168.58.88";//IP地址
+      public int port = 2021;            //端口号
+      public int period = 2;             //通讯周期(ms，默认为2，请勿修改此参数)
+      public int lossPkgTime = 50;       //丢包检测时间(ms)
+      public int lossPkgNum = 2;         //丢包次数
+      public int disconnectTime = 100;   //通讯断开确认时长
+      public int reconnectEnable = 0;    //通讯断开自动重连使能 0-不使能 1-使能
+      public int reconnectPeriod = 100;  //重连周期间隔(ms)
+      public int reconnectNum = 3;       //重连次数
+      public int selfConnect =0;         //断电重启是否自动建立连接；0-不建立连接；1-建立连接
+    }
+
 机器人状态反馈结构体类型
 +++++++++++++++++++++++++++
 .. versionchanged:: Java SDK-v1.0.1-3.7.8
@@ -415,6 +437,9 @@
       public int gripperRotTorque;	            //旋转夹爪当前旋转力矩百分比
 
       public  WELDING_BREAKOFF_STATE weldingBreakOffstate=new WELDING_BREAKOFF_STATE();//焊接中断状态
+
+      public double[]  jt_tgt_tor=new double[6];    //关节指令力矩
+      int smartToolState;         //SmartTool手柄按钮状态
 
       public short check_sum = 0;          /* 和校验 */
 

@@ -35,6 +35,86 @@
 	 */
 	errno_t SetCollisionStrategy(int strategy, int safeTime, int safeDistance, int safetyMargin[]);
 
+自定义碰撞检测阈值功能开始
+++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.2.0-3.8.0
+
+.. code-block:: c++
+    :linenos:
+
+	 /**
+	 * @brief  自定义碰撞检测阈值功能开始，设置关节端和TCP端的碰撞检测阈值
+	 * @param  [in] flag 1-仅关节检测开启；2-仅TCP检测开启；3-关节和TCP检测同时开启
+	 * @param  [in] jointDetectionThreshould 关节碰撞检测阈值 j1-j6
+	 * @param  [in] tcpDetectionThreshould TCP碰撞检测阈值，xyzabc
+	 * @param  [in] block 0-非阻塞；1-阻塞
+	 * @return  错误码
+	 */
+	errno_t CustomCollisionDetectionStart(int flag, double jointDetectionThreshould[6], double tcpDetectionThreshould[6], int block);
+
+自定义碰撞检测阈值功能结束
+++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.2.0-3.8.0
+
+.. code-block:: c++
+    :linenos:
+
+	/**
+	 * @brief  自定义碰撞检测阈值功能关闭
+	 * @return  错误码
+	 */
+	errno_t CustomCollisionDetectionEnd();
+
+机器人碰撞等级设置代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c++
+    :linenos:
+
+    int TestCollision(void)
+     {
+         ROBOT_STATE_PKG pkg = {};
+         FRRobot robot;
+         robot.LoggerInit();
+         robot.SetLoggerLevel(1);
+         int rtn = robot.RPC("192.168.58.2");
+         if (rtn != 0)
+         {
+             return -1;
+         }
+         robot.SetReConnectParam(true, 30000, 500);
+         int mode = 0;
+         int config = 1;
+         float level1[6] = { 1.0,2.0,3.0,4.0,5.0,6.0 };
+         float level2[6] = { 50.0,20.0,30.0,40.0,50.0,60.0 };
+         rtn = robot.SetAnticollision(mode, level1, config);
+         printf("SetAnticollision mode 0 rtn is %d\n", rtn);
+         mode = 1;
+         rtn = robot.SetAnticollision(mode, level2, config);
+         printf("SetAnticollision mode 1 rtn is %d\n", rtn);
+         JointPos p1Joint(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+         JointPos p2Joint(-45.615, -106.172, 124.296, -107.151, -91.282, 74.255);
+         DescPose p1Desc(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+         DescPose p2Desc(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
+         ExaxisPos exaxisPos(0.0, 0.0, 0.0, 0.0);
+         DescPose offdese(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+         robot.MoveL(&p2Joint, &p2Desc, 0, 0, 100, 100, 100, 2, &exaxisPos, 0, 0, &offdese);
+         robot.ResetAllError();
+         int safety[6] = { 5,5,5,5,5,5 };
+         rtn = robot.SetCollisionStrategy(3, 1000, 150, 250, safety);
+         printf("SetCollisionStrategy rtn is %d\n", rtn);
+         double jointDetectionThreshould[6] = { 0.1, 0.1, 0.1, 0.1, 0.1, 0.1 };
+         double tcpDetectionThreshould[6] = { 60,60,60,60,60,60 };
+         rtn = robot.CustomCollisionDetectionStart(3, jointDetectionThreshould, tcpDetectionThreshould, 0);
+         cout << "CustomCollisionDetectionStart rtn is " << rtn << endl;
+         robot.MoveL(&p1Joint, &p1Desc, 0, 0, 100, 100, 100, -1, &exaxisPos, 0, 0, &offdese);
+         robot.MoveL(&p2Joint, &p2Desc, 0, 0, 100, 100, 100, -1, &exaxisPos, 0, 0, &offdese);
+         rtn = robot.CustomCollisionDetectionEnd();
+         cout << "CustomCollisionDetectionEnd rtn is " << rtn << endl;
+         robot.CloseRPC();
+         return 0;
+     }
+
 设置正限位
 ++++++++++++++++++++++++++++++++
 .. code-block:: c++
@@ -59,178 +139,155 @@
     */
     errno_t  SetLimitNegative(float limit[6]);   
 
-错误状态清除
-++++++++++++++++++++++++++++++++
+获取关节软限位角度
+++++++++++++++++++++++++++++++++++++
 .. code-block:: c++
     :linenos:
 
     /**
-    * @brief  错误状态清除
+    * @brief  获取关节软限位角度
+    * @param  [in] flag 0-阻塞，1-非阻塞    
+    * @param  [out] negative  负限位角度，单位deg
+    * @param  [out] positive  正限位角度，单位deg
     * @return  错误码
     */
-    errno_t  ResetAllError();
-
-关节摩擦力补偿开关
-++++++++++++++++++++++++++++++++
+    errno_t  GetJointSoftLimitDeg(uint8_t flag, float negative[6], float positive[6]);
+    
+机器人限位设置代码示例
+++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: c++
     :linenos:
 
-    /**
-    * @brief  关节摩擦力补偿开关
-    * @param  [in]  state  0-关，1-开
-    * @return  错误码
-    */
-    errno_t  FrictionCompensationOnOff(uint8_t state);
-
-设置关节摩擦力补偿系数-正装
-++++++++++++++++++++++++++++++++
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief  设置关节摩擦力补偿系数-正装
-    * @param  [in]  coeff 六个关节补偿系数，范围[0~1]
-    * @return  错误码
-    */
-    errno_t  SetFrictionValue_level(float coeff[6]);
-
-设置关节摩擦力补偿系数-侧装
-++++++++++++++++++++++++++++++++
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief  设置关节摩擦力补偿系数-侧装
-    * @param  [in]  coeff 六个关节补偿系数，范围[0~1]
-    * @return  错误码
-    */
-    errno_t  SetFrictionValue_wall(float coeff[6]);
-
-设置关节摩擦力补偿系数-倒装
-++++++++++++++++++++++++++++++++
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief  设置关节摩擦力补偿系数-倒装
-    * @param  [in]  coeff 六个关节补偿系数，范围[0~1]
-    * @return  错误码
-    */
-    errno_t  SetFrictionValue_ceiling(float coeff[6]);
-
-设置关节摩擦力补偿系数-自由安装
-++++++++++++++++++++++++++++++++
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief  设置关节摩擦力补偿系数-自由安装
-    * @param  [in]  coeff 六个关节补偿系数，范围[0~1]
-    * @return  错误码
-    */
-    errno_t  SetFrictionValue_freedom(float coeff[6]);
-
-代码示例
-++++++++++++++
-.. code-block:: c++
-    :linenos:
-
-    #include <cstdlib>
-    #include <iostream>
-    #include <stdio.h>
-    #include <cstring>
-    #include <unistd.h>
-    #include "FRRobot.h"
-    #include "RobotTypes.h"
-
-    using namespace std;
-
-    int main(void)
+    int TestLimit(void)
     {
-        FRRobot robot;                 //实例化机器人对象
-        robot.RPC("192.168.58.2");     //与机器人控制器建立通信连接
-
-        int mode = 0;
-        int config = 1;
-        float level1[6] = {1.0,2.0,3.0,4.0,5.0,6.0};
-        float level2[6] = {50.0,20.0,30.0,40.0,50.0,60.0};
-
-        robot.SetAnticollision(mode, level1, config);
-        mode = 1;
-        robot.SetAnticollision(mode, level2, config);
-        robot.SetCollisionStrategy(1);
-
-        float plimit[6] = {170.0,80.0,150.0,80.0,170.0,160.0};
-        robot.SetLimitPositive(plimit);
-        float nlimit[6] = {-170.0,-260.0,-150.0,-260.0,-170.0,-160.0};
-        robot.SetLimitNegative(nlimit);
-
-        robot.ResetAllError();
-
-        float lcoeff[6] = {0.9,0.9,0.9,0.9,0.9,0.9};
-        float wcoeff[6] = {0.4,0.4,0.4,0.4,0.4,0.4};
-        float ccoeff[6] = {0.6,0.6,0.6,0.6,0.6,0.6};
-        float fcoeff[6] = {0.5,0.5,0.5,0.5,0.5,0.5};
-        robot.FrictionCompensationOnOff(1);
-        robot.SetFrictionValue_level(lcoeff);
-        robot.SetFrictionValue_wall(wcoeff);
-        robot.SetFrictionValue_ceiling(ccoeff);
-        robot.SetFrictionValue_freedom(fcoeff);
-
-        return 0;
+      ROBOT_STATE_PKG pkg = {};
+      FRRobot robot;
+      robot.LoggerInit();
+      robot.SetLoggerLevel(1);
+      int rtn = robot.RPC("192.168.58.2");
+      if (rtn != 0)
+      {
+        return -1;
+      }
+      robot.SetReConnectParam(true, 30000, 500);
+      float plimit[6] = { 170.0,80.0,150.0,80.0,170.0,160.0 };
+      robot.SetLimitPositive(plimit);
+      float nlimit[6] = { -170.0,-260.0,-150.0,-260.0,-170.0,-160.0 };
+      robot.SetLimitNegative(nlimit);
+      float neg_deg[6] = { 0.0 }, pos_deg[6] = { 0.0 };
+      robot.GetJointSoftLimitDeg(0, neg_deg, pos_deg);
+      printf("neg limit deg:%f,%f,%f,%f,%f,%f\n", neg_deg[0], neg_deg[1], neg_deg[2], neg_deg[3], neg_deg[4], neg_deg[5]);
+      printf("pos limit deg:%f,%f,%f,%f,%f,%f\n", pos_deg[0], pos_deg[1], pos_deg[2], pos_deg[3], pos_deg[4], pos_deg[5]);
+      robot.CloseRPC();
+      return 0;
     }
 
-自定义碰撞检测阈值功能开始、结束
-++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.2.0-3.8.0
-
-接口描述
-************************
-
+设置机器人碰撞检测方法
+++++++++++++++++++++++++++++++++++++++++++
+    
 .. code-block:: c++
     :linenos:
 
-	 /**
-	 * @brief  自定义碰撞检测阈值功能开始，设置关节端和TCP端的碰撞检测阈值
-	 * @param  [in] flag 1-仅关节检测开启；2-仅TCP检测开启；3-关节和TCP检测同时开启
-	 * @param  [in] jointDetectionThreshould 关节碰撞检测阈值 j1-j6
-	 * @param  [in] tcpDetectionThreshould TCP碰撞检测阈值，xyzabc
-	 * @param  [in] block 0-非阻塞；1-阻塞
-	 * @return  错误码
-	 */
-	errno_t CustomCollisionDetectionStart(int flag, double jointDetectionThreshould[6], double tcpDetectionThreshould[6], int block);
+    /**
+    * @brief 设置机器人碰撞检测方法
+    * @param [in] method 碰撞检测方法：0-电流模式；1-双编码器；2-电流和双编码器同时开启
+    * @param [in] thresholdMode 碰撞等级阈值方式；0-碰撞等级固定阈值方式；1-自定义碰撞检测阈值
+    * @return  错误码
+    */
+    errno_t SetCollisionDetectionMethod(int method, int thresholdMode = 0);
 
-	/**
-	 * @brief  自定义碰撞检测阈值功能关闭
-	 * @return  错误码
-	 */
-	errno_t CustomCollisionDetectionEnd();
-
-代码示例
-************************
-
+设置静态下碰撞检测开始关闭
+++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.5.0
+    
 .. code-block:: c++
     :linenos:
 
-    void CustomCollisionTest(FRRobot* robot)
+    /**
+     * @brief 设置静态下碰撞检测开始关闭
+     * @param [in] status 0-关闭；1-开启
+     * @return 错误码
+     */
+    errno_t SetStaticCollisionOnOff(int status);
+
+设置机器人碰撞检测方法代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.5.0
+    
+.. code-block:: c++
+    :linenos:
+
+    int TestCollisionMethod(void)
     {
-        DescPose p1Desc(228.879, -503.594, 453.984, -175.580, 8.293, 171.267);
-        JointPos p1Joint(102.700, -85.333, 90.518, -102.365, -83.932, 22.134);
-        DescPose p2Desc(-333.302, -435.580, 449.866, -174.997, 2.017, 109.815);
-        JointPos p2Joint(41.862, -85.333, 90.526, -100.587, -90.014, 22.135);
-        ExaxisPos exaxisPos(0.0, 0.0, 0.0, 0.0);
-        DescPose offdese(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-        robot->MoveL(&p2Joint, &p2Desc, 0, 0, 100, 100, 100, 2, &exaxisPos, 0, 0, &offdese);
-        robot->ResetAllError();
-        int safety[6] = { 5,5,5,5,5,5 };
-        robot->SetCollisionStrategy(3, 1000, 150, 250, safety);
-        double jointDetectionThreshould[6] = { 0.1, 0.1, 0.1, 0.1, 0.1, 0.1};
-        double tcpDetectionThreshould[6] = { 60,60,60,60,60,60 };
-        int rtn = robot->CustomCollisionDetectionStart(3, jointDetectionThreshould, tcpDetectionThreshould, 0);
-        cout << "CustomCollisionDetectionStart rtn is " << rtn << endl;
+      ROBOT_STATE_PKG pkg = {};
+      FRRobot robot;
+      robot.LoggerInit();
+      robot.SetLoggerLevel(1);
+      int rtn = robot.RPC("192.168.58.2");
+      if (rtn != 0)
+      {
+        return -1;
+      }
+      robot.SetReConnectParam(true, 30000, 500);
+      rtn = robot.SetCollisionDetectionMethod(0, 0);
+      printf("SetCollisionDetectionMethod rtn is %d\n", rtn);
+      rtn = robot.SetStaticCollisionOnOff(1);
+      printf("SetStaticCollisionOnOff On rtn is %d\n", rtn);
+      rtn = robot.Sleep(5000);
+      rtn = robot.SetStaticCollisionOnOff(0);
+      printf("SetStaticCollisionOnOff Off rtn is %d\n", rtn);
+      robot.CloseRPC();
+      return 0;
+    }
 
-        robot->MoveL(&p1Joint, &p1Desc, 0, 0, 100, 100, 100, -1, &exaxisPos, 0, 0, &offdese);
-        robot->MoveL(&p2Joint, &p2Desc, 0, 0, 100, 100, 100, -1, &exaxisPos, 0, 0, &offdese);
-        rtn = robot->CustomCollisionDetectionEnd();
-        cout << "CustomCollisionDetectionEnd rtn is " << rtn << endl;
+关节扭矩功率检测
+++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.5.0
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 关节扭矩功率检测
+     * @param [in] status 0-关闭；1-开启
+     * @param [in] power 设定最大功率(W);
+     * @return 错误码
+     */
+    errno_t SetPowerLimit(int status, double power);
+
+关节扭矩功率检测代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    int TestPowerLimit(void)
+    {
+       ROBOT_STATE_PKG pkg = {};
+       FRRobot robot;
+       robot.LoggerInit();
+       robot.SetLoggerLevel(1);
+       int rtn = robot.RPC("192.168.58.2");
+       if (rtn != 0)
+       {
+          return -1;
+       }
+       robot.SetReConnectParam(true, 30000, 500);
+       robot.DragTeachSwitch(1);
+       robot.SetPowerLimit(1, 200);
+       float torques[] = { 0, 0, 0, 0, 0, 0 };
+       robot.GetJointTorques(1, torques);
+       int count = 100;
+       robot.ServoJTStart(); 
+       int error = 0;
+       while (count > 0)
+       {
+          error = robot.ServoJT(torques, 0.001);
+          count = count - 1;
+          robot.Sleep(1);
+       }
+       error = robot.ServoJTEnd();
+       robot.DragTeachSwitch(0);
+       robot.CloseRPC();
+       return 0;
     }

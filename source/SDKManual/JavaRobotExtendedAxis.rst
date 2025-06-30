@@ -995,3 +995,17 @@ UDP扩展轴与机器人圆弧运动同步运动
         robot.TractorStop();//小车停止
         robot.TractorMoveC(300, -90, 20);
     }
+
+获取扩展轴坐标系
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.5-3.8.2
+
+.. code-block:: Java
+    :linenos:
+
+    /** 
+    * @brief 获取扩展轴坐标系
+    * @param [out] coord 扩展轴坐标系
+    * @return 错误码
+    */
+    int ExtAxisGetCoord(DescPose coord);

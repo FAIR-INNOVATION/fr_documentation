@@ -276,7 +276,7 @@ FAIRINO SimMachine
 -----------------------
     :download:`FAIRINO SimMachine Virtual Box <https://pan.baidu.com/s/11yp-X-AlN-OyhzWV9rDlbQ?pwd=lp85>`
 
-    :download:`FAIRINO SimMachine Docker <https://pan.baidu.com/s/1PtdtsA2Y7WFqMBKvmI3oqQ?pwd=rqd5>`
+    :download:`FAIRINO SimMachine Docker <https://pan.baidu.com/s/1MOEV1wvoPZldfjPZoXPjng?pwd=wmsk>`
 
 码垛机frcap
 ---------------------------------

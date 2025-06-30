@@ -264,3 +264,4 @@
     ret,num,name  = robot.GetLuaList()
     print(num)
     print(name)
+    

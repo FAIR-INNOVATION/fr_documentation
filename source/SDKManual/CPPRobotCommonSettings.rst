@@ -4,31 +4,6 @@
 .. toctree:: 
     :maxdepth: 5
 
-设置全局速度
-++++++++++++++++++++++++++++++++++
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief  设置全局速度
-    * @param  [in]  vel  速度百分比，范围[0~100]
-    * @return  错误码
-    */
-    errno_t  SetSpeed(int vel);
-
-设置系统变量值
-++++++++++++++++++++++++++++++++++
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief  设置系统变量值
-    * @param  [in]  id  变量编号，范围[1~20]
-    * @param  [in]  value 变量值
-    * @return  错误码
-    */
-    errno_t  SetSysVarValue(int id, float value);
-
 设置工具参考点-六点法
 ++++++++++++++++++++++++++++++++++
 .. code-block:: c++
@@ -77,6 +52,22 @@
      */
     errno_t ComputeTcp4(DescPose *tcp_pose);
 
+根据点位信息计算工具坐标系
++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.8-3.7.8
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+	 * @brief 根据点位信息计算工具坐标系
+	 * @param [in] method 计算方法；0-四点法；1-六点法
+	 * @param [in] pos 关节位置组，四点法时数组长度为4个，六点法时数组长度为6个
+	 * @param [out] coord 工具坐标系结果
+	 * @return 错误码
+    */
+	errno_t ComputeToolCoordWithPoints(int method, JointPos pos[], DescPose& coord);
+
 设置工具坐标系
 ++++++++++++++++++++++++++++++++++
 .. versionchanged:: C++SDK-v2.1.5.0
@@ -113,6 +104,87 @@
 	 * @return  错误码
 	 */
 	errno_t SetToolList(int id, DescPose *coord, int type, int install, int loadNum);
+
+获取当前工具坐标系
+++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief  获取当前工具坐标系
+    * @param  [in] flag 0-阻塞，1-非阻塞
+    * @param  [out] desc_pos 工具坐标系位姿
+    * @return  错误码
+    */
+    errno_t  GetTCPOffset(uint8_t flag, DescPose *desc_pos);
+
+机器人工具坐标系操作代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+     int TestTCPCompute(void)
+     {
+         ROBOT_STATE_PKG pkg = {};
+         FRRobot robot;
+         robot.LoggerInit();
+         robot.SetLoggerLevel(1);
+         int rtn = robot.RPC("192.168.58.2");
+         if (rtn != 0)
+         {
+             return -1;
+         }
+         robot.SetReConnectParam(true, 30000, 500);
+         DescPose p1Desc(186.331, 487.913, 209.850, 149.030, 0.688, -114.347);
+         JointPos p1Joint(-127.876, -75.341, 115.417, -122.741, -59.820, 74.300);
+         DescPose p2Desc(69.721, 535.073, 202.882, -144.406, -14.775, -89.012);
+         JointPos p2Joint(-101.780, -69.828, 110.917, -125.740, -127.841, 74.300);
+         DescPose p3Desc(146.861, 578.426, 205.598, 175.997, -36.178, -93.437);
+         JointPos p3Joint(-112.851, -60.191, 86.566, -80.676, -97.463, 74.300);
+         DescPose p4Desc(136.284, 509.876, 225.613, 178.987, 1.372, -100.696);
+         JointPos p4Joint(-116.397, -76.281, 113.845, -128.611, -88.654, 74.299);
+         DescPose p5Desc(138.395, 505.972, 298.016, 179.134, 2.147, -101.110);
+         JointPos p5Joint(-116.814, -82.333, 109.162, -118.662, -88.585, 74.302);
+         DescPose p6Desc(105.553, 454.325, 232.017, -179.426, 0.444, -99.952);
+         JointPos p6Joint(-115.649, -84.367, 122.447, -128.663, -90.432, 74.303);
+         ExaxisPos exaxisPos(0, 0, 0, 0);
+         DescPose offdese(0, 0, 0, 0, 0, 0);
+         JointPos posJ[6] = { p1Joint , p2Joint , p3Joint , p4Joint , p5Joint , p6Joint };
+         DescPose coordRtn = {};
+         rtn = robot.ComputeToolCoordWithPoints(1, posJ, coordRtn);
+         printf("ComputeToolCoordWithPoints    %d  coord is %f %f %f %f %f %f \n", rtn, coordRtn.tran.x, coordRtn.tran.y, coordRtn.tran.z, coordRtn.rpy.rx, coordRtn.rpy.ry, coordRtn.rpy.rz);
+         robot.MoveJ(&p1Joint, &p1Desc, 0, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+         robot.SetToolPoint(1);
+         robot.MoveJ(&p2Joint, &p2Desc, 0, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+         robot.SetToolPoint(2);
+         robot.MoveJ(&p3Joint, &p3Desc, 0, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+         robot.SetToolPoint(3);
+         robot.MoveJ(&p4Joint, &p4Desc, 0, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+         robot.SetToolPoint(4);
+         robot.MoveJ(&p5Joint, &p5Desc, 0, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+         robot.SetToolPoint(5);
+         robot.MoveJ(&p6Joint, &p6Desc, 0, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+         robot.SetToolPoint(6);
+         rtn = robot.ComputeTool(&coordRtn);
+         printf("6 Point ComputeTool        %d  coord is %f %f %f %f %f %f \n", rtn, coordRtn.tran.x, coordRtn.tran.y, coordRtn.tran.z, coordRtn.rpy.rx, coordRtn.rpy.ry, coordRtn.rpy.rz);
+         robot.SetToolList(1, &coordRtn, 0, 0, 0);
+         robot.MoveJ(&p1Joint, &p1Desc, 0, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+         robot.SetTcp4RefPoint(1);
+         robot.MoveJ(&p2Joint, &p2Desc, 0, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+         robot.SetTcp4RefPoint(2);
+         robot.MoveJ(&p3Joint, &p3Desc, 0, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+         robot.SetTcp4RefPoint(3);
+         robot.MoveJ(&p4Joint, &p4Desc, 0, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+         robot.SetTcp4RefPoint(4);
+         rtn = robot.ComputeTcp4(&coordRtn);
+         printf("4 Point ComputeTool        %d  coord is %f %f %f %f %f %f \n", rtn, coordRtn.tran.x, coordRtn.tran.y, coordRtn.tran.z, coordRtn.rpy.rx, coordRtn.rpy.ry, coordRtn.rpy.rz);
+         robot.SetToolCoord(2, &coordRtn, 0, 0, 1, 0);
+         DescPose getCoord = {};
+         rtn = robot.GetTCPOffset(0, &getCoord);
+         printf("GetTCPOffset    %d  coord is %f %f %f %f %f %f \n", rtn, coordRtn.tran.x, coordRtn.tran.y, coordRtn.tran.z, coordRtn.rpy.rx, coordRtn.rpy.ry, coordRtn.rpy.rz);
+         robot.CloseRPC();
+         return 0;
+     }
 
 设置外部工具参考点-六点法
 ++++++++++++++++++++++++++++++++++
@@ -169,6 +241,48 @@
     * @return  错误码
     */
     errno_t  SetExToolList(int id, DescPose *etcp, DescPose *etool);
+
+机器人外部工具坐标系操作代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c++
+    :linenos:
+
+    int TestExtCoord(void)
+    {
+       ROBOT_STATE_PKG pkg = {};
+       FRRobot robot;
+       robot.LoggerInit();
+       robot.SetLoggerLevel(1);
+       int rtn = robot.RPC("192.168.58.2");
+       if (rtn != 0)
+       {
+          return -1;
+       }
+       robot.SetReConnectParam(true, 30000, 500);
+       DescPose p1Desc(-89.606, 779.517, 193.516, 178.000, 0.476, -92.484);
+       JointPos p1Joint(-108.145, -50.137, 85.818, -125.599, -87.946, 74.329);
+       DescPose p2Desc(-24.656, 850.384, 191.361, 177.079, -2.058, -95.355);
+       JointPos p2Joint(-111.024, -41.538, 69.222, -114.913, -87.743, 74.329);
+       DescPose p3Desc(-99.813, 766.661, 241.878, -176.817, 1.917, -91.604);
+       JointPos p3Joint(-107.266, -56.116, 85.971, -122.560, -92.548, 74.331);
+       ExaxisPos exaxisPos(0, 0, 0, 0);
+       DescPose offdese(0, 0, 0, 0, 0, 0);
+       DescPose posTCP[3] = { p1Desc , p2Desc , p3Desc };
+       DescPose coordRtn = {};
+       robot.MoveJ(&p1Joint, &p1Desc, 1, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+       robot.SetExTCPPoint(1);
+       robot.MoveJ(&p2Joint, &p2Desc, 1, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+       robot.SetExTCPPoint(2);
+       robot.MoveJ(&p3Joint, &p3Desc, 1, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+       robot.SetExTCPPoint(3);
+       rtn = robot.ComputeExTCF(&coordRtn);
+       printf("ComputeExTCF          %d coord is %f %f %f %f %f %f \n", rtn, coordRtn.tran.x, coordRtn.tran.y, coordRtn.tran.z, coordRtn.rpy.rx, coordRtn.rpy.ry, coordRtn.rpy.rz);
+       robot.SetExToolCoord(1, &coordRtn, &offdese);
+       robot.SetExToolList(1, &coordRtn, &offdese);
+       robot.CloseRPC();
+       return 0;
+    }
 
 设置工件参考点-三点法
 ++++++++++++++++++++++++++++++++++
@@ -230,6 +344,119 @@
 	 */
 	errno_t SetWObjList(int id, DescPose *coord, int refFrame);
 
+根据点位信息计算工件坐标系
++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.8-3.7.8
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+	 * @brief 根据点位信息计算工件坐标系
+	 * @param [in] method 计算方法；0：原点-x轴-z轴  1：原点-x轴-xy平面
+	 * @param [in] pos 三个TCP位置组
+	 * @param [in] refFrame 参考坐标系
+	 * @param [out] coord 工具坐标系结果
+	 * @return 错误码
+    */
+	errno_t ComputeWObjCoordWithPoints(int method, DescPose pos[], int refFrame, DescPose& coord);
+
+获取当前工件坐标系
+++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief  获取当前工件坐标系
+    * @param  [in] flag 0-阻塞，1-非阻塞
+    * @param  [out] desc_pos 工件坐标系位姿
+    * @return  错误码
+    */   
+    errno_t  GetWObjOffset(uint8_t flag, DescPose *desc_pos);
+
+机器人工件坐标系操作代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c++
+    :linenos:
+
+     int TestWobjCoord(void)
+     {
+         ROBOT_STATE_PKG pkg = {};
+         FRRobot robot;
+         robot.LoggerInit();
+         robot.SetLoggerLevel(1);
+         int rtn = robot.RPC("192.168.58.2");
+         if (rtn != 0)
+         {
+             return -1;
+         }
+         robot.SetReConnectParam(true, 30000, 500);
+         DescPose p1Desc(-89.606, 779.517, 193.516, 178.000, 0.476, -92.484);
+         JointPos p1Joint(-108.145, -50.137, 85.818, -125.599, -87.946, 74.329);
+         DescPose p2Desc(-24.656, 850.384, 191.361, 177.079, -2.058, -95.355);
+         JointPos p2Joint(-111.024, -41.538, 69.222, -114.913, -87.743, 74.329);
+         DescPose p3Desc(-99.813, 766.661, 241.878, -176.817, 1.917, -91.604);
+         JointPos p3Joint(-107.266, -56.116, 85.971, -122.560, -92.548, 74.331);
+         ExaxisPos exaxisPos(0, 0, 0, 0);
+         DescPose offdese(0, 0, 0, 0, 0, 0);
+         DescPose posTCP[3] = { p1Desc , p2Desc , p3Desc };
+         DescPose coordRtn = {};
+         rtn = robot.ComputeWObjCoordWithPoints(1, posTCP, 0, coordRtn);
+         printf("ComputeWObjCoordWithPoints    %d  coord is %f %f %f %f %f %f \n", rtn, coordRtn.tran.x, coordRtn.tran.y, coordRtn.tran.z, coordRtn.rpy.rx, coordRtn.rpy.ry, coordRtn.rpy.rz);
+         robot.MoveJ(&p1Joint, &p1Desc, 1, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+         robot.SetWObjCoordPoint(1);
+         robot.MoveJ(&p2Joint, &p2Desc, 1, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+         robot.SetWObjCoordPoint(2);
+         robot.MoveJ(&p3Joint, &p3Desc, 1, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+         robot.SetWObjCoordPoint(3);
+         rtn = robot.ComputeWObjCoord(1, 0, &coordRtn);
+         printf("ComputeWObjCoord                   %d  coord is %f %f %f %f %f %f \n", rtn, coordRtn.tran.x, coordRtn.tran.y, coordRtn.tran.z, coordRtn.rpy.rx, coordRtn.rpy.ry, coordRtn.rpy.rz);
+         robot.SetWObjCoord(1, &coordRtn, 0);
+         robot.SetWObjList(1, &coordRtn, 0);
+         DescPose getWobjDesc = {};
+         rtn = robot.GetWObjOffset(0, &getWobjDesc);
+         printf("GetWObjOffset                   %d  coord is %f %f %f %f %f %f \n", rtn, coordRtn.tran.x, coordRtn.tran.y, coordRtn.tran.z, coordRtn.rpy.rx, coordRtn.rpy.ry, coordRtn.rpy.rz);
+         robot.CloseRPC();
+         return 0;
+     }
+
+设置全局速度
+++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief  设置全局速度
+    * @param  [in]  vel  速度百分比，范围[0~100]
+    * @return  错误码
+    */
+    errno_t  SetSpeed(int vel);
+
+设置机器人加速度
++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+	/**
+	 * @brief 设置机器人加速度
+	 * @param [in] acc 机器人加速度百分比
+	 * @return 错误码
+	 */
+	errno_t SetOaccScale(double acc);
+
+获取机器人默认速度
+++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief  获取机器人默认速度
+    * @param  [out]  vel  速度，单位mm/s
+    * @return  错误码
+    */   
+    errno_t  GetDefaultTransVel(float *vel);
+    
 设置末端负载重量
 ++++++++++++++++++++++++++++++++++
 .. versionchanged:: C++SDK-v2.1.8-3.7.8
@@ -257,6 +484,32 @@
     */
     errno_t  SetLoadCoord(DescTran *coord);
 
+获取当前负载的重量
+++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief  获取当前负载的重量
+    * @param  [in] flag 0-阻塞，1-非阻塞
+    * @param  [out] weight 负载重量，单位kg
+    * @return  错误码
+    */
+    errno_t  GetTargetPayload(uint8_t flag, float *weight);
+
+获取当前负载的质心
+++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief  获取当前负载的质心
+    * @param  [in] flag 0-阻塞，1-非阻塞
+    * @param  [out] cog 负载质心，单位mm
+    * @return  错误码
+    */   
+    errno_t  GetTargetPayloadCog(uint8_t flag, DescTran *cog);
+
 设置机器人安装方式
 +++++++++++++++++++++++++++++++
 .. code-block:: c++
@@ -282,341 +535,250 @@
     */
     errno_t  SetRobotInstallAngle(double yangle, double zangle);
 
-等待指定时间
-+++++++++++++++++++++++++++++++
+获取机器人安装角度
++++++++++++++++++++++++++++++++++
 .. code-block:: c++
     :linenos:
 
     /**
-    * @brief  等待指定时间
-    * @param  [in]  t_ms  单位ms
+    * @brief  获取机器人安装角度
+    * @param  [out] yangle 倾斜角
+    * @param  [out] zangle 旋转角
     * @return  错误码
     */
-    errno_t  WaitMs(int t_ms);
+    errno_t  GetRobotInstallAngle(float *yangle, float *zangle);
 
-代码示例
-+++++++++++++++
-.. code-block:: c++
-    :linenos:
-
-    #include <cstdlib>
-    #include <iostream>
-    #include <stdio.h>
-    #include <cstring>
-    #include <unistd.h>
-    #include "FRRobot.h"
-    #include "RobotTypes.h"
-
-    using namespace std;
-
-    int main(void)
-    {
-        FRRobot robot;                 //实例化机器人对象
-        robot.RPC("192.168.58.2");     //与机器人控制器建立通信连接
-
-        int i;
-        float value;
-        int id;
-        int type;
-        int install;
-
-        DescTran coord;
-        DescPose t_coord, etcp, etool, w_coord;
-        memset(&coord, 0, sizeof(DescTran));
-        memset(&t_coord, 0, sizeof(DescPose));
-        memset(&etcp, 0, sizeof(DescPose));
-        memset(&etool, 0, sizeof(DescPose));
-        memset(&w_coord, 0, sizeof(DescPose));
-
-        robot.SetSpeed(20);
-
-        for(i = 1; i < 21; i++)
-        {
-            robot.SetSysVarValue(i, i+0.5);
-            robot.WaitMs(1000);
-        }
-
-        for(i = 1; i < 21; i++)
-        {
-            robot.GetSysVarValue(i, &value);
-            printf("sys value:%f\n", value);
-        }
-
-        robot.SetLoadWeight(2.5);
-
-        coord.x = 3.0;
-        coord.y = 4.0;
-        coord.z = 5.0;
-
-        robot.SetLoadCoord(&coord);
-
-        id = 10;
-        t_coord.tran.x = 1.0;
-        t_coord.tran.y = 2.0;
-        t_coord.tran.z = 3.0;
-        t_coord.rpy.rx = 4.0;
-        t_coord.rpy.ry = 5.0;
-        t_coord.rpy.rz = 6.0;
-        type = 0;
-        install = 0;
-        robot.SetToolCoord(id, &t_coord, type, install);
-        robot.SetToolList(id, &t_coord, type, install);
-
-        etcp.tran.x = 1.0;
-        etcp.tran.y = 2.0;
-        etcp.tran.z = 3.0;
-        etcp.rpy.rx = 4.0;
-        etcp.rpy.ry = 5.0;
-        etcp.rpy.rz = 6.0;
-        etool.tran.x = 11.0;
-        etool.tran.y = 22.0;
-        etool.tran.z = 33.0;
-        etool.rpy.rx = 44.0;
-        etool.rpy.ry = 55.0;
-        etool.rpy.rz = 66.0;
-        id = 11;
-        robot.SetExToolCoord(id, &etcp, &etool);
-        robot.SetExToolList(id, &etcp, &etool);
-
-        w_coord.tran.x = 11.0;
-        w_coord.tran.y = 12.0;
-        w_coord.tran.z = 13.0;
-        w_coord.rpy.rx = 14.0;
-        w_coord.rpy.ry = 15.0;
-        w_coord.rpy.rz = 16.0;   
-        id = 12;
-        robot.SetWObjCoord(id, &w_coord);
-        robot.SetWObjList(id, &w_coord);
-
-        robot.SetRobotInstallPos(0);
-        robot.SetRobotInstallAngle(15.0,25.0);
-
-        return 0;
-    }
-
-代码示例
-+++++++++++++++
-.. versionadded:: C++SDK-v2.1.2.0
-
-.. code-block:: c++
-    :linenos:
-    
-    #include "libfairino/robot.h"
-
-    //如果使用Windows，包含下面的头文件
-    #include <string.h>
-    #include <windows.h>
-    //如果使用linux，包含下面的头文件
-    /*
-    #include <cstdlib>
-    #include <iostream>
-    #include <stdio.h>
-    #include <cstring>
-    #include <unistd.h>
-    */
-    #include <chrono>
-    #include <thread>
-    #include <string>
-    using namespace std;
-
-    int main(void)
-    {
-        FRRobot robot;
-        robot.RPC("192.168.58.2");
-
-        int i;
-        float value;
-        int tool_id, etool_id, user_id;
-        int type;
-        int install;
-        int retval = 0;
-
-        DescTran coord;
-        DescPose t_coord, etcp, etool, w_coord;
-        memset(&coord, 0, sizeof(DescTran));
-        memset(&t_coord, 0, sizeof(DescPose));
-        memset(&etcp, 0, sizeof(DescPose));
-        memset(&etool, 0, sizeof(DescPose));
-        memset(&w_coord, 0, sizeof(DescPose));
-
-        DescPose tool0_pose;
-        memset(&tool0_pose, 0, sizeof(DescPose));
-        printf("SetToolPoint start\n");
-        std::this_thread::sleep_for(std::chrono::seconds(3));
-        for (int i = 1; i < 7; i++)
-        {
-            retval = robot.SetToolPoint(i);
-            printf("SetToolPoint retval is: %d\n", retval);
-        }
-        printf("SetToolPoint end\n");
-
-        retval = robot.ComputeTool(&tool0_pose);
-        printf("ComputeTool retval is: %d\n", retval);
-        printf("xyz is: %f, %f, %f; rpy is: %f, %f, %f\n", tool0_pose.tran.x, tool0_pose.tran.y, tool0_pose.tran.z, tool0_pose.rpy.rx, tool0_pose.rpy.ry, tool0_pose.rpy.rz);
-
-        DescPose tcp4_0_pose;
-        memset(&tcp4_0_pose, 0, sizeof(DescPose));
-        for (int i = 1; i < 5; i++)
-        {
-            retval = robot.SetTcp4RefPoint(i);
-            printf("SetTcp4RefPoint retval is: %d\n", retval);
-        }
-        retval = robot.ComputeTcp4(&tcp4_0_pose);
-        printf("ComputeTcp4 retval is: %d\n", retval);
-        printf("xyz is: %f, %f, %f; rpy is: %f, %f, %f\n", tcp4_0_pose.tran.x, tcp4_0_pose.tran.y, tcp4_0_pose.tran.z, tcp4_0_pose.rpy.rx, tcp4_0_pose.rpy.ry, tcp4_0_pose.rpy.rz);
-
-        DescPose extcp_0_pose;
-        memset(&extcp_0_pose, 0, sizeof(DescPose));
-        printf("SetExTCPPoint start\n");
-        for (int i = 1; i < 7; i++)
-        {
-            retval = robot.SetExTCPPoint(i);
-            printf("SetExTCPPoint retval is: %d\n", retval);
-        }
-        printf("SetExTCPPoint end\n");
-
-        retval = robot.ComputeExTCF(&extcp_0_pose);
-        printf("ComputeExTCF retval is: %d\n", retval);
-        printf("xyz is: %f, %f, %f; rpy is: %f, %f, %f\n", extcp_0_pose.tran.x, extcp_0_pose.tran.y, extcp_0_pose.tran.z, extcp_0_pose.rpy.rx, extcp_0_pose.rpy.ry, extcp_0_pose.rpy.rz);
-
-        DescPose wobj_0_pose;
-        memset(&wobj_0_pose, 0, sizeof(DescPose));
-        for (int i = 1; i < 4; i++)
-        {
-            retval = robot.SetWObjCoordPoint(i);
-            printf("SetWObjCoordPoint retval is: %d\n", retval);
-        }
-        retval = robot.ComputeWObjCoord(0, &wobj_0_pose);
-        printf("ComputeWObjCoord retval is: %d\n", retval);
-        printf("xyz is: %f, %f, %f; rpy is: %f, %f, %f\n", wobj_0_pose.tran.x, wobj_0_pose.tran.y, wobj_0_pose.tran.z, wobj_0_pose.rpy.rx, wobj_0_pose.rpy.ry, wobj_0_pose.rpy.rz);
-    }
-
-设置机器人加速度
-+++++++++++++++++++++++++++++++
-.. code-block:: c++
-    :linenos:
-
-	/**
-	 * @brief 设置机器人加速度
-	 * @param [in] acc 机器人加速度百分比
-	 * @return 错误码
-	 */
-	errno_t SetOaccScale(double acc);
-
-根据点位信息计算工具坐标系
-+++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.8-3.7.8
-
+设置系统变量值
+++++++++++++++++++++++++++++++++++
 .. code-block:: c++
     :linenos:
 
     /**
-	 * @brief 根据点位信息计算工具坐标系
-	 * @param [in] method 计算方法；0-四点法；1-六点法
-	 * @param [in] pos 关节位置组，四点法时数组长度为4个，六点法时数组长度为6个
-	 * @param [out] coord 工具坐标系结果
-	 * @return 错误码
+    * @brief  设置系统变量值
+    * @param  [in]  id  变量编号，范围[1~20]
+    * @param  [in]  value 变量值
+    * @return  错误码
     */
-	errno_t ComputeToolCoordWithPoints(int method, JointPos pos[], DescPose& coord);
-    
-根据点位信息计算工件坐标系
-+++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.8-3.7.8
+    errno_t  SetSysVarValue(int id, float value);
 
+获取系统变量值
++++++++++++++++++++++++++++++++++
 .. code-block:: c++
     :linenos:
 
     /**
-	 * @brief 根据点位信息计算工件坐标系
-	 * @param [in] method 计算方法；0：原点-x轴-z轴  1：原点-x轴-xy平面
-	 * @param [in] pos 三个TCP位置组
-	 * @param [in] refFrame 参考坐标系
-	 * @param [out] coord 工具坐标系结果
-	 * @return 错误码
+    * @brief  获取系统变量值
+    * @param  [in] id 系统变量编号，范围[1~20]
+    * @param  [out] value  系统变量值
+    * @return  错误码
     */
-	errno_t ComputeWObjCoordWithPoints(int method, DescPose pos[], int refFrame, DescPose& coord);
+    errno_t  GetSysVarValue(int id, float *value);
 
-代码示例
-+++++++++++++++
-.. versionadded:: C++SDK-v2.1.8-3.7.8
+机器人常用设置代码示例
++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+     int TestLoadInstall(void)
+     {
+         ROBOT_STATE_PKG pkg = {};
+         FRRobot robot;
+         robot.LoggerInit();
+         robot.SetLoggerLevel(1);
+         int rtn = robot.RPC("192.168.58.2");
+         if (rtn != 0)
+         {
+             return -1;
+         }
+         robot.SetReConnectParam(true, 30000, 500);
+         for (int i = 1; i < 100; i++)
+         {
+             robot.SetSpeed(i);
+             robot.SetOaccScale(i);
+             robot.Sleep(30);
+         }
+         float defaultVel = 0.0;
+         robot.GetDefaultTransVel(&defaultVel);
+         printf("GetDefaultTransVel is %f\n", defaultVel);
+         for (int i = 1; i < 21; i++)
+         {
+             robot.SetSysVarValue(i, i + 0.5);
+             robot.Sleep(100);
+         }
+         for (int i = 1; i < 21; i++)
+         {
+             float value = 0;
+             robot.GetSysVarValue(i, &value);
+             printf("sys value  %d is :%f\n", i, value);
+             robot.Sleep(100);
+         }
+         robot.SetLoadWeight(0, 2.5);
+         DescTran loadCoord = {};
+         loadCoord.x = 3.0;
+         loadCoord.y = 4.0;
+         loadCoord.z = 5.0;
+         robot.SetLoadCoord(&loadCoord);
+         robot.Sleep(1000);
+         float getLoad = 0.0;
+         robot.GetTargetPayload(0, &getLoad);
+         DescTran getLoadTran = {};
+         robot.GetTargetPayloadCog(0, &getLoadTran);
+         printf("get load is %f; get load cog is %f %f %f\n", getLoad, getLoadTran.x, getLoadTran.y, getLoadTran.z);
+         robot.SetRobotInstallPos(0);
+         robot.SetRobotInstallAngle(15.0, 25.0);
+         float anglex = 0.0;
+         float angley = 0.0;
+         robot.GetRobotInstallAngle(&anglex, &angley);
+         printf("GetRobotInstallAngle x:  %f;  y:  %f\n", anglex, angley);
+         robot.CloseRPC();
+         return 0;
+     }
+
+关节摩擦力补偿开关
+++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief  关节摩擦力补偿开关
+    * @param  [in]  state  0-关，1-开
+    * @return  错误码
+    */
+    errno_t  FrictionCompensationOnOff(uint8_t state);
+
+设置关节摩擦力补偿系数-正装
+++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief  设置关节摩擦力补偿系数-正装
+    * @param  [in]  coeff 六个关节补偿系数，范围[0~1]
+    * @return  错误码
+    */
+    errno_t  SetFrictionValue_level(float coeff[6]);
+
+设置关节摩擦力补偿系数-侧装
+++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief  设置关节摩擦力补偿系数-侧装
+    * @param  [in]  coeff 六个关节补偿系数，范围[0~1]
+    * @return  错误码
+    */
+    errno_t  SetFrictionValue_wall(float coeff[6]);
+
+设置关节摩擦力补偿系数-倒装
+++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief  设置关节摩擦力补偿系数-倒装
+    * @param  [in]  coeff 六个关节补偿系数，范围[0~1]
+    * @return  错误码
+    */
+    errno_t  SetFrictionValue_ceiling(float coeff[6]);
+
+设置关节摩擦力补偿系数-自由安装
+++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief  设置关节摩擦力补偿系数-自由安装
+    * @param  [in]  coeff 六个关节补偿系数，范围[0~1]
+    * @return  错误码
+    */
+    errno_t  SetFrictionValue_freedom(float coeff[6]);
+
+机器人设置关节摩擦力补偿代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    int TestFriction(void)
+    {
+       ROBOT_STATE_PKG pkg = {};
+       FRRobot robot;
+
+       robot.LoggerInit();
+       robot.SetLoggerLevel(1);
+       int rtn = robot.RPC("192.168.58.2");
+       if (rtn != 0)
+       {
+          return -1;
+       }
+       robot.SetReConnectParam(true, 30000, 500);
+       float lcoeff[6] = { 0.9,0.9,0.9,0.9,0.9,0.9 };
+       float wcoeff[6] = { 0.4,0.4,0.4,0.4,0.4,0.4 };
+       float ccoeff[6] = { 0.6,0.6,0.6,0.6,0.6,0.6 };
+       float fcoeff[6] = { 0.5,0.5,0.5,0.5,0.5,0.5 };
+       rtn = robot.FrictionCompensationOnOff(1);
+       printf("FrictionCompensationOnOff rtn is %d\n", rtn);
+       rtn = robot.SetFrictionValue_level(lcoeff);
+       printf("SetFrictionValue_level rtn is %d\n", rtn);
+       rtn = robot.SetFrictionValue_wall(wcoeff);
+       printf("SetFrictionValue_wall rtn is %d\n", rtn);
+       rtn = robot.SetFrictionValue_ceiling(ccoeff);
+       printf("SetFrictionValue_ceiling rtn is %d\n", rtn);
+       rtn = robot.SetFrictionValue_freedom(fcoeff);
+       printf("SetFrictionValue_freedom rtn is %d\n", rtn);
+       robot.CloseRPC();
+       return 0;
+    }
+
+查询机器人错误码
+++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief  查询机器人错误码
+     * @param  [out]  maincode  主错误码
+     * @param  [out]  subcode   子错误码
+     * @return  错误码
+     */ 
+    errno_t  GetRobotErrorCode(int *maincode, int *subcode);
+
+错误状态清除
+++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief  错误状态清除
+    * @return  错误码
+    */
+    errno_t  ResetAllError();
+
+机器人故障状态获取及清除错误代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. code-block:: c++
     :linenos:
 
-    void TestTCP6(FRRobot* robot)
+    int TestGetError(void)
     {
-        DescPose p1Desc(-394.073, -276.405, 399.451, -133.692, 7.657, -139.047);
-        JointPos p1Joint(15.234, -88.178, 96.583, -68.314, -52.303, -122.926);
-
-        DescPose p2Desc(-187.141, -444.908, 432.425, 148.662, 15.483, -90.637);
-        JointPos p2Joint(61.796, -91.959, 101.693, -102.417, -124.511, -122.767);
-
-        DescPose p3Desc(-368.695, -485.023, 426.640, -162.588, 31.433, -97.036);
-        JointPos p3Joint(43.896, -64.590, 60.087, -50.269, -94.663, -122.652);
-
-        DescPose p4Desc(-291.069, -376.976, 467.560, -179.272, -2.326, -107.757);
-        JointPos p4Joint(39.559, -94.731, 96.307, -93.141, -88.131, -122.673);
-
-        DescPose p5Desc(-284.140, -488.041, 478.579, 179.785, -1.396, -98.030);
-        JointPos p5Joint(49.283, -82.423, 81.993, -90.861, -89.427, -122.678);
-
-        DescPose p6Desc(-296.307, -385.991, 484.492, -178.637, -0.057, -107.059);
-        JointPos p6Joint(40.141, -92.742, 91.410, -87.978, -88.824, -122.808);
-
-        ExaxisPos exaxisPos(0, 0, 0, 0);
-        DescPose offdese(0, 0, 0, 0, 0, 0);
-
-        JointPos posJ[6] = { p1Joint , p2Joint , p3Joint , p4Joint , p5Joint , p6Joint };
-        DescPose coordRtn = {};
-        int rtn = robot->ComputeToolCoordWithPoints(1, posJ, coordRtn);
-        printf("ComputeToolCoordWithPoints    %d  coord is %f %f %f %f %f %f \n", rtn, coordRtn.tran.x, coordRtn.tran.y, coordRtn.tran.z, coordRtn.rpy.rx, coordRtn.rpy.ry, coordRtn.rpy.rz);
-
-
-        robot->MoveJ(&p1Joint, &p1Desc, 0, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
-        robot->SetToolPoint(1);
-        robot->MoveJ(&p2Joint, &p2Desc, 0, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
-        robot->SetToolPoint(2);
-        robot->MoveJ(&p3Joint, &p3Desc, 0, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
-        robot->SetToolPoint(3);
-        robot->MoveJ(&p4Joint, &p4Desc, 0, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
-        robot->SetToolPoint(4);
-        robot->MoveJ(&p5Joint, &p5Desc, 0, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
-        robot->SetToolPoint(5);
-        robot->MoveJ(&p6Joint, &p6Desc, 0, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
-        robot->SetToolPoint(6);
-        robot->ComputeTool(&coordRtn);
-        printf("ComputeTool                   %d  coord is %f %f %f %f %f %f \n", rtn, coordRtn.tran.x, coordRtn.tran.y, coordRtn.tran.z, coordRtn.rpy.rx, coordRtn.rpy.ry, coordRtn.rpy.rz);
-
-    }
-
-    void TestWObj(FRRobot* robot)
-    {
-        DescPose p1Desc(-275.046, -293.122, 28.747, 174.533, -1.301, -112.101);
-        JointPos p1Joint(35.207, -95.350, 133.703, -132.403, -93.897, -122.768);
-
-        DescPose p2Desc(-280.339, -396.053, 29.762, 174.621, -3.448, -102.901);
-        JointPos p2Joint(44.304, -85.020, 123.889, -134.679, -92.658, -122.768);
-
-        DescPose p3Desc(-270.597, -290.603, 83.034, 179.314, 0.808, -114.171);
-        JointPos p3Joint(32.975, -99.175, 125.966, -116.484, -91.014, -122.857);
-
-        
-
-        ExaxisPos exaxisPos(0, 0, 0, 0);
-        DescPose offdese(0, 0, 0, 0, 0, 0);
-
-        DescPose posTCP[3] = { p1Desc , p2Desc , p3Desc };
-        DescPose coordRtn = {};
-        int rtn = robot->ComputeWObjCoordWithPoints(1, posTCP, 0, coordRtn);
-        printf("ComputeToolCoordWithPoints    %d  coord is %f %f %f %f %f %f \n", rtn, coordRtn.tran.x, coordRtn.tran.y, coordRtn.tran.z, coordRtn.rpy.rx, coordRtn.rpy.ry, coordRtn.rpy.rz);
-
-
-        robot->MoveJ(&p1Joint, &p1Desc, 1, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
-        robot->SetWObjCoordPoint(1);
-        robot->MoveJ(&p2Joint, &p2Desc, 1, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
-        robot->SetWObjCoordPoint(2);
-        robot->MoveJ(&p3Joint, &p3Desc, 1, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
-        robot->SetWObjCoordPoint(3);
-        robot->ComputeWObjCoord(1, 0, &coordRtn);
-        printf("ComputeTool                   %d  coord is %f %f %f %f %f %f \n", rtn, coordRtn.tran.x, coordRtn.tran.y, coordRtn.tran.z, coordRtn.rpy.rx, coordRtn.rpy.ry, coordRtn.rpy.rz);
+       ROBOT_STATE_PKG pkg = {};
+       FRRobot robot;
+       robot.LoggerInit();
+       robot.SetLoggerLevel(1);
+       int rtn = robot.RPC("192.168.58.2");
+       if (rtn != 0)
+       {
+          return -1;
+       }
+       robot.SetReConnectParam(true, 30000, 500);
+       int maincode, subcode;
+       robot.GetRobotErrorCode(&maincode, &subcode);
+       printf("robot maincode is %d; subcode is %d\n", maincode, subcode);
+       robot.ResetAllError();
+       robot.Sleep(1000);
+       robot.GetRobotErrorCode(&maincode, &subcode);
+       printf("robot maincode is %d; subcode is %d\n", maincode, subcode);
+       robot.CloseRPC();
+       return 0;
     }

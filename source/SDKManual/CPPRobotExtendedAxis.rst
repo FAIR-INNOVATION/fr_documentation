@@ -42,69 +42,6 @@
     */
     errno_t AuxServoGetParam(int servoId, int* servoCompany, int* servoModel, int* servoSoftVersion, int* servoResolution, double* axisMechTransRatio);
     
-代码示例
-**************
-.. versionadded:: C++SDK-v2.1.3.0
-
-.. code-block:: c++
-    :linenos:
-
-    #include "libfairino/robot.h"
-
-    //如果使用Windows，包含下面的头文件
-    #include <string.h>
-    #include <windows.h>
-    //如果使用linux，包含下面的头文件
-    /*
-    #include <cstdlib>
-    #include <iostream>
-    #include <stdio.h>
-    #include <cstring>
-    #include <unistd.h>
-    */
-    #include <chrono>
-    #include <thread>
-    #include <string>
-
-    using namespace std;
-
-    int main(void)
-    {
-        FRRobot robot;
-        robot.LoggerInit();
-        robot.SetLoggerLevel();
-        robot.RPC("192.168.58.2"); 
-
-        int retval = robot.AuxServoSetParam(1, 1, 1, 1, 131072, 15.45);
-        std::cout << "AuxServoSetParam is: " << retval << std::endl;
-
-        int servoCompany;
-        int servoModel;
-        int servoSoftVersion;
-        int servoResolution;
-        double axisMechTransRatio;
-        retval = robot.AuxServoGetParam(1, &servoCompany, &servoModel, &servoSoftVersion, &servoResolution, &axisMechTransRatio);
-        std::cout << "servoCompany " << servoCompany<< "\n"
-                  << "servoModel " << servoModel << "\n"
-                  << "servoSoftVersion " << servoSoftVersion<< "\n"
-                  << "servoResolution " << servoResolution<< "\n"
-                  << "axisMechTransRatio "<<axisMechTransRatio<< "\n"
-                  << std::endl;
-
-        retval = robot.AuxServoSetParam(1, 10, 11, 12, 13, 14);
-        std::cout << "AuxServoSetParam is: " << retval << std::endl;
-
-        retval = robot.AuxServoGetParam(1, &servoCompany, &servoModel, &servoSoftVersion, &servoResolution, &axisMechTransRatio);
-        std::cout << "servoCompany " << servoCompany<< "\n"
-                  << "servoModel " << servoModel << "\n"
-                  << "servoSoftVersion " << servoSoftVersion<< "\n"
-                  << "servoResolution " << servoResolution<< "\n"
-                  << "axisMechTransRatio "<<axisMechTransRatio<< "\n"
-                  << std::endl;
-
-        return 0;
-    }
-    
 设置485扩展轴使能/去使能
 ++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.3.0
@@ -216,78 +153,6 @@
     */
     errno_t AuxServoGetStatus(int servoId, int* servoErrCode, int* servoState, double* servoPos, double* servoSpeed, double* servoTorque);
 
-代码示例
-**************
-.. versionadded:: C++SDK-v2.1.3.0
-
-.. code-block:: c++
-    :linenos:
-
-    #include "libfairino/robot.h"
-
-    //如果使用Windows，包含下面的头文件
-    #include <string.h>
-    #include <windows.h>
-    //如果使用linux，包含下面的头文件
-    /*
-    #include <cstdlib>
-    #include <iostream>
-    #include <stdio.h>
-    #include <cstring>
-    #include <unistd.h>
-    */
-    #include <chrono>
-    #include <thread>
-    #include <string>
-
-    using namespace std;
-
-    int main(void)
-    {
-        FRRobot robot; 
-        robot.LoggerInit();
-        robot.SetLoggerLevel();
-        robot.RPC("192.168.58.2");
-        int retval = 0;
-
-        retval = robot.AuxServoSetParam(1, 1, 1, 1, 131072, 36);
-        std::cout << "AuxServoSetParam is: " << retval << std::endl;
-        std::this_thread::sleep_for(std::chrono::seconds(3));
-
-        retval = robot.AuxServoEnable(1, 0);
-        std::cout << "AuxServoEnable disenable " << retval << std::endl;
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-        int servoerrcode = 0;
-        int servoErrCode;
-        int servoState;
-        double servoPos;
-        double servoSpeed;
-        double servoTorque;
-        retval = robot.AuxServoGetStatus(1, &servoErrCode, &servoState, &servoPos, &servoSpeed, &servoTorque);
-        std::cout << "AuxServoGetStatus servoState "<< servoState << std::endl;
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-
-        retval = robot.AuxServoEnable(1, 1);
-        std::cout << "AuxServoEnable enable " << retval << std::endl;
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-        retval = robot.AuxServoGetStatus(1, &servoErrCode, &servoState, &servoPos, &servoSpeed, &servoTorque);
-        std::cout << "AuxServoGetStatus servoState "<< servoState << std::endl;
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-
-        retval = robot.AuxServoHoming(1, 1, 5, 1);
-        std::cout << "AuxServoHoming " << retval << std::endl;
-        std::this_thread::sleep_for(std::chrono::seconds(3));
-
-        retval = robot.AuxServoSetTargetPos(1, 200, 30);
-        std::cout << "AuxServoSetTargetPos " << retval << std::endl;
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-        retval = robot.AuxServoGetStatus(1, &servoErrCode, &servoState, &servoPos, &servoSpeed, &servoTorque);
-        std::cout << "AuxServoGetStatus servoSpeed "<< servoSpeed << std::endl;
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-
-        return 0;
-    }
-
 设置485扩展轴目标速度(速度模式)
 ++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.3.0
@@ -316,24 +181,165 @@
     * @return 错误码
     */
     errno_t AuxServosetStatusID(int servoId);
-        
-获取机器人实时状态结构体
-++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.3.0
 
+设置485扩展轴运动加减速度
+++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.5.0
+    
 .. code-block:: c++
     :linenos:
 
     /**
-    * @brief 获取机器人实时状态结构体
-    * @param [out] pkg 机器人实时状态结构体
+    * @brief 设置485扩展轴运动加减速度
+    * @param [in] acc 485扩展轴运动加速度
+    * @param [in] dec 485扩展轴运动减速度
     * @return 错误码
     */
-    errno_t GetRobotRealTimeState(ROBOT_STATE_PKG *pkg);
+    errno_t AuxServoSetAcc(double acc, double dec);
+
+设置485扩展轴急停加减速度
+++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.5.0
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 设置485扩展轴急停加减速度
+    * @param [in] acc 485扩展轴急停加速度
+    * @param [in] dec 485扩展轴急停减速度
+    * @return 错误码
+    */
+    errno_t AuxServoSetEmergencyStopAcc(double acc, double dec);
+
+获取485扩展轴运动加减速度
+++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.5.0
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 获取485扩展轴运动加减速度
+    * @param [out] acc 485扩展轴运动加速度
+    * @param [out] dec 485扩展轴运动减速度
+    * @return 错误码
+    */
+    errno_t AuxServoGetAcc(double& acc, double& dec);
+
+获取485扩展轴急停加减速度
+++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.5.0
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 获取485扩展轴急停加减速度
+    * @param [out] acc 485扩展轴急停加速度
+    * @param [out] dec 485扩展轴急停减速度
+    * @return 错误码
+    */
+    errno_t AuxServoGetEmergencyStopAcc(double& acc, double& dec);
+
+扩展轴控制代码示例
+++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.5.0
+    
+.. code-block:: c++
+    :linenos:
         
+    int Test485Auxservo(void)
+    {
+      ROBOT_STATE_PKG pkg = {};
+      FRRobot robot;
+      robot.LoggerInit();
+      robot.SetLoggerLevel(1);
+      int rtn = robot.RPC("192.168.58.2");
+      if (rtn != 0)
+      {
+        return -1;
+      }
+      robot.SetReConnectParam(true, 30000, 500);
+      int retval = robot.AuxServoSetParam(1, 1, 1, 1, 131072, 15.45);
+      std::cout << "AuxServoSetParam is: " << retval << std::endl;
+      int servoCompany;
+      int servoModel;
+      int servoSoftVersion;
+      int servoResolution;
+      double axisMechTransRatio;
+      retval = robot.AuxServoGetParam(1, &servoCompany, &servoModel, &servoSoftVersion, &servoResolution, &axisMechTransRatio);
+      std::cout << "servoCompany " << servoCompany << "\n"
+        << "servoModel " << servoModel << "\n"
+        << "servoSoftVersion " << servoSoftVersion << "\n"
+        << "servoResolution " << servoResolution << "\n"
+        << "axisMechTransRatio " << axisMechTransRatio << "\n"
+        << std::endl;
+      retval = robot.AuxServoSetParam(1, 10, 11, 12, 13, 14);
+      std::cout << "AuxServoSetParam is: " << retval << std::endl;
+      retval = robot.AuxServoGetParam(1, &servoCompany, &servoModel, &servoSoftVersion, &servoResolution, &axisMechTransRatio);
+      std::cout << "servoCompany " << servoCompany << "\n"
+        << "servoModel " << servoModel << "\n"
+        << "servoSoftVersion " << servoSoftVersion << "\n"
+        << "servoResolution " << servoResolution << "\n"
+        << "axisMechTransRatio " << axisMechTransRatio << "\n"
+        << std::endl;
+      retval = robot.AuxServoSetParam(1, 1, 1, 1, 131072, 36);
+      std::cout << "AuxServoSetParam is: " << retval << std::endl;
+      robot.Sleep(3000);
+      robot.AuxServoSetAcc(3000, 3000);
+      robot.AuxServoSetEmergencyStopAcc(5000, 5000);
+      robot.Sleep(1000);
+      double emagacc = 0, acc = 0;
+      double emagdec = 0, dec = 0;
+      robot.AuxServoGetEmergencyStopAcc(emagacc, emagdec);
+      printf("emergency acc is %f dec is %f \n", emagacc, emagdec);
+      robot.AuxServoGetAcc(acc, dec);
+      printf("acc is %f dec is %f \n", acc, dec);
+      robot.AuxServoSetControlMode(1, 0);
+      robot.Sleep(2000);
+      retval = robot.AuxServoEnable(1, 0);
+      std::cout << "AuxServoEnable disenable " << retval << std::endl;
+      robot.Sleep(1000);
+      int servoerrcode = 0;
+      int servoErrCode;
+      int servoState;
+      double servoPos;
+      double servoSpeed;
+      double servoTorque;
+      retval = robot.AuxServoGetStatus(1, &servoErrCode, &servoState, &servoPos, &servoSpeed, &servoTorque);
+      std::cout << "AuxServoGetStatus servoState " << servoState << std::endl;
+      robot.Sleep(1000);;
+      retval = robot.AuxServoEnable(1, 1);
+      std::cout << "AuxServoEnable enable " << retval << std::endl;
+      robot.Sleep(1000);
+      retval = robot.AuxServoGetStatus(1, &servoErrCode, &servoState, &servoPos, &servoSpeed, &servoTorque);
+      std::cout << "AuxServoGetStatus servoState " << servoState << std::endl;
+      robot.Sleep(1000);
+      retval = robot.AuxServoHoming(1, 1, 5, 1);
+      std::cout << "AuxServoHoming " << retval << std::endl;
+      robot.Sleep(3000);
+      retval = robot.AuxServoSetTargetPos(1, 200, 30);
+      std::cout << "AuxServoSetTargetPos " << retval << std::endl;
+      robot.Sleep(1000);
+      retval = robot.AuxServoGetStatus(1, &servoErrCode, &servoState, &servoPos, &servoSpeed, &servoTorque);
+      std::cout << "AuxServoGetStatus servoSpeed " << servoSpeed << std::endl;
+      robot.Sleep(8000);
+      robot.AuxServoSetControlMode(1, 1);
+      robot.Sleep(2000);
+      robot.AuxServoEnable(1, 0);
+      robot.Sleep(1000);
+      robot.AuxServoEnable(1, 1);
+      robot.Sleep(1000);
+      robot.AuxServoSetTargetSpeed(1, 100, 80);
+      robot.Sleep(5000);
+      robot.AuxServoSetTargetSpeed(1, 0, 80);
+      robot.CloseRPC();
+      return 0;
+    }
+
 UDP扩展轴通讯参数配置
 ++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.4.0
 
 .. code-block:: c++
     :linenos:
@@ -341,17 +347,18 @@ UDP扩展轴通讯参数配置
     /**
     * @brief UDP扩展轴通讯参数配置
     * @param [in] ip PLC IP地址
-    * @param [in] port	端口号
-    * @param [in] period	通讯周期(ms，默认为2，请勿修改此参数)
-    * @param [in] lossPkgTime	丢包检测时间(ms)
-    * @param [in] lossPkgNum	丢包次数
-    * @param [in] disconnectTime	通讯断开确认时长
-    * @param [in] reconnectEnable	通讯断开自动重连使能 0-不使能 1-使能
-    * @param [in] reconnectPeriod	重连周期间隔(ms)
-    * @param [in] reconnectNum	重连次数
+    * @param [in] port  端口号
+    * @param [in] period    通讯周期(ms，默认为2，请勿修改此参数)
+    * @param [in] lossPkgTime   丢包检测时间(ms)
+    * @param [in] lossPkgNum    丢包次数
+    * @param [in] disconnectTime    通讯断开确认时长
+    * @param [in] reconnectEnable   通讯断开自动重连使能 0-不使能 1-使能
+    * @param [in] reconnectPeriod   重连周期间隔(ms)
+    * @param [in] reconnectNum  重连次数
+    * @param [in] selfConnect 断电重启是否自动建立连接；0-不建立连接；1-建立连接
     * @return 错误码
     */
-    errno_t ExtDevSetUDPComParam(std::string ip, int port, int period, int lossPkgTime, int lossPkgNum, int disconnectTime, int reconnectEnable, int reconnectPeriod, int reconnectNum);
+    errno_t ExtDevSetUDPComParam(std::string ip, int port, int period, int lossPkgTime, int lossPkgNum, int disconnectTime, int reconnectEnable, int reconnectPeriod, int reconnectNum, int selfConnect = 1);
         
 获取UDP扩展轴通讯参数配置
 ++++++++++++++++++++++++++++++++++
@@ -400,28 +407,6 @@ UDP扩展轴通讯参数配置
     * @return 错误码
     */
     errno_t ExtDevUnloadUDPDriver();
-
-代码示例
-**************
-
-.. code-block:: c++
-    :linenos:
-
-    int testUDPParam(FRRobot* robot)
-    {
-        int rtn = 0;
-        rtn = robot->ExtDevSetUDPComParam("192.168.58.88", 2021, 2, 100, 3, 200, 1, 100, 5);
-        cout << "ExtDevSetUDPComParam rtn is " << rtn << endl;
-        string ip = ""; int port = 0; int period = 0; int lossPkgTime = 0; int lossPkgNum = 0; int disconnectTime = 0; int reconnectEnable = 0; int reconnectPeriod = 0; int reconnectNum = 0;
-        rtn = robot->ExtDevGetUDPComParam(ip, port, period, lossPkgTime, lossPkgNum, disconnectTime, reconnectEnable, reconnectPeriod, reconnectNum);
-        string patam = "\nip " + ip + "\nport " + to_string(port) + "\nperiod  " + to_string(period) + "\nlossPkgTime " + to_string(lossPkgTime) + "\nlossPkgNum  " + to_string(lossPkgNum) + "\ndisConntime  " + to_string(disconnectTime) + "\nreconnecable  " + to_string(reconnectEnable) + "\nreconnperiod  " + to_string(reconnectPeriod) + "\nreconnnun  " + to_string(reconnectNum);
-        cout << "ExtDevGetUDPComParam rtn is " << rtn << patam<< endl;
-
-        robot->ExtDevLoadUDPDriver();
-        //Sleep(1000 * 5);
-        robot->ExtDevUnloadUDPDriver();
-        return 0;
-    }
 
 UDP扩展轴通信异常断开后恢复连接
 ++++++++++++++++++++++++++++++++++
@@ -511,166 +496,6 @@ UDP扩展轴参数配置
     */
     errno_t SetAxisDHParaConfig(int axisConfig, double axisDHd1, double axisDHd2, double axisDHd3, double axisDHd4, double axisDHa1, double axisDHa2, double axisDHa3, double axisDHa4);
 
-代码示例
-**********
-
-.. code-block:: c++
-    :linenos:
-
-    int testAxisParam(FRRobot* robot)
-    {
-        int rtn = 0;
-        rtn = robot->SetRobotPosToAxis(1);
-        cout << "SetRobotPosToAxis rtn is " << rtn <<endl;
-        rtn = robot->SetAxisDHParaConfig(10, 20, 0, 0, 0, 0, 0, 0, 0);
-        cout << "SetAxisDHParaConfig rtn is " << rtn << endl;
-        rtn = robot->ExtAxisParamConfig(1, 0, 1, 100, -100, 10, 10, 12, 131072, 0, 1, 0, 0);
-        cout << "ExtAxisParamConfig rtn is " << rtn << endl;
-        return 0;
-    }
-
-设置扩展轴坐标系参考点-四点法
-++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.4.0
-
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief 设置扩展轴坐标系参考点-四点法
-    * @param [in]  pointNum 点编号[1-4]
-    * @return 错误码
-    */
-    errno_t ExtAxisSetRefPoint(int pointNum);
-
-计算扩展轴坐标系-四点法
-++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.4.0
-
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief 计算扩展轴坐标系-四点法
-    * @param [out]  coord 坐标系值
-    * @return 错误码
-    */
-    errno_t ExtAxisComputeECoordSys(DescPose& coord);
-
-应用扩展轴坐标系
-++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.4.0
-
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief 应用扩展轴坐标系
-    * @param [in]  applyAxisId 扩展轴编号 bit0-bit3对应扩展轴编号1-4，如应用扩展轴1和3，则是 0b 0000 0101；也就是5
-    * @param [in]  axisCoordNum 扩展轴坐标系编号
-    * @param [in]  coord 坐标系值
-    * @param [in]  calibFlag 标定标志 0-否，1-是
-    * @return 错误码
-    */
-    errno_t ExtAxisActiveECoordSys(int applyAxisId, int axisCoordNum, DescPose coord, int calibFlag);
-
-代码示例
-************
-
-.. code-block:: c++
-    :linenos:
-
-    int testExtAxisCoord(FRRobot* robot)
-    {
-        DescPose coord = {};
-        int rtn = 0;
-        rtn = robot->ExtAxisSetRefPoint(1);
-        rtn = robot->ExtAxisSetRefPoint(2);
-        rtn = robot->ExtAxisSetRefPoint(3);
-        rtn = robot->ExtAxisSetRefPoint(4);
-
-        rtn = robot->ExtAxisComputeECoordSys(coord);
-
-        rtn = robot->ExtAxisActiveECoordSys(1, 1, coord, 1);
-        cout << "ExtAxisActiveECoordSys rtn is " << rtn << endl;
-        return 0;
-    }
-
-设置标定参考点在变位机末端坐标系下位姿
-++++++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.4.0
-
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief 设置标定参考点在变位机末端坐标系下位姿
-    * @param [in] pos 位姿值
-    * @return 错误码
-    */
-    errno_t SetRefPointInExAxisEnd(DescPose pos);
-
-变位机坐标系参考点设置
-++++++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.4.0
-
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief 变位机坐标系参考点设置
-    * @param [in]  pointNum 点编号[1-4]
-    * @return 错误码
-    */
-    errno_t PositionorSetRefPoint(int pointNum);
-
-变位机坐标系计算-四点法
-++++++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.4.0
-
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief 变位机坐标系计算-四点法
-    * @param [out] coord 坐标系值
-    * @return 错误码
-    */
-    errno_t PositionorComputeECoordSys(DescPose& coord);
-
-代码示例
-************
-
-.. code-block:: c++
-    :linenos:
-
-    int testExtAxisCoord(FRRobot* robot)
-    {
-        DescPose coord = {};
-        int rtn = 0;
-        DescPose dese = {};
-        rtn = robot->SetRefPointInExAxisEnd(dese);
-
-        rtn = robot->PositionorSetRefPoint(1);
-        rtn = robot->PositionorSetRefPoint(2);
-        rtn = robot->PositionorSetRefPoint(3);
-        rtn = robot->PositionorSetRefPoint(4);
-        cout << "PositionorSetRefPoint rtn is " << rtn << endl;
-
-        rtn = robot->PositionorComputeECoordSys(coord);
-        cout << "PositionorComputeECoordSys rtn is " << rtn << endl;
-        cout << "coord x is " << coord.tran.x << endl;
-        cout << "coord y is " << coord.tran.y << endl;
-        cout << "coord z is " << coord.tran.z << endl;
-        cout << "coord rx is " << coord.rpy.rx << endl;
-        cout << "coord ry is " << coord.rpy.ry << endl;
-        cout << "coord rz is " << coord.rpy.rz << endl;
-
-        rtn = robot->ExtAxisActiveECoordSys(1, 1, coord, 1);
-        cout << "ExtAxisActiveECoordSys rtn is " << rtn << endl;
-        return 0;
-    }
-
 UDP扩展轴使能
 ++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.4.0
@@ -735,23 +560,276 @@ UDP扩展轴点动停止
     */
     errno_t ExtAxisStopJog(int axisID);
 
-代码示例
-************
+UDP扩展轴配置与点动代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. code-block:: c++
     :linenos:
 
-    int testServoOnHomingJog(FRRobot* robot)
+    int TestUDPAxis(void)
     {
-        robot->ExtAxisServoOn(2, 1);
-        Sleep(1000 * 3);
-        robot->ExtAxisStartJog(1, 0, 10, 10, 30);
-        Sleep(1000 * 1);
-        robot->ExtAxisStopJog(1);
-        robot->ExtAxisSetHoming(2, 0, 10, 2);
-        Sleep(1000 * 3);
-        robot->ExtAxisServoOn(2, 0);
-        return 0;
+      ROBOT_STATE_PKG pkg = {};
+      FRRobot robot;
+      robot.LoggerInit();
+      robot.SetLoggerLevel(1);
+      int rtn = robot.RPC("192.168.58.2");
+      if (rtn != 0)
+      {
+        return -1;
+      }
+      robot.SetReConnectParam(true, 30000, 500);
+      rtn = robot.ExtDevSetUDPComParam("192.168.58.88", 2021, 2, 100, 3, 200, 1, 100, 5, 1);
+      cout << "ExtDevSetUDPComParam rtn is " << rtn << endl;
+      string ip = ""; int port = 0; int period = 0; int lossPkgTime = 0; int lossPkgNum = 0; int disconnectTime = 0; int reconnectEnable = 0; int reconnectPeriod = 0; int reconnectNum = 0;
+      rtn = robot.ExtDevGetUDPComParam(ip, port, period, lossPkgTime, lossPkgNum, disconnectTime, reconnectEnable, reconnectPeriod, reconnectNum);
+      string patam = "\nip " + ip + "\nport " + to_string(port) + "\nperiod " + to_string(period) + "\nlossPkgTime " + to_string(lossPkgTime) + "\nlossPkgNum " + to_string(lossPkgNum) + "\ndisConntime " + to_string(disconnectTime) + "\nreconnecable " + to_string(reconnectEnable) + "\nreconnperiod " + to_string(reconnectPeriod) + "\nreconnnun " + to_string(reconnectNum);
+      cout << "ExtDevGetUDPComParam rtn is " << rtn << patam << endl;
+      robot.ExtDevLoadUDPDriver();
+      rtn = robot.ExtAxisServoOn(1, 1);
+      cout << "ExtAxisServoOn axis id 1 rtn is " << rtn << endl;
+      rtn = robot.ExtAxisServoOn(2, 1);
+      cout << "ExtAxisServoOn axis id 2 rtn is " << rtn << endl;
+      robot.Sleep(2000);
+      robot.ExtAxisSetHoming(1, 0, 10, 2);
+      robot.Sleep(2000);
+      rtn = robot.ExtAxisSetHoming(2, 0, 10, 2);
+      cout << "ExtAxisSetHoming rtnn is " << rtn << endl;
+      robot.Sleep(4000);
+      rtn = robot.SetRobotPosToAxis(1);
+      cout << "SetRobotPosToAxis rtn is " << rtn << endl;
+      rtn = robot.SetAxisDHParaConfig(10, 20, 0, 0, 0, 0, 0, 0, 0);
+      cout << "SetAxisDHParaConfig rtn is " << rtn << endl;
+      rtn = robot.ExtAxisParamConfig(1, 1, 1, 1000, -1000, 1000, 1000, 1.905, 262144, 200, 1, 0, 0);
+      cout << "ExtAxisParamConfig axis 1 rtn is " << rtn << endl;
+      rtn = robot.ExtAxisParamConfig(2, 1, 1, 1000, -1000, 1000, 1000, 4.444, 262144, 200, 1, 0, 0);
+      cout << "ExtAxisParamConfig axis 1 rtn is " << rtn << endl;
+      robot.Sleep(1000 * 3);
+      robot.ExtAxisStartJog(1, 0, 10, 10, 30);
+      robot.Sleep(1000 * 1);
+      robot.ExtAxisStopJog(1);
+      robot.Sleep(1000 * 3);
+      robot.ExtAxisServoOn(1, 0);
+      robot.Sleep(1000 * 3);
+      robot.ExtAxisStartJog(2, 0, 10, 10, 30);
+      robot.Sleep(1000 * 1);
+      robot.ExtAxisStopJog(2);
+      robot.Sleep(1000 * 3);
+      robot.ExtAxisServoOn(2, 0);
+      robot.ExtDevUnloadUDPDriver();
+      robot.CloseRPC();
+      return 0;
+    }
+
+设置扩展轴坐标系参考点-四点法
+++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.4.0
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 设置扩展轴坐标系参考点-四点法
+    * @param [in]  pointNum 点编号[1-4]
+    * @return 错误码
+    */
+    errno_t ExtAxisSetRefPoint(int pointNum);
+
+计算扩展轴坐标系-四点法
+++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.4.0
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 计算扩展轴坐标系-四点法
+    * @param [out]  coord 坐标系值
+    * @return 错误码
+    */
+    errno_t ExtAxisComputeECoordSys(DescPose& coord);
+
+变位机坐标系参考点设置
+++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.4.0
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 变位机坐标系参考点设置
+    * @param [in]  pointNum 点编号[1-4]
+    * @return 错误码
+    */
+    errno_t PositionorSetRefPoint(int pointNum);
+
+变位机坐标系计算-四点法
+++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.4.0
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 变位机坐标系计算-四点法
+    * @param [out] coord 坐标系值
+    * @return 错误码
+    */
+    errno_t PositionorComputeECoordSys(DescPose& coord);
+
+设置标定参考点在变位机末端坐标系下位姿
+++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.4.0
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 设置标定参考点在变位机末端坐标系下位姿
+    * @param [in] pos 位姿值
+    * @return 错误码
+    */
+    errno_t SetRefPointInExAxisEnd(DescPose pos);
+
+应用扩展轴坐标系
+++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.4.0
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 应用扩展轴坐标系
+    * @param [in]  applyAxisId 扩展轴编号 bit0-bit3对应扩展轴编号1-4，如应用扩展轴1和3，则是 0b 0000 0101；也就是5
+    * @param [in]  axisCoordNum 扩展轴坐标系编号
+    * @param [in]  coord 坐标系值
+    * @param [in]  calibFlag 标定标志 0-否，1-是
+    * @return 错误码
+    */
+    errno_t ExtAxisActiveECoordSys(int applyAxisId, int axisCoordNum, DescPose coord, int calibFlag);
+
+获取扩展轴坐标系
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 获取扩展轴坐标系
+    * @param [out] coord 扩展轴坐标系
+    * @return 错误码
+    */
+    errno_t ExtAxisGetCoord(DescPose& coord);
+
+扩展轴坐标系标定代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c++
+    :linenos:
+
+    int TestUDPAxisCalib(void)
+    {
+       ROBOT_STATE_PKG pkg = {};
+       FRRobot robot;
+       robot.LoggerInit();
+       robot.SetLoggerLevel(1);
+       int rtn = robot.RPC("192.168.58.2");
+       if (rtn != 0)
+       {
+          return -1;
+       }
+       robot.SetReConnectParam(true, 30000, 500);
+       rtn = robot.ExtDevSetUDPComParam("192.168.58.88", 2021, 2, 100, 3, 200, 1, 100, 5, 1);
+       cout << "ExtDevSetUDPComParam rtn is " << rtn << endl;
+       string ip = ""; int port = 0; int period = 0; int lossPkgTime = 0; int lossPkgNum = 0; int disconnectTime = 0; int reconnectEnable = 0; int reconnectPeriod = 0; int reconnectNum = 0;
+       rtn = robot.ExtDevGetUDPComParam(ip, port, period, lossPkgTime, lossPkgNum, disconnectTime, reconnectEnable, reconnectPeriod, reconnectNum);
+       string patam = "\nip " + ip + "\nport " + to_string(port) + "\nperiod " + to_string(period) + "\nlossPkgTime " + to_string(lossPkgTime) + "\nlossPkgNum " + to_string(lossPkgNum) + "\ndisConntime " + to_string(disconnectTime) + "\nreconnecable " + to_string(reconnectEnable) + "\nreconnperiod " + to_string(reconnectPeriod) + "\nreconnnun " + to_string(reconnectNum);
+       cout << "ExtDevGetUDPComParam rtn is " << rtn << patam << endl;
+       robot.ExtDevLoadUDPDriver();
+       rtn = robot.ExtAxisServoOn(1, 1);
+       cout << "ExtAxisServoOn axis id 1 rtn is " << rtn << endl;
+       rtn = robot.ExtAxisServoOn(2, 1);
+       cout << "ExtAxisServoOn axis id 2 rtn is " << rtn << endl;
+       robot.Sleep(2000);
+       robot.ExtAxisSetHoming(1, 0, 10, 2);
+       robot.Sleep(2000);
+       rtn = robot.ExtAxisSetHoming(2, 0, 10, 2);
+       cout << "ExtAxisSetHoming rtnn is " << rtn << endl;
+       robot.Sleep(4000);
+       rtn = robot.SetRobotPosToAxis(1);
+       cout << "SetRobotPosToAxis rtn is " << rtn << endl;
+       rtn = robot.SetAxisDHParaConfig(1, 128.5, 206.4, 0, 0, 0, 0, 0, 0);
+       cout << "SetAxisDHParaConfig rtn is " << rtn << endl;
+       rtn = robot.ExtAxisParamConfig(1, 1, 1, 1000, -1000, 1000, 1000, 1.905, 262144, 200, 1, 0, 0);
+       cout << "ExtAxisParamConfig axis 1 rtn is " << rtn << endl;
+       rtn = robot.ExtAxisParamConfig(2, 1, 1, 1000, -1000, 1000, 1000, 4.444, 262144, 200, 1, 0, 0);
+       cout << "ExtAxisParamConfig axis 1 rtn is " << rtn << endl;
+       DescPose toolCoord(0, 0, 210, 0, 0, 0);
+       robot.SetToolCoord(1, &toolCoord, 0, 0, 1, 0);
+       JointPos jSafe(115.193, -96.149, 92.489, -87.068, -89.15, -83.488);
+       JointPos j1(117.559, -92.624, 100.329, -96.909, -94.057, -83.488);
+       JointPos j2(112.239, -90.096, 99.282, -95.909, -89.824, -83.488);
+       JointPos j3(110.839, -83.473, 93.166, -89.22, -90.499, -83.487);
+       JointPos j4(107.935, -83.572, 95.424, -92.873, -87.933, -83.488);
+       DescPose descSafe = {};
+       DescPose desc1 = {};
+       DescPose desc2 = {};
+       DescPose desc3 = {};
+       DescPose desc4 = {};
+       ExaxisPos exaxisPos = { 0, 0, 0, 0 };
+       DescPose offdese = { 0, 0, 0, 0, 0, 0 };
+       robot.GetForwardKin(&jSafe, &descSafe);
+       robot.MoveJ(&jSafe, &descSafe, 1, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+       robot.Sleep(2000);
+       robot.GetForwardKin(&j1, &desc1);
+       robot.MoveJ(&j1, &desc1, 1, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+       robot.Sleep(2000);
+       DescPose actualTCPPos = {};
+       robot.GetActualTCPPose(0, &actualTCPPos);
+       robot.SetRefPointInExAxisEnd(actualTCPPos);
+       rtn = robot.PositionorSetRefPoint(1);
+       cout << "PositionorSetRefPoint 1 rtn is " << rtn << endl;
+       robot.Sleep(2000);
+       robot.MoveJ(&jSafe, &descSafe, 1, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+       robot.ExtAxisStartJog(1, 0, 50, 50, 10);
+       robot.Sleep(1000);
+       robot.ExtAxisStartJog(2, 0, 50, 50, 10);
+       robot.Sleep(1000);
+       robot.GetForwardKin(&j2, &desc2);
+       rtn = robot.MoveJ(&j2, &desc2, 1, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+       rtn = robot.PositionorSetRefPoint(2);
+       cout << "PositionorSetRefPoint 2 rtn is " << rtn << endl;
+       robot.Sleep(2000);
+       robot.MoveJ(&jSafe, &descSafe, 1, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+       robot.ExtAxisStartJog(1, 0, 50, 50, 10);
+       robot.Sleep(1000);
+       robot.ExtAxisStartJog(2, 0, 50, 50, 10);
+       robot.Sleep(1000);
+       robot.GetForwardKin(&j3, &desc3);
+       robot.MoveJ(&j3, &desc3, 1, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+       rtn = robot.PositionorSetRefPoint(3);
+       cout << "PositionorSetRefPoint 3 rtn is " << rtn << endl;
+       robot.Sleep(2000);
+       robot.MoveJ(&jSafe, &descSafe, 1, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+       robot.ExtAxisStartJog(1, 0, 50, 50, 10);
+       robot.Sleep(1000);
+       robot.ExtAxisStartJog(2, 0, 50, 50, 10);
+       robot.Sleep(1000);
+       robot.GetForwardKin(&j4, &desc4);
+       robot.MoveJ(&j4, &desc4, 1, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+       rtn = robot.PositionorSetRefPoint(4);
+       cout << "PositionorSetRefPoint 4 rtn is " << rtn << endl;
+       robot.Sleep(2000);
+       DescPose axisCoord = {};
+       robot.PositionorComputeECoordSys(axisCoord);
+       robot.MoveJ(&jSafe, &descSafe, 1, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+       printf("PositionorComputeECoordSys rtn is %f %f %f %f %f %f\n", axisCoord.tran.x, axisCoord.tran.y, axisCoord.tran.z, axisCoord.rpy.rx, axisCoord.rpy.ry, axisCoord.rpy.rz);
+       rtn = robot.ExtAxisActiveECoordSys(3, 1, axisCoord, 1);
+       cout << "ExtAxisActiveECoordSys rtn is " << rtn << endl;
+    DescPose getCoord(0, 0, 0, 0, 0, 0);
+    rtn = robot.ExtAxisGetCoord(getCoord);
+    printf("ExtAxisGetCoord rtn is %f %f %f %f %f %f\n", getCoord.tran.x, getCoord.tran.y, getCoord.tran.z, getCoord.rpy.rx, getCoord.rpy.ry, getCoord.rpy.rz);
+    robot.CloseRPC();
+    return 0;
     }
 
 UDP扩展轴运动
@@ -769,21 +847,31 @@ UDP扩展轴运动
     */
     errno_t ExtAxisMove(ExaxisPos pos, double ovl);
 
-代码示例
-************
+UDP扩展轴运动代码示例
++++++++++++++++++++++++++++++++++++
 
 .. code-block:: c++
     :linenos:
 
-    int testExtAxisMove(FRRobot* robot)
+    int TestUDPAxisCalib(void)
     {
-        ExaxisPos axisPos;
-        axisPos.ePos[0] = 20;
-        axisPos.ePos[1] = 0;
-        axisPos.ePos[2] = 0;
-        axisPos.ePos[3] = 0;
-        robot->ExtAxisMove(axisPos, 50);
-        return 0;
+      ROBOT_STATE_PKG pkg = {};
+      FRRobot robot;
+      robot.LoggerInit();
+      robot.SetLoggerLevel(1);
+      int rtn = robot.RPC("192.168.58.2");
+      if (rtn != 0)
+      {
+        return -1;
+      }
+      ExaxisPos axisPos;
+      axisPos.ePos[0] = 20;
+      axisPos.ePos[1] = 0;
+      axisPos.ePos[2] = 0;
+      axisPos.ePos[3] = 0;
+      robot.ExtAxisMove(axisPos, 50);
+      robot.CloseRPC();
+      return 0;
     }
 
 UDP扩展轴与机器人关节运动同步运动
@@ -810,70 +898,69 @@ UDP扩展轴与机器人关节运动同步运动
     */
     errno_t ExtAxisSyncMoveJ(JointPos joint_pos, DescPose desc_pos, int tool, int user, float vel, float acc, float ovl, ExaxisPos epos, float blendT, byte offset_flag, DescPose offset_pos);
 
-代码示例
-************
+UDP扩展轴与机器人关节运动同步运动代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. code-block:: c++
     :linenos:
 
-    void testSyncMoveJ()
+    int testSyncMoveJ()
     {
-    Robot robot = new Robot();
-    robot.RPC("192.168.58.2");
-
-    //1.标定并应用机器人工具坐标系，您可以使用四点法或六点法进行工具坐标系的标定和应用，涉及工具坐标系标定的接口如下：
-        //    int SetToolPoint(int point_num);  //设置工具参考点-六点法
-        //    int ComputeTool(ref DescPose tcp_pose);  //计算工具坐标系
-        //    int SetTcp4RefPoint(int point_num);    //设置工具参考点-四点法
-        //    int ComputeTcp4(ref DescPose tcp_pose);   //计算工具坐标系-四点法
-        //    int SetToolCoord(int id, DescPose coord, int type, int install);  //设置应用工具坐标系
-        //    int SetToolList(int id, DescPose coord, int type, int install);   //设置应用工具坐标系列表
-
-        //2.设置UDP通信参数，并加载UDP通信
-        robot.ExtDevSetUDPComParam("192.168.58.88", 2021, 2, 100, 3, 100, 1, 100, 10);
-        robot.ExtDevLoadUDPDriver();
-
-        //3.设置扩展轴参数，包括扩展轴类型、扩展轴驱动器参数、扩展轴DH参数
-        robot.SetAxisDHParaConfig(4, 200, 200, 0, 0, 0, 0, 0, 0); //单轴变位机及DH参数
-        robot.SetRobotPosToAxis(1);  //扩展轴安装位置
-        robot.ExtAxisParamConfig(1, 0, 1, 100, -100, 10, 10, 12, 131072, 0, 1, 0, 0); //伺服驱动器参数，本示例为单轴变位机，因此只需要设置一个驱动器参数，若您选择包含多个轴的扩展轴类型，需要每一个轴设置驱动器参数
-
-        //4.设置所选的轴使能、回零
-        robot.ExtAxisServoOn(1, 0);
-        robot.ExtAxisSetHoming(1, 0, 20, 3);
-
-        //5.进行扩展轴坐标系标定及应用
-        DescPose pos = {/* 输入您的标定点坐标 */ };
-        robot.SetRefPointInExAxisEnd(pos);
-        robot.PositionorSetRefPoint(1); /*您需要通过四个不同位置的点来标定扩展轴，因此需要调用此接口4次才能完成标定 */
-        DescPose coord = {};
-        robot.PositionorComputeECoordSys(coord); //计算扩展轴标定结果
-        robot.ExtAxisActiveECoordSys(1, 1, coord, 1);  //将标定结果应用到扩展轴坐标系
-
-        //6.在扩展轴上标定工件坐标系，您需要用到以下接口
-        //int SetWObjCoordPoint(int point_num);
-        //int ComputeWObjCoord(int method, ref DescPose wobj_pose);
-        //int SetWObjCoord(int id, DescPose coord);
-        //int SetWObjList(int id, DescPose coord);
-
-        //7.记录您的同步关节运动起始点
-        DescPose startdescPose = {/*输入您的坐标*/ };
-        JointPos startjointPos = {/*输入您的坐标*/ };
-        ExaxisPos startexaxisPos = {/* 输入您的扩展轴起始点坐标 */ };
-
-        //8.记录您的同步关节运动终点坐标
-        DescPose enddescPose = {/*输入您的坐标*/ };
-        JointPos endjointPos = {/*输入您的坐标*/ };
-        ExaxisPos endexaxisPos = {/* 输入您的扩展轴终点坐标 */ };
-
-        //9.编写同步运动程序
-        //运动到起始点，假设应用的工具坐标系、工件坐标系都是1
-        robot.ExtAxisMove(startexaxisPos, 20);
-        DescPose offdese = { 0, 0, 0, 0, 0, 0 };
-        robot.MoveJ(&startjointPos, &startdescPose, 1, 1, 100, 100, 100, &startexaxisPos, 0, 0, &offdese);
-
-        //开始同步运动
-        robot.ExtAxisSyncMoveJ(endjointPos, enddescPose, 1, 1, 100, 100, 100, endexaxisPos, -1, 0, offdese);
+      ROBOT_STATE_PKG pkg = {};
+      FRRobot robot;
+      robot.LoggerInit();
+      robot.SetLoggerLevel(1);
+      int rtn = robot.RPC("192.168.58.2");
+      if (rtn != 0)
+      {
+        return -1;
+      }
+      robot.SetReConnectParam(true, 30000, 500);
+      //1.标定并应用机器人工具坐标系，您可以使用四点法或六点法进行工具坐标系的标定和应用，涉及工具坐标系标定的接口如下：
+      //  int SetToolPoint(int point_num); //设置工具参考点-六点法
+      //  int ComputeTool(ref DescPose tcp_pose); //计算工具坐标系
+      //  int SetTcp4RefPoint(int point_num);  //设置工具参考点-四点法
+      //  int ComputeTcp4(ref DescPose tcp_pose);  //计算工具坐标系-四点法
+      //  int SetToolCoord(int id, DescPose coord, int type, int install); //设置应用工具坐标系
+      //  int SetToolList(int id, DescPose coord, int type, int install);  //设置应用工具坐标系列表
+      //2.设置UDP通信参数，并加载UDP通信
+      robot.ExtDevSetUDPComParam("192.168.58.88", 2021, 2, 100, 3, 100, 1, 100, 10);
+      robot.ExtDevLoadUDPDriver();
+      //3.设置扩展轴参数，包括扩展轴类型、扩展轴驱动器参数、扩展轴DH参数
+      robot.SetAxisDHParaConfig(4, 200, 200, 0, 0, 0, 0, 0, 0); //单轴变位机及DH参数
+      robot.SetRobotPosToAxis(1); //扩展轴安装位置
+      robot.ExtAxisParamConfig(1, 0, 1, 100, -100, 10, 10, 12, 131072, 0, 1, 0, 0); //伺服驱动器参数，本示例为单轴变位机，因此只需要设置一个驱动器参数，若您选择包含多个轴的扩展轴类型，需要每一个轴设置驱动器参数
+      //4.设置所选的轴使能、回零
+      robot.ExtAxisServoOn(1, 0);
+      robot.ExtAxisSetHoming(1, 0, 20, 3);
+      //5.进行扩展轴坐标系标定及应用
+      DescPose pos = {/* 输入您的标定点坐标 */ };
+      robot.SetRefPointInExAxisEnd(pos);
+      robot.PositionorSetRefPoint(1); /*您需要通过四个不同位置的点来标定扩展轴，因此需要调用此接口4次才能完成标定 */
+      DescPose coord = {};
+      robot.PositionorComputeECoordSys(coord); //计算扩展轴标定结果
+      robot.ExtAxisActiveECoordSys(1, 1, coord, 1); //将标定结果应用到扩展轴坐标系
+      //6.在扩展轴上标定工件坐标系，您需要用到以下接口
+      //int SetWObjCoordPoint(int point_num);
+      //int ComputeWObjCoord(int method, ref DescPose wobj_pose);
+      //int SetWObjCoord(int id, DescPose coord);
+      //int SetWObjList(int id, DescPose coord);
+      //7.记录您的同步关节运动起始点
+      DescPose startdescPose = {/*输入您的坐标*/ };
+      JointPos startjointPos = {/*输入您的坐标*/ };
+      ExaxisPos startexaxisPos = {/* 输入您的扩展轴起始点坐标 */ };
+      //8.记录您的同步关节运动终点坐标
+      DescPose enddescPose = {/*输入您的坐标*/ };
+      JointPos endjointPos = {/*输入您的坐标*/ };
+      ExaxisPos endexaxisPos = {/* 输入您的扩展轴终点坐标 */ };
+      //9.编写同步运动程序
+      //运动到起始点，假设应用的工具坐标系、工件坐标系都是1
+      robot.ExtAxisMove(startexaxisPos, 20);
+      DescPose offdese = { 0, 0, 0, 0, 0, 0 };
+      robot.MoveJ(&startjointPos, &startdescPose, 1, 1, 100, 100, 100, &startexaxisPos, 0, 0, &offdese);
+      //开始同步运动
+      robot.ExtAxisSyncMoveJ(endjointPos, enddescPose, 1, 1, 100, 100, 100, endexaxisPos, -1, 0, offdese);
+      robot.CloseRPC();
     }
 
 UDP扩展轴与机器人直线运动同步运动
@@ -900,70 +987,69 @@ UDP扩展轴与机器人直线运动同步运动
     */
     errno_t ExtAxisSyncMoveL(JointPos joint_pos, DescPose desc_pos, int tool, int user, float vel, float acc, float ovl, float blendR, ExaxisPos epos, int offset_flag, DescPose offset_pos);
 
-代码示例
-************
+UDP扩展轴与机器人直线运动同步运动代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. code-block:: c++
     :linenos:
 
-    void testSyncMoveL()
+    int testSyncMoveL()
     {
-    Robot robot = new Robot();
-    robot.RPC("192.168.58.2");
-
-    //1.标定并应用机器人工具坐标系，您可以使用四点法或六点法进行工具坐标系的标定和应用，涉及工具坐标系标定的接口如下：
-        //    int SetToolPoint(int point_num);  //设置工具参考点-六点法
-        //    int ComputeTool(ref DescPose tcp_pose);  //计算工具坐标系
-        //    int SetTcp4RefPoint(int point_num);    //设置工具参考点-四点法
-        //    int ComputeTcp4(ref DescPose tcp_pose);   //计算工具坐标系-四点法
-        //    int SetToolCoord(int id, DescPose coord, int type, int install);  //设置应用工具坐标系
-        //    int SetToolList(int id, DescPose coord, int type, int install);   //设置应用工具坐标系列表
-
-        //2.设置UDP通信参数，并加载UDP通信
-        robot.ExtDevSetUDPComParam("192.168.58.88", 2021, 2, 100, 3, 100, 1, 100, 10);
-        robot.ExtDevLoadUDPDriver();
-
-        //3.设置扩展轴参数，包括扩展轴类型、扩展轴驱动器参数、扩展轴DH参数
-        robot.SetAxisDHParaConfig(4, 200, 200, 0, 0, 0, 0, 0, 0); //单轴变位机及DH参数
-        robot.SetRobotPosToAxis(1);  //扩展轴安装位置
-        robot.ExtAxisParamConfig(1, 0, 1, 100, -100, 10, 10, 12, 131072, 0, 1, 0, 0); //伺服驱动器参数，本示例为单轴变位机，因此只需要设置一个驱动器参数，若您选择包含多个轴的扩展轴类型，需要每一个轴设置驱动器参数
-
-        //4.设置所选的轴使能、回零
-        robot.ExtAxisServoOn(1, 0);
-        robot.ExtAxisSetHoming(1, 0, 20, 3);
-
-        //5.进行扩展轴坐标系标定及应用
-        DescPose pos = {/* 输入您的标定点坐标 */ };
-        robot.SetRefPointInExAxisEnd(pos);
-        robot.PositionorSetRefPoint(1); /*您需要通过四个不同位置的点来标定扩展轴，因此需要调用此接口4次才能完成标定 */
-        DescPose coord = {};
-        robot.PositionorComputeECoordSys(coord); //计算扩展轴标定结果
-        robot.ExtAxisActiveECoordSys(1, 1, coord, 1);  //将标定结果应用到扩展轴坐标系
-
-        //6.在扩展轴上标定工件坐标系，您需要用到以下接口
-        //int SetWObjCoordPoint(int point_num);
-        //int ComputeWObjCoord(int method, ref DescPose wobj_pose);
-        //int SetWObjCoord(int id, DescPose coord);
-        //int SetWObjList(int id, DescPose coord);
-
-        //7.记录您的同步直线运动起始点
-        DescPose startdescPose = {/*输入您的坐标*/ };
-        JointPos startjointPos = {/*输入您的坐标*/ };
-        ExaxisPos startexaxisPos = {/* 输入您的扩展轴起始点坐标 */ };
-
-        //8.记录您的同步直线运动终点坐标
-        DescPose enddescPose = {/*输入您的坐标*/ };
-        JointPos endjointPos = {/*输入您的坐标*/ };
-        ExaxisPos endexaxisPos = {/* 输入您的扩展轴终点坐标 */ };
-
-        //9.编写同步运动程序
-        //运动到起始点，假设应用的工具坐标系、工件坐标系都是1
-        robot.ExtAxisMove(startexaxisPos, 20);
-        DescPose offdese = { 0, 0, 0, 0, 0, 0 };
-        robot.MoveJ(&startjointPos, &startdescPose, 1, 1, 100, 100, 100, &startexaxisPos, 0, 0, &offdese);
-
-        //开始同步运动
-        robot.ExtAxisSyncMoveL(endjointPos, enddescPose, 1, 1, 100, 100, 100, 0, endexaxisPos, 0, offdese);
+      ROBOT_STATE_PKG pkg = {};
+      FRRobot robot;
+      robot.LoggerInit();
+      robot.SetLoggerLevel(1);
+      int rtn = robot.RPC("192.168.58.2");
+      if (rtn != 0)
+      {
+        return -1;
+      }
+      robot.SetReConnectParam(true, 30000, 500);
+      //1.标定并应用机器人工具坐标系，您可以使用四点法或六点法进行工具坐标系的标定和应用，涉及工具坐标系标定的接口如下：
+      //  int SetToolPoint(int point_num); //设置工具参考点-六点法
+      //  int ComputeTool(ref DescPose tcp_pose); //计算工具坐标系
+      //  int SetTcp4RefPoint(int point_num);  //设置工具参考点-四点法
+      //  int ComputeTcp4(ref DescPose tcp_pose);  //计算工具坐标系-四点法
+      //  int SetToolCoord(int id, DescPose coord, int type, int install); //设置应用工具坐标系
+      //  int SetToolList(int id, DescPose coord, int type, int install);  //设置应用工具坐标系列表
+      //2.设置UDP通信参数，并加载UDP通信
+      robot.ExtDevSetUDPComParam("192.168.58.88", 2021, 2, 100, 3, 100, 1, 100, 10);
+      robot.ExtDevLoadUDPDriver();
+      //3.设置扩展轴参数，包括扩展轴类型、扩展轴驱动器参数、扩展轴DH参数
+      robot.SetAxisDHParaConfig(4, 200, 200, 0, 0, 0, 0, 0, 0); //单轴变位机及DH参数
+      robot.SetRobotPosToAxis(1); //扩展轴安装位置
+      robot.ExtAxisParamConfig(1, 0, 1, 100, -100, 10, 10, 12, 131072, 0, 1, 0, 0); //伺服驱动器参数，本示例为单轴变位机，因此只需要设置一个驱动器参数，若您选择包含多个轴的扩展轴类型，需要每一个轴设置驱动器参数
+      //4.设置所选的轴使能、回零
+      robot.ExtAxisServoOn(1, 0);
+      robot.ExtAxisSetHoming(1, 0, 20, 3);
+      //5.进行扩展轴坐标系标定及应用
+      DescPose pos = {/* 输入您的标定点坐标 */ };
+      robot.SetRefPointInExAxisEnd(pos);
+      robot.PositionorSetRefPoint(1); /*您需要通过四个不同位置的点来标定扩展轴，因此需要调用此接口4次才能完成标定 */
+      DescPose coord = {};
+      robot.PositionorComputeECoordSys(coord); //计算扩展轴标定结果
+      robot.ExtAxisActiveECoordSys(1, 1, coord, 1); //将标定结果应用到扩展轴坐标系
+      //6.在扩展轴上标定工件坐标系，您需要用到以下接口
+      //int SetWObjCoordPoint(int point_num);
+      //int ComputeWObjCoord(int method, ref DescPose wobj_pose);
+      //int SetWObjCoord(int id, DescPose coord);
+      //int SetWObjList(int id, DescPose coord);
+      //7.记录您的同步直线运动起始点
+      DescPose startdescPose = {/*输入您的坐标*/ };
+      JointPos startjointPos = {/*输入您的坐标*/ };
+      ExaxisPos startexaxisPos = {/* 输入您的扩展轴起始点坐标 */ };
+      //8.记录您的同步直线运动终点坐标
+      DescPose enddescPose = {/*输入您的坐标*/ };
+      JointPos endjointPos = {/*输入您的坐标*/ };
+      ExaxisPos endexaxisPos = {/* 输入您的扩展轴终点坐标 */ };
+      //9.编写同步运动程序
+      //运动到起始点，假设应用的工具坐标系、工件坐标系都是1
+      robot.ExtAxisMove(startexaxisPos, 20);
+      DescPose offdese = { 0, 0, 0, 0, 0, 0 };
+      robot.MoveJ(&startjointPos, &startdescPose, 1, 1, 100, 100, 100, &startexaxisPos, 0, 0, &offdese);
+      //开始同步运动
+      robot.ExtAxisSyncMoveL(endjointPos, enddescPose, 1, 1, 100, 100, 100, 0, endexaxisPos, 0, offdese);
+      robot.CloseRPC();
     }
     
 UDP扩展轴与机器人圆弧运动同步运动
@@ -999,75 +1085,73 @@ UDP扩展轴与机器人圆弧运动同步运动
     */
     errno_t ExtAxisSyncMoveC(JointPos joint_pos_p, DescPose desc_pos_p, int ptool, int puser, float pvel, float pacc, ExaxisPos epos_p, int poffset_flag, DescPose offset_pos_p, JointPos joint_pos_t, DescPose desc_pos_t, int ttool, int tuser, float tvel, float tacc, ExaxisPos epos_t, int toffset_flag, DescPose offset_pos_t, float ovl, float blendR);
     
-代码示例
-************
+UDP扩展轴与机器人圆弧运动同步运动代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. code-block:: c++
     :linenos:
 
-    void btnSyncMoveC()
+    int testSyncMoveC()
     {
-    Robot robot = new Robot();
-    robot.RPC("192.168.58.2");
-
-    //1.标定并应用机器人工具坐标系，您可以使用四点法或六点法进行工具坐标系的标定和应用，涉及工具坐标系标定的接口如下：
-        //    int SetToolPoint(int point_num);  //设置工具参考点-六点法
-        //    int ComputeTool(ref DescPose tcp_pose);  //计算工具坐标系
-        //    int SetTcp4RefPoint(int point_num);    //设置工具参考点-四点法
-        //    int ComputeTcp4(ref DescPose tcp_pose);   //计算工具坐标系-四点法
-        //    int SetToolCoord(int id, DescPose coord, int type, int install);  //设置应用工具坐标系
-        //    int SetToolList(int id, DescPose coord, int type, int install);   //设置应用工具坐标系列表
-
-        //2.设置UDP通信参数，并加载UDP通信
-        robot.ExtDevSetUDPComParam("192.168.58.88", 2021, 2, 100, 3, 100, 1, 100, 10);
-        robot.ExtDevLoadUDPDriver();
-
-        //3.设置扩展轴参数，包括扩展轴类型、扩展轴驱动器参数、扩展轴DH参数
-        robot.SetAxisDHParaConfig(4, 200, 200, 0, 0, 0, 0, 0, 0); //单轴变位机及DH参数
-        robot.SetRobotPosToAxis(1);  //扩展轴安装位置
-        robot.ExtAxisParamConfig(1, 0, 1, 100, -100, 10, 10, 12, 131072, 0, 1, 0, 0); //伺服驱动器参数，本示例为单轴变位机，因此只需要设置一个驱动器参数，若您选择包含多个轴的扩展轴类型，需要每一个轴设置驱动器参数
-
-        //4.设置所选的轴使能、回零
-        robot.ExtAxisServoOn(1, 0);
-        robot.ExtAxisSetHoming(1, 0, 20, 3);
-
-        //5.进行扩展轴坐标系标定及应用
-        DescPose pos = {/* 输入您的标定点坐标 */ };
-        robot.SetRefPointInExAxisEnd(pos);
-        robot.PositionorSetRefPoint(1); /*您需要通过四个不同位置的点来标定扩展轴，因此需要调用此接口4次才能完成标定 */
-        DescPose coord = {};
-        robot.PositionorComputeECoordSys(coord); //计算扩展轴标定结果
-        robot.ExtAxisActiveECoordSys(1, 1, coord, 1);  //将标定结果应用到扩展轴坐标系
-
-        //6.在扩展轴上标定工件坐标系，您需要用到以下接口
-        //int SetWObjCoordPoint(int point_num);
-        //int ComputeWObjCoord(int method, ref DescPose wobj_pose);
-        //int SetWObjCoord(int id, DescPose coord);
-        //int SetWObjList(int id, DescPose coord);
-
-        //7.记录您的同步圆弧运动起始点
-        DescPose startdescPose = {/*输入您的坐标*/ };
-        JointPos startjointPos = {/*输入您的坐标*/ };
-        ExaxisPos startexaxisPos = {/* 输入您的扩展轴起始点坐标 */ };
-
-        //8.记录您的同步圆弧运动终点坐标
-        DescPose enddescPose = {/*输入您的坐标*/ };
-        JointPos endjointPos = {/*输入您的坐标*/ };
-        ExaxisPos endexaxisPos = {/* 输入您的扩展轴终点坐标 */ };
-
-        //9.记录您的同步圆弧运动中间点坐标
-        DescPose middescPose = {/*输入您的坐标*/ };
-        JointPos midjointPos = {/*输入您的坐标*/ };
-        ExaxisPos midexaxisPos = {/* 输入机器人圆弧中间点时的扩展轴坐标 */ };
-
-        //10.编写同步运动程序
-        //运动到起始点，假设应用的工具坐标系、工件坐标系都是1
-        robot.ExtAxisMove(startexaxisPos, 20);
-        DescPose offdese = { 0, 0, 0, 0, 0, 0 };
-        robot.MoveJ(&startjointPos, &startdescPose, 1, 1, 100, 100, 100, &startexaxisPos, 0, 0, &offdese);
-
-        //开始同步运动
-        robot.ExtAxisSyncMoveC(midjointPos, middescPose, 1, 1, 100, 100, midexaxisPos, 0, offdese, endjointPos, enddescPose, 1, 1, 100, 100, endexaxisPos, 0, offdese, 100, 0);
+      ROBOT_STATE_PKG pkg = {};
+      FRRobot robot;
+      robot.LoggerInit();
+      robot.SetLoggerLevel(1);
+      int rtn = robot.RPC("192.168.58.2");
+      if (rtn != 0)
+      {
+        return -1;
+      }
+      robot.SetReConnectParam(true, 30000, 500);
+      //1.标定并应用机器人工具坐标系，您可以使用四点法或六点法进行工具坐标系的标定和应用，涉及工具坐标系标定的接口如下：
+      //  int SetToolPoint(int point_num); //设置工具参考点-六点法
+      //  int ComputeTool(ref DescPose tcp_pose); //计算工具坐标系
+      //  int SetTcp4RefPoint(int point_num);  //设置工具参考点-四点法
+      //  int ComputeTcp4(ref DescPose tcp_pose);  //计算工具坐标系-四点法
+      //  int SetToolCoord(int id, DescPose coord, int type, int install); //设置应用工具坐标系
+      //  int SetToolList(int id, DescPose coord, int type, int install);  //设置应用工具坐标系列表
+      //2.设置UDP通信参数，并加载UDP通信
+      robot.ExtDevSetUDPComParam("192.168.58.88", 2021, 2, 100, 3, 100, 1, 100, 10);
+      robot.ExtDevLoadUDPDriver();
+      //3.设置扩展轴参数，包括扩展轴类型、扩展轴驱动器参数、扩展轴DH参数
+      robot.SetAxisDHParaConfig(4, 200, 200, 0, 0, 0, 0, 0, 0); //单轴变位机及DH参数
+      robot.SetRobotPosToAxis(1); //扩展轴安装位置
+      robot.ExtAxisParamConfig(1, 0, 1, 100, -100, 10, 10, 12, 131072, 0, 1, 0, 0); //伺服驱动器参数，本示例为单轴变位机，因此只需要设置一个驱动器参数，若您选择包含多个轴的扩展轴类型，需要每一个轴设置驱动器参数
+      //4.设置所选的轴使能、回零
+      robot.ExtAxisServoOn(1, 0);
+      robot.ExtAxisSetHoming(1, 0, 20, 3);
+      //5.进行扩展轴坐标系标定及应用
+      DescPose pos = {/* 输入您的标定点坐标 */ };
+      robot.SetRefPointInExAxisEnd(pos);
+      robot.PositionorSetRefPoint(1); /*您需要通过四个不同位置的点来标定扩展轴，因此需要调用此接口4次才能完成标定 */
+      DescPose coord = {};
+      robot.PositionorComputeECoordSys(coord); //计算扩展轴标定结果
+      robot.ExtAxisActiveECoordSys(1, 1, coord, 1); //将标定结果应用到扩展轴坐标系
+      //6.在扩展轴上标定工件坐标系，您需要用到以下接口
+      //int SetWObjCoordPoint(int point_num);
+      //int ComputeWObjCoord(int method, ref DescPose wobj_pose);
+      //int SetWObjCoord(int id, DescPose coord);
+      //int SetWObjList(int id, DescPose coord);
+      //7.记录您的同步圆弧运动起始点
+      DescPose startdescPose = {/*输入您的坐标*/ };
+      JointPos startjointPos = {/*输入您的坐标*/ };
+      ExaxisPos startexaxisPos = {/* 输入您的扩展轴起始点坐标 */ };
+      //8.记录您的同步圆弧运动终点坐标
+      DescPose enddescPose = {/*输入您的坐标*/ };
+      JointPos endjointPos = {/*输入您的坐标*/ };
+      ExaxisPos endexaxisPos = {/* 输入您的扩展轴终点坐标 */ };
+      //9.记录您的同步圆弧运动中间点坐标
+      DescPose middescPose = {/*输入您的坐标*/ };
+      JointPos midjointPos = {/*输入您的坐标*/ };
+      ExaxisPos midexaxisPos = {/* 输入机器人圆弧中间点时的扩展轴坐标 */ };
+      //10.编写同步运动程序
+      //运动到起始点，假设应用的工具坐标系、工件坐标系都是1
+      robot.ExtAxisMove(startexaxisPos, 20);
+      DescPose offdese = { 0, 0, 0, 0, 0, 0 };
+      robot.MoveJ(&startjointPos, &startdescPose, 1, 1, 100, 100, 100, &startexaxisPos, 0, 0, &offdese);
+      //开始同步运动
+      robot.ExtAxisSyncMoveC(midjointPos, middescPose, 1, 1, 100, 100, midexaxisPos, 0, offdese, endjointPos, enddescPose, 1, 1, 100, 100, endexaxisPos, 0, offdese, 100, 0);
+      robot.CloseRPC();
     }
     
 设置扩展DO
@@ -1102,37 +1186,7 @@ UDP扩展轴与机器人圆弧运动同步运动
     * @return 错误码
     */
     errno_t SetAuxAO(int AONum, double value, bool block);
-    
-代码示例
-************
-
-.. code-block:: c++
-    :linenos:
-
-    int testAODO(FRRobot* robot)
-    {
-        for (int i = 0; i < 128; i++)
-        {
-            robot->SetAuxDO(i, true, false, true);
-            Sleep(100);
-        }
-        for (int i = 0; i < 128; i++)
-        {
-            robot->SetAuxDO(i, false, false, true);
-            Sleep(100);
-        }
-
-        for (int i = 0; i < 409; i++)
-        {
-            robot->SetAuxAO(0, i * 10, true);
-            robot->SetAuxAO(1, 4095 - i * 10, true);
-            robot->SetAuxAO(2, i * 10, true);
-            robot->SetAuxAO(3, 4095 - i * 10, true);
-            Sleep(10);
-        }
-        return 0;
-    }
-            
+  
 设置扩展DI输入滤波时间
 ++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.4.0
@@ -1228,31 +1282,176 @@ UDP扩展轴与机器人圆弧运动同步运动
     */
     errno_t GetAuxAI(int AINum, bool isNoBlock, int& value);
 
-代码示例
-***********
+扩展IO代码示例
+++++++++++++++++++++++++++++++++++++
 .. code-block:: c++
     :linenos:
 
-    int testGetDI(FRRobot* robot)
+    int TestAuxDOAO(void)
     {
-    robot->SetAuxDIFilterTime(10);
-    robot->SetAuxAIFilterTime(10);
-
-        for (int i = 0; i < 20; i++)
-        {
-            bool curValue = false;
-            int rtn = robot->GetAuxDI(i, false, curValue);
-            cout << "DI"<<i<< "   " << curValue<< endl;
-        }
-    int curValue = -1;
-    int rtn = 0;
-    for (int i = 0; i < 4; i++)
-    {
-        rtn = robot->GetAuxAI(i, true, urValue);
+      ROBOT_STATE_PKG pkg = {};
+      FRRobot robot;
+      robot.LoggerInit();
+      robot.SetLoggerLevel(1);
+      int rtn = robot.RPC("192.168.58.2");
+      if (rtn != 0)
+      {
+        return -1;
+      }
+      robot.SetReConnectParam(true, 30000, 500);
+      for (int i = 0; i < 128; i++)
+      {
+        robot.SetAuxDO(i, true, false, true);
+        Sleep(100);
+      }
+      for (int i = 0; i < 128; i++)
+      {
+        robot.SetAuxDO(i, false, false, true);
+        Sleep(100);
+      }
+      for (int i = 0; i < 409; i++)
+      {
+        robot.SetAuxAO(0, i * 10, true);
+        robot.SetAuxAO(1, 4095 - i * 10, true);
+        robot.SetAuxAO(2, i * 10, true);
+        robot.SetAuxAO(3, 4095 - i * 10, true);
+        Sleep(10);
+      }
+      robot.SetAuxDIFilterTime(10);
+      robot.SetAuxAIFilterTime(0, 10);
+      for (int i = 0; i < 20; i++)
+      {
+        bool curValue = false;
+        int rtn = robot.GetAuxDI(i, false, curValue);
+        cout << "DI" << i << "  " << curValue << endl;
+      }
+      int curValue = -1;
+      for (int i = 0; i < 4; i++)
+      {
+        rtn = robot.GetAuxAI(i, true, curValue);
+      }
+      robot.WaitAuxDI(1, false, 1000, false);
+      robot.WaitAuxAI(1, 1, 132, 1000, false);
+      robot.CloseRPC();
+      return 0;
     }
 
-    robot->WaitAuxDI(1, true, 1000, false);
-    robot->WaitAuxAI(1, 1, 132, 1000, false);
+可移动装置使能
+++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.5.0
+    
+.. code-block:: c++
+    :linenos:
 
-        return 0;
+    /**
+    * @brief 可移动装置使能
+    * @param enable false-去使能；true-使能
+    * @return 错误码
+    */
+    errno_t TractorEnable(bool enable);
+
+可移动装置回零
+++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.5.0
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 可移动装置回零
+    * @return 错误码
+    */
+    errno_t TractorHoming();
+
+可移动装置直线运动
+++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.5.0
+    
+.. code-block:: c++
+    :linenos:
+    
+    /**
+    * @brief 可移动装置直线运动
+    * @param distance 直线运动距离（mm）
+    * @param vel 直线运动速度百分比（0-100）
+    * @return 错误码
+    */
+    errno_t TractorMoveL(double distance, double vel);
+
+可移动装置圆弧运动
+++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.5.0
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 可移动装置圆弧运动
+    * @param radio 圆弧运动半径（mm）
+    * @param angle 圆弧运动角度（°）
+    * @param vel 直线运动速度百分比（0-100）
+    * @return 错误码
+    */
+    errno_t TractorMoveC(double radio, double angle, double vel);
+
+可移动装置停止运动
+++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v2.1.5.0
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 可移动装置停止运动
+    * @return 错误码
+    */
+    errno_t TractorStop();
+
+可移动装置代码示例
++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    int TestTractor(void)
+    {
+      ROBOT_STATE_PKG pkg = {};
+      FRRobot robot;
+      robot.LoggerInit();
+      robot.SetLoggerLevel(1);
+      int rtn = robot.RPC("192.168.58.2");
+      if (rtn != 0)
+      {
+        return -1;
+      }
+      robot.SetReConnectParam(true, 30000, 500);
+      robot.ExtDevSetUDPComParam("192.168.58.2", 2021, 2, 50, 5, 50, 1, 50, 10, 1);
+      robot.ExtDevLoadUDPDriver();
+      rtn = robot.ExtAxisServoOn(1, 1);
+      rtn = robot.ExtAxisServoOn(2, 1);
+      robot.Sleep(2000);
+      robot.ExtAxisSetHoming(1, 0, 10, 2);
+      robot.Sleep(2000);
+      rtn = robot.ExtAxisSetHoming(2, 0, 10, 2);
+      robot.Sleep(4000);
+      robot.ExtAxisParamConfig(1, 0, 0, 50000, -50000, 1000, 1000, 6.280, 16384, 200, 0, 0, 0);
+      robot.ExtAxisParamConfig(2, 0, 0, 50000, -50000, 1000, 1000, 6.280, 16384, 200, 0, 0, 0);
+      robot.SetAxisDHParaConfig(5, 0, 0, 0, 0, 0, 0, 0, 0);
+      robot.TractorEnable(false);
+      robot.Sleep(2000);
+      robot.TractorEnable(true);
+      robot.Sleep(2000);
+      robot.TractorHoming();
+      robot.Sleep(2000);
+      robot.TractorMoveL(100, 2);
+      robot.Sleep(5000);
+      robot.TractorStop();
+      robot.TractorMoveL(-100, 20);
+      robot.Sleep(5000);
+      robot.TractorMoveC(300, 90, 20);
+      robot.Sleep(10000);
+      robot.TractorMoveC(300, -90, 20);
+      robot.Sleep(1);
+      robot.CloseRPC();
+      return 0;
     }

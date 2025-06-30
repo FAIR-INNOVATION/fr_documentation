@@ -245,5 +245,8 @@
         public byte gripperRotSpeed;       //旋转夹爪当前旋转速度百分比	  Percentage of the current rotation speed of the rotary clamp
         public byte gripperRotTorque;	   //旋转夹爪当前旋转力矩百分比	  Percentage of the current rotating torque of the rotating clamp
         public WELDING_BREAKOFF_STATE weldingBreakOffState;//焊接中断状态
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 6)]
+        public double[] jt_tgt_tor;//关节指令力矩
+        public int smartToolState; //SmartTool手柄按钮状态
         public UInt16 check_sum;         /* 和校验 */                  // + 2 = 609                 
     }

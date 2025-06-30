@@ -109,49 +109,46 @@
     */
     errno_t  GetProgramState(uint8_t *state);
 
-代码示例
-++++++++++++
+机器人LUA程序操作代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: c++
     :linenos:
 
-    #include <cstdlib>
-    #include <iostream>
-    #include <stdio.h>
-    #include <cstring>
-    #include <unistd.h>
-    #include "FRRobot.h"
-    #include "RobotTypes.h"
-
-    using namespace std;
-
-    int main(void)
+    int TestLuaOp(void)
     {
-        FRRobot robot;                 //实例化机器人对象
-        robot.RPC("192.168.58.2");     //与机器人控制器建立通信连接
-
-        char program_name[64] = "/fruser/ptps.lua";
-        char loaded_name[64] = "";
-        uint8_t state;
-        int line;
-
-        robot.Mode(0);
-        robot.ProgramLoad(program_name);
-        robot.ProgramRun();
-        sleep(5);
-        robot.ProgramPause();
-        robot.GetProgramState(&state);
-        printf("program state:%u\n", state);
-        robot.GetCurrentLine(&line);
-        printf("current line:%d\n", line);
-        robot.GetLoadedProgram(loaded_name);
-        printf("program name:%s\n", loaded_name);
-        sleep(5);
-        robot.ProgramResume();
-        sleep(5);
-        robot.ProgramStop();
-        sleep(2);
-
-        return 0;
+      ROBOT_STATE_PKG pkg = {};
+      FRRobot robot;
+      robot.LoggerInit();
+      robot.SetLoggerLevel(1);
+      int rtn = robot.RPC("192.168.58.2");
+      if (rtn != 0)
+      {
+        return -1;
+      }
+      robot.SetReConnectParam(true, 30000, 500);
+      char program_name[64] = "/fruser/test.lua";
+      char loaded_name[64] = "";
+      uint8_t state;
+      int line;
+      robot.Mode(0);
+      robot.LoadDefaultProgConfig(0, program_name);
+      robot.ProgramLoad(program_name);
+      robot.ProgramRun();
+      robot.Sleep(1000);
+      robot.ProgramPause();
+      robot.GetProgramState(&state);
+      printf("program state:%u\n", state);
+      robot.GetCurrentLine(&line);
+      printf("current line:%d\n", line);
+      robot.GetLoadedProgram(loaded_name);
+      printf("program name:%s\n", loaded_name);
+      robot.Sleep(1000);
+      robot.ProgramResume();
+      robot.Sleep(1000);
+      robot.ProgramStop();
+      robot.Sleep(1000);
+      robot.CloseRPC();
+      return 0;
     }
 
 下载Lua文件
@@ -169,21 +166,6 @@
     * @return 错误码
     */
     errno_t LuaDownLoad(std::string fileName, std::string savePath);
-
-上传Lua文件
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-.. versionadded:: C++SDK-v2.1.2.0
-
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief 上传Lua文件
-    * @param [in] filePath 本地lua文件路径名
-    * @return 错误码
-    */
-    errno_t LuaUpload(std::string filePath);
 
 删除Lua文件
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -215,60 +197,53 @@
     */
     errno_t GetLuaList(std::list<std::string>* luaNames);
 
-代码示例
+上传Lua文件
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 .. versionadded:: C++SDK-v2.1.2.0
 
 .. code-block:: c++
     :linenos:
 
-    #include "libfairino/robot.h"
-
-    //如果使用Windows，包含下面的头文件
-    #include <string.h>
-    #include <windows.h>
-    //如果使用linux，包含下面的头文件
-    /*
-    #include <cstdlib>
-    #include <iostream>
-    #include <stdio.h>
-    #include <cstring>
-    #include <unistd.h>
+    /**
+    * @brief 上传Lua文件
+    * @param [in] filePath 本地lua文件路径名
+    * @return 错误码
     */
-    #include <chrono>
-    #include <thread>
-    #include <string>
+    errno_t LuaUpload(std::string filePath);
 
-    using namespace std;
-    int main(void)
+机器人LUA文件上传下载代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c++
+    :linenos:
+
+    int TestLUAUpDownLoad(void)
     {
-        FRRobot robot;
-        robot.LoggerInit();
-        robot.SetLoggerLevel(3);
-        robot.RPC("192.168.58.2");
-
-        /* 获取lua名称 */
-        list<std::string> luaNames;
-        int res = robot.GetLuaList(&luaNames);
-        std::cout << "res is: " << res << std::endl;
-        std::cout << "size is: " << luaNames.size() <<std::endl;
-        for(auto it = luaNames.begin(); it != luaNames.end(); it++)
-        {
-            std::cout << it->c_str() << std::endl;
-        }
-
-        /* 下载lua */
-        res = robot.LuaDownLoad("test.lua", "D://Down/");
-        std::cout << "res is: " << res << std::endl;
-
-        /* 上传lua */
-        res = robot.LuaUpload("D://Down/test.lua");
-        std::cout << "res is: " << res << std::endl;
-
-        /* 删除lua */
-        res = robot.LuaDelete("test.lua");
-        std::cout << "res is: " << res << std::endl;
-
-        robot.CloseRPC();
-        return 0;
+      ROBOT_STATE_PKG pkg = {};
+      FRRobot robot;
+      robot.LoggerInit();
+      robot.SetLoggerLevel(1);
+      int rtn = robot.RPC("192.168.58.2");
+      if (rtn != 0)
+      {
+        return -1;
+      }
+      robot.SetReConnectParam(true, 30000, 500);
+      list<std::string> luaNames;
+      rtn = robot.GetLuaList(&luaNames);
+      std::cout << "res is: " << rtn << std::endl;
+      std::cout << "size is: " << luaNames.size() << std::endl;
+      for (auto it = luaNames.begin(); it != luaNames.end(); it++)
+      {
+        std::cout << it->c_str() << std::endl;
+      }
+      rtn = robot.LuaDownLoad("test.lua", "D://zDOWN/");
+      printf("LuaDownLoad rtn is %d\n", rtn);
+      rtn = robot.LuaUpload("D://zUP/airlab.lua");
+      printf("LuaUpload rtn is %d\n", rtn);
+      rtn = robot.LuaDelete("test.lua");
+      printf("LuaDelete rtn is %d\n", rtn);
+      robot.CloseRPC();
+      return 0;
     }

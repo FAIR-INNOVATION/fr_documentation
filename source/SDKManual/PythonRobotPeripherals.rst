@@ -224,3 +224,99 @@
     "返回值", "- 错误码 成功-0  失败- errcode 
     - ``fault``：0-无错误，1-有错误
     - ``torque``：旋转力矩百分比"
+
+获取夹爪激活状态
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v3.8.2
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetGripperActivateStatus()``"
+    "描述", "获取夹爪激活状态"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode 
+    - ``fault``：0-无错误，1-有错误
+    - ``gripper_active``：bit0~bit15对应夹爪编号0~15，bit=0为未激活，bit=1为激活"
+
+获取夹爪位置
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v3.8.2
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetGripperCurPosition()``"
+    "描述", "获取夹爪位置"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode 
+    - ``fault``：0-无错误，1-有错误
+    - ``position``：位置百分比，范围0~100%"
+
+获取夹爪电流
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v3.8.2
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetGripperCurCurrent()``"
+    "描述", "获取夹爪电流"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode 
+    - ``fault``：0-无错误，1-有错误
+    - ``current``：电流百分比，范围0~100%"
+
+获取夹爪电压
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v3.8.2
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetGripperVoltage()``"
+    "描述", "获取夹爪电压"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode 
+    - ``fault``：0-无错误，1-有错误
+    - ``voltage``：电压,单位0.1V"
+
+获取夹爪温度
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v3.8.2
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetGripperTemp()``"
+    "描述", "获取夹爪温度"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode 
+    - ``fault``：0-无错误，1-有错误
+    - ``temp``：温度，单位℃"
+
+获取夹爪速度
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v3.8.2
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetGripperCurSpeed()``"
+    "描述", "获取夹爪速度"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode 
+    - ``fault``：0-无错误，1-有错误
+    - ``speed``：速度百分比，范围0~100%"

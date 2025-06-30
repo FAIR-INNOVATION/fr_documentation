@@ -680,25 +680,4 @@
         Console.WriteLine($"robot SN is {SN}");
     }
 
-关闭机器人操作系统
-+++++++++++++++++++++++++++++
-.. code-block:: c#
-    :linenos:
-
-    /**
-    * @brief 关闭机器人操作系统
-    * @return 错误码
-    */
-    int ShutDownRobotOS();
-
-代码示例
-+++++++++++++++++++++++++++++
-.. code-block:: c#
-    :linenos:
-
-    private void button6_Click(object sender, EventArgse)
-    {   
-        int rtn = robot.ShutDownRobotOS();
-        Console.WriteLine($"ShutDownRobotOS rtn is {rtn}");
-    }
 

@@ -218,13 +218,13 @@
 
 设置摆动参数
 ++++++++++++++++++++++++++++++++++
-.. versionchanged:: Python SDK-v2.0.8-3.7.8
+.. versionchanged:: python SDK-v2.1.2
     
 .. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``WeaveSetPara(weaveNum, weaveType, weaveFrequency, weaveIncStayTime, weaveRange, weaveLeftRange, weaveRightRange, additionalStayTime, weaveLeftStayTime, weaveRightStayTime, weaveCircleRadio, weaveStationary, weaveYawAngle=0)``"
+    "原型", "``WeaveSetPara(weaveNum, weaveType, weaveFrequency, weaveIncStayTime, weaveRange, weaveLeftRange, weaveRightRange, additionalStayTime, weaveLeftStayTime, weaveRightStayTime, weaveCircleRadio, weaveStationary, weaveYawAngle, weaveRotAngle)``"
     "描述", "设置摆动参数"
     "必选参数", "- ``weaveNum``： 摆焊参数配置编号
     - ``weaveType``： 摆动类型 0-平面三角波摆动；1-垂直L型三角波摆动；2-顺时针圆形摆动；3-逆时针圆形摆动；4-平面正弦波摆动；5-垂直L型正弦波摆动；6-垂直三角波摆动；7-垂直正弦波摆动
@@ -238,7 +238,8 @@
     - ``weaveRightStayTime``：  摆动右停留时间(ms)
     - ``weaveCircleRadio``： 圆形摆动-回调比率(0-100%)
     - ``weaveStationary``： 摆动位置等待，0-等待时间内位置继续移动；1-等待时间内位置静止"
-    "默认参数", "- ``weaveYawAngle``： 摆动方向方位角（绕摆动Z轴旋转），单位°,默认0"
+    "默认参数", "- ``weaveYawAngle``： 摆动方向方位角（绕摆动Z轴旋转），单位°,默认0
+    - ``weaveRotAngle``： 摆动方向方位角（绕摆动X轴旋转），单位°,默认0"
     "返回值", "错误码 成功-0  失败- errcode"
 
 代码示例
@@ -723,8 +724,8 @@
     "返回值", "错误码 成功-0  失败- errcode" 
 
 电弧跟踪控制
-++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.5
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.9-3.7.9
 
 .. csv-table:: 
     :stub-columns: 1
@@ -1458,15 +1459,18 @@
 
 摆动渐变开始
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.9-3.8.0
+.. versionadded:: python SDK-v2.1.2
 
 .. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``WeaveChangeStart(weaveNum)``"
+    "原型", "``WeaveChangeStart(weaveChangeFlag, weaveNum, velStart, velEnd)``"
     "描述", "摆动渐变开始"
-    "必选参数", "- ``weaveNum``：摆动编号"
+    "必选参数", "- ``weaveChangeFlag``：摆动编号 1-变摆动参数；2-变摆动参数+焊接速度
+    - ``weaveNum``：摆动编号
+    - ``velStart``：焊接开始速度，(cm/min)
+    - ``velEnd``：焊接结束速度，(cm/min)"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode "
 
@@ -1507,9 +1511,216 @@
     robot.ARCStart(1, 0, 10000)
     robot.ArcWeldTraceControl(1, 0, 1, 0.06, 5, 5, 60, 1, 0.06, 5, 5, 80, 0, 0, 4, 1, 10, 0, 0)
     robot.WeaveStart(0)
-    robot.WeaveChangeStart(1)
+    robot.WeaveChangeStart(1,1,0,0)
     robot.MoveL(desc_pos=p3Desc, tool=1, user=1, vel=100.0, acc=100.0, ovl=1.0)
     robot.WeaveChangeEnd()
     robot.WeaveEnd(0)
     robot.ArcWeldTraceControl(0, 0, 1, 0.06, 5, 5, 60, 1, 0.06, 5, 5, 80, 0, 0, 4, 1, 10, 0, 0)
     robot.ARCEnd(1, 0, 10000)
+
+电弧跟踪焊机电流反馈AI通道选择
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.2
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``ArcWeldTraceAIChannelCurrent(channel)``"
+    "描述", "电弧跟踪焊机电流反馈AI通道选择"
+    "必选参数", "- ``channel``：通道；0-扩展AI0；1-扩展AI1；2-扩展AI2；3-扩展AI3；4-控制箱AI0；5-控制箱AI1"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+电弧跟踪焊机电压反馈AI通道选择
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.2
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``ArcWeldTraceAIChannelVoltage(channel)``"
+    "描述", "电弧跟踪焊机电压反馈AI通道选择"
+    "必选参数", "- ``channel``：通道；0-扩展AI0；1-扩展AI1；2-扩展AI2；3-扩展AI3；4-控制箱AI0；5-控制箱AI1"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+电弧跟踪焊机电流反馈转换参数
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.2
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``ArcWeldTraceCurrentPara(AILow, AIHigh, currentLow, currentHigh)``"
+    "描述", "电弧跟踪焊机电流反馈转换参数"
+    "必选参数", "无"
+    "默认参数", "- ``AILow``：AI通道下限，默认值0V，范围[0-10V]
+    - ``AIHigh``：AI通道上限，默认值10V，范围[0-10V]
+    - ``currentLow``：AI通道下限对应焊机电流值，默认值0V，范围[0-200V]
+    - ``currentHigh``：AI通道上限对应焊机电流值，默认值100V，范围[0-200V]"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+电弧跟踪焊机电压反馈转换参数
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.2
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``ArcWeldTraceVoltagePara(AILow, AIHigh, voltageLow, voltageHigh)``"
+    "描述", "电弧跟踪焊机电压反馈转换参数"
+    "必选参数", "无"
+    "默认参数", "- ``AILow``：AI通道下限，默认值0V，范围[0-10V]
+    - ``AIHigh``：AI通道上限，默认值10V，范围[0-10V]
+    - ``voltageLow``：AI通道下限对应焊机电压值，默认值0V，范围[0-200V]
+    - ``voltageHigh``：AI通道上限对应焊机电压值，默认值100V，范围[0-200V]"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+代码示例
+------------
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+
+    safetydescPose = [-504.043,275.181,40.908,-28.002,-42.025,-14.044]
+    safetyjointPos = [-39.078,-76.732,87.227,-99.47,-94.301,18.714]
+    startdescPose = [-473.86,257.879,-20.849,-37.317,-42.021,2.543]
+    startjointPos = [-43.487,-76.526,95.568,-104.445,-89.356,3.72]
+    enddescPose = [-499.844,141.225,7.72,-34.856,-40.17,13.13]
+    endjointPos = [-31.305,-82.998,99.401,-104.426,-89.35,3.696]
+    exaxisPos = [0, 0, 0, 0]
+    offdese = [0, 0, 0, 0, 0, 0]
+    robot.MoveJ(joint_pos=safetyjointPos, tool=1, user=0, vel=20, acc=100)
+    robot.WeldingSetCurrentRelation(0, 495, 1, 10, 0)
+    robot.WeldingSetVoltageRelation(10, 45, 1, 10, 1)
+    robot.WeldingSetVoltage(0, 25, 1, 0)  # ----设置电压
+    robot.WeldingSetCurrent(0, 260, 0, 0)  # ----设置电流
+    rtn = robot.ArcWeldTraceAIChannelCurrent(4)
+    print("ArcWeldTraceAIChannelCurrent rtn is", rtn)
+    rtn = robot.ArcWeldTraceAIChannelVoltage(5)
+    print("ArcWeldTraceAIChannelVoltage rtn is", rtn)
+    rtn = robot.ArcWeldTraceCurrentPara(0, 5, 0, 500)
+    print("ArcWeldTraceCurrentPara rtn is", rtn)
+    rtn = robot.ArcWeldTraceVoltagePara(1.018, 10, 0, 50)
+    print("ArcWeldTraceVoltagePara rtn is", rtn)
+    robot.MoveJ(joint_pos=startjointPos, tool=1, user=0, vel=20, acc=100)
+    robot.ArcWeldTraceControl(1, 0, 1, 0.08, 5, 5, 300, 1, 0.06, 4, 4, 300, 1, 0, 4, 1, 10, 0, 0)
+    robot.ARCStart(0, 0, 10000)
+    robot.WeaveStart(0)
+    robot.MoveL(desc_pos=enddescPose, tool=1, user=0, vel=100, ovl= 2, acc=100)
+    robot.ARCEnd(0, 0, 10000)
+    robot.WeaveEnd(0)
+    robot.ArcWeldTraceControl(0, 0, 1, 0.08, 5, 5, 300, 1, 0.06, 4, 4, 300, 1, 0, 4, 1, 10, 0, 0)
+    robot.MoveJ(joint_pos=safetyjointPos, tool=1, user=0, vel=20, acc=100)
+
+设置焊接电压渐变开始
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.2
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``WeldingSetVoltageGradualChangeStart(IOType, voltageStart, voltageEnd, AOIndex, blend)``"
+    "描述", "设置焊接电压渐变开始"
+    "必选参数", "- ``IOType``：控制类型；0-控制箱IO；1-数字通信协议(UDP);2-数字通信协议(ModbusTCP)
+    - ``voltageStart``：起始焊接电压(V)
+    - ``voltageEnd``：终止焊接电压(V)
+    - ``AOIndex``：控制箱AO端口号(0-1)
+    - ``blend``：是否平滑 0-不平滑；1-平滑"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+设置焊接电压渐变结束
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.2
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``WeldingSetVoltageGradualChangeEnd()``"
+    "描述", "设置焊接电压渐变结束"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+设置焊接电流渐变开始
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.2
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``WeldingSetCurrentGradualChangeStart(IOType, currentStart, currentEnd, AOIndex, blend)``"
+    "描述", "设置焊接电流渐变开始"
+    "必选参数", "- ``IOType``：控制类型；0-控制箱IO；1-数字通信协议(UDP);2-数字通信协议(ModbusTCP)
+    - ``currentStart``：起始焊接电流(A)
+    - ``currentEnd``：终止焊接电流(A)
+    - ``AOIndex``：控制箱AO端口号(0-1)
+    - ``blend``：是否平滑 0-不平滑；1-平滑"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+设置焊接电流渐变结束
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.2
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``WeldingSetCurrentGradualChangeEnd()``"
+    "描述", "设置焊接电流渐变结束"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+代码示例
+------------
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+
+    startdescPose = [-484.707, 276.996, -14.013, -37.657, -40.508, -1.548]
+    startjointPos = [-45.421, -75.673, 93.627, -104.302, -87.938, 6.005]
+    enddescPose = [-508.767, 137.109, -13.966, -37.639, -40.508, -1.559]
+    endjointPos = [-32.768, -80.947, 100.254, -106.201, -87.201, 18.648]
+    safedescPose = [-484.709, 294.436, 13.621, -37.660, -40.508, -1.545]
+    safejointPos = [-46.604, -75.410, 89.109, -100.003, -88.012, 4.823]
+    exaxisPos = [0, 0, 0, 0]
+    offdese = [0, 0, 0, 0, 0, 0]
+
+    robot.WeldingSetCurrentRelation(0, 495, 1, 10, 0)
+    robot.WeldingSetVoltageRelation(10, 45, 1, 10, 1)
+    robot.WeldingSetVoltage(0, 25, 1, 0)  # ----设置电压
+    robot.WeldingSetCurrent(0, 260, 0, 0)  # ----设置电流
+    robot.MoveJ(joint_pos=safejointPos, tool=1, user=0, vel=5, acc=100)
+    rtn = robot.WeldingSetCurrentGradualChangeStart(0, 260, 220, 0, 0)
+    print("WeldingSetCurrentGradualChangeStart rtn is", rtn)
+    rtn = robot.WeldingSetVoltageGradualChangeStart(0, 25, 22, 1, 0)
+    print("WeldingSetVoltageGradualChangeStart rtn is", rtn)
+    rtn = robot.ArcWeldTraceControl(1, 0, 1, 0.08, 5, 5, 300, 1, 0.06, 4, 4, 300, 1, 0, 4, 1, 10, 0, 0)
+    print("ArcWeldTraceControl rtn is", rtn)
+    robot.MoveJ(joint_pos=startjointPos, tool=1, user=0, vel=5, acc=100)
+    robot.ARCStart(0, 0, 10000)
+    robot.WeaveStart(0)
+    robot.WeaveChangeStart(2, 1, 24, 36)
+    robot.MoveL(desc_pos=enddescPose, tool=1, user=0, vel=100, ovl=2, acc=100)
+    robot.ARCEnd(0, 0, 10000)
+    robot.WeaveChangeEnd()
+    robot.WeaveEnd(0)
+    robot.ArcWeldTraceControl(0, 0, 1, 0.08, 5, 5, 300, 1, 0.06, 4, 4, 300, 1, 0, 4, 1, 10, 0, 0)
+    robot.WeldingSetCurrentGradualChangeEnd()
+    robot.WeldingSetVoltageGradualChangeEnd()

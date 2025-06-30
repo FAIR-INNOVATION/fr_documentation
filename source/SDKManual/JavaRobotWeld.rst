@@ -159,7 +159,9 @@
     int WeldingSetVoltage(int ioType, double voltage, int AOIndex, int blend);
 
 设置摆动参数
-++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionchanged:: Java SDK-v1.0.5-3.8.2
+
 .. code-block:: Java
     :linenos:
 
@@ -178,9 +180,10 @@
     * @param [in] weaveCircleRadio 圆形摆动-回调比率(0-100%)
     * @param [in] weaveStationary 摆动位置等待，0-等待时间内位置继续移动；1-等待时间内位置静止
     * @param [in] weaveYawAngle 摆动方向方位角(绕摆动Z轴旋转)，单位°
+    * @param [in] weaveRotAngle 摆动方向方位角(绕摆动X轴旋转)，单位°
     * @return 错误码
     */
-    int WeaveSetPara(int weaveNum, int weaveType, double weaveFrequency, int weaveIncStayTime, double weaveRange, double weaveLeftRange, double weaveRightRange, int additionalStayTime, int weaveLeftStayTime, int weaveRightStayTime, int weaveCircleRadio, int weaveStationary, double weaveYawAngle);
+    int WeaveSetPara(int weaveNum, int weaveType, double weaveFrequency, int weaveIncStayTime, double weaveRange, double weaveLeftRange, double weaveRightRange, int additionalStayTime, int weaveLeftStayTime, int weaveRightStayTime, int weaveCircleRadio, int weaveStationary, double weaveYawAngle,double weaveRotAngle)
 
 即时设置摆动参数
 ++++++++++++++++++++++++++++++++++
@@ -270,25 +273,28 @@
         robot.MoveL(j2, desc_p2,3, 0, 10, 100, 100, -1, epos, 0, 0, offset_pos, 0, 100);
         robot.ARCEnd(0, 0, 10000);
         robot.WeaveEnd(0);
-    } 
+    }
 
 摆动渐变开始
 ++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: Java SDK-v1.0.2-3.8.0
+.. versionchanged:: Java SDK-v1.0.5-3.8.2
 
 .. code-block:: Java
     :linenos:
 
     /**
-    * @brief 摆动渐变开始
-    * @param [in] weaveNum 摆动编号
+    * @brief  摆动渐变开始
+    * @param  [in] weaveChangeFlag 1-变摆动参数；2-变摆动参数+焊接速度
+    * @param  [in] weaveNum 摆动编号
+    * @param  [in] velStart 焊接开始速度，(cm/min)
+    * @param  [in] velEnd 焊接结束速度，(cm/min)
     * @return 错误码
     */
-    int WeaveChangeStart(int weaveNum);
+    int WeaveChangeStart(int weaveChangeFlag, int weaveNum, double velStart, double velEnd)
 
 摆动渐变结束
 ++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: Java SDK-v1.0.2-3.8.0
+.. versionadded:: Java SDK-v1.0.2-3.7.9
 
 .. code-block:: Java
     :linenos:
@@ -513,7 +519,7 @@
     int SetPointToDatabase(String varName, DescPose pos);
 
 代码示例
-++++++++++++++++
+++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
@@ -602,7 +608,7 @@
 
 电弧跟踪控制
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionchanged:: Java SDK-v1.0.2-3.8.0
+.. versionchanged:: Java SDK-v1.0.2-3.7.9
 
 .. code-block:: Java
     :linenos:
@@ -707,7 +713,7 @@
     int WeldingGetProcessParam(int id, WeldingProcessParam param);
 
 代码示例
-++++++++++++++++
+++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
@@ -886,7 +892,7 @@
     int SetWeldMachineCtrlMode(int mode);
 
 代码示例
-++++++++++++++++
+++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
@@ -1079,4 +1085,228 @@
             }
             robot.Sleep(100);
         }
+    }
+
+电弧跟踪焊机电流反馈AI通道选择
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.5-3.8.2
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 电弧跟踪焊机电流反馈AI通道选择
+    * @param  [in] channel 通道；0-扩展AI0；1-扩展AI1；2-扩展AI2；3-扩展AI3；4-控制箱AI0；5-控制箱AI1
+    * @return 错误码
+    */
+    int ArcWeldTraceAIChannelCurrent(int channel)
+
+电弧跟踪焊机电压反馈AI通道选择
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.5-3.8.2
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 电弧跟踪焊机电压反馈AI通道选择
+    * @param  [in] channel 通道；0-扩展AI0；1-扩展AI1；2-扩展AI2；3-扩展AI3；4-控制箱AI0；5-控制箱AI1
+    * @return 错误码
+    */
+    int ArcWeldTraceAIChannelVoltage(int channel)
+
+电弧跟踪焊机电流反馈转换参数
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.5-3.8.2
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 电弧跟踪焊机电流反馈转换参数
+    * @param [in] AILow AI通道下限，默认值0V，范围[0-10V]
+    * @param [in] AIHigh AI通道上限，默认值10V，范围[0-10V]
+    * @param [in] currentLow AI通道下限对应焊机电流值，默认值0V，范围[0-200V]
+    * @param [in] currentHigh AI通道上限对应焊机电流值，默认值100V，范围[0-200V]
+    * @return 错误码
+    */
+    int ArcWeldTraceCurrentPara(double AILow, double AIHigh, double currentLow, double currentHigh)
+
+电弧跟踪焊机电压反馈转换参数
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.5-3.8.2
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 电弧跟踪焊机电压反馈转换参数
+    * @param [in] AILow AI通道下限，默认值0V，范围[0-10V]
+    * @param [in] AIHigh AI通道上限，默认值10V，范围[0-10V]
+    * @param [in] voltageLow AI通道下限对应焊机电压值，默认值0V，范围[0-200V]
+    * @param [in] voltageHigh AI通道上限对应焊机电压值，默认值100V，范围[0-200V]
+    * @return 错误码
+    */
+    int ArcWeldTraceVoltagePara(double AILow, double AIHigh, double voltageLow, double voltageHigh)
+
+代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static void WeldTraceControlWithCtrlBoxAI(Robot robot)
+    {
+        DescPose startdescPose = new DescPose(-473.86,257.879,-20.849,-37.317,-42.021,2.543);
+        JointPos startjointPos = new JointPos(-43.487,-76.526,95.568,-104.445,-89.356,3.72);
+
+        DescPose safedescPose = new DescPose(-504.043,275.181,40.908,-28.002,-42.025,-14.044);
+        JointPos safejointPos = new JointPos(-39.078,-76.732,87.227,-99.47,-94.301,18.714);
+
+        DescPose enddescPose =new DescPose(-499.844,141.225,7.72,-34.856,-40.17,13.13);
+        JointPos endjointPos =new JointPos(-31.305,-82.998,99.401,-104.426,-89.35,3.696);
+
+        ExaxisPos exaxisPos = new ExaxisPos(0, 0, 0, 0 );
+        DescPose offdese = new DescPose( 0, 0, 0, 0, 0, 0);
+        //起始运动到安全点
+        robot.MoveJ(safejointPos, safedescPose, 1, 0, 5, 20, 100, exaxisPos, -1, 0, offdese);
+
+        WeldCurrentAORelation current=new WeldCurrentAORelation(0, 495, 1, 10, 0);
+        WeldVoltageAORelation voltage=new WeldVoltageAORelation(10, 45, 1, 10, 1);
+        robot.WeldingSetCurrentRelation(current);
+        robot.WeldingSetVoltageRelation(voltage);
+        robot.WeldingSetVoltage(0, 25, 1, 0);
+        robot.WeldingSetCurrent(0, 260, 0, 0);
+
+        int rtn = robot.ArcWeldTraceAIChannelCurrent(4);
+        System.out.println("ArcWeldTraceAIChannelCurrent rtn is "+rtn);
+
+        rtn = robot.ArcWeldTraceAIChannelVoltage(5);
+        System.out.println("ArcWeldTraceAIChannelVoltage rtn is "+rtn);
+
+        rtn = robot.ArcWeldTraceCurrentPara(0.0,  5, 0, 500);
+        System.out.println("ArcWeldTraceCurrentPara rtn is "+rtn);
+
+        rtn = robot.ArcWeldTraceVoltagePara( 1.018,  10, 0, 50);
+        System.out.println("ArcWeldTraceVoltagePara rtn is "+rtn);
+
+        robot.MoveJ(startjointPos, startdescPose, 1, 0, 20, 20, 100, exaxisPos, -1, 0, offese);
+        robot.ArcWeldTraceControl(1, 0, 1, 0.08, 5, 5, 300, 1, 0.06, 4, 4, 300, 1, 0, 4, 1, 10, 0, 0);
+        robot.ARCStart(0, 0, 10000);
+        robot.WeaveStart(0);
+        robot.MoveL(endjointPos, enddescPose, 1, 0, 100, 100, 2, -1, exaxisPos, 0, 0, offdese,0,10);
+        robot.ARCEnd(0, 0, 10000);
+        robot.WeaveEnd(0);
+        robot.ArcWeldTraceControl(0, 0, 1, 0.08, 5, 5, 300, 1, 0.06, 4, 4, 300, 1, 0, 4, 1, 10, 0, 0);
+
+        robot.MoveJ(safejointPos, safedescPose, 1, 0, 20, 20, 100, exaxisPos, -1, 0, offdese);
+    }
+
+设置焊接电压渐变开始
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.5-3.8.2
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 设置焊接电压渐变开始
+    * @param [in] IOType 控制类型；0-控制箱IO；1-数字通信协议(UDP);2-数字通信协议(ModbusTCP)
+    * @param [in] voltageStart 起始焊接电压(V)
+    * @param [in] voltageEnd 终止焊接电压(V)
+    * @param [in] AOIndex 控制箱AO端口号(0-1)
+    * @param [in] blend 是否平滑 0-不平滑；1-平滑
+    * @return 错误码
+    */
+    int WeldingSetVoltageGradualChangeStart(int IOType, double voltageStart, double voltageEnd, int AOIndex, int blend)
+
+设置焊接电压渐变开始
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.5-3.8.2
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 设置焊接电压渐变结束
+    * @return 错误码
+    */
+    int WeldingSetVoltageGradualChangeEnd()
+
+设置焊接电流渐变开始
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.5-3.8.2
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 设置焊接电流渐变开始
+    * @param [in] IOType 控制类型；0-控制箱IO；1-数字通信协议(UDP);2-数字通信协议(ModbusTCP)
+    * @param [in] currentStart 起始焊接电流(A)
+    * @param [in] currentEnd 终止焊接电流(A)
+    * @param [in] AOIndex 控制箱AO端口号(0-1)
+    * @param [in] blend 是否平滑 0-不平滑；1-平滑
+    * @return 错误码
+    */
+    int WeldingSetCurrentGradualChangeStart(int IOType, double currentStart, double currentEnd, int AOIndex, int blend)
+
+设置焊接电流渐变结束
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.5-3.8.2
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 设置焊接电流渐变结束
+    * @return 错误码
+    */
+    int WeldingSetCurrentGradualChangeEnd()
+
+代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static void  WeldparamChange(Robot robot)
+    {
+        DescPose startdescPose = new DescPose(-484.707, 276.996, -14.013, -37.657, -40.508, -1.548);
+        JointPos startjointPos =new JointPos(-45.421, -75.673, 93.627, -104.302, -87.938, 6.005);
+
+        DescPose enddescPose = new DescPose(-508.767, 137.109, -13.966, -37.639, -40.508, -1.559);
+        JointPos endjointPos =new JointPos(-32.768, -80.947, 100.254, -106.201, -87.201, 18.648);
+
+        DescPose safedescPose = new DescPose( -484.709, 294.436, 13.621, -37.660, -40.508, -1.545);
+        JointPos safejointPos = new JointPos( -46.604, -75.410, 89.109, -100.003, -88.012, 4.823);
+
+        ExaxisPos exaxisPos = new ExaxisPos(0, 0, 0, 0);
+        DescPose offdese = new DescPose(0, 0, 0, 0, 0, 0 );
+
+        WeldCurrentAORelation cur=new WeldCurrentAORelation(0, 495, 1, 10, 0);
+        WeldVoltageAORelation vol=new WeldVoltageAORelation(10, 45, 1, 10, 1);
+        robot.WeldingSetCurrentRelation(cur);
+        robot.WeldingSetVoltageRelation(vol);
+
+        robot.WeldingSetVoltage(0, 25, 1, 0);
+        robot.WeldingSetCurrent(0, 260, 0, 0);
+
+        robot.MoveJ(safejointPos, safedescPose, 1, 0, 5, 100, 100, exaxisPos, -1, 0, offdese);
+
+        robot.WeldingSetCurrentGradualChangeStart(0, 260, 220, 0, 0);
+        robot.WeldingSetVoltageGradualChangeStart(0, 25, 22, 1, 0);
+        int rtn = robot.ArcWeldTraceControl(1, 0, 1, 0.08, 5, 5, 300, 1, 0.06, 4, 4, 300, 1, 0, 4, 1, 10, 0, 0);
+
+        robot.MoveJ(startjointPos, startdescPose, 1, 0, 5, 100, 100, exaxisPos, -1, 0, offdese);
+        System.out.println("ArcWeldTraceControl rtn is "+rtn);
+
+        robot.ARCStart(0, 0, 10000);
+        robot.WeaveStart(0);
+        robot.WeaveChangeStart(2, 1, 24, 36);
+        robot.MoveL(endjointPos, enddescPose, 1, 0, 100, 100, 2, -1, exaxisPos, 0, 0, offdese,0,10);
+        robot.ARCEnd(0, 0, 10000);
+        robot.WeaveChangeEnd();
+        robot.WeaveEnd(0);
+        robot.ArcWeldTraceControl(0, 0, 1, 0.08, 5, 5, 300, 1, 0.06, 4, 4, 300, 1, 0, 4, 1, 10, 0, 0);
+        robot.WeldingSetCurrentGradualChangeEnd();
+        robot.WeldingSetVoltageGradualChangeEnd();
     }
