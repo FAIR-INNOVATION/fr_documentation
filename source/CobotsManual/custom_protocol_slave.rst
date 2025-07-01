@@ -450,6 +450,155 @@ HMI设置（Profinet仿真）
    :width: 6in
    :align: center
 
+机器人从站模式相关操作说明
+---------------------------------------------------------
+
+加载从站模式
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Step 1**：打开WebApp，进入初始设置->外设->板卡通讯->手动配置。
+
+.. image:: custom_protocol_slave/047.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 17.3-1 板卡通讯手动配置
+
+依次选择DI、DO、AO所需映射功能（见附录一），各参数意义如下：
+
+- DI为机器人控制：机器人从站接受外部信号输入，执行映射的功能；
+  
+- DO为机器人状态输出：机器人从站反馈状态信号至主站；
+  
+- AO为机器人状态反馈：机器人从站反馈状态数据至主站，AO0~AO15为有符号整形(int16)，AO16~AO31为单精度浮点数(float)。
+
+**Step 2**：点击“配置”按钮，生成开放协议lua文件。
+
+.. image:: custom_protocol_slave/048.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 17.3-2 设备操作及状态
+
+.. note:: 开放协议lua文件支持下载，可在自动配置界面导入开放协议lua文件。
+
+生成程序示例如下：
+
+.. code-block:: console
+   :linenos:
+
+   local id = 3 
+   local ctrlDI = {0, 0, 0, 0, 0, 0}
+   local funcDI = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+   local DOState = {0, 0, 0, 0, 0, 0, 0, 0}
+   local AOState = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+   -- Launch the board communication process
+   LoadFieldBusSlave()
+   sleep_ms(8000)
+   while(1) do
+      -- Set the DO status
+      CtrlBoxDO, CtrlBoxCO, CtrlBoxDI, CtrlBoxCI, errState, motionState, moveToOriginState, robotStartDoneState, modeChangeState, programStartStopState, emergencyState, reduceState, collision, enablestate, safetyStop0, safetyStop1, pauseState, interfereState = GetRobotFuncDOState()
+      DOState[1] = CtrlBoxDO
+      DOState[2] = CtrlBoxCO
+      DOState[3] = CtrlBoxDI
+      DOState[4] = CtrlBoxCI
+      local ctrlWord0 = 0
+      ctrlWord0 = SetBitWithIndex(ctrlWord0, 0, errState)
+      ctrlWord0 = SetBitWithIndex(ctrlWord0, 1, motionState)
+      ctrlWord0 = SetBitWithIndex(ctrlWord0, 2, moveToOriginState)
+      ctrlWord0 = SetBitWithIndex(ctrlWord0, 3, robotStartDoneState)
+      ctrlWord0 = SetBitWithIndex(ctrlWord0, 4, modeChangeState)
+      ctrlWord0 = SetBitWithIndex(ctrlWord0, 5, programStartStopState)
+      ctrlWord0 = SetBitWithIndex(ctrlWord0, 6, emergencyState)
+      ctrlWord0 = SetBitWithIndex(ctrlWord0, 7, reduceState)
+      DOState[5] = ctrlWord0
+      local ctrlWord1 = 0
+      ctrlWord1 = SetBitWithIndex(ctrlWord1, 0, collision)
+      ctrlWord1 = SetBitWithIndex(ctrlWord1, 1, enablestate)
+      ctrlWord1 = SetBitWithIndex(ctrlWord1, 2, safetyStop0)
+      ctrlWord1 = SetBitWithIndex(ctrlWord1, 3, safetyStop1)
+      ctrlWord1 = SetBitWithIndex(ctrlWord1, 4, pauseState)
+      ctrlWord1 = SetBitWithIndex(ctrlWord1, 5, interfereState)
+      DOState[6] = ctrlWord1
+      SetFieldBusDOState(DOState)
+
+      -- Set the AO status
+      mainErrCode, subErrCode, TCPSpeed, axisPos1, axisPos2, axisPos3, axisPos4, axisPos5, axisPos6, jointVelFeedback1, jointVelFeedback2, jointVelFeedback3, jointVelFeedback4, jointVelFeedback5, jointVelFeedback6, jointCurFeedback1, jointCurFeedback2, jointCurFeedback3,jointCurFeedback4,jointCurFeedback5,jointCurFeedback6, jointTorqueFeedback1, jointTorqueFeedback2,jointTorqueFeedback3,jointTorqueFeedback4, jointTorqueFeedback5, jointTorqueFeedback6, cartPosx, cartPosy, cartPosz, cartPosrx, cartPosry, cartPosrz = GetRobotFuncAOState()
+      AOState[1] = mainErrCode
+      AOState[2] = subErrCode
+      AOState[17] = axisPos1
+      AOState[18] = axisPos2
+      AOState[19] = axisPos3
+      AOState[20] = axisPos4
+      AOState[21] = axisPos5
+      AOState[22] = axisPos6
+      AOState[23] = cartPosx
+      AOState[24] = cartPosy
+      AOState[25] = cartPosz
+      AOState[26] = cartPosrx
+      AOState[27] = cartPosry
+      AOState[28] = cartPosrz
+      SetFieldBusAOState(AOState)
+      sleep_ms(10) 
+
+      -- Set the DI status
+      -- Configue the DI function and update it in real-time
+      ctrlDI[1],ctrlDI[2],ctrlDI[3],ctrlDI[4],ctrlDI[5],ctrlDI[6] = GetFieldBusDIState()
+      funcDI[1] = ctrlDI[1] 
+      funcDI[2] = ctrlDI[2] 
+      funcDI[3] = GetBitWithIndex(ctrlDI[3], 0)
+      funcDI[4] = GetBitWithIndex(ctrlDI[3], 1)
+      funcDI[5] = GetBitWithIndex(ctrlDI[3], 2)
+      funcDI[6] = GetBitWithIndex(ctrlDI[3], 3)
+      funcDI[7] = GetBitWithIndex(ctrlDI[3], 4)
+      funcDI[8] = GetBitWithIndex(ctrlDI[3], 5)
+      funcDI[9] = GetBitWithIndex(ctrlDI[3], 6)
+      funcDI[10] = GetBitWithIndex(ctrlDI[3], 7)
+      funcDI[11] = GetBitWithIndex(ctrlDI[4], 0)
+      funcDI[12] = GetBitWithIndex(ctrlDI[4], 1)
+      funcDI[13] = GetBitWithIndex(ctrlDI[4], 2)
+      funcDI[14] = GetBitWithIndex(ctrlDI[4], 3)
+      funcDI[15] = GetBitWithIndex(ctrlDI[4], 4)
+      funcDI[16] = GetBitWithIndex(ctrlDI[4], 5)
+      SetRobotFuncDIState(funcDI)
+      local stopFlag = GetOpenLUAStopFlag(id)
+      if(stopFlag ~= 0) then 
+         UnloadFieldBusSlave()
+         break
+      end
+      sleep_ms(10)
+   end
+
+**Step 3**：点击加载按钮，加载机器人从站模式。
+
+.. image:: custom_protocol_slave/049.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 17.3-3 加载从站模式
+
+.. note:: 机器人从站模式加载成功后，支持开机自启动功能。如需使用远程模式，请先卸载从站模式。
+
+**Step 4**：点击右侧状态栏按钮，监控DI、DO、AI、AO交互信息，各参数介绍如下：
+
+- CtrlDO为主站设备控制机器人控制箱DO的信号输入值；
+  
+- DI为外部主站控制信号输入值；
+  
+- DO为机器人从站反馈信号输出值；
+  
+- AI为外部主站输入值，AI0~AI15为int16类型，AI16~AI31为float类型；
+  
+- AO为机器人从站输出值，AO0~AO15为int16类型，AO16~AO31为float类型。
+
+.. image:: custom_protocol_slave/050.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 17.3-4 DI、DO、AI、AO交互信息
+
+:download:`附件一：从站模式地址映射表 <../_static/_doc/控制箱从站模式地址对照表.xlsx>`
+
 附录
 -------------------
 

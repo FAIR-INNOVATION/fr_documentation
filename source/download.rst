@@ -79,7 +79,7 @@
      - ✅
      - ✅
      - --
-     - :download:`下载 <_static/_doc/法奥RoHS 2.0声明.pdf>`
+     - :download:`下载 <_static/_doc/ROHS认证证书(FR3-FR30).pdf>`
 
    * - **防爆证书**
      - ✅
@@ -324,7 +324,6 @@ Java SDK
 
 机器人软件下载
 ---------------------------------
-    :download:`FAIRINO-CobotSoftware-V3.8.2-QX-Release-250529 <https://pan.baidu.com/s/1PEBEJI5v-RFAcXu0WvQY0Q?pwd=bqbt>`
+    :download:`FAIRINO-CobotSoftware-V3.8.3-QX-Release-250627 <https://pan.baidu.com/s/1_GQrYoouvY9AmIxItVCZlg?pwd=jbx5>`
 
-    :download:`FAIRINO-CobotSoftware-V3.8.2-LA-Release-250617 <https://pan.baidu.com/s/1i8mL8t-LVZ9OdKe6-prjPg?pwd=tijv>`
 

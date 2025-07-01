@@ -124,7 +124,7 @@ jog点动立即停止
     int MoveL(JointPos joint_pos, DescPose desc_pos, int tool, int user, double vel, double acc, double ovl, double blendR, int blendMode,ExaxisPos epos, int search, int offset_flag, DescPose offset_pos, int overSpeedStrategy, int speedPercent);
 
 笛卡尔空间圆弧运动
-+++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
@@ -156,6 +156,8 @@ jog点动立即停止
 
 笛卡尔空间整圆运动
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionchanged:: Java SDK-v1.0.6-3.8.3
+
 .. code-block:: Java
     :linenos:
 
@@ -178,12 +180,14 @@ jog点动立即停止
     * @param  [in] ovl  速度缩放因子，范围[0~100]
     * @param  [in] offset_flag  0-不偏移，1-基坐标系/工件坐标系下偏移，2-工具坐标系下偏移
     * @param  [in] offset_pos  位姿偏移量
+    * @param  [in] oacc 加速度百分比
+    * @param  [in] blendR -1：阻塞；0~1000：平滑半径
     * @return  错误码
     */
-    int Circle(JointPos joint_pos_p, DescPose desc_pos_p, int ptool, int puser, double pvel, double pacc, ExaxisPos epos_p, JointPos joint_pos_t, DescPose desc_pos_t, int ttool, int tuser, double tvel, double tacc, ExaxisPos epos_t, double ovl, int offset_flag, DescPose offset_pos);
+    int Circle(JointPos joint_pos_p, DescPose desc_pos_p, int ptool, int puser, double pvel, double pacc, ExaxisPos epos_p, JointPos joint_pos_t, DescPose desc_pos_t, int ttool, int tuser, double tvel, double tacc, ExaxisPos epos_t, double ovl, int offset_flag, DescPose offset_pos, double oacc, double blendR)
 
 代码示例
-+++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
@@ -255,12 +259,12 @@ jog点动立即停止
         DescPose offdese = new DescPose(0, 0, 0, 0, 0, 0);
 
         robot.MoveJ(startjointPos,startdescPose,3,0,100,100,100,exaxisPos,-1,0,offdese);
-        robot.Circle(midjointPosCir1,middescPoseCir1,3,0,100,100,exaxisPos,endjointPosCir1,enddescPoseCir1,3,0,100,100,exaxisPos,100,-1,offdese);
-        robot.Circle(midjointPosCir2,middescPoseCir2,3,0,100,100,exaxisPos,endjointPosCir2,enddescPoseCir2,3,0,100,100,exaxisPos,100,-1,offdese);
+        robot.Circle(midjointPosCir1,middescPoseCir1,3,0,100,100,exaxisPos,endjointPosCir1,enddescPoseCir1,3,0,100,100,exaxisPos,100,-1,offdese,100,20);
+        robot.Circle(midjointPosCir2,middescPoseCir2,3,0,100,100,exaxisPos,endjointPosCir2,enddescPoseCir2,3,0,100,100,exaxisPos,100,-1,offdese,100,20);
         robot.MoveC(midjointPosMoveC,middescPoseMoveC,3,0,100,100,exaxisPos,0,offdese,endjointPosmoveC,enddescPoseMoveC,3,0,100,100,exaxisPos,0,offdese,100,20);
-        robot.Circle(midjointPosCir3,middescPoseCir3,3,0,100,100,exaxisPos,endjointPosCir3,enddescPoseCir3,3,0,100,100,exaxisPos,100,-1,offdese);
+        robot.Circle(midjointPosCir3,middescPoseCir3,3,0,100,100,exaxisPos,endjointPosCir3,enddescPoseCir3,3,0,100,100,exaxisPos,100,-1,offdese,100,20);
         robot.MoveL(linejointPos,linedescPose,3,0,100,100,100,-1,0,exaxisPos,0,0,offdese,0,10);
-        robot.Circle(midjointPosCir4,middescPoseCir4,3,0,100,100,exaxisPos,endjointPosCir4,enddescPoseCir4,3,0,100,100,exaxisPos,100,-1,offdese);
+        robot.Circle(midjointPosCir4,middescPoseCir4,3,0,100,100,exaxisPos,endjointPosCir4,enddescPoseCir4,3,0,100,100,exaxisPos,100,-1,offdese,100,20);
     }    
 
 笛卡尔空间螺旋线运动
@@ -335,7 +339,9 @@ jog点动立即停止
     int ServoMoveEnd();
 
 关节空间伺服模式运动
-+++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionchanged:: Java SDK-v1.0.6-3.8.3
+
 .. code-block:: Java
     :linenos:
 
@@ -348,9 +354,10 @@ jog点动立即停止
     * @param  [in] cmdT  指令下发周期，单位s，建议范围[0.001~0.0016]
     * @param  [in] filterT 滤波时间，单位s，暂不开放，默认为0
     * @param  [in] gain  目标位置的比例放大器，暂不开放，默认为0
+    * @param  [in] id  servoJ指令ID,默认为0
     * @return  错误码
     */
-    int ServoJ(JointPos joint_pos, ExaxisPos axisPos, double acc, double vel, double cmdT, double filterT, double gain);
+    int ServoJ(JointPos joint_pos, ExaxisPos axisPos, double acc, double vel, double cmdT, double filterT, double gain, int id);
 
 代码示例
 +++++++++++++++++++++++++++++

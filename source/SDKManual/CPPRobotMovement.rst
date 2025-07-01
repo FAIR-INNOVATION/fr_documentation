@@ -176,28 +176,28 @@ jog点动立即停止
     :linenos:
 
     /**
-     *@brief  笛卡尔空间整圆运动
-     *@param  [in] joint_pos_p  路径点1关节位置,单位deg
-     *@param  [in] desc_pos_p   路径点1笛卡尔位姿
-     *@param  [in] ptool  工具坐标号，范围[1~15]
-     *@param  [in] puser  工件坐标号，范围[1~15]
-     *@param  [in] pvel  速度百分比，范围[0~100]
-     *@param  [in] pacc  加速度百分比，范围[0~100],暂不开放
-     *@param  [in] epos_p  扩展轴位置，单位mm
-     *@param  [in] joint_pos_t  路径点2关节位置,单位deg
-     *@param  [in] desc_pos_t   路径点2笛卡尔位姿
-     *@param  [in] ttool  工具坐标号，范围[1~15]
-     *@param  [in] tuser  工件坐标号，范围[1~15]
-     *@param  [in] tvel  速度百分比，范围[0~100]
-     *@param  [in] tacc  加速度百分比，范围[0~100],暂不开放
-     *@param  [in] epos_t  扩展轴位置，单位mm
-     *@param  [in] ovl  速度缩放因子，范围[0~100]
-     *@param  [in] offset_flag  0-不偏移，1-基坐标系/工件坐标系下偏移，2-工具坐标系下偏移
-     *@param  [in] offset_pos  位姿偏移量
-     *@param  [in] oacc 加速度百分比
-     *@param  [in] blendR -1：阻塞；0~1000：平滑半径
-     *@return  错误码
-     */
+     *@brief  笛卡尔空间整圆运动
+     *@param  [in] joint_pos_p  路径点1关节位置,单位deg
+     *@param  [in] desc_pos_p   路径点1笛卡尔位姿
+     *@param  [in] ptool  工具坐标号，范围[1~15]
+     *@param  [in] puser  工件坐标号，范围[1~15]
+     *@param  [in] pvel  速度百分比，范围[0~100]
+     *@param  [in] pacc  加速度百分比，范围[0~100],暂不开放
+     *@param  [in] epos_p  扩展轴位置，单位mm
+     *@param  [in] joint_pos_t  路径点2关节位置,单位deg
+     *@param  [in] desc_pos_t   路径点2笛卡尔位姿
+     *@param  [in] ttool  工具坐标号，范围[1~15]
+     *@param  [in] tuser  工件坐标号，范围[1~15]
+     *@param  [in] tvel  速度百分比，范围[0~100]
+     *@param  [in] tacc  加速度百分比，范围[0~100],暂不开放
+     *@param  [in] epos_t  扩展轴位置，单位mm
+     *@param  [in] ovl  速度缩放因子，范围[0~100]
+     *@param  [in] offset_flag  0-不偏移，1-基坐标系/工件坐标系下偏移，2-工具坐标系下偏移
+     *@param  [in] offset_pos  位姿偏移量
+     *@param  [in] oacc 加速度百分比
+     *@param  [in] blendR -1：阻塞；0~1000：平滑半径
+     *@return  错误码
+     */
     errno_t Circle(JointPos *joint_pos_p, DescPose *desc_pos_p, int ptool, int puser, float pvel, float pacc, ExaxisPos *epos_p, JointPos *joint_pos_t, DescPose *desc_pos_t, int ttool, int tuser, float tvel, float tacc, ExaxisPos *epos_t, float ovl, uint8_t offset_flag, DescPose *offset_pos, double oacc, double blendR);
 
 笛卡尔空间点到点运动
@@ -369,14 +369,16 @@ jog点动立即停止
     /**
     * @brief  关节空间伺服模式运动
     * @param  [in] joint_pos  目标关节位置,单位deg
+    * @param  [in] axisPos  外部轴位置,单位mm
     * @param  [in] acc  加速度百分比，范围[0~100],暂不开放，默认为0
     * @param  [in] vel  速度百分比，范围[0~100]，暂不开放，默认为0
     * @param  [in] cmdT  指令下发周期，单位s，建议范围[0.001~0.0016]
     * @param  [in] filterT 滤波时间，单位s，暂不开放，默认为0
     * @param  [in] gain  目标位置的比例放大器，暂不开放，默认为0
+    * @param  [in] id servoJ指令ID,默认为0
     * @return  错误码
     */
-    errno_t  ServoJ(JointPos *joint_pos, float acc, float vel, float cmdT, float filterT, float gain);
+    errno_t ServoJ(JointPos *joint_pos, ExaxisPos* axisPos, float acc, float vel, float cmdT, float filterT, float gain, int id = 0);
 
 关节空间伺服模式运动示例程序
 ++++++++++++++++++++++++++++++++++++++++++
@@ -384,47 +386,48 @@ jog点动立即停止
     :linenos:
 
     int TestServoJ(void)
-     {
-         ROBOT_STATE_PKG pkg = {};
-         FRRobot robot;
-         robot.LoggerInit();
-         robot.SetLoggerLevel(1);
-         int rtn = robot.RPC("192.168.58.2");
-         if (rtn != 0)
-         {
-             return -1;
-         }
-         robot.SetReConnectParam(true, 30000, 500);
-         JointPos j(0, 0, 0, 0, 0, 0);
-         ExaxisPos epos(0, 0, 0, 0);
-         float vel = 0.0;
-         float acc = 0.0;
-         float cmdT = 0.008;
-         float filterT = 0.0;
-         float gain = 0.0;
-         uint8_t flag = 0;
-         int count = 500;
-         float dt = 0.1;
-         int ret = robot.GetActualJointPosDegree(flag, &j);
-         if (ret == 0)
-         {
-             robot.ServoMoveStart();
-             while (count)
-             {
-                 robot.ServoJ(&j, &epos, acc, vel, cmdT, filterT, gain);
-                 j.jPos[0] += dt;
-                 count -= 1;
-                 robot.WaitMs(cmdT * 1000);
-             }
-             robot.ServoMoveEnd();
-         }
-         else
-         {
-             printf("GetActualJointPosDegree errcode:%d\n", ret);
-         }
-         robot.CloseRPC();
-         return 0;
-     }
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return -1;
+        }
+        robot.SetReConnectParam(true, 30000, 500);
+        JointPos j(0, 0, 0, 0, 0, 0);
+        ExaxisPos epos(0, 0, 0, 0);
+        float vel = 0.0;
+        float acc = 0.0;
+        float cmdT = 0.008;
+        float filterT = 0.0;
+        float gain = 0.0;
+        uint8_t flag = 0;
+        int count = 500;
+        float dt = 0.1;
+        int cmdID = 0;
+        int ret = robot.GetActualJointPosDegree(flag, &j);
+        if (ret == 0)
+        {
+            robot.ServoMoveStart();
+            while (count)
+            {
+                robot.ServoJ(&j, &epos, acc, vel, cmdT, filterT, gain, cmdID);
+                j.jPos[0] += dt;
+                count -= 1;
+                robot.WaitMs(cmdT * 1000);
+            }
+            robot.ServoMoveEnd();
+        }
+        else
+        {
+            printf("GetActualJointPosDegree errcode:%d\n", ret);
+        }
+        robot.CloseRPC();
+        return 0;
+    }
 
 关节扭矩控制开始
 ++++++++++++++++++++++++++++++++++++++++++

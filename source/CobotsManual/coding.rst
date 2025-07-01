@@ -5510,43 +5510,45 @@ TCP检测阈值数值越大，碰撞检测越不灵敏，数值范围为，单�
      - 60
      - 60 
 
-T形速度特性优化功能
+T形速度特性优化+blending平滑功能
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 概述
 ++++++++++++++
 
-传统的T形速度曲线在加减速阶段的起点和终点存在加速度突变，会对机械设备造成刚性冲击，本功能通过对T形速度曲线进行优化，可消除加速度的突变，以提高运动的平稳性。
-
-本功能主要针对PTP指令、LIN指令、ARC指令和整圆指令进行加速度平滑，因各指令的操作方式类似，本手册以PTP指令为例说明该功能的操作方法。
+在两段轨迹之间进行blending，可避免因完全停止而带来的频繁启停问题，从而提升机器人的运动效率。本功能主要针对PTP、LIN、ARC和CIRCLE指令间进行blending，均可通过两种方式实现：使用Lua指令方式、使用运动配置开关方式。
 
 操作流程
 ++++++++++++++++++++++++++++
 
-根据操作方式的不同，可通过两种方式实现T形速度特性优化：使用Lua指令、使用运动配置开关。
+PTP-PTP的blending
+***************************************
 
-**Step1**：选择要执行PTP功能的示教点，本手册以“P1”作为示教点的名称。
+使用Lua指令方式
+""""""""""""""""""""""""""""""""""""""""""
 
-**Step2**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“点到点”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“加速度平滑模式”。
+**Step1**：选择要执行PTP-PTP功能的示教点，本手册以“A0”~“A5”作为示教点的名称。
+
+**Step2**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“点到点”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“加速度平滑模式”，在需要平滑的点处设置“平滑过渡”参数。
    
 .. image:: coding/315.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.27-1 加速度平滑PTP指令设置
+.. centered:: 图表 9.27-1 加速度平滑PTP指令的blending指令设置
 
-**Step3**：生成Lua程序并运行，即可实现对PTP指令的加速度平滑功能，典型程序如下图。
+**Step3**：添加多条PTP指令，生成Lua程序并运行，即可实现对PTP-PTP的blending功能，该方式仅对AccSmoothStart()和AccSmoothEnd()之间的指令使用优化后的T形速度运动，对其余指令使用原T形速度运动。
    
 .. image:: coding/316.png
-   :width: 6in
+   :width: 4in
    :align: center
 
-.. centered:: 图表 9.27-2 使用Lua指令方式进行PTP平滑的典型程序
+.. centered:: 图表 9.27-2 Lua指令方式进行PTP-PTP间blending典型程序
 
 使用运动配置开关方式
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-**Step1**：点击“初始设置”—>“基础”—>“运动配置”按钮，打开“加速度平滑模式”的开关，如下图。
+**Step1**：点击“初始设置”—>“安全”—>“运动配置”按钮，打开“加速度平滑模式”的开关。
    
 .. image:: coding/317.png
    :width: 6in
@@ -5554,24 +5556,819 @@ T形速度特性优化功能
 
 .. centered:: 图表 9.27-3 加速度平滑模式配置开关设置
 
-**Step2**：选择要执行PTP功能的示教点，本手册以“P1”作为示教点的名称。
+**Step2**：选择要执行PTP-PTP功能的示教点，本手册以“A0”~“A5”作为示教点的名称。
 
-**Step3**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“点到点”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“无”，即添加常规的PTP指令，如下图。
+**Step3**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“点到点”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“无”，在需要平滑的点处设置“平滑过渡”参数。
    
 .. image:: coding/318.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.27-4 常规PTP指令设置
+.. centered:: 图表 9.27-4 常规PTP指令的blending指令设置
 
-**Step4**：生成Lua程序并运行，即可实现对PTP指令的加速度平滑功能，典型程序和常规PTP程序相同，如下图。
+**Step4**：添加多条PTP指令，生成Lua程序并运行，即可实现对PTP-PTP的blending功能，典型程序和常规PTP-PTP程序相同，该方式会对所有指令使用优化后的T形速度运动。
    
 .. image:: coding/319.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-5 使用配置开关进行PTP-PTP间blending的典型程序
+
+PTP-LIN的blending
+***************************************
+
+使用Lua指令方式
+""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：选择要执行PTP-LIN功能的示教点，本手册以“A0”~“A5”作为示教点的名称。
+
+**Step2**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“点到点”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“加速度平滑模式”，在需要平滑的点处设置“平滑过渡”参数。
+   
+.. image:: coding/315.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 9.27-5 使用配置开关方式进行PTP平滑的典型程序
+.. centered:: 图表 9.27-6 加速度平滑PTP指令的blending指令设置
 
+**Step3**：添加多条PTP和LIN指令，生成Lua程序并运行，即可实现对PTP-LIN的blending功能，该方式仅对AccSmoothStart()和AccSmoothEnd()之间的指令使用优化后的T形速度运动，对其余指令使用原T形速度运动。
+   
+.. image:: coding/415.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-7 Lua指令方式进行PTP-LIN间blending典型程序
+
+使用运动配置开关方式
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：点击“初始设置”—>“安全”—>“运动配置”按钮，打开“加速度平滑模式”的开关。
+   
+.. image:: coding/317.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-8 加速度平滑模式配置开关设置
+
+**Step2**：选择要执行PTP-LIN功能的示教点，本手册以“A0”~“A5”作为示教点的名称。
+
+**Step3**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“点到点”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“无”，在需要平滑的点处设置“平滑过渡”参数。
+   
+.. image:: coding/318.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-9 常规PTP指令的blending指令设置
+
+**Step4**：添加多条PTP和LIN指令，生成Lua程序并运行，即可实现对PTP-LIN的blending功能，典型程序和常规PTP-LIN程序相同，该方式会对所有指令使用优化后的T形速度运动。
+   
+.. image:: coding/397.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-10 使用配置开关进行PTP-LIN间blending的典型程序
+
+PTP-ARC的blending
+***************************************
+
+使用Lua指令方式
+""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：选择要执行PTP-ARC功能的示教点，本手册以“A0”~“A8”作为示教点的名称。
+
+**Step2**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“点到点”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“加速度平滑模式”，在需要平滑的点处设置“平滑过渡”参数。
+   
+.. image:: coding/315.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-11 加速度平滑PTP指令的blending指令设置
+
+**Step3**：添加多条PTP和ARC指令，生成Lua程序并运行，即可实现对PTP-ARC的blending功能，该方式仅对AccSmoothStart()和AccSmoothEnd()之间的指令使用优化后的T形速度运动，对其余指令使用原T形速度运动。
+   
+.. image:: coding/398.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-12 Lua指令方式进行PTP-ARC间blending典型程序
+
+使用运动配置开关方式
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：点击“初始设置”—>“安全”—>“运动配置”按钮，打开“加速度平滑模式”的开关。
+   
+.. image:: coding/317.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-13 加速度平滑模式配置开关设置
+
+**Step2**：选择要执行PTP-ARC功能的示教点，本手册以“A0”~“A8”作为示教点的名称。
+
+**Step3**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“点到点”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“无”，在需要平滑的点处设置“平滑过渡”参数。
+   
+.. image:: coding/318.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-14 常规PTP指令的blending指令设置
+
+**Step4**：添加多条PTP和ARC指令，生成Lua程序并运行，即可实现对PTP-ARC的blending功能，典型程序和常规PTP-ARC程序相同，该方式会对所有指令使用优化后的T形速度运动。
+   
+.. image:: coding/399.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-15 使用配置开关进行PTP-ARC间blending的典型程序
+   
+PTP-CIRCLE的blending
+***************************************
+
+使用Lua指令方式
+""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：选择要执行PTP-CIRCLE功能的示教点，本手册以“A0”~“A8”作为示教点的名称。
+
+**Step2**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“点到点”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“加速度平滑模式”，在需要平滑的点处设置“平滑过渡”参数。
+   
+.. image:: coding/315.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-16 加速度平滑PTP指令的blending指令设置
+
+**Step3**：添加多条PTP和CIRCLE指令，生成Lua程序并运行，即可实现对PTP-CIRCLE的blending功能，该方式仅对AccSmoothStart()和AccSmoothEnd()之间的指令使用优化后的T形速度运动，对其余指令使用原T形速度运动。
+   
+.. image:: coding/400.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-17 Lua指令方式进行PTP-CIRCLE间blending典型程序
+
+使用运动配置开关方式
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：点击“初始设置”—>“安全”—>“运动配置”按钮，打开“加速度平滑模式”的开关。
+   
+.. image:: coding/317.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-18 加速度平滑模式配置开关设置
+
+**Step2**：选择要执行PTP-CIRCLE功能的示教点，本手册以“A0”~“A8”作为示教点的名称。
+
+**Step3**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“点到点”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“无”，在需要平滑的点处设置“平滑过渡”参数。
+   
+.. image:: coding/318.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-19 常规PTP指令的blending指令设置
+
+**Step4**：添加多条PTP和CIRCLE指令，生成Lua程序并运行，即可实现对PTP-CIRCLE的blending功能，典型程序和常规PTP-CIRCLE程序相同，该方式会对所有指令使用优化后的T形速度运动。
+   
+.. image:: coding/401.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-20 使用配置开关进行PTP-CIRCLE间blending的典型程序
+   
+LIN-PTP的blending
+***************************************
+
+使用Lua指令方式
+""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：选择要执行LIN-PTP功能的示教点，本手册以“A0”~“A5”作为示教点的名称。
+
+**Step2**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“直线”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“加速度平滑模式”，在需要平滑的点处设置“过渡半径”和“过渡方式”参数，过渡方式可选择“角点过渡”和“内切过渡”。
+   
+.. image:: coding/402.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-21 加速度平滑PTP指令的blending指令设置
+
+**Step3**：添加多条LIN和PTP指令，生成Lua程序并运行，即可实现对LIN-PTP的blending功能，该方式仅对AccSmoothStart()和AccSmoothEnd()之间的指令使用优化后的T形速度运动，对其余指令使用原T形速度运动。
+   
+.. image:: coding/403.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-22 Lua指令方式进行LIN-PTP间blending典型程序
+
+使用运动配置开关方式
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：点击“初始设置”—>“安全”—>“运动配置”按钮，打开“加速度平滑模式”的开关。
+   
+.. image:: coding/317.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-23 加速度平滑模式配置开关设置
+
+**Step2**：选择要执行LIN-PTP功能的示教点，本手册以“A0”~“A5”作为示教点的名称。
+
+**Step3**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“直线”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“无”，在需要平滑的点处设置“过渡半径”和“过渡方式”参数，过渡方式可选择“角点过渡”和“内切过渡”。
+   
+.. image:: coding/404.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-24 常规LIN指令的blending指令设置
+
+**Step4**：生成Lua程序并运行，即可实现对LIN-PTP的blending功能，典型程序和常规LIN-PTP程序相同，该方式会对所有指令使用优化后的T形速度运动。
+   
+.. image:: coding/405.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-25 使用配置开关进行LIN-PTP间blending的典型程序
+   
+LIN-LIN的blending
+***************************************
+
+使用Lua指令方式
+""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：选择要执行LIN-LIN功能的示教点，本手册以“A0”~“A5”作为示教点的名称。
+
+**Step2**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“直线”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“加速度平滑模式”，在需要平滑的点处设置“过渡半径”和“过渡方式”参数，过渡方式可选择“角点过渡”和“内切过渡”。
+   
+.. image:: coding/402.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-26 加速度平滑LIN指令的blending指令设置
+
+**Step3**：添加多条LIN和LIN指令，生成Lua程序并运行，即可实现对LIN-LIN的blending功能，该方式仅对AccSmoothStart()和AccSmoothEnd()之间的指令使用优化后的T形速度运动，对其余指令使用原T形速度运动。
+   
+.. image:: coding/416.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-27 Lua指令方式进行LIN-LIN间blending典型程序
+
+使用运动配置开关方式
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：点击“初始设置”—>“安全”—>“运动配置”按钮，打开“加速度平滑模式”的开关。
+   
+.. image:: coding/317.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-28 加速度平滑模式配置开关设置
+
+**Step2**：选择要执行LIN-LIN功能的示教点，本手册以“A0”~“A5”作为示教点的名称。
+
+**Step3**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“直线”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“无”，在需要平滑的点处设置“过渡半径”和“过渡方式”参数，过渡方式可选择“角点过渡”和“内切过渡”。
+   
+.. image:: coding/404.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-29 常规LIN指令的blending指令设置
+
+**Step4**：生成Lua程序并运行，即可实现对LIN-LIN的blending功能，典型程序和常规LIN-LIN程序相同，该方式会对所有指令使用优化后的T形速度运动。
+   
+.. image:: coding/417.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-30 使用配置开关进行LIN-LIN间blending的典型程序
+   
+LIN-ARC的blending
+***************************************
+
+使用Lua指令方式
+""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：选择要执行LIN-ARC功能的示教点，本手册以“A0”~“A8”作为示教点的名称。
+
+**Step2**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“直线”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“加速度平滑模式”，在需要平滑的点处设置“过渡半径”和“过渡方式”参数，过渡方式可选择“角点过渡”和“内切过渡”。
+   
+.. image:: coding/402.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-31 加速度平滑LIN指令的blending指令设置
+
+**Step3**：添加多条LIN和ARC指令，生成Lua程序并运行，即可实现对LIN-ARC的blending功能，该方式仅对AccSmoothStart()和AccSmoothEnd()之间的指令使用优化后的T形速度运动，对其余指令使用原T形速度运动。
+   
+.. image:: coding/406.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-32 Lua指令方式进行LIN-ARC间blending典型程序
+
+使用运动配置开关方式
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：点击“初始设置”—>“安全”—>“运动配置”按钮，打开“加速度平滑模式”的开关。
+   
+.. image:: coding/317.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-33 加速度平滑模式配置开关设置
+
+**Step2**：选择要执行LIN-ARC功能的示教点，本手册以“A0”~“A8”作为示教点的名称。
+
+**Step3**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“直线”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“无”，在需要平滑的点处设置“过渡半径”和“过渡方式”参数，过渡方式可选择“角点过渡”和“内切过渡”。
+   
+.. image:: coding/404.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-34 常规LIN指令的blending指令设置
+
+**Step4**：生成Lua程序并运行，即可实现对LIN-LIN的blending功能，典型程序和常规LIN-LIN程序相同，该方式会对所有指令使用优化后的T形速度运动。
+   
+.. image:: coding/407.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-35 使用配置开关进行LIN-ARC间blending的典型程序
+   
+LIN-CIRCLE的blending
+***************************************
+
+使用Lua指令方式
+""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：选择要执行LIN-CIRCLE功能的示教点，本手册以“A0”~“A8”作为示教点的名称。
+
+**Step2**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“直线”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“加速度平滑模式”，在需要平滑的点处设置“过渡半径”和“过渡方式”参数，过渡方式可选择“角点过渡”和“内切过渡”。
+   
+.. image:: coding/402.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-36 加速度平滑LIN指令的blending指令设置
+
+**Step3**：添加多条LIN和CIRCLE指令，生成Lua程序并运行，即可实现对LIN-CIRCLE的blending功能，该方式仅对AccSmoothStart()和AccSmoothEnd()之间的指令使用优化后的T形速度运动，对其余指令使用原T形速度运动。
+   
+.. image:: coding/408.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-37 Lua指令方式进行LIN-CIRCLE间blending典型程序
+
+使用运动配置开关方式
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：点击“初始设置”—>“安全”—>“运动配置”按钮，打开“加速度平滑模式”的开关。
+   
+.. image:: coding/317.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-38 加速度平滑模式配置开关设置
+
+**Step2**：选择要执行LIN-CIRCLE功能的示教点，本手册以“A0”~“A8”作为示教点的名称。
+
+**Step3**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“直线”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“无”，在需要平滑的点处设置“过渡半径”和“过渡方式”参数，过渡方式可选择“角点过渡”和“内切过渡”。
+   
+.. image:: coding/404.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-39 常规LIN指令的blending指令设置
+
+**Step4**：添加多条LIN和CIRCLE指令，生成Lua程序并运行，即可实现对LIN-CIRCLE的blending功能，典型程序和常规LIN-ARC程序相同，该方式会对所有指令使用优化后的T形速度进行运动。
+   
+.. image:: coding/409.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-40 使用配置开关进行LIN-CIRCLE间blending的典型程序
+   
+ARC-PTP的blending
+***************************************
+
+使用Lua指令方式
+""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：选择要执行ARC-PTP功能的示教点，本手册以“A0”~“A9”作为示教点的名称。
+
+**Step2**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“圆弧”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“加速度平滑模式”，在需要平滑的点处设置“平滑过渡”参数。
+   
+.. image:: coding/410.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-41 加速度平滑ARC指令的blending指令设置
+
+**Step3**：添加多条ARC和PTP指令，生成Lua程序并运行，即可实现对ARC-PTP的blending功能，该方式仅对AccSmoothStart()和AccSmoothEnd()之间的指令使用优化后的T形速度运动，对其余指令使用原T形速度运动。
+   
+.. image:: coding/411.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-42 Lua指令方式进行ARC-PTP间blending典型程序
+
+使用运动配置开关方式
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：点击“初始设置”—>“安全”—>“运动配置”按钮，打开“加速度平滑模式”的开关。
+   
+.. image:: coding/317.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-43 加速度平滑模式配置开关设置
+
+**Step2**：选择要执行ARC-PTP功能的示教点，本手册以“A0”~“A9”作为示教点的名称。
+
+**Step3**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“圆弧”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“无”，在需要平滑的点处设置“平滑过渡”参数。
+   
+.. image:: coding/418.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-44 常规ARC指令的blending指令设置
+
+**Step4**：添加多条ARC和PTP指令，生成Lua程序并运行，即可实现对ARC-PTP的blending功能，典型程序和常规ARC-PTP程序相同，该方式会对所有指令使用优化后的T形速度运动。
+   
+.. image:: coding/412.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-45 使用配置开关进行ARC-PTP间blending的典型程序
+   
+ARC-LIN的blending
+***************************************
+
+使用Lua指令方式
+""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：选择要执行ARC-LIN功能的示教点，本手册以“A0”~“A9”作为示教点的名称。
+
+**Step2**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“圆弧”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“加速度平滑模式”，在需要平滑的点处设置“平滑过渡”参数。
+   
+.. image:: coding/410.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-46 加速度平滑ARC指令的blending指令设置
+
+**Step3**：添加多条ARC和LIN指令，生成Lua程序并运行，即可实现对ARC-LIN的blending功能，该方式仅对AccSmoothStart()和AccSmoothEnd()之间的指令使用优化后的T形速度运动，对其余指令使用原T形速度运动。
+   
+.. image:: coding/413.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-47 Lua指令方式进行ARC-LIN间blending典型程序
+
+使用运动配置开关方式
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：点击“初始设置”—>“安全”—>“运动配置”按钮，打开“加速度平滑模式”的开关。
+   
+.. image:: coding/317.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-48 加速度平滑模式配置开关设置
+
+**Step2**：选择要执行ARC-LIN功能的示教点，本手册以“A0”~“A9”作为示教点的名称。
+
+**Step3**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“圆弧”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“无”，在需要平滑的点处设置“平滑过渡”参数。
+   
+.. image:: coding/419.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-49 常规ARC指令的blending指令设置
+
+**Step4**：添加多条ARC和LIN指令，生成Lua程序并运行，即可实现对ARC-LIN的blending功能，典型程序和常规ARC-LIN程序相同，该方式会对所有指令使用优化后的T形速度运动。
+   
+.. image:: coding/414.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-50 使用配置开关进行ARC-LIN间blending的典型程序
+   
+ARC-ARC的blending
+***************************************
+
+使用Lua指令方式
+""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：选择要执行ARC-ARC功能的示教点，本手册以“A0”~“A12”作为示教点的名称。
+
+**Step2**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“圆弧”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“加速度平滑模式”，在需要平滑的点处设置“平滑过渡”参数。
+   
+.. image:: coding/410.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-51 加速度平滑ARC指令的blending指令设置
+
+**Step3**：添加多条ARC指令，生成Lua程序并运行，即可实现对ARC-ARC的blending功能，该方式仅对AccSmoothStart()和AccSmoothEnd()之间的指令使用优化后的T形速度运动，对其余指令使用原T形速度运动。
+   
+.. image:: coding/420.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-52 Lua指令方式进行ARC-ARC间blending典型程序
+
+使用运动配置开关方式
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：点击“初始设置”—>“安全”—>“运动配置”按钮，打开“加速度平滑模式”的开关。
+   
+.. image:: coding/317.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-53 加速度平滑模式配置开关设置
+
+**Step2**：选择要执行ARC-ARC功能的示教点，本手册以“A0”~“A12”作为示教点的名称。
+
+**Step3**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“圆弧”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“无”，在需要平滑的点处设置“平滑过渡”参数。
+   
+.. image:: coding/419.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-54 常规ARC指令的blending指令设置
+
+**Step4**：添加多条ARC指令，生成Lua程序并运行，即可实现对ARC-ARC的blending功能，典型程序和常规ARC-ARC程序相同，该方式会对所有指令使用优化后的T形速度运动。
+   
+.. image:: coding/421.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-55 使用配置开关进行ARC-ARC间blending的典型程序
+   
+ARC-CIRCLE的blending
+***************************************
+
+使用Lua指令方式
+""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：选择要执行ARC-CIRCLE功能的示教点，本手册以“A0”~“A12”作为示教点的名称。
+
+**Step2**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“圆弧”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“加速度平滑模式”，在需要平滑的点处设置“平滑过渡”参数。
+   
+.. image:: coding/410.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-56 加速度平滑ARC指令的blending指令设置
+
+**Step3**：添加多条ARC和CIRCLE指令，生成Lua程序并运行，即可实现对ARC-CIRCLE的blending功能，该方式仅对AccSmoothStart()和AccSmoothEnd()之间的指令使用优化后的T形速度运动，对其余指令使用原T形速度运动。
+   
+.. image:: coding/422.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-57 Lua指令方式进行ARC-CIRCLE间blending典型程序
+
+使用运动配置开关方式
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：点击“初始设置”—>“安全”—>“运动配置”按钮，打开“加速度平滑模式”的开关。
+   
+.. image:: coding/317.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-58 加速度平滑模式配置开关设置
+
+**Step2**：选择要执行ARC-CIRCLE功能的示教点，本手册以“A0”~“A12”作为示教点的名称。
+
+**Step3**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“圆弧”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“无”，在需要平滑的点处设置“平滑过渡”参数。
+   
+.. image:: coding/419.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-59 常规ARC指令的blending指令设置
+
+**Step4**：添加多条ARC和CIRCLE指令，生成Lua程序并运行，即可实现对ARC-CIRCLE的blending功能，典型程序和常规ARC-CIRCLE程序相同，该方式会对所有指令使用优化后的T形速度运动。
+   
+.. image:: coding/423.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-60 使用配置开关进行ARC-CIRCLE间blending的典型程序
+   
+CIRCLE-PTP的blending
+***************************************
+
+使用Lua指令方式
+""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：选择要执行CIRCLE-PTP功能的示教点，本手册以“A0”~“A9”作为示教点的名称。
+
+**Step2**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“整圆”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“加速度平滑模式”，在需要平滑的点处设置“平滑过渡”参数。
+   
+.. image:: coding/424.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-61 加速度平滑CIRCLE指令的blending指令设置
+
+**Step3**：添加多条CIRCLE和PTP指令，生成Lua程序并运行，即可实现对CIRCLE-PTP的blending功能，该方式仅对AccSmoothStart()和AccSmoothEnd()之间的指令使用优化后的T形速度运动，对其余指令使用原T形速度运动。
+   
+.. image:: coding/425.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-62 Lua指令方式进行CIRCLE-PTP间blending典型程序
+
+使用运动配置开关方式
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：点击“初始设置”—>“安全”—>“运动配置”按钮，打开“加速度平滑模式”的开关。
+   
+.. image:: coding/317.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-63 加速度平滑模式配置开关设置
+
+**Step2**：选择要执行CIRCLE-PTP功能的示教点，本手册以“A0”~“A9”作为示教点的名称。
+
+**Step3**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“整圆”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“无”，在需要平滑的点处设置“平滑过渡”参数。
+   
+.. image:: coding/426.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-64 常规CIRCLE指令的blending指令设置
+
+**Step4**：添加多条CIRCLE和PTP指令，生成Lua程序并运行，即可实现对CIRCLE-PTP的blending功能，典型程序和常规CIRCLE-PTP程序相同，该方式会对所有指令使用优化后的T形速度运动。
+   
+.. image:: coding/427.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-65 使用配置开关进行CIRCLE-PTP间blending的典型程序
+   
+CIRCLE-LIN的blending
+***************************************
+
+使用Lua指令方式
+""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：选择要执行CIRCLE-LIN功能的示教点，本手册以“A0”~“A12”作为示教点的名称。
+
+**Step2**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“整圆”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“加速度平滑模式”，在需要平滑的点处设置“平滑过渡”参数。
+   
+.. image:: coding/424.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-66 加速度平滑CIRCLE指令的blending指令设置
+
+**Step3**：添加多条CIRCLE和LIN指令，生成Lua程序并运行，即可实现对CIRCLE-LIN的blending功能，该方式仅对AccSmoothStart()和AccSmoothEnd()之间的指令使用优化后的T形速度运动，对其余指令使用原T形速度运动。
+   
+.. image:: coding/428.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-67 Lua指令方式进行CIRCLE-LIN间blending典型程序
+
+使用运动配置开关方式
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：点击“初始设置”—>“安全”—>“运动配置”按钮，打开“加速度平滑模式”的开关。
+   
+.. image:: coding/317.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-68 加速度平滑模式配置开关设置
+
+**Step2**：选择要执行CIRCLE-LIN功能的示教点，本手册以“A0”~“A12”作为示教点的名称。
+
+**Step3**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“整圆”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“无”，在需要平滑的点处设置“平滑过渡”参数。
+   
+.. image:: coding/426.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-69 常规CIRCLE指令的blending指令设置
+
+**Step4**：添加多条CIRCLE和LIN指令，生成Lua程序并运行，即可实现对CIRCLE-LIN的blending功能，典型程序和常规CIRCLE-LIN程序相同，该方式会对所有指令使用优化后的T形速度运动。
+   
+.. image:: coding/429.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-70 使用配置开关进行CIRCLE-LIN间blending的典型程序
+   
+CIRCLE-ARC的blending
+***************************************
+
+使用Lua指令方式
+""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：选择要执行CIRCLE-ARC功能的示教点，本手册以“A0”~“A12”作为示教点的名称。
+
+**Step2**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“整圆”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“加速度平滑模式”，在需要平滑的点处设置“平滑过渡”参数。
+   
+.. image:: coding/424.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-71 加速度平滑CIRCLE指令的blending指令设置
+
+**Step3**：添加多条CIRCLE和ARC指令，生成Lua程序并运行，即可实现对CIRCLE-ARC的blending功能，该方式仅对AccSmoothStart()和AccSmoothEnd()之间的指令使用优化后的T形速度运动，对其余指令使用原T形速度运动。
+   
+.. image:: coding/430.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-72 Lua指令方式进行CIRCLE-ARC间blending典型程序
+
+使用运动配置开关方式
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：点击“初始设置”—>“安全”—>“运动配置”按钮，打开“加速度平滑模式”的开关。
+   
+.. image:: coding/317.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-73 加速度平滑模式配置开关设置
+
+**Step2**：选择要执行CIRCLE-ARC功能的示教点，本手册以“A0”~“A12”作为示教点的名称。
+
+**Step3**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“整圆”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“无”，在需要平滑的点处设置“平滑过渡”参数。
+   
+.. image:: coding/426.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-74 常规CIRCLE指令的blending指令设置
+
+**Step4**：添加多条CIRCLE和ARC指令，生成Lua程序并运行，即可实现对CIRCLE-ARC的blending功能，典型程序和常规CIRCLE-ARC程序相同，该方式会对所有指令使用优化后的T形速度运动。
+   
+.. image:: coding/431.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-75 使用配置开关进行CIRCLE-ARC间blending的典型程序
+   
+CIRCLE-CIRCLE的blending
+***************************************
+
+使用Lua指令方式
+""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：选择要执行CIRCLE-CIRCLE功能的示教点，本手册以“A0”~“A12”作为示教点的名称。
+
+**Step2**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“整圆”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“加速度平滑模式”，在需要平滑的点处设置“平滑过渡”参数。
+   
+.. image:: coding/424.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-76 加速度平滑CIRCLE指令的blending指令设置
+
+**Step3**：添加多条CIRCLE指令，生成Lua程序并运行，即可实现对CIRCLE-CIRCLE的blending功能，该方式仅对AccSmoothStart()和AccSmoothEnd()之间的指令使用优化后的T形速度运动，对其余指令使用原T形速度运动。
+   
+.. image:: coding/432.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-77 Lua指令方式进行CIRCLE-CIRCLE间blending典型程序
+
+使用运动配置开关方式
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：点击“初始设置”—>“安全”—>“运动配置”按钮，打开“加速度平滑模式”的开关。
+   
+.. image:: coding/317.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-78 加速度平滑模式配置开关设置
+
+**Step2**：选择要执行CIRCLE-CIRCLE功能的示教点，本手册以“A0”~“A12”作为示教点的名称。
+
+**Step3**：点击“示教程序”—>“程序编程”按钮，选择“运动指令”中的“整圆”指令，在“指令编辑”中选择示教点并设置调试速度，运动保护选择“无”，在需要平滑的点处设置“平滑过渡”参数。
+   
+.. image:: coding/426.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.27-79 常规CIRCLE指令的blending指令设置
+
+**Step4**：添加多条CIRCLE指令，生成Lua程序并运行，即可实现对CIRCLE-CIRCLE的blending功能，典型程序和常规CIRCLE-CIRCLE程序相同，该方式会对所有指令使用优化后的T形速度运动。
+   
+.. image:: coding/433.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.27-80 使用配置开关进行CIRCLE-CIRCLE间blending的典型程序
+   
 摆动侧倾角功能
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

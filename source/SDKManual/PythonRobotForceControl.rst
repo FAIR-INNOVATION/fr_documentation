@@ -806,21 +806,25 @@
 
 力传感器辅助拖动
 ++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.5
+.. versionadded:: python SDK-v2.1.3
 
 .. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``ForceAndJointImpedanceStartStop(status, impedanceFlag, lamdeDain, KGain, BGain, dragMaxTcpVel, dragMaxTcpOriVel)``"
+    "原型", "``EndForceDragControl(status, asaptiveFlag, interfereDragFlag, ingularityConstraintsFlag, M, B, K, F, Fmax, Vmax, forceCollisionFlag=0)``"
     "描述", "力传感器辅助拖动"
     "必选参数", "- ``status``：控制状态，0-关闭；1-开启
-    - ``impedanceFlag``：阻抗开启标志，0-关闭；1-开启
-    - ``lamdeDain``：[D1,D2,D3,D4,D5, D6] 拖动增益
-    - ``KGain``：[K1,K2,K3,K4,K5,K6]刚度增益
-    - ``BGain``：[B1,B2,B3,B4,B5,B]阻尼增益
-    - ``dragMaxTcpVel``：拖动末端最大线速度限制
-    - ``dragMaxTcpOriVel``：拖动末端最大角速度限制"
+    - ``asaptiveFlag``：自适应开启标志，0-关闭；1-开启
+    - ``interfereDragFlag``：干涉区拖动标志，0-关闭；1-开启
+    - ``ingularityConstraintsFlag``：奇异点策略，0-规避；1-穿越
+    - ``forceCollisionFlag``：辅助拖动时机器人碰撞检测标志；0-关闭；1-开启
+    - ``M=[m1,m2,m3,m4,m5,m6]``：惯性系数
+    - ``B=[b1,b2,b3,b4,b5,b6]``：阻尼系数
+    - ``K=[k1,k2,k3,k4,k5,k6]``：刚度系数
+    - ``F=[f1,f2,f3,f4,f5,f6]``：拖动六维力阈值
+    - ``Fmax``：最大拖动力限制
+    - ``Vmax``：最大关节速度限制"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
@@ -834,25 +838,27 @@
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
 
     robot = Robot.RPC('192.168.58.2')
+    M = [15.0, 15.0, 15.0, 0.5, 0.5, 0.1]
+    B = [150.0, 150.0, 150.0, 5.0, 5.0, 1.0]
+    K = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    F = [10.0, 10.0, 10.0, 1.0, 1.0, 1.0]
 
-    status = 1 #控制状态，0-关闭；1-开启
-    asaptiveFlag = 1 #自适应开启标志，0-关闭；1-开启
-    interfereDragFlag = 1 #干涉区拖动标志，0-关闭；1-开启
-    ingularityConstraintsFlag = 0 #奇异点策略，0-规避；1-穿越
-    M = [15, 15, 15, 0.5, 0.5, 0.1] #惯性系数
-    B = [150, 150, 150, 5, 5, 1] #阻尼系数
-    K = [0, 0, 0, 0, 0, 0] #刚度系数
-    F = [5, 5, 5, 1, 1, 1] #拖动六维力阈值
-    Fmax = 50 #最大拖动力限制
-    Vmax = 1810 #最大关节速度限制
+    rtn = robot.EndForceDragControl(status=1,asaptiveFlag= 0,interfereDragFlag= 0,ingularityConstraintsFlag= 0,forceCollisionFlag= 1,M= M,B= B,K= K,F= F,Fmax= 50,Vmax=100)
+    print(f"force drag control start rtn is:{rtn}")
+    time.sleep(5)
 
-    error = robot.EndForceDragControl(status, asaptiveFlag, interfereDragFlag, ingularityConstraintsFlag, M, B, K, F, Fmax, Vmax)
-    print("EndForceDragControl return:",error)
+    rtn = robot.EndForceDragControl(status=0, asaptiveFlag=0, interfereDragFlag=0, ingularityConstraintsFlag=0,forceCollisionFlag=1, M=M, B=B, K=K, F=F, Fmax=50, Vmax=100)
+    print(f"force drag control end rtn is:{rtn}")
 
-    time.sleep(10)
-    status=0
-    error = robot.EndForceDragControl(status, asaptiveFlag, interfereDragFlag, ingularityConstraintsFlag, M, B, K, F, Fmax, Vmax)
-    print("EndForceDragControl return:",error)
+    rtn = robot.ResetAllError()
+    print(f"ResetAllError rtn is:{rtn}")
+
+    rtn = robot.EndForceDragControl(status=1, asaptiveFlag=0, interfereDragFlag=0, ingularityConstraintsFlag=0,forceCollisionFlag=1, M=M, B=B, K=K, F=F, Fmax=50, Vmax=100)
+    print(f"force drag control start again rtn is:{rtn}")
+    time.sleep(5)
+
+    rtn = robot.EndForceDragControl(status=0, asaptiveFlag=0, interfereDragFlag=0, ingularityConstraintsFlag=0,forceCollisionFlag=1, M=M, B=B, K=K, F=F, Fmax=50, Vmax=100)
+    print(f"force drag control end again rtn is:{rtn}")
 
 报错清除后力传感器自动开启
 ++++++++++++++++++++++++++++++++++
@@ -889,18 +895,15 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``EndForceDragControl(status, asaptiveFlag, interfereDragFlag, ingularityConstraintsFlag, M, B, K, F, Fmax, Vmax)``"
+    "原型", "``ForceAndJointImpedanceStartStop(status, impedanceFlag, lamdeDain, KGain, BGain, dragMaxTcpVel, dragMaxTcpOriVel)``"
     "描述", "设置六维力和关节阻抗混合拖动开关及参数"
     "必选参数", "- ``status``：控制状态，0-关闭；1-开启
-    - ``asaptiveFlag``：自适应开启标志，0-关闭；1-开启
-    - ``interfereDragFlag``：干涉区拖动标志，0-关闭；1-开启
-    - ``ingularityConstraintsFlag``：奇异点策略，0-规避；1-穿越
-    - ``M=[m1,m2,m3,m4,m5,m6]``：惯性系数
-    - ``B=[b1,b2,b3,b4,b5,b6]``：阻尼系数
-    - ``K=[k1,k2,k3,k4,k5,k6]``：刚度系数
-    - ``F=[f1,f2,f3,f4,f5,f6]``：拖动六维力阈值
-    - ``Fmax``：最大拖动力限制
-    - ``Vmax``：最大关节速度限制"
+    - ``impedanceFlag``：阻抗开启标志，0-关闭；1-开启
+    - ``lamdeDain``：[D1,D2,D3,D4,D5, D6] 拖动增益
+    - ``KGain``：[K1,K2,K3,K4,K5,K6]刚度增益
+    - ``BGain``：[B1,B2,B3,B4,B5,B]阻尼增益
+    - ``dragMaxTcpVel``：拖动末端最大线速度限制
+    - ``dragMaxTcpOriVel``：拖动末端最大角速度限制"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
     

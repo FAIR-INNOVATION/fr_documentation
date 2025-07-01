@@ -235,25 +235,7 @@
         WELDING_BREAKOFF_STATE weldingBreakOffState;  //焊接中断状态
         double jt_tgt_tor[6];          //关节指令力矩
         int smartToolState;            //SmartTool手柄按钮状态
+        float wideVoltageCtrlBoxTemp;        //宽电压控制箱温度
+        uint16_t wideVoltageCtrlBoxFanCurrent;   //宽电压控制箱风扇电流(mA)
         uint16_t check_sum;            /* 和校验 */
     }ROBOT_STATE_PKG;
-
-伺服控制器状态
-+++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.3.0
-
-.. code-block:: c++
-    :linenos:
-
-    /**
-    * @brief  伺服控制器状态
-    */
-    typedef struct ROBOT_AUX_STATE
-    {
-        uint8_t servoId;	// servoId 伺服驱动器ID，范围[1-15],对应从站ID
-        int servoErrCode;	//伺服驱动器故障码
-        int servoState;	//伺服驱动器状态 bit0:0-未使能；1-使能;  bit1:0-未运动；1-正在运动;  bit2 0-正限位未触发；1-正限位触发；bit3 0-负限位未触发；1-负限位触发；bit4 0-未定位完成；1-定位完成；  bit5：0-未回零；1-回零完成
-        double servoPos;	//伺服当前位置 mm或°
-        float servoVel;	//伺服当前速度 mm/s或°/s
-        float servoTorque;	//伺服当前转矩Nm
-    } robot_aux_state;

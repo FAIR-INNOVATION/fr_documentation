@@ -10,10 +10,10 @@
     :linenos:
 
     /**
-     * @brief 设置工具参考点-六点法
-     * @param [in] point_num 点编号,范围[1~6] 
-     * @return 错误码
-     */
+     * @brief 设置工具参考点-六点法
+     * @param [in] point_num 点编号,范围[1~6] 
+     * @return 错误码
+     */
     errno_t SetToolPoint(int point_num);
 
 计算工具坐标系
@@ -22,10 +22,10 @@
     :linenos:
 
     /**
-     * @brief  计算工具坐标系
-     * @param [out] tcp_pose 工具坐标系
-     * @return 错误码
-     */
+     * @brief  计算工具坐标系
+     * @param [out] tcp_pose 工具坐标系
+     * @return 错误码
+     */
     errno_t ComputeTool(DescPose *tcp_pose);
 
 设置工具参考点-四点法
@@ -34,10 +34,10 @@
     :linenos:
 
     /**
-     * @brief 设置工具参考点-四点法
-     * @param [in] point_num 点编号,范围[1~4] 
-     * @return 错误码
-     */
+     * @brief 设置工具参考点-四点法
+     * @param [in] point_num 点编号,范围[1~4] 
+     * @return 错误码
+     */
     errno_t SetTcp4RefPoint(int point_num);
 
 计算工具坐标系
@@ -46,10 +46,10 @@
     :linenos:
 
     /**
-     * @brief  计算工具坐标系
-     * @param [out] tcp_pose 工具坐标系
-     * @return 错误码
-     */
+     * @brief  计算工具坐标系
+     * @param [out] tcp_pose 工具坐标系
+     * @return 错误码
+     */
     errno_t ComputeTcp4(DescPose *tcp_pose);
 
 根据点位信息计算工具坐标系
@@ -192,10 +192,10 @@
     :linenos:
 
     /**
-     * @brief 设置外部工具参考点-六点法
-     * @param [in] point_num 点编号,范围[1~4] 
-     * @return 错误码
-     */
+     * @brief 设置外部工具参考点-六点法
+     * @param [in] point_num 点编号,范围[1~4] 
+     * @return 错误码
+     */
     errno_t SetExTCPPoint(int point_num);
 
 计算外部工具坐标系
@@ -204,10 +204,10 @@
     :linenos:
 
     /**
-     * @brief  计算外部工具坐标系
-     * @param [out] tcp_pose 外部工具坐标系
-     * @return 错误码
-     */
+     * @brief  计算外部工具坐标系
+     * @param [out] tcp_pose 外部工具坐标系
+     * @return 错误码
+     */
     errno_t ComputeExTCF(DescPose *tcp_pose);  
 
 设置外部工具坐标系
@@ -290,10 +290,10 @@
     :linenos:
 
     /**
-     * @brief 设置工件参考点-三点法
-     * @param [in] point_num 点编号,范围[1~3] 
-     * @return 错误码
-     */
+     * @brief 设置工件参考点-三点法
+     * @param [in] point_num 点编号,范围[1~3] 
+     * @return 错误码
+     */
     errno_t SetWObjCoordPoint(int point_num);
 
 计算工件坐标系
@@ -736,12 +736,12 @@
     :linenos:
 
     /**
-     * @brief  查询机器人错误码
-     * @param  [out]  maincode  主错误码
-     * @param  [out]  subcode   子错误码
-     * @return  错误码
-     */ 
-    errno_t  GetRobotErrorCode(int *maincode, int *subcode);
+     * @brief  查询机器人错误码
+     * @param  [out]  maincode  主错误码
+     * @param  [out]  subcode   子错误码
+     * @return  错误码
+     */ 
+    errno_t  GetRobotErrorCode(int *maincode, int *subcode);
 
 错误状态清除
 ++++++++++++++++++++++++++++++++
@@ -782,3 +782,78 @@
        robot.CloseRPC();
        return 0;
     }
+
+设置宽电压控制箱温度及风扇电流监控参数
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 设置宽电压控制箱温度及风扇电流监控参数
+    * @param [in] enable 0-不使能监测；1-使能监测
+    * @param [in] period 监测周期(s),范围1-100
+    * @return 错误码
+    */
+    errno_t SetWideBoxTempFanMonitorParam(int enable, int period);
+    
+获取宽电压控制箱温度及风扇电流监控参数
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 获取宽电压控制箱温度及风扇电流监控参数
+    * @param [out] enable 0-不使能监测；1-使能监测
+    * @param [out] period 监测周期(s),范围1-100
+    * @return 错误码
+    */
+    errno_t GetWideBoxTempFanMonitorParam(int &enable, int &period);
+    
+宽电压控制箱温度和风扇电流状态获取代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c++
+    :linenos:
+
+     int TestWideVoltageCtrlBoxtemp(void)
+     {
+         ROBOT_STATE_PKG pkg = {};
+         FRRobot robot;
+         robot.LoggerInit();
+         robot.SetLoggerLevel(1);
+         int rtn = robot.RPC("192.168.58.2");
+         printf("robot rpc rtn is %d\n", rtn);
+         if (rtn != 0)
+         {
+             return -1;
+         }
+         robot.SetReConnectParam(true, 30000, 500);
+         robot.SetWideBoxTempFanMonitorParam(1, 2);
+         int enable = 0;
+         int period = 0;
+         robot.GetWideBoxTempFanMonitorParam(enable, period);
+         printf("GetWideBoxTempFanMonitorParam enable is %d   period is %d\n", enable, period);
+         for (int i = 0; i < 100; i++)
+         {
+             robot.GetRobotRealTimeState(&pkg);
+             printf("robot ctrl box temp is %f,  fan current is %d\n", pkg.wideVoltageCtrlBoxTemp, pkg.wideVoltageCtrlBoxFanCurrent);
+             robot.Sleep(100);
+         }
+         rtn = robot.SetWideBoxTempFanMonitorParam(0, 2);
+         printf("SetWideBoxTempFanMonitorParam rtn is %d\n", rtn);
+         enable = 0;
+         period = 0;
+         robot.GetWideBoxTempFanMonitorParam(enable, period);
+         printf("GetWideBoxTempFanMonitorParam enable is %d   period is %d\n", enable, period);
+         for (int i = 0; i < 100; i++)
+         {
+             robot.GetRobotRealTimeState(&pkg);
+             printf("robot ctrl box temp is %f,  fan current is %d\n", pkg.wideVoltageCtrlBoxTemp, pkg.wideVoltageCtrlBoxFanCurrent);
+             robot.Sleep(100);
+         }
+         robot.CloseRPC();
+         robot.Sleep(2000);
+         return 0;
+     }

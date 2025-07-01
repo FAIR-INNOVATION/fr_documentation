@@ -958,20 +958,21 @@
     :linenos:
 
     /**
-	  * @brief  力传感器辅助拖动
-	  * @param  [in] status 控制状态，0-关闭；1-开启
-	  * @param  [in] asaptiveFlag 自适应开启标志，0-关闭；1-开启
-	  * @param  [in] interfereDragFlag 干涉区拖动标志，0-关闭；1-开启
-	  * @param  [in] ingularityConstraintsFlag 奇异点策略，0-规避；1-穿越
-	  * @param  [in] M 惯性系数
-	  * @param  [in] B 阻尼系数
-	  * @param  [in] K 刚度系数
-	  * @param  [in] F 拖动六维力阈值
-	  * @param  [in] Fmax 最大拖动力限制
-	  * @param  [in] Vmax 最大关节速度限制
-	  * @return  错误码
-	  */
-	 errno_t EndForceDragControl(int status, int asaptiveFlag, int interfereDragFlag, int ingularityConstraintsFlag, std::vector<double> M, std::vector<double> B, std::vector<double> K, std::vector<double> F, double Fmax, double Vmax);
+    * @brief  力传感器辅助拖动
+    * @param  [in] status 控制状态，0-关闭；1-开启
+    * @param  [in] asaptiveFlag 自适应开启标志，0-关闭；1-开启
+    * @param  [in] interfereDragFlag 干涉区拖动标志，0-关闭；1-开启
+    * @param  [in] ingularityConstraintsFlag 奇异点策略，0-规避；1-穿越
+    * @param  [in] forceCollisionFlag 辅助拖动时机器人碰撞检测标志；0-关闭；1-开启
+    * @param  [in] M 惯性系数
+    * @param  [in] B 阻尼系数
+    * @param  [in] K 刚度系数
+    * @param  [in] F 拖动六维力阈值
+    * @param  [in] Fmax 最大拖动力限制
+    * @param  [in] Vmax 最大关节速度限制
+    * @return  错误码
+    */
+    errno_t EndForceDragControl(int status, int asaptiveFlag, int interfereDragFlag, int ingularityConstraintsFlag, int forceCollisionFlag, std::vector<double> M, std::vector<double> B, std::vector<double> K, std::vector<double> F, double Fmax, double Vmax);
 
 获取力传感器拖动开关状态
 +++++++++++++++++++++++++++++++++++++++
@@ -1007,33 +1008,33 @@
 .. code-block:: c++
     :linenos:
 
-    int TestEndForceDragCtrl(void)
-    {
-      ROBOT_STATE_PKG pkg = {};
-      FRRobot robot;
-      robot.LoggerInit();
-      robot.SetLoggerLevel(1);
-      int rtn = robot.RPC("192.168.58.2");
-      if (rtn != 0)
-      {
-        return -1;
-      }
-      robot.SetReConnectParam(true, 30000, 500);
-      robot.SetForceSensorDragAutoFlag(1);
-      vector <double> M = { 15.0, 15.0, 15.0, 0.5, 0.5, 0.1 };
-      vector <double> B = { 150.0, 150.0, 150.0, 5.0, 5.0, 1.0 };
-      vector <double> K = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
-      vector <double> F = { 10.0, 10.0, 10.0, 1.0, 1.0, 1.0 };
-      robot.EndForceDragControl(1, 0, 0, 0, M, B, K, F, 50, 100);
-      robot.Sleep(5000);
-      int dragState = 0;
-      int sixDimensionalDragState = 0;
-      robot.GetForceAndTorqueDragState(dragState, sixDimensionalDragState);
-      printf("the drag state is %d %d \n", dragState, sixDimensionalDragState);
-      robot.EndForceDragControl(0, 0, 0, 0, M, B, K, F, 50, 100);
-      robot.CloseRPC();
-      return 0;
-    }
+     int TestEndForceDragCtrl(void)
+     {
+         ROBOT_STATE_PKG pkg = {};
+         FRRobot robot;
+         robot.LoggerInit();
+         robot.SetLoggerLevel(1);
+         int rtn = robot.RPC("192.168.58.2");
+         if (rtn != 0)
+         {
+             return -1;
+         }
+         robot.SetReConnectParam(true, 30000, 500);
+         robot.SetForceSensorDragAutoFlag(1);
+         vector <double> M = { 15.0, 15.0, 15.0, 0.5, 0.5, 0.1 };
+         vector <double> B = { 150.0, 150.0, 150.0, 5.0, 5.0, 1.0 };
+         vector <double> K = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+         vector <double> F = { 10.0, 10.0, 10.0, 1.0, 1.0, 1.0 };
+         robot.EndForceDragControl(1, 0, 0, 0, 1, M, B, K, F, 50, 100);
+         robot.Sleep(5000);
+         int dragState = 0;
+         int sixDimensionalDragState = 0;
+         robot.GetForceAndTorqueDragState(dragState, sixDimensionalDragState);
+         printf("the drag state is %d %d \n", dragState, sixDimensionalDragState);
+         robot.EndForceDragControl(0, 0, 0, 0, 1, M, B, K, F, 50, 100);
+         robot.CloseRPC();
+         return 0;
+     }
 
 设置六维力和关节阻抗混合拖动开关及参数
 +++++++++++++++++++++++++++++++++++++++

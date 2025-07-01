@@ -584,6 +584,7 @@
     * @param  [in] asaptiveFlag 自适应开启标志，0-关闭；1-开启
     * @param  [in] interfereDragFlag 干涉区拖动标志，0-关闭；1-开启
     * @param  [in] ingularityConstraintsFlag 奇异点策略，0-规避；1-穿越
+    * @param  [in] forceCollisionFlag 辅助拖动时机器人碰撞检测标志；0-关闭；1-开启
     * @param  [in] M 惯性系数
     * @param  [in] B 阻尼系数
     * @param  [in] K 刚度系数
@@ -592,8 +593,41 @@
     * @param  [in] Vmax 最大关节速度限制 °/s
     * @return  错误码
     */
-    int EndForceDragControl(int status, int asaptiveFlag, int interfereDragFlag,int ingularityConstraintsFlag, double[] M, double[] B, double[] K, double[] F, double Fmax, double Vmax);
+    int EndForceDragControl(int status, int asaptiveFlag, int interfereDragFlag,int ingularityConstraintsFlag,int forceCollisionFlag, double[] M, double[] B, double[] K, double[] F, double Fmax, double Vmax);
 
+代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.4  Web-3.8.3
+    
+.. code-block:: c#
+    :linenos:
+
+
+    private void button3_Click(object sender, EventArgs e)
+    {
+
+        double[] M = { 15.0, 15.0, 15.0, 0.5, 0.5, 0.1 };
+        double[] B = { 150.0, 150.0, 150.0, 5.0, 5.0, 1.0 };
+        double[] K = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+        double[] F = { 10.0, 10.0, 10.0, 1.0, 1.0, 1.0 };
+        int rtn = robot.EndForceDragControl(1, 0, 0, 0, 1, M, B, K, F, 50, 100);
+        Console.WriteLine("force drag control start rtn is{rtn}");
+        Thread.Sleep(5000);
+
+        rtn = robot.EndForceDragControl(0, 0, 0, 0, 1, M, B, K, F, 50, 100);
+        Console.WriteLine($"force drag control end rtn is{rtn}");
+
+        rtn = robot.ResetAllError();
+        Console.WriteLine($"ResetAllError rtn is{rtn}");
+
+        robot.EndForceDragControl(1, 0, 0, 0, 1, M, B, K, F, 50, 100);
+        Console.WriteLine($"force drag control start again rtn is{rtn}");
+        Thread.Sleep(5000);
+
+        rtn = robot.EndForceDragControl(0, 0, 0, 0, 1, M, B, K, F, 50, 100);
+        Console.WriteLine($"force drag control end again rtn is {rtn}");
+    }
+    
 获取力传感器拖动开关状态
 +++++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C# SDK-v1.1.0-3.7.8
