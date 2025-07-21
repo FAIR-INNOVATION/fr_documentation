@@ -10,7 +10,7 @@
 
 PDF下载
 ------------------
-    :download:`法奥意威协作机器人用户手册 <https://pan.baidu.com/s/1l878E83XA163XSYhrm4EvQ?pwd=8kec>`
+    :download:`法奥意威协作机器人用户手册 <https://pan.baidu.com/s/1bajZypuJXBcC-A_Cj2DRDA?pwd=qutj>`
 
 快速开始
 ------------

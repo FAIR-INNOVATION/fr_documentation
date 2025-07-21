@@ -29,6 +29,19 @@
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
+获取已加载的作业程序名
+++++++++++++++++++++++++++++++++
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetLoadedProgram()``"
+    "描述", "获取已加载的作业程序名"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``program_name``：已加载的作业程序名"
+
 获取当前机器人作业程序的执行行号
 ++++++++++++++++++++++++++++++++
 .. csv-table:: 
@@ -103,21 +116,8 @@
     "返回值", "- 错误码 成功-0  失败- errcode
     - ``state``:机器人作业程序执行状态，1-程序停止或无程序运行，2-程序运行中，3-程序暂停"
 
-获取已加载的作业程序名
+机器人LUA程序操作代码示例
 ++++++++++++++++++++++++++++++++
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetLoadedProgram()``"
-    "描述", "获取已加载的作业程序名"
-    "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode
-    - ``program_name``：已加载的作业程序名"
-
-代码示例
-------------
 .. code-block:: python
     :linenos:
 
@@ -125,42 +125,31 @@
     import time
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
-    def print_program_state():
-        pstate = robot.GetProgramState()    #查询程序运行状态,1-程序停止或无程序运行，2-程序运行中，3-程序暂停
-        linenum = robot.GetCurrentLine()    #查询当前作业程序执行的行号
-        name = robot.GetLoadedProgram()     #查询已加载的作业程序名
-        print("the robot program state is:",pstate[1])
-        print("the robot program line number is:",linenum[1])
-        print("the robot program name is:",name[1])
-        time.sleep(1)
-    #机器人webapp程序使用接口
-    robot.Mode(0)   #机器人切入自动运行模式
-    print_program_state()
-    ret = robot.ProgramLoad('/fruser/test0923.lua')   #加载要执行的机器人程序，testPTP.lua程序需要先在webapp上编写好
-    print("加载要执行的机器人程序错误码", ret)
-    ret = robot.ProgramRun()     #执行机器人程序
-    print("执行机器人程序错误码", ret)
-    time.sleep(2)
-    print_program_state()
-    ret = robot.ProgramPause()   #暂停正在执行的机器人程序
-    print("暂停正在执行的机器人程序错误码", ret)
-    time.sleep(2)
-    print_program_state()
-    ret = robot.ProgramResume()  #恢复暂停执行的机器人程序
-    print("恢复暂停执行的机器人程序错误码", ret)
-    time.sleep(2)
-    print_program_state()
-    ret = robot.ProgramStop()    #停止正在执行的机器人程序
-    print("停止正在执行的机器人程序", ret)
-    time.sleep(2)
-    print_program_state()
-    flag = 1   #0-开机不自动加载默认程序，1-开机自动加载默认程序
-    ret = robot.LoadDefaultProgConfig(flag,'/fruser/testPTP.lua')    #设置开机自动加载默认程序
-    print("设置开机自动加载默认程序", ret)
+    program_name = "/fruser/test0610.lua"
+    loaded_name = ""
+    state = 0
+    line = 0
+    robot.Mode(0)
+    robot.LoadDefaultProgConfig(0, program_name)
+    robot.ProgramLoad(program_name)
+    robot.ProgramRun()
+    time.sleep(1)
+    robot.ProgramPause()
+    error,state = robot.GetProgramState()
+    print(f"program state:{state}")
+    error,line = robot.GetCurrentLine()
+    print(f"current line:{line}")
+    error,loaded_name = robot.GetLoadedProgram()
+    print(f"program name:{loaded_name}")
+    time.sleep(1)
+    robot.ProgramResume()
+    time.sleep(1)
+    robot.ProgramStop()
+    time.sleep(1)
+    robot.CloseRPC()
 
 下载Lua文件
 +++++++++++++++++++++++++++++++++
-
 .. versionadded:: python SDK-v2.0.2
 
 .. csv-table:: 
@@ -174,45 +163,8 @@
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
-代码示例
-------------
-.. code-block:: python
-    :linenos: 
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    robot.LuaDownLoad("test", "D://Desktop/test_download/")
-
-上传Lua文件
-+++++++++++++++++++++++++++++++++
-
-.. versionadded:: python SDK-v2.0.2
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``LuaUpload(filePath)``"
-    "描述", "上传Lua文件"
-    "必选参数", "- ``filePath``：上传文件的全路径名  如D://test/test.lua"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode
-    - errorStr(lua文件存在错误返回)"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos: 
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    robot.LuaUpload("D://test/test.lua")
-
 删除Lua文件
 +++++++++++++++++++++++++++++++++
-
 .. versionadded:: python SDK-v2.0.2
 
 .. csv-table:: 
@@ -225,20 +177,8 @@
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
-代码示例
-------------
-.. code-block:: python
-    :linenos: 
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret = robot.GetSoftwareVersion()
-    robot.LuaDelete("test2")
-
 获取当前所有lua文件名称
 +++++++++++++++++++++++++++++++++
-
 .. versionadded:: python SDK-v2.0.2
 
 .. csv-table:: 
@@ -253,15 +193,39 @@
     - ``lua_num``：lua文件数量
     - ``luaNames``：lua文件名列表"
 
-代码示例
-------------
+上传Lua文件
++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.2
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``LuaUpload(filePath)``"
+    "描述", "上传Lua文件"
+    "必选参数", "- ``filePath``：上传文件的全路径名  如D://test/test.lua"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - errorStr(lua文件存在错误返回)"
+
+机器人LUA文件上传下载代码示例
++++++++++++++++++++++++++++++++++
 .. code-block:: python
     :linenos: 
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
-    ret,num,name  = robot.GetLuaList()
-    print(num)
-    print(name)
+    rtn,lua_num,luaNames = robot.GetLuaList()
+    print(f"res is:{rtn}")
+    print(f"size is:{lua_num}")
+    for name in luaNames:
+        print(name)
+    rtn = robot.LuaDownLoad("test0610.lua", "D://zDOWN/")
+    print(f"LuaDownLoad rtn is:{rtn}")
+    rtn = robot.LuaUpload("D://zDOWN/test0610.lua")
+    print(f"LuaUpload rtn is:{rtn}")
+    rtn = robot.LuaDelete("test0610.lua")
+    print(f"LuaDelete rtn is:{rtn}")
+    robot.CloseRPC()
     

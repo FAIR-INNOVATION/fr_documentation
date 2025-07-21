@@ -4,56 +4,6 @@
 .. toctree:: 
     :maxdepth: 5
 
-获取机器人安装角度
-++++++++++++++++++++
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetRobotInstallAngle()``"
-    "描述", "获取机器人安装角度"
-    "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode
-    - ``[yangle,zangle]``：yangle-倾斜角,zangle-旋转角"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret = robot.GetRobotInstallAngle()
-    print("获取机器人安装角度", ret)
-
-获取系统变量值
-+++++++++++++++++
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetSysVarValue(id)``"
-    "描述", "获取系统变量值"
-    "必选参数", "- ``id``：系统变量编号，范围[1~20]"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode
-    - ``var_value``：系统变量值"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    import time
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    for i in range(1,21):
-        error = robot.GetSysVarValue(i)
-        print("系统变量编号:",i,"值", error)
-
 获取当前关节位置(角度)
 ++++++++++++++++++++++++
 .. csv-table:: 
@@ -66,17 +16,6 @@
     "默认参数", "- ``flag``：0-阻塞，1-非阻塞，默认1"
     "返回值", "- 错误码 成功-0  失败- errcode
     - ``joint_pos=[j1,j2,j3,j4,j5,j6]``：当前关节位置(角度)"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret = robot.GetActualJointPosDegree()
-    print("获取当前关节位置 (角度)", ret)
 
 获取当前关节位置(弧度)
 +++++++++++++++++++++++++
@@ -91,40 +30,31 @@
     "返回值", "- 错误码 成功-0  失败- errcode
     - ``joint_pos=[j1,j2,j3,j4,j5,j6]``：当前关节位置(弧度)"
 
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret = robot.GetActualJointPosRadian()
-    print("获取当前关节位置 (弧度)", ret)
-
 获取关节反馈速度-deg/s
 +++++++++++++++++++++++++
 .. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``GetActualJointSpeedsDegree (flag=1)``"
+    "原型", "``GetActualJointSpeedsDegree(flag=1)``"
     "描述", "获取关节反馈速度-deg/s"
     "必选参数", "无"
     "默认参数", "- ``flag``：0-阻塞，1-非阻塞 默认1"
     "返回值", "- 错误码 成功-0  失败- errcode
     - ``speed=[j1,j2,j3,j4,j5,j6]``：关节反馈速度-deg/s"
 
-代码示例
-------------
-.. code-block:: python
-    :linenos:
+获取关节反馈加速度-deg/s^2
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
 
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret = robot.GetActualJointSpeedsDegree()
-    print("获取关节反馈速度-deg/s", ret)
+    "原型", "``GetActualJointAccDegree(flag=1)``"
+    "描述", "获取关节反馈加速度-deg/s^2"
+    "必选参数", "无"
+    "默认参数", "- ``flag``：0-阻塞，1-非阻塞 默认1"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``acc=[j1,j2,j3,j4,j5,j6]``：关节反馈加速度-deg/s^2"
 
 获取TCP指令合速度
 +++++++++++++++++++++++++
@@ -139,17 +69,6 @@
     "返回值", "- 错误码 成功-0  失败- errcode
     - ``[tcp_speed,ori_speed]``：tcp_speed-线性合速度 ori_speed-姿态合速度"
 
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret = robot.GetTargetTCPCompositeSpeed()
-    print("获取TCP指令合速度", ret)
-
 获取TCP反馈合速度
 +++++++++++++++++++++++++
 .. csv-table:: 
@@ -162,17 +81,6 @@
     "默认参数", "- ``flag``：0-阻塞，1-非阻塞 默认1"
     "返回值", "- 错误码 成功-0  失败- errcode
     - ``[tcp_speed,ori_speed]``：tcp_speed-线性合速度 ori_speed-姿态合速度"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret = robot.GetActualTCPCompositeSpeed()
-    print("获取TCP反馈合速度", ret)
 
 获取TCP指令速度
 +++++++++++++++++++++++++
@@ -187,17 +95,6 @@
     "返回值", "- 错误码 成功-0  失败- errcode
     - ``speed=[x,y,z,rx,ry,rz]``：TCP指令速度，mm/s"
 
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret = robot.GetTargetTCPSpeed()
-    print("获取TCP指令速度", ret)
-
 获取TCP反馈速度
 +++++++++++++++++++++++++
 .. csv-table:: 
@@ -210,17 +107,6 @@
     "默认参数", "- ``flag``：0-阻塞，1-非阻塞 默认1"
     "返回值", "- 错误码 成功-0  失败- errcode
     - ``speed=[x,y,z,rx,ry,rz]``：TCP反馈速度"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret = robot.GetActualTCPSpeed()
-    print("获取TCP反馈速度", ret)
 
 获取当前工具位姿
 ++++++++++++++++++
@@ -235,17 +121,6 @@
     "返回值", "- 错误码 成功-0  失败- errcode
     - ``tcp_pose=[x,y,z,rx,ry,rz]``：当前工具位姿"
 
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret = robot.GetActualTCPPose()
-    print("获取当前工具位姿", ret)
-
 获取当前工具坐标系编号
 +++++++++++++++++++++++++
 .. csv-table:: 
@@ -258,17 +133,6 @@
     "默认参数", "- ``flag``：0-阻塞，1-非阻塞 默认1"
     "返回值", "- 错误码 成功-0  失败- errcode
     - ``tool_id``:工具坐标系编号"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret = robot.GetActualTCPNum()
-    print("获取当前工具坐标系编号", ret)
 
 获取当前工件坐标系编号
 +++++++++++++++++++++++++
@@ -283,17 +147,6 @@
     "返回值", "- 错误码 成功-0  失败- errcode
     - ``wobj_id``:工件坐标系编号"
 
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret = robot.GetActualWObjNum()
-    print("获取当前工件坐标系编号", ret)
-
 获取当前末端法兰位姿
 ++++++++++++++++++++++
 .. csv-table:: 
@@ -307,16 +160,190 @@
     "返回值", "- 错误码 成功-0  失败- errcode
     - ``flange_pose=[x,y,z,rx,ry,rz]``：当前末端法兰位姿"
 
-代码示例
-------------
+获取当前关节转矩
++++++++++++++++++++
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetJointTorques(flag=1)``"
+    "描述", "获取当前关节转矩"
+    "必选参数", "无"
+    "默认参数", "``flag``：0-阻塞，1-非阻塞  默认1"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``torques=[j1,j2,j3,j4,j5,j6]``：关节扭矩"
+
+获取系统时间
+++++++++++++++++
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetSystemClock()``"
+    "描述", "获取系统时间"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``t_ms``: 系统时间，单位 [ms]"
+
+查询机器人运动是否完成
+++++++++++++++++++++++++
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetRobotMotionDone()``"
+    "描述", "查询机器人运动是否完成"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``state``: 机器人运动状态，0-未完成，1-完成"
+
+查询机器人运动队列缓存长度
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetMotionQueueLength()``"
+    "描述", "查询机器人运动队列缓存长度"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``len``：缓存长度"
+
+获取机器人急停状态
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetRobotEmergencyStopState()``"
+    "描述", "获取机器人急停状态"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``state``：急停状态，0-非急停，1-急停"
+
+获取SDK与机器人的通讯状态
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetSDKComState()``"
+    "描述", "获取SDK与机器人的通讯状态"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``state``：通讯状态，0-通讯正常，1-通讯异常"
+
+获取安全停止信号
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetSafetyStopState()``"
+    "描述", "获取安全停止信号"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``[si0_state,si1_state]``：si0_state 安全停止信号SI0，0-无效，1-有效 si1_state 安全停止信号SI1，0-无效，1-有效"
+
+获取关节驱动器当前温度(℃)
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetJointDriverTemperature()``"
+    "描述", "获取关节驱动器当前温度(℃)"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``data=[t1,t2,t3,t4,t5,t6]``：各关节当前温度"
+
+获取关节驱动器当前扭矩(Nm)
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetJointDriverTorque()``"
+    "描述", "获取关节驱动器当前扭矩(Nm)"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``data=[j1,j2,j3,j4,j5,j6]``：关节扭矩 [fx,fy,fz,tx,ty,tz]"
+
+获取机器人状态
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetRobotRealTimeState()``"
+    "描述", "获取机器人状态"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``robot_state_pkg``：机器人状态结构体"
+
+机器人状态查询代码示例
+++++++++++++++++++++++++
 .. code-block:: python
     :linenos:
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
-    ret = robot.GetActualToolFlangePose()
-    print("获取当前末端法兰位姿", ret)
+    error,[yangle, zangle] = robot.GetRobotInstallAngle()
+    print(f"yangle:{yangle},zangle:{zangle}")
+    error,j_deg = robot.GetActualJointPosDegree(0)
+    print(f"joint pos deg:{j_deg[0]},{j_deg[1]},{j_deg[2]},{j_deg[3]},{j_deg[4]},{j_deg[5]}")
+    error,jointSpeed = robot.GetActualJointSpeedsDegree(0)
+    print(f"joint speeds deg:{jointSpeed[0]},{jointSpeed[1]},{jointSpeed[2]},{jointSpeed[3]},{jointSpeed[4]},{jointSpeed[5]}")
+    error,jointAcc = robot.GetActualJointAccDegree(0)
+    print(f"joint acc deg:{jointAcc[0]},{jointAcc[1]},{jointAcc[2]},{jointAcc[3]},{jointAcc[4]},{jointAcc[5]}")
+    error,[tcp_speed, ori_speed] = robot.GetTargetTCPCompositeSpeed(0)
+    print(f"GetTargetTCPCompositeSpeed tcp {tcp_speed}; ori {ori_speed}")
+    error,[tcp_speed, ori_speed] = robot.GetActualTCPCompositeSpeed(0)
+    print(f"GetActualTCPCompositeSpeed tcp {tcp_speed}; ori {ori_speed}")
+    error,targetSpeed = robot.GetTargetTCPSpeed(0)
+    print(f"GetTargetTCPSpeed {targetSpeed[0]},{targetSpeed[1]},{targetSpeed[2]},{targetSpeed[3]},{targetSpeed[4]},{targetSpeed[5]}")
+    error,actualSpeed = robot.GetActualTCPSpeed(0)
+    print(f"GetActualTCPSpeed {actualSpeed[0]},{actualSpeed[1]},{actualSpeed[2]},{actualSpeed[3]},{actualSpeed[4]},{actualSpeed[5]}")
+    error,tcp = robot.GetActualTCPPose(0)
+    print(f"tcp pose:{tcp[0]},{tcp[1]},{tcp[2]},{tcp[3]},{tcp[4]},{tcp[5]}")
+    error,flange = robot.GetActualToolFlangePose(0)
+    print(f"flange pose:{flange[0]},{flange[1]},{flange[2]},{flange[3]},{flange[4]},{flange[5]}")
+    error,id = robot.GetActualTCPNum(0)
+    print(f"tcp num:{id}")
+    error,id = robot.GetActualWObjNum(0)
+    print(f"wobj num:{id}")
+    error,jtorque = robot.GetJointTorques(0)
+    print(f"torques:{jtorque[0]},{jtorque[1]},{jtorque[2]},{jtorque[3]},{jtorque[4]},{jtorque[5]}")
+    error,t_ms = robot.GetSystemClock()
+    print(f"system clock:{t_ms}")
+    error,config = robot.GetRobotCurJointsConfig()
+    print(f"joint config:{config}")
+    error,motionDone = robot.GetRobotMotionDone()
+    print(f"GetRobotMotionDone:{motionDone}")
+    error,len = robot.GetMotionQueueLength()
+    print(f"GetMotionQueueLength:{len}")
+    error,emergState = robot.GetRobotEmergencyStopState()
+    print(f"GetRobotEmergencyStopState:{emergState}")
+    error,comstate = robot.GetSDKComState()
+    print(f"GetSDKComState:{comstate}")
+    error,[si0_state, si1_state] = robot.GetSafetyStopState()
+    print(f"GetSafetyStopState:{si0_state} {si1_state}")
+    error,temp = robot.GetJointDriverTemperature()
+    print(f"Temperature:{temp[0]},{temp[1]},{temp[2]},{temp[3]},{temp[4]},{temp[5]}")
+    error,torque = robot.GetJointDriverTorque()
+    print(f"torque:{torque[0]},{torque[1]},{torque[2]},{torque[3]},{torque[4]},{torque[5]}")
+    error,pkg = robot.GetRobotRealTimeState()
+    robot.CloseRPC()
 
 逆运动学求解
 ++++++++++++++++
@@ -331,19 +358,6 @@
     "默认参数", "- ``config``:关节配置，[-1]-参考当前关节位置求解，[0~7]-依据关节配置求解 默认-1"
     "返回值", "- 错误码 成功-0  失败- errcode
     - ``joint_pos=[j1,j2,j3,j4,j5,j6]``：逆运动学解，笛卡尔位姿求解关节位置"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    J1=[95.442,-101.149,-98.699,-68.347,90.580,-47.174]
-    P1=[75.414,568.526,338.135,-178.348,-0.930,52.611]
-    ret = robot.GetInverseKin(0,P1,config=-1)
-    print("逆运动学，笛卡尔位姿求解关节位置", ret)
 
 逆运动学求解-指定参考位置
 ++++++++++++++++++++++++++++
@@ -360,19 +374,6 @@
     "返回值", "- 错误码 成功-0  失败- errcode
     - ``joint_pos=[j1,j2,j3,j4,j5,j6]``：逆运动学解，工具位姿求解关节位置"
 
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    J1=[95.442,-101.149,-98.699,-68.347,90.580,-47.174]
-    P1=[75.414,568.526,338.135,-178.348,-0.930,52.611]
-    ret = robot.GetInverseKinRef(0,P1,J1)
-    print("逆运动学，工具位姿求解关节位置，参考指定关节位置求解", ret)
-
 逆运动学求解-是否有解
 ++++++++++++++++++++++
 .. csv-table:: 
@@ -388,19 +389,6 @@
     "返回值", "- 错误码 成功-0  失败- errcode
     - ``result``:“True”-有解，“False”-无解"
 
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    J1=[95.442,-101.149,-98.699,-68.347,90.580,-47.174]
-    P1=[75.414,568.526,338.135,-178.348,-0.930,52.611]
-    ret = robot.GetInverseKinHasSolution(0,P1,J1)
-    print("逆运动学，工具位姿求解关节位置是否有解", ret)
-
 正运动学求解
 +++++++++++++++
 .. csv-table:: 
@@ -414,281 +402,28 @@
     "返回值", "- 错误码 成功-0  失败- errcode
     - ``desc_pos=[x,y,z,rx,ry,rz]``：正运动学解，关节位置求解工具位姿"
 
-代码示例
-------------
+机器人正逆运动学计算代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: python
     :linenos:
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
-    J1=[95.442,-101.149,-98.699,-68.347,90.580,-47.174]
-    ret = robot.GetForwardKin(J1)
-    print("正运动学，关节位置求解工具位姿", ret)
-
-获取当前关节转矩
-+++++++++++++++++++
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetJointTorques(flag=1)``"
-    "描述", "获取当前关节转矩"
-    "必选参数", "无"
-    "默认参数", "``flag``：0-阻塞，1-非阻塞  默认1"
-    "返回值", "- 错误码 成功-0  失败- errcode
-    - ``torques=[j1,j2,j3,j4,j5,j6]``：关节扭矩"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot 
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret = robot.GetJointTorques()
-    print("获取当前关节转矩", ret)
-
-获取当前负载的重量
-+++++++++++++++++++++
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetTargetPayload(flag=1)``"
-    "描述", "获取当前负载的质量"
-    "必选参数", "无"
-    "默认参数", "``flag``：0-阻塞，1-非阻塞  默认1"
-    "返回值", "- 错误码 成功-0  失败- errcode
-    - ``weight``：当前负载重量，单位 [kg]"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret = robot.GetTargetPayload(0)
-    print("获取当前负载的质量", ret)
-
-获取当前负载的质心
-+++++++++++++++++++++
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetTargetPayloadCog(flag=1)``"
-    "描述", "获取当前负载的质心"
-    "必选参数", "无"
-    "默认参数", "``flag``：0-阻塞，1-非阻塞  默认1"
-    "返回值", "- 错误码 成功-0  失败- errcode
-    - ``cog=[x,y,z]``: 当前质心坐标，单位 [mm]"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret = robot.GetTargetPayloadCog(0)
-    print("获取当前负载的质心", ret)
-
-获取当前工具坐标系
-++++++++++++++++++++
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetTCPOffset(flag=1)``"
-    "描述", "获取当前工具坐标系"
-    "必选参数", "无"
-    "默认参数", "``flag``：0-阻塞，1-非阻塞  默认1"
-    "返回值", "- 错误码 成功-0  失败- errcode
-    - ``tcp_offset=[x,y,z,rx,ry,rz]``: 当前工具坐标系相对位姿，单位[mm][°]"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret = robot.GetTCPOffset()
-    print("获取当前工具坐标系", ret)
-
-获取当前工件坐标系
-++++++++++++++++++++
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetWObjOffset(flag=1)``"
-    "描述", "获取当前工件坐标系"
-    "必选参数", "无"
-    "默认参数", "``flag``：0-阻塞，1-非阻塞，默认1"
-    "返回值", "- 错误码 成功-0  失败- errcode
-    - ``wobj_offset=[x,y,z,rx,ry,rz]``: 当前工件坐标系相对位姿，单位[mm][°]"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret = robot.GetWObjOffset()
-    print("获取当前工件坐标系", ret)
-
-获取关节软限位角度
-+++++++++++++++++++
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetJointSoftLimitDeg(flag=1)``"
-    "描述", "获取关节软限位角度"
-    "必选参数", "无"
-    "默认参数", "``flag``：0-阻塞，1-非阻塞  默认1"
-    "返回值", "- 错误码 成功-0  失败- errcode
-    - ``[j1min,j1max,j2min,j2max,j3min,j3max, j4min,j4max,j5min, j5max, j6min,j6max]``：轴1~轴6，关节负限位与正限位，单位[mm]"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret = robot.GetJointSoftLimitDeg()
-    print("获取关节软限位角度", ret)
-
-获取系统时间
-++++++++++++++++
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetSystemClock()``"
-    "描述", "获取系统时间"
-    "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode
-    - ``t_ms``: 系统时间，单位 [ms]"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret = robot.GetSystemClock()
-    print("获取系统时间", ret)
-
-获取机器人当前关节配置
-++++++++++++++++++++++++
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetRobotCurJointsConfig()``"
-    "描述", "获取机器人当前关节配置"
-    "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode
-    - ``config``: 机器人当前关节配置，范围 [0~7]"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret = robot.GetRobotCurJointsConfig()
-    print("获取机器人当前关节配置", ret)
-
-获取默认速度
-+++++++++++++++
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetDefaultTransVel()``"
-    "描述", "获取默认速度"
-    "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode
-    - ``vel``: 默认速度，单位 [mm/s]"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret = robot.GetDefaultTransVel()
-    print("获取默认速度", ret)
-
-查询机器人运动是否完成
-++++++++++++++++++++++++
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetRobotMotionDone()``"
-    "描述", "查询机器人运动是否完成"
-    "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode
-    - ``state``: 机器人运动状态，0-未完成，1-完成"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret = robot.GetRobotMotionDone()
-    print("查询机器人运动是否完成", ret)
-
-查询机器人错误码
-++++++++++++++++++++++++
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetRobotErrorCode()``"
-    "描述", "查询机器人错误码"
-    "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode
-    - ``[maincode subcode]``：机器人错误码，maincode-主错误码，subcode-子错误码"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret = robot.GetRobotErrorCode()
-    print("查询机器人错误码", ret)
+    j1 = [-11.904, -99.669, 117.473, -108.616, -91.726, 74.256]
+    desc_pos1 = [-419.524, -13.000, 351.569, -178.118, 0.314, 3.833]
+    error, inverseRtn = robot.GetInverseKin(0, desc_pos=desc_pos1, config=-1)
+    print(f"dcs1 GetInverseKin rtn is {inverseRtn[0]}, {inverseRtn[1]}, {inverseRtn[2]}, "
+          f"{inverseRtn[3]}, {inverseRtn[4]}, {inverseRtn[5]}")
+    error, inverseRtn = robot.GetInverseKinRef(0, desc_pos=desc_pos1, joint_pos_ref=j1)
+    print(f"dcs1 GetInverseKinRef rtn is {inverseRtn[0]}, {inverseRtn[1]}, {inverseRtn[2]}, "
+          f"{inverseRtn[3]}, {inverseRtn[4]}, {inverseRtn[5]}")
+    error, hasResult = robot.GetInverseKinHasSolution(0, desc_pos=desc_pos1, joint_pos_ref=j1)
+    print(f"dcs1 GetInverseKinRef result {hasResult}")
+    error, forwordResult = robot.GetForwardKin(j1)
+    print(f"jpos1 forwordResult rtn is {forwordResult[0]}, {forwordResult[1]}, {forwordResult[2]}, "
+          f"{forwordResult[3]}, {forwordResult[4]}, {forwordResult[5]}")
+    robot.CloseRPC()
 
 查询机器人示教管理点位数据
 ++++++++++++++++++++++++++
@@ -702,160 +437,6 @@
     "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode
     - ``[x,y,z,rx,ry,rz,j1,j2,j3,j4,j5,j6,tool,wobj,speed,acc,e1,e2,e3,e4]``：点位数据"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret = robot.GetRobotTeachingPoint("11")
-    print("查询机器人示教管理点位数据错误码", ret)
-
-获取SSH公钥
-++++++++++++++++++++++++++
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetSSHKeygen()``"
-    "描述", "获取SSH公钥"
-    "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode
-    - ``keygen``：公钥"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret = robot.GetSSHKeygen() #获取SSH
-    print("获取SSH", ret)
-
-计算指定路径下文件的MD5值
-++++++++++++++++++++++++++
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``ComputeFileMD5(file_path)``"
-    "描述", "计算指定路径下文件的MD5值"
-    "必选参数", "- ``file_path``：文件路径包含文件名，默认Traj文件夹路径为:/fruser/traj/,如/fruser/traj/trajHelix_aima_1.txt"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode
-    - ``md5``：文件MD5值"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret = robot.ComputeFileMD5("/fruser/201.lua")   #计算指定路径下文件的MD5值
-    print("计算指定路径下文件的MD5值", ret)
-
-获取机器人版本信息
-++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.1
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetSoftwareVersion()``"
-    "描述", "获取机器人版本信息"
-    "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode
-    - ``robotModel``：机器人模型
-    - ``webVersion``：web版本
-    - ``controllerVersion``：控制器版本"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-
-    ret = robot.GetSoftwareVersion()
-    print("GetSoftwareVersion()：", ret)
-
-获取机器人硬件版本信息
-++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.1
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetSlaveHardVersion()``"
-    "描述", "获取机器人硬件版本信息"
-    "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode
-    - ``ctrlBoxBoardVersion``：控制箱版本
-    - ``driver1Version``
-    - ``driver2Version``
-    - ``driver3Version``
-    - ``driver4Version``
-    - ``driver5Version``
-    - ``driver6Version``
-    - ``endBoardVersion``"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret = robot.GetSlaveHardVersion()
-    print("GetSlaveHardVersion()：", ret)
-
-获取机器人固件版本信息
-++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.1
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetSlaveFirmVersion()``"
-    "描述", "获取机器人固件版本信息"
-    "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode
-    - ``ctrlBoxBoardVersion``：控制箱版本
-    - ``driver1Version``
-    - ``driver2Version``
-    - ``driver3Version``
-    - ``driver4Version``
-    - ``driver5Version``
-    - ``driver6Version``
-    - ``endBoardVersion``"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret = robot.GetSlaveFirmVersion()
-    print("GetSlaveFirmVersion()：", ret)
 
 获取DH补偿参数
 ++++++++++++++++++++++++++
@@ -872,43 +453,39 @@
     "返回值", "- 错误码 成功-0  失败- errcode
     - ``dhCompensation=[cmpstD1,cmpstA2,cmpstA3,cmpstD4,cmpstD5,cmpstD6]``：机器人DH参数补偿值(mm)"
 
-代码示例
-------------
+获取控制箱SN码
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.1
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetRobotSN()``"
+    "描述", "获取控制箱SN码"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``SNCode``：控制箱SN码"
+
+查询机器人示教管理点位数据代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: python
     :linenos:
 
-    import Robot
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
-    error = robot.GetDHCompensation()
-    print(error)
-
-获取关节驱动器当前扭矩
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.5
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetJointDriverTorque()``"
-    "描述", "获取关节驱动器当前扭矩"
-    "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode 
-    - ``data=[j1,j2,j3,j4,j5,j6]``：关节驱动器当前扭矩"
-
-获取关节驱动器当前温度
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.5
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetJointDriverTemperature()``"
-    "描述", "获取关节驱动器当前温度"
-    "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode 
-    - ``data=[t1,t2,t3,t4,t5,t6]``：关节驱动器当前温度"
+    name = "P1"
+    rtn, data = robot.GetRobotTeachingPoint(name)
+    print(f"{rtn} name is: {name}")
+    for i in range(20):
+        print(f"data is: {data[i]}")
+    rtn,que_len = robot.GetMotionQueueLength()
+    print(f"GetMotionQueueLength rtn is: {rtn}, queue length is: {que_len}")
+    retval,dh = robot.GetDHCompensation()
+    print(f"retval is: {retval}")
+    print(f"dh is: {dh[0]} {dh[1]} {dh[2]} {dh[3]} {dh[4]} {dh[5]}")
+    error,sn = robot.GetRobotSN()
+    print(f"robot SN is {sn[0]}")
+    robot.CloseRPC()

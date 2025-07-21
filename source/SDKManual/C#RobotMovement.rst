@@ -45,8 +45,8 @@ jog点动立即停止
     */
     int ImmStopJOG(); 
 
-代码示例
-++++++++++++++
+机器人点动控制代码示例
+++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
@@ -215,6 +215,25 @@ jog点动立即停止
     */      
     int MoveC(JointPos joint_pos_p, DescPose desc_pos_p, int ptool, int puser, float pvel, float pacc, ExaxisPos epos_p, byte poffset_flag, DescPose offset_pos_p, JointPos joint_pos_t, DescPose desc_pos_t, int ttool, int tuser, float tvel, float tacc, ExaxisPos epos_t, byte toffset_flag, DescPose offset_pos_t, float ovl, float blendR); 
 
+笛卡尔空间点到点运动
+++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /** 
+    * @brief 笛卡尔空间点到点运动 
+    * @param [in] desc_pos 基坐标系下目标笛卡尔位姿 
+    * @param [in] tool 工具坐标号，范围[0~14] 
+    * @param [in] user 工件坐标号，范围[0~14] 
+    * @param [in] vel 速度百分比，范围[0~100] 
+    * @param [in] acc 加速度百分比，范围[0~100],暂不开放 
+    * @param [in] ovl 速度缩放因子，范围[0~100] 
+    * @param [in] blendT [-1.0]-运动到位(阻塞)，[0~500.0]-平滑时间(非阻塞)，单位 ms 
+    * @param [in] config 关节空间配置，[-1]-参考当前关节位置解算，[0~7]-参考特定关节空间配置解算，默认为-1 
+    * @return 错误码 
+    */ 
+    int MoveCart(DescPose desc_pos, int tool, int user, float vel, float acc, float ovl, float blendT, int config);
+
 笛卡尔空间整圆运动
 +++++++++++++++++++++++++++++
 .. versionadded:: C#SDK-V1.1.4  Web-3.8.3
@@ -247,13 +266,12 @@ jog点动立即停止
     */      
     int Circle(JointPos joint_pos_p, DescPose desc_pos_p, int ptool, int puser, float pvel, float pacc, ExaxisPos epos_p, JointPos joint_pos_t, DescPose desc_pos_t, int ttool, int tuser, float tvel, float tacc, ExaxisPos epos_t, float ovl, int offset_flag, DescPose offset_pos, double oacc=100, double blendR=-1);
 
-代码示例
+笛卡尔空间整圆运动代码示例
 ++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C#SDK-V1.1.4  Web-3.8.3
     
 .. code-block:: c#
     :linenos:
-
 
     private void btnMovetest_Click(object sender, EventArgs e)
     {
@@ -297,9 +315,6 @@ jog点动立即停止
         robot.MoveJ(startjointPos, startdescPose, 3, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
         rtn = robot.Circle(midjointPosCir1, middescPoseCir1, 3, 0, 100, 100, exaxisPos, endjointPosCir1, enddescPoseCir1, 3, 0, 100, 100, exaxisPos, 100, -1, offdese, 100, 20);
         Console.WriteLine("Circle1" + rtn);
-
-
-
         rtn = robot.Circle(midjointPosCir2, middescPoseCir2, 3, 0, 100, 100, exaxisPos, endjointPosCir2, enddescPoseCir2, 3, 0, 100, 100, exaxisPos, 100, -1, offdese, 100, 20);
         Console.WriteLine("Circle2" + rtn);
 
@@ -310,6 +325,56 @@ jog点动立即停止
         Console.WriteLine("MoveL " + rtn);
         rtn = robot.Circle(midjointPosCir4, middescPoseCir4, 3, 0, 100, 100, exaxisPos, endjointPosCir4, enddescPoseCir4, 3, 0, 100, 100, exaxisPos, 100, -1, offdese, 100, 20);
         Console.WriteLine("Circle4" + rtn);
+    }
+
+机器人基本运动指令代码示例
++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    private void btnMovetest_Click(object sender, EventArgs e)
+    {
+        JointPos j1= new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        JointPos j2 = new JointPos(-45.615, -106.172, 124.296, -107.151, -91.282, 74.255);
+        JointPos j3 = new JointPos(-29.777, -84.536, 109.275, -114.075, -86.655, 74.257);
+        JointPos j4 = new JointPos(-31.154, -95.317, 94.276, -88.079, -89.740, 74.256);
+        DescPose desc_pos1 = new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose desc_pos2 = new DescPose(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
+        DescPose desc_pos3 = new DescPose(-487.434, 154.362, 308.576, 176.600, 0.268, -14.061);
+        DescPose desc_pos4 = new DescPose(-443.165, 147.881, 480.951, 179.511, -0.775, -15.409);
+        DescPose offset_pos = new DescPose(0, 0, 0, 0, 0, 0);
+        ExaxisPos epos = new ExaxisPos(0, 0, 0, 0);
+
+        int tool = 0;
+        int user = 0;
+        float vel = 100.0f;
+        float acc = 100.0f;
+        float ovl = 100.0f;
+        float blendT = 0.0f;
+        float blendR = 0.0f;
+        byte flag = 0;
+        byte search = 0;
+
+        robot.SetSpeed(20);
+        int rtn;
+        rtn = robot.MoveJ(j1, desc_pos1, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        Console.WriteLine($"MoveJ errcode:{rtn}" );
+
+        rtn = robot.MoveL(j2, desc_pos2, tool, user, vel, acc, ovl, blendR,epos, search, flag, offset_pos);
+        Console.WriteLine($"MoveL errcode:{rtn}");
+
+        rtn = robot.MoveC(j3, desc_pos3, tool, user, vel, acc, epos, flag, offset_pos, j4, desc_pos4, tool, user, vel, acc, epos, flag, offset_pos, ovl, blendR);
+        Console.WriteLine($"MoveC errcode:{rtn}");
+
+        rtn = robot.MoveJ(j2, desc_pos2, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        Console.WriteLine("MoveJ errcode:%d\n", rtn);
+
+        rtn = robot.Circle(j3, desc_pos3, tool, user, vel, acc, epos, j1, desc_pos1, tool, user, vel, acc, epos, ovl, flag, offset_pos);
+        Console.WriteLine($"Circle errcode:{rtn}");
+
+        rtn = robot.MoveCart(desc_pos4, tool, user, vel, acc, ovl, blendT, -1);
+        Console.WriteLine($"MoveCart errcode:{rtn}");
+
     }
 
 笛卡尔空间螺旋线运动
@@ -334,34 +399,24 @@ jog点动立即停止
     */
     int NewSpiral(JointPos joint_pos, DescPose desc_pos, int tool, int user, float vel, float acc, ExaxisPos epos, float ovl, byte offset_flag, DescPose offset_pos, SpiralParam spiral_param); 
 
-代码示例
-++++++++++++++
+螺旋线运动代码示例
+++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
     private void btnDescSpiral_Click(object sender, EventArgs e)
     {
-        Robot robot = new Robot();
-        robot.RPC("192.168.58.2");
-        JointPos j;
-        DescPose desc_pos;
-        DescPose offset_pos1 = new DescPose(0, 0, 0, 0, 0, 0);
-        DescPose offset_pos2 = new DescPose(0, 0, 0, 0, 0, 0);
+        int rtn;
+        JointPos j = new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        DescPose desc_pos = new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose offset_pos1 = new DescPose(50, 0, 0, -30, 0, 0);
+        DescPose offset_pos2 = new DescPose(50, 0, 0, -5, 0, 0);
         ExaxisPos epos = new ExaxisPos(0, 0, 0, 0);
         SpiralParam sp;
-
-        j = new JointPos(-58.982, -90.717, 127.647, -129.041, -87.989, -0.062);
-        desc_pos = new DescPose(-437.039, 411.064, 426.189, -177.886, 2.007, 31.155);
-
-        offset_pos1.tran.x = 50.0;
-        offset_pos1.rpy.rx = -30.0;
-        offset_pos2.tran.x = 50.0;
-        offset_pos2.rpy.rx = -5.0;
-
         sp.circle_num = 5;
-        sp.circle_angle = 1.0f;
-        sp.rad_init = 10.0f;
-        sp.rad_add = 40.0f;
+        sp.circle_angle = 5.0f;
+        sp.rad_init = 50.0f;
+        sp.rad_add = 10.0f;
         sp.rotaxis_add = 10.0f;
         sp.rot_direction = 0;
 
@@ -374,20 +429,12 @@ jog点动立即停止
         byte flag = 2;
 
         robot.SetSpeed(20);
-        int ret = robot.GetForwardKin(j, ref desc_pos);  //只有关节位置的情况下，可用正运动学接口求解笛卡尔空间坐标
-        if (ret == 0)
-        {
-            int err = -1;
-            err = robot.MoveJ(j, desc_pos, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos1);
-            Console.WriteLine($"movej errcode:  {err}");
 
-            err = robot.NewSpiral(j, desc_pos, tool, user, vel, acc, epos, ovl, flag, offset_pos2, sp);
-            Console.WriteLine($"newspiral errcode:  {err}");
-        }
-        else
-        {
-            Console.WriteLine($"GetForwardKin errcode: {ret}");
-        }
+        rtn = robot.MoveJ(j, desc_pos, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos1);
+        Console.WriteLine($"MoveJ errcode:{rtn}");
+
+        rtn = robot.NewSpiral(j, desc_pos, tool, user, vel, acc, epos, ovl, flag, offset_pos2, sp);
+        Console.WriteLine($"NewSpiral errcode:{rtn}");
     }
 
 伺服运动开始
@@ -432,7 +479,7 @@ jog点动立即停止
     */
     int ServoJ(JointPos joint_pos, float acc, float vel, float cmdT, float filterT, float gain,int id=0);
 
-代码示例
+关节空间伺服模式运动代码示例
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C#SDK-V1.1.4  Web-3.8.3
     
@@ -486,6 +533,66 @@ jog点动立即停止
         }
     }
 
+关节扭矩控制开始
+++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 关节扭矩控制开始
+    * @return  错误码
+    */
+    int ServoJTStart();
+
+关节扭矩控制
+++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 关节扭矩控制
+    * @param  [in] torque j1~j6关节扭矩，单位Nm
+    * @param  [in] interval 指令周期，单位s，范围[0.001~0.008]
+    * @return  错误码
+    */
+    int ServoJT(double[] torque, double interval);
+
+关节扭矩控制结束
+++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 关节扭矩控制结束
+    * @return  错误码
+    */
+    int ServoJTEnd();
+
+关节扭矩控制代码示例
+++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    private void button27_Click(object sender, EventArgs e)
+    {
+        robot.DragTeachSwitch(1);
+        robot.SetPowerLimit(1, 200);
+        double[] torques = { 0, 0, 0, 0, 0, 0 };
+        robot.GetJointTorques(1, torques);
+
+        int count = 100;
+        robot.ServoJTStart();
+        int error = 0;
+        while (count > 0)
+        {
+            error = robot.ServoJT(torques, 0.001f);
+            count--;
+            Thread.Sleep(1);
+        }
+        error = robot.ServoJTEnd();
+        robot.DragTeachSwitch(0);
+    }
+
 笛卡尔空间伺服模式运动
 ++++++++++++++++++++++++++++++++++
 .. code-block:: c#
@@ -505,17 +612,15 @@ jog点动立即停止
     */
     int ServoCart(int mode, DescPose desc_pos, double[] pos_gain, float acc, float vel, float cmdT, float filterT, float gain);
 
-代码示例
-++++++++++++++
+笛卡尔空间伺服模式运动代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
     private void btnDescServoMove_Click(object sender, EventArgs e)
     {
-        Robot robot = new Robot();
-        robot.RPC("192.168.58.2");
-
         DescPose desc_pos_dt = new DescPose(0, 0, 0, 0, 0, 0);
+
         desc_pos_dt.tran.z = -0.5;
         double[] pos_gain = new double[6]{ 0.0, 0.0, 1.0, 0.0, 0.0, 0.0 };
         int mode = 2;
@@ -524,65 +629,16 @@ jog点动立即停止
         float cmdT = 0.008f;
         float filterT = 0.0f;
         float gain = 0.0f;
-        int flag = 0;
         int count = 500;
 
         robot.SetSpeed(20);
+
         while (count > 0)
         {
-            robot.ServoCart(mode, desc_pos_dt, pos_gain, acc, vel, cmdT, filterT, gain);
-            count -= 1;
-            robot.WaitMs((int)(cmdT * 1000));
+        robot.ServoCart(mode, desc_pos_dt, pos_gain, acc, vel, cmdT, filterT, gain);
+        count -= 1;
+        robot.WaitMs((int)(cmdT * 1000));
         }
-    }
-
-笛卡尔空间点到点运动
-++++++++++++++++++++++++++++++++++
-.. code-block:: c#
-    :linenos:
-
-    /** 
-    * @brief 笛卡尔空间点到点运动 
-    * @param [in] desc_pos 基坐标系下目标笛卡尔位姿 
-    * @param [in] tool 工具坐标号，范围[0~14] 
-    * @param [in] user 工件坐标号，范围[0~14] 
-    * @param [in] vel 速度百分比，范围[0~100] 
-    * @param [in] acc 加速度百分比，范围[0~100],暂不开放 
-    * @param [in] ovl 速度缩放因子，范围[0~100] 
-    * @param [in] blendT [-1.0]-运动到位(阻塞)，[0~500.0]-平滑时间(非阻塞)，单位 ms 
-    * @param [in] config 关节空间配置，[-1]-参考当前关节位置解算，[0~7]-参考特定关节空间配置解算，默认为-1 
-    * @return 错误码 
-    */ 
-    int MoveCart(DescPose desc_pos, int tool, int user, float vel, float acc, float ovl, float blendT, int config);
-
-代码示例
-++++++++++++++
-.. code-block:: c#
-    :linenos:
-
-    private void btnDescPTPMove_Click(object sender, EventArgs e)
-    {
-        Robot robot = new Robot();
-        robot.RPC("192.168.58.2");
-
-        DescPose desc_pos1, desc_pos2, desc_pos3;
-        desc_pos1 = new DescPose(-437.039, 411.064, 426.189, -177.886, 2.007, 31.155);
-        desc_pos2 = new DescPose(-525.55, 562.3, 417.199, -178.325, 0.847, 31.109);
-        desc_pos3 = new DescPose(-345.155, 535.733, 421.269, 179.475, 0.571, 18.332);
-
-        int tool = 0;
-        int user = 0;
-        float vel = 100.0f;
-        float acc = 100.0f;
-        float ovl = 100.0f;
-        float blendT = -1.0f;
-        float blendT1 = 0.0f;
-        int config = -1;
-
-        robot.SetSpeed(20);
-        robot.MoveCart(desc_pos1, tool, user, vel, acc, ovl, blendT, config);
-        robot.MoveCart(desc_pos2, tool, user, vel, acc, ovl, blendT, config);
-        robot.MoveCart(desc_pos3, tool, user, vel, acc, ovl, blendT1, config);
     }
 
 样条运动开始
@@ -625,33 +681,23 @@ jog点动立即停止
     */
     int SplineEnd(); 
 
-代码示例
-++++++++++++++
+样条运动代码示例
+++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
     private void btnSplineMove_Click(object sender, EventArgs e)
     {
-        Robot robot = new Robot();
-        robot.RPC("192.168.58.2");
-
-        JointPos j1, j2, j3, j4;
-        DescPose desc_pos1, desc_pos2, desc_pos3, desc_pos4, offset_pos;
+        JointPos j1 = new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        JointPos j2 = new JointPos(-45.615, -106.172, 124.296, -107.151, -91.282, 74.255);
+        JointPos j3 = new JointPos(-61.954, -84.409, 108.153, -116.316, -91.283, 74.260);
+        JointPos j4 = new JointPos(-89.575, -80.276, 102.713, -116.302, -91.284, 74.267);
+        DescPose desc_pos1 = new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose desc_pos2 = new DescPose(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
+        DescPose desc_pos3 = new DescPose(-327.622, 402.230, 320.402, -178.067, 2.127, -46.207);
+        DescPose desc_pos4 = new DescPose(-104.066, 544.321, 327.023, -177.715, 3.371, -73.818);
+        DescPose offset_pos = new DescPose(0, 0, 0, 0, 0, 0);
         ExaxisPos epos = new ExaxisPos(0, 0, 0, 0);
-
-        j1 = new JointPos(-58.982, -90.717, 127.647, -129.041, -87.989, -0.062);
-        desc_pos1 = new DescPose(-437.039, 411.064, 426.189, -177.886, 2.007, 31.155);
-
-        j2 = new JointPos(-58.978, -76.817, 112.494, -127.348, -89.145, -0.063);
-        desc_pos2 = new DescPose(-525.55, 562.3, 417.199, -178.325, 0.847, 31.109);
-
-        j3 = new JointPos(-49.129, -68.49, 103.297, -128.898, -91.478, -0.062);
-        desc_pos3 = new DescPose(-680.308, 547.378, 399.189, -175.909, -1.479, 40.827);
-
-        j4 = new JointPos(-56.126, -54.093, 80.686, -121.655, -91.428, -0.064);
-        desc_pos4 = new DescPose(-719.201, 790.816, 389.118, -174.939, -1.428, 33.809);
-
-        offset_pos = new DescPose(0, 0, 0, 0, 0, 0);
 
         int tool = 0;
         int user = 0;
@@ -660,11 +706,13 @@ jog点动立即停止
         float ovl = 100.0f;
         float blendT = -1.0f;
         byte flag = 0;
+
         robot.SetSpeed(20);
+
         int err = -1;
         err = robot.MoveJ(j1, desc_pos1, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
         Console.WriteLine($"movej errcode:  {err}");
-                
+
         robot.SplineStart();
         robot.SplinePTP(j1, desc_pos1, tool, user, vel, acc, ovl);
         robot.SplinePTP(j2, desc_pos2, tool, user, vel, acc, ovl);
@@ -719,6 +767,49 @@ jog点动立即停止
     */ 
     int NewSplineEnd();
     
+新样条运动代码示例
+++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    private void btnNewSpline_Click(object sender, EventArgs e)
+    {
+        JointPos j1 = new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        JointPos j2 = new JointPos(-45.615, -106.172, 124.296, -107.151, -91.282, 74.255);
+        JointPos j3 = new JointPos(-61.954, -84.409, 108.153, -116.316, -91.283, 74.260);
+        JointPos j4 = new JointPos(-89.575, -80.276, 102.713, -116.302, -91.284, 74.267);
+        JointPos j5 = new JointPos(-95.228, -54.621, 73.691, -112.245, -91.280, 74.268);
+        DescPose desc_pos1 = new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose desc_pos2 = new DescPose(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
+        DescPose desc_pos3 = new DescPose(-327.622, 402.230, 320.402, -178.067, 2.127, -46.207);
+        DescPose desc_pos4 = new DescPose(-104.066, 544.321, 327.023, -177.715, 3.371, -73.818);
+        DescPose desc_pos5 = new DescPose(-33.421, 732.572, 275.103, -177.907, 2.709, -79.482);
+        DescPose offset_pos = new DescPose(0, 0, 0, 0, 0, 0);
+        ExaxisPos epos = new ExaxisPos(0, 0, 0, 0);
+
+        int tool = 0;
+        int user = 0;
+        float vel = 100.0f;
+        float acc = 100.0f;
+        float ovl = 100.0f;
+        float blendT = -1.0f;
+        byte flag = 0;
+
+        robot.SetSpeed(20);
+
+        int err = -1;
+        err = robot.MoveJ(j1, desc_pos1, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        Console.WriteLine($"movej errcode:  {err}");
+
+        robot.NewSplineStart(1, 2000);
+        robot.NewSplinePoint(j1, desc_pos1, tool, user, vel, acc, ovl, -1, 0);
+        robot.NewSplinePoint(j2, desc_pos2, tool, user, vel, acc, ovl, -1, 0);
+        robot.NewSplinePoint(j3, desc_pos3, tool, user, vel, acc, ovl, -1, 0);
+        robot.NewSplinePoint(j4, desc_pos4, tool, user, vel, acc, ovl, -1, 0);
+        robot.NewSplinePoint(j5, desc_pos5, tool, user, vel, acc, ovl, -1, 0);
+        robot.NewSplineEnd();
+    }
+
 终止运动
 ++++++++++++++++++++++++++++++++++
 .. code-block:: c#
@@ -752,6 +843,46 @@ jog点动立即停止
     */ 
     int ResumeMotion();
 
+运动暂停、恢复、停止代码示例
+++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    private void btnMotionPause_Click(object sender, EventArgs e)
+    {
+        int rtn;
+        JointPos j1 = new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        JointPos j5 = new JointPos(-95.228, -54.621, 73.691, -112.245, -91.280, 74.268);
+        DescPose desc_pos1 = new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose desc_pos5 = new DescPose(-33.421, 732.572, 275.103, -177.907, 2.709, -79.482);
+        DescPose offset_pos = new DescPose(0, 0, 0, 0, 0, 0);
+        ExaxisPos epos = new ExaxisPos(0, 0, 0, 0);
+
+        int tool = 0;
+        int user = 0;
+        float vel = 100.0f;
+        float acc = 100.0f;
+        float ovl = 100.0f;
+        float blendT = -1.0f;
+        byte flag = 0;
+
+        robot.SetSpeed(20);
+
+        rtn = robot.MoveJ(j1, desc_pos1, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        rtn = robot.MoveJ(j5, desc_pos5, tool, user, vel, acc, ovl, epos, 1, flag, offset_pos);
+        Thread.Sleep(1000);
+        robot.PauseMotion();
+
+        Thread.Sleep(1000);
+        robot.ResumeMotion();
+
+        Thread.Sleep(1000);
+        robot.StopMotion();
+
+        Thread.Sleep(1000);
+
+    }
+
 点位整体偏移开始
 ++++++++++++++++++++++++++++++++++
 .. code-block:: c#
@@ -777,25 +908,23 @@ jog点动立即停止
     */
     int PointsOffsetDisable(); 
 
-代码示例
-++++++++++++++
+点位偏移代码示例
+++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
     private void btnPointOffect_Click(object sender, EventArgs e)
     {
-        Robot robot = new Robot();
-        robot.RPC("192.168.58.2");
-
         JointPos j1, j2;
         DescPose desc_pos1, desc_pos2, offset_pos, offset_pos1;
         ExaxisPos epos = new ExaxisPos(0, 0, 0, 0);
 
-        j1 = new JointPos(-58.982, -90.717, 127.647, -129.041, -87.989, -0.062);
-        desc_pos1 = new DescPose(-437.039, 411.064, 426.189, -177.886, 2.007, 31.155);
+        j1 = new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        desc_pos1 = new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
 
-        j2 = new JointPos(-58.978, -76.817, 112.494, -127.348, -89.145, -0.063);
-        desc_pos2 = new DescPose(-525.55, 562.3, 417.199, -178.325, 0.847, 31.109);
+        j2 = new JointPos(-45.615, -106.172, 124.296, -107.151, -91.282, 74.255);
+
+        desc_pos2 = new DescPose(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
 
         offset_pos = new DescPose(0, 0, 0, 0, 0, 0);
         offset_pos1 = new DescPose(50.0, 50.0, 50.0, 5.0, 5.0, 5.0);
@@ -806,7 +935,6 @@ jog点动立即停止
         float acc = 100.0f;
         float ovl = 100.0f;
         float blendT = -1.0f;
-        float blendR = 0.0f;
         byte flag = 0;
         int type = 0;
 
@@ -816,8 +944,10 @@ jog点动立即停止
         robot.MoveJ(j2, desc_pos2, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
         Thread.Sleep(1000);
         robot.PointsOffsetEnable(type, offset_pos1);
+        Thread.Sleep(1000);
         robot.MoveJ(j1, desc_pos1, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
         robot.MoveJ(j2, desc_pos2, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        Thread.Sleep(1000);
         robot.PointsOffsetDisable();
     }
 
@@ -881,125 +1011,42 @@ jog点动立即停止
     */
     int MoveToolAOStop();
 
-代码示例
-************
+AO飞拍代码示例
+++++++++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
     private void btnMoveAO_Click(object sender, EventArgs e)
     {
-        DescPose startdescPose = new DescPose();
-        JointPos startjointPos = new JointPos();
-        DescPose enddescPose = new DescPose();
-        JointPos endjointPos = new JointPos();
-        DescPose CPose = new DescPose();
-        JointPos CJPos = new JointPos();
-        DescPose DPose = new DescPose();
-        JointPos DJPos = new JointPos();            
-        ExaxisPos exaxisPos = new ExaxisPos(0, 0, 0, 0);
-        DescPose offdese = new DescPose(0, 0, 0, 0, 0, 0);
-        int rtn = robot.MoveToolAOStart(0, 100, 80, 1);
-        //int rtn = robot.MoveAOStart(0, 100, 80, 1);
-        Console.WriteLine(rtn);
+        JointPos j1 = new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        JointPos j2 = new JointPos(-45.615, -106.172, 124.296, -107.151, -91.282, 74.255);
+        DescPose desc_pos1 = new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose desc_pos2 = new DescPose(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
+        DescPose offset_pos = new DescPose(0, 0, 0, 0, 0, 0);
+        ExaxisPos epos = new ExaxisPos(0, 0, 0, 0);
 
-        rtn = robot.MoveL(startjointPos, startdescPose, 0, 0, 100, 100, 100, 0, exaxisPos, 0, 0, offdese);
-        //robot.MoveJ(startjointPos, startdescPose, 0, 0, 100, 100, 100, exaxisPos, 0, 0, offdese);
-        //robot.MoveC(startjointPos, startdescPose, 0, 0, 100, 100, exaxisPos, 0, offdese, endjointPos, enddescPose, 0, 0, 100, 100, exaxisPos, 0, offdese, 100, 0);
-        //robot.Circle(startjointPos, startdescPose, 0, 0, 100, 100, exaxisPos, endjointPos, enddescPose, 0, 0, 100, 100, exaxisPos, 100, 0, offdese);
-        //robot.SplineStart();
-        //robot.SplinePTP(startjointPos, startdescPose, 0, 0, 100, 100, 100);
-        //robot.SplinePTP(endjointPos, enddescPose, 0, 0, 100, 100, 100);
-        //robot.SplinePTP(CJPos, CPose, 0, 0, 100, 100, 100);
-        //robot.SplinePTP(DJPos, DPose, 0, 0, 100, 100, 100);
-        //robot.SplineEnd();
+        int tool = 0;
+        int user = 0;
+        float vel = 100.0f;
+        float acc = 100.0f;
+        float ovl = 100.0f;
+        float blendT = 0.0f;
+        float blendR = 0.0f;
+        byte flag = 0;
+        byte search = 0;
 
-        //robot.NewSplineStart(0, 5000);
-        //robot.NewSplinePoint(startjointPos, startdescPose, 0, 0, 100, 100, 100, 5, 0);
-        //robot.NewSplinePoint(endjointPos, enddescPose, 0, 0, 100, 100, 100, 5, 0);
-        //robot.NewSplinePoint(CJPos, CPose, 0, 0, 100, 100, 100, 5, 0);
-        //robot.NewSplinePoint(DJPos, DPose, 0, 0, 100, 100, 100, 5, 1);
-        //robot.NewSplineEnd();
-        //int count = 1000;
-        //while (count > 0)
-        //{
-        //    robot.ServoJ(startjointPos, 0, 0, 0.008f, 0, 0);
-        //    startjointPos.jPos[0] += 0.01;//0关节位置增加
-        //    count -= 1;
-        //}
-        rtn = robot.MoveToolAOStop();
-        //rtn = robot.MoveAOStop();
-        Console.WriteLine(rtn);
+        robot.SetSpeed(5);
+
+        robot.MoveAOStart(0,100,100,20);
+        robot.MoveJ(j1, desc_pos1, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        robot.MoveJ(j2, desc_pos2, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        robot.MoveAOStop();
+
+        robot.MoveToolAOStart(0, 100, 100, 20);
+        robot.MoveJ(j1, desc_pos1, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        robot.MoveJ(j2, desc_pos2, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        robot.MoveToolAOStop();
     }
-
-开始奇异位姿保护
-+++++++++++++++++++++++++++++
-.. versionadded:: C#SDK-v1.0.9
-
-.. code-block:: c#
-    :linenos:
-
-    /**
-    * @brief 开始奇异位姿保护
-    * @param [in] protectMode 奇异保护模式，0：关节模式；1-笛卡尔模式
-    * @param [in] minShoulderPos 肩奇异调整范围(mm), 默认100
-    * @param [in] minElbowPos 肘奇异调整范围(mm), 默认50
-    * @param [in] minWristPos 腕奇异调整范围(°), 默认10
-    * @return 错误码
-    */
-    int SingularAvoidStart(int protectMode, double minShoulderPos, double minElbowPos, double minWristPos);
-
-停止奇异位姿保护
-+++++++++++++++++++++++++++++
-.. versionadded:: C#SDK-v1.0.9
-
-.. code-block:: c#
-    :linenos:
-
-    /**
-    * @brief 停止奇异位姿保护
-    * @return 错误码
-    */
-    int SingularAvoidEnd();
-
-代码示例
-+++++++++++++++++++++++++++++
-.. versionadded:: C#SDK-v1.0.9
-    
-.. code-block:: c#
-    :linenos:
-
-    private void btnTestSingularAvoidEArc_Click(object sender, EventArgs e)
-    {
-        DescPose startdescPose = new DescPose(-352.437, -88.350, 226.471, 177.222, 4.924, 86.631);
-        JointPos startjointPos = new JointPos(-3.463, -84.308, 105.579, -108.475, -85.087, -0.334);
-
-        DescPose middescPose = new DescPose(-518.339, -23.706, 207.899, -178.420, 0.171, 71.697);
-        JointPos midjointPos = new JointPos(-8.587, -51.805, 64.914, -104.695, -90.099, 9.718);
-
-        DescPose enddescPose = new DescPose(-273.934, 323.003, 227.224, 176.398, 2.783, 66.064);
-        JointPos endjointPos = new JointPos(-63.460, -71.228, 88.068, -102.291, -90.149, -39.605);
-
-        ExaxisPos exaxisPos = new ExaxisPos(0, 0, 0, 0);
-        DescPose offdese = new DescPose(0, 0, 0, 0, 0, 0);
-
-        robot.MoveL(startjointPos, startdescPose, 0, 0, 50, 100, 100, -1, exaxisPos, 0, 0, offdese, 1, 1);
-        robot.SingularAvoidStart(1, 100, 50, 10);
-        robot.MoveC(midjointPos, middescPose, 0, 0, 50, 100, exaxisPos, 0, offdese, endjointPos, enddescPose, 0, 0, 100, 100, exaxisPos, 0, offdese, 100, -1);
-        robot.SingularAvoidEnd();
-    }
-
-安全停止触发
-++++++++++++++++++++++++++++++
-.. versionadded:: C# SDK-v1.1.0-3.7.8
-
-.. code-block:: c#
-    :linenos:
-
-    /**
-    * @brief 安全停止触发信号
-    * @return 错误码
-    */
-    int GetSafetyCode();
 
 开始Ptp运动FIR滤波
 ++++++++++++++++++++++++++++++
@@ -1007,6 +1054,7 @@ jog点动立即停止
     
 .. code-block:: c#
     :linenos:
+
 
     /**
     * @brief 开始Ptp运动FIR滤波
@@ -1018,8 +1066,6 @@ jog点动立即停止
 
 关闭Ptp运动FIR滤波
 ++++++++++++++++++++++++++++++
-.. versionadded:: C# SDK-v1.1.0-3.7.8
-
 .. code-block:: c#
     :linenos:
 
@@ -1031,8 +1077,6 @@ jog点动立即停止
 
 开始LIN、ARC运动FIR滤波
 ++++++++++++++++++++++++++++++
-.. versionadded:: C# SDK-v1.1.0-3.7.8
-
 .. code-block:: c#
     :linenos:
 
@@ -1048,8 +1092,6 @@ jog点动立即停止
 
 关闭LIN、ARC运动FIR滤波
 ++++++++++++++++++++++++++++++
-.. versionadded:: C# SDK-v1.1.0-3.7.8
-
 .. code-block:: c#
     :linenos:
 
@@ -1059,7 +1101,7 @@ jog点动立即停止
     */
     int LinArcFIRPlanningEnd();
 
-代码示例
+FIR滤波代码示例
 +++++++++++++++++++++++++++++
 .. versionadded:: C#SDK-V1.1.3  Web-3.8.2
     
@@ -1125,26 +1167,140 @@ jog点动立即停止
 .. code-block:: c#
     :linenos:
 
-        private void button1_Click(object sender, EventArgs e)
-        {
+    private void button1_Click(object sender, EventArgs e)
+    {
 
-            bool saveFlag = false;
+        int rtn;
+        JointPos startjointPos = new JointPos(-11.904f, -99.669f, 117.473f, -108.616f, -91.726f, 74.256f);
+        JointPos endjointPos = new JointPos(-45.615f, -106.172f, 124.296f, -107.151f, -91.282f, 74.255f);
 
-            int rtn = 0;
-            JointPos p1Joint = new JointPos(88.927, -85.834, 80.289, -85.561, -91.388, 108.718);
-            DescPose p1Desc = new DescPose(88.739, -527.617, 514.939, -179.039, 1.494, 70.209);
+        DescPose startdescPose = new DescPose(-419.524f, -13.000f, 351.569f, -178.118f, 0.314f, 3.833f);
+        DescPose enddescPose = new DescPose(-321.222f, 185.189f, 335.520f, -179.030f, -1.284f, -29.869f);
 
-            JointPos p2Joint = new JointPos(27.036, -83.909, 80.284, -85.579, -90.027, 108.604);
-            DescPose p2Desc = new DescPose(-433.125, -334.428, 497.139, -179.723, -0.745, 8.437);
-            JointPos p3Joint = new JointPos(60.219, -94.324, 62.906, -62.005, -87.159, 108.598);
-            DescPose p3Desc = new DescPose(-112.215, -409.323, 686.497, 176.217, 2.338, 41.625);
-            ExaxisPos exaxisPos = new ExaxisPos(0, 0, 0, 0);
-            DescPose offdese = new DescPose(0, 0, 0, 0, 0, 0);
-            robot.AccSmoothStart(saveFlag);
-            robot.MoveL(p1Joint, p1Desc, 0, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese, 0, 10);
-            robot.MoveL(p2Joint, p2Desc, 0, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese, 0, 10);
-            robot.MoveL(p1Joint, p1Desc, 0, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese, 0, 10);
-            robot.MoveL(p2Joint, p2Desc, 0, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese, 0, 10);
+        ExaxisPos exaxisPos = new ExaxisPos(0, 0, 0, 0);
+        DescPose offdese = new DescPose(0, 0, 0, 0, 0, 0);
+        rtn = robot.AccSmoothStart(false);
+        Console.WriteLine("AccSmoothStart rtn is " + rtn);
+        robot.MoveJ( startjointPos,  startdescPose, 0, 0, 100, 100, 100,  exaxisPos, -1, 0,  offdese);
+        robot.MoveJ( endjointPos,  enddescPose, 0, 0, 100, 100, 100,  exaxisPos, -1, 0,  offdese);
+        rtn = robot.AccSmoothEnd(false);
+        Console.WriteLine("AccSmoothEnd rtn is " + rtn);
+    }
 
-            robot.AccSmoothEnd(saveFlag);
-        }
+指定姿态速度开启
++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 指定姿态速度开启
+    * @param [in] ratio 姿态速度百分比[0-300]
+    * @return  错误码
+    */
+    int AngularSpeedStart(int ratio);
+
+指定姿态速度关闭
++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+   
+    /**
+    * @brief 指定姿态速度关闭
+    * @return  错误码
+    */
+    int AngularSpeedEnd();
+
+机器人指定姿态速度代码示例
++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    private void button71_Click(object sender, EventArgs e)
+    {
+        int rtn;
+        JointPos startjointPos = new JointPos(-11.904f, -99.669f, 117.473f, -108.616f, -91.726f, 74.256f);
+        JointPos endjointPos = new JointPos(-45.615f, -106.172f, 124.296f, -107.151f, -91.282f, 74.255f);
+
+        DescPose startdescPose = new DescPose(-419.524f, -13.000f, 351.569f, -178.118f, 0.314f, 3.833f);
+        DescPose enddescPose = new DescPose(-321.222f, 185.189f, 335.520f, -179.030f, -1.284f, -29.869f);
+
+        ExaxisPos exaxisPos = new ExaxisPos(0, 0, 0, 0);
+        DescPose offdese = new DescPose(0, 0, 0, 0, 0, 0);
+        rtn = robot.AngularSpeedStart(50);
+        Console.WriteLine("AngularSpeedStart rtn is " + rtn);
+        robot.MoveJ( startjointPos,  startdescPose, 0, 0, 100, 100, 100,  exaxisPos, -1, 0,  offdese);
+        robot.MoveJ( endjointPos,  enddescPose, 0, 0, 100, 100, 100,  exaxisPos, -1, 0,  offdese);
+        rtn = robot.AngularSpeedEnd();
+        Console.WriteLine("AngularSpeedEnd rtn is " + rtn);
+    }
+
+开始奇异位姿保护
++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-v1.0.9
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 开始奇异位姿保护
+    * @param [in] protectMode 奇异保护模式，0：关节模式；1-笛卡尔模式
+    * @param [in] minShoulderPos 肩奇异调整范围(mm), 默认100
+    * @param [in] minElbowPos 肘奇异调整范围(mm), 默认50
+    * @param [in] minWristPos 腕奇异调整范围(°), 默认10
+    * @return 错误码
+    */
+    int SingularAvoidStart(int protectMode, double minShoulderPos, double minElbowPos, double minWristPos);
+
+停止奇异位姿保护
++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-v1.0.9
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 停止奇异位姿保护
+    * @return 错误码
+    */
+    int SingularAvoidEnd();
+
+代码示例
++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-v1.0.9
+    
+.. code-block:: c#
+    :linenos:
+
+    private void btnTestSingularAvoidEArc_Click(object sender, EventArgs e)
+    {
+        int rtn;
+        JointPos startjointPos = new JointPos(-11.904f, -99.669f, 117.473f, -108.616f, -91.726f, 74.256f);
+        JointPos endjointPos = new JointPos(-45.615f, -106.172f, 124.296f, -107.151f, -91.282f, 74.255f);
+
+        DescPose startdescPose = new DescPose(-419.524f, -13.000f, 351.569f, -178.118f, 0.314f, 3.833f);
+        DescPose enddescPose = new DescPose(-321.222f, 185.189f, 335.520f, -179.030f, -1.284f, -29.869f);
+
+        ExaxisPos exaxisPos = new ExaxisPos(0, 0, 0, 0);
+        DescPose offdese = new DescPose(0, 0, 0, 0, 0, 0);
+
+        rtn = robot.SingularAvoidStart(2, 10, 5, 5);
+        Console.WriteLine("SingularAvoidStart rtn is " + rtn);
+        robot.MoveJ( startjointPos,  startdescPose, 0, 0, 100, 100, 100,  exaxisPos, -1, 0,  offdese);
+        robot.MoveJ( endjointPos,  enddescPose, 0, 0, 100, 100, 100,  exaxisPos, -1, 0,  offdese);
+        rtn = robot.SingularAvoidEnd();
+        Console.WriteLine("SingularAvoidEnd rtn is " + rtn);
+    }
+
+安全停止触发
+++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 安全停止触发信号
+    * @return 错误码
+    */
+    int GetSafetyCode();
+
+
+

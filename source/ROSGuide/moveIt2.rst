@@ -288,6 +288,8 @@ fairino_hardware插件为连接moveit与机器人的中间层，通过fairino_ha
 
 并且由于fairino_hardware插件的实现，使得法奥机器人能够接入ros2_control控制框架，使法奥机器人能够兼容基于ros2_control的第三方功能包。
 
+在适配机械臂软件版本V3.8.3的fairino_hardware插件中，新增了扭矩模式及指令扭矩接口，使得机械臂可以进入扭矩模式并接收指令扭矩。
+
 fairino_hardware插件编译
 """"""""""""""""""""""""""""""""""
 编译官方提供的ros2_ws功能包中的fairino_hardware插件功能包，通过上节编译fairino_hardware插件功能包，然后将会在
@@ -310,21 +312,21 @@ fairino_hardware插件使用
 
     /home/fairino/test_fa_ws/install/fairino5_v6_robot_moveit_config/share/fairino5_v6_robot_moveit_config/config
 
-下，找到fairino5_v6_robot.ros2_control.xacro文件，将文件第9行的
+下，找到fairino5_v6_robot.ros2_control.xacro文件，将文件第3行的参数
 
 .. code-block:: shell
     :linenos:
 
-    <plugin>mock_components/GenericSystem</plugin>
+    use_fake_hardware:=false
 
 替换为
 
 .. code-block:: shell
     :linenos:
 
-    <plugin>fairino_hardware/FairinoHardwareInterface</plugin>
+    use_fake_hardware:=true
 
-保存并退出。
+根据后续的if判断可以看到，将use_fake_hardware设置成true是启用fairino_hardware/FairinoHardwareInterface这个插件，保存文件并退出即可。
 
 .. image:: img/fairino_harware_022.png
     :width: 6in
@@ -335,6 +337,10 @@ fairino_hardware插件使用
 .. image:: img/fairino_harware_023.png
     :width: 6in
     :align: center
+
+注意，在文件第3行中的robot_control_mode参数决定了加载插件时候暴露的指令接口，即参数代表了控制模式，0为位置控制模式，插件会暴露position接口，1为扭矩控制模式，插件会暴露effort接口。针对扭矩控制接口的demo预计会在适配机械臂软件V3.8.5版本的fairino_hardware功能包中推出。
+
+当前的Moveit2控制器仅支持位置控制模式，请不要将robot_control_mode设置为1。
 
 运行插件
 """"""""""""""""""""""""""""""""""
@@ -386,65 +392,6 @@ demo.launch.py文件启动后，rviz2界面如下图所示：
 
 至此可以通过moveit2控制实际机器人和rviz2界面上的仿真机器人同步运动。
 
-fairino_hardware插件（官方机器人moveit配置包）
----------------------------------------------------
-在ros2_ws目录下编译与对应型号的机器人功能包，以fairino5机器人为例
-
-.. code-block:: shell
-    :linenos:
-
-    cd ros2_ws
-    colcon build --packages-select fairino5_v6_moveit2_config
-    source install/setup.bash
-
-然后需要添加fairino_hardware插件，用于与实际机器人同步运动，转到
-
-.. code-block:: shell
-    :linenos:
-
-    ros2_ws/install/fairino5_v6_moveit2_config/share/fairino5_v6_moveit2_config/config
-    
-目录下，找到fairino5_v6_robot.ros2_control.xacro，将文件第9行的
-
-.. code-block:: shell
-    :linenos:
-
-    <plugin>mock_components/GenericSystem</plugin>
-    
-替换为
-
-.. code-block:: shell
-    :linenos:
-
-    <plugin>fairino_hardware/FairinoHardwareInterface</plugin>
-
-保存并退出。
-
-.. image:: img/fairino_harware_028.png
-    :width: 6in
-    :align: center
-
-其中hardware插件设置的插件名称，具体可以在
-
-.. code-block:: shell
-    :linenos:
-
-    /home/fairino/ros2_ws/src/fairino_hardware
-    
-目录下的“fairino_hardware.xml”文件查看。
-
-.. image:: img/fairino_harware_029.png
-    :width: 6in
-    :align: center
-
-此时运行插件需要转到ros2_ws工作空间下，然后source环境，运行demo.launch.py文件
-
-.. code-block:: shell
-    :linenos:
-
-    cd ros2_ws
-    source install/setup.bash
-    ros2 launch fairino5_v6_moveit2_config demo.launch.py
 
 mtc示例代码包
 ++++++++++++++++++++++++++++++

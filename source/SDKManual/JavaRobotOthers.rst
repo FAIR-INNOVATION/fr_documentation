@@ -4,6 +4,155 @@
 .. toctree:: 
     :maxdepth: 5
 
+获取SSH公钥
++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 获取SSH公钥
+    * @param [out] keygen 公钥
+    * @return 错误码
+    */
+    int GetSSHKeygen(String[] keygen)
+
+下发SCP指令
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.6-3.8.3
+
+.. code-block:: Java
+    :linenos:
+
+    /** 
+    * @brief 下发SCP指令
+    * @param [in] mode 0-上传（上位机->控制器），1-下载（控制器->上位机）
+    * @param [in] sshname 上位机用户名
+    * @param [in] sship 上位机ip地址
+    * @param [in] usr_file_url 上位机文件路径
+    * @param [in] robot_file_url 机器人控制器文件路径
+    * @return 错误码
+    */
+    int SetSSHScpCmd(int mode, String sshname, String sship, String usr_file_url, String robot_file_url)
+
+计算指定路径下文件的MD5值
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 计算指定路径下文件的MD5值
+    * @param [in] file_path 文件路径包含文件名，默认Traj文件夹路径为:"/fruser/traj/",如"/fruser/traj/trajHelix_aima_1.txt"
+    * @param [out] md5 文件MD5值
+    * @return 错误码
+    */
+    int ComputeFileMD5(String file_path, String[] md5)
+
+机器人SSH、MD5指令代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static int TestSSHMd5(Robot robot)
+    {
+        String file_path= "/fruser/airlab.lua";
+        String[] md5 =new String[]{""};
+
+        String[] ssh_keygen=new String[]{""};
+        int retval = robot.GetSSHKeygen(ssh_keygen);
+        System.out.println(ssh_keygen[0]);
+
+        String ssh_name = "fr";
+        String ssh_ip = "192.168.58.45";
+        String ssh_route = "/home/fr";
+        String ssh_robot_url = "/root/robot/dhpara.config";
+        retval = robot.SetSSHScpCmd(1, ssh_name, ssh_ip, ssh_route, ssh_robot_url);
+        System.out.println("SetSSHScpCmd retval is:"+ retval);
+        System.out.println("robot url is:"+ ssh_robot_url);
+
+        robot.ComputeFileMD5(file_path, md5);
+        System.out.println("md5 is:+"+ md5[0]);
+        return 0;
+    }
+
+设置机器人 20004 端口反馈周期
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 设置机器人 20004 端口反馈周期
+    * @param [in] period 机器人 20004 端口反馈周期(ms)
+    * @return  错误码
+    */
+    public int SetRobotRealtimeStateSamplePeriod(int period)
+
+获取机器人 20004 端口反馈周期
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  获取机器人 20004 端口反馈周期
+    * @return  List[0]:错误码; List[1]:机器人 20004 端口反馈周期(ms)
+    */
+    public List<Integer> GetRobotRealtimeStateSamplePeriod()
+
+机器人20004端口状态反馈周期配置代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static int TestRealtimePeriod(Robot robot)
+    {
+        robot.SetRobotRealtimeStateSamplePeriod(10);
+        List<Integer> getPeriod = new ArrayList<>();
+        getPeriod=robot.GetRobotRealtimeStateSamplePeriod();
+        robot.Sleep(1000);
+
+        return 0;
+    }
+
+机器人软件升级
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+     * @brief 机器人软件升级
+     * @param [in] filePath 软件升级包全路径
+     * @param [in] block 是否阻塞至升级完成 true:阻塞；false:非阻塞
+     * @return  错误码
+     */
+    public int SoftwareUpgrade(String filePath, boolean block)
+
+获取机器人软件升级状态
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  获取机器人软件升级状态
+    * @return  List[0]:错误码; List[1]:机器人软件升级状态 0-空闲中或上传升级包中；1~100：升级完成百分比；-1:升级软件失败；-2：校验失败；-3：版本校验失败；-4：解压失败；-5：用户配置升级失败；-6：外设配置升级失败；-7：扩展轴配置升级失败；-8：机器人配置升级失败；-9：DH参数配置升级失败
+    */
+    public List<Integer> GetSoftwareUpgradeState()
+
+机器人软件升级代码示例
++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static int TestUpgrade(Robot robot)
+    {
+        robot.SoftwareUpgrade("D://zUP/QNX382/software.tar.gz", false);
+        while (true)
+        {
+            List<Integer> inter=new ArrayList<>();
+            inter=robot.GetSoftwareUpgradeState();
+            System.out.println("upgrade state is:"+ inter.get(1));
+            robot.Sleep(300);
+        }
+    }
+
 下载点位表数据库
 +++++++++++++++++++++++++++++++++++
 .. code-block:: Java
@@ -29,19 +178,6 @@
     */
     int PointTableUpLoad(String pointTableFilePath);
 
-切换点位表并应用
-+++++++++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    /** 
-    * @brief 切换点位表并应用 
-    * @param [in] pointTableName 要切换的点位表名称   "pointTable1.db"
-    * @param [in] errorStr 切换点位表错误信息
-    * @return 错误码 
-    */
-    int PointTableSwitch(String pointTableName, String errorStr);
-
 点位表更新lua文件
 +++++++++++++++++++++++++++++++++++
 .. code-block:: Java
@@ -56,225 +192,27 @@
     */
     int PointTableUpdateLua(String pointTableName, String luaFileName, String errorStr);
 
-代码示例
-+++++++++++++++++++++++++++++++++++
+机器人点位表操作代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    public static void main(String[] args)
+    public static int TestPointTable(Robot robot)
     {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
+        String save_path = "D://zDOWN/";
+        String point_table_name = "point_table_FR5.db";
+        int rtn = robot.PointTableDownLoad(point_table_name, save_path);
 
-        robot.PointTableUpLoad("D://zUP/point_table_test1.db");//点位表上传
-        robot.PointTableDownLoad("point_table_test1.db", "D://zUP/");//点位表下载
-        String errStr = "";
-        robot.PointTableSwitch("point_table_test1.db", errStr);//切换点位表
-        //点位表更新LUA程序
-        robot.PointTableUpdateLua("point_table_test2.db", "1010Test.lua", errStr);
-    }
+        String upload_path = "D://zUP/point_table_FR5.db";
+        rtn = robot.PointTableUpLoad(upload_path);
 
-初始化日志参数
-+++++++++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
+        String point_tablename = "point_table_FR5.db";
+        String lua_name = "airlab.lua";
+        String err="";
+        rtn = robot.PointTableUpdateLua(point_tablename, lua_name,err);
 
-    /**
-    * @brief 初始化日志参数
-    * @param [in] logType：输出模式，DIRECT-直接输出；BUFFER-缓冲输出；ASYNC-异步输出
-    * @param [in] logLevel：日志过滤等级，ERROR-错误；WARNING-警告;INFO-信息；DEBUG-调试
-    * @param [in] filePath: 文件保存路径，如“D://Log/”
-    * @param [in] saveFileNum：保存文件个数，同时超出保存文件个数和保存文件天数的文件将被删除
-    * @param [in] saveDays: 保存文件天数，同时超出保存文件个数和保存文件天数的文件将被删除
-    * @return 错误码
-    */
-    int LoggerInit(FrLogType logType, FrLogLevel logLevel, String filePath, int saveFileNum, int saveDays);
-
-设置日志过滤等级
-+++++++++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    /**
-    * @brief 设置日志过滤等级;
-    * @param [in] logLevel: 日志过滤等级，ERROR-错误；WARNING-警告;INFO-信息；DEBUG-调试
-    * @return 错误码
-    */
-    int SetLoggerLevel(FrLogLevel logLevel);
-
-
-代码示例
-+++++++++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    public static void main(String[] args)
-    {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        robot.SetLoggerLevel(FrLogLevel.DEBUG);
-    }
-
-设置机器人外设协议
-+++++++++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    /** 
-    * @brief 设置机器人外设协议
-    * @param [in] protocol 机器人外设协议号 4096-扩展轴控制卡；4097-ModbusSlave；4098-ModbusMaster
-    * @return 错误码 
-    */
-    int SetExDevProtocol(int protocol);
-
-获取机器人外设协议
-+++++++++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    /** 
-    * @brief 获取机器人外设协议
-    * @return List[0]:错误码; List[1] : int protocol 机器人外设协议号 4096-扩展轴控制卡；4097-ModbusSlave；4098-ModbusMaster 
-    */
-    List<Integer> GetExDevProtocol();
-
-代码示例
-+++++++++++++++++++++++++++++++++++
-.. code-block:: console
-    :linenos:
-
-    public static void main(String[] args)
-    {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-
-        robot.SetExDevProtocol(4096);
-        List<Number> rtnArr =  robot.GetTargetPayload(1);
-        rtnArr=GetExDevProtocol();
-    }
-
-末端传感器配置
-+++++++++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    /** 
-    * @brief 末端传感器配置
-    * @param [in] config idCompany 厂商，18-JUNKONG；25-HUIDE
-    * @param [in] config idDevice 类型，0-JUNKONG/RYR6T.V1.0
-    * @param [in] config idSoftware 软件版本，0-J1.0/HuiDe1.0(暂未开放)
-    * @param [in] config idBus 挂载位置，1-末端1号口；2-末端2号口...8-末端8号口(暂未开放)
-    * @return 错误码
-    */
-    int AxleSensorConfig(DeviceConfig config);
-
-获取末端传感器配置
-+++++++++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    /** 
-    * @brief 获取末端传感器配置
-    * @param [out] config idCompany 厂商，18-JUNKONG；25-HUIDE
-    * @param [out] config idDevice 类型，0-JUNKONG/RYR6T.V1.0
-    * @return 错误码
-    */
-    int AxleSensorConfigGet(DeviceConfig config);
-
-末端传感器激活
-+++++++++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    /** 
-    * @brief 末端传感器激活
-    * @param [in] actFlag 0-复位；1-激活
-    * @return 错误码
-    */
-    int AxleSensorActivate(int actFlag);
-
-末端传感器寄存器写入
-+++++++++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    /** 
-    * @brief 末端传感器寄存器写入
-    * @param [in] devAddr  设备地址编号 0-255
-    * @param [in] regHAddr 寄存器地址高8位
-    * @param [in] regLAddr 寄存器地址低8位
-    * @param [in] regNum  寄存器个数 0-255
-    * @param [in] data1 写入寄存器数值1
-    * @param [in] data2 写入寄存器数值2
-    * @param [in] isNoBlock 0-阻塞；1-非阻塞
-    * @return 错误码
-    */
-    int AxleSensorRegWrite(int devAddr, int regHAddr, int regLAddr, int regNum, int data1, int data2, int isNoBlock);
-
-代码示例
-+++++++++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    public static void main(String[] args)
-    {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        DeviceConfig axleSensorConfig = new DeviceConfig(18, 0, 0, 1);
-        robot.AxleSensorConfig(axleSensorConfig);
-
-        DeviceConfig getConfig = new DeviceConfig();
-        robot.AxleSensorConfigGet(getConfig);
-        System.out.println("company is " + getConfig.company + ",  type is " + getConfig.device);
-
-        robot.AxleSensorActivate(1);
-
-        robot.AxleSensorRegWrite(1, 4, 6, 1, 0, 0, 0);
+        robot.CloseRPC();
+        return 0;
     }
 
 控制器日志下载
@@ -319,122 +257,121 @@
     */
     int DataPackageDownload(String savePath);
 
-代码示例
+下载控制器数据代码示例
 +++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    public static void main(String[] args)
+    public static int TestDownLoadRobotData(Robot robot)
     {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        int rtn=0;
+        int rtn = robot.RbLogDownload("D://zDOWN/");
+
+        rtn = robot.AllDataSourceDownload("D://zDOWN/");
 
         rtn = robot.DataPackageDownload("D://zDOWN/");
-        System.out.println("DataPackageDownload rtn is: "+rtn);
-
-        System.out.println("AllDataSourceDownload start");
-        rtn = robot.AllDataSourceDownload("D://zDOWN/");
-        System.out.println("AllDataSourceDownload rtn is: "+rtn);
-
-        System.out.println("RbLogDownload start");
-        rtn = robot.RbLogDownload("D://zDOWN/");
-        System.out.println("RbLogDownload rtn is: "+rtn);
+        return 0;
     }
 
-下发SCP指令
+设置编码器升级
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: Java SDK-v1.0.6-3.8.3
-
-.. code-block:: Java
-    :linenos:
-
-    /** 
-    * @brief 下发SCP指令
-    * @param [in] mode 0-上传（上位机->控制器），1-下载（控制器->上位机）
-    * @param [in] sshname 上位机用户名
-    * @param [in] sship 上位机ip地址
-    * @param [in] usr_file_url 上位机文件路径
-    * @param [in] robot_file_url 机器人控制器文件路径
-    * @return 错误码
-    */
-    int SetSSHScpCmd(int mode, String sshname, String sship, String usr_file_url, String robot_file_url)
-
-代码示例
-+++++++++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    public static void main(String[] args)
-    {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-
-        String file_path= "/fruser/airlab.lua";
-        String[] md5 =new String[]{""};
-
-        String[] ssh_keygen=new String[]{""};
-        int retval = robot.GetSSHKeygen(ssh_keygen);
-        System.out.println(ssh_keygen[0]);
-
-        String ssh_name = "fr";
-        String ssh_ip = "192.168.58.45";
-        String ssh_route = "/home/fr";
-        String ssh_robot_url = "/root/robot/dhpara.config";
-        retval = robot.SetSSHScpCmd(1, ssh_name, ssh_ip, ssh_route, ssh_robot_url);
-        System.out.println("SetSSHScpCmd retval is:"+ retval);
-        System.out.println("robot url is:"+ ssh_robot_url);
-
-        robot.ComputeFileMD5(file_path, md5);
-        System.out.println("md5 is:+"+ md5[0]);
-    }
-
-设置宽电压控制箱温度及风扇转速监控参数
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: Java SDK-v1.0.6-3.8.3
+.. versionadded:: Java SDK-v1.0.7-3.8.4
 
 .. code-block:: Java
     :linenos:
 
     /**
-    * @brief 设置宽电压控制箱温度及风扇转速监控参数
-    * @param [in] enable 0-不使能监测；1-使能监测
-    * @param [in] period 监测周期(s),范围1-100
+    * @brief 设置编码器升级
+    * @param [in] path 本地升级包全路径(D://zUP/XXXXX.bin)
     * @return 错误码
     */
-    int SetWideBoxTempFanMonitorParam(int enable, int period);
+    int SetEncoderUpgrade(String path)
 
-获取宽电压控制箱温度及风扇转速监控参数
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: Java SDK-v1.0.6-3.8.3
+设置关节固件升级
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.7-3.8.4
 
 .. code-block:: Java
     :linenos:
 
-    /** 
-    * @brief 获取宽电压控制箱温度及风扇转速监控参数
-    * @return List[0]-错误码,List[1]-enable 0-不使能监测；1-使能监测,List[2]-period 监测周期(s),范围1-100
+    /**
+    * @brief 设置关节固件升级
+    * @param [in] type 升级文件类型；1-升级固件；2-升级从站配置文件
+    * @param [in] path 本地升级包全路径(D://zUP/XXXXX.bin)
+    * @return 错误码
     */
-    List<Number> GetWideBoxTempFanMonitorParam()
+    public int SetJointFirmwareUpgrade(int type, String path)
+
+设置控制箱固件升级
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.7-3.8.4
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 设置控制箱固件升级
+    * @param [in] type 升级文件类型；1-升级固件；2-升级从站配置文件
+    * @param [in] path 本地升级包全路径(D://zUP/XXXXX.bin)
+    * @return 错误码
+    */
+    public int SetCtrlFirmwareUpgrade(int type, String path)
+
+设置末端固件升级
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.7-3.8.4
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 设置末端固件升级
+    * @param [in] type 升级文件类型；1-升级固件；2-升级从站配置文件
+    * @param [in] path 本地升级包全路径(D://zUP/XXXXX.bin)
+    * @return 错误码
+    */
+    public int SetEndFirmwareUpgrade(int type, String path)
+
+关节全参数配置文件升级
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.7-3.8.4
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 关节全参数配置文件升级
+    * @param [in] path 本地升级包全路径(D://zUP/XXXXX.bin)
+    * @return 错误码
+    */
+    public int JointAllParamUpgrade(String path)
+
+机器人从站固件升级代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static void TestFirmWareUpgrade(Robot robot)
+    {
+        robot.RobotEnable(0);
+        robot.Sleep(200);
+        int rtn = robot.JointAllParamUpgrade("D://zUP/standardQX/jointallparametersFR56.0.db");
+        System.out.println("robot JointAllParamUpgrade rtn is:"+ rtn);
+
+        rtn = robot.SetCtrlFirmwareUpgrade(2, "D://zUP/upgrade/FAIR_Cobot_Cbd_Asix_V2.0.bin");
+        System.out.println("robot SetCtrlFirmwareUpgrade config param rtn is:"+ rtn);
+
+        rtn = robot.SetEndFirmwareUpgrade(2, "D://zUP/upgrade/FAIR_Cobot_Axle_Asix_V2.4.bin");
+        System.out.println("robot SetEndFirmwareUpgrade config param rtn is:"+ rtn);
+
+        robot.SetSysServoBootMode();
+        rtn = robot.SetCtrlFirmwareUpgrade(1, "D://zUP/standardQX/FR_CTRL_PRIMCU_FV201010_MAIN_U4_T01_20240529.bin");
+        System.out.println("robot SetCtrlFirmwareUpgrade rtn is:"+ rtn);
+
+        rtn = robot.SetEndFirmwareUpgrade(1, "D://zUP/standardQX/FR_END_FV201010_MAIN_U01_T01_20250522.bin");
+        System.out.println("robot SetEndFirmwareUpgrade rtn is:"+ rtn);
+
+        rtn = robot.SetJointFirmwareUpgrade(1, "D://zUP/standardQX/FR_SERVO_FV502211_MAIN_U7_T07_20250217.bin");
+        System.out.println("robot SetJointFirmwareUpgrade rtn is:"+ rtn);
+
+        robot.CloseRPC();
+    }

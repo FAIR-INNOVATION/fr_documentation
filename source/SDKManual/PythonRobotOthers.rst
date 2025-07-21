@@ -4,6 +4,174 @@
 .. toctree:: 
     :maxdepth: 5
 
+获取SSH公钥
+++++++++++++++++++++++++++
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetSSHKeygen()``"
+    "描述", "获取SSH公钥"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``keygen``：公钥"
+
+下发SCP指令
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.3
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetSSHScpCmd(mode, sshname, sship, usr_file_url, robot_file_url)``"
+    "描述", "下发SCP指令"
+    "必选参数", "- ``mode``：0-上传（上位机->控制器），1-下载（控制器->上位机）
+    - ``sshname``：上位机用户名
+    - ``sship``：上位机ip地址
+    - ``usr_file_url``：上位机文件路径
+    - ``robot_file_url``：机器人控制器文件路径"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+计算指定路径下文件的MD5值
+++++++++++++++++++++++++++
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``ComputeFileMD5(file_path)``"
+    "描述", "计算指定路径下文件的MD5值"
+    "必选参数", "- ``file_path``：文件路径包含文件名，默认Traj文件夹路径为:/fruser/traj/,如/fruser/traj/trajHelix_aima_1.txt"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``md5``：文件MD5值"
+
+机器人SSH、MD5指令代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    import time
+    import threading
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    file_path = "/fruser/airlab.lua"
+    md5 = ""
+    emerg_state = 0
+    si0_state = 0
+    si1_state = 0
+    sdk_com_state = 0
+    ssh_keygen = ""
+    retval,ssh_keygen = robot.GetSSHKeygen()
+    print(f"GetSSHKeygen retval is: {retval}")
+    print(f"ssh key is: {ssh_keygen}")
+    ssh_name = "fr"
+    ssh_ip = "192.168.58.45"
+    ssh_route = "/home/fr"
+    ssh_robot_url = "/root/robot/dhpara.config"
+    retval = robot.SetSSHScpCmd(1, ssh_name, ssh_ip, ssh_route, ssh_robot_url)
+    print(f"SetSSHScpCmd retval is: {retval}")
+    print(f"robot url is: {ssh_robot_url}")
+    error, md5 = robot.ComputeFileMD5(file_path)
+    print(f"md5 is: {md5}")
+    robot.CloseRPC()
+
+设置机器人 20004 端口反馈周期
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetRobotRealtimeStateSamplePeriod(period)``"
+    "描述", "设置机器人 20004 端口反馈周期"
+    "必选参数", "- ``period``：机器人 20004 端口反馈周期(ms)"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode "
+
+获取机器人 20004 端口反馈周期
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetRobotRealtimeStateSamplePeriod()``"
+    "描述", "获取机器人 20004 端口反馈周期"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode 
+    - ``period``：机器人 20004 端口反馈周期(ms)"
+
+机器人20004端口状态反馈周期配置代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    import time
+    import threading
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    robot.SetRobotRealtimeStateSamplePeriod(10)
+    error,getPeriod = robot.GetRobotRealtimeStateSamplePeriod()
+    print(f"period is {getPeriod}")
+    time.sleep(1)
+    robot.CloseRPC()
+
+机器人软件升级
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SoftwareUpgrade(filePath, block)``"
+    "描述", "机器人软件升级"
+    "必选参数", "- ``filePath``：软件升级包全路径
+    - ``block``：是否阻塞至升级完成 true:阻塞；false:非阻塞"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode "
+
+获取机器人软件升级状态
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetSoftwareUpgradeState()``"
+    "描述", "获取机器人软件升级状态"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode 
+    - ``state``：机器人软件包升级状态，0：空闲中或上传升级包中，1~100：升级完成百分比，-1：升级软件失败，-2：校验失败，-3：版本校验失败，-4：解压失败，-5：用户配置升级失败，-6：外设配置升级失败，-7：扩展轴配置升级失败，-8：机器人配置升级失败，-9：DH参数配置升级失败"
+
+机器人软件升级代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    import time
+    import threading
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    error = robot.SoftwareUpgrade("D://zUP/QNX382/software.tar.gz", False)
+    print(f"SoftwareUpgrade error is {error}")
+    while True:
+        curState = robot.GetSoftwareUpgradeState()
+        print(f"upgrade state is {curState}")
+        time.sleep(3)
+    robot.CloseRPC()
+
 下载点位表数据库
 +++++++++++++++++++++++++++++++
 
@@ -20,18 +188,6 @@
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    error = robot.PointTableDownLoad("point_table_a.db","D://Desktop/testPoint/download/")
-    print("PointTableDownLoad错误码:",error)
- 
 上传点位表数据库
 +++++++++++++++++++++++++++++++++
 .. versionadded:: python SDK-v2.0.1
@@ -45,44 +201,6 @@
     "必选参数", "- ``point_table_file_path``：上传点位表的全路径名   C://test/pointTable1.db"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:   
-
-    from fairino import Robot
-
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    error = robot.PointTableUpLoad("D://Desktop/testPoint/point_table_a.db")
-    print("PointTableUpLoad错误码:",error)
-
-点位表切换
-+++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.1
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``PointTableSwitch(point_table_name)``"
-    "描述", "点位表切换"
-    "必选参数", "- ``point_table_name``：要切换的点位表名称   pointTable1.db,当点位表为空，即""时，表示将lua程序更新为未应用点位表的初始程序"
-    "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos: 
-
-    from fairino import Robot
-
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    error = robot.PointTableSwitch("point_table_a.db")
-    print("PointTableSwitch:",error)
 
 点位表更新lua文件
 +++++++++++++++++++++++++++++++++
@@ -99,370 +217,26 @@
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
-代码示例
-------------
+机器人点位表操作代码示例
++++++++++++++++++++++++++++++++++
 .. code-block:: python
     :linenos: 
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
-    error = robot.PointTableUpdateLua("point_table_a.db","testpoint.lua")
-    print("PointTableUpdateLua:",error)
-
-初始化日志参数
-+++++++++++++++++++++++++++++++++
-
-.. versionadded:: python SDK-v2.0.2
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``LoggerInit(output_model=1, file_path="", file_num=5)``"
-    "描述", "初始化日志参数(未初始化不开启日志功能)"
-    "必选参数", "无"
-    "默认参数", "- ``output_model``：输出模式，0-直接输出；1-缓冲输出；2-异步输出，默认1;
-    - ``file_path``: 文件保存路径+名称，名称必须是xxx.log的形式，如D://Desktop /fairino.log。默认执行程序所在路径，默认名称fairino_year+month+ data.log(如:fairino_2024_03_13.log);
-    - ``file_num``: 滚动存储的文件数量，1~20个，默认值为5。单个文件上限50M。"
-    "返回值", "错误码 成功-0  失败- errcode"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos: 
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    robot.LoggerInit(output_model=0,file_path="D://Desktop/fairino.log",file_num=3)
-    robot.SetLoggerLevel(3)
-
-设置日志过滤等级
-+++++++++++++++++++++++++++++++++
-
-.. versionadded:: python SDK-v2.0.2
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``SetLoggerLevel(lvl=1)``"
-    "描述", "设置日志过滤等级"
-    "必选参数", "无"
-    "默认参数", "- ``lvl``：过滤等级值，值越小输出日志越少, 1-error, 2-warnning, 3-inform, 4-debug,默认值是1"
-    "返回值", "错误码 成功-0  失败- errcode"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos: 
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    robot.LoggerInit(output_model=0,file_path="D://Desktop/fairino.log",file_num=3)
-    robot.SetLoggerLevel(3)
-
-设置机器人外设协议
-+++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.3
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``SetExDevProtocol(protocol)``"
-    "描述", "设置机器人外设协议"
-    "必选参数", "- ``protocol``：机器人外设协议号 4096-扩展轴控制卡；4097-ModbusSlave；4098-ModbusMaster"
-    "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos: 
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret =robot.SetExDevProtocol(4098)
-    print("SetExDevProtocol",ret)
-    ret =robot.GetExDevProtocol()
-    print("GetExDevProtocol",ret)
-
-获取机器人外设协议
-+++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.3
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetExDevProtocol()``"
-    "描述", "获取机器人外设协议"
-    "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode; 
-    - ``protocol``: 机器人外设协议号 4096-扩展轴控制卡；4097-ModbusSlave；4098-ModbusMaster"
-
-末端传感器配置
-+++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.5
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``AxleSensorConfig(idCompany, idDevice, idSoftware, idBus)``"
-    "描述", "末端传感器配置"
-    "必选参数", "
-    - ``idCompany``: 厂商，18-JUNKONG；25-HUIDE
-    - ``idDevice``: 类型，0-JUNKONG/RYR6T.V1.0
-    - ``idSoftware``: 软件版本，0-J1.0/HuiDe1.0(暂未开放)
-    - ``idBus``: 挂载位置，1-末端1号口；2-末端2号口...8-末端8号口(暂未开放)
-    "
-    "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    import time
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-
-    robot = Robot.RPC('192.168.58.2')
-    error = robot.AxleSensorConfig(18,0,0,0)
-    print("AxleSensorConfig return:", error)
-
-    error = robot.AxleSensorConfigGet()
-    print("AxleSensorConfigGet return:", error)
-
-    error = robot.AxleSensorActivate(0)
-    print("AxleSensorActivate return:", error)
-    time.sleep(1)
-    error = robot.AxleSensorActivate(1)
-    print("AxleSensorActivate return:", error)
-
-    while(1):
-        error = robot.AxleSensorRegWrite(1, 4, 6, 1, 0, 0, 0)
-        print("AxleSensorRegWrite return:", error)
-        
-获取末端传感器配置
-+++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.5
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``AxleSensorConfigGet()``"
-    "描述", "获取末端传感器配置"
-    "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode
-    - ``idCompany``: 厂商，18-JUNKONG；25-HUIDE
-    - ``idDevice``: 类型，0-JUNKONG/RYR6T.V1.0"
-        
-末端传感器激活
-+++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.5
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``AxleSensorActivate(actFlag)``"
-    "描述", "末端传感器激活"
-    "必选参数", "``actFlag``： 0-复位；1-激活"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode
-    - ``coord``: 坐标系值[x,y,z,rx,ry,rz]"
-
-末端传感器寄存器写入
-+++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.5
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``AxleSensorRegWrite(devAddr, regHAddr, regLAddr, regNum, data1, data2, isNoBlock)``"
-    "描述", "末端传感器寄存器写入"
-    "必选参数", "- ``devAddr``：设备地址编号 0-255
-    - ``regHAddr``：寄存器地址高8位
-    - ``regLAddr``：寄存器地址低8位
-    - ``regNum``：寄存器个数 0-255
-    - ``data1``：写入寄存器数值1
-    - ``data2``：写入寄存器数值2
-    - ``isNoBlock``：是否阻塞 0-阻塞；1-非阻塞"
-    "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode "
-
-设置SmartTool停止/暂停后输出是否复位
-+++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.5
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``SetOutputResetSmartToolDO(resetFlag)``"
-    "描述", "设置SmartTool停止/暂停后输出是否复位"
-    "必选参数", "- ``resetFlag``：是否复位，0-不复位，1-复位"
-    "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode "
-
-获取末端通讯参数
-+++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.5
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetAxleCommunicationParam()``"
-    "描述", "获取末端通讯参数"
-    "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode 
-    - ``baudRate``：波特率:支持1-9600，2-14400，3-19200，4-38400，5-56000，6-67600，7-115200，8-128000
-    - ``dataBit``：数据位:数据位支持（8,9），目前常用为 8
-    - ``stopBit``：停止位:1-1，2-0.5，3-2，4-1.5，目前常用为 1
-    - ``verify``：校验位:0-None，1-Odd，2-Even,目前常用为 0
-    - ``timeout``：超时时间:1~1000ms，此值需要结合外设搭配设置合理的时间参数
-    - ``timeoutTimes``：超时次数:1~10，主要进行超时重发，减少偶发异常提高用户体验
-    - ``period``：周期性指令时间间隔:1~1000ms，主要用于周期性指令每次下发的时间间隔"
-
-设置末端通讯参数
-+++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.5
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``SetAxleCommunicationParam(baudRate, dataBit, stopBit, verify, timeout, timeoutTimes, period)``"
-    "描述", "设置末端通讯参数"
-    "必选参数", "- ``baudRate``：波特率:支持1-9600，2-14400，3-19200，4-38400，5-56000，6-67600，7-115200，8-128000
-    - ``dataBit``：数据位:数据位支持（8,9），目前常用为 8
-    - ``stopBit``：停止位:1-1，2-0.5，3-2，4-1.5，目前常用为 1
-    - ``verify``：校验位:0-None，1-Odd，2-Even,目前常用为 0
-    - ``timeout``：超时时间:1~1000ms，此值需要结合外设搭配设置合理的时间参数
-    - ``timeoutTimes``：超时次数:1~10，主要进行超时重发，减少偶发异常提高用户体验
-    - ``period``：周期性指令时间间隔:1~1000ms，主要用于周期性指令每次下发的时间间隔"
-    "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode "
-
-设置末端文件传输类型
-+++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.5
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``SetAxleFileType(type)``"
-    "描述", "设置末端文件传输类型"
-    "必选参数", "- ``type``：1-MCU升级文件,2-LUA文件"
-    "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode "
-
-设置启用末端LUA执行
-+++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.5
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``SetAxleLuaEnable(enable)``"
-    "描述", "设置启用末端LUA执行"
-    "必选参数", "- ``enable``：0-不启用；1-启用"
-    "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode "
-
-末端LUA文件异常错误恢复
-+++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.5
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``SetRecoverAxleLuaErr(enable)``"
-    "描述", "末端LUA文件异常错误恢复"
-    "必选参数", "- ``status``：0-不恢复；1-恢复"
-    "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode "
-
-获取末端LUA执行使能状态
-+++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.5
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetAxleLuaEnableStatus()``"
-    "描述", "获取末端LUA执行使能状态"
-    "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode 
-    - ``enable``：0-不启用；1-启用"
-
-设置末端LUA末端设备启用类型
-+++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.5
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``SetAxleLuaEnableDeviceType(forceSensorEnable, gripperEnable, IOEnable)``"
-    "描述", "设置末端LUA末端设备启用类型"
-    "必选参数", "- ``forceSensorEnable``：力传感器启用状态，0-不启用；1-启用
-    - ``gripperEnable``：夹爪启用状态，0-不启用；1-启用
-    - ``IOEnable``：IO设备启用状态，0-不启用；1-启用"
-    "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode "
-
-获取末端LUA末端设备启用类型
-+++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.5
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetAxleLuaEnableDeviceType()``"
-    "描述", "获取末端LUA末端设备启用类型"
-    "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode 
-    - ``forceSensorEnable``：力传感器启用状态，0-不启用；1-启用
-    - ``gripperEnable``：夹爪启用状态，0-不启用；1-启用
-    - ``IOEnable``：IO设备启用状态，0-不启用；1-启用"
-
-获取当前配置的末端设备
-+++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.5
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetAxleLuaEnableDevice()``"
-    "描述", "获取当前配置的末端设备"
-    "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode 
-    - ``forceSensorEnable[8]``：力传感器启用状态，0-不启用；1-启用
-    - ``gripperEnable[8]``：夹爪启用状态，0-不启用；1-启用
-    - ``IOEnable[8]``：IO设备启用状态，0-不启用；1-启用"
+    save_path = "D://zDOWN/"
+    point_table_name = "point_table_FR5.db"
+    rtn = robot.PointTableDownLoad(point_table_name, save_path)
+    print(f"download : {point_table_name} fail: {rtn}")
+    upload_path = "D://zDOWN/point_table_FR5.db"
+    rtn = robot.PointTableUpLoad(upload_path)
+    print(f"retval is: {rtn}")
+    point_tablename = "point_table_FR5.db"
+    lua_name = "test0610.lua"
+    rtn,error = robot.PointTableUpdateLua(point_tablename, lua_name)
+    print(f"retval is: {rtn}")
+    robot.CloseRPC()
 
 控制器日志下载
 +++++++++++++++++++++++++++++++++++++++++++++
@@ -506,68 +280,121 @@
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
-
-下发SCP指令
-+++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.1.3
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``SetSSHScpCmd(mode, sshname, sship, usr_file_url, robot_file_url)``"
-    "描述", "下发SCP指令"
-    "必选参数", "- ``mode``：0-上传（上位机->控制器），1-下载（控制器->上位机）
-    - ``sshname``：上位机用户名
-    - ``sship``：上位机ip地址
-    - ``usr_file_url``：上位机文件路径
-    - ``robot_file_url``：机器人控制器文件路径"
-    "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode"
-
-代码示例
-------------
+下载控制器数据代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: python
-    :linenos: 
+    :linenos:
 
     from fairino import Robot
+    import time
+    import threading
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
-    ssh_name = "fr"
-    ssh_ip = "192.168.58.45"
-    ssh_route = "/home/fr"
-    ssh_robot_url = "/root/robot/dhpara.config"
-    retval = robot.SetSSHScpCmd(1, ssh_name, ssh_ip, ssh_route, ssh_robot_url)
-    print(f"SetSSHScpCmd retval is: {retval}")
-    print(f"robot url is: {ssh_robot_url}")
+    rtn = robot.RbLogDownload("D://zDOWN/")
+    print(f"RbLogDownload rtn is {rtn}")
+    rtn = robot.AllDataSourceDownload("D://zDOWN/")
+    print(f"AllDataSourceDownload rtn is {rtn}")
+    rtn = robot.DataPackageDownload("D://zDOWN/")
+    print(f"DataPackageDownload rtn is {rtn}")
+    robot.CloseRPC()
 
-设置宽电压控制箱温度及风扇转速监控参数
+设置编码器升级
 +++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.1.3
+.. versionadded:: python SDK-v2.1.4
 
 .. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``SetWideBoxTempFanMonitorParam(enable, period)``"
-    "描述", "设置宽电压控制箱温度及风扇转速监控参数"
-    "必选参数", "- ``enable``：0-不使能监测；1-使能监测
-    - ``period``：监测周期(s),范围1-100"
+    "原型", "``SetEncoderUpgrade(path)``"
+    "描述", "设置编码器升级"
+    "必选参数", "- ``path``：本地升级包全路径(D://zUP/XXXXX.bin)"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+    
+设置关节固件升级
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.4
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetJointFirmwareUpgrade(type, path)``"
+    "描述", "设置关节固件升级"
+    "必选参数", "- ``type``：升级文件类型；1-升级固件；2-升级从站配置文件
+    - ``path``：本地升级包全路径(D://zUP/XXXXX.bin)"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
-获取宽电压控制箱温度及风扇转速监控参数
+设置控制箱固件升级
 +++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.1.3
+.. versionadded:: python SDK-v2.1.4
 
 .. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``GetWideBoxTempFanMonitorParam()``"
-    "描述", "获取宽电压控制箱温度及风扇转速监控参数"
-    "必选参数", "无"
+    "原型", "``SetCtrlFirmwareUpgrade(type, path)``"
+    "描述", "设置控制箱固件升级"
+    "必选参数", "- ``type``：升级文件类型；1-升级固件；2-升级从站配置文件
+    - ``path``：本地升级包全路径(D://zUP/XXXXX.bin)"
     "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode
-    - ``enable``：0-不使能监测；1-使能监测
-    - ``period``：监测周期(s),范围1-100"
+    "返回值", "错误码 成功-0  失败- errcode"
+    
+设置末端固件升级
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.4
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetEndFirmwareUpgrade(type, path)``"
+    "描述", "设置末端固件升级"
+    "必选参数", "- ``type``：升级文件类型；1-升级固件；2-升级从站配置文件
+    - ``path``：本地升级包全路径(D://zUP/XXXXX.bin)"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+       
+关节全参数配置文件升级
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.4
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``JointAllParamUpgrade(path)``"
+    "描述", "关节全参数配置文件升级"
+    "必选参数", "- ``path``：本地升级包全路径(D://zUP/XXXXX.bin)"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+机器人从站固件升级代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    import time
+    import threading
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    robot.RobotEnable(0)
+    time.sleep(0.2)
+    rtn = robot.JointAllParamUpgrade("D://zUP/MT/joint0603/jointallparameters.db")
+    print(f"robot JointAllParamUpgrade rtn is {rtn}")
+    rtn = robot.SetCtrlFirmwareUpgrade(2, "D://zUP/MT/FAIR_Cobot_Cbd_Asix_V2.0.bin")
+    print(f"robot SetCtrlFirmwareUpgrade rtn is {rtn}")
+    rtn = robot.SetEndFirmwareUpgrade(2, "D://zUP/MT/FAIR_Cobot_Axle_Asix_V2.4.bin")
+    print(f"robot SetEndFirmwareUpgrade rtn is {rtn}")
+    robot.SetSysServoBootMode()
+    time.sleep(0.2)
+    rtn = robot.SetCtrlFirmwareUpgrade(1, "D://zUP/MT/FR_CTRL_PRIMCU_FV201412_MAIN_U4_T01_20250630(MT).bin")
+    print(f"robot SetCtrlFirmwareUpgrade rtn is {rtn}")
+    rtn = robot.SetEndFirmwareUpgrade(1, "D://zUP/MT/FR_END_FV2010010_MAIN_U1_T01_20250603.bin")
+    print(f"robot SetEndFirmwareUpgrade rtn is {rtn}")
+    rtn = robot.SetJointFirmwareUpgrade(1, "D://zUP/MT/FR_SERVO_FV504215_MAIN_U7_T07_20250603.bin")
+    print(f"robot SetJointFirmwareUpgrade rtn is {rtn}")
+    robot.CloseRPC()

@@ -62,6 +62,200 @@
     */
     int SetToolAO(int id, double value, int block); 
 
+设置数字量、模拟量输出代码示例
++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static int TestAODO(Robot robot)
+    {
+
+        int status = 1;
+        int smooth = 0;
+        int block = 0;
+
+        for (int i = 0; i < 16; i++)
+        {
+            robot.SetDO(i, status, smooth, block);
+            robot.Sleep(300);
+        }
+
+        status = 0;
+
+        for (int i = 0; i < 16; i++)
+        {
+            robot.SetDO(i, status, smooth, block);
+            robot.Sleep(300);
+        }
+
+        status = 1;
+
+        for (int i = 0; i < 2; i++)
+        {
+            robot.SetToolDO(i, status, smooth, block);
+            robot.Sleep(1000);
+        }
+
+        status = 0;
+
+        for (int i = 0; i < 2; i++)
+        {
+            robot.SetToolDO(i, status, smooth, block);
+            robot.Sleep(1000);
+        }
+
+        for (int i = 0; i < 100; i++)
+        {
+            robot.SetAO(0, i, block);
+            robot.Sleep(30);
+        }
+
+        for (int i = 0; i < 100; i++)
+        {
+            robot.SetToolAO(0, i, block);
+            robot.Sleep(30);
+        }
+
+        robot.CloseRPC();
+        return 0;
+    }
+
+获取控制箱数字量输入
+++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  获取控制箱数字量输入
+    * @param  [in] id  io编号，范围[0~15]
+    * @param  [in] block  0-阻塞，1-非阻塞
+    * @param  [out] level  0-低电平，1-高电平
+    * @return  错误码
+    */   
+    int GetDI(int id, int block, int[] level);
+
+获取工具数字量输入
+++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  获取工具数字量输入
+    * @param  [in] id    io编号，范围[0~1]
+    * @param  [in] block  0-阻塞，1-非阻塞
+    * @param  [out] level 0-低电平，1-高电平
+    * @return  错误码
+    */   
+    int GetToolDI(int id, int block, int[] level);
+
+获取控制箱模拟量输入
+++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  获取控制箱模拟量输入
+    * @param  [in] id  io编号，范围[0~1]
+    * @param  [in] block  0-阻塞，1-非阻塞
+    * @param  [out] persent 输入电流或电压值百分比，范围[0~100]对应电流值[0~20mS]或电压[0~10V]
+    * @return  错误码
+    */   
+    int GetAI(int id, int block, double[] persent)
+
+获取工具模拟量输入
+++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  获取工具模拟量输入
+    * @param  [in] id  io编号，范围[0]
+    * @param  [in] block  0-阻塞，1-非阻塞
+    * @param  [out] persent 输入电流或电压值百分比，范围[0~100]对应电流值[0~20mS]或电压[0~10V]
+    * @return  错误码
+    */   
+    int GetToolAI(int id, int block, double[] persent)
+
+获取机器人末端点记录按钮状态
+++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  获取机器人末端点记录按钮状态
+    * @param  [out] state 按钮状态，0-按下，1-松开
+    * @return  错误码
+    */   
+    int GetAxlePointRecordBtnState(int[] state)
+
+获取机器人末端DO输出状态
+++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  获取机器人末端DO输出状态
+    * @param  [out] do_state DO输出状态，do0~do1对应bit1~bit2,从bit0开始
+    * @return  错误码
+    */   
+    int GetToolDO(int[] do_state)
+
+获取机器人控制器DO输出状态
+++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  获取机器人控制器DO输出状态
+    * @param  [out] do_state_h DO输出状态，co0~co7对应bit0~bit7
+    * @param  [out] do_state_l DO输出状态，do0~do7对应bit0~bit7
+    * @return  错误码
+    */   
+    int GetDO(int[] do_state_h, int[] do_state_l)
+
+获取机器人DI、DO状态代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static int TestGetDIAI(Robot robot)
+    {
+        int status = 1;
+        int smooth = 0;
+        int block = 0;
+        int[] di =new int[]{0}, tool_di =new int[] {0};
+        double[] ai =new double[] {0}, tool_ai = new double[]{0};
+        double value = 0.0;
+
+
+        robot.GetDI(0, block, di);
+        System.out.println("di0:"+di[0]);
+
+        robot.GetToolDI(1, block, tool_di);
+        System.out.println("tool_di1:"+ tool_di[0]);
+
+        robot.GetAI(0, block, ai);
+        System.out.println("ai0:"+ ai[0]);
+
+        robot.GetToolAI(0, block, tool_ai);
+        System.out.println("tool_ai0:"+ tool_ai[0]);
+
+        int[] _button_state=new int[]{0};
+        robot.GetAxlePointRecordBtnState(_button_state);
+        System.out.println("_button_state is: "+ _button_state[0]);
+
+        int[] tool_do_state=new int[]{0};
+        robot.GetToolDO(tool_do_state);
+        System.out.println("tool DO state is: "+ tool_do_state[0]);
+
+        int[] do_state_h=new int[]{0};
+        int[] do_state_l=new int[]{0};
+        robot.GetDO(do_state_h, do_state_l);
+        System.out.println("DO state high is: "+do_state_h[0]+", DO state low is: "+ do_state_l[0]);
+
+        return 0;
+    }
+
 等待控制箱数字量输入
 +++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
@@ -140,57 +334,37 @@
     */
     int WaitToolAI(int id, int sign, double value, int max_time, int opt); 
 
-代码示例
+等待控制箱数字、模拟输入信号代码示例
 +++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    public static void main(String[] args)
+    public static int TestWaitDIAI(Robot robot)
     {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        robot.SetDO(8, 1, 0, 0);
-        robot.Sleep(3000);
-        robot.SetDO(8, 0, 0, 0);
+        int rtn=-1;
 
-        robot.SetToolDO(0, 1, 0, 0);
-        robot.Sleep(3000);
-        robot.SetToolDO(0, 0, 0, 0);
+        int status = 1;
+        int smooth = 0;
+        int block = 0;
+        int di = 0, tool_di = 0;
+        double ai = 0.0, tool_ai = 0.0;
+        double value = 0.0;
 
-        for(int i = 0; i < 90; i++)
-        {
-            robot.SetAO(0, i+1, 0);
-            robot.SetAO(1, i+1, 0);
-            robot.Sleep(50);
-        }
-        robot.SetAO(0, 0.0, 0);
-        robot.SetAO(1, 0.0, 0);
+        rtn = robot.WaitDI(0, 1, 1000, 1);
+        System.out.println("WaitDI over; rtn is: "+ rtn);
 
-        for(int i = 0; i < 99; i++)
-        {
-            robot.SetToolAO(0, i+1, 0);
-            robot.Sleep(50);
-        }
-        robot.SetToolAO(0, 0.0, 0);
+        robot.WaitMultiDI(1, 3, 3, 1000, 1);
+        System.out.println("WaitDI over; rtn is: "+ rtn);
 
-        System.out.println("wait  start ");
-        robot.WaitDI(1, 1, 10000, 0);//WaitDI
-        robot.WaitMultiDI(0, 6, 6, 10000, 0);//WaitMultiDI
-        robot.WaitToolDI(0, 1, 5000, 0);//WaitToolDI
-        robot.WaitAI(0, 0, 8.0, 5000, 0);//WaitAI
-        robot.WaitToolAI(0, 0, 20, 5000, 0);//WaitToolAI
-        System.out.println("wait  end ");
+        robot.WaitToolDI(1, 1, 1000, 1);
+        System.out.println("WaitDI over; rtn is: " + rtn);
+
+        robot.WaitAI(0, 0, 50, 1000, 1);
+        System.out.println("WaitDI over; rtn is: " + rtn);
+
+        robot.WaitToolAI(0, 0, 50, 1000, 1);
+        System.out.println("WaitDI over; rtn is: " + rtn);
+        return 0;
     }
 
 设置控制箱DO停止/暂停后输出是否复位
@@ -265,28 +439,43 @@
     */ 
     int SetOutputResetExtAO(int resetFlag);
 
-代码示例
+设置SmartTool停止/暂停后输出是否复位
 +++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    public static void main(String[] args)
+    /** 
+    * @brief 设置SmartTool停止/暂停后输出是否复位
+    * @param [in] resetFlag  0-不复位；1-复位
+    * @return 错误码 
+    */ 
+    int SetOutputResetSmartToolDO(int resetFlag)
+
+设置LUA程序停止/暂停后输出复位代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static int TestDOReset(Robot robot)
     {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
+
+        int rtn=-1;
+        for (int i = 0; i < 16; i++)
         {
-            System.out.println("rpc连接 success");
+            robot.SetDO(i, 1, 0, 0);
+            robot.Sleep(300);
         }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        robot.SetOutputResetCtlBoxDO(1);
-        robot.SetOutputResetAxleDO(1);//工具
-        robot.SetOutputResetCtlBoxAO(1);
-        robot.SetOutputResetAxleAO(1);//工具
+
+        int resetFlag = 1;
+        rtn = robot.SetOutputResetCtlBoxDO(resetFlag);
+        robot.SetOutputResetCtlBoxAO(resetFlag);
+        robot.SetOutputResetAxleDO(resetFlag);
+        robot.SetOutputResetAxleAO(resetFlag);
+        robot.SetOutputResetExtDO(resetFlag);
+        robot.SetOutputResetExtAO(resetFlag);
+        robot.SetOutputResetSmartToolDO(resetFlag);
+
+        robot.ProgramLoad("/fruser/test.lua");
+        robot.ProgramRun();
+        return 0;
     }

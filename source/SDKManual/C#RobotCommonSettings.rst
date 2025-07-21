@@ -4,31 +4,6 @@
 .. toctree:: 
     :maxdepth: 5
 
-设置全局速度
-++++++++++++++++++++++++++++++++++
-.. code-block:: c#
-    :linenos:
-
-    /**
-    * @brief  设置全局速度
-    * @param  [in]  vel  速度百分比，范围[0~100]
-    * @return  错误码
-    */
-    int SetSpeed(int vel); 
-
-设置系统变量值
-++++++++++++++++++++++++++++++++++
-.. code-block:: c#
-    :linenos:
-
-    /**
-    * @brief  设置系统变量值
-    * @param  [in]  id  变量编号，范围[1~20]
-    * @param  [in]  value 变量值
-    * @return  错误码
-    */
-    int SetSysVarValue(int id, double value); 
-
 设置工具参考点-六点法
 ++++++++++++++++++++++++++++++++++
 .. code-block:: c#
@@ -92,7 +67,21 @@
     * @param  [in] loadNum 负载编号
     * @return  错误码
     */
-    int SetToolCoord(int id, DescPose coord, int type, int install,int toolID, int loadNum);  
+    int SetToolCoord(int id, DescPose coord, int type, int install,int toolID, int loadNum);
+
+根据点位信息计算工具坐标系
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 根据点位信息计算工具坐标系
+    * @param [in] method 计算方法；0-四点法；1-六点法
+    * @param [in] pos 关节位置组，四点法时数组长度为4个，六点法时数组长度为6个
+    * @return 错误码
+    */
+
+    int ComputeToolCoordWithPoints(int method, JointPos[] pos, ref DescPose coordRtn)  
 
 设置工具坐标系列表
 ++++++++++++++++++++++++++++++++++
@@ -109,6 +98,86 @@
     * @return  错误码
     */
     int SetToolList(int id, DescPose coord, int type, int install, int loadNum);  
+
+获取当前工具坐标系
+++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  获取当前工具坐标系
+    * @param  [in] flag 0-阻塞，1-非阻塞
+    * @param  [out] desc_pos 工具坐标系位姿
+    * @return  错误码
+    */
+    int GetTCPOffset(byte flag, ref DescPose desc_pos); 
+
+机器人工具坐标系操作代码示例
+++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    private void button18_Click(object sender, EventArgs e)
+    {
+        DescPose p1Desc = new DescPose(186.331f, 487.913f, 209.850f, 149.030f, 0.688f, -114.347f);
+        JointPos p1Joint = new JointPos(-127.876f, -75.341f, 115.417f, -122.741f, -59.820f, 74.300f);
+
+        DescPose p2Desc = new DescPose(69.721f, 535.073f, 202.882f, -144.406f, -14.775f, -89.012f);
+        JointPos p2Joint = new JointPos(-101.780f, -69.828f, 110.917f, -125.740f, -127.841f, 74.300f);
+
+        DescPose p3Desc = new DescPose(146.861f, 578.426f, 205.598f, 175.997f, -36.178f, -93.437f);
+        JointPos p3Joint = new JointPos(-112.851f, -60.191f, 86.566f, -80.676f, -97.463f, 74.300f);
+
+        DescPose p4Desc = new DescPose(136.284f, 509.876f, 225.613f, 178.987f, 1.372f, -100.696f);
+        JointPos p4Joint = new JointPos(-116.397f, -76.281f, 113.845f, -128.611f, -88.654f, 74.299f);
+
+        DescPose p5Desc = new DescPose(138.395f, 505.972f, 298.016f, 179.134f, 2.147f, -101.110f);
+        JointPos p5Joint = new JointPos(-116.814f, -82.333f, 109.162f, -118.662f, -88.585f, 74.302f);
+
+        DescPose p6Desc = new DescPose(105.553f, 454.325f, 232.017f, -179.426f, 0.444f, -99.952f);
+        JointPos p6Joint = new JointPos(-115.649f, -84.367f, 122.447f, -128.663f, -90.432f, 74.303f);
+
+        ExaxisPos exaxisPos = new ExaxisPos(0, 0, 0, 0);
+        DescPose offdese = new DescPose(0, 0, 0, 0, 0, 0);
+
+        JointPos[] posJ = new JointPos[] { p1Joint, p2Joint, p3Joint, p4Joint, p5Joint, p6Joint };
+        DescPose coordRtn = new DescPose();
+        int rtn = robot.ComputeToolCoordWithPoints(1, posJ, ref coordRtn);
+        Console.WriteLine($"ComputeToolCoordWithPoints    {rtn}  coord is {coordRtn.tran.x} {coordRtn.tran.y} {coordRtn.tran.z} {coordRtn.rpy.rx} {coordRtn.rpy.ry} {coordRtn.rpy.rz}");
+
+        robot.MoveJ( p1Joint,  p1Desc, 0, 0, 100, 100, 100,  exaxisPos, -1, 0,  offdese);
+        robot.SetToolPoint(1);
+        robot.MoveJ( p2Joint,  p2Desc, 0, 0, 100, 100, 100,  exaxisPos, -1, 0,  offdese);
+        robot.SetToolPoint(2);
+        robot.MoveJ( p3Joint,  p3Desc, 0, 0, 100, 100, 100,  exaxisPos, -1, 0,  offdese);
+        robot.SetToolPoint(3);
+        robot.MoveJ( p4Joint,  p4Desc, 0, 0, 100, 100, 100,  exaxisPos, -1, 0,  offdese);
+        robot.SetToolPoint(4);
+        robot.MoveJ( p5Joint,  p5Desc, 0, 0, 100, 100, 100,  exaxisPos, -1, 0,  offdese);
+        robot.SetToolPoint(5);
+        robot.MoveJ( p6Joint,  p6Desc, 0, 0, 100, 100, 100,  exaxisPos, -1, 0,  offdese);
+        robot.SetToolPoint(6);
+        rtn = robot.ComputeTool(ref coordRtn);
+        Console.WriteLine($"6 Point ComputeTool        {rtn}  coord is {coordRtn.tran.x} {coordRtn.tran.y} {coordRtn.tran.z} {coordRtn.rpy.rx} {coordRtn.rpy.ry} {coordRtn.rpy.rz}");
+        robot.SetToolList(1,  coordRtn, 0, 0, 0);
+
+        robot.MoveJ( p1Joint,  p1Desc, 0, 0, 100, 100, 100,  exaxisPos, -1, 0,  offdese);
+        robot.SetTcp4RefPoint(1);
+        robot.MoveJ( p2Joint,  p2Desc, 0, 0, 100, 100, 100,  exaxisPos, -1, 0,  offdese);
+        robot.SetTcp4RefPoint(2);
+        robot.MoveJ( p3Joint,  p3Desc, 0, 0, 100, 100, 100,  exaxisPos, -1, 0,  offdese);
+        robot.SetTcp4RefPoint(3);
+        robot.MoveJ( p4Joint,  p4Desc, 0, 0, 100, 100, 100,  exaxisPos, -1, 0,  offdese);
+        robot.SetTcp4RefPoint(4);
+        rtn = robot.ComputeTcp4(ref coordRtn);
+        Console.WriteLine($"4 Point ComputeTool        {rtn}  coord is {coordRtn.tran.x} {coordRtn.tran.y} {coordRtn.tran.z} {coordRtn.rpy.rx} {coordRtn.rpy.ry} {coordRtn.rpy.rz}");
+
+        robot.SetToolCoord(2, coordRtn, 0, 0, 1, 0);
+
+        DescPose getCoord = new DescPose();
+        rtn = robot.GetTCPOffset(0, ref getCoord);
+        Console.WriteLine($"GetTCPOffset    {rtn}  coord is {coordRtn.tran.x} {coordRtn.tran.y} {coordRtn.tran.z} {coordRtn.rpy.rx} {coordRtn.rpy.ry} {coordRtn.rpy.rz}");
+    }
 
 设置外部工具坐标参考点-三点法
 ++++++++++++++++++++++++++++++++++
@@ -161,6 +230,55 @@
     * @return  错误码
     */
     int SetExToolList(int id, DescPose etcp, DescPose etool); 
+
+根据点位信息计算工件坐标系
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 根据点位信息计算工件坐标系
+    * @param [in] method 计算方法；0：原点-x轴-z轴  1：原点-x轴-xy平面
+    * @param [in] pos 三个TCP位置组
+    * @param [in] refFrame 参考坐标系
+    * @return 错误码
+    */
+    int ComputeWObjCoordWithPoints(int method, DescPose[] pos, int refFrame, ref DescPose coordRtn)
+
+机器人外部工具坐标系操作代码示例
+++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    private void button20_Click(object sender, EventArgs e)
+    {
+        DescPose p1Desc = new DescPose(-89.606f, 779.517f, 193.516f, 178.000f, 0.476f, -92.484f);
+        JointPos p1Joint = new JointPos(-108.145f, -50.137f, 85.818f, -125.599f, -87.946f, 74.329f);
+
+        DescPose p2Desc = new DescPose(-24.656f, 850.384f, 191.361f, 177.079f, -2.058f, -95.355f);
+        JointPos p2Joint = new JointPos(-111.024f, -41.538f, 69.222f, -114.913f, -87.743f, 74.329f);
+
+        DescPose p3Desc = new DescPose(-99.813f, 766.661f, 241.878f, -176.817f, 1.917f, -91.604f);
+        JointPos p3Joint = new JointPos(-107.266f, -56.116f, 85.971f, -122.560f, -92.548f, 74.331f);
+
+        ExaxisPos exaxisPos = new ExaxisPos(0, 0, 0, 0);
+        DescPose offdese = new DescPose(0, 0, 0, 0, 0, 0);
+
+        DescPose[] posTCP = new DescPose[] { p1Desc, p2Desc, p3Desc };
+        DescPose coordRtn = new DescPose();
+
+        robot.MoveJ( p1Joint,  p1Desc, 1, 0, 100, 100, 100,  exaxisPos, -1, 0,  offdese);
+        robot.SetExTCPPoint(1);
+        robot.MoveJ( p2Joint,  p2Desc, 1, 0, 100, 100, 100,  exaxisPos, -1, 0,  offdese);
+        robot.SetExTCPPoint(2);
+        robot.MoveJ( p3Joint,  p3Desc, 1, 0, 100, 100, 100,  exaxisPos, -1, 0,  offdese);
+        robot.SetExTCPPoint(3);
+        int rtn = robot.ComputeExTCF(ref coordRtn);
+        Console.WriteLine($"ComputeExTCF                   {rtn}  coord is {coordRtn.tran.x} {coordRtn.tran.y} {coordRtn.tran.z} {coordRtn.rpy.rx} {coordRtn.rpy.ry} {coordRtn.rpy.rz}");
+
+        robot.SetExToolCoord(1,  coordRtn,  offdese);
+        robot.SetExToolList(1,  coordRtn,  offdese);
+    }
 
 设置工件坐标系参考点-三点法
 ++++++++++++++++++++++++++++++++++
@@ -216,6 +334,100 @@
     */    
     int SetWObjList(int id, DescPose coord, int refFrame);
 
+获取当前工件坐标系
+++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  获取当前工件坐标系
+    * @param  [in] flag 0-阻塞，1-非阻塞
+    * @param  [out] desc_pos 工件坐标系位姿
+    * @return  错误码
+    */   
+    int GetWObjOffset(byte flag, ref DescPose desc_pos); 
+
+机器人工件坐标系操作代码示例
+++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    private void button19_Click(object sender, EventArgs e)
+    {
+        DescPose p1Desc = new DescPose(-89.606, 779.517, 193.516, 178.000, 0.476, -92.484);
+        JointPos p1Joint = new JointPos(-108.145, -50.137, 85.818, -125.599, -87.946, 74.329);
+
+        DescPose p2Desc = new DescPose(-24.656, 850.384, 191.361, 177.079, -2.058, -95.355);
+        JointPos p2Joint = new JointPos(-111.024, -41.538, 69.222, -114.913, -87.743, 74.329);
+
+        DescPose p3Desc = new DescPose(-99.813, 766.661, 241.878, -176.817, 1.917, -91.604);
+        JointPos p3Joint = new JointPos(-107.266, -56.116, 85.971, -122.560, -92.548, 74.331);
+
+        robot.GetForwardKin(p1Joint,ref p1Desc);
+        robot.GetForwardKin(p2Joint,ref p2Desc);
+        robot.GetForwardKin(p3Joint, ref p3Desc);
+
+        ExaxisPos exaxisPos = new ExaxisPos(0, 0, 0, 0);
+        DescPose offdese = new DescPose(0, 0, 0, 0, 0, 0);
+
+        DescPose[] posTCP = new DescPose[] { p1Desc, p2Desc, p3Desc };
+        DescPose coordRtn = new DescPose();
+        int rtn = robot.ComputeWObjCoordWithPoints(1, posTCP, 0, ref coordRtn);
+        Console.WriteLine($"ComputeWObjCoordWithPoints    {rtn}  coord is {coordRtn.tran.x} {coordRtn.tran.y} {coordRtn.tran.z} {coordRtn.rpy.rx} {coordRtn.rpy.ry} {coordRtn.rpy.rz}");
+
+        robot.MoveJ( p1Joint,  p1Desc, 1, 0, 100, 100, 100,  exaxisPos, -1, 0,  offdese);
+        robot.SetWObjCoordPoint(1);
+        robot.MoveJ( p2Joint,  p2Desc, 1, 0, 100, 100, 100,  exaxisPos, -1, 0,  offdese);
+        robot.SetWObjCoordPoint(2);
+        robot.MoveJ( p3Joint,  p3Desc, 1, 0, 100, 100, 100,  exaxisPos, -1, 0,  offdese);
+        robot.SetWObjCoordPoint(3);
+        rtn = robot.ComputeWObjCoord(1, 0, ref coordRtn);
+        Console.WriteLine($"ComputeWObjCoord                   {rtn}  coord is {coordRtn.tran.x} {coordRtn.tran.y} {coordRtn.tran.z} {coordRtn.rpy.rx} {coordRtn.rpy.ry} {coordRtn.rpy.rz}");
+
+        robot.SetWObjCoord(1,  coordRtn, 0);
+        robot.SetWObjList(1,  coordRtn, 0);
+
+        DescPose getWobjDesc = new DescPose();
+        rtn = robot.GetWObjOffset(0, ref getWobjDesc);
+        Console.WriteLine($"GetWObjOffset                   {rtn}  coord is {coordRtn.tran.x} {coordRtn.tran.y} {coordRtn.tran.z} {coordRtn.rpy.rx} {coordRtn.rpy.ry} {coordRtn.rpy.rz}");   
+    } 
+
+设置全局速度
+++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  设置全局速度
+    * @param  [in]  vel  速度百分比，范围[0~100]
+    * @return  错误码
+    */
+    int SetSpeed(int vel); 
+
+设置机器人加速度
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 设置机器人加速度
+    * @param [in] acc 机器人加速度百分比
+    * @return 错误码
+    */
+    int SetOaccScale(double acc)
+
+获取机器人默认速度
+++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  获取机器人默认速度
+    * @param  [out]  vel  速度，单位mm/s
+    * @return  错误码
+    */   
+    int GetDefaultTransVel(ref double vel); 
+
 设置末端负载重量
 ++++++++++++++++++++++++++++++++++
 .. code-block:: c#
@@ -240,6 +452,32 @@
     * @return  错误码
     */
     int SetLoadCoord(DescTran coord); 
+
+获取当前负载的重量
+++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  获取当前负载的重量
+    * @param  [in] flag 0-阻塞，1-非阻塞
+    * @param  [out] weight 负载重量，单位kg
+    * @return  错误码
+    */
+    int GetTargetPayload(byte flag, ref double weight); 
+
+获取当前负载的质心
+++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  获取当前负载的质心
+    * @param  [in] flag 0-阻塞，1-非阻塞
+    * @param  [out] cog 负载质心，单位mm
+    * @return  错误码
+    */   
+    int GetTargetPayloadCog(byte flag, ref DescTran cog);
 
 设置机器人安装方式
 +++++++++++++++++++++++++++++++
@@ -266,100 +504,232 @@
     */
     int SetRobotInstallAngle(double yangle, double zangle); 
 
-代码示例
-++++++++++
+获取机器人安装角度
++++++++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
-    private void btnCommonSets_Click(object sender, EventArgs e)
+    /**
+    * @brief  获取机器人安装角度
+    * @param  [out] yangle 倾斜角
+    * @param  [out] zangle 旋转角
+    * @return  错误码
+    */
+    int GetRobotInstallAngle(ref double yangle, ref double zangle); 
+
+设置系统变量值
+++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  设置系统变量值
+    * @param  [in]  id  变量编号，范围[1~20]
+    * @param  [in]  value 变量值
+    * @return  错误码
+    */
+    int SetSysVarValue(int id, double value); 
+
+获取系统变量值
++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  获取系统变量值
+    * @param  [in] id 系统变量编号，范围[1~20]
+    * @param  [out] value  系统变量值
+    * @return  错误码
+    */
+    int GetSysVarValue(int id, ref double value); 
+
+机器人常用设置代码示例
+++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    private void button21_Click(object sender, EventArgs e)
     {
-        Robot robot = new Robot();
-        robot.RPC("192.168.58.2");
-
-        int i;
-        double value = 0;
-        int id;
-        int type;
-        int install;
-
-        DescTran coord = new DescTran();
-        DescPose t_coord, etcp, etool, w_coord;
-        t_coord = new DescPose();
-        etcp = new DescPose();
-        w_coord = new DescPose();
-
-        robot.SetSpeed(20);
-
-        for (i = 1; i < 21; i++)
+        for (int i = 1; i < 100; i++)
         {
-            robot.SetSysVarValue(i, (float)(i + 0.5));
-            robot.WaitMs(100);
+            robot.SetSpeed(i);
+            robot.SetOaccScale(i);
+            Thread.Sleep(30);
         }
 
-        for (i = 1; i < 21; i++)
+        double defaultVel = 0.0f;
+        robot.GetDefaultTransVel(ref defaultVel);
+        Console.WriteLine($"GetDefaultTransVel is {defaultVel}");
+
+        for (int i = 1; i < 21; i++)
         {
+            robot.SetSysVarValue(i, i + 0.5f);
+            Thread.Sleep(100);
+        }
+
+        for (int i = 1; i < 21; i++)
+        {
+            double value = 0;
             robot.GetSysVarValue(i, ref value);
-            Console.WriteLine($"sys value : {value}");
+            Console.WriteLine($"sys value  {i} is :{value}");
+            Thread.Sleep(100);
         }
 
-        robot.SetLoadWeight((float)2.5);
-        coord.x = 3.0;
-        coord.y = 4.0;
-        coord.z = 5.0;
-        robot.SetLoadCoord(coord);
-                
-        id = 3;
-        t_coord.tran.x = 1.0;
-        t_coord.tran.y = 2.0;
-        t_coord.tran.z = 300.0;
-        t_coord.rpy.rx = 4.0;
-        t_coord.rpy.ry = 5.0;
-        t_coord.rpy.rz = 6.0;
-        type = 0;
-        install = 0;
+        robot.SetLoadWeight(0, 2.5f);
 
-        int rtn1 = -1;
-        int rtn2 = -1;
-        rtn1 = robot.SetToolCoord(id, t_coord, type, install);
-        rtn2 = robot.SetToolList(id, t_coord, type, install);
-        Console.WriteLine($"set tool coord result {rtn1}, set tool list rtn{rtn2}");
-            
-        etcp.tran.x = 1.0;
-        etcp.tran.y = 2.0;
-        etcp.tran.z = 3.0;
-        etcp.rpy.rx = 4.0;
-        etcp.rpy.ry = 5.0;
-        etcp.rpy.rz = 6.0;
-        etool.tran.x = 11.0;
-        etool.tran.y = 22.0;
-        etool.tran.z = 330.0;
-        etool.rpy.rx = 44.0;
-        etool.rpy.ry = 55.0;
-        etool.rpy.rz = 66.0;
-        id = 5;
-        robot.SetExToolCoord(id, etcp, etool);
-        robot.SetExToolList(id, etcp, etool);
+        DescTran loadCoord = new DescTran();
+        loadCoord.x = 3.0f;
+        loadCoord.y = 4.0f;
+        loadCoord.z = 5.0f;
+        robot.SetLoadCoord( loadCoord);
 
-        w_coord.tran.x = 110.0;
-        w_coord.tran.y = 12.0;
-        w_coord.tran.z = 13.0;
-        w_coord.rpy.rx = 14.0;
-        w_coord.rpy.ry = 15.0;
-        w_coord.rpy.rz = 16.0;
-        id = 12;
-        robot.SetWObjCoord(id, w_coord);
-        //robot.SetWObjList(id, w_coord);
-
-        double yangle = 0, zangle = 0;
-        robot.SetRobotInstallPos(1);//侧装
-        robot.SetRobotInstallAngle(15.0, 25.0);
         Thread.Sleep(1000);
-        robot.GetRobotInstallAngle(ref yangle, ref zangle);
-        Console.WriteLine($"yangle  {yangle}   zangle  {zangle}");
-        robot.SetRobotInstallAngle(10.0, 10.0);
+
+        double getLoad = 0.0f;
+        robot.GetTargetPayload(0, ref getLoad);
+
+        DescTran getLoadTran = new DescTran();
+        robot.GetTargetPayloadCog(0, ref getLoadTran);
+        Console.WriteLine($"get load is {getLoad}; get load cog is {getLoadTran.x} {getLoadTran.y} {getLoadTran.z}");
+
+        robot.SetRobotInstallPos(0);
+        robot.SetRobotInstallAngle(15.0f, 25.0f);
+
+        double anglex = 0.0f;
+        double angley = 0.0f;
+        robot.GetRobotInstallAngle(ref anglex, ref angley);
+        Console.WriteLine($"GetRobotInstallAngle x:  {anglex};  y:  {angley}");
+    }
+
+关节摩擦力补偿开关
+++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /** 
+    * @brief 关节摩擦力补偿开关 
+    * @param [in] state 0-关，1-开 
+    * @return 错误码 
+    */ 
+    int FrictionCompensationOnOff(byte state); 
+
+设置关节摩擦力补偿系数-正装
+++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  设置关节摩擦力补偿系数-正装
+    * @param  [in]  coeff 六个关节补偿系数，范围[0~1]
+    * @return  错误码
+    */
+    int SetFrictionValue_level(double[] coeff);
+
+设置关节摩擦力补偿系数-侧装
+++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  设置关节摩擦力补偿系数-侧装
+    * @param  [in]  coeff 六个关节补偿系数，范围[0~1]
+    * @return  错误码
+    */
+    int SetFrictionValue_wall(double[] coeff); 
+
+设置关节摩擦力补偿系数-倒装
+++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  设置关节摩擦力补偿系数-倒装
+    * @param  [in]  coeff 六个关节补偿系数，范围[0~1]
+    * @return  错误码
+    */
+    int SetFrictionValue_ceiling(double[] coeff);
+
+设置关节摩擦力补偿系数-自由安装
+++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  设置关节摩擦力补偿系数-自由安装
+    * @param  [in]  coeff 六个关节补偿系数，范围[0~1]
+    * @return  错误码
+    */
+    int SetFrictionValue_freedom(double[] coeff);
+       
+机器人设置关节摩擦力补偿代码示例
+++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    private void btnRobotSafetySet_Click(object sender, EventArgs e)
+    {
+        double[] lcoeff = { 0.9f, 0.9f, 0.9f, 0.9f, 0.9f, 0.9f };
+        double[] wcoeff = { 0.4f, 0.4f, 0.4f, 0.4f, 0.4f, 0.4f };
+        double[] ccoeff = { 0.6f, 0.6f, 0.6f, 0.6f, 0.6f, 0.6f };
+        double[] fcoeff = { 0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f };
+
+        int rtn = robot.FrictionCompensationOnOff(1);
+        Console.WriteLine($"FrictionCompensationOnOff rtn is{rtn}");
+
+        rtn = robot.SetFrictionValue_level(lcoeff);
+        Console.WriteLine($"SetFrictionValue_level rtn is {rtn}");
+
+        rtn = robot.SetFrictionValue_wall(wcoeff);
+        Console.WriteLine($"SetFrictionValue_wall rtn is{rtn}");
+
+        rtn = robot.SetFrictionValue_ceiling(ccoeff);
+        Console.WriteLine($"SetFrictionValue_ceiling rtn is {rtn}");
+
+        rtn = robot.SetFrictionValue_freedom(fcoeff);
+        Console.WriteLine($"SetFrictionValue_freedom rtn is {rtn}");
+    }
+
+查询机器人错误码
+++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /** 
+    * @brief 查询机器人错误码 
+    * @param [out] maincode   主错误码
+    * @param [out] subcode    子错误码
+    * @return 错误码 
+    */ 
+    int GetRobotErrorCode(ref int maincode, ref int subcode);
+
+错误状态清除
+++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  错误状态清除
+    * @return  错误码
+    */
+    int ResetAllError(); 
+
+机器人故障状态获取及清除错误代码示例
+++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    private void btnRobotSafetySet_Click(object sender, EventArgs e)
+    {
+        int maincode=0, subcode=0;
+        robot.GetRobotErrorCode(ref maincode, ref subcode);
+        Console.WriteLine($"robot maincode is{maincode};  subcode is {subcode}" );
+
+        robot.ResetAllError();
+
         Thread.Sleep(1000);
-        robot.GetRobotInstallAngle(ref yangle, ref zangle);
-        Console.WriteLine($"yangle  {yangle}   zangle  {zangle}");
+
+        robot.GetRobotErrorCode(ref maincode, ref subcode);
+        Console.WriteLine($"robot maincode is{maincode};  subcode is{subcode}");
     }
 
 等待指定时间
@@ -374,99 +744,292 @@
     */
     int WaitMs(int t_ms);
 
-设置机器人加速度
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. code-block:: c#
-    :linenos:
-
-    /**
-    * @brief 设置机器人加速度
-    * @param [in] acc 机器人加速度百分比
-    * @return 错误码
-    */
-    int SetOaccScale(double acc)
-
-根据点位信息计算工具坐标系
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: C# SDK-v1.1.0-3.7.8
-
-.. code-block:: c#
-    :linenos:
-
-    /**
-    * @brief 根据点位信息计算工具坐标系
-    * @param [in] method 计算方法；0-四点法；1-六点法
-    * @param [in] pos 关节位置组，四点法时数组长度为4个，六点法时数组长度为6个
-    * @return 错误码
-    */
-
-    int ComputeToolCoordWithPoints(int method, JointPos[] pos, ref DescPose coordRtn)
-
-根据点位信息计算工件坐标系
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: C# SDK-v1.1.0-3.7.8
-
-.. code-block:: c#
-    :linenos:
-
-    /**
-    * @brief 根据点位信息计算工件坐标系
-    * @param [in] method 计算方法；0：原点-x轴-z轴  1：原点-x轴-xy平面
-    * @param [in] pos 三个TCP位置组
-    * @param [in] refFrame 参考坐标系
-    * @return 错误码
-    */
-    int ComputeWObjCoordWithPoints(int method, DescPose[] pos, int refFrame, ref DescPose coordRtn)
-
-代码示例
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: C# SDK-v1.1.0-3.7.8
+设置宽电压控制箱温度及风扇转速监控参数
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.4  Web-3.8.3
     
 .. code-block:: c#
     :linenos:
 
-    private void TestTCP_Click(object sender, EventArgs e)
+    /**
+    * @brief 设置宽电压控制箱温度及风扇转速监控参数
+    * @param [in] enable 0-不使能监测；1-使能监测
+    * @param [in] period 监测周期(s),范围1-100
+    * @return 错误码
+    */
+    int SetWideBoxTempFanMonitorParam(int enable, int period);
+
+获取宽电压控制箱温度及风扇转速监控参数
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.4  Web-3.8.3
+    
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 获取宽电压控制箱温度及风扇转速监控参数
+    * @param [out] enable 0-不使能监测；1-使能监测
+    * @param [out] period 监测周期(s),范围1-100
+    * @return 错误码
+    */
+    int GetWideBoxTempFanMonitorParam(ref int enable, ref int period);
+
+代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.4  Web-3.8.3
+    
+.. code-block:: c#
+    :linenos:
+
+    private void button46_Click(object sender, EventArgs e)
     {
-      DescPose p1Desc = new DescPose(-394.073, -276.405, 399.451, -133.692, 7.657, -139.047);
-      JointPos p1Joint = new JointPos(15.234, -88.178, 96.583, -68.314, -52.303, -122.926);
-
-      DescPose p2Desc = new DescPose( -187.141, -444.908, 432.425, 148.662, 15.483, -90.637);
-      JointPos p2Joint = new JointPos(61.796, -91.959, 101.693, -102.417, -124.511, -122.767);
-
-      DescPose p3Desc = new DescPose(-368.695, -485.023, 426.640, -162.588, 31.433, -97.036);
-      JointPos p3Joint = new JointPos(43.896, -64.590, 60.087, -50.269, -94.663, -122.652);
-
-      DescPose p4Desc = new DescPose(-291.069, -376.976, 467.560, -179.272, -2.326, -107.757);
-      JointPos p4Joint = new JointPos(39.559, -94.731, 96.307, -93.141, -88.131, -122.673);
-
-      DescPose p5Desc = new DescPose(-284.140, -488.041, 478.579, 179.785, -1.396, -98.030);
-      JointPos p5Joint = new JointPos(49.283, -82.423, 81.993, -90.861, -89.427, -122.678);
-
-      DescPose p6Desc = new DescPose(-296.307, -385.991, 484.492, -178.637, -0.057, -107.059);
-      JointPos p6Joint = new JointPos(40.141, -92.742, 91.410, -87.978, -88.824, -122.808);
-
-      ExaxisPos exaxisPos=new ExaxisPos(0, 0, 0, 0);
-      DescPose offdese = new DescPose(0, 0, 0, 0, 0, 0);
-
-      JointPos[] posJ = new JointPos[6]{ p1Joint, p2Joint, p3Joint, p4Joint, p5Joint, p6Joint };
-      DescPose coordRtn = new DescPose(0, 0, 0, 0, 0, 0); 
-      int rtn = robot.ComputeToolCoordWithPoints(0, posJ,ref coordRtn);
-      Console.WriteLine("ComputeToolCoordWithPoints {0}  coord is {1} {2} {3} {4} {5} {6}", rtn, coordRtn.tran.x, coordRtn.tran.y, coordRtn.tran.z, coordRtn.rpy.rx, coordRtn.rpy.ry, coordRtn.rpy.rz);
-
-
-      robot.MoveJ(p1Joint, p1Desc, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
-      robot.SetTcp4RefPoint(1);
-      robot.MoveJ(p2Joint, p2Desc, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
-      robot.SetTcp4RefPoint(2);
-      robot.MoveJ(p3Joint, p3Desc, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
-      robot.SetTcp4RefPoint(3);
-      robot.MoveJ(p4Joint, p4Desc, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
-      robot.SetTcp4RefPoint(4);
-      robot.ComputeTcp4(ref coordRtn);
-      Console.WriteLine("ComputeTcp4 {0}  coord is {1} {2} {3} {4} {5} {6}", rtn, coordRtn.tran.x, coordRtn.tran.y, coordRtn.tran.z, coordRtn.rpy.rx, coordRtn.rpy.ry, coordRtn.rpy.rz);
-      //robot.MoveJ(p5Joint, p5Desc, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
-      //robot.MoveJ(p6Joint, p6Desc, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
+        var pkg = new ROBOT_STATE_PKG(); 
+        robot.SetWideBoxTempFanMonitorParam(1, 2);    
+        int enable = 0;
+        int period = 0;
+        robot.GetWideBoxTempFanMonitorParam(ref enable, ref period);
+        Console.WriteLine($"GetWideBoxTempFanMonitorParam enable is {enable}   period is {period}");  
+        for (int i = 0; i < 100; i++)
+        {
+            robot.GetRobotRealTimeState(ref pkg);
+            Console.WriteLine($"robot ctrl box temp is {pkg.wideVoltageCtrlBoxTemp}, fan current is {pkg.wideVoltageCtrlBoxFanVel}");
+            Thread.Sleep(100);
+        }       
+        int rtn = robot.SetWideBoxTempFanMonitorParam(0, 2);
+        Console.WriteLine($"SetWideBoxTempFanMonitorParam rtn is {rtn}");       
+        enable = 0;
+        period = 0;
+        robot.GetWideBoxTempFanMonitorParam(ref enable, ref period);
+        Console.WriteLine($"GetWideBoxTempFanMonitorParam enable is {enable}   period is {period}");  
+        for (int i = 0; i < 100; i++)
+        {
+            robot.GetRobotRealTimeState(ref pkg);
+            Console.WriteLine($" robot ctrl box temp is {pkg.wideVoltageCtrlBoxTemp}, fan current is {pkg.wideVoltageCtrlBoxFanVel}");
+            Thread.Sleep(100);
+        }
     }
+
+设置焦点标定点
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.5  Web-3.8.4
+    
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 设置焦点标定点
+    * @param [in] pointNum 焦点标定点编号 1-8
+    * @param [in] point 标定点坐标
+    * @return 错误码
+    */
+    int SetFocusCalibPoint(int pointNum, DescPose point);
+
+设置焦点坐标
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.5  Web-3.8.4
+    
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 设置焦点坐标
+    * @param [in] pos 焦点坐标XYZ
+    * @return 错误码
+    */
+    int SetFocusPosition(DescTran pos);
+
+开启焦点跟随
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.5  Web-3.8.4
+    
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 开启焦点跟随
+    * @param [in] kp 比例参数，默认50.0
+    * @param [in] kpredict 前馈参数，默认19.0
+    * @param [in] aMax 最大角加速度限制，默认1440°/s^2
+    * @param [in] vMax 最大角速度限制，默认180°/s
+    * @param [in] type 锁定X轴指向(0-参考输入矢量；1-水平；2-垂直)
+    * @return 错误码
+    */
+    int FocusStart(double kp, double kpredict, double aMax, double vMax, int type);
+
+停止焦点跟随
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.5  Web-3.8.4
+    
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 停止焦点跟随
+    * @return 错误码
+    */
+    int FocusEnd();
+
+焦点跟随代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.5  Web-3.8.4
+    
+.. code-block:: c#
+    :linenos:
+
+    private void button81_Click(object sender, EventArgs e)
+    {
+        DescPose p1Desc=new DescPose(186.331, 487.913, 209.850, 149.030, 0.688, -114.347);
+        JointPos p1Joint = new JointPos(-127.876, -75.341, 115.417, -122.741, -59.820, 74.300);
+        DescPose p2Desc = new DescPose(69.721, 535.073, 202.882, -144.406, -14.775, -89.012);
+        JointPos p2Joint = new JointPos(-101.780, -69.828, 110.917, -125.740, -127.841, 74.300);
+        DescPose p3Desc = new DescPose(146.861, 578.426, 205.598, 175.997, -36.178, -93.437);
+        JointPos p3Joint = new JointPos(-112.851, -60.191, 86.566, -80.676, -97.463, 74.300);
+        DescPose p4Desc = new DescPose(136.284, 509.876, 225.613, 178.987, 1.372, -100.696);
+        JointPos p4Joint = new JointPos(-116.397, -76.281, 113.845, -128.611, -88.654, 74.299);
+        DescPose p5Desc = new DescPose(138.395, 505.972, 298.016, 179.134, 2.147, -101.110);
+        JointPos p5Joint = new JointPos(-116.814, -82.333, 109.162, -118.662, -88.585, 74.302);
+        DescPose p6Desc = new DescPose(105.553, 454.325, 232.017, -179.426, 0.444, -99.952);
+        JointPos p6Joint = new JointPos(-115.649, -84.367, 122.447, -128.663, -90.432, 74.303);
+        ExaxisPos exaxisPos = new ExaxisPos(0, 0, 0, 0);
+        DescPose offdese = new DescPose(0, 0, 100, 0, 0, 0);
+        robot.GetForwardKin(p1Joint,ref p1Desc);
+        robot.GetForwardKin(p2Joint, ref p2Desc);
+        robot.GetForwardKin(p3Joint, ref p3Desc);
+        robot.GetForwardKin(p4Joint, ref p4Desc);
+        robot.GetForwardKin(p5Joint, ref p5Desc);
+        robot.GetForwardKin(p6Joint, ref p6Desc);
+        robot.MoveJ(p1Joint, p1Desc, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
+        robot.SetTcp4RefPoint(1);
+        robot.MoveJ(p2Joint, p2Desc, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
+        robot.SetTcp4RefPoint(2);
+        robot.MoveJ(p3Joint, p3Desc, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
+        robot.SetTcp4RefPoint(3);
+        robot.MoveJ(p4Joint, p4Desc, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
+        robot.SetTcp4RefPoint(4);
+        DescPose coordRtn = new DescPose(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+        int rtn = robot.ComputeTcp4(ref coordRtn);
+        Console.WriteLine($"4 Point ComputeTool      {rtn} coord is {coordRtn.tran.x} ,{coordRtn.tran.y} ,{coordRtn.tran.z} ,{coordRtn.rpy.rx} ,{coordRtn.rpy.ry} ,{coordRtn.rpy.rz} ");
+        robot.SetToolCoord(1, coordRtn, 0, 0, 1, 0);
+        robot.GetForwardKin(p1Joint, ref p1Desc);
+        robot.GetForwardKin(p2Joint, ref p2Desc);
+        robot.GetForwardKin(p3Joint, ref p3Desc);
+        robot.SetFocusCalibPoint(1, p1Desc);
+        robot.SetFocusCalibPoint(2, p2Desc);
+        robot.SetFocusCalibPoint(3, p3Desc);
+        DescTran resultPos = new DescTran(0.0, 0.0, 0.0);
+        double accuracy = 0.0;
+        rtn = robot.ComputeFocusCalib(3, ref resultPos, ref accuracy);
+        Console.WriteLine($"ComputeFocusCalib coord is  {rtn},{ resultPos.x} ,{ resultPos.y}, { resultPos.z}, accuracy is {accuracy} ");
+        rtn = robot.SetFocusPosition(resultPos);
+        robot.GetForwardKin(p5Joint, ref p5Desc);
+        robot.GetForwardKin(p6Joint, ref p6Desc);
+        robot.MoveL(p5Joint, p5Desc, 1, 0, 10, 100, 100, -1, 0, exaxisPos, 0, 1, offdese);
+        robot.MoveL(p6Joint, p6Desc, 1, 0, 10, 100, 100, -1, 0, exaxisPos, 0, 1, offdese);
+        robot.FocusStart(50, 19, 710, 90, 0);
+        robot.MoveL(p5Joint, p5Desc, 1, 0, 10, 100, 100, -1, 0, exaxisPos, 0, 1, offdese);
+        robot.MoveL(p6Joint, p6Desc, 1, 0, 10, 100, 100, -1, 0, exaxisPos, 0, 1, offdese);
+        robot.FocusEnd();
+    }
+
+设置编码器升级
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.5  Web-3.8.4
+    
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 设置编码器升级
+    * @param [in] path 本地升级包全路径(D://zUP/XXXXX.bin)
+    * @return 错误码
+    */
+    int SetEncoderUpgrade(string path);
+
+设置关节固件升级
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.5  Web-3.8.4
+    
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 设置关节固件升级
+    * @param [in] type 升级文件类型；1-升级固件；2-升级从站配置文件
+    * @param [in] path 本地升级包全路径(D://zUP/XXXXX.bin)
+    * @return 错误码
+    */
+    int SetJointFirmwareUpgrade(int type, string path);
+
+设置控制箱固件升级
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.5  Web-3.8.4
+    
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 设置控制箱固件升级
+    * @param [in] type 升级文件类型；1-升级固件；2-升级从站配置文件
+    * @param [in] path 本地升级包全路径(D://zUP/XXXXX.bin)
+    * @return 错误码
+    */
+    int SetCtrlFirmwareUpgrade(int type, string path);
+
+设置末端固件升级
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.5  Web-3.8.4
+    
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 设置末端固件升级
+    * @param [in] type 升级文件类型；1-升级固件；2-升级从站配置文件
+    * @param [in] path 本地升级包全路径(D://zUP/XXXXX.bin)
+    * @return 错误码
+    */
+    int SetEndFirmwareUpgrade(int type, string path);
+
+关节全参数配置文件升级
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.5  Web-3.8.4
+    
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 关节全参数配置文件升级
+    * @param [in] path 本地升级包全路径(D://zUP/XXXXX.bin)
+    * @return 错误码
+    */
+    int JointAllParamUpgrade(string path);
+
+机器人从站固件升级代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.5  Web-3.8.4
+    
+.. code-block:: c#
+    :linenos:
+
+    private void button83_Click(object sender, EventArgs e)
+    {
+        robot.RobotEnable(0);
+        Thread.Sleep(200);
+        int rtn = robot.JointAllParamUpgrade("D://zUP/upgrade/jointallparameters.db");
+        Console.WriteLine($"robot JointAllParamUpgrade rtn is{rtn}");
+        rtn = robot.SetCtrlFirmwareUpgrade(2, "D://zUP/upgrade/FAIR_Cobot_Cbd_Asix_V2.0.bin");
+        Console.WriteLine($"robot SetCtrlFirmwareUpgrade rtn is{rtn}");
+        rtn = robot.SetEndFirmwareUpgrade(2, "D://zUP/upgrade/FAIR_Cobot_Axle_Asix_V2.4.bin");
+        Console.WriteLine($"robot SetEndFirmwareUpgrade rtn is {rtn}");
+        robot.SetSysServoBootMode();
+        rtn = robot.SetCtrlFirmwareUpgrade(1, "D://zUP/upgrade/FR_CTRL_PRIMCU_FV201212_MAIN_U4_T01_20250428(MT).bin");
+        Console.WriteLine($"robot SetCtrlFirmwareUpgrade rtn is{rtn}");
+        rtn = robot.SetEndFirmwareUpgrade(1, "D://zUP/upgrade/FR_END_FV201009_MAIN_U1_T01_20250428.bin");
+        Console.WriteLine($"robot SetEndFirmwareUpgrade rtn is {rtn}");
+        rtn = robot.SetJointFirmwareUpgrade(1, "D://zUP/upgrade/FR_SERVO_FV504214_MAIN_U7_T07_20250519.bin");
+        Console.WriteLine($"robot SetJointFirmwareUpgrade rtn is{rtn}");
+    }
+
 
 
 

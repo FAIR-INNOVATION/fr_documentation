@@ -45,33 +45,46 @@ jog点动立即停止
     */
     int ImmStopJOG(); 
 
-代码示例
+机器人点动控制代码示例
 +++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    public static void main(String[] args)
+    public static  int TestJOG(Robot robot)
     {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
+        for (int i = 0; i < 6; i++)
         {
-            System.out.println("rpc连接 success");
+            robot.StartJOG(0, i + 1, 0, 20.0, 20.0, 30.0);
+            robot.Sleep(1000);
+            robot.ImmStopJOG();
+            robot.Sleep(1000);
         }
-        else
+
+        for (int i = 0; i < 6; i++)
         {
-            System.out.println("rpc连接 fail");
-            return ;
+            robot.StartJOG(2, i + 1, 0, 20.0, 20.0, 30.0);
+            robot.Sleep(1000);
+            robot.ImmStopJOG();
+            robot.Sleep(1000);
         }
-        robot.StartJOG(0, 1, 0, 30, 100, 90);//关节点动
-        robot.Sleep(3000);
-        robot.StopJOG(1);//点动减速停止
-        robot.StartJOG(0, 1, 0, 30, 100, 90);//关节点动
-        robot.Sleep(3000);
-        robot.ImmStopJOG();//点动立即停止
-    }    
+
+        for (int i = 0; i < 6; i++)
+        {
+            robot.StartJOG(4, i + 1, 0, 20.0, 20.0, 30.0);
+            robot.Sleep(1000);
+            robot.StopJOG(5);
+            robot.Sleep(1000);
+        }
+
+        for (int i = 0; i < 6; i++)
+        {
+            robot.StartJOG(8, i + 1, 0, 20.0, 20.0, 30.0);
+            robot.Sleep(1000);
+            robot.StopJOG(9);
+            robot.Sleep(1000);
+        }
+        return 0;
+    }
 
 关节空间运动
 +++++++++++++++++++++++++++++
@@ -186,86 +199,76 @@ jog点动立即停止
     */
     int Circle(JointPos joint_pos_p, DescPose desc_pos_p, int ptool, int puser, double pvel, double pacc, ExaxisPos epos_p, JointPos joint_pos_t, DescPose desc_pos_t, int ttool, int tuser, double tvel, double tacc, ExaxisPos epos_t, double ovl, int offset_flag, DescPose offset_pos, double oacc, double blendR)
 
-代码示例
+笛卡尔空间点到点运动
++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /** 
+    * @brief 笛卡尔空间点到点运动 
+    * @param [in] desc_pos  目标笛卡尔位姿或位姿增量
+    * @param [in] tool  工具坐标号，范围[0~14]
+    * @param [in] user  工件坐标号，范围[0~14]
+    * @param [in] vel  速度百分比，范围[0~100]
+    * @param [in] acc  加速度百分比，范围[0~100],暂不开放
+    * @param [in] ovl  速度缩放因子，范围[0~100]
+    * @param [in] blendT [-1.0]-运动到位(阻塞)，[0~500.0]-平滑时间(非阻塞)，单位ms
+    * @param [in] config  关节空间配置，[-1]-参考当前关节位置解算，[0~7]-参考特定关节空间配置解算，默认为-1
+    * @return 错误码 
+    */ 
+    int MoveCart(DescPose desc_pos, int tool, int user, double vel, double acc, double ovl, double blendT, int config);
+
+机器人基本运动指令代码示例
 ++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    public static void main(String[] args)
+    public static int TestMove(Robot robot)
     {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        ExaxisPos epos = new ExaxisPos();
-        DescPose offset_pos = new DescPose();
+        int rtn=-1;
+        JointPos j1=new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        JointPos j2=new JointPos(-45.615, -106.172, 124.296, -107.151, -91.282, 74.255);
+        JointPos j3=new JointPos(-29.777, -84.536, 109.275, -114.075, -86.655, 74.257);
+        JointPos j4=new JointPos(-31.154, -95.317, 94.276, -88.079, -89.740, 74.256);
+        DescPose desc_pos1=new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose desc_pos2=new DescPose(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
+        DescPose desc_pos3=new DescPose(-487.434, 154.362, 308.576, 176.600, 0.268, -14.061);
+        DescPose desc_pos4=new DescPose(-443.165, 147.881, 480.951, 179.511, -0.775, -15.409);
+        DescPose offset_pos=new DescPose(0, 0, 0, 0, 0, 0);
+        ExaxisPos epos=new ExaxisPos(0, 0, 0, 0);
 
-        DescPose middescPoseCir1=new DescPose(-435.414,-342.926,309.205,-171.382,-4.513,171.520);
+        int tool = 0;
+        int user = 0;
+        double vel = 100.0;
+        double acc = 100.0;
+        double ovl = 100.0;
+        double blendT = 0.0;
+        double blendR = 0.0;
+        int flag = 0;
+        int search = 0;
 
-        JointPos midjointPosCir1=new JointPos(26.804,-79.866,106.642,-125.433,-85.562,-54.721);
+        robot.SetSpeed(20);
 
-        DescPose enddescPoseCir1=new DescPose(-524.862,-217.402,308.459,-171.425,-4.810,156.088);
+        rtn = robot.MoveJ(j1, desc_pos1, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        System.out.println("movej errcode:"+ rtn);
 
-        JointPos endjointPosCir1=new JointPos(11.399,-78.055,104.603,-125.421,-85.770,-54.721);
+        rtn = robot.MoveL(j2, desc_pos2, tool, user, vel, acc, ovl, blendR, 0,epos, search, flag, offset_pos,0,10);
+        System.out.println("movel errcode:"+ rtn);
 
-        DescPose middescPoseCir2=new DescPose(-482.691,-587.899,318.594,-171.001,-4.999,-172.996);
+        rtn = robot.MoveC(j3, desc_pos3, tool, user, vel, acc, epos, flag, offset_pos, j4, desc_pos4, tool, user, vel, acc, epos, flag, offset_pos, ovl, blendR);
+        System.out.println("movec errcode:"+ rtn);
 
-        JointPos midjointPosCir2=new JointPos(42.314,-53.600,67.296,-112.969,-85.533,-54.721);
+        rtn = robot.MoveJ(j2, desc_pos2, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        System.out.println("movej errcode:"+ rtn);
 
-        DescPose enddescPoseCir2=new DescPose(-403.942,-489.061,317.038,-163.189,-10.425,-175.627);
+        rtn = robot.Circle(j3, desc_pos3, tool, user, vel, acc, epos, j1, desc_pos1, tool, user, vel, acc, epos, ovl, flag, offset_pos);
+        System.out.println("circle errcode:"+ rtn);
 
-        JointPos endjointPosCir2=new JointPos(39.959,-70.616,96.679,-134.243,-82.276,-54.721);
+        rtn = robot.MoveCart(desc_pos4, tool, user, vel, acc, ovl, blendT, -1);
+        System.out.println("MoveCart errcode:"+ rtn);
 
-        DescPose middescPoseMoveC=new DescPose(-435.414,-342.926,309.205,-171.382,-4.513,171.520);
-
-        JointPos midjointPosMoveC=new JointPos(26.804,-79.866,106.642,-125.433,-85.562,-54.721);
-
-        DescPose enddescPoseMoveC=new DescPose(-524.862,-217.402,308.459,-171.425,-4.810,156.088);
-
-        JointPos endjointPosmoveC=new JointPos(11.399,-78.055,104.603,-125.421,-85.770,-54.721);
-
-        DescPose middescPoseCir3=new DescPose(-435.414,-342.926,309.205,-171.382,-4.513,171.520);
-
-        JointPos midjointPosCir3=new JointPos(26.804,-79.866,106.642,-125.433,-85.562,-54.721);
-
-        DescPose enddescPoseCir3=new DescPose(-569.505,-405.378,357.596,-172.862,-10.939,171.108);
-
-        JointPos endjointPosCir3=new JointPos(27.138,-63.750,78.586,-117.861,-90.588,-54.721);
-
-        DescPose middescPoseCir4=new DescPose(-482.691,-587.899,318.594,-171.001,-4.999,-172.996);
-
-        JointPos midjointPosCir4=new JointPos(42.314,-53.600,67.296,-112.969,-85.533,-54.721);
-
-        DescPose enddescPoseCir4=new DescPose(-569.505,-405.378,357.596,-172.862,-10.939,171.108);
-
-        JointPos endjointPosCir4=new JointPos(27.138,-63.750,78.586,-117.861,-90.588,-54.721);
-
-        DescPose startdescPose =new DescPose(-569.505, -405.378, 357.596, -172.862, -10.939, 171.108);
-        JointPos startjointPos = new JointPos(27.138, -63.750, 78.586, -117.861, -90.588, -54.721);
-
-        DescPose linedescPose =new DescPose(-403.942, -489.061, 317.038, -163.189, -10.425, -175.627);
-        JointPos linejointPos = new JointPos(39.959, -70.616, 96.679, -134.243, -82.276, -54.721);
-
-        ExaxisPos exaxisPos =new ExaxisPos(0, 0, 0, 0);
-        DescPose offdese = new DescPose(0, 0, 0, 0, 0, 0);
-
-        robot.MoveJ(startjointPos,startdescPose,3,0,100,100,100,exaxisPos,-1,0,offdese);
-        robot.Circle(midjointPosCir1,middescPoseCir1,3,0,100,100,exaxisPos,endjointPosCir1,enddescPoseCir1,3,0,100,100,exaxisPos,100,-1,offdese,100,20);
-        robot.Circle(midjointPosCir2,middescPoseCir2,3,0,100,100,exaxisPos,endjointPosCir2,enddescPoseCir2,3,0,100,100,exaxisPos,100,-1,offdese,100,20);
-        robot.MoveC(midjointPosMoveC,middescPoseMoveC,3,0,100,100,exaxisPos,0,offdese,endjointPosmoveC,enddescPoseMoveC,3,0,100,100,exaxisPos,0,offdese,100,20);
-        robot.Circle(midjointPosCir3,middescPoseCir3,3,0,100,100,exaxisPos,endjointPosCir3,enddescPoseCir3,3,0,100,100,exaxisPos,100,-1,offdese,100,20);
-        robot.MoveL(linejointPos,linedescPose,3,0,100,100,100,-1,0,exaxisPos,0,0,offdese,0,10);
-        robot.Circle(midjointPosCir4,middescPoseCir4,3,0,100,100,exaxisPos,endjointPosCir4,enddescPoseCir4,3,0,100,100,exaxisPos,100,-1,offdese,100,20);
-    }    
+        return 0;
+    }
 
 笛卡尔空间螺旋线运动
 +++++++++++++++++++++++++++++
@@ -288,32 +291,44 @@ jog点动立即停止
     */
     int NewSpiral(JointPos joint_pos, DescPose desc_pos, int tool, int user, double vel, double acc, ExaxisPos epos, double ovl, int offset_flag, DescPose offset_pos, SpiralParam spiral_param);
 
-代码示例
+螺旋线运动代码示例
 +++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    public static void main(String[] args)
+    public static int TestSpiral(Robot robot)
     {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        ExaxisPos epos = new ExaxisPos();
-        DescPose offset_pos = new DescPose();
-        JointPos JP1=new JointPos(117.408,-86.777,81.499,-87.788,-92.964,92.959);
-        DescPose DP1 =new DescPose(327.359,-420.973,518.377,-177.199,3.209,114.449);
-        SpiralParam param = new SpiralParam(5,10.0,30.0,10.0,5.0,0);//螺旋线
-        robot.NewSpiral(JP1, DP1, 0, 0, 50, 100, epos, 100, 0, offset_pos, param);
+        int rtn=-1;
+        JointPos j=new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        DescPose desc_pos=new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose offset_pos1=new DescPose(50, 0, 0, -30, 0, 0);
+        DescPose offset_pos2=new DescPose(50, 0, 0, -5, 0, 0);
+        ExaxisPos epos=new ExaxisPos(0, 0, 0, 0);
+        SpiralParam sp=new SpiralParam();
+        sp.circle_num = 5;
+        sp.circle_angle = 5.0;
+        sp.rad_init = 50.0;
+        sp.rad_add = 10.0;
+        sp.rotaxis_add = 10.0;
+        sp.rot_direction = 0;
+
+        int tool = 0;
+        int user = 0;
+        double vel = 100.0;
+        double acc = 100.0;
+        double ovl = 100.0;
+        double blendT = 0.0;
+        int flag = 2;
+
+        robot.SetSpeed(20);
+
+        rtn = robot.MoveJ(j, desc_pos, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos1);
+        System.out.println("movej errcode:"+ rtn);
+
+        rtn = robot.NewSpiral(j, desc_pos, tool, user, vel, acc, epos, ovl, flag, offset_pos2, sp);
+        System.out.println("newspiral errcode:"+ rtn);
+
+        return 0;
     }
 
 伺服运动开始
@@ -359,12 +374,12 @@ jog点动立即停止
     */
     int ServoJ(JointPos joint_pos, ExaxisPos axisPos, double acc, double vel, double cmdT, double filterT, double gain, int id);
 
-代码示例
-+++++++++++++++++++++++++++++
+关节空间伺服模式运动示例程序
++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    public static void main(String[] args)
+    public static void TestServoJ()
     {
         Robot robot = new Robot();
         robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
@@ -395,9 +410,71 @@ jog点动立即停止
         }
     }
 
+关节扭矩控制开始
++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  关节扭矩控制开始
+    * @return  错误码
+    */
+    int ServoJTStart()
+
+关节扭矩控制
++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  关节扭矩控制
+    * @param  [in] torque j1~j6关节扭矩，单位Nm
+    * @param  [in] interval 指令周期，单位s，范围[0.001~0.008]
+    * @return  错误码
+    */
+    int ServoJT(Object[] torque, double interval)
+
+关节扭矩控制结束
++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  关节扭矩控制结束
+    * @return  错误码
+    */
+    int ServoJTEnd()
+
+关节空间伺服模式运动示例程序
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static int TestServoJT(Robot robot)
+    {
+
+        robot.DragTeachSwitch(1);
+        List<Number> joint_toq=new ArrayList<>();
+        joint_toq=robot.GetJointTorques(1);
+
+        int count = 100;
+        robot.ServoJTStart(); //   #servoJT开始
+        int error = 0;
+        while (count > 0)
+        {
+            error = robot.ServoJT(torques, 0.001);
+            count = count - 1;
+            robot.Sleep(1);
+        }
+        error = robot.ServoJTEnd();
+        robot.DragTeachSwitch(0);
+
+        robot.CloseRPC();
+        return 0;
+    }
 
 笛卡尔空间伺服模式运动
-+++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
@@ -415,88 +492,37 @@ jog点动立即停止
     */
     int ServoCart(int mode, DescPose desc_pose, Object[] pos_gain, double acc, double vel, double cmdT, double filterT, double gain);
 
-代码示例
-+++++++++++++++++++++++++++++
+笛卡尔空间伺服模式运动代码示例
++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    public static void main(String[] args)
+    public static int TestServoCart(Robot robot)
     {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        DescPose desc_pos_dt = new DescPose(0, 0, 0, 0, 0, 0);
+        DescPose desc_pos_dt=new DescPose(0,0,0,0,0,0);
+
         desc_pos_dt.tran.z = -0.5;
-        Object[] pos_gain = { 0.0, 0.0, 1.0, 0.0, 0.0, 0.0 };//仅z轴增加
-        int mode = 2;//工具坐标系下增量运动
-        float vel = 0.0f;
-        float acc = 0.0f;
-        float cmdT = 0.008f;
-        float filterT = 0.0f;
-        float gain = 0.0f;
-        int count = 200;
+        Object[] pos_gain = { 0.0,0.0,1.0,0.0,0.0,0.0 };
+        int mode = 2;
+        double vel = 0.0;
+        double acc = 0.0;
+        double cmdT = 0.008;
+        double filterT = 0.0;
+        double gain = 0.0;
+        int flag = 0;
+        int count = 100;
 
         robot.SetSpeed(20);
 
-        while (count > 0)
+        while (count>0)
         {
             robot.ServoCart(mode, desc_pos_dt, pos_gain, acc, vel, cmdT, filterT, gain);
             count -= 1;
-            robot.WaitMs((int)(cmdT * 1000));
+            double time=cmdT*1000;
+            robot.WaitMs((int)time);
         }
-    }
 
-笛卡尔空间点到点运动
-+++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    /** 
-    * @brief 笛卡尔空间点到点运动 
-    * @param [in] desc_pos  目标笛卡尔位姿或位姿增量
-    * @param [in] tool  工具坐标号，范围[0~14]
-    * @param [in] user  工件坐标号，范围[0~14]
-    * @param [in] vel  速度百分比，范围[0~100]
-    * @param [in] acc  加速度百分比，范围[0~100],暂不开放
-    * @param [in] ovl  速度缩放因子，范围[0~100]
-    * @param [in] blendT [-1.0]-运动到位(阻塞)，[0~500.0]-平滑时间(非阻塞)，单位ms
-    * @param [in] config  关节空间配置，[-1]-参考当前关节位置解算，[0~7]-参考特定关节空间配置解算，默认为-1
-    * @return 错误码 
-    */ 
-    int MoveCart(DescPose desc_pos, int tool, int user, double vel, double acc, double ovl, double blendT, int config);
-
-代码示例
-+++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    public static void main(String[] args)
-    {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        DescPose DP2=new DescPose(-63.512,-529.698,517.946,-178.192,3.07,69.554);
-        robot.MoveCart(DP2, 0, 0, 30.0, 100.0, 100.0, -1.0, -1);
+        return 0;
     }
 
 样条运动开始
@@ -510,7 +536,7 @@ jog点动立即停止
     */
     int SplineStart();
 
-关节空间样条运动
+关节运动PTP
 +++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
@@ -539,77 +565,44 @@ jog点动立即停止
     */
     int SplineEnd(); 
 
-代码示例
+样条运动代码示例
 +++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    public static void main(String[] args)
+    public static int TestSpline(Robot robot)
     {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        DescPose  desc_p1, desc_p2, desc_p3, desc_p4;//笛卡尔空间位置与姿态
-        desc_p1 = new DescPose(0, 0, 0, 0, 0, 0);
-        desc_p2 = new DescPose(0, 0, 0, 0, 0, 0);
-        desc_p3 = new DescPose(0, 0, 0, 0, 0, 0);
-        desc_p4 = new DescPose(0, 0, 0, 0, 0, 0);
+        JointPos j1=new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        JointPos j2=new JointPos(-45.615, -106.172, 124.296, -107.151, -91.282, 74.255);
+        JointPos j3=new JointPos(-61.954, -84.409, 108.153, -116.316, -91.283, 74.260);
+        JointPos j4=new JointPos(-89.575, -80.276, 102.713, -116.302, -91.284, 74.267);
+        DescPose desc_pos1=new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose desc_pos2=new DescPose(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
+        DescPose desc_pos3=new DescPose(-327.622, 402.230, 320.402, -178.067, 2.127, -46.207);
+        DescPose desc_pos4=new DescPose(-104.066, 544.321, 327.023, -177.715, 3.371, -73.818);
+        DescPose offset_pos=new DescPose(0, 0, 0, 0, 0, 0);
+        ExaxisPos epos=new ExaxisPos(0, 0, 0, 0);
 
-        desc_p1.tran.x = -104.846;
-        desc_p1.tran.y = 309.573;
-        desc_p1.tran.z = 336.647;
-        desc_p1.rpy.rx = 179.681;
-        desc_p1.rpy.ry = -0.419;
-        desc_p1.rpy.rz = -92.692;
+        int tool = 0;
+        int user = 0;
+        double vel = 100.0;
+        double acc = 100.0;
+        double ovl = 100.0;
+        double blendT = -1.0;
+        int flag = 0;
 
-        desc_p2.tran.x = -318.287;
-        desc_p2.tran.y = 158.502;
-        desc_p2.tran.z = 346.184;
-        desc_p2.rpy.rx = 179.602;
-        desc_p2.rpy.ry = 1.081;
-        desc_p2.rpy.rz = -46.342;
+        robot.SetSpeed(20);
 
-        desc_p3.tran.x = -352.414;
-        desc_p3.tran.y = 24.059;
-        desc_p3.tran.z = 395.376;
-        desc_p3.rpy.rx = 179.755;
-        desc_p3.rpy.ry = -1.045;
-        desc_p3.rpy.rz = -23.877;
-
-        desc_p4.tran.x = 195.474;
-        desc_p4.tran.y = 423.278;
-        desc_p4.tran.z = 228.509;
-        desc_p4.rpy.rx = -179.199;
-        desc_p4.rpy.ry = -0.567;
-        desc_p4.rpy.rz = -130.209;
-
-        JointPos j1 = new JointPos();
-        JointPos j2 = new JointPos();
-        JointPos j3 = new JointPos();
-        JointPos j4 = new JointPos();
-        robot.GetInverseKin(0, desc_p1, -1, j1);//逆向运动学求解
-        robot.GetInverseKin(0, desc_p2, -1, j2);
-        robot.GetInverseKin(0, desc_p3, -1, j3);
-        robot.GetInverseKin(0, desc_p4, -1, j4);
-        ExaxisPos epos = new ExaxisPos();
-        DescPose offset_pos = new DescPose();
-        robot.MoveJ(j1, desc_p1,4, 0, 100, 100, 100, epos, -1, 0, offset_pos);
+        int err1 = robot.MoveJ(j1, desc_pos1, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        System.out.println("movej errcode:"+ err1);
         robot.SplineStart();
-        robot.SplinePTP(j4, desc_p4, 0, 0, 100, 100, 100);
-        robot.SplinePTP(j1, desc_p1, 0, 0, 100, 100, 100);
-        robot.SplinePTP(j2, desc_p2, 0, 0, 100, 100, 100);
-        robot.SplinePTP(j3, desc_p3, 0, 0, 100, 100, 100);
+        robot.SplinePTP(j1, desc_pos1, tool, user, vel, acc, ovl);
+        robot.SplinePTP(j2, desc_pos2, tool, user, vel, acc, ovl);
+        robot.SplinePTP(j3, desc_pos3, tool, user, vel, acc, ovl);
+        robot.SplinePTP(j4, desc_pos4, tool, user, vel, acc, ovl);
         robot.SplineEnd();
+
+        return 0;
     }
 
 新样条运动开始
@@ -656,6 +649,48 @@ jog点动立即停止
     */ 
     int NewSplineEnd();
     
+新样条运动代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static int TestNewSpline(Robot robot)
+    {
+        JointPos j1=new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        JointPos j2=new JointPos(-45.615, -106.172, 124.296, -107.151, -91.282, 74.255);
+        JointPos j3=new JointPos(-61.954, -84.409, 108.153, -116.316, -91.283, 74.260);
+        JointPos j4=new JointPos(-89.575, -80.276, 102.713, -116.302, -91.284, 74.267);
+        JointPos j5=new JointPos(-95.228, -54.621, 73.691, -112.245, -91.280, 74.268);
+        DescPose desc_pos1=new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose desc_pos2=new DescPose(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
+        DescPose desc_pos3=new DescPose(-327.622, 402.230, 320.402, -178.067, 2.127, -46.207);
+        DescPose desc_pos4=new DescPose(-104.066, 544.321, 327.023, -177.715, 3.371, -73.818);
+        DescPose desc_pos5=new DescPose(-33.421, 732.572, 275.103, -177.907, 2.709, -79.482);
+        DescPose offset_pos=new DescPose(0, 0, 0, 0, 0, 0);
+        ExaxisPos epos=new ExaxisPos(0, 0, 0, 0);
+
+        int tool = 0;
+        int user = 0;
+        double vel = 100.0;
+        double acc = 100.0;
+        double ovl = 100.0;
+        double blendT = -1.0;
+        int flag = 0;
+
+        robot.SetSpeed(20);
+
+        int err1 = robot.MoveJ(j1, desc_pos1, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        System.out.println("movej errcode:"+ err1);
+        robot.NewSplineStart(1, 2000);
+        robot.NewSplinePoint(j1, desc_pos1, tool, user, vel, acc, ovl, -1, 0);
+        robot.NewSplinePoint(j2, desc_pos2, tool, user, vel, acc, ovl, -1, 0);
+        robot.NewSplinePoint(j3, desc_pos3, tool, user, vel, acc, ovl, -1, 0);
+        robot.NewSplinePoint(j4, desc_pos4, tool, user, vel, acc, ovl, -1, 0);
+        robot.NewSplinePoint(j5, desc_pos5, tool, user, vel, acc, ovl, -1, 0);
+        robot.NewSplineEnd();
+        return 0;
+    }
+
 终止运动
 +++++++++++++++++++++++++++++
 .. code-block:: Java
@@ -689,6 +724,46 @@ jog点动立即停止
     */ 
     int ResumeMotion();
 
+运动暂停、恢复、停止代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static int TestPause(Robot robot)
+    {
+        JointPos j1=new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        JointPos j5=new JointPos(-95.228, -54.621, 73.691, -112.245, -91.280, 74.268);
+        DescPose desc_pos1=new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose desc_pos5=new DescPose(-33.421, 732.572, 275.103, -177.907, 2.709, -79.482);
+        DescPose offset_pos=new DescPose(0, 0, 0, 0, 0, 0);
+        ExaxisPos epos=new ExaxisPos(0, 0, 0, 0);
+
+        int tool = 0;
+        int user = 0;
+        double vel = 100.0;
+        double acc = 100.0;
+        double ovl = 100.0;
+        double blendT = -1.0;
+        int flag = 0;
+
+        robot.SetSpeed(20);
+        int rtn=-1;
+        rtn = robot.MoveJ(j1, desc_pos1, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        rtn = robot.MoveJ(j5, desc_pos5, tool, user, vel, acc, ovl, epos, 1, flag, offset_pos);
+        robot.Sleep(1000);
+        robot.PauseMotion();
+
+        robot.Sleep(1000);
+        robot.ResumeMotion();
+
+        robot.Sleep(1000);
+        robot.StopMotion();
+
+        robot.Sleep(1000);
+
+        return 0;
+    }
+
 点位整体偏移开始
 +++++++++++++++++++++++++++++
 .. code-block:: Java
@@ -714,50 +789,42 @@ jog点动立即停止
     */
     int PointsOffsetDisable(); 
 
-代码示例
+点位偏移代码示例
 +++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    public static void main(String[] args)
+    public static int TestOffset(Robot robot)
     {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        DescPose desc_p1 =new DescPose(-104.846, 309.573, 336.647, 179.681, -0.419, -92.692);
-        DescPose desc_p2=new DescPose(-194.846, 309.573, 336.647, 179.681,-0.419, -92.692;);
-        DescPose desc_p3=new DescPose(-254.846, 259.573,336.647, 179.681, -0.419, -92.692;);
-        DescPose desc_p4=new DescPose(-304.846,259.573, 336.647, 179.681, -0.419, -92.692;);
-        JointPos j1 = new JointPos();
-        JointPos j2 = new JointPos();
-        JointPos j3 = new JointPos();
-        JointPos j4 = new JointPos();
-        robot.GetInverseKin(0, desc_p1, -1, j1);//逆向运动学求解
-        robot.GetInverseKin(0, desc_p2, -1, j2);
-        robot.GetInverseKin(0, desc_p3, -1, j3);
-        robot.GetInverseKin(0, desc_p4, -1, j4);
-        robot.MoveCart(desc_p1, 0, 0, 100.0, 100.0, 100.0, -1.0, -1);
-        robot.NewSplineStart(0, 5000);//新样条开始
-        robot.NewSplinePoint(j1, desc_p1, 0, 0, 100, 100, 100, 50, 0);//新样条指令点
-        robot.NewSplinePoint(j2, desc_p2, 0, 0, 100, 100, 100, 50, 0);
-        robot.NewSplinePoint(j3, desc_p3, 0, 0, 100, 100, 100, 50, 0);
-        robot.NewSplinePoint(j4, desc_p4, 0, 0, 100, 100, 100, 50, 1);
-        robot.NewSplineEnd();//新样条结束
+        JointPos j1=new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        JointPos j2=new JointPos(-45.615, -106.172, 124.296, -107.151, -91.282, 74.255);
 
-        DescPose off = new DescPose(0, 0, 100, 0, 0, 0);
-        robot.PointsOffsetEnable(0, off);
-        robot.MoveL(j1, desc_p1,0, 0, 100, 100, 100, -1, epos, 0, 0, offset_pos, 0, 100);
+        DescPose desc_pos1=new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose desc_pos2=new DescPose(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
+
+        DescPose offset_pos=new DescPose(0, 0, 0, 0, 0, 0);
+        DescPose offset_pos1=new DescPose(0, 0, 50, 0, 0, 0);
+        ExaxisPos epos=new ExaxisPos(0, 0, 0, 0);
+
+        int tool = 0;
+        int user = 0;
+        double vel = 100.0;
+        double acc = 100.0;
+        double ovl = 100.0;
+        double blendT = -1.0;
+        int flag = 0;
+
+        robot.SetSpeed(20);
+
+        robot.MoveJ(j1, desc_pos1, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        robot.MoveJ(j2, desc_pos2, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        robot.Sleep(1000);
+        robot.PointsOffsetEnable(0, offset_pos1);
+        robot.MoveJ(j1, desc_pos1, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        robot.MoveJ(j2, desc_pos2, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
         robot.PointsOffsetDisable();
+
+        return 0;
     }
 
 控制箱AO飞拍开始
@@ -812,45 +879,46 @@ jog点动立即停止
     */
     int MoveToolAOStop();
 
-代码示例
+AO飞拍代码示例
 +++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    public static void main(String[] args)
+    public static int TestMoveAO(Robot robot)
     {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        robot.MoveToolAOStart(0, 100, 80, 1);//末端AO飞拍开始
-        //robot.MoveAOStart(0, 100, 80, 1);//控制箱AO飞拍
-        DescPose  desc_p1, desc_p2;
+        JointPos j1=new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        JointPos j2=new JointPos(-45.615, -106.172, 124.296, -107.151, -91.282, 74.255);
 
-        desc_p1 = new DescPose(0, 0, 0, 0, 0, 0);
-        desc_p2 = new DescPose(0, 0, 0, 0, 0, 0);
+        DescPose desc_pos1=new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose desc_pos2=new DescPose(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
 
-        JointPos j1 = new JointPos(-81.684,-106.159,-74.447,-86.33,94.725,41.639);
-        JointPos j2 = new JointPos(-102.804,-106.159,-74.449,-86.328,94.715,41.639);
+        DescPose offset_pos=new DescPose(0, 0, 0, 0, 0, 0);
+        DescPose offset_pos1=new DescPose(0, 0, 50, 0, 0, 0);
+        ExaxisPos epos=new ExaxisPos(0, 0, 0, 0);
 
-        robot.GetForwardKin(j1,desc_p1);
-        robot.GetForwardKin(j2,desc_p2);
+        int tool = 0;
+        int user = 0;
+        double vel = 20.0;
+        double acc = 20.0;
+        double ovl = 100.0;
+        double blendT = -1.0;
+        int flag = 0;
 
-        ExaxisPos epos = new ExaxisPos();
-        DescPose offset_pos = new DescPose();
-        robot.MoveL(j1, desc_p1,0, 0, 30, 100, 100, -1, epos, 0, 0, offset_pos, 0, 100);
-        robot.MoveL(j2, desc_p2,0, 0, 30, 100, 100, -1, epos, 0, 0, offset_pos, 0, 100);
+        robot.SetSpeed(20);
+
+        robot.MoveAOStart(0, 100, 100, 20);
+        robot.MoveJ(j1, desc_pos1, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        robot.MoveJ(j2, desc_pos2, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        robot.MoveAOStop();
+
+        robot.Sleep(1000);
+
+        robot.MoveToolAOStart(0, 100, 100, 20);
+        robot.MoveJ(j1, desc_pos1, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
+        robot.MoveJ(j2, desc_pos2, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
         robot.MoveToolAOStop();
-        //robot.MoveAOStop();
+
+        return 0;
     }
 
 开始Ptp运动FIR滤波
@@ -870,8 +938,6 @@ jog点动立即停止
 
 关闭Ptp运动FIR滤波
 +++++++++++++++++++++++++++++
-.. versionadded:: Java SDK-v1.0.1-3.7.8
-
 .. code-block:: Java
     :linenos:
 
@@ -881,50 +947,8 @@ jog点动立即停止
     */
     int PtpFIRPlanningEnd();
 
-代码示例
-+++++++++++++++++++++++++++++
-.. versionadded:: Java SDK-v1.0.1-3.7.8
-
-.. code-block:: Java
-    :linenos:
-
-    public static void main(String[] args)
-    {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        DescPose startdescPose=new DescPose(-569.710, -132.595, 395.147, 178.418, -1.893, 171.051);
-        JointPos startjointPos=new JointPos(-2.334, -79.300, 108.196, -120.594, -91.790, -83.386);
-
-        DescPose enddescPose=new DescPose(-366.397, -572.427, 418.339, -178.972, 1.829, -142.970);
-        JointPos endjointPos=new JointPos(43.651, -70.284, 91.057, -109.075, -88.768, -83.382);
-
-        ExaxisPos exaxisPos=new ExaxisPos(0, 0, 0, 0);
-        DescPose offdese=new DescPose(0, 0, 0, 0, 0, 0);
-
-        robot.PtpFIRPlanningStart(1000);
-        robot.MoveJ(startjointPos, startdescPose, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
-        robot.MoveJ(endjointPos, enddescPose, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
-        robot.PtpFIRPlanningEnd();
-
-        robot.MoveJ(startjointPos, startdescPose, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
-        robot.MoveJ(endjointPos, enddescPose, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
-    }
-
 开始LIN、ARC运动FIR滤波
 +++++++++++++++++++++++++++++
-.. versionadded:: Java SDK-v1.0.1-3.7.8
-
 .. code-block:: Java
     :linenos:
 
@@ -940,8 +964,6 @@ jog点动立即停止
 
 关闭LIN、ARC运动FIR滤波
 +++++++++++++++++++++++++++++
-.. versionadded:: Java SDK-v1.0.1-3.7.8
-
 .. code-block:: Java
     :linenos:
 
@@ -951,44 +973,34 @@ jog点动立即停止
     */
     int LinArcFIRPlanningEnd();
 
-代码示例
+FIR滤波代码示例
 +++++++++++++++++++++++++++++
-.. versionadded:: Java SDK-v1.0.1-3.7.8
-
 .. code-block:: Java
     :linenos:
 
-    public static void main(String[] args)
+    public static int TestFIR(Robot robot)
     {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        DescPose startdescPose=new DescPose(-366.397, -572.427, 418.339, -178.972, 1.829, -142.970);
-        JointPos startjointPos=new JointPos(43.651, -70.284, 91.057, -109.075, -88.768, -83.382);
+        JointPos startjointPos=new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        JointPos midjointPos=new JointPos(-45.615, -106.172, 124.296, -107.151, -91.282, 74.255);
+        JointPos endjointPos=new JointPos(-29.777, -84.536, 109.275, -114.075, -86.655, 74.257);
 
-        DescPose middescPose=new DescPose(-569.710, -132.595, 395.147, 178.418, -1.893, 171.051);
-        JointPos midjointPos=new JointPos(-2.334, -79.300, 108.196, -120.594, -91.790, -83.386);
-
-        DescPose enddescPose=new DescPose(-608.420, 610.692, 314.930, -176.438, -1.756, 117.333);
-        JointPos endjointPos=new JointPos(-56.153, -46.964, 68.015, -113.200, -86.661, -83.479);
+        DescPose startdescPose=new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose middescPose=new DescPose(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
+        DescPose enddescPose=new DescPose(-487.434, 154.362, 308.576, 176.600, 0.268, -14.061);
 
         ExaxisPos exaxisPos=new ExaxisPos(0, 0, 0, 0);
         DescPose offdese=new DescPose(0, 0, 0, 0, 0, 0);
 
+        int rtn = robot.PtpFIRPlanningStart(1000, 1000);
+        robot.MoveJ(startjointPos, startdescPose, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
+        robot.MoveJ(endjointPos, enddescPose, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
+        robot.PtpFIRPlanningEnd();
+
         robot.LinArcFIRPlanningStart(1000, 1000, 1000, 1000);
-        robot.MoveL(startjointPos, startdescPose, 0, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese, 1, 1);
+        robot.MoveL(startjointPos, startdescPose, 0, 0, 100, 100, 100, -1, 0,exaxisPos, 0, 0, offdese, 1, 1);
         robot.MoveC(midjointPos, middescPose, 0, 0, 100, 100, exaxisPos, 0, offdese, endjointPos, enddescPose, 0, 0, 100, 100, exaxisPos, 0, offdese, 100, -1);
         robot.LinArcFIRPlanningEnd();
+        return 0;
     }
 
 加速度平滑开启
@@ -1017,47 +1029,121 @@ jog点动立即停止
      */
     public int AccSmoothEnd(boolean saveFlag)
 
-代码示例
+加速度平滑代码示例
 +++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    public static void main(String[] args)
+    public static int TestAccSmooth(Robot robot)
     {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
+        JointPos startjointPos=new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        JointPos endjointPos=new JointPos(-45.615, -106.172, 124.296, -107.151, -91.282, 74.255);
 
-        JointPos JP1 = new JointPos(88.927,-85.834,80.289,-85.561,-91.388,108.718);
-        DescPose DP1 =new DescPose(88.739,-527.617,514.939,-179.039,1.494,70.209);
+        DescPose startdescPose=new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose enddescPose=new DescPose(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
 
-        JointPos JP2 =new JointPos(27.036,-83.909,80.284,-85.579,-90.027,108.604);
-        DescPose DP2 = new DescPose(-433.125,-334.428,497.139,-179.723,-0.745,8.437);
+        ExaxisPos exaxisPos=new ExaxisPos(0, 0, 0, 0);
+        DescPose offdese=new DescPose(0,0,0,0,0,0);
+        int rtn = robot.AccSmoothStart(false);
+        robot.MoveJ(startjointPos, startdescPose, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
+        robot.MoveJ(endjointPos, enddescPose, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
+        rtn = robot.AccSmoothEnd(false);
 
-        JointPos JP3 =new JointPos(60.219,-94.324,62.906,-62.005,-87.159,108.598);
-        DescPose DP3 =new DescPose(-112.215,-409.323,686.497,176.217,2.338,41.625);
+        robot.CloseRPC();
+        return 0;
+    }
+
+指定姿态速度开启
++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+     * @brief 指定姿态速度开启
+     * @param [in] ratio 姿态速度百分比[0-300]
+     * @return  错误码
+     */
+    int AngularSpeedStart(int ratio)
+
+指定姿态速度关闭
++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+     * @brief 指定姿态速度关闭
+     * @return  错误码
+     */
+    int AngularSpeedEnd();
+
+机器人指定姿态速度代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static int TestAngularSpeed(Robot robot)
+    {
+        JointPos startjointPos=new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        JointPos endjointPos=new JointPos(-45.615, -106.172, 124.296, -107.151, -91.282, 74.255);
+
+        DescPose startdescPose=new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose enddescPose=new DescPose(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
 
         ExaxisPos exaxisPos=new ExaxisPos(0, 0, 0, 0);
         DescPose offdese=new DescPose(0, 0, 0, 0, 0, 0);
+        int rtn = robot.AngularSpeedStart(50);
+        robot.MoveJ(startjointPos, startdescPose, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
+        robot.MoveJ(endjointPos, enddescPose, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
+        rtn = robot.AngularSpeedEnd();
 
-        int error = robot.AccSmoothStart(false);
+        return 0;
+    }
 
-        System.out.println("AccSmoothStart return:"+error);
-        //MoveJ
-        robot.MoveJ(JP1, DP1, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
-        robot.MoveJ(JP2, DP2, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
-        robot.MoveJ(JP1, DP1, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
-        robot.MoveJ(JP2, DP2, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
+开始奇异位姿保护
+++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
 
-        error = robot.AccSmoothEnd(false);
+    /**
+    * @brief  开始奇异位姿保护
+    * @param  [in]  protectMode 奇异保护模式，0：关节模式；1-笛卡尔模式
+    * @param  [in]  minShoulderPos 肩奇异调整范围(mm), 默认100
+    * @param  [in]  minElbowPos 肘奇异调整范围(mm), 默认50
+    * @param  [in]  minWristPos 腕奇异调整范围(°), 默认10
+    * @return  错误码
+    */
+    int SingularAvoidStart(int protectMode, double minShoulderPos, double minElbowPos, double minWristPos);
+
+停止奇异位姿保护
+++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  停止奇异位姿保护
+    * @return  错误码
+    */
+    int SingularAvoidEnd();
+
+机器人奇异位姿保护代码示例
+++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static int TestAngularSpeed(Robot robot)
+    {
+        JointPos startjointPos=new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        JointPos endjointPos=new JointPos(-45.615, -106.172, 124.296, -107.151, -91.282, 74.255);
+
+        DescPose startdescPose=new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose enddescPose=new DescPose(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
+
+        ExaxisPos exaxisPos=new ExaxisPos(0, 0, 0, 0);
+        DescPose offdese=new DescPose(0, 0, 0, 0, 0, 0);
+        int rtn = robot.AngularSpeedStart(50);
+        robot.MoveJ(startjointPos, startdescPose, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
+        robot.MoveJ(endjointPos, enddescPose, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
+        rtn = robot.AngularSpeedEnd();
+
+        return 0;
     }

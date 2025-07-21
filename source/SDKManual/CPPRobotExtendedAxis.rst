@@ -834,7 +834,7 @@ UDP扩展轴配置与点动代码示例
 
 UDP扩展轴运动
 ++++++++++++++++++++++++++++++++++++++
-.. versionadded:: C++SDK-v2.1.4.0
+.. versionchanged:: C++SDK-v2.2.4.0
 
 .. code-block:: c++
     :linenos:
@@ -843,9 +843,10 @@ UDP扩展轴运动
     * @brief UDP扩展轴运动
     * @param [in] pos 目标位置
     * @param [in] ovl 速度百分比
+    * @param [in] blend 平滑参数(mm或ms)；-1：等待运动完成
     * @return 错误码
     */
-    errno_t ExtAxisMove(ExaxisPos pos, double ovl);
+    errno_t ExtAxisMove(ExaxisPos pos, double ovl, double blend = -1);
 
 UDP扩展轴运动代码示例
 +++++++++++++++++++++++++++++++++++

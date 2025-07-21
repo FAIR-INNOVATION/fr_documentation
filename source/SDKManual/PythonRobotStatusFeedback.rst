@@ -1,16 +1,16 @@
-状态反馈信息
+数据结构说明
 ==========================
 
 .. toctree:: 
     :maxdepth: 5
 
-状态反馈信息对照表
+控制器状态反馈数据包
 ~~~~~~~~~~~~~~~~~~~~~~~~
-.. versionadded:: python SDK-v2.1.2
+.. versionadded:: python SDK-v2.1.3
     
 .. csv-table:: 
     :header-rows: 1
-    :name: 状态反馈信息对照表
+    :name: 控制器状态反馈数据包
     :widths: 20 30
 
     "变量","含义"
@@ -100,9 +100,64 @@
     "weldingBreakOffState","焊接中断状态"
     "jt_tgt_tor","关节指令力矩"
     "smartToolState","SmartTool手柄按钮状态"
+    "wideVoltageCtrlBoxTemp","宽电压控制箱温度"
+    "wideVoltageCtrlBoxFanCurrent","宽电压控制箱风扇电流(ma)"
+
+伺服控制器状态
+~~~~~~~~~~~~~~~~~~~~~~~~
+.. versionadded:: python SDK-v2.1.3
     
+.. csv-table:: 
+    :header-rows: 1
+    :name: 伺服控制器状态
+    :widths: 20 30
+
+    "变量","含义"
+    "servoId","伺服驱动器ID号"
+    "servoErrCode","伺服驱动器故障码"
+    "servoState","伺服驱动器状态"
+    "servoPos","伺服当前位置"
+    "servoVel","伺服当前速度"
+    "servoTorque","伺服当前转矩"
+
+扩展轴状态
+~~~~~~~~~~~~~~~~~~~~~~~~
+.. versionadded:: python SDK-v2.1.3
+    
+.. csv-table:: 
+    :header-rows: 1
+    :name: 扩展轴状态
+    :widths: 20 30
+
+    "变量","含义"
+    "pos","扩展轴位置"
+    "vel","扩展轴速度"
+    "errorCode","扩展轴故障码"
+    "ready","伺服准备好"
+    "inPos","伺服到位"
+    "alarm","伺服报警"
+    "flerr","跟随误差"
+    "nlimit","到负限位"
+    "pLimit","到正限位"
+    "mdbsOffLine","驱动器485总线掉线"
+    "mdbsTimeout","控制卡与控制箱485通信超时"
+    "homingStatus","扩展轴回零状态"
+
+焊接中断状态
+~~~~~~~~~~~~~~~~~~~~~~~~
+.. versionadded:: python SDK-v2.1.3
+    
+.. csv-table:: 
+    :header-rows: 1
+    :name: 焊接中断状态
+    :widths: 20 30
+
+    "变量","含义"
+    "breakOffState","焊接中断状态"
+    "weldArcState","焊接电弧中断状态"
+
 代码示例
----------------
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
     :linenos:
@@ -262,3 +317,5 @@
     print("gripperRotTorque:", robot.robot_state_pkg.gripperRotTorque)
     print("jt_tgt_tor:", robot.robot_state_pkg.jt_tgt_tor)
     print("smartToolState:", robot.robot_state_pkg.smartToolState)
+    print("wideVoltageCtrlBoxTemp:", robot.robot_state_pkg.wideVoltageCtrlBoxTemp)
+    print("wideVoltageCtrlBoxFanCurrent:", robot.robot_state_pkg.wideVoltageCtrlBoxFanCurrent)

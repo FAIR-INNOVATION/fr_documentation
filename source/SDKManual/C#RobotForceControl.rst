@@ -58,59 +58,6 @@
     */
     int FT_SetZero(byte act); 
 
-代码示例
-+++++++++++++++
-.. code-block:: c#
-    :linenos:
-
-    private void btnFT_Click(object sender, EventArgs e)
-    {
-        Robot robot = new Robot();
-        robot.RPC("192.168.58.2");
-
-        int company = 17;
-        int device = 0;
-        int softversion = 0;
-        int bus = 1;
-        int index = 1;
-        byte act = 0;
-
-        robot.FT_SetConfig(company, device, softversion, bus);
-        Thread.Sleep(1000);
-        company = 0;
-        robot.FT_GetConfig(ref company, ref device, ref softversion, ref bus);
-        Console.WriteLine($"FT config : {company}, {device}, {softversion}, {bus}");
-        Thread.Sleep(1000);
-
-        robot.FT_Activate(act);
-        Thread.Sleep(1000);
-        act = 1;
-        robot.FT_Activate(act);
-        Thread.Sleep(1000);
-
-        robot.SetLoadWeight(0.0f);
-        Thread.Sleep(1000);
-        DescTran coord = new DescTran(0, 0, 0);
-                
-        robot.SetLoadCoord(coord);
-        Thread.Sleep(1000);
-        robot.FT_SetZero(0);//0去除零点  1零点矫正
-        Thread.Sleep(1000);
-
-        ForceTorque ft = new ForceTorque(0, 0, 0, 0, 0, 0);
-        int rtn = robot.FT_GetForceTorqueOrigin(1, ref ft);
-        Console.WriteLine($"ft origin : {ft.fx}, {ft.fy}, { ft.fz}, { ft.tx}, { ft.ty}, { ft.tz}    rtn   {rtn}");
-        rtn = robot.FT_SetZero(1);//零点矫正
-        //Console.WriteLine($"set zero rtn {rtn}");
-
-        Thread.Sleep(2000);
-        rtn = robot.FT_GetForceTorqueOrigin(1, ref ft);
-        Console.WriteLine($"ft rcs : {ft.fx}, {ft.fy}, {ft.fz}, {ft.tx}, {ft.ty}, {ft.tz}  rtn  {rtn}");
-
-        robot.FT_GetForceTorqueRCS(1, ref ft);
-        Console.WriteLine($"FT_GetForceTorqueRCS rcs : {ft.fx}, {ft.fy}, {ft.fz}, {ft.tx}, {ft.ty}, {ft.tz}");
-    }
-
 设置力传感器参考坐标系
 +++++++++++++++++++++++
 .. code-block:: c#
@@ -122,6 +69,155 @@
     * @return  错误码
     */
     int FT_SetRCS(byte type); 
+
+设置力传感器下负载重量
++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  设置力传感器下负载重量
+    * @param  [in] weight 负载重量 kg
+    * @return  错误码
+    */
+    int SetForceSensorPayLoad(double weight);
+
+设置力传感器下负载质心
++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  设置力传感器下负载质心
+    * @param  [in] x 负载质心x mm 
+    * @param  [in] y 负载质心y mm
+    * @param  [in] z 负载质心z mm
+    * @return  错误码
+    */
+    int SetForceSensorPayLoadCog(double x, double y, double z);
+
+获取力传感器下负载重量
++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  获取力传感器下负载重量
+    * @param  [in] weight 负载重量 kg
+    * @return  错误码
+    */
+    int GetForceSensorPayLoad(ref double weight);
+
+获取力传感器下负载质心
++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  获取力传感器下负载质心
+    * @param  [out] x 负载质心x mm 
+    * @param  [out] y 负载质心y mm
+    * @param  [out] z 负载质心z mm
+    * @return  错误码
+    */
+    int GetForceSensorPayLoadCog(ref double x, ref double y, ref double z);
+
+力传感器自动校零
++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  力传感器自动校零
+    * @param  [out] weight 传感器质量 kg 
+    * @param  [out] pos 传感器质心 mm
+    * @return  错误码
+    */
+    int ForceSensorAutoComputeLoad(ref double weight, ref DescTran pos);
+
+获取参考坐标系下力/扭矩数据
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  获取参考坐标系下力/扭矩数据
+    * @param  [out] ft  力/扭矩，fx,fy,fz,tx,ty,tz
+    * @return  错误码
+    */   
+    int FT_GetForceTorqueRCS(byte flag, ref ForceTorque ft); 
+
+获取力传感器原始力/扭矩数据
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  获取力传感器原始力/扭矩数据
+    * @param  [out] ft  力/扭矩，fx,fy,fz,tx,ty,tz
+    * @return  错误码
+    */   
+    int FT_GetForceTorqueOrigin(byte flag, ref ForceTorque ft); 
+
+力传感器配置及自动校零代码示例
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    private void button54_Click(object sender, EventArgs e)
+    {
+        int company = 24;
+        int device = 0;
+        int softversion = 0;
+        int bus = 1;
+        int index = 1;
+
+        robot.FT_SetConfig(company, device, softversion, bus);
+        Thread.Sleep(1000);
+        robot.FT_GetConfig(ref company, ref device, ref softversion, ref bus);
+        Console.WriteLine($"FT config:{company},{device},{softversion},{bus}");
+        Thread.Sleep(1000);
+
+        robot.FT_Activate(0);
+        Thread.Sleep(1000);
+        robot.FT_Activate(1);
+        Thread.Sleep(1000);
+
+        Thread.Sleep(1000);
+        robot.FT_SetZero(0);
+        Thread.Sleep(1000);
+
+        ForceTorque ft = new ForceTorque(0, 0, 0, 0, 0, 0);
+        robot.FT_GetForceTorqueOrigin(0, ref ft);
+        Console.WriteLine($"ft origin:{ft.fx},{ft.fy},{ft.fz},{ft.tx},{ft.ty},{ft.tz}");
+        robot.FT_SetZero(1);
+        Thread.Sleep(1000);
+
+        DescPose ftCoord = new DescPose(0, 0, 0, 0, 0, 0);
+        robot.FT_SetRCS(0, ftCoord);
+
+        robot.SetForceSensorPayLoad(0.824);
+        robot.SetForceSensorPayLoadCog(0.778, 2.554, 48.765);
+        double weight = 0;
+        double x = 0, y = 0, z = 0;
+        robot.GetForceSensorPayLoad(ref weight);
+        robot.GetForceSensorPayLoadCog(ref x, ref y, ref z);
+        Console.WriteLine($"the FT load is {weight}, {x} {y} {z}");
+
+        robot.SetForceSensorPayLoad(0);
+        robot.SetForceSensorPayLoadCog(0, 0, 0);
+
+        double computeWeight = 0;
+        DescTran tran = new DescTran(0, 0, 0);
+        robot.ForceSensorAutoComputeLoad(ref weight, ref tran);
+        Console.WriteLine($"the result is weight {weight} pos is {tran.x} {tran.y} {tran.z}");
+
+    } 
 
 负载重量辨识记录
 +++++++++++++++++++++++
@@ -172,96 +268,64 @@
     */   
     int FT_PdCogIdenCompute(ref DescTran cog);
 
-代码示例
-+++++++++++++++
+力传感器负载辨识代码示例
+++++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
     private void btnFTPdCog_Click(object sender, EventArgs e)
     {
-        Robot robot = new Robot();
-        robot.RPC("192.168.58.2");
+        int company = 24, device = 0, softversion = 0, bus = 1;
 
-        double weight = 0.1;
-        int rtn = -1;
-        DescPose tcoord, desc_p1, desc_p2, desc_p3;
-        tcoord = new DescPose(0, 0, 0, 0, 0, 0);
-        desc_p1 = new DescPose(0, 0, 0, 0, 0, 0);
-        desc_p2 = new DescPose(0, 0, 0, 0, 0, 0);
-        desc_p3 = new DescPose(0, 0, 0, 0, 0, 0);
-
-        robot.FT_SetRCS(0);
+        robot.FT_SetConfig(company, device, softversion, bus);
+        Thread.Sleep(1000);
+        robot.FT_GetConfig(ref company, ref device, ref softversion, ref bus);
+        Console.WriteLine($"FT config: {company}, {device}, {softversion}, {bus}");
         Thread.Sleep(1000);
 
-        tcoord.tran.z = 35.0;
-        robot.SetToolCoord(10, tcoord, 1, 0);
+        robot.FT_Activate(0);
         Thread.Sleep(1000);
+        robot.FT_Activate(1);
+        Thread.Sleep(1000);
+
+        Thread.Sleep(1000);
+        robot.FT_SetZero(0);
+        Thread.Sleep(1000);
+
+        ForceTorque ft = new ForceTorque(0,0,0,0,0,0);
+        robot.FT_GetForceTorqueOrigin(0, ref ft);
+        Console.WriteLine($"ft origin: {ft.fx}, {ft.fy}, {ft.fz}, {ft.tx}, {ft.ty}, {ft.tz}");
+        robot.FT_SetZero(1);
+        Thread.Sleep(1000);
+
+        DescPose tcoord = new DescPose(0, 0, 35.0, 0, 0, 0);
+        robot.SetToolCoord(10, tcoord, 1, 0, 0, 0);
+
         robot.FT_PdIdenRecord(10);
         Thread.Sleep(1000);
+
+        double weight = 0.0f;
         robot.FT_PdIdenCompute(ref weight);
-        Console.WriteLine($"payload weight : {weight}");
+        Console.WriteLine($"payload weight: {weight}");
 
-        desc_p1.tran.x = -47.805;
-        desc_p1.tran.y = -362.266;
-        desc_p1.tran.z = 317.754;
-        desc_p1.rpy.rx = -179.496;
-        desc_p1.rpy.ry = -0.255;
-        desc_p1.rpy.rz = 34.948;
+        DescPose desc_p1 = new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose desc_p2 = new DescPose(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
+        DescPose desc_p3 = new DescPose(-327.622, 402.230, 320.402, -178.067, 2.127, -46.207);
 
-        desc_p2.tran.x = -77.805;
-        desc_p2.tran.y = -312.266;
-        desc_p2.tran.z = 317.754;
-        desc_p2.rpy.rx = -179.496;
-        desc_p2.rpy.ry = -0.255;
-        desc_p2.rpy.rz = 34.948;
-
-        desc_p3.tran.x = -167.805;
-        desc_p3.tran.y = -312.266;
-        desc_p3.tran.z = 387.754;
-        desc_p3.rpy.rx = -179.496;
-        desc_p3.rpy.ry = -0.255;
-        desc_p3.rpy.rz = 34.948;
-
-        rtn = robot.MoveCart(desc_p1, 0, 0, 100.0f, 100.0f, 100.0f, -1.0f, -1);
-        Console.WriteLine($"MoveCart rtn  {rtn}");
+        robot.MoveCart( desc_p1, 0, 0, 100.0f, 100.0f, 100.0f, -1.0f, -1);
         Thread.Sleep(1000);
         robot.FT_PdCogIdenRecord(10, 1);
-        robot.MoveCart(desc_p2, 0, 0, 100.0f, 100.0f, 100.0f, -1.0f, -1);
+        robot.MoveCart( desc_p2, 0, 0, 100.0f, 100.0f, 100.0f, -1.0f, -1);
         Thread.Sleep(1000);
         robot.FT_PdCogIdenRecord(10, 2);
-        robot.MoveCart(desc_p3, 0, 0, 100.0f, 100.0f, 100.0f, -1.0f, -1);
+        robot.MoveCart( desc_p3, 0, 0, 100.0f, 100.0f, 100.0f, -1.0f, -1);
         Thread.Sleep(1000);
         robot.FT_PdCogIdenRecord(10, 3);
-        Thread.Sleep(1000);
-        DescTran cog = new DescTran(0, 0, 0);
 
+        DescTran cog = new DescTran(0,0,0);
         robot.FT_PdCogIdenCompute(ref cog);
-        Console.WriteLine($"cog : {cog.x}, {cog.y}, {cog.z}");
+        Console.WriteLine($"cog: {cog.x}, {cog.y}, {cog.z}");
     }
-
-获取参考坐标系下力/扭矩数据
-+++++++++++++++++++++++++++++++++++++++++++++
-.. code-block:: c#
-    :linenos:
-
-    /**
-    * @brief  获取参考坐标系下力/扭矩数据
-    * @param  [out] ft  力/扭矩，fx,fy,fz,tx,ty,tz
-    * @return  错误码
-    */   
-    int FT_GetForceTorqueRCS(byte flag, ref ForceTorque ft); 
-
-获取力传感器原始力/扭矩数据
-+++++++++++++++++++++++++++++++++++++++++++++
-.. code-block:: c#
-    :linenos:
-
-    /**
-    * @brief  获取力传感器原始力/扭矩数据
-    * @param  [out] ft  力/扭矩，fx,fy,fz,tx,ty,tz
-    * @return  错误码
-    */   
-    int FT_GetForceTorqueOrigin(byte flag, ref ForceTorque ft); 
 
 碰撞守护
 +++++++++++++++++++++++++++++++++++++++++++++
@@ -281,58 +345,46 @@
     */   
     int FT_Guard(int flag, int sensor_id, int[] select, ForceTorque ft, double[] max_threshold, double[] min_threshold); 
 
-代码示例
-+++++++++++++++
+碰撞守护代码示例
++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
     private void btnFTGuard_Click(object sender, EventArgs e)
     {
-        Robot robot = new Robot();
-        robot.RPC("192.168.58.2");
+        int company = 24, device = 0, softversion = 0, bus = 1;
 
-        byte flag = 1;
+        robot.FT_SetConfig(company, device, softversion, bus);
+        Thread.Sleep(1000);
+        robot.FT_GetConfig(ref company, ref device, ref softversion, ref bus);
+        Console.WriteLine($"FT config: {company}, {device}, {softversion}, {bus}");
+        Thread.Sleep(1000);
+
+        robot.FT_Activate(0);
+        Thread.Sleep(1000);
+        robot.FT_Activate(1);
+        Thread.Sleep(1000);
+
+        Thread.Sleep(1000);
+        robot.FT_SetZero(0);
+        Thread.Sleep(1000);
+
         byte sensor_id = 1;
-        int[] select = new int[6]{ 1, 0, 0, 0, 0, 0 };//只启用x轴碰撞守护
-        double[] max_threshold = new double[6]{ 5.0f, 0.01f, 0.01f, 0.01f, 0.01f, 0.01f };
-        double[] min_threshold = new double[6]{ 3.0f, 0.01f, 0.01f, 0.01f, 0.01f, 0.01f };
+        int[] select = { 1, 1, 1, 1, 1, 1 };
+        double[] max_threshold = { 10.0f, 10.0f, 10.0f, 10.0f, 10.0f, 10.0f };
+        double[] min_threshold = { 5.0f, 5.0f, 5.0f, 5.0f, 5.0f, 5.0f };
 
-        ForceTorque ft = new ForceTorque(0, 0, 0, 0, 0, 0);
-        DescPose desc_p1, desc_p2, desc_p3;
-        desc_p1 = new DescPose(0, 0, 0, 0, 0, 0);
-        desc_p2 = new DescPose(0, 0, 0, 0, 0, 0);
-        desc_p3 = new DescPose(0, 0, 0, 0, 0, 0);
+        ForceTorque ft = new ForceTorque();
+        DescPose desc_p1 = new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose desc_p2 = new DescPose(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
+        DescPose desc_p3 = new DescPose(-327.622, 402.230, 320.402, -178.067, 2.127, -46.207);
 
-        desc_p1.tran.x = 1.299;
-        desc_p1.tran.y = -719.159;
-        desc_p1.tran.z = 141.314;
-        desc_p1.rpy.rx = 177.999;
-        desc_p1.rpy.ry = -0.715;
-        desc_p1.rpy.rz = -161.937;
+        robot.FT_Guard(1, sensor_id, select,  ft, max_threshold, min_threshold);
+        robot.MoveCart( desc_p1, 0, 0, 100.0f, 100.0f, 100.0f, -1.0f, -1);
+        robot.MoveCart( desc_p2, 0, 0, 100.0f, 100.0f, 100.0f, -1.0f, -1);
+        robot.MoveCart( desc_p3, 0, 0, 100.0f, 100.0f, 100.0f, -1.0f, -1);
 
-        desc_p2.tran.x = 245.047;
-        desc_p2.tran.y = -675.509;
-        desc_p2.tran.z = 139.538;
-        desc_p2.rpy.rx = 177.987;
-        desc_p2.rpy.ry = -0.129;
-        desc_p2.rpy.rz = -142.238;
-
-        desc_p3.tran.x = 157.233;
-        desc_p3.tran.y = -550.088;
-        desc_p3.tran.z = 112.485;
-        desc_p3.rpy.rx = -176.579;
-        desc_p3.rpy.ry = -2.819;
-        desc_p3.rpy.rz = -148.415;
-        robot.SetSpeed(5);
-
-        int rtn =  robot.FT_Guard(flag, sensor_id, select, ft, max_threshold, min_threshold);
-        Console.WriteLine($"FT_Guard start rtn {rtn}");
-        robot.MoveCart(desc_p1, 1, 0, 100.0f, 100.0f, 100.0f, -1.0f, -1);
-        robot.MoveCart(desc_p2, 1, 0, 100.0f, 100.0f, 100.0f, -1.0f, -1);
-        robot.MoveCart(desc_p3, 1, 0, 100.0f, 100.0f, 100.0f, -1.0f, -1);
-        flag = 0;
-        rtn = robot.FT_Guard(flag, sensor_id, select, ft, max_threshold, min_threshold);
-        Console.WriteLine($"FT_Guard end rtn {rtn}");
+        robot.FT_Guard(0, sensor_id, select, ft, max_threshold, min_threshold);
     }
 
 恒力控制
@@ -355,62 +407,46 @@
     */   
     int FT_Control(int flag, int sensor_id, int[] select, ForceTorque ft, double[] ft_pid, int adj_sign, int ILC_sign, double max_dis, double max_ang);   
 
-代码示例
-+++++++++++++++
+恒力控制代码示例
++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
     private void btnFTConttol_Click(object sender, EventArgs e)
     {
-        Robot robot = new Robot();
-        robot.RPC("192.168.58.2");
+        int company = 24, device = 0, softversion = 0, bus = 1;
+        robot.FT_SetConfig(company, device, softversion, bus);
+        Thread.Sleep(1000);
+        robot.FT_GetConfig(ref company, ref device, ref softversion, ref bus);
+        Console.WriteLine($"FT config: {company}, {device}, {softversion}, {bus}");
+        Thread.Sleep(1000);
 
-        byte flag = 1;
+        robot.FT_Activate(0);
+        Thread.Sleep(1000);
+        robot.FT_Activate(1);
+        Thread.Sleep(1000);
+
+        robot.FT_SetZero(0);
+        Thread.Sleep(1000);
+
         byte sensor_id = 1;
-        int[] select = new int[6]{ 0, 0, 1, 0, 0, 0 };
-        double[] ft_pid = new double[6]{ 0.0005f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
-        byte adj_sign = 0;
-        byte ILC_sign = 0;
-        float max_dis = 100.0f;
-        float max_ang = 0.0f;
+        int[] select = { 0, 0, 1, 0, 0, 0 };
+        double[] ft_pid = { 0.0005f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+        byte adj_sign = 0, ILC_sign = 0;
+        float max_dis = 100.0f, max_ang = 0.0f;
 
-        ForceTorque ft = new ForceTorque(0, 0, 0, 0 ,0 ,0);
-        DescPose desc_p1, desc_p2, offset_pos;
-        JointPos j1, j2;
+        ForceTorque ft = new ForceTorque( 0.0, 0.0, -10.0, 0.0, 0.0, 0.0 );
         ExaxisPos epos = new ExaxisPos(0, 0, 0, 0);
-        desc_p1 = new DescPose(0, 0, 0, 0, 0, 0);
-        desc_p2 = new DescPose(0, 0, 0, 0, 0, 0);
-        offset_pos = new DescPose(0, 0, 0, 0, 0, 0);
+        JointPos j1 = new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        JointPos j2 = new JointPos(-45.615, -106.172, 124.296, -107.151, -91.282, 74.255);
+        DescPose desc_p1 = new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose desc_p2 = new DescPose(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
+        DescPose offset_pos = new DescPose(0, 0, 0, 0, 0, 0);
 
-        j2 = new JointPos(0, 0, 0, 0, 0, 0);
-        j1 = new JointPos(0, 0, 0, 0, 0, 0);
-
-        desc_p1.tran.x = 1.299;
-        desc_p1.tran.y = -719.159;
-        desc_p1.tran.z = 141.314;
-        desc_p1.rpy.rx = 177.999;
-        desc_p1.rpy.ry = -0.715;
-        desc_p1.rpy.rz = -161.937;
-
-        desc_p2.tran.x = 245.047;
-        desc_p2.tran.y = -675.509;
-        desc_p2.tran.z = 139.538;
-        desc_p2.rpy.rx = 177.987;
-        desc_p2.rpy.ry = -0.129;
-        desc_p2.rpy.rz = -142.238;
-        ft.fz = -10.0;
-
-        robot.GetInverseKin(0, desc_p1, -1, ref j1);
-        robot.GetInverseKin(0, desc_p2, -1, ref j2);
-
-        robot.MoveJ(j1, desc_p1, 1, 0, 100.0f, 180.0f, 100.0f, epos, -1.0f, 0, offset_pos);
-        int rtn = robot.FT_Control(flag, sensor_id, select, ft, ft_pid, adj_sign, ILC_sign, max_dis, max_ang);
-        Console.WriteLine($"FT_Control start rtn {rtn}");
-
-        robot.MoveL(j2, desc_p2, 1, 0, 100.0f, 180.0f, 20.0f, -1.0f, epos, 0, 0, offset_pos);
-        flag = 0;
-        rtn = robot.FT_Control(flag, sensor_id, select, ft, ft_pid, adj_sign, ILC_sign, max_dis, max_ang);
-        Console.WriteLine($"FT_Control end rtn {rtn}");
+        int rtn = robot.MoveJ( j1,  desc_p1, 0, 0, 100.0f, 180.0f, 100.0f,  epos, -1.0f, 0,  offset_pos);
+        robot.FT_Control(1, sensor_id, select,  ft, ft_pid, adj_sign, ILC_sign, max_dis, max_ang);
+        rtn = robot.MoveJ(j2, desc_p2, 0, 0, 100.0f, 180.0f, 100.0f, epos, -1.0f, 0, offset_pos);
+        robot.FT_Control(0, sensor_id, select,  ft, ft_pid, adj_sign, ILC_sign, max_dis, max_ang);
     }
 
 柔顺控制开启
@@ -437,77 +473,63 @@
     */   
     int FT_ComplianceStop(); 
 
-代码示例
-+++++++++++++++
+柔顺控制代码示例
+++++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
     private void btnComplience_Click(object sender, EventArgs e)
     {
-        Robot robot = new Robot();
-        robot.RPC("192.168.58.2");
+        int company = 24, device = 0, softversion = 0, bus = 1;
+        robot.FT_SetConfig(company, device, softversion, bus);
+        Thread.Sleep(1000);
+        robot.FT_GetConfig(ref company, ref device, ref softversion, ref bus);
+        Console.WriteLine($"FT config: {company}, {device}, {softversion}, {bus}");
+        Thread.Sleep(1000);
+
+        robot.FT_Activate(0);
+        Thread.Sleep(1000);
+        robot.FT_Activate(1);
+        Thread.Sleep(1000);
+
+        robot.FT_SetZero(0);
+        Thread.Sleep(1000);
 
         byte flag = 1;
         int sensor_id = 1;
-        int[] select = new int[6]{ 1, 1, 1, 0, 0, 0 };
-        double[] ft_pid = new double[6] { 0.0005f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
-        byte adj_sign = 0;
-        byte ILC_sign = 0;
-        float max_dis = 100.0f;
-        float max_ang = 0.0f;
+        int[] select = { 1, 1, 1, 0, 0, 0 };
+        double[] ft_pid = { 0.0005f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+        byte adj_sign = 0, ILC_sign = 0;
+        float max_dis = 100.0f, max_ang = 0.0f;
 
-        ForceTorque ft = new ForceTorque(0, 0, 0, 0, 0, 0);
-        DescPose desc_p1, desc_p2, offset_pos;
-        JointPos j1, j2;
-
+        ForceTorque ft = new ForceTorque { fx = -10.0, fy = -10.0, fz = -10.0 };
+        DescPose offset_pos = new DescPose(0, 0, 0, 0, 0, 0);
         ExaxisPos epos = new ExaxisPos(0, 0, 0, 0);
-        desc_p1 = new DescPose(0, 0, 0, 0, 0, 0);
-        desc_p2 = new DescPose(0, 0, 0, 0, 0, 0);
-        offset_pos = new DescPose(0, 0, 0, 0, 0, 0);
 
-        j2 = new JointPos(0, 0, 0, 0, 0, 0);
-        j1 = new JointPos(0, 0, 0, 0, 0, 0);
+        JointPos j1 = new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        JointPos j2 = new JointPos(-45.615, -106.172, 124.296, -107.151, -91.282, 74.255);
+        DescPose desc_p1 = new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose desc_p2 = new DescPose(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
 
-        desc_p1.tran.x = 1.299;
-        desc_p1.tran.y = -719.159;
-        desc_p1.tran.z = 141.314;
-        desc_p1.rpy.rx = 177.999;
-        desc_p1.rpy.ry = -0.715;
-        desc_p1.rpy.rz = -161.937;
-
-        desc_p2.tran.x = 245.047;
-        desc_p2.tran.y = -675.509;
-        desc_p2.tran.z = 139.538;
-        desc_p2.rpy.rx = 177.987;
-        desc_p2.rpy.ry = -0.129;
-        desc_p2.rpy.rz = -142.238;
-        ft.fz = -10.0;
-
-        robot.GetInverseKin(0, desc_p1, -1, ref j1);
-        robot.GetInverseKin(0, desc_p2, -1, ref j2);
-
-        ft.fx = -10.0;
-        ft.fy = -10.0;
-        ft.fz = -10.0;
-        robot.FT_Control(flag, sensor_id, select, ft, ft_pid, adj_sign, ILC_sign, max_dis, max_ang);
+        robot.FT_Control(flag, (byte)sensor_id, select, ft, ft_pid, adj_sign, ILC_sign, max_dis, max_ang);
         float p = 0.00005f;
         float force = 30.0f;
         int rtn = robot.FT_ComplianceStart(p, force);
-        Console.WriteLine($"FT_ComplianceStart rtn {rtn}");
-        int count = 15;
-        while (count > 0)
+        Console.WriteLine($"FT_ComplianceStart rtn is {rtn}");
+
+        int count = 5;
+        while (count-- > 0)
         {
-            robot.MoveL(j1, desc_p1, 1, 0, 100.0f, 180.0f, 100.0f, -1.0f, epos, 0, 1, offset_pos);
-            robot.MoveL(j2, desc_p2, 1, 0, 100.0f, 180.0f, 100.0f, -1.0f, epos, 0, 0, offset_pos);
-            count -= 1;
+        robot.MoveL(j1, desc_p1, 0, 0, 100.0f, 180.0f, 100.0f, -1.0f, epos, 0, 1, offset_pos);
+        robot.MoveL(j2, desc_p2, 0, 0, 100.0f, 180.0f, 100.0f, -1.0f, epos, 0, 0, offset_pos);
         }
-        rtn = robot.FT_ComplianceStop();
-        Console.WriteLine($"FT_ComplianceStop rtn {rtn}");
+
+        robot.FT_ComplianceStop();
+        Console.WriteLine($"FT_ComplianceStop rtn is {rtn}");
+
         flag = 0;
-        robot.FT_Control(flag, sensor_id, select, ft, ft_pid, adj_sign, ILC_sign, max_dis, max_ang);
+        robot.FT_Control(flag, (byte)sensor_id, select, ft, ft_pid, adj_sign, ILC_sign, max_dis, max_ang);
     }
-
-
 
 负载辨识初始化
 +++++++++++++++++++++++++++++++++++++++++++++
@@ -556,7 +578,6 @@
 
 获取负载辨识结果
 +++++++++++++++++++++++++++++++++++++++++++++
-
 .. versionadded:: C#SDK-v1.0.4
 
 .. code-block:: c#
@@ -571,10 +592,50 @@
     */
     int LoadIdentifyGetResult(double[] gain, ref double weight, ref DescTran cog);
 
+机器人负载辨识代码示例
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    private void button74_Click(object sender, EventArgs e)
+    {
+        int rtn;
+        int retval = 0;
+
+        retval = robot.LoadIdentifyDynFilterInit();
+        Console.WriteLine("LoadIdentifyDynFilterInit retval is: " + retval);
+
+        retval = robot.LoadIdentifyDynVarInit();
+        Console.WriteLine("LoadIdentifyDynVarInit retval is: " + retval);
+
+        JointPos posJ = new JointPos(0,0,0,0,0,0);
+        DescPose posDec = new DescPose(0, 0, 0, 0, 0, 0);
+        double[] joint_toq = new double[6] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+        robot.GetActualJointPosDegree(0, ref posJ);
+        posJ.jPos[1] = posJ.jPos[1] + 10;
+        robot.GetJointTorques(0, joint_toq);
+        joint_toq[1] = joint_toq[1] + 2;
+
+        double[] tmpTorque = new double[6] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+        for (int i = 0; i < 6; i++)
+        {
+            tmpTorque[i] = joint_toq[i];
+        }
+
+        retval = robot.LoadIdentifyMain(tmpTorque, posJ.jPos, 1);
+        Console.WriteLine("LoadIdentifyMain retval is: " + retval);
+
+        double[] gain = new double[12] { 0, 0.05, 0, 0, 0, 0, 0, 0.02, 0, 0, 0, 0 };
+        double weight = 0;
+        DescTran load_pos = new DescTran(0, 0, 0);
+        retval = robot.LoadIdentifyGetResult(gain, ref weight, ref load_pos);
+        Console.WriteLine("LoadIdentifyGetResult retval is: {0}; weight is {1} cog is {2} {3} {4}", retval, weight, load_pos.x, load_pos.y, load_pos.z);
+    }
+
 力传感器辅助拖动
 +++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: C# SDK-v1.1.0-3.7.8
-
+.. versionadded:: C#SDK-V1.1.4  Web-3.8.3
+    
 .. code-block:: c#
     :linenos:
 
@@ -594,44 +655,9 @@
     * @return  错误码
     */
     int EndForceDragControl(int status, int asaptiveFlag, int interfereDragFlag,int ingularityConstraintsFlag,int forceCollisionFlag, double[] M, double[] B, double[] K, double[] F, double Fmax, double Vmax);
-
-代码示例
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: C#SDK-V1.1.4  Web-3.8.3
-    
-.. code-block:: c#
-    :linenos:
-
-
-    private void button3_Click(object sender, EventArgs e)
-    {
-
-        double[] M = { 15.0, 15.0, 15.0, 0.5, 0.5, 0.1 };
-        double[] B = { 150.0, 150.0, 150.0, 5.0, 5.0, 1.0 };
-        double[] K = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
-        double[] F = { 10.0, 10.0, 10.0, 1.0, 1.0, 1.0 };
-        int rtn = robot.EndForceDragControl(1, 0, 0, 0, 1, M, B, K, F, 50, 100);
-        Console.WriteLine("force drag control start rtn is{rtn}");
-        Thread.Sleep(5000);
-
-        rtn = robot.EndForceDragControl(0, 0, 0, 0, 1, M, B, K, F, 50, 100);
-        Console.WriteLine($"force drag control end rtn is{rtn}");
-
-        rtn = robot.ResetAllError();
-        Console.WriteLine($"ResetAllError rtn is{rtn}");
-
-        robot.EndForceDragControl(1, 0, 0, 0, 1, M, B, K, F, 50, 100);
-        Console.WriteLine($"force drag control start again rtn is{rtn}");
-        Thread.Sleep(5000);
-
-        rtn = robot.EndForceDragControl(0, 0, 0, 0, 1, M, B, K, F, 50, 100);
-        Console.WriteLine($"force drag control end again rtn is {rtn}");
-    }
     
 获取力传感器拖动开关状态
 +++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: C# SDK-v1.1.0-3.7.8
-
 .. code-block:: c#
     :linenos:
 
@@ -643,24 +669,44 @@
     */
     int GetForceAndTorqueDragState(ref int dragState, ref int sixDimensionalDragState);
 
-力传感器自动校零
+报错清除后力传感器自动开启
 +++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: C# SDK-v1.1.0-3.7.8
-
 .. code-block:: c#
     :linenos:
 
     /**
-    * @brief  力传感器自动校零
-    * @param  [out] weight 传感器质量 kg 
-    * @param  [out] pos 传感器质心 mm
+    * @brief  报错清除后力传感器自动开启
+    * @param  [in] status 控制状态，0-关闭；1-开启
     * @return  错误码
     */
-    int ForceSensorAutoComputeLoad(ref double weight, ref DescTran pos);
+    int SetForceSensorDragAutoFlag(int status);
+
+力传感器辅助拖动代码示例
++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    private void button61_Click(object sender, EventArgs e)
+    {
+        robot.SetForceSensorDragAutoFlag(1);
+        double[] M = { 15.0, 15.0, 15.0, 0.5, 0.5, 0.1 };
+        double[] B = { 150.0, 150.0, 150.0, 5.0, 5.0, 1.0 };
+        double[] K = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+        double[] F = { 10.0, 10.0, 10.0, 1.0, 1.0, 1.0 };
+
+        robot.EndForceDragControl(1, 0, 0, 0, M, B, K, F, 50, 100);
+        robot.WaitMs(5000);
+
+        int dragState = 0;
+        int sixDimensionalDragState = 0;
+        robot.GetForceAndTorqueDragState(ref dragState, ref sixDimensionalDragState);
+        Console.WriteLine($"the drag state is {dragState} {sixDimensionalDragState}");
+
+        robot.EndForceDragControl(0, 0, 0, 0, M, B, K, F, 50, 100);
+    }
 
 设置六维力和关节阻抗混合拖动开关及参数
 +++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: C# SDK-v1.1.0-3.7.8
 
 .. code-block:: c#
     :linenos:
@@ -678,171 +724,51 @@
     */
     int ForceAndJointImpedanceStartStop(int status, int impedanceFlag, double[] lamdeDain, double[] KGain, double[] BGain, double dragMaxTcpVel, double dragMaxTcpOriVel);
 
-
-设置力传感器下负载重量
-+++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: C# SDK-v1.1.0-3.7.8
-
+力传感器辅助拖动代码示例
++++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
-    /**
-    * @brief  设置力传感器下负载重量
-    * @param  [in] weight 负载重量 kg
-    * @return  错误码
-    */
-    int SetForceSensorPayLoad(double weight);
+    private void button62_Click(object sender, EventArgs e)
+    {
+        robot.DragTeachSwitch(1);
+        double[] lambdaGain = { 3.0, 2.0, 2.0, 2.0, 2.0, 3.0 };
+        double[] kGain = { 0, 0, 0, 0, 0, 0 };
+        double[] bGain = { 150, 150, 150, 5.0, 5.0, 1.0 };
+        int rtn = robot.ForceAndJointImpedanceStartStop(1, 0, lambdaGain, kGain, bGain, 1000, 180);
+        Console.WriteLine($"ForceAndJointImpedanceStartStop rtn is {rtn}");
+        Thread.Sleep(5000); 
+        robot.DragTeachSwitch(0);
+        rtn = robot.ForceAndJointImpedanceStartStop(0, 0, lambdaGain, kGain, bGain, 1000, 180);
+        Console.WriteLine($"ForceAndJointImpedanceStartStop rtn is {rtn}");
+    }
 
-设置力传感器下负载质心
-+++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: C# SDK-v1.1.0-3.7.8
-
-.. code-block:: c#
-    :linenos:
-
-    /**
-    * @brief  设置力传感器下负载质心
-    * @param  [in] x 负载质心x mm 
-    * @param  [in] y 负载质心y mm
-    * @param  [in] z 负载质心z mm
-    * @return  错误码
-    */
-    int SetForceSensorPayLoadCog(double x, double y, double z);
-
-获取力传感器下负载重量
-+++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: C# SDK-v1.1.0-3.7.8
-
-.. code-block:: c#
-    :linenos:
-
-    /**
-    * @brief  获取力传感器下负载重量
-    * @param  [in] weight 负载重量 kg
-    * @return  错误码
-    */
-    int GetForceSensorPayLoad(ref double weight);
-
-获取力传感器下负载质心
-+++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: C# SDK-v1.1.0-3.7.8
-
-.. code-block:: c#
-    :linenos:
-
-    /**
-    * @brief  获取力传感器下负载质心
-    * @param  [out] x 负载质心x mm 
-    * @param  [out] y 负载质心y mm
-    * @param  [out] z 负载质心z mm
-    * @return  错误码
-    */
-    int GetForceSensorPayLoadCog(ref double x, ref double y, ref double z);
-
-传送带通讯输入检测
+设置焊丝寻位扩展IO端口
 +++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
     /**
-    * @brief 传送带通讯输入检测
-    * @param [in] timeout 等待超时时间ms
+    * @brief 设置焊丝寻位扩展IO端口
+    * @param searchDoneDINum 焊丝寻位成功DO端口(0-127)
+    * @param searchStartDONum 焊丝寻位启停控制DO端口(0-127)
     * @return 错误码
     */
-    int ConveyorComDetect(int timeout);
+    int SetWireSearchExtDIONum(int searchDoneDINum, int searchStartDONum);
 
-传送带通讯输入检测触发
-+++++++++++++++++++++++++++++
-.. code-block:: c#
-    :linenos:
 
-    /**
-    * @brief 传送带通讯输入检测触发
-    * @return 错误码
-    */
-    int ConveyorComDetectTrigger();
 
-代码示例
-+++++++++++++++++++++++++++++
-.. code-block:: c#
-    :linenos:
 
-    private void button3_Click(object sender, EventArgs e)
-    {
 
-        // 禁用按钮防止重复点击
-        button3.Enabled = false;
 
-        // 在后台线程中执行耗时操作
-        Thread conveyorThread = new Thread(ConveyorTest);
-        conveyorThread.IsBackground = true;
-        conveyorThread.Start();
-    }
 
-    private void button4_Click(object sender, EventArgs e)
-    {
-        // 获取用户输入
-        string input = texBox.Text;
-        Console.WriteLine($"please input a number to trigger:{input}");
-    
-        int rtn = robot.ConveyorComDetectTrigger();
-        Console.WriteLine($"ConveyorComDetectTrigger 返回值: {rtn}");
-        
-    }
 
-    private void ConveyorTest()
-    {
-        // 使用Invoke来更新UI线程上的控件
-        this.Invoke((MethodInvoker)delegate {
-            Console.WriteLine("开始传送带测试...");
-        });
 
-        int retval = 0;
-        int index = 1;
-        int max_time = 30000;
-        bool block = false;
-        retval = 0;
 
-        /* 传送带抓取流程 */
-        DescPose startdescPose = new DescPose(139.176f, 4.717f, 9.088f, -179.999f, -0.004f, -179.990f);
-        JointPos startjointPos = new JointPos(-34.129f, -88.062f, 97.839f, -99.780f, -90.003f, -34.140f);
 
-        DescPose homePose = new DescPose(139.177f, 4.717f, 69.084f, -180.000f, -0.004f, -179.989f);
-        JointPos homejointPos = new JointPos(-34.129f, -88.618f, 84.039f, -85.423f, -90.003f, -34.140f);
 
-        ExaxisPos exaxisPos = new ExaxisPos(0, 0, 0, 0);
-        DescPose offdese = new DescPose(0, 0, 0, 0, 0, 0);
 
-        // 移动到安全位置
-        retval = robot.MoveL(homejointPos, homePose, 1, 1, 100, 100, 100, -1, exaxisPos, 0, 0, offdese, 1, 1);
-        Console.WriteLine($"MoveL 到安全位置返回值: {retval}");
 
-        // 传送带检测
-        retval = robot.ConveryComDetect(1000 * 10);
-        Console.WriteLine($"ConveyorComDetect 返回值: {retval}");
 
-        // 获取跟踪数据
-        retval = robot.ConveyorGetTrackData(2);
-        Console.WriteLine($"ConveyorGetTrackData 返回值: {retval}");
 
-        // 开始跟踪
-        retval = robot.ConveyorTrackStart(2);
-        Console.WriteLine($"ConveyorTrackStart 返回值: {retval}");
 
-        // 移动到起始位置
-        robot.MoveL(startjointPos, startdescPose, 1, 1, 100, 100, 100, -1, exaxisPos, 0, 0, offdese, 1, 1);
-        robot.MoveL(startjointPos, startdescPose, 1, 1, 100, 100, 100, -1, exaxisPos, 0, 0, offdese, 1, 1);
-
-        // 结束跟踪
-        retval = robot.ConveyorTrackEnd();
-        Console.WriteLine($"ConveyorTrackEnd 返回值: {retval}");
-
-        // 返回安全位置
-        robot.MoveL(homejointPos, homePose, 1, 1, 100, 100, 100, -1, exaxisPos, 0, 0, offdese, 1, 1);
-
-        this.Invoke((MethodInvoker)delegate {
-            Console.WriteLine("传送带测试完成!");
-            button3.Enabled = true;
-        });
-    }
-  

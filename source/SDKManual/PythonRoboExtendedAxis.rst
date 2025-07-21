@@ -23,33 +23,6 @@
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
-代码示例
--------------
-
-.. code-block:: python
-    :linenos:
-
-    from time import sleep
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    ret = robot = Robot.RPC('192.168.58.2')
-
-    ret =robot.AuxServoSetParam(1,1,1,1,131072,15.45)#设置485扩展轴参数
-    print("AuxServoSetParam",ret)
-    sleep(1)
-
-    ret =robot.AuxServoGetParam(1)#获取485扩展轴配置参数
-    print("AuxServoGetParam",ret)
-    sleep(1)
-
-    ret =robot.AuxServoGetStatus(1)#查询状态
-    print("AuxServoGetStatus",ret)
-    sleep(1)
-
-    ret =robot.AuxServoClearError(1)#清除错误
-    print("AuxServoClearError",ret)
-    sleep(1)
-
 获取485扩展轴配置参数
 +++++++++++++++++++++
 .. versionadded:: python SDK-v2.0.3
@@ -69,10 +42,6 @@
     - ``servoResolution``：编码器分辨率；
     - ``axisMechTransRatio``：机械传动比；"
 
-代码示例
------------
-参考设置485扩展轴参数的代码示例
-
 设置485扩展轴使能/去使能
 ++++++++++++++++++++++++++
 .. versionadded:: python SDK-v2.0.3
@@ -87,45 +56,6 @@
     - ``status``：使能状态，0-去使能， 1-使能;"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
-
-代码示例
--------------
-
-.. code-block:: python
-    :linenos:
-
-    from time import sleep
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    ret = robot = Robot.RPC('192.168.58.2')
-    ret =robot.AuxServoEnable(1,0)#修改控制模式前需去使能
-    print("AuxServoEnable(0)",ret)
-    sleep(3)
-
-    ret =robot.AuxServoSetControlMode(1,0)#设置为位置模式
-    print("AuxServoSetControlMode",ret)
-    sleep(3)
-
-    ret =robot.AuxServoEnable(1,1)#修改控制模式后需使能
-    print("AuxServoEnable(1)",ret)
-    sleep(3)
-
-    ret =robot.AuxServoHoming(1,1,10,10)#回零
-    print("AuxServoHoming",ret)
-    sleep(5)
-
-    ret =robot.AuxServoGetStatus(1)#查询状态
-    print("AuxServoGetStatus",ret)
-    sleep(1)
-    i=1
-    while(i<5):
-        ret =robot.AuxServoSetTargetPos(1,300*i,30)#位置模式运动，速度30
-        print("AuxServoSetTargetPos",ret)
-        sleep(11)
-        ret =robot.AuxServoGetStatus(1)#查询状态
-        print("AuxServoGetStatus",ret)
-        sleep(1)
-        i=i+1
 
 设置485扩展轴控制模式
 +++++++++++++++++++++++
@@ -142,10 +72,6 @@
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
-代码示例
----------------------------------
-参考设置485扩展轴使能/去使能的代码示例
-
 设置485扩展轴目标位置(位置模式)
 ++++++++++++++++++++++++++++++++
 .. versionadded:: python SDK-v2.0.3
@@ -161,77 +87,6 @@
     - ``speed``：目标速度，mm/s或°/s;"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
-
-代码示例
----------------------------------
-参考设置485扩展轴使能/去使能的代码示例
-
-设置485扩展轴目标速度(速度模式)
-+++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.3
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``AuxServoSetTargetSpeed(servoId,speed)``"
-    "描述", "设置485扩展轴目标速度(速度模式)"
-    "必选参数", "- ``servoId``：伺服驱动器ID，范围[1-15],对应从站ID；
-    - ``speed``：目标速度，mm/s或°/s;"
-    "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode"
-
-代码示例
--------------
-
-.. code-block:: python
-    :linenos:
-
-    from time import sleep
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    ret = robot = Robot.RPC('192.168.58.2')
-    ret =robot.AuxServoEnable(1,0)#修改控制模式前需去使能
-    print("AuxServoEnable(0)",ret)
-    sleep(3)
-
-    ret = robot.AuxServoSetControlMode(1, 1)  # 设置为速度模式
-    print("AuxServoSetControlMode",ret)
-    sleep(3)
-
-    ret =robot.AuxServoEnable(1,1)#修改控制模式后需使能
-    print("AuxServoEnable(1)",ret)
-    sleep(3)
-
-    ret =robot.AuxServoHoming(1,1,10,10)#回零
-    print("AuxServoHoming",ret)
-    sleep(5)
-
-    ret =robot.AuxServoGetStatus(1)#查询状态
-    print("AuxServoGetStatus",ret)
-    sleep(1)
-
-    ret = robot.AuxServoSetTargetSpeed(1, 30)  # 速度模式运动，速度30
-    print("AuxServoSetTargetSpeed", ret)
-    sleep(10)
-
-    ret = robot.AuxServoGetStatus(1)  # 查询状态
-    print("AuxServoGetStatus", ret)
-    sleep(1)
-
-    ret = robot.AuxServoSetTargetSpeed(1, 60)  # 速度模式运动，速度60
-    print("AuxServoSetTargetSpeed", ret)
-    sleep(10)
-    ret = robot.AuxServoGetStatus(1)  # 查询状态
-    print("AuxServoGetStatus", ret)
-    sleep(1)
-
-    ret = robot.AuxServoSetTargetSpeed(1, 0)  # 结束速度模式运动前应当把速度设为0
-    print("AuxServoSetTargetSpeed", ret)
-    sleep(3)
-    ret = robot.AuxServoGetStatus(1)  # 查询状态
-    print("AuxServoGetStatus", ret)
-    sleep(1)
 
 设置485扩展轴目标转矩(力矩模式)-暂未开放
 ++++++++++++++++++++++++++++++++++++++++
@@ -264,10 +119,6 @@
     - ``latchVel``：箍位速度，mm/s或°/s;"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
-    
-代码示例
----------------------------------
-参考设置485扩展轴使能/去使能的代码示例
 
 清除485扩展轴错误信息
 ++++++++++++++++++++++++++++++++++++++++
@@ -282,10 +133,6 @@
     "必选参数", "- ``servoId``：伺服驱动器ID，范围[1-15],对应从站ID；"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
-    
-代码示例
----------------------------------
-参考设置485扩展轴参数的代码示例
 
 获取485扩展轴伺服状态
 ++++++++++++++++++++++++++++++++++++++++
@@ -306,11 +153,22 @@
     - ``servoSpeed``：伺服当前速度 mm/s或°/s；
     - ``servoTorque``：伺服当前转矩Nm；"
 
-代码示例
----------------------------------
-参考设置485扩展轴使能/去使能的代码示例
+设置485扩展轴目标速度(速度模式)
++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.3
 
-设置状态反馈中485扩展轴数据轴号-暂未开放
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``AuxServoSetTargetSpeed(servoId,speed)``"
+    "描述", "设置485扩展轴目标速度(速度模式)"
+    "必选参数", "- ``servoId``：伺服驱动器ID，范围[1-15],对应从站ID；
+    - ``speed``：目标速度，mm/s或°/s;"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+设置状态反馈中485扩展轴数据轴号
 ++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: python SDK-v2.0.3
 
@@ -354,22 +212,6 @@
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
-获取485扩展轴急停加减速度
-++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.5
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``AuxServoGetEmergencyStopAcc()``"
-    "描述", "获取485扩展轴急停加减速度"
-    "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode
-    - ``acc``：485扩展轴急停加速度
-    - ``dec``：485扩展轴急停减速度"
-
 获取485扩展轴运动加减速度
 ++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: python SDK-v2.0.5
@@ -386,9 +228,109 @@
     - ``acc``：485扩展轴运动加速度
     - ``dec``：485扩展轴运动减速度"
 
+获取485扩展轴急停加减速度
+++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``AuxServoGetEmergencyStopAcc()``"
+    "描述", "获取485扩展轴急停加减速度"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``acc``：485扩展轴急停加速度
+    - ``dec``：485扩展轴急停减速度"
+
+扩展轴控制代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    import time
+    import threading
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    retval = robot.AuxServoSetParam(1, 1, 1, 1, 131072, 15.45)
+    print(f"AuxServoSetParam is: {retval}")
+    servoCompany = 0
+    servoModel = 0
+    servoSoftVersion = 0
+    servoResolution = 0
+    axisMechTransRatio = 0.0
+    retval, servoCompany, servoModel, servoSoftVersion, servoResolution, axisMechTransRatio = robot.AuxServoGetParam(1)
+    print(f"servoCompany {servoCompany}\n"
+          f"servoModel {servoModel}\n"
+          f"servoSoftVersion {servoSoftVersion}\n"
+          f"servoResolution {servoResolution}\n"
+          f"axisMechTransRatio {axisMechTransRatio}\n")
+    retval = robot.AuxServoSetParam(1, 10, 11, 12, 13, 14)
+    print(f"AuxServoSetParam is: {retval}")
+    retval, servoCompany, servoModel, servoSoftVersion, servoResolution, axisMechTransRatio = robot.AuxServoGetParam(1)
+    print(f"servoCompany {servoCompany}\n"
+          f"servoModel {servoModel}\n"
+          f"servoSoftVersion {servoSoftVersion}\n"
+          f"servoResolution {servoResolution}\n"
+          f"axisMechTransRatio {axisMechTransRatio}\n")
+    retval = robot.AuxServoSetParam(1, 1, 1, 1, 131072, 36)
+    print(f"AuxServoSetParam is: {retval}")
+    time.sleep(3)
+    robot.AuxServoSetAcc(3000, 3000)
+    robot.AuxServoSetEmergencyStopAcc(5000, 5000)
+    time.sleep(1)
+    emagacc = 0.0
+    emagdec = 0.0
+    acc = 0.0
+    dec = 0.0
+    error,emagacc, emagdec = robot.AuxServoGetEmergencyStopAcc()
+    print(f"emergency acc is {emagacc}  dec is {emagdec}")
+    error,acc, dec = robot.AuxServoGetAcc()
+    print(f"acc is {acc}  dec is {dec}")
+    robot.AuxServoSetControlMode(1, 0)
+    time.sleep(2)
+    retval = robot.AuxServoEnable(1, 0)
+    print(f"AuxServoEnable disenable {retval}")
+    time.sleep(1)
+    servoErrCode = 0
+    servoState = 0
+    servoPos = 0.0
+    servoSpeed = 0.0
+    servoTorque = 0.0
+    retval, servoErrCode, servoState, servoPos, servoSpeed, servoTorque = robot.AuxServoGetStatus(1)
+    print(f"AuxServoGetStatus servoState {servoState}")
+    time.sleep(1)
+    retval = robot.AuxServoEnable(1, 1)
+    print(f"AuxServoEnable enable {retval}")
+    time.sleep(1)
+    retval, servoErrCode, servoState, servoPos, servoSpeed, servoTorque = robot.AuxServoGetStatus(1)
+    print(f"AuxServoGetStatus servoState {servoState}")
+    time.sleep(1)
+    retval = robot.AuxServoHoming(1, 1, 5, 1,100)
+    print(f"AuxServoHoming {retval}")
+    time.sleep(3)
+    retval = robot.AuxServoSetTargetPos(1, 200, 30,100)
+    print(f"AuxServoSetTargetPos {retval}")
+    time.sleep(1)
+    retval, servoErrCode, servoState, servoPos, servoSpeed, servoTorque = robot.AuxServoGetStatus(1)
+    print(f"AuxServoGetStatus servoSpeed {servoSpeed}")
+    time.sleep(8)
+    robot.AuxServoSetControlMode(1, 1)
+    time.sleep(2)
+    robot.AuxServoEnable(1, 0)
+    time.sleep(1)
+    robot.AuxServoEnable(1, 1)
+    time.sleep(1)
+    robot.AuxServoSetTargetSpeed(1, 100, 80)
+    time.sleep(5)
+    robot.AuxServoSetTargetSpeed(1, 0, 80)
+    robot.CloseRPC()
+
 UDP扩展轴通讯参数配置
 ++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v3.8.2
+.. versionadded:: python SDK-v2.1.2
 
 .. csv-table:: 
     :stub-columns: 1
@@ -410,23 +352,6 @@ UDP扩展轴通讯参数配置
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
-代码示例
-------------
-
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    import time
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    #UDP扩展轴通讯参数配置
-    error = robot.ExtDevSetUDPComParam('192.168.58.88',2021,2,50,5,50,1,2,5,0)
-    print("ExtDevSetUDPComParam return:",error)
-    #UDP扩展轴通讯参数配置
-    error = robot.ExtDevGetUDPComParam()
-    print("ExtDevGetUDPComParam return:",error)
-    
 获取UDP扩展轴通讯参数
 ++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: python SDK-v2.0.4
@@ -464,24 +389,7 @@ UDP扩展轴通讯参数配置
     "必选参数", "无"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
-
-代码示例
-------------
-
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    import time
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    #加载UDP通信
-    error = robot.ExtDevLoadUDPDriver()
-    print("ExtDevLoadUDPDriver return:",error)
-    #卸载UDP通信
-    error = robot.ExtDevUnloadUDPDriver()
-    print("ExtDevUnloadUDPDriver return:",error)
-     
+    
 卸载UDP通信
 ++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: python SDK-v2.0.4
@@ -495,7 +403,7 @@ UDP扩展轴通讯参数配置
     "必选参数", "无"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
-     
+
 UDP扩展轴通信异常断开后恢复连接
 ++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: python SDK-v2.0.4
@@ -509,24 +417,7 @@ UDP扩展轴通信异常断开后恢复连接
     "必选参数", "无"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
-    
-代码示例
-------------
 
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    import time
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    #UDP扩展轴通信异常断开后恢复连接
-    error = robot.ExtDevUDPClientComReset()
-    print("ExtDevUDPClientComReset return:",error)
-    #UDP扩展轴通信异常断开后关闭通讯
-    error = robot.ExtDevUDPClientComClose()
-    print("ExtDevUDPClientComClose return:",error)
-         
 UDP扩展轴通信异常断开后关闭通讯
 ++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: python SDK-v2.0.4
@@ -538,63 +429,6 @@ UDP扩展轴通信异常断开后关闭通讯
     "原型", "``ExtDevUDPClientComClose()``"
     "描述", "UDP扩展轴通信异常断开后关闭通讯"
     "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode"
-         
-设置扩展机器人相对扩展轴位置
-++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.4
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``SetRobotPosToAxis(installType)``"
-    "描述", "设置扩展机器人相对扩展轴位置"
-    "必选参数", "- ``installType``：0-机器人安装在外部轴上，1-机器人安装在外部轴外；"
-    "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode"
-        
-代码示例
-------------
-
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    import time
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    #设置扩展机器人相对扩展轴位置
-    error = robot.SetRobotPosToAxis(1)
-    print("SetRobotPosToAxis return:",error)
-    #设置扩展轴系统DH参数配置
-    error = robot.SetAxisDHParaConfig(4,128.5,206.4,0,0,0,0,0,0,)
-    print("SetAxisDHParaConfig return:",error)
-    #UDP扩展轴参数配置
-    error = robot.ExtAxisParamConfig(1,1,0,1000,-1000,1000,1000,1.905,262144, 200,1,1,0)
-    print("ExtAxisParamConfig return:",error)
-
-设置扩展轴系统DH参数配置
-++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.4
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``SetAxisDHParaConfig(axisConfig,axisDHd1,axisDHd2,axisDHd3,axisDHd4,axisDHa1, axisDHa2,axisDHa3,axisDHa4)``"
-    "描述", "设置扩展轴系统DH参数配置"
-    "必选参数", "
-    - ``axisConfig``：外部轴构型，0-单自由度直线滑轨，1-两自由度L型变位机，2-三自由度，3-四自由度，4-单自由度变位机；
-    - ``axisDHd1``：外部轴DH参数d1 mm；
-    - ``axisDHd2``：外部轴DH参数d2 mm；
-    - ``axisDHd3``：外部轴DH参数d3 mm；
-    - ``axisDHd4``：外部轴DH参数d4 mm；
-    - ``axisDHa1``：外部轴DH参数a1 mm；
-    - ``axisDHa2``：外部轴DH参数a2 mm；
-    - ``axisDHa3``：外部轴DH参数a3 mm；
-    - ``axisDHa4``：外部轴DH参数a4 mm；"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
@@ -624,8 +458,8 @@ UDP扩展轴参数配置
     - ``axisEncType``：编码器类型  0-增量；1-绝对值；"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
-         
-设置扩展轴坐标系参考点-四点法
+
+设置扩展机器人相对扩展轴位置
 ++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: python SDK-v2.0.4
 
@@ -633,27 +467,13 @@ UDP扩展轴参数配置
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``ExtAxisSetRefPoint(pointNum)``"
-    "描述", "设置扩展轴坐标系参考点-四点法"
-    "必选参数", "- ``pointNum``：点编号[1-4]；"
+    "原型", "``SetRobotPosToAxis(installType)``"
+    "描述", "设置扩展机器人相对扩展轴位置"
+    "必选参数", "- ``installType``：0-机器人安装在外部轴上，1-机器人安装在外部轴外；"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
-            
-代码示例
-------------
 
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    import time
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    #设置扩展轴坐标系参考点-四点法
-    error = robot.ExtAxisSetRefPoint(1)
-    print("ExtAxisComputeECoordSys(1) return:",error)
-             
-计算扩展轴坐标系-四点法
+设置扩展轴系统DH参数配置
 ++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: python SDK-v2.0.4
 
@@ -661,153 +481,20 @@ UDP扩展轴参数配置
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``ExtAxisComputeECoordSys()``"
-    "描述", "计算扩展轴坐标系-四点法"
-    "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode;
-    - ``coord``：扩展轴坐标系值[x,y,z,rx,ry,rz]；"
-                  
-代码示例
-------------
-
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    import time
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    #计算扩展轴坐标系-四点法
-    error,coord = robot.ExtAxisComputeECoordSys()
-    print("ExtAxisComputeECoordSys() return:",error,coord)
-    #应用扩展轴坐标系
-    error = robot.ExtAxisActiveECoordSys(1,1,coord,1)
-    print("ExtAxisActiveECoordSys() return:",error)
-         
-应用扩展轴坐标系
-++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.4
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``ExtAxisActiveECoordSys(applyAxisId,axisCoordNum,coord,calibFlag)``"
-    "描述", "应用扩展轴坐标系"
+    "原型", "``SetAxisDHParaConfig(axisConfig,axisDHd1,axisDHd2,axisDHd3,axisDHd4,axisDHa1, axisDHa2,axisDHa3,axisDHa4)``"
+    "描述", "设置扩展轴系统DH参数配置"
     "必选参数", "
-    - ``applyAxisId``:扩展轴编号 bit0-bit3对应扩展轴编号1-4，如应用扩展轴1和3，则是 0b 0000 0101,也就是5；
-    - ``axisCoordNum``：扩展轴坐标系编号；
-    - ``coord``：坐标系值[x,y,z,rx,ry,rz]；
-    - ``calibFlag``：标定标志 0-否，1-是；"
+    - ``axisConfig``：外部轴构型，0-单自由度直线滑轨，1-两自由度L型变位机，2-三自由度，3-四自由度，4-单自由度变位机；
+    - ``axisDHd1``：外部轴DH参数d1 mm；
+    - ``axisDHd2``：外部轴DH参数d2 mm；
+    - ``axisDHd3``：外部轴DH参数d3 mm；
+    - ``axisDHd4``：外部轴DH参数d4 mm；
+    - ``axisDHa1``：外部轴DH参数a1 mm；
+    - ``axisDHa2``：外部轴DH参数a2 mm；
+    - ``axisDHa3``：外部轴DH参数a3 mm；
+    - ``axisDHa4``：外部轴DH参数a4 mm；"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
-             
-设置标定参考点在变位机末端坐标系下位姿
-++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.4
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``SetRefPointInExAxisEnd(pos)``"
-    "描述", "设置标定参考点在变位机末端坐标系下位姿"
-    "必选参数", "- ``pos``：位姿值[x,y,z,rx,ry,rz]；"
-    "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode"
-                      
-代码示例
-------------
-
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    #设置标定参考点在变位机末端坐标系下位姿
-    error = robot.SetRefPointInExAxisEnd(desc_pos)
-    print("SetRefPointInExAxisEnd(1) return:",error)
-                 
-变位机坐标系参考点设置-四点法
-++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.4
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``PositionorSetRefPoint(pointNum)``"
-    "描述", "变位机坐标系参考点设置-四点法"
-    "必选参数", "- ``pointNum``：点编号[1-4]；"
-    "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode"
-                          
-代码示例
-------------
-
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    import time
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    #变位机坐标系参考点设置-四点法
-    error = robot.SetRefPointInExAxisEnd(desc_pos)
-    print("SetRefPointInExAxisEnd(1) return:",error)
-                     
-变位机坐标系计算-四点法
-++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.4
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``PositionorComputeECoordSys()``"
-    "描述", "变位机坐标系计算-四点法"
-    "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode;
-    - ``coord``：变位机坐标系值[x,y,z,rx,ry,rz]；"
-                            
-代码示例
-------------
-
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    import time
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    #变位机坐标系计算-四点法
-    error,coord = robot.PositionorComputeECoordSys()
-    print("PositionorComputeECoordSys() return:",error,coord)
-        
-末端传感器寄存器写入
-++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.5
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``AxleSensorRegWrite(devAddr, regHAddr, regLAddr, regNum, data1, data2, isNoBlock)``"
-    "描述", "末端传感器寄存器写入"
-    "必选参数", "
-    - ``devAddr``： 设备地址编号 0-255
-    - ``regHAddr``：寄存器地址高8位
-    - ``regLAddr``：寄存器地址低8位
-    - ``regNum``：寄存器个数 0-255
-    - ``data1``：写入寄存器数值1
-    - ``data2``：写入寄存器数值2
-    - ``isNoBlock``：0-阻塞；1-非阻塞
-    "
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode；"
                           
 UDP扩展轴使能
 ++++++++++++++++++++++++++++++++++++++++
@@ -823,34 +510,6 @@ UDP扩展轴使能
     - ``status``：0-去使能；1-使能；"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
-                                
-代码示例
-------------
-
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    import time
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    #UDP扩展轴去使能
-    error = robot.ExtAxisServoOn(1,0)
-    print("ExtAxisServoOn return:",error)
-    #UDP扩展轴使能
-    error = robot.ExtAxisServoOn(1,1)
-    print("ExtAxisServoOn return:",error)
-    #UDP扩展轴回零
-    error = robot.ExtAxisSetHoming(1,0,40,40)
-    print("ExtAxisSetHoming return:",error)
-    time.sleep(1)
-    #UDP扩展轴点动开始
-    error = robot.ExtAxisStartJog(1,1,20,20,20)
-    print("ExtAxisStartJog return:",error)
-    time.sleep(1)
-    #UDP扩展轴点动停止
-    error = robot.ExtAxisStopJog(1)
-    print("ExtAxisStopJog return:",error)
 
 UDP扩展轴回零
 ++++++++++++++++++++++++++++++++++++++++
@@ -902,7 +561,519 @@ UDP扩展轴点动停止
     "必选参数", "- ``axisID``：轴号[1-4]；"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
-    
+
+UDP扩展轴配置与点动代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    import time
+    import threading
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    rtn = robot.ExtDevSetUDPComParam("192.168.58.88", 2021, 2, 100, 3, 200, 1, 100, 5, 1)
+    print(f"ExtDevSetUDPComParam rtn is {rtn}")
+    ip = ""
+    port = 0
+    period = 0
+    lossPkgTime = 0
+    lossPkgNum = 0
+    disconnectTime = 0
+    reconnectEnable = 0
+    reconnectPeriod = 0
+    reconnectNum = 0
+    rtn,[ip, port, period, lossPkgTime, lossPkgNum,disconnectTime, reconnectEnable, reconnectPeriod, reconnectNum] = robot.ExtDevGetUDPComParam()
+    param_str = (f"\nip {ip}\nport {port}\nperiod {period}\nlossPkgTime {lossPkgTime}"
+                 f"\nlossPkgNum {lossPkgNum}\ndisConntime {disconnectTime}"
+                 f"\nreconnecable {reconnectEnable}\nreconnperiod {reconnectPeriod}"
+                 f"\nreconnnun {reconnectNum}")
+    print(f"ExtDevGetUDPComParam rtn is {rtn}{param_str}")
+    robot.ExtDevLoadUDPDriver()
+    rtn = robot.ExtAxisServoOn(1, 1)
+    print(f"ExtAxisServoOn axis id 1 rtn is {rtn}")
+    rtn = robot.ExtAxisServoOn(2, 1)
+    print(f"ExtAxisServoOn axis id 2 rtn is {rtn}")
+    time.sleep(2)
+    robot.ExtAxisSetHoming(1, 0, 10, 2)
+    time.sleep(2)
+    rtn = robot.ExtAxisSetHoming(2, 0, 10, 2)
+    print(f"ExtAxisSetHoming rtn is {rtn}")
+    time.sleep(4)
+    rtn = robot.SetRobotPosToAxis(1)
+    print(f"SetRobotPosToAxis rtn is {rtn}")
+    rtn = robot.SetAxisDHParaConfig(10, 20, 0, 0, 0, 0, 0, 0, 0)
+    print(f"SetAxisDHParaConfig rtn is {rtn}")
+    rtn = robot.ExtAxisParamConfig(1, 1, 1, 1000, -1000, 1000, 1000, 1.905, 262144, 200, 1, 0, 0)
+    print(f"ExtAxisParamConfig axis 1 rtn is {rtn}")
+    rtn = robot.ExtAxisParamConfig(2, 1, 1, 1000, -1000, 1000, 1000, 4.444, 262144, 200, 1, 0, 0)
+    print(f"ExtAxisParamConfig axis 2 rtn is {rtn}")
+    time.sleep(3)
+    robot.ExtAxisStartJog(1, 0, 10, 10, 30)
+    time.sleep(1)
+    robot.ExtAxisStopJog(1)
+    time.sleep(3)
+    robot.ExtAxisServoOn(1, 0)
+    time.sleep(3)
+    robot.ExtAxisStartJog(2, 0, 10, 10, 30)
+    time.sleep(1)
+    robot.ExtAxisStopJog(2)
+    time.sleep(3)
+    robot.ExtAxisServoOn(2, 0)
+    robot.ExtDevUnloadUDPDriver()
+    robot.CloseRPC()
+
+设置扩展轴坐标系参考点-四点法
+++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.4
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``ExtAxisSetRefPoint(pointNum)``"
+    "描述", "设置扩展轴坐标系参考点-四点法"
+    "必选参数", "- ``pointNum``：点编号[1-4]；"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+        
+计算扩展轴坐标系-四点法
+++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.4
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``ExtAxisComputeECoordSys()``"
+    "描述", "计算扩展轴坐标系-四点法"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode;
+    - ``coord``：扩展轴坐标系值[x,y,z,rx,ry,rz]；"
+                 
+变位机坐标系参考点设置-四点法
+++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.4
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``PositionorSetRefPoint(pointNum)``"
+    "描述", "变位机坐标系参考点设置-四点法"
+    "必选参数", "- ``pointNum``：点编号[1-4]；"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+变位机坐标系计算-四点法
+++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.4
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``PositionorComputeECoordSys()``"
+    "描述", "变位机坐标系计算-四点法"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode;
+    - ``coord``：变位机坐标系值[x,y,z,rx,ry,rz]；"
+             
+设置标定参考点在变位机末端坐标系下位姿
+++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.4
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetRefPointInExAxisEnd(pos)``"
+    "描述", "设置标定参考点在变位机末端坐标系下位姿"
+    "必选参数", "- ``pos``：位姿值[x,y,z,rx,ry,rz]；"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+应用扩展轴坐标系
+++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.4
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``ExtAxisActiveECoordSys(applyAxisId,axisCoordNum,coord,calibFlag)``"
+    "描述", "应用扩展轴坐标系"
+    "必选参数", "
+    - ``applyAxisId``:扩展轴编号 bit0-bit3对应扩展轴编号1-4，如应用扩展轴1和3，则是 0b 0000 0101,也就是5；
+    - ``axisCoordNum``：扩展轴坐标系编号；
+    - ``coord``：坐标系值[x,y,z,rx,ry,rz]；
+    - ``calibFlag``：标定标志 0-否，1-是；"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+获取扩展轴坐标系
++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.2
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``ExtAxisGetCoord()``"
+    "描述", "获取扩展轴坐标系"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``coord``：扩展轴坐标系"
+
+扩展轴坐标系标定代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    import time
+    import threading
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    rtn = robot.ExtDevSetUDPComParam("192.168.58.88", 2021, 2, 100, 3, 200, 1, 100, 5, 1)
+    print(f"ExtDevSetUDPComParam rtn is {rtn}")
+    rtn,udp_params = robot.ExtDevGetUDPComParam()
+    ip, port, period, lossPkgTime, lossPkgNum, disconnectTime, reconnectEnable, reconnectPeriod, reconnectNum = udp_params
+    patam = (
+        f"\nip {ip}\nport {port}\nperiod {period}\nlossPkgTime {lossPkgTime}\n"
+        f"lossPkgNum {lossPkgNum}\ndisConntime {disconnectTime}\nreconnecable {reconnectEnable}\n"
+        f"reconnperiod {reconnectPeriod}\nreconnnun {reconnectNum}"
+    )
+    print(f"ExtDevGetUDPComParam rtn is {rtn}{patam}")
+    robot.ExtDevLoadUDPDriver()
+    rtn = robot.ExtAxisServoOn(1, 1)
+    print(f"ExtAxisServoOn axis id 1 rtn is {rtn}")
+    rtn = robot.ExtAxisServoOn(2, 1)
+    print(f"ExtAxisServoOn axis id 2 rtn is {rtn}")
+    time.sleep(2)
+    robot.ExtAxisSetHoming(1, 0, 10, 2)
+    time.sleep(2)
+    rtn = robot.ExtAxisSetHoming(2, 0, 10, 2)
+    print(f"ExtAxisSetHoming rtn is {rtn}")
+    time.sleep(4)
+    rtn = robot.SetRobotPosToAxis(1)
+    print(f"SetRobotPosToAxis rtn is {rtn}")
+    rtn = robot.SetAxisDHParaConfig(1, 128.5, 206.4, 0, 0, 0, 0, 0, 0)
+    print(f"SetAxisDHParaConfig rtn is {rtn}")
+    rtn = robot.ExtAxisParamConfig(1, 1, 1, 1000, -1000, 1000, 1000, 1.905, 262144, 200, 1, 0, 0)
+    print(f"ExtAxisParamConfig axis 1 rtn is {rtn}")
+    rtn = robot.ExtAxisParamConfig(2, 1, 1, 1000, -1000, 1000, 1000, 4.444, 262144, 200, 1, 0, 0)
+    print(f"ExtAxisParamConfig axis 2 rtn is {rtn}")
+    toolCoord = [0, 0, 210, 0, 0, 0]
+    robot.SetToolCoord(1, toolCoord, 0, 0, 1, 0)
+    jSafe = [115.193, -96.149, 92.489, -87.068, -89.15, -83.488]
+    j1 = [117.559, -92.624, 100.329, -96.909, -94.057, -83.488]
+    j2 = [112.239, -90.096, 99.282, -95.909, -89.824, -83.488]
+    j3 = [110.839, -83.473, 93.166, -89.22, -90.499, -83.487]
+    j4 = [107.935, -83.572, 95.424, -92.873, -87.933, -83.488]
+    descSafe = [0.0,0.0,0.0,0.0,0.0,0.0]
+    desc1 = [0.0,0.0,0.0,0.0,0.0,0.0]
+    desc2 = [0.0,0.0,0.0,0.0,0.0,0.0]
+    desc3 = [0.0,0.0,0.0,0.0,0.0,0.0]
+    desc4 = [0.0,0.0,0.0,0.0,0.0,0.0]
+    exaxisPos = [0.0,0.0,0.0,0.0]
+    offdese = [0.0,0.0,0.0,0.0,0.0,0.0]
+    error, descSafe = robot.GetForwardKin(jSafe)
+    robot.MoveJ(joint_pos=jSafe,tool= 1,user= 0,vel= 100)
+    time.sleep(2)
+    error, desc1 = robot.GetForwardKin(j1)
+    robot.MoveJ(joint_pos=j1,tool= 1,user= 0,vel= 100)
+    time.sleep(2)
+    actualTCPPos = [0.0,0.0,0.0,0.0,0.0,0.0]
+    error, actualTCPPos = robot.GetActualTCPPose(0)
+    robot.SetRefPointInExAxisEnd(actualTCPPos)
+    rtn = robot.PositionorSetRefPoint(1)
+    print(f"PositionorSetRefPoint 1 rtn is {rtn}")
+    time.sleep(2)
+    robot.MoveJ(joint_pos=jSafe,tool= 1,user= 0,vel= 100)
+    robot.ExtAxisStartJog(1, 0, 50, 50, 10)
+    time.sleep(1)
+    robot.ExtAxisStartJog(2, 0, 50, 50, 10)
+    time.sleep(1)
+    error, desc2 = robot.GetForwardKin(j2)
+    rtn = robot.MoveJ(joint_pos=j2,tool= 1,user= 0,vel= 100)
+    rtn = robot.PositionorSetRefPoint(2)
+    print(f"PositionorSetRefPoint 2 rtn is {rtn}")
+    time.sleep(2)
+    robot.MoveJ(joint_pos=jSafe,tool= 1,user= 0,vel= 100)
+    robot.ExtAxisStartJog(1, 0, 50, 50, 10)
+    time.sleep(1)
+    robot.ExtAxisStartJog(2, 0, 50, 50, 10)
+    time.sleep(1)
+    error, desc3 = robot.GetForwardKin(j3)
+    robot.MoveJ(joint_pos=j3,tool= 1,user= 0,vel= 100)
+    rtn = robot.PositionorSetRefPoint(3)
+    print(f"PositionorSetRefPoint 3 rtn is {rtn}")
+    time.sleep(2)
+    robot.MoveJ(joint_pos=jSafe,tool= 1,user= 0,vel= 100)
+    robot.ExtAxisStartJog(1, 0, 50, 50, 10)
+    time.sleep(1)
+    robot.ExtAxisStartJog(2, 0, 50, 50, 10)
+    time.sleep(1)
+    error, desc4 = robot.GetForwardKin(j4)
+    robot.MoveJ(joint_pos=j4,tool= 1,user= 0,vel= 100)
+    rtn = robot.PositionorSetRefPoint(4)
+    print(f"PositionorSetRefPoint 4 rtn is {rtn}")
+    time.sleep(2)
+    axisCoord = [0.0,0.0,0.0,0.0,0.0,0.0]
+    error,axisCoord = robot.PositionorComputeECoordSys()
+    robot.MoveJ(joint_pos=jSafe,tool= 1,user= 0,vel= 100)
+    print(f"PositionorComputeECoordSys rtn is {axisCoord[0]} {axisCoord[1]} {axisCoord[2]} {axisCoord[3]} {axisCoord[4]} {axisCoord[5]}")
+    rtn = robot.ExtAxisActiveECoordSys(3, 1, axisCoord, 1)
+    print(f"ExtAxisActiveECoordSys rtn is {rtn}")
+    robot.CloseRPC()
+          
+UDP扩展轴运动
+++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.4
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``ExtAxisMove(pos,ovl,blend)``"
+    "描述", "UDP扩展轴运动"
+    "必选参数", "- ``pos=[exaxis[0],exaxis[1],exaxis[2],exaxis[3]]``：目标位置 轴1位置~轴4位置;
+    - ``ovl``：速度百分比
+    - ``blend``：平滑参数(mm或ms)，-1,等待运动完成"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+                                        
+UDP扩展轴运动代码示例
+++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    import time
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    axisPos = [20,0,0,0]
+    robot.ExtAxisMove(axisPos, 50, -1)
+    robot.CloseRPC()
+    return 0
+
+UDP扩展轴与机器人关节运动同步运动
+++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.4
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``ExtAxisSyncMoveJ(joint_pos,desc_pos,tool,user,exaxis_pos, vel=20.0, acc=0.0, ovl= 100.0,  blendT=-1.0, offset_flag=0, offset_pos=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0])``"
+    "描述", "UDP扩展轴与机器人关节运动同步运动"
+    "必选参数", "
+    - ``joint_pos``： 目标关节位置，单位 [°]；
+    - ``desc_pos``：目标笛卡尔位姿，单位 [mm][°]
+    - ``tool``：工具号，[0~14]
+    - ``user``：工件号，[0~14]
+    - ``exaxis_pos``：外部轴 1 位置 ~ 外部轴 4 位"
+    "默认参数", "
+    - ``vel``： 速度百分比，[0~100] 默认20.0；
+    - ``acc``：加速度百分比，[0~100] 暂不开放,默认0.0 ；
+    - ``ovl``：速度缩放因子，[0~100] 默认100.0  ；
+    - ``blendT``：[-1.0]-运动到位 (阻塞)，[0~500.0]-平滑时间 (非阻塞)，单位 [ms] 默认-1.0；
+    - ``offset_flag``：[0]-不偏移，[1]-工件/基坐标系下偏移，[2]-工具坐标系下偏移 默认 0；
+    - ``offset_pos``：位姿偏移量，单位 [mm][°] 默认[0.0,0.0,0.0,0.0,0.0,0.0] ；"
+    "返回值", "错误码 成功-0  失败- errcode；"
+                                        
+UDP扩展轴与机器人关节运动同步运动代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    # 设置UDP通信参数并加载
+    robot.ExtDevSetUDPComParam("192.168.58.88", 2021, 2, 100, 3, 100, 1, 100, 10)
+    robot.ExtDevLoadUDPDriver()
+    # 设置扩展轴参数
+    robot.SetAxisDHParaConfig(4, 200, 200, 0, 0, 0, 0, 0, 0)
+    robot.SetRobotPosToAxis(1)
+    robot.ExtAxisParamConfig(1, 0, 1, 100, -100, 10, 10, 12, 131072, 0, 1, 0, 0)
+    # 扩展轴使能、回零
+    robot.ExtAxisServoOn(1, 0)
+    robot.ExtAxisSetHoming(1, 0, 20, 3)
+    # 扩展轴坐标系标定
+    pos = []  # 请在此填写标定点坐标
+    robot.SetRefPointInExAxisEnd(pos)
+    robot.PositionorSetRefPoint(1)  # 此操作应重复4次（用4个点）
+    error,coord = robot.PositionorComputeECoordSys()
+    robot.ExtAxisActiveECoordSys(1, 1, coord, 1)
+    # 同步运动起点与终点
+    startdescPose = []  # 请填写具体坐标
+    startjointPos = []  # 请填写具体坐标
+    startexaxisPos = []  # 请填写具体坐标
+    enddescPose = []  # 请填写具体坐标
+    endjointPos = []  # 请填写具体坐标
+    endexaxisPos = []  # 请填写具体坐标
+    # 运动到起始点
+    robot.ExtAxisMove(startexaxisPos, 20, -1)
+    offdese = [0, 0, 0, 0, 0, 0]
+    robot.MoveJ(joint_pos=startjointPos,tool= 1,user= 1,vel= 100,acc= 100,ovl= 100,exaxis_pos= startexaxisPos,blendT= 0,offset_flag= 0,offset_pos= offdese)
+    robot.ExtAxisSyncMoveJ(endjointPos, enddescPose, 1, 1, endexaxisPos, 100, 100, 100, -1, 0, offdese)
+    robot.CloseRPC()
+                  
+UDP扩展轴与机器人直线运动同步运动
+++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.4
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``ExtAxisSyncMoveL(self, joint_pos,desc_pos, tool, user, exaxis_pos, vel=20.0, acc=0.0, ovl=100.0, blendR=-1.0, search=0, offset_flag=0, offset_pos=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0])``"
+    "描述", "UDP扩展轴与机器人直线运动同步运动"
+    "必选参数", "
+    - ``joint_pos``： 目标关节位置，单位 [°]；
+    - ``desc_pos``：目标笛卡尔位姿，单位 [mm][°]；
+    - ``tool``：工具号，[0~14]；
+    - ``user``：工件号，[0~14]；
+    - ``exaxis_pos``：外部轴 1 位置 ~ 外部轴 4 位；"
+    "默认参数", "
+    - ``vel``： 速度百分比，[0~100] 默认20.0；
+    - ``acc``：加速度百分比，[0~100] 暂不开放,默认0.0；
+    - ``ovl``：速度缩放因子，[0~100] 默认100.0；
+    - ``blendR``：[-1.0]-运动到位 (阻塞)，[0~500.0]-平滑时间 (非阻塞)，单位 [ms] 默认-1.0；
+    - ``search``：[0]-不焊丝寻位，[1]-焊丝寻位；
+    - ``offset_flag``：[0]-不偏移，[1]-工件/基坐标系下偏移，[2]-工具坐标系下偏移 默认 0；
+    - ``offset_pos``：位姿偏移量，单位 [mm][°] 默认[0.0,0.0,0.0,0.0,0.0,0.0] ；"
+    "返回值", "错误码 成功-0  失败- errcode；"
+                                            
+UDP扩展轴与机器人直线运动同步运动代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    # 设置UDP通信参数并加载
+    robot.ExtDevSetUDPComParam("192.168.58.88", 2021, 2, 100, 3, 100, 1, 100, 10)
+    robot.ExtDevLoadUDPDriver()
+    # 设置扩展轴参数
+    robot.SetAxisDHParaConfig(4, 200, 200, 0, 0, 0, 0, 0, 0)
+    robot.SetRobotPosToAxis(1)
+    robot.ExtAxisParamConfig(1, 0, 1, 100, -100, 10, 10, 12, 131072, 0, 1, 0, 0)
+    # 扩展轴使能、回零
+    robot.ExtAxisServoOn(1, 0)
+    robot.ExtAxisSetHoming(1, 0, 20, 3)
+    # 扩展轴坐标系标定
+    pos = []  # 请填写标定点坐标
+    robot.SetRefPointInExAxisEnd(pos)
+    robot.PositionorSetRefPoint(1)  # 需调用4次用于标定
+    error,coord = robot.PositionorComputeECoordSys()
+    robot.ExtAxisActiveECoordSys(1, 1, coord, 1)
+    # 同步运动起点与终点
+    startdescPose = []  # 填写坐标
+    startjointPos = []  # 填写坐标
+    startexaxisPos = []  # 填写坐标
+    enddescPose = []  # 填写坐标
+    endjointPos = []  # 填写坐标
+    endexaxisPos = []  # 填写坐标
+    # 运动到起始点
+    robot.ExtAxisMove(startexaxisPos, 20, -1)
+    offdese = [0, 0, 0, 0, 0, 0]
+    robot.MoveJ(joint_pos=startjointPos, tool= 1,user= 1,vel= 100,acc= 100,ovl= 100,exaxis_pos= startexaxisPos,blendT= 0)
+    # 执行同步直线运动
+    robot.ExtAxisSyncMoveL(endjointPos, enddescPose, 1, 1, endexaxisPos, 100, 100, 100, 0, 0, offdese)
+    robot.CloseRPC()
+                      
+UDP扩展轴与机器人圆弧运动同步运动
+++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.4
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``ExtAxisSyncMoveC(joint_pos_p, desc_pos_p, tool_p, user_p,exaxis_pos_p, joint_pos_t, desc_pos_t, tool_t, user_t,exaxis_pos_t,vel_p=20.0, acc_p=100.0, offset_flag_p=0, offset_pos_p =[0.0, 0.0, 0.0, 0.0, 0.0, 0.0], vel_t=20.0, acc_t=100.0, offset_flag_t=0, offset_pos_t=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0], ovl=100.0, blendR=-1.0)``"
+    "描述", " UDP扩展轴与机器人圆弧运动同步运动"
+    "必选参数", "
+    - ``joint_pos_p``： 路径点关节位置，单位 [°] ；
+    - ``desc_pos_p``：路径点笛卡尔位姿，单位 [mm][°]；
+    - ``tool_p``：路径点工具号，[0~14]；
+    - ``user_p``：路径点工件号，[0~14]；
+    - ``exaxis_pos_p``：路径点外部轴 1 位置 ~ 外部轴 4 位置 默认[0.0,0.0,0.0,0.0]；
+    - ``joint_pos_t``：目标点关节位置，单位 [°] ；
+    - ``desc_pos_t``：目标点笛卡尔位姿，单位 [mm][°]；
+    - ``tool_t``：工具号，[0~14]；
+    - ``user_t``：工件号，[0~14]；
+    - ``exaxis_pos_t``：目标点外部轴 1 位置 ~ 外部轴 4 位置 默认[0.0,0.0,0.0,0.0]；"
+    "默认参数", "
+    - ``vel_p``: 路径点速度百分比，[0~100] 默认20.0；
+    - ``acc_p``: 路径点加速度百分比，[0~100] 暂不开放,默认0.0 ；   
+    - ``offset_flag_p``: 路径点是否偏移[0]-不偏移，[1]-工件/基坐标系下偏移，[2]-工具坐标系下偏移 默认 0；
+    - ``offset_pos_p``: 路径点位姿偏移量，单位 [mm][°] 默认[0.0,0.0,0.0,0.0,0.0,0.0]；
+    - ``vel_t``: 目标点速度百分比，[0~100] 默认20.0；
+    - ``acc_t``: 目标点加速度百分比，[0~100] 暂不开放 默认0.0；
+    - ``offset_flag_t``: 目标点是否偏移[0]-不偏移，[1]-工件/基坐标系下偏移，[2]-工具坐标系下偏移 默认 0；
+    - ``offset_pos_t``: 目标点位姿偏移量，单位 [mm][°] 默认[0.0,0.0,0.0,0.0,0.0,0.0]；
+    - ``ovl``: 速度缩放因子，[0~100] 默认100.0；
+    - ``blendR``：[-1.0]-运动到位 (阻塞)，[0~1000]-平滑半径 (非阻塞)，单位 [mm] 默认-1.0；"
+    "返回值", "错误码 成功-0  失败- errcode；"
+                                                
+UDP扩展轴与机器人圆弧运动同步运动代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    # 设置UDP通信参数并加载
+    robot.ExtDevSetUDPComParam("192.168.58.88", 2021, 2, 100, 3, 100, 1, 100, 10)
+    robot.ExtDevLoadUDPDriver()
+    # 设置扩展轴参数
+    robot.SetAxisDHParaConfig(4, 200, 200, 0, 0, 0, 0, 0, 0)
+    robot.SetRobotPosToAxis(1)
+    robot.ExtAxisParamConfig(1, 0, 1, 100, -100, 10, 10, 12, 131072, 0, 1, 0, 0)
+    # 扩展轴使能、回零
+    robot.ExtAxisServoOn(1, 0)
+    robot.ExtAxisSetHoming(1, 0, 20, 3)
+    # 扩展轴坐标系标定
+    pos = []  # 输入标定点坐标
+    robot.SetRefPointInExAxisEnd(pos)
+    robot.PositionorSetRefPoint(1)  # 调用4次以完成标定
+    coord = []
+    error,coord = robot.PositionorComputeECoordSys()
+    robot.ExtAxisActiveECoordSys(1, 1, coord, 1)
+    # 同步圆弧起始点、中间点、终点
+    startdescPose = []# 输入坐标
+    startjointPos = []# 输入坐标
+    startexaxisPos =[]  # 输入扩展轴坐标
+    middescPose = []# 输入中间点
+    midjointPos = []
+    midexaxisPos =[]
+    enddescPose = []
+    endjointPos = []
+    endexaxisPos =[]
+    # 运动到起始点
+    robot.ExtAxisMove(startexaxisPos, 20, -1)
+    offdese = [0, 0, 0, 0, 0, 0]
+    robot.MoveJ(joint_pos=startjointPos,tool= 1,user= 1,vel= 100,acc= 100,ovl= 100,exaxis_pos= startexaxisPos,blendT= 0,offset_flag= 0,offset_pos= offdese)
+    # 开始同步圆弧运动
+    robot.ExtAxisSyncMoveC(midjointPos,middescPose,1,1,midexaxisPos,
+                           endjointPos,enddescPose,1,1,endexaxisPos,
+                           100,100,0,offdese,
+                           100,100,0,offdese,
+                           100,0)
+    robot.CloseRPC()
+
 设置扩展DO
 ++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: python SDK-v2.0.4
@@ -920,41 +1091,7 @@ UDP扩展轴点动停止
     - ``block``：是否阻塞 True -是, False -否；"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
-                                    
-代码示例
-------------
 
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    #设置扩展DO
-    error = robot.SetAuxDO(1,True,False,True)
-    print("GetAuxAI",error)
-    #设置扩展AO
-    error = robot.SetAuxAO(1,60,True)
-    print("SetAuxAO",error)
-    #设置扩展DI输入滤波时间
-    error = robot.SetAuxDIFilterTime(10,False)
-    print("SetAuxDIFilterTime",error)
-    #设置扩展AI输入滤波时间
-    error = robot.SetAuxAIFilterTime(10,True)
-    print("SetAuxAIFilterTime",error)
-    #等待扩展DI输入
-    error = robot.WaitAuxDI(0,False,100,False)
-    print("WaitAuxDI",error)
-    #等待扩展AI输入
-    error = robot.WaitAuxAI(0,0,100,500,False)
-    print("WaitAuxAI",error)
-    #获取扩展AI值
-    error = robot.GetAuxAI(0,False)
-    print("GetAuxAI",error)
-    #获取扩展DI值
-    error = robot.GetAuxDI(0,True)
-    print("GetAuxDI",error)
-        
 设置扩展AO
 ++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: python SDK-v2.0.4
@@ -1072,231 +1209,48 @@ UDP扩展轴点动停止
     "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode；
     - ``value``：输入值；"
-          
-UDP扩展轴运动
-++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.4
 
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``ExtAxisMove(pos,ovl)``"
-    "描述", "UDP扩展轴运动"
-    "必选参数", "- ``pos=[exaxis[0],exaxis[1],exaxis[2],exaxis[3]]``：目标位置 轴1位置~轴4位置;
-    - ``ovl``：速度百分比"
-    "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode"
-                                        
-代码示例
-------------
-
+扩展IO代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: python
     :linenos:
 
     from fairino import Robot
     import time
+    import threading
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
-    error,joint_pos = robot.GetActualJointPosDegree()
-    print("GetActualJointPosDegree",error,joint_pos)
-    e_pos =[-10,0,0,0]
-    joint_pos[0] = joint_pos[0]+30
-    #UDP扩展轴异步运动
-    error = robot.ExtAxisMove(e_pos,30)
-    print("ExtAxisMove",error)
-    print("joint_pos",joint_pos)
-    error = robot.MoveJ(joint_pos,0,0,exaxis_pos=e_pos)
-    print("MoveJ",error)
-              
-UDP扩展轴与机器人关节运动同步运动
-++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.4
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``ExtAxisSyncMoveJ(joint_pos,desc_pos,tool,user,exaxis_pos, vel=20.0, acc=0.0, ovl= 100.0,  blendT=-1.0, offset_flag=0, offset_pos=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0])``"
-    "描述", "UDP扩展轴与机器人关节运动同步运动"
-    "必选参数", "
-    - ``joint_pos``： 目标关节位置，单位 [°]；
-    - ``desc_pos``：目标笛卡尔位姿，单位 [mm][°]
-    - ``tool``：工具号，[0~14]
-    - ``user``：工件号，[0~14]
-    - ``exaxis_pos``：外部轴 1 位置 ~ 外部轴 4 位"
-    "默认参数", "
-    - ``vel``： 速度百分比，[0~100] 默认20.0；
-    - ``acc``：加速度百分比，[0~100] 暂不开放,默认0.0 ；
-    - ``ovl``：速度缩放因子，[0~100] 默认100.0  ；
-    - ``blendT``：[-1.0]-运动到位 (阻塞)，[0~500.0]-平滑时间 (非阻塞)，单位 [ms] 默认-1.0；
-    - ``offset_flag``：[0]-不偏移，[1]-工件/基坐标系下偏移，[2]-工具坐标系下偏移 默认 0；
-    - ``offset_pos``：位姿偏移量，单位 [mm][°] 默认[0.0,0.0,0.0,0.0,0.0,0.0] ；"
-    "返回值", "错误码 成功-0  失败- errcode；"
-                                        
-代码示例
-------------
-
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    #1.标定并应用机器人工具坐标系，您可以使用四点法或六点法进行工具坐标系的标定和应用，涉及工具坐标系标定的接口如下：
-    point_num=1
-    id=1
-    coord=[100,200,300,0,0,0,]
-    type=0
-    install=0
-    #1.设置工具坐标系
-    # robot.SetToolPoint(point_num)  #设置工具参考点-六点法
-    # robot.ComputeTool() #计算工具坐标系
-    # robot.SetTcp4RefPoint()   #设置工具参考点-四点法
-    # robot.ComputeTcp4()   #计算工具坐标系-四点法
-    # robot.SetToolCoord(id, coord,type,install)  #设置应用工具坐标系
-    # robot.SetToolList(id, coord,type,install)   #设置应用工具坐标系列表
-    #2.设置UDP通信参数，并加载UDP通信
-    robot.ExtDevSetUDPComParam("192.168.58.88", 2021, 2, 100, 3, 100, 1, 100, 10, 0);
-    robot.ExtDevLoadUDPDriver();
-    #3.设置扩展轴参数，包括扩展轴类型、扩展轴驱动器参数、扩展轴DH参数
-    robot.SetAxisDHParaConfig(4, 200, 200, 0, 0, 0, 0, 0, 0)#单轴变位机及DH参数
-    robot.SetRobotPosToAxis(1);  #扩展轴安装位置
-    robot.ExtAxisParamConfig(1, 0, 1, 100, -100, 10, 10, 12, 131072, 0, 1, 0, 0)#伺服驱动器参数，本示例为单轴变位机，因此只需要设置一个驱动器参数，若您选择包含多个轴的扩展轴类型，需要每一个轴设置驱动器参数
-    #4.设置所选的轴使能、回零
-    robot.ExtAxisServoOn(1, 0);
-    robot.ExtAxisSetHoming(1, 0, 20, 3);
-    #5.进行扩展轴坐标系标定及应用(注意：变位机和直线滑轨的标定接口不同，以下时变位机的标定接口)
-    pos =[0,0,0,0,0,0] #输入您的标定点坐标
-    robot.SetRefPointInExAxisEnd(pos)
-    robot.PositionorSetRefPoint(1)#您需要通过四个不同位置的点来标定扩展轴，因此需要调用此接口4次才能完成标定
-    error,coord = robot.PositionorComputeECoordSys()#计算扩展轴标定结果
-    robot.ExtAxisActiveECoordSys(1, 1, coord, 1); #将标定结果应用到扩展轴坐标系
-    method=1
-    #6.在扩展轴上标定工件坐标系，您需要用到以下接口
-    # robot.SetWObjCoordPoint( point_num)
-    # error,coord=robot.ComputeWObjCoord( method)
-    # robot.SetWObjCoord(id,coord)
-    # robot.SetWObjList(id, coord)
-    #7.记录您的同步关节运动起始点
-    startdescPose = [0,0,0,0,0,0]#输入您的坐标
-    startjointPos = [0,0,0,0,0,0]#输入您的坐标
-    startexaxisPos = [0,0,0,0,]#输入您的坐标
-    #8.记录您的同步关节运动终点坐标
-    enddescPose = [0,0,0,0,0,0]#输入您的坐标
-    endjointPos = [0,0,0,0,0,0]#输入您的坐标
-    endexaxisPos = [0,0,0,0,]#输入您的坐标
-    #9.编写同步运动程序
-    #运动到起始点，假设应用的工具坐标系、工件坐标系都是1
-    robot.ExtAxisMove(startexaxisPos, 20);
-    robot.MoveJ(startjointPos,  1, 1, desc_pos=startdescPose,exaxis_pos=startexaxisPos);
-    #开始同步运动
-    robot.ExtAxisSyncMoveJ(endjointPos, enddescPose, 1, 1, endexaxisPos);
-                  
-UDP扩展轴与机器人直线运动同步运动
-++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.4
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``ExtAxisSyncMoveL(self, joint_pos,desc_pos, tool, user, exaxis_pos, vel=20.0, acc=0.0, ovl=100.0, blendR=-1.0, search=0, offset_flag=0, offset_pos=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0])``"
-    "描述", "UDP扩展轴与机器人直线运动同步运动"
-    "必选参数", "
-    - ``joint_pos``： 目标关节位置，单位 [°]；
-    - ``desc_pos``：目标笛卡尔位姿，单位 [mm][°]；
-    - ``tool``：工具号，[0~14]；
-    - ``user``：工件号，[0~14]；
-    - ``exaxis_pos``：外部轴 1 位置 ~ 外部轴 4 位；"
-    "默认参数", "
-    - ``vel``： 速度百分比，[0~100] 默认20.0；
-    - ``acc``：加速度百分比，[0~100] 暂不开放,默认0.0；
-    - ``ovl``：速度缩放因子，[0~100] 默认100.0；
-    - ``blendR``：[-1.0]-运动到位 (阻塞)，[0~500.0]-平滑时间 (非阻塞)，单位 [ms] 默认-1.0；
-    - ``search``：[0]-不焊丝寻位，[1]-焊丝寻位；
-    - ``offset_flag``：[0]-不偏移，[1]-工件/基坐标系下偏移，[2]-工具坐标系下偏移 默认 0；
-    - ``offset_pos``：位姿偏移量，单位 [mm][°] 默认[0.0,0.0,0.0,0.0,0.0,0.0] ；"
-    "返回值", "错误码 成功-0  失败- errcode；"
-                                            
-代码示例
-------------
-
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    robot.Mode(0)
-    time.sleep(1)
-    e_pos =[-20,0,0,0]
-    joint_pos0 = [114.089,-85.740, 119.106,-129.884,-91.655, 79.642]
-    desc_pos0= [-87.920,-178.539,-64.513,-175.471,7.664,139.650]
-    #UDP扩展轴与机器人直线运动同步运动
-    error = robot.ExtAxisSyncMoveL(joint_pos0,desc_pos0,1,1,e_pos)
-    print("ExtAxisSyncMoveL",error)
-                      
-UDP扩展轴与机器人圆弧运动同步运动
-++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.4
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``ExtAxisSyncMoveC(joint_pos_p, desc_pos_p, tool_p, user_p,exaxis_pos_p, joint_pos_t, desc_pos_t, tool_t, user_t,exaxis_pos_t,vel_p=20.0, acc_p=100.0, offset_flag_p=0, offset_pos_p =[0.0, 0.0, 0.0, 0.0, 0.0, 0.0], vel_t=20.0, acc_t=100.0, offset_flag_t=0, offset_pos_t=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0], ovl=100.0, blendR=-1.0)``"
-    "描述", " UDP扩展轴与机器人圆弧运动同步运动"
-    "必选参数", "
-    - ``joint_pos_p``： 路径点关节位置，单位 [°] ；
-    - ``desc_pos_p``：路径点笛卡尔位姿，单位 [mm][°]；
-    - ``tool_p``：路径点工具号，[0~14]；
-    - ``user_p``：路径点工件号，[0~14]；
-    - ``exaxis_pos_p``：路径点外部轴 1 位置 ~ 外部轴 4 位置 默认[0.0,0.0,0.0,0.0]；
-    - ``joint_pos_t``：目标点关节位置，单位 [°] ；
-    - ``desc_pos_t``：目标点笛卡尔位姿，单位 [mm][°]；
-    - ``tool_t``：工具号，[0~14]；
-    - ``user_t``：工件号，[0~14]；
-    - ``exaxis_pos_t``：目标点外部轴 1 位置 ~ 外部轴 4 位置 默认[0.0,0.0,0.0,0.0]；"
-    "默认参数", "
-    - ``vel_p``: 路径点速度百分比，[0~100] 默认20.0；
-    - ``acc_p``: 路径点加速度百分比，[0~100] 暂不开放,默认0.0 ；   
-    - ``offset_flag_p``: 路径点是否偏移[0]-不偏移，[1]-工件/基坐标系下偏移，[2]-工具坐标系下偏移 默认 0；
-    - ``offset_pos_p``: 路径点位姿偏移量，单位 [mm][°] 默认[0.0,0.0,0.0,0.0,0.0,0.0]；
-    - ``vel_t``: 目标点速度百分比，[0~100] 默认20.0；
-    - ``acc_t``: 目标点加速度百分比，[0~100] 暂不开放 默认0.0；
-    - ``offset_flag_t``: 目标点是否偏移[0]-不偏移，[1]-工件/基坐标系下偏移，[2]-工具坐标系下偏移 默认 0；
-    - ``offset_pos_t``: 目标点位姿偏移量，单位 [mm][°] 默认[0.0,0.0,0.0,0.0,0.0,0.0]；
-    - ``ovl``: 速度缩放因子，[0~100] 默认100.0；
-    - ``blendR``：[-1.0]-运动到位 (阻塞)，[0~1000]-平滑半径 (非阻塞)，单位 [mm] 默认-1.0；"
-    "返回值", "错误码 成功-0  失败- errcode；"
-                                                
-代码示例
-------------
-
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    robot.Mode(0)
-    time.sleep(1)
-    desc_pos_mid =[-131.2748107910156, -60.21242523193359, -22.55266761779785, 175.9907989501953, 5.92541742324829, 145.5211791992187]
-    desc_pos_end =[-91.3530502319336, -174.5040588378906, -64.93866729736328, 177.1370544433593, 15.96347618103027, 136.1746368408203]
-    joint_pos_mid = [120.9549040841584, -109.8869943146658, 134.1448068146658, -126.2150709699876, -88.6738087871287, 79.6419593131188]
-    joint_pos_end =[110.1896078279703, -89.01601659189356, 125.5532806698638, -139.7967831451114, -82.93198387221534, 79.6452225788985]
-    # #UDP扩展轴与机器人圆弧运动同步运动
-    time.sleep(3)
-    error = robot.ExtAxisSyncMoveC(joint_pos_mid,desc_pos_mid,1,1,[-10,0,0,0],joint_pos_end,desc_pos_end,1,1,[-20,0,0,0])
-    print("ExtAxisSyncMoveC",error)
-
-可移动装置控制
-+++++++++++++++++
-.. versionadded:: python SDK-v2.0.5
+    for i in range(128):
+        robot.SetAuxDO(i, True, False, True)
+        time.sleep(0.1)
+    for i in range(128):
+        robot.SetAuxDO(i, False, False, True)
+        time.sleep(0.1)
+    for i in range(409):
+        value1 = i * 10
+        value2 = 4095 - i * 10
+        robot.SetAuxAO(0, value1, True)
+        robot.SetAuxAO(1, value2, True)
+        robot.SetAuxAO(2, value1, True)
+        robot.SetAuxAO(3, value2, True)
+        time.sleep(0.01)
+    robot.SetAuxDIFilterTime(10)
+    robot.SetAuxAIFilterTime(0, 10)
+    for i in range(20):
+        curValue = False
+        error, curValue = robot.GetAuxDI(i, False)  # 注意：如库内部需引用方式，这里需修改
+        print(f"DI{i}   {curValue}")
+    curValue = -1
+    for i in range(4):
+        error, curValue = robot.GetAuxAI(i, True)  # 同样注意引用传参问题
+        print(f"AI{i}   {curValue}")
+    robot.WaitAuxDI(1, False, 1000, False)
+    robot.WaitAuxAI(1, 1, 132, 1000, False)
+    robot.CloseRPC()
 
 可移动装置使能
----------------------------------
+++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
 
 .. csv-table:: 
     :stub-columns: 1
@@ -1309,7 +1263,8 @@ UDP扩展轴与机器人圆弧运动同步运动
     "返回值", "错误码 成功-0  失败- errcode"
 
 可移动装置回零
----------------------------------
+++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
 
 .. csv-table:: 
     :stub-columns: 1
@@ -1322,7 +1277,8 @@ UDP扩展轴与机器人圆弧运动同步运动
     "返回值", "错误码 成功-0  失败- errcode"
 
 可移动装置直线运动
----------------------------------
+++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
 
 .. csv-table:: 
     :stub-columns: 1
@@ -1336,7 +1292,8 @@ UDP扩展轴与机器人圆弧运动同步运动
     "返回值", "错误码 成功-0  失败- errcode"
 
 可移动装置圆弧运动
----------------------------------
+++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
 
 .. csv-table:: 
     :stub-columns: 1
@@ -1351,7 +1308,8 @@ UDP扩展轴与机器人圆弧运动同步运动
     "返回值", "错误码 成功-0  失败- errcode"
 
 可移动装置停止运动
----------------------------------
+++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
 
 .. csv-table:: 
     :stub-columns: 1
@@ -1363,8 +1321,8 @@ UDP扩展轴与机器人圆弧运动同步运动
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
-代码示例
-------------
+可移动装置代码示例
+++++++++++++++++++++++++++++++++++
 
 .. code-block:: python
     :linenos:
@@ -1372,38 +1330,31 @@ UDP扩展轴与机器人圆弧运动同步运动
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
-    robot.ExtDevSetUDPComParam("192.168.58.2", 2021, 2, 50, 5, 50, 1, 50, 10, 0)
+    robot.ExtDevSetUDPComParam("192.168.58.2", 2021, 2, 50, 5, 50, 1, 50, 10, 1)
     robot.ExtDevLoadUDPDriver()
+    rtn = robot.ExtAxisServoOn(1, 1)
+    rtn = robot.ExtAxisServoOn(2, 1)
+    time.sleep(2)
+    robot.ExtAxisSetHoming(1, 0, 10, 2)
+    time.sleep(2)
+    rtn = robot.ExtAxisSetHoming(2, 0, 10, 2)
+    time.sleep(4)
     robot.ExtAxisParamConfig(1, 0, 0, 50000, -50000, 1000, 1000, 6.280, 16384, 200, 0, 0, 0)
     robot.ExtAxisParamConfig(2, 0, 0, 50000, -50000, 1000, 1000, 6.280, 16384, 200, 0, 0, 0)
     robot.SetAxisDHParaConfig(5, 0, 0, 0, 0, 0, 0, 0, 0)
-
     robot.TractorEnable(False)
     time.sleep(2)
     robot.TractorEnable(True)
     time.sleep(2)
     robot.TractorHoming()
     time.sleep(2)
-    robot.TractorMoveL(100, 20)
+    robot.TractorMoveL(100, 2)
     time.sleep(5)
+    robot.TractorStop()
     robot.TractorMoveL(-100, 20)
     time.sleep(5)
     robot.TractorMoveC(300, 90, 20)
-    time.sleep(4)
-    error = robot.TractorStop()
-    print("TractorStop return ", error)
-
-获取扩展轴坐标系
-+++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v3.8.2
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``ExtAxisGetCoord()``"
-    "描述", "获取扩展轴坐标系"
-    "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode
-    - ``coord``：扩展轴坐标系"
+    time.sleep(10)
+    robot.TractorMoveC(300, -90, 20)
+    time.sleep(1)
+    robot.CloseRPC()

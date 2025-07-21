@@ -4,13 +4,13 @@
 .. toctree:: 
     :maxdepth: 5
 
-设置轨迹记录参数
+设置TPD轨迹记录参数
 ++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
     /**
-    * @brief  设置轨迹记录参数
+    * @brief  设置TPD轨迹记录参数
     * @param  [in] type  记录数据类型，1-关节位置
     * @param  [in] name  轨迹文件名
     * @param  [in] period_ms  数据采样周期，固定值2ms或4ms或8ms
@@ -20,13 +20,13 @@
     */
     int SetTPDParam(int type, string name, int period_ms, UInt16 di_choose, UInt16 do_choose);
 
-开始轨迹记录
+开始TPD轨迹记录
 ++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
     /**
-    * @brief  开始轨迹记录
+    * @brief  开始TPD轨迹记录
     * @param  [in] type  记录数据类型，1-关节位置
     * @param  [in] name  轨迹文件名
     * @param  [in] period_ms  数据采样周期，固定值2ms或4ms或8ms
@@ -36,59 +36,30 @@
     */
     int SetTPDStart(int type, string name, int period_ms, UInt16 di_choose, UInt16 do_choose); 
 
-停止轨迹记录
+停止TPD轨迹记录
 ++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
     /**
-    * @brief  停止轨迹记录
+    * @brief  停止TPD轨迹记录
     * @return  错误码
     */
     int SetWebTPDStop(); 
 
-删除轨迹记录
+删除TPD轨迹记录
 ++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
     /**
-    * @brief  删除轨迹记录
+    * @brief  删除TPD轨迹记录
     * @param  [in] name  轨迹文件名
     * @return  错误码
     */   
     int SetTPDDelete(string name); 
 
-代码示例
-++++++++++++++
-.. code-block:: c#
-    :linenos:
-
-    private void btnTCPRecord_Click(object sender, EventArgs e)
-    {
-        Robot robot = new Robot();
-        robot.RPC("192.168.58.2");
-
-        int type = 1;
-        string name = "tpd2023";
-        int period_ms = 2;
-        UInt16 di_choose = 0;
-        UInt16 do_choose = 0;
-
-        robot.SetTPDParam(type, name, period_ms, di_choose, do_choose);
-
-        robot.Mode(1);
-        Thread.Sleep(1000);
-        robot.DragTeachSwitch(1);
-        robot.SetTPDStart(type, name, period_ms, di_choose, do_choose);
-        Thread.Sleep(10000);
-        robot.SetWebTPDStop();
-        robot.DragTeachSwitch(0);
-
-        //robot.SetTPDDelete(name);
-    }
-
-轨迹预加载
+TPD轨迹预加载
 ++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
@@ -100,7 +71,7 @@
     */      
     int LoadTPD(string name);
 
-获取轨迹起始位姿
+获取TPD轨迹起始位姿
 ++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
@@ -113,7 +84,7 @@
     */ 
     int GetTPDStartPose(string name, ref DescPose desc_pose); 
 
-轨迹复现
+TPD轨迹复现
 ++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
@@ -127,34 +98,49 @@
     */
     int MoveTPD(string name, byte blend, float ovl); 
 
-代码示例
-++++++++++++++++++
+机器人TPD轨迹记录代码示例
+++++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
     private void btnTPDMove_Click(object sender, EventArgs e)
     {
-        Robot robot = new Robot();
-        robot.RPC("192.168.58.2");
+        int type = 1;
+        string name = "tpd2025";
+        int period_ms = 4;
+        ushort di_choose = 0;
+        ushort do_choose = 0;
 
-        string name = "tpd2023";
-        int tool = 0;
-        int user = 0;
-        float vel = 100.0f;
-        float acc = 100.0f;
+        robot.SetTPDParam(type, name, period_ms, di_choose, do_choose);
+
+        robot.Mode(1);
+        Thread.Sleep(1000);
+        robot.DragTeachSwitch(1);
+        robot.SetTPDStart(type, name, period_ms, di_choose, do_choose);
+        Thread.Sleep(10000);
+        robot.SetWebTPDStop();
+        robot.DragTeachSwitch(0);
+
         float ovl = 100.0f;
-        float blendT = -1.0f;
-        int config = -1;
-        byte blend = 1;
+        byte blend = 0;
 
-        DescPose desc_pose = new DescPose();
-        robot.GetTPDStartPose(name, ref desc_pose);
-        Console.WriteLine($"GetTPDStartPose:{desc_pose.tran.x},{desc_pose.tran.y},{desc_pose.tran.z},{desc_pose.rpy.rx},{desc_pose.rpy.ry},{desc_pose.rpy.rz}");
-        robot.SetTrajectoryJSpeed(100.0f);
+        DescPose start_pose = new DescPose();
 
-        robot.LoadTPD(name);
-        robot.MoveCart(desc_pose, tool, user, vel, acc, ovl, blendT, config);
-        robot.MoveTPD(name, blend, 100.0f);
+        int rtn = robot.LoadTPD(name);
+        Console.WriteLine("LoadTPD rtn is: {0}\n", rtn);
+
+        robot.GetTPDStartPose(name, ref start_pose);
+        Console.WriteLine("start pose, xyz is: {0} {1} {2}. rpy is: {3} {4} {5} \n",
+            start_pose.tran.x, start_pose.tran.y, start_pose.tran.z,
+            start_pose.rpy.rx, start_pose.rpy.ry, start_pose.rpy.rz);
+        robot.MoveCart(start_pose, 0, 0, 100, 100, ovl, -1, -1);
+        Thread.Sleep(1000);
+
+        rtn = robot.MoveTPD(name, blend, ovl);
+        Console.WriteLine("MoveTPD rtn is: {0}\n", rtn);
+        Thread.Sleep(5000);
+
+        robot.SetTPDDelete(name);
     }
 
 外部轨迹文件预处理
@@ -303,70 +289,8 @@
     */
     int SetTrajectoryJTorqueTz(double tz);
 
-代码示例
-++++++++++++++++++++++++++++
-.. code-block:: c#
-    :linenos:
-
-    private void btnTrajectory_Click(object sender, EventArgs e)
-    {
-        Robot robot = new Robot();
-        robot.RPC("192.168.58.2");
-        string name = "/fruser/traj/trajHelix_aima_1.txt";
-        int rtn = -1;
-
-        rtn = robot.LoadTrajectoryJ(name, 100, 1);
-        Console.WriteLine($"LoadTrajectoryJ:{rtn}");
-
-        DescPose desc_pos2 = new DescPose(0, 0, 0, 0, 0, 0);
-        rtn = robot.GetTrajectoryStartPose(name, ref desc_pos2);
-        Console.WriteLine($"GetTrajectoryStartPose:{desc_pos2.tran.x},{desc_pos2.tran.y},{desc_pos2.tran.z},{desc_pos2.rpy.rx},{desc_pos2.rpy.ry},{desc_pos2.rpy.rz}");
-
-        int tool = 1;
-        int user = 0;
-        float vel = 100.0f;
-        float acc = 100.0f;
-        float ovl = 100.0f;
-        float blendT = -1.0f;
-        float blendT1 = 0.0f;
-        int config = -1;
-        robot.MoveCart(desc_pos2, tool, user, vel, acc, ovl, blendT, config);
-
-        rtn = robot.SetTrajectoryJSpeed(20);
-        Console.WriteLine($"SetTrajectoryJSpeed: rtn  {rtn}");
-
-        rtn = robot.MoveTrajectoryJ();
-        Console.WriteLine($"MoveTrajectoryJ:{rtn}");
-
-        int pnum = -1;
-        rtn = robot.GetTrajectoryPointNum(ref pnum);
-        Console.WriteLine($"GetTrajectoryPointNum: rtn  {rtn}    num {pnum}");
-
-        rtn = robot.SetTrajectoryJSpeed(100);
-        Console.WriteLine($"SetTrajectoryJSpeed: rtn  {rtn}");
-
-        ForceTorque ft = new ForceTorque(1, 1, 1, 1, 1, 1);
-        rtn = robot.SetTrajectoryJForceTorque(ft);
-        Console.WriteLine($"SetTrajectoryJForceTorque: rtn  {rtn}");
-
-        rtn = robot.SetTrajectoryJForceFx(1.0);
-        Console.WriteLine($"SetTrajectoryJForceFx: rtn  {rtn}");
-        rtn = robot.SetTrajectoryJForceFy(1.0);
-        Console.WriteLine($"SetTrajectoryJForceFx: rtn  {rtn}");
-        rtn = robot.SetTrajectoryJForceFz(1.0);
-        Console.WriteLine($"SetTrajectoryJForceFx: rtn  {rtn}");
-        rtn = robot.SetTrajectoryJTorqueTx(1.0);
-        Console.WriteLine($"SetTrajectoryJForceFx: rtn  {rtn}");
-        rtn = robot.SetTrajectoryJTorqueTy(1.0);
-        Console.WriteLine($"SetTrajectoryJForceFx: rtn  {rtn}");
-        rtn = robot.SetTrajectoryJTorqueTz(1.0);
-        Console.WriteLine($"SetTrajectoryJForceFx: rtn  {rtn}");
-    }
-
 上传轨迹J文件
 ++++++++++++++++++++++++++++++
-.. versionadded:: C# SDK-v1.1.0-3.7.8
-
 .. code-block:: c#
     :linenos:
 
@@ -379,8 +303,6 @@
 
 删除轨迹J文件
 ++++++++++++++++++++++++++++++
-.. versionadded:: C# SDK-v1.1.0-3.7.8
-
 .. code-block:: c#
     :linenos:
 
@@ -391,43 +313,64 @@
     */
     int TrajectoryJDelete(string fileName);
 
-代码示例
+机器人轨迹J文件复现代码示例
 ++++++++++++++++++++++++++++
-.. versionadded:: C# SDK-v1.1.0-3.7.8
-
 .. code-block:: c#
     :linenos:
 
-    int UploadTrajectoryB()
+    private void button33_Click(object sender, EventArgs e)
     {
-        robot.TrajectoryJDelete("testB.txt");
-        robot.TrajectoryJUpLoad("D://zUP/testB.txt");
+        int rtn = robot.TrajectoryJUpLoad("D://zUP/spray_traj1.txt");
+        Console.WriteLine("Upload TrajectoryJ A {0}\n", rtn);
 
-        int retval = 0;
-        string traj_file_name = "/fruser/traj/testB.txt";
-        retval = robot.LoadTrajectoryJ(traj_file_name, 100, 1);
-        Console.WriteLine($"LoadTrajectoryJ {traj_file_name}, retval is: { retval}");
+        string traj_file_name = "/fruser/traj/spray_traj1.txt";
+        rtn = robot.LoadTrajectoryJ(traj_file_name, 100, 1);
+        Console.WriteLine("LoadTrajectoryJ {0}, rtn is: {1}\n", traj_file_name, rtn);
 
-        DescPose traj_start_pose = new DescPose(0, 0, 0, 0, 0, 0);
-        retval = robot.GetTrajectoryStartPose(traj_file_name, ref traj_start_pose);
-        Console.WriteLine($"GetTrajectoryStartPose is: {retval}");
-        Console.WriteLine(string.Format("desc_pos:{0},{1},{2},{3},{4},{5}",
-            traj_start_pose.tran.x,
-            traj_start_pose.tran.y,
-            traj_start_pose.tran.z,
-            traj_start_pose.rpy.rx,
-            traj_start_pose.rpy.ry,
-            traj_start_pose.rpy.rz));
+        DescPose traj_start_pose = new DescPose();
+        rtn = robot.GetTrajectoryStartPose(traj_file_name, ref traj_start_pose);
+        Console.WriteLine("GetTrajectoryStartPose is: {0}\n", rtn);
+        Console.WriteLine("desc_pos:{0},{1},{2},{3},{4},{5}\n",
+            traj_start_pose.tran.x, traj_start_pose.tran.y, traj_start_pose.tran.z,
+            traj_start_pose.rpy.rx, traj_start_pose.rpy.ry, traj_start_pose.rpy.rz);
 
-        robot.SetSpeed(20);
-        robot.MoveCart(traj_start_pose, 1, 0, 100, 100, 100, -1, -1);
-        Thread.Sleep(5000);
+        Thread.Sleep(1000);
+
+        robot.SetSpeed(50);
+        robot.MoveCart(traj_start_pose, 0, 0, 100, 100, 100, -1, -1);
+
         int traj_num = 0;
-        retval = robot.GetTrajectoryPointNum(ref traj_num);
-        Console.WriteLine($"GetTrajectoryStartPose retval is: {retval}, traj num is:{traj_num}");
-        retval = robot.MoveTrajectoryJ();
-        Console.WriteLine($"MoveTrajectoryJ retval is: {retval}");
-        return 0;
+        rtn = robot.GetTrajectoryPointNum(ref traj_num);
+        Console.WriteLine("GetTrajectoryStartPose rtn is: {0}, traj num is: {1}\n", rtn, traj_num);
+
+        rtn = robot.SetTrajectoryJSpeed(50.0f);
+        Console.WriteLine("SetTrajectoryJSpeed is: {0}\n", rtn);
+
+        ForceTorque traj_force = new ForceTorque();
+        traj_force.fx = 10;
+        rtn = robot.SetTrajectoryJForceTorque(traj_force);
+        Console.WriteLine("SetTrajectoryJForceTorque rtn is: {0}\n", rtn);
+
+        rtn = robot.SetTrajectoryJForceFx(10.0f);
+        Console.WriteLine("SetTrajectoryJForceFx rtn is: {0}\n", rtn);
+
+        rtn = robot.SetTrajectoryJForceFy(0.0f);
+        Console.WriteLine("SetTrajectoryJForceFy rtn is: {0}\n", rtn);
+
+        rtn = robot.SetTrajectoryJForceFz(0.0f);
+        Console.WriteLine("SetTrajectoryJForceFz rtn is: {0}\n", rtn);
+
+        rtn = robot.SetTrajectoryJTorqueTx(10.0f);
+        Console.WriteLine("SetTrajectoryJTorqueTx rtn is: {0}\n", rtn);
+
+        rtn = robot.SetTrajectoryJTorqueTy(10.0f);
+        Console.WriteLine("SetTrajectoryJTorqueTy rtn is: {0}\n", rtn);
+
+        rtn = robot.SetTrajectoryJTorqueTz(10.0f);
+        Console.WriteLine("SetTrajectoryJTorqueTz rtn is: {0}\n", rtn);
+
+        rtn = robot.MoveTrajectoryJ();
+        Console.WriteLine("MoveTrajectoryJ rtn is: {0}\n", rtn);
     }
 
 轨迹预处理(轨迹前瞻)
@@ -460,7 +403,7 @@
     */
     int MoveTrajectoryLA();
 
-代码示例
+轨迹复现(轨迹前瞻)代码示例
 ++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:

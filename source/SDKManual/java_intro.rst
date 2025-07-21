@@ -15,7 +15,7 @@ Java
 
 .. note:: 
     
-    当前文档适用于SDK-v3.8.2版本，向下兼容v1.x/v2.x版本。
+    当前文档适用于SDK-v3.8.4版本，向下兼容v1.x/v2.x版本。
 
 
 .. toctree:: 
@@ -33,8 +33,7 @@ Java
     JavaRobotWebAPPProgramUse
     JavaRobotPeripherals
     JavaRobotForceControl
-    JavaRobotConveyor
-    JavaRobotWeld
     JavaRobotExtendedAxis
+    JavaRobotWeld
     JavaRobotOthers
     JavaAppendix

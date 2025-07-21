@@ -33,80 +33,6 @@
     */
     int SetCollisionStrategy(int strategy, int safeTime, int safeDistance, int safetyMargin[]); 
 
-设置正限位
-++++++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    /**
-    * @brief  设置正限位
-    * @param  [in] limit 六个关节位置，单位deg
-    * @return  错误码
-    */
-    int SetLimitPositive(Object[] limit); 
-
-设置负限位
-++++++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    /**
-    * @brief  设置负限位
-    * @param  [in] limit 六个关节位置，单位deg
-    * @return  错误码
-    */
-    int SetLimitNegative(Object[] limit); 
-
-错误状态清除
-++++++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    /**
-    * @brief  错误状态清除
-    * @return  错误码
-    */
-    int ResetAllError(); 
-
-代码示例
-++++++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    public static void main(String[] args)
-    {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        Object[] config = {2.0, 2.0, 2.0, 2.0, 2.0, 2.0};
-        robot.SetAnticollision(0, config, 1);
-        int safetyMargin[]={10,10,10,10,10,10};
-        robot.SetCollisionStrategy(0,1000,10,safetyMargin);
-
-        robot.ProgramLoad("/fruser/test.lua");
-        robot.ProgramRun();//运行lua文件
-
-        Object[] plimit = { 170.0, 80.0, 150.0, 80.0, 170.0, 160.0 };
-        robot.SetLimitPositive(plimit);
-
-        Object[] nlimit = { -170.0, -260.0, -150.0, -260.0, -170.0, -160.0 };
-        robot.SetLimitNegative(nlimit);
-
-        robot.SetLoadWeight(123.0);
-        robot.Sleep(3000);
-        robot.ResetAllError();
-    }
-
 自定义碰撞检测阈值功能开始
 +++++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: Java SDK-v1.0.3-3.8.0
@@ -137,200 +63,189 @@
     */   
     public int CustomCollisionDetectionEnd();
 
-代码示例
-+++++++++++++++++++++++++++++++++++++++++++++
+机器人碰撞等级设置代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    public static void main(String[] args)
+    public static int TestCollision(Robot robot)
     {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        int[] safety = { 5,5,5,5,5,5 };
-        robot.SetCollisionStrategy(3, 1000, 150, 250, safety);
-        double[] jointDetectionThreshould= { 0.3, 0.3, 0.3, 0.3, 0.3, 0.3};
-        double[] tcpDetectionThreshould = { 60,60,60,60,60,60 };
-        int rtn = robot.CustomCollisionDetectionStart(1, jointDetectionThreshould, tcpDetectionThreshould, 1);
+        int mode = 0;
+        int config = 1;
+        Object[] level1 = new Object[]{ 1.0,2.0,3.0,4.0,5.0,6.0 };
+        Object[] level2 = new Object[]{ 50.0,20.0,30.0,40.0,50.0,60.0 };
 
-        DescPose p1Desc=new DescPose(228.879, -503.594, 453.984, -175.580, 8.293, 171.267);
-        JointPos p1Joint=new JointPos(102.700, -85.333, 90.518, -102.365, -83.932, 22.134);
+        int rtn = robot.SetAnticollision(mode, level1, config);
+        System.out.println("SetAnticollision mode 0 rtn is: "+ rtn);
+        mode = 1;
+        rtn = robot.SetAnticollision(mode, level2, config);
+        System.out.println("SetAnticollision mode 1 rtn is :"+ rtn);
 
-        DescPose p2Desc=new DescPose(-333.302, -435.580, 449.866, -174.997, 2.017, 109.815);
-        JointPos p2Joint=new JointPos(41.862, -85.333, 90.526, -100.587, -90.014, 22.135);
+        JointPos p1Joint=new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        JointPos p2Joint=new JointPos(-45.615, -106.172, 124.296, -107.151, -91.282, 74.255);
+
+        DescPose p1Desc=new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose p2Desc=new DescPose(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
 
         ExaxisPos exaxisPos=new ExaxisPos(0.0, 0.0, 0.0, 0.0);
         DescPose offdese=new DescPose(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-        for(int i=0;i<10;++i) {
-            robot.MoveL(p1Joint, p1Desc, 0, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese, 0, 10);
-            robot.MoveL(p2Joint, p2Desc, 0, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese, 0, 10);
-        }
+        robot.MoveL(p2Joint, p2Desc, 0, 0, 100, 100, 100, 2,0, exaxisPos, 0, 0, offdese,0,10);
+        robot.ResetAllError();
+        int[] safety = new int[]{ 5,5,5,5,5,5 };
+        rtn = robot.SetCollisionStrategy(3, 1000, 150, 250, safety);
+        System.out.println("SetCollisionStrategy rtn is:"+ rtn);
+
+        double[] jointDetectionThreshould = new double[]{ 0.1, 0.1, 0.1, 0.1, 0.1, 0.1 };
+        double[] tcpDetectionThreshould =new double[] { 60,60,60,60,60,60 };
+        rtn = robot.CustomCollisionDetectionStart(3, jointDetectionThreshould, tcpDetectionThreshould, 0);
+        System.out.println("CustomCollisionDetectionStart rtn is :"+ rtn);
+
+        robot.MoveL(p1Joint, p1Desc, 0, 0, 100, 100, 100, -1,0, exaxisPos, 0, 0, offdese,0,10);
+        robot.MoveL(p2Joint, p2Desc, 0, 0, 100, 100, 100, -1,0, exaxisPos, 0, 0, offdese,0,10);
         rtn = robot.CustomCollisionDetectionEnd();
+        System.out.println("CustomCollisionDetectionEnd rtn is: "+ rtn);
+        return 0;
     }
 
-关节摩擦力补偿开关
-++++++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    /** 
-    * @brief 关节摩擦力补偿开关 
-    * @param [in] state  0-关，1-开
-    * @return 错误码 
-    */ 
-    int FrictionCompensationOnOff(int state); 
-
-设置关节摩擦力补偿系数-正装
+设置正限位
 ++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
     /**
-    * @brief  设置关节摩擦力补偿系数-正装
-    * @param  [in]  coeff 六个关节补偿系数，范围[0~1]
+    * @brief  设置正限位
+    * @param  [in] limit 六个关节位置，单位deg
     * @return  错误码
     */
-    int SetFrictionValue_level(Object[] coeff);
+    int SetLimitPositive(Object[] limit); 
 
-设置关节摩擦力补偿系数-侧装
+设置负限位
 ++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
     /**
-    * @brief  设置关节摩擦力补偿系数-侧装
-    * @param  [in]  coeff 六个关节补偿系数，范围[0~1]
+    * @brief  设置负限位
+    * @param  [in] limit 六个关节位置，单位deg
     * @return  错误码
     */
-    int SetFrictionValue_wall(Object[] coeff); 
+    int SetLimitNegative(Object[] limit); 
 
-设置关节摩擦力补偿系数-倒装
-++++++++++++++++++++++++++++++++
+获取关节软限位角度
++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
     /**
-    * @brief  设置关节摩擦力补偿系数-倒装
-    * @param  [in]  coeff 六个关节补偿系数，范围[0~1]
+    * @brief  获取关节软限位角度
+    * @param  [in] flag 0-阻塞，1-非阻塞
+    * @param  [out] negative  负限位角度，单位deg
+    * @param  [out] positive  正限位角度，单位deg
     * @return  错误码
     */
-    int SetFrictionValue_ceiling(Object[] coeff);
+    int GetJointSoftLimitDeg(int flag, Object[] negative, Object[] positive); 
 
-设置关节摩擦力补偿系数-自由安装
-++++++++++++++++++++++++++++++++
+机器人限位设置代码示例
+++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    /**
-    * @brief  设置关节摩擦力补偿系数-自由安装
-    * @param  [in]  coeff 六个关节补偿系数，范围[0~1]
-    * @return  错误码
-    */
-    int SetFrictionValue_freedom(Object[] coeff);
-
-代码示例
-++++++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    public static void main(String[] args)
+    public static int TestLimit(Robot robot)
     {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        Object[] lcoeff = { 0.5, 0.5, 0.5, 0.5, 0.5, 0.5 };
-        Object[] wcoeff = { 0.5, 0.5, 0.5, 0.5, 0.5, 0.5 };
-        Object[] ccoeff = { 0.5, 0.5, 0.5, 0.5, 0.5, 0.5 };
-        Object[] fcoeff = { 0.5, 0.5, 0.5, 0.5, 0.5, 0.5 };
+        Object[] plimit =new Object[] { 170.0,80.0,150.0,80.0,170.0,160.0 };
+        robot.SetLimitPositive(plimit);
+        Object[] nlimit =new Object[] { -170.0,-260.0,-150.0,-260.0,-170.0,-160.0 };
+        robot.SetLimitNegative(nlimit);
 
-        robot.FrictionCompensationOnOff(1);
-
-        robot.SetFrictionValue_level(lcoeff);//正装
-
-        robot.SetFrictionValue_wall(wcoeff);//侧装
-
-        robot.SetFrictionValue_ceiling(ccoeff);//倒装
-
-        robot.SetFrictionValue_freedom(fcoeff);//自由安装
+        Object[] neg_deg =new Object[] {0, 0 , 0, 0, 0, 0}, pos_deg = new Object[]{0, 0 , 0, 0, 0, 0};
+        robot.GetJointSoftLimitDeg(1,  neg_deg,  pos_deg);
+        System.out.println("neg limit deg:"+ neg_deg[0]+","+ neg_deg[1]+","+ neg_deg[2]+","+ neg_deg[3]+","+ neg_deg[4]+","+ neg_deg[5]);
+        System.out.println("pos limit deg:"+pos_deg[0]+","+ pos_deg[1]+","+ pos_deg[2]+","+ pos_deg[3]+","+ pos_deg[4]+","+pos_deg[5]);
+        return 0;
     }
 
-开始奇异位姿保护
-++++++++++++++++++++++++++++++++
+设置机器人碰撞检测方法
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionchanged:: Java SDK-v1.0.5-3.8.2
+
 .. code-block:: Java
     :linenos:
 
     /**
-    * @brief  开始奇异位姿保护
-    * @param  [in]  protectMode 奇异保护模式，0：关节模式；1-笛卡尔模式
-    * @param  [in]  minShoulderPos 肩奇异调整范围(mm), 默认100
-    * @param  [in]  minElbowPos 肘奇异调整范围(mm), 默认50
-    * @param  [in]  minWristPos 腕奇异调整范围(°), 默认10
-    * @return  错误码
+    * @brief 设置机器人碰撞检测方法
+    * @param [in] method 碰撞检测方法：0-电流模式；1-双编码器；2-电流和双编码器同时开启
+    * @param [in] thresholdMode 碰撞等级阈值方式；0-碰撞等级固定阈值方式；1-自定义碰撞检测阈值
+    * @return 错误码
     */
-    int SingularAvoidStart(int protectMode, double minShoulderPos, double minElbowPos, double minWristPos);
+    int SetCollisionDetectionMethod(int method,int thresholdMode)
 
-停止奇异位姿保护
-++++++++++++++++++++++++++++++++
+设置静态下碰撞检测开始关闭
+++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
     /**
-    * @brief  停止奇异位姿保护
+    * @brief 设置静态下碰撞检测开始关闭
+    * @param  [in] status 0-关闭；1-开启
     * @return  错误码
     */
-    int SingularAvoidEnd();
+    public int SetStaticCollisionOnOff(int status)
 
-代码示例
-++++++++++++++++++++++++++++++++
+设置机器人碰撞检测方法代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    public static void main(String[] args)
+    public static int TestCollisionMethod(Robot robot)
     {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
+        int rtn = robot.SetCollisionDetectionMethod(0);
+
+        rtn = robot.SetStaticCollisionOnOff(1);
+        System.out.println("SetStaticCollisionOnOff On rtn is:"+ rtn);
+        robot.Sleep(5000);
+        rtn = robot.SetStaticCollisionOnOff(0);
+        System.out.println("SetStaticCollisionOnOff Off rtn is:"+ rtn);
+
+        robot.CloseRPC();
+        return 0;
+    }
+
+关节扭矩功率检测
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 关节扭矩功率检测
+    * @param  [in] status 0-关闭；1-开启
+    * @param  [in] power 设定最大功率(W)
+    * @return  错误码
+    */
+    public int SetPowerLimit(int status, double power)
+
+关节扭矩功率检测代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static int TestPowerLimit(Robot robot)
+    {
+        robot.DragTeachSwitch(1);
+        robot.SetPowerLimit(1, 200);
+        List<Number> joint_toq=new ArrayList<>();
+        joint_toq=robot.GetJointTorques(1);
+
+        int count = 100;
+        robot.ServoJTStart(); //   #servoJT开始
+        int error = 0;
+        while (count > 0)
         {
-            System.out.println("rpc连接 success");
+            count = count - 1;
+            robot.Sleep(1);
         }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        DescPose startdescPose=new DescPose(-402.473, -185.876, 103.985, -175.367, 59.682, 94.221);
-        JointPos startjointPos=new JointPos(-0.095, -50.828, 109.737, -150.708, -30.225, -0.623);
+        error = robot.ServoJTEnd();
+        robot.DragTeachSwitch(0);
 
-        DescPose enddescPose=new DescPose(-399.264, -184.434, 296.022, -4.402, 58.061, -94.161);
-        JointPos endjointPos=new JointPos(-0.095, -65.547, 105.145, -131.397, 31.851, -0.622);
-
-        ExaxisPos exaxisPos=new ExaxisPos(0, 0, 0, 0);
-        DescPose offdese=new DescPose(0, 0, 0, 0, 0, 0);
-
-        robot.MoveL(startjointPos, startdescPose, 0, 0, 50, 100, 100, -1, exaxisPos, 0, 0, offdese, 1, 1);
-        robot.SingularAvoidStart(0, 150, 50, 20);
-        robot.MoveL(endjointPos, enddescPose, 0, 0, 50, 100, 100, -1, exaxisPos, 0, 0, offdese, 1, 1);
-        robot.SingularAvoidEnd();
+        robot.CloseRPC();
+        return 0;
     }

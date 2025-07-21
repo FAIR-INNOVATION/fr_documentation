@@ -17,16 +17,6 @@
     "默认参数", "无"
     "返回值", "- 成功：返回一个机器人对象
     - 失败：创建的对象会被销毁"
-     
-代码示例
---------
-
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
 
 关闭RPC连接
 ++++++++++++
@@ -40,17 +30,6 @@
     "必选参数", "无"
     "默认参数", "无"
     "返回值", "无"
-     
-代码示例
---------
-
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    robot.CloseRPC()
 
 查询SDK版本号
 ++++++++++++++
@@ -66,21 +45,6 @@
     "返回值", "- 错误码 成功-0  失败-errcode
     - ``sdk``：SDK版本号、控制器版本号"
 
-代码示例
------------
-
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret,version  = robot.GetSDKVersion()    #查询SDK版本号
-    if ret ==0:
-        print("SDK版本号为", version )
-    else:
-        print("查询失败，错误码为",ret)
-
 获取控制器IP
 +++++++++++++
 
@@ -95,56 +59,8 @@
     "返回值", "- 错误码 成功-0  失败- errcode
     - ``ip``：控制器IP"
 
-代码示例
-----------
-
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    ret,ip = robot.GetControllerIP()    #查询控制器IP
-    if ret ==0:
-        print("控制器IP为", ip)
-    else:
-        print("查询失败，错误码为",ret)
-
-控制机器人手自动模式切换
-++++++++++++++++++++++++++
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``Mode(state)``"
-    "描述", "控制机器人手自动模式切换"
-    "必选参数", "- ``state``：0-自动模式，1-手动模式"
-    "默认参数", "无"
-    "返回值", "错误码  成功-0  失败- errcode"
-
-代码示例
-----------
-
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    import time
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    #机器人手自动模式切换
-    ret = robot.Mode(0)   #机器人切入自动运行模式
-    print("机器人切入自动运行模式", ret)
-    time.sleep(1)
-    ret = robot.Mode(1)   #机器人切入手动模式
-    print("机器人切入手动模式", ret)
-
-机器人拖动模式
-+++++++++++++++++
-
 控制机器人进入或退出拖动示教模式
----------------------------------
+++++++++++++++++++++++++++++++++++
 
 .. csv-table:: 
     :stub-columns: 1
@@ -157,7 +73,7 @@
     "返回值", "错误码 成功-0  失败- errcode"
 
 查询机器人是否处于拖动模式
-----------------------------
+++++++++++++++++++++++++++++++++++
 
 .. csv-table:: 
     :stub-columns: 1
@@ -169,49 +85,6 @@
     "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode
     - ``state``：0-非拖动示教模式，1-拖动示教模式"
-
-代码示例
-----------
-
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    import time
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    #机器人手自动模式切换
-    ret = robot.Mode(0)   #机器人切入自动运行模式
-    print("机器人切入自动运行模式", ret)
-    time.sleep(1)
-    ret = robot.Mode(1)   #机器人切入手动模式
-    print("机器人切入手动模式", ret)
-
-    from fairino import Robot
-    import time
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    #机器人进入或退出拖动示教模式
-    ret = robot.Mode(1) #机器人切入手动模式
-    print("机器人切入手动模式", ret)
-    time.sleep(1)
-    ret = robot.DragTeachSwitch(1)  #机器人切入拖动示教模式，必须在手动模式下才能切入拖动示教模式
-    print("机器人切入拖动示教模式", ret)
-    time.sleep(1)
-    ret,state = robot.IsInDragTeach()    #查询是否处于拖动示教模式，1-拖动示教模式，0-非拖动示教模式
-    if ret == 0:
-        print("当前拖动示教模式状态：", state)
-    else:
-        print("查询失败，错误码为：",ret)
-    time.sleep(3)
-    ret = robot.DragTeachSwitch(0)  #机器人切入非拖动示教模式，必须在手动模式下才能切入非拖动示教模式
-    print("机器人切入非拖动示教模式", ret)
-    time.sleep(1)
-    ret,state = robot.IsInDragTeach()    #查询是否处于拖动示教模式，1-拖动示教模式，0-非拖动示教模式
-    if ret == 0:
-        print("当前拖动示教模式状态：", state)
-    else:
-        print("查询失败，错误码为：",ret)
 
 控制机器人上使能或下使能
 ++++++++++++++++++++++++++++
@@ -226,126 +99,19 @@
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode "
 
-代码示例
-----------
 
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    import time
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    #机器人上使能或下使能
-    ret = robot.RobotEnable(0)   #机器人下使能
-    print("机器人下使能", ret)
-    time.sleep(3)
-    ret = robot.RobotEnable(1)   #机器人上使能，机器人上电后默认自动上使能
-    print("机器人上使能", ret)
-
-关节扭矩功率检测
-++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.5
+控制机器人手自动模式切换
+++++++++++++++++++++++++++
 
 .. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``SetPowerLimit(status, power)``"
-    "描述", "关节扭矩功率检测"
-    "必选参数", "- ``state``：0-关闭，1-开启
-    - ``power``：设定最大功率(W)"
+    "原型", "``Mode(state)``"
+    "描述", "控制机器人手自动模式切换"
+    "必选参数", "- ``state``：0-自动模式，1-手动模式"
     "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode "
-
-设置机器人 20004 端口反馈周期
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.5
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``SetRobotRealtimeStateSamplePeriod(period)``"
-    "描述", "设置机器人 20004 端口反馈周期"
-    "必选参数", "- ``period``：机器人 20004 端口反馈周期(ms)"
-    "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode "
-
-获取机器人 20004 端口反馈周期
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.5
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetRobotRealtimeStateSamplePeriod()``"
-    "描述", "获取机器人 20004 端口反馈周期"
-    "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode 
-    - ``period``：机器人 20004 端口反馈周期(ms)"
-
-机器人软件升级
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.5
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``SoftwareUpgrade(filePath, block)``"
-    "描述", "机器人软件升级"
-    "必选参数", "- ``filePath``：软件升级包全路径
-    - ``block``：是否阻塞至升级完成 true:阻塞；false:非阻塞"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode "
-
-获取机器人软件升级状态
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.5
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetSoftwareUpgradeState()``"
-    "描述", "获取机器人软件升级状态"
-    "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode 
-    - ``state``：机器人软件包升级状态，0：空闲中或上传升级包中，1~100：升级完成百分比，-1：升级软件失败，-2：校验失败，-3：版本校验失败，-4：解压失败，-5：用户配置升级失败，-6：外设配置升级失败，-7：扩展轴配置升级失败，-8：机器人配置升级失败，-9：DH参数配置升级失败"
-
-获取机器人状态
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.1.1
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetRobotRealTimeState()``"
-    "描述", "获取机器人状态"
-    "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode 
-    - ``robot_state_pkg``：机器人状态结构体"
-
-获取控制箱SN码
-+++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.1.1
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetRobotSN()``"
-    "描述", "获取控制箱SN码"
-    "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode
-    - ``SNCode``：控制箱SN码"
+    "返回值", "错误码  成功-0  失败- errcode"
 
 关闭机器人操作系统
 +++++++++++++++++++++++++++++++++++++++++++++
@@ -360,33 +126,148 @@
     "必选参数", "无"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
-    
-获取SmartTool按钮状态
+
+初始化日志参数
 +++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.1.2
+.. versionadded:: python SDK-v2.1.1
 
 .. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``GetSmarttoolBtnState()``"
-    "描述", "获取SmartTool按钮状态"
+    "原型", "``LoggerInit(output_model=1, file_path="", file_num=5)``"
+    "描述", "初始化日志参数"
+    "必选参数", "无"
+    "默认参数", "- ``output_model``：输出模式，0-直接输出；1-缓冲输出；2-异步输出，默认1
+    - ``file_path``：文件保存路径+名称，名称必须是xxx.log的形式，比如/home/fr/linux/fairino.log。默认执行程序所在路径，默认名称为：fairino_year+month+data.log(如:fairino_2024_03_13.log);
+    - ``file_num``：滚动存储的文件数量，1~20个，默认值为5。单个文件上限50M;"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+设置日志过滤等级
++++++++++++++++++++++++++++++++++
+
+.. versionadded:: python SDK-v2.0.2
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetLoggerLevel(lvl=1)``"
+    "描述", "设置日志过滤等级"
+    "必选参数", "无"
+    "默认参数", "- ``lvl``：过滤等级值，值越小输出日志越少, 1-error, 2-warnning, 3-inform, 4-debug,默认值是1"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+机器人基础控制代码示例
++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos: 
+
+    from fairino import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    error,version = robot.GetSDKVersion()
+    print(f"SDK version: {version}")
+    error,ip = robot.GetControllerIP()
+    print(f"controller ip: {ip}")
+    robot.Mode(1)
+    time.sleep(1)
+    robot.DragTeachSwitch(state=1)
+    time.sleep(1)
+    error,state = robot.IsInDragTeach()
+    print(f"drag state: {state}")
+    time.sleep(3)
+    robot.DragTeachSwitch(state=0)
+    time.sleep(1)
+    error,state = robot.IsInDragTeach()
+    print(f"drag state: {state}")
+    time.sleep(3)
+    robot.RobotEnable(0)
+    time.sleep(3)
+    robot.RobotEnable(1)
+    robot.Mode(0)
+    time.sleep(1)
+    robot.Mode(1)
+    robot.CloseRPC()
+
+获取机器人软件版本
+++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.1
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetSoftwareVersion()``"
+    "描述", "获取机器人软件版本"
     "必选参数", "无"
     "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode
-    - ``state``：SmartTool手柄按钮状态;(bit0:0-通信正常；1-通信掉线；bit1-撤销操作；bit2-清空程序；bit3-A键；bit4-B键；bit5-C键；bit6-D键；bit7-E键；bit8-IO键；bit9-手自动；bit10开始)"
+    - ``robotModel``：机器人模型
+    - ``webVersion``：web版本
+    - ``controllerVersion``：控制器版本"
 
-代码示例
-----------
+获取机器人硬件版本信息
+++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.1
 
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetSlaveHardVersion()``"
+    "描述", "获取机器人硬件版本信息"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``ctrlBoxBoardVersion``：控制箱版本
+    - ``driver1Version``
+    - ``driver2Version``
+    - ``driver3Version``
+    - ``driver4Version``
+    - ``driver5Version``
+    - ``driver6Version``
+    - ``endBoardVersion``"
+
+获取机器人固件版本信息
+++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.1
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetSlaveFirmVersion()``"
+    "描述", "获取机器人固件版本信息"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``ctrlBoxBoardVersion``：控制箱版本
+    - ``driver1Version``
+    - ``driver2Version``
+    - ``driver3Version``
+    - ``driver4Version``
+    - ``driver5Version``
+    - ``driver6Version``
+    - ``endBoardVersion``"
+
+获取机器人软固件版本代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: python
     :linenos:
 
     from fairino import Robot
-    import time
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
-        while True:
-        error,state = robot.GetSmarttoolBtnState()
-        print(f"{state:016b}")
-        time.sleep(0.1)
+    rtn,robotModel, webversion, controllerVersion = robot.GetSoftwareVersion()
+    print(f"Getsoftwareversion rtn is: {rtn}")
+    print(f"robotmodel is: {robotModel}, webversion is: {webversion}, controllerVersion is: {controllerVersion}\n")
+    rtn,ctrlBoxBoardversion, driver1version, driver2version,driver3version, driver4version, driver5version,driver6version, endBoardversion = robot.GetHardwareversion()
+    print(f"GetHardwareversion rtn is: {rtn}")
+    print(f"GetHardwareversion get hardware version is: {ctrlBoxBoardversion}, {driver1version}, {driver2version}, "
+          f"{driver3version}, {driver4version}, {driver5version}, {driver6version}, {endBoardversion}\n")
+    rtn,ctrlBoxBoardversion, driver1version, driver2version,driver3version, driver4version, driver5version,driver6version, endBoardversion = robot.GetFirmwareVersion()
+    print(f"GetFirmwareversion rtn is: {rtn}")
+    print(f"GetFirmwareversion get firmware version is: {ctrlBoxBoardversion}, {driver1version}, {driver2version}, "
+          f"{driver3version}, {driver4version}, {driver5version}, {driver6version}, {endBoardversion}\n")
+    robot.CloseRPC()

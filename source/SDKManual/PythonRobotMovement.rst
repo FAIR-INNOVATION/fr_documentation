@@ -4,11 +4,8 @@
 .. toctree:: 
     :maxdepth: 5
 
-机器人点动
-+++++++++++++
-
 jog点动
----------
++++++++++++++
 
 .. csv-table:: 
     :stub-columns: 1
@@ -25,7 +22,7 @@ jog点动
     "返回值", "错误码 成功-0  失败- errcode"
 
 jog点动减速停止
------------------
+++++++++++++++++++++++++++
 
 .. csv-table:: 
     :stub-columns: 1
@@ -38,7 +35,7 @@ jog点动减速停止
     "返回值", "错误码 成功-0  失败- errcode"
 
 jog点动立即停止
------------------
+++++++++++++++++++++++++++
 
 .. csv-table:: 
     :stub-columns: 1
@@ -50,8 +47,8 @@ jog点动立即停止
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
-代码示例
-^^^^^^^^^^^^
+机器人点动控制代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. code-block:: python
     :linenos:
@@ -60,98 +57,27 @@ jog点动立即停止
     import time
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
-    # 机器人单轴点动
-    robot.StartJOG(0,1,0,20.0,20.0,30.0)    # 单关节运动,StartJOG为非阻塞指令，运动状态下接收其他运动指令（包含StartJOG）会被丢弃
-    time.sleep(1)
-    #机器人单轴点动减速停止
-    ret = robot.StopJOG(1)
-    print(ret)
-    #机器人单轴点动立即停止
-    robot.ImmStopJOG()
-    robot.StartJOG(0,2,1,20.0)
-    time.sleep(1)
-    robot.ImmStopJOG()
-    robot.StartJOG(0,3,1,20.0)
-    time.sleep(1)
-    robot.ImmStopJOG()
-    robot.StartJOG(0,4,1,20.0,vel=40)
-    time.sleep(1)
-    robot.ImmStopJOG()
-    robot.StartJOG(0,5,1,20.0,acc=50)
-    time.sleep(1)
-    robot.ImmStopJOG()
-    robot.StartJOG(0,6,1,20.0,20.0,30.0)
-    time.sleep(1)
-    robot.ImmStopJOG()
-    # 基坐标
-    robot.StartJOG(2,1,0,20.0)  #基坐标系下点动
-    time.sleep(1) 
-    # #机器人单轴点动立即停止
-    robot.ImmStopJOG()
-    robot.StartJOG(2,1,1,20.0)
-    time.sleep(1)
-    robot.ImmStopJOG()
-    robot.StartJOG(2,2,1,20.0)
-    time.sleep(1)
-    robot.ImmStopJOG()
-    robot.StartJOG(2,3,1,20.0)
-    time.sleep(1)
-    robot.ImmStopJOG()
-    robot.StartJOG(2,4,1,20.0)
-    time.sleep(1)
-    robot.ImmStopJOG()
-    robot.StartJOG(2,5,1,20.0)
-    time.sleep(1)
-    robot.ImmStopJOG()
-    robot.StartJOG(2,6,1,20.0)
-    time.sleep(1)
-    robot.ImmStopJOG()
-    # 工具坐标
-    robot.StartJOG(4,1,0,20.0,20.0,100.0)  #工具坐标系下点动
-    time.sleep(1)
-    # #机器人单轴点动立即停止
-    robot.ImmStopJOG()
-    robot.StartJOG(4,1,1,20.0)
-    time.sleep(1)
-    robot.ImmStopJOG()
-    robot.StartJOG(4,2,1,20.0)
-    time.sleep(1)
-    robot.ImmStopJOG()
-    robot.StartJOG(4,3,1,20.0)
-    time.sleep(1)
-    robot.ImmStopJOG()
-    robot.StartJOG(4,4,1,20.0,20.0,100.0)
-    time.sleep(1)
-    robot.ImmStopJOG()
-    robot.StartJOG(4,5,1,20.0,vel=10.0,acc=20.0)
-    time.sleep(1)
-    robot.ImmStopJOG()
-    robot.StartJOG(4,6,1,20.0,acc=40.0)
-    time.sleep(1)
-    robot.ImmStopJOG()
-    # 工件坐标
-    robot.StartJOG(8,1,0,20.0,20.0,100.0)  #工件坐标系下点动
-    time.sleep(1)
-    # #机器人单轴点动立即停止
-    robot.ImmStopJOG()
-    robot.StartJOG(8,1,1,20.0)
-    time.sleep(1)
-    robot.ImmStopJOG()
-    robot.StartJOG(8,2,1,20.0)
-    time.sleep(1)
-    robot.ImmStopJOG()
-    robot.StartJOG(8,3,1,20.0)
-    time.sleep(1)
-    robot.ImmStopJOG()
-    robot.StartJOG(8,4,1,20.0)
-    time.sleep(1)
-    robot.ImmStopJOG()
-    robot.StartJOG(8,5,1,20.0,vel=30.0)
-    time.sleep(1)
-    robot.ImmStopJOG()
-    robot.StartJOG(8,6,1,20.0,20.0,acc=90.0)
-    time.sleep(1)
-    robot.ImmStopJOG()
+    for i in range(6):
+        robot.StartJOG(0, i + 1, 0, 20.0, 20.0, 30.0)
+        time.sleep(1)
+        robot.ImmStopJOG()
+        time.sleep(1)
+    for i in range(6):
+        robot.StartJOG(2, i + 1, 0, 20.0, 20.0, 30.0)
+        time.sleep(1)
+        robot.ImmStopJOG()
+        time.sleep(1)
+    for i in range(6):
+        robot.StartJOG(4, i + 1, 0, 20.0, 20.0, 30.0)
+        time.sleep(1)
+        robot.StopJOG(5)
+        time.sleep(1)
+    for i in range(6):
+        robot.StartJOG(8, i + 1, 0, 20.0, 20.0, 30.0)
+        time.sleep(1)
+        robot.StopJOG(9)
+        time.sleep(1)
+    robot.CloseRPC()
 
 关节空间运动
 ++++++++++++++
@@ -174,28 +100,6 @@ jog点动立即停止
     - ``offset_flag``:[0]-不偏移，[1]-工件/基坐标系下偏移，[2]-工具坐标系下偏移 默认 0;
     - ``offset_pos``:位姿偏移量，单位 [mm][°] 默认[0.0,0.0,0.0,0.0,0.0,0.0];"
     "返回值", "错误码  成功-0  失败- errcode"
-
-代码示例
--------------
-
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    import time
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    joint_pos4 = [-83.24, -96.476, 93.688, -114.079, -62, -100]
-    joint_pos5 = [-43.24, -70.476, 93.688, -114.079, -62, -80]
-    joint_pos6 = [-83.24, -96.416, 43.188, -74.079, -80, -10]
-    tool = 0 #工具坐标系编号
-    user = 0 #工件坐标系编号
-    ret = robot.MoveJ(joint_pos4, tool, user, vel=30)   #关节空间运动
-    print("关节空间运动点4:错误码", ret)
-    ret = robot.MoveJ(joint_pos5, tool, user)
-    print("关节空间运动点5:错误码", ret)
-    robot.MoveJ(joint_pos6, tool, user, offset_flag=1, offset_pos=[10,10,10,0,0,0])
-    print("关节空间运动点6:错误码", ret)
 
 笛卡尔空间直线运动
 +++++++++++++++++++
@@ -224,28 +128,6 @@ jog点动立即停止
     - ``speedPercent``:允许降速阈值百分比[0-100]，默认10%
     "
     "返回值", "错误码 成功-0  失败- errcode"
-
-代码示例
-------------
-
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    import time
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    desc_pos1 = [36.794,-475.119, 65.379, -176.938, 2.535, -179.829]
-    desc_pos2 = [136.794,-475.119, 65.379, -176.938, 2.535, -179.829]
-    desc_pos3 = [236.794,-475.119, 65.379, -176.938, 2.535, -179.829]
-    tool = 0 #工具坐标系编号
-    user = 0 #工件坐标系编号
-    ret = robot.MoveL(desc_pos1, tool, user)   #笛卡尔空间直线运动
-    print("笛卡尔空间直线运动点1:错误码", ret) 
-    robot.MoveL(desc_pos2, tool, user, vel=20, acc=100)
-    print("笛卡尔空间直线运动点2:错误码", ret) 
-    robot.MoveL(desc_pos3, tool, user, offset_flag=1, offset_pos=[10,10,10,0,0,0])
-    print("笛卡尔空间直线运动点3:错误码", ret)
 
 笛卡尔空间圆弧运动
 ++++++++++++++++++++
@@ -276,25 +158,6 @@ jog点动立即停止
     - ``ovl:``:速度缩放因子，[0~100] 默认100.0;
     - ``blendR``:[-1.0]-运动到位 (阻塞)，[0~1000]-平滑半径 (非阻塞)，单位 [mm] 默认-1.0;"
     "返回值", "错误码 成功-0  失败- errcode"
-
-代码示例
--------------
-
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    desc_pos1 = [236.794,-475.119, 65.379, -176.938, 2.535, -179.829]
-    desc_posc1 = [266.794,-455.119, 65.379, -176.938, 2.535, -179.829] #MoveC过渡点
-    desc_posc2 = [286.794,-475.119, 65.379, -176.938, 2.535, -179.829]  #MoveC目标点
-    tool = 0#工具坐标系编号
-    user = 0 #工件坐标系编号
-    ret = robot.MoveL(desc_pos1, tool, user, vel=30, acc=100)
-    print("笛卡尔空间直线运动:错误码", ret) 
-    ret = robot.MoveC(desc_posc1, tool, user, desc_posc2,tool, user)  #笛卡尔空间圆弧运动
-    print("笛卡尔空间圆弧运动:错误码", ret)
 
 笛卡尔空间整圆运动
 +++++++++++++++++++++++
@@ -327,8 +190,27 @@ jog点动立即停止
     - ``blendR``:-1：阻塞；0~1000：平滑半径,默认：-1；"
     "返回值", "错误码 成功-0  失败- errcode"
 
-代码示例
--------------
+笛卡尔空间点到点运动
+++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``MoveCart(desc_pos, tool, user, vel = 20.0, acc = 0.0, ovl = 100.0, blendT = -1.0, config = -1)``"
+    "描述", "笛卡尔空间点到点运动"
+    "必选参数", "- ``desc_pos``:目标笛卡尔位置；
+    - ``tool``:工具号，[0~14]；
+    - ``user``:工件号，[0~14]；"
+    "默认参数", "- ``vel``:速度，范围 [0~100]，默认为 20.0;
+    - ``acc``:加速度，范围 [0~100]，暂不开放,默认为 0.0;
+    - ``ovl``:速度缩放因子，[0~100]，默认为 100.0;
+    - ``blendT``:[-1.0]-运动到位 (阻塞)，[0~500]-平滑时间 (非阻塞)，单位 [ms] 默认为 -1.0;
+    - ``config``:关节配置，[-1]-参考当前关节位置求解，[0~7]-依据关节配置求解 默认为 -1"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+机器人基本运动指令代码示例
+++++++++++++++++++++++++++++++++++++++++++++++
 
 .. code-block:: python
     :linenos:
@@ -336,39 +218,39 @@ jog点动立即停止
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
-    middescPoseCir1 = [-435.414, -342.926, 309.205, -171.382, -4.513, 171.520]
-    midjointPosCir1 = [26.804, -79.866, 106.642, -125.433, -85.562, -54.721]
-    enddescPoseCir1 = [-524.862, -217.402, 308.459, -171.425, -4.810, 156.088]
-    endjointPosCir1 = [11.399, -78.055, 104.603, -125.421, -85.770, -54.721]
-    middescPoseCir2 = [-482.691, -587.899, 318.594, -171.001, -4.999, -172.996]
-    midjointPosCir2 = [42.314, -53.600, 67.296, -112.969, -85.533, -54.721]
-    enddescPoseCir2 = [-403.942, -489.061, 317.038, -163.189, -10.425, -175.627]
-    endjointPosCir2 = [39.959, -70.616, 96.679, -134.243, -82.276, -54.721]
-    middescPoseMoveC = [-435.414, -342.926, 309.205, -171.382, -4.513, 171.520]
-    midjointPosMoveC = [26.804, -79.866, 106.642, -125.433, -85.562, -54.721]
-    enddescPoseMoveC = [-524.862, -217.402, 308.459, -171.425, -4.810, 156.088]
-    endjointPosmoveC = [11.399, -78.055, 104.603, -125.421, -85.770, -54.721]
-    middescPoseCir3 = [-435.414, -342.926, 309.205, -171.382, -4.513, 171.520]
-    midjointPosCir3 = [26.804, -79.866, 106.642, -125.433, -85.562, -54.721]
-    enddescPoseCir3 = [-569.505, -405.378, 357.596, -172.862, -10.939, 171.108]
-    endjointPosCir3 = [27.138, -63.750, 78.586, -117.861, -90.588, -54.721]
-    middescPoseCir4 = [-482.691, -587.899, 318.594, -171.001, -4.999, -172.996]
-    midjointPosCir4 = [42.314, -53.600, 67.296, -112.969, -85.533, -54.721]
-    enddescPoseCir4 = [-569.505, -405.378, 357.596, -172.862, -10.939, 171.108]
-    endjointPosCir4 = [27.138, -63.750, 78.586, -117.861, -90.588, -54.721]
-    startdescPose = [-569.505, -405.378, 357.596, -172.862, -10.939, 171.108]
-    startjointPos = [27.138, -63.750, 78.586, -117.861, -90.588, -54.721]
-    linedescPose = [-403.942, -489.061, 317.038, -163.189, -10.425, -175.627]
-    linejointPos = [39.959, -70.616, 96.679, -134.243, -82.276, -54.721]
-    exaxisPos = [0, 0, 0, 0]
-    offdese = [0, 0, 0, 0, 0, 0]
-    robot.MoveJ(joint_pos=startjointPos, tool=3, user=0, vel=100)
-    robot.Circle(desc_pos_p=middescPoseCir1, tool_p=3, user_p=0, vel_p=100, desc_pos_t=enddescPoseCir1, tool_t=3,user_t=0, vel_t=100, offset_flag=-1,oacc=100, blendR=20)
-    robot.Circle(desc_pos_p=middescPoseCir2, tool_p=3, user_p=0, vel_p=100, desc_pos_t=enddescPoseCir2, tool_t=3,user_t=0, vel_t=100, offset_flag=-1,oacc=100, blendR=20)
-    robot.MoveC(desc_pos_p=middescPoseMoveC, tool_p=3, user_p=0, vel_p=100,desc_pos_t=enddescPoseMoveC,tool_t=3,user_t=0,vel_t=100, blendR=20)
-    robot.Circle(desc_pos_p=middescPoseCir3, tool_p=3, user_p=0, vel_p=100, desc_pos_t=enddescPoseCir3, tool_t=3,user_t=0, vel_t=100, offset_flag=-1,oacc=100, blendR=20)
-    robot.MoveL(desc_pos=linedescPose, tool=3, user=0, vel=100,blendMode=0)
-    robot.Circle(desc_pos_p=middescPoseCir4, tool_p=3, user_p=0, vel_p=100, desc_pos_t=enddescPoseCir4, tool_t=3,user_t=0, vel_t=100, offset_flag=-1,oacc=100, blendR=20)
+    j1 = [-11.904, -99.669, 117.473, -108.616, -91.726, 74.256]
+    j2 = [-45.615, -106.172, 124.296, -107.151, -91.282, 74.255]
+    j3 = [-29.777, -84.536, 109.275, -114.075, -86.655, 74.257]
+    j4 = [-31.154, -95.317, 94.276, -88.079, -89.740, 74.256]
+    desc_pos1 = [-419.524, -13.000, 351.569, -178.118, 0.314, 3.833]
+    desc_pos2 = [-321.222, 185.189, 335.520, -179.030, -1.284, -29.869]
+    desc_pos3 = [-487.434, 154.362, 308.576, 176.600, 0.268, -14.061]
+    desc_pos4 = [-443.165, 147.881, 480.951, 179.511, -0.775, -15.409]
+    offset_pos = [0, 0, 0, 0, 0, 0]
+    epos = [0, 0, 0, 0]
+    tool = 0
+    user = 0
+    vel = 100.0
+    acc = 100.0
+    ovl = 100.0
+    blendT = 0.0
+    blendR = 0.0
+    flag = 0
+    search = 0
+    robot.SetSpeed(20)
+    rtn = robot.MoveJ(joint_pos=j1, tool=tool, user=user, vel=vel, blendT=blendT)
+    print(f"movej errcode: {rtn}")
+    rtn = robot.MoveL(desc_pos=desc_pos2, tool=tool, user=user, vel=vel, blendR=blendR)
+    print(f"movel errcode: {rtn}")
+    rtn = robot.MoveC(desc_pos_p=desc_pos3, tool_p=tool, user_p=user, desc_pos_t=desc_pos4, tool_t=tool, user_t=user, blendR=blendR)
+    print(f"movec errcode: {rtn}")
+    rtn = robot.MoveJ(joint_pos=j2, tool=tool, user=user, vel=vel, blendT=blendT)
+    print(f"movej errcode: {rtn}")
+    rtn = robot.Circle(desc_pos_p=desc_pos3, tool_p=tool, user_p=user, desc_pos_t=desc_pos1, tool_t=tool, user_t=user)
+    print(f"circle errcode: {rtn}")
+    rtn = robot.MoveCart(desc_pos=desc_pos4, tool=tool, user=user, blendT=blendT)
+    print(f"MoveCart errcode: {rtn}")
+    robot.CloseRPC()
 
 笛卡尔空间螺旋线运动
 ++++++++++++++++++++++
@@ -393,7 +275,7 @@ jog点动立即停止
     "返回值", "错误码 成功-0  失败- errcode"
 
 代码示例
----------------
+++++++++++++++++++++++
 
 .. code-block:: python
     :linenos:
@@ -401,15 +283,25 @@ jog点动立即停止
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
-    desc_pos_spiral= [236.794,-475.119, -65.379, -176.938, 2.535, -179.829]#Spiral目标点
-    #螺旋线参数[circle_num,circle_angle,rad_init,rad_add,rotaxis_add,rot_direction]
-    # circle_num:螺旋圈数，circle_angle:螺旋倾角，rad_init:螺旋初始半径，rad_add:半径增量，
-    # rotaxis_add:转轴方向增量，rot_direction:旋转方向，0-顺时针，1-逆时针
-    param = [5.0,10,30,10,5,0]
-    tool = 0#工具坐标系编号
-    user = 0 #工件坐标系编号
-    ret = robot.NewSpiral(desc_pos_spiral, tool, user, param,vel=40 )  #笛卡尔空间螺旋线运动
-    print("笛卡尔空间螺旋线运动:错误码", ret)
+    joint_pos = [-11.904, -99.669, 117.473, -108.616, -91.726, 74.256]
+    desc_pos = [-419.524, -13.000, 351.569, -178.118, 0.314, 3.833]
+    offset_pos1 = [50, 0, 0, -30, 0, 0]
+    offset_pos2 = [50, 0, 0, -5, 0, 0]
+    epos = [0, 0, 0, 0]
+    sp = [5,5.0,50.0,10.0,10.0,0]
+    tool = 0
+    user = 0
+    vel = 100.0
+    acc = 100.0
+    ovl = 100.0
+    blendT = 0.0
+    flag = 2
+    robot.SetSpeed(20)
+    rtn = robot.MoveJ(joint_pos=joint_pos, tool=tool, user=user, exaxis_pos=epos, blendT=blendT, offset_flag=flag, offset_pos=offset_pos1)
+    print(f"MoveJ error code: {rtn}")
+    rtn = robot.NewSpiral(desc_pos=desc_pos, tool=tool, user=user, param=sp, exaxis_pos=epos, offset_flag=flag, offset_pos=offset_pos2)
+    print(f"NewSpiral error code: {rtn}")
+    robot.CloseRPC()
 
 伺服运动开始
 ++++++++++++++++++++++
@@ -456,6 +348,99 @@ jog点动立即停止
     - ``id``:servoJ指令ID,默认为0;"
     "返回值", "错误码 成功-0  失败- errcode"
 
+关节空间伺服模式运动代码示例
+++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    joint_pos = [0.0,0.0,0.0,0.0,0.0,0.0]
+    epos = [0.0,0.0,0.0,0.0]
+    vel = 0.0
+    acc = 0.0
+    cmdT = 0.008
+    filterT = 0.0
+    gain = 0.0
+    flag = 0
+    count = 500
+    dt = 0.1
+    ret, joint_pos = robot.GetActualJointPosDegree(0)
+    if ret == 0:
+        print("开始伺服关节运动...")
+        robot.ServoMoveStart()
+        while count > 0:
+            robot.ServoJ(joint_pos=joint_pos, axisPos=epos, cmdT=cmdT, filterT=filterT, gain=gain)
+            joint_pos[0] += dt
+            count -= 1
+            time.sleep(cmdT)
+        robot.ServoMoveEnd()
+        robot.CloseRPC()
+
+关节扭矩控制开始
++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``ServoJTStart()``"
+    "描述", "关节扭矩控制开始"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+关节扭矩控制
++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``ServoJT(torque, interval)``"
+    "描述", "关节扭矩控制"
+    "必选参数", "- ``torque``:j1~j6关节扭矩，单位Nm
+    - ``interval``:指令周期，单位s，范围[0.001~0.008]"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+关节扭矩控制结束
++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``ServoJTEnd()``"
+    "描述", "关节扭矩控制结束"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+关节扭矩控制代码示例
+++++++++++++++++++++++
+
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    robot.DragTeachSwitch(1)
+    # torques = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    error,torques = robot.GetJointTorques(1)
+    robot.ServoJTStart()
+    count = 100
+    while count > 0:
+        error = robot.ServoJT(torques, 0.001)
+        count -= 1
+        time.sleep(0.001)
+    error = robot.ServoJTEnd()
+    robot.DragTeachSwitch(0)
+    robot.CloseRPC()
+
 笛卡尔空间伺服模式运动
 ++++++++++++++++++++++++
 
@@ -475,8 +460,8 @@ jog点动立即停止
     - ``gain``:目标位置的比例放大器，暂不开放， 默认为0.0;"
     "返回值", "错误码 成功-0  失败- errcode"
 
-代码示例
----------------
+笛卡尔空间伺服模式运动代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. code-block:: python
     :linenos:
@@ -485,87 +470,26 @@ jog点动立即停止
     import time
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
-    error,joint_pos = robot.GetActualJointPosDegree()
-    print("机器人当前关节位置",joint_pos)
-    joint_pos = [joint_pos[0],joint_pos[1],joint_pos[2],joint_pos[3],joint_pos[4],joint_pos[5]]
-    error_joint = 0
-    count =100
-    error = robot.ServoMoveStart()  #伺服运动开始
-    print("伺服运动开始错误码",error)
-    while(count):
-        error = robot.ServoJ(joint_pos=joint_pos,axisPos=[0,0,0,0,0,0])   #关节空间伺服模式运动
-        if error!=0:
-            error_joint =error
-        joint_pos[0] = joint_pos[0] + 0.1  #每次1轴运动0.1度，运动100次
-        count = count - 1
-        time.sleep(0.008)
-    print("关节空间伺服模式运动错误码",error_joint)
-    error = robot.ServoMoveEnd()  #伺服运动结束
-    print("伺服运动结束错误码",error) 
-    mode = 2  #[0]-绝对运动(基坐标系)，[1]-增量运动(基坐标系)，[2]-增量运动(工具坐标系)
-    n_pos = [0.0,0.0,0.5,0.0,0.0,0.0]   #笛卡尔空间位姿增量
-    error,desc_pos = robot.GetActualTCPPose()
-    print("机器人当前笛卡尔位置",desc_pos)
-    count = 100
-    error_cart =0
-    error = robot.ServoMoveStart()  #伺服运动开始
-    print("伺服运动开始错误码",error)
-    while(count):
-        error = robot.ServoCart(mode, n_pos, vel=40)   #笛卡尔空间伺服模式运动
-        if error!=0:
-            error_cart =error
-        count = count - 1
-        time.sleep(0.008)
-    print("笛卡尔空间伺服模式运动错误码", error_cart)
-    error = robot.ServoMoveEnd()  #伺服运动开始
-    print("伺服运动结束错误码",error)
-
-笛卡尔空间点到点运动
-++++++++++++++++++++++
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``MoveCart(desc_pos, tool, user, vel = 20.0, acc = 0.0, ovl = 100.0, blendT = -1.0, config = -1)``"
-    "描述", "笛卡尔空间点到点运动"
-    "必选参数", "- ``desc_pos``:目标笛卡尔位置；
-    - ``tool``:工具号，[0~14]；
-    - ``user``:工件号，[0~14]；"
-    "默认参数", "- ``vel``:速度，范围 [0~100]，默认为 20.0;
-    - ``acc``:加速度，范围 [0~100]，暂不开放,默认为 0.0;
-    - ``ovl``:速度缩放因子，[0~100]，默认为 100.0;
-    - ``blendT``:[-1.0]-运动到位 (阻塞)，[0~500]-平滑时间 (非阻塞)，单位 [ms] 默认为 -1.0;
-    - ``config``:关节配置，[-1]-参考当前关节位置求解，[0~7]-依据关节配置求解 默认为 -1"
-    "返回值", "错误码 成功-0  失败- errcode"
-
-代码示例
--------------
-
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    import time
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    desc_pos7 = [236.794,-475.119, 65.379, -176.938, 2.535, -179.829]
-    desc_pos8 = [236.794,-575.119, 165.379, -176.938, 2.535, -179.829]
-    desc_pos9 = [236.794,-475.119, 265.379, -176.938, 2.535, -179.829]
-    tool = 0 #工具坐标系编号
-    user = 0 #工件坐标系编号
-    robot.MoveCart(desc_pos7, tool, user)
-    print("笛卡尔空间点到点运动点7:错误码", ret) 
-    robot.MoveCart(desc_pos8, tool, user, vel=30)
-    print("笛卡尔空间点到点运动点8:错误码", ret) 
-    robot.MoveCart(desc_pos9, tool, user,)
-    print("笛卡尔空间点到点运动点9:错误码", ret)
-
-机器人样条运动
-++++++++++++++++
+    desc_pos_dt = [0.0,0.0,0.0,0.0,0.0,0.0]  # [x, y, z, rx, ry, rz]
+    desc_pos_dt[2] = -0.5 
+    pos_gain = [0.0, 0.0, 1.0, 0.0, 0.0, 0.0]
+    mode = 2
+    vel = 0.0
+    acc = 0.0
+    cmdT = 0.008
+    filterT = 0.0 
+    gain = 0.0 
+    flag = 0
+    count = 100 
+    robot.SetSpeed(20)
+    while count > 0:
+        robot.ServoCart(mode=mode, desc_pos=desc_pos_dt, pos_gain=pos_gain, acc=acc, vel=vel, cmdT=cmdT, filterT=filterT, gain=gain)
+        count -= 1
+        time.sleep(cmdT)
+    robot.CloseRPC()
 
 样条运动开始
------------------
+++++++++++++++++
 .. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
@@ -577,7 +501,7 @@ jog点动立即停止
     "返回值", "错误码 成功-0  失败- errcode"
 
 样条运动PTP
----------------
+++++++++++++++++
 .. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
@@ -594,7 +518,7 @@ jog点动立即停止
     "返回值", "错误码 成功-0  失败- errcode"
 
 样条运动结束
-----------------
+++++++++++++++++
 .. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
@@ -604,9 +528,9 @@ jog点动立即停止
     "必选参数", "无"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
-
-代码示例
-^^^^^^^^^^^^
+    
+样条运动代码示例
+++++++++++++++++
 
 .. code-block:: python
     :linenos:
@@ -614,26 +538,37 @@ jog点动立即停止
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
-    tool = 0 #工具坐标系编号
-    user = 0 #工件坐标系编号
-    joint_pos1 = [116.489,-85.278,111.501,-112.486,-85.561,24.693]
-    joint_pos2 = [86.489,-65.278,101.501,-112.486,-85.561,24.693]
-    joint_pos3 = [116.489,-45.278,91.501,-82.486,-85.561,24.693]
-    ret = robot.SplineStart() #样条运动开始
-    print("样条运动开始:错误码", ret)
-    ret = robot.SplinePTP(joint_pos1, tool, user)   #样条运动PTP
-    print("样条运动PTP运动点1:错误码", ret) 
-    ret = robot.SplinePTP(joint_pos2, tool, user)   #样条运动PTP
-    print("样条运动PTP运动点2:错误码", ret) 
-    ret = robot.SplinePTP(joint_pos3, tool, user)   #样条运动PTP
-    print("样条运动PTP运动点3:错误码", ret)
-    ret = robot.SplineEnd() #样条运动结束
-    print("样条运动结束:错误码", ret)
+    joint_points = [
+        [-11.904, -99.669, 117.473, -108.616, -91.726, 74.256],  # j1
+        [-45.615, -106.172, 124.296, -107.151, -91.282, 74.255],  # j2
+        [-61.954, -84.409, 108.153, -116.316, -91.283, 74.260],  # j3
+        [-89.575, -80.276, 102.713, -116.302, -91.284, 74.267]  # j4
+    ]
+    cart_points = [
+        [-419.524, -13.000, 351.569, -178.118, 0.314, 3.833],  # desc_pos1
+        [-321.222, 185.189, 335.520, -179.030, -1.284, -29.869],  # desc_pos2
+        [-327.622, 402.230, 320.402, -178.067, 2.127, -46.207],  # desc_pos3
+        [-104.066, 544.321, 327.023, -177.715, 3.371, -73.818]  # desc_pos4
+    ]
+    offset_pos = [0] * 6 
+    epos = [0] * 4 
+    tool = user = 0
+    vel = acc = ovl = 100.0 
+    blendT = -1.0  
+    flag = 0 
+    robot.SetSpeed(20)
+    err1 = robot.MoveJ(joint_pos=joint_points[0],tool=tool, user=user,vel=vel)
+    print(f"MoveJ 错误码: {err1}")
+    robot.SplineStart()
+    robot.SplinePTP(joint_pos=joint_points[0],tool=tool, user=user)
+    robot.SplinePTP(joint_pos=joint_points[1],tool=tool, user=user)
+    robot.SplinePTP(joint_pos=joint_points[2],tool=tool, user=user)
+    robot.SplinePTP(joint_pos=joint_points[3],tool=tool, user=user)
+    robot.SplineEnd()
+    robot.CloseRPC()
 
-机器人新样条运动
-+++++++++++++++++++
 新样条运动开始
-------------------
++++++++++++++++++++
 .. versionchanged:: python SDK-v2.0.3
 
 .. csv-table:: 
@@ -646,20 +581,8 @@ jog点动立即停止
     "默认参数", "- ``averageTime``:全局平均衔接时间（ms）默认为 2000"
     "返回值", "错误码 成功-0  失败- errcode"
 
-新样条运动结束
--------------------
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-    
-    "原型", "``NewSplineEnd()``"
-    "描述", "新样条运动结束"
-    "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode"
-
 新样条指令点
-----------------
++++++++++++++++++++
 .. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
@@ -677,9 +600,20 @@ jog点动立即停止
     - ``blendR``: [0~1000]-平滑半径，单位 [mm] 默认0.0;"
     "返回值", "错误码 成功-0  失败- errcode"
 
+新样条运动结束
++++++++++++++++++++
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+    
+    "原型", "``NewSplineEnd()``"
+    "描述", "新样条运动结束"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
 
-代码示例
-^^^^^^^^^^^
+新样条运动代码示例
+++++++++++++++++++++++++++++++++
 
 .. code-block:: python
     :linenos:
@@ -687,23 +621,36 @@ jog点动立即停止
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
-    tool = 0 #工具坐标系编号
-    user = 0 #工件坐标系编号
-    lastFlag= 0 # 是否为最后一个点，0-否，1-是
-    desc_pos4 = [236.794,-375.119, 65.379, -176.938, 2.535, -179.829]
-    desc_pos5 = [236.794,-275.119, 165.379, -176.938, 2.535, -179.829]
-    desc_pos6 = [286.794,-375.119, 265.379, -176.938, 2.535, -179.829]
-    ret = robot.NewSplineStart(1) #新样条运动开始
-    print("新样条运动开始:错误码", ret)
-    ret = robot.NewSplinePoint(desc_pos4, tool, user, lastFlag)#新样条指令点
-    print("新样条指令点4:错误码", ret) 
-    ret = robot.NewSplinePoint(desc_pos5, tool, user, lastFlag, vel=30)#新样条指令点
-    print("新样条指令点5:错误码", ret) 
-    lastFlag = 1
-    ret = robot.NewSplinePoint(desc_pos6, tool, user, lastFlag, vel=30)#新样条指令点
-    print("新样条指令点6:错误码", ret) 
-    ret = robot.NewSplineEnd() #新样条运动结束
-    print("新样条运动结束:错误码", ret)
+    j1 = [-11.904, -99.669, 117.473, -108.616, -91.726, 74.256]
+    j2 = [-45.615, -106.172, 124.296, -107.151, -91.282, 74.255]
+    j3 = [-61.954, -84.409, 108.153, -116.316, -91.283, 74.260]
+    j4 = [-89.575, -80.276, 102.713, -116.302, -91.284, 74.267]
+    j5 = [-95.228, -54.621, 73.691, -112.245, -91.280, 74.268]
+    desc_pos1 = [-419.524, -13.000, 351.569, -178.118, 0.314, 3.833]
+    desc_pos2 = [-321.222, 185.189, 335.520, -179.030, -1.284, -29.869]
+    desc_pos3 = [-327.622, 402.230, 320.402, -178.067, 2.127, -46.207]
+    desc_pos4 = [-104.066, 544.321, 327.023, -177.715, 3.371, -73.818]
+    desc_pos5 = [-33.421, 732.572, 275.103, -177.907, 2.709, -79.482]
+    offset_pos = [0, 0, 0, 0, 0, 0]
+    epos = [0, 0, 0, 0]
+    tool = 0
+    user = 0
+    vel = 100.0
+    acc = 100.0
+    ovl = 100.0
+    blendT = -1.0
+    flag = 0
+    robot.SetSpeed(20)
+    err1 = robot.MoveJ(joint_pos=j1, tool=tool, user=user, vel=vel)
+    print(f"movej errcode:{err1}")
+    robot.NewSplineStart(1, 2000)
+    robot.NewSplinePoint(desc_pos=desc_pos1, tool=tool, user=user, vel=vel, lastFlag=-1, blendR=0)
+    robot.NewSplinePoint(desc_pos=desc_pos2, tool=tool, user=user, vel=vel, lastFlag=-1, blendR=0)
+    robot.NewSplinePoint(desc_pos=desc_pos3, tool=tool, user=user, vel=vel, lastFlag=-1, blendR=0)
+    robot.NewSplinePoint(desc_pos=desc_pos4, tool=tool, user=user, vel=vel, lastFlag=-1, blendR=0)
+    robot.NewSplinePoint(desc_pos=desc_pos5, tool=tool, user=user, vel=vel, lastFlag=-1, blendR=0)
+    robot.NewSplineEnd()
+    robot.CloseRPC()
 
 机器人终止运动
 ++++++++++++++++
@@ -717,31 +664,8 @@ jog点动立即停止
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
-代码示例
--------------
-
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    desc_pos1 = [-187.519, 319.248, 397, -157.278, -31.188, 107.199]
-    desc_pos2 = [-187.519, 310.248, 297, -157.278, -31.188, 107.199]
-    joint_pos1 = [-83.24, -96.476, 93.688, -114.079, -62, -100]
-    tool = 0 #工具坐标系编号
-    user = 0 #工件坐标系编号
-    ret = robot.MoveL(desc_pos1, tool, user, joint_pos=joint_pos1)   #笛卡尔空间直线运动
-    print("笛卡尔空间直线运动点1:错误码", ret)
-    ret = robot.StopMotion()  #终止运动
-    print("终止运动:错误码", ret) 
-    robot.MoveL(desc_pos2, tool, user, vel=40, acc=100)
-    print("笛卡尔空间直线运动点2:错误码", ret)
-
 机器人暂停运动
 ++++++++++++++++
-.. versionadded:: Python SDK-v2.0.8-3.7.8
-
 .. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
@@ -754,8 +678,6 @@ jog点动立即停止
 
 机器人恢复运动
 ++++++++++++++++
-.. versionadded:: Python SDK-v2.0.8-3.7.8
-
 .. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
@@ -766,10 +688,42 @@ jog点动立即停止
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
-机器人点位整体偏移
-+++++++++++++++++++
+运动暂停、恢复、停止代码示例
+++++++++++++++++++++++++++++++++
+
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    j1 =[-11.904, -99.669, 117.473, -108.616, -91.726, 74.256]
+    j5 =[-95.228, -54.621, 73.691, -112.245, -91.280, 74.268]
+    desc_pos1 = [-419.524, -13.000, 351.569, -178.118, 0.314, 3.833]
+    desc_pos5 = [-33.421, 732.572, 275.103, -177.907, 2.709, -79.482]
+    offset_pos = [0, 0, 0, 0, 0, 0]
+    epos = [0, 0, 0, 0]
+    tool = 0
+    user = 0
+    vel = 100.0
+    acc = 100.0
+    ovl = 100.0
+    blendT = -1.0
+    flag = 0
+    robot.SetSpeed(20)
+    rtn = robot.MoveJ(joint_pos=j1, tool=tool, user=user, vel=vel)
+    rtn = robot.MoveJ(joint_pos=j5, tool=tool, user=user, vel=vel, blendT=1)
+    time.sleep(1)
+    robot.PauseMotion()
+    time.sleep(1)
+    robot.ResumeMotion()
+    time.sleep(1)
+    robot.StopMotion()
+    time.sleep(1)
+    robot.CloseRPC()
+
 点位整体偏移开始
--------------------
++++++++++++++++++++
 .. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
@@ -782,7 +736,7 @@ jog点动立即停止
     "返回值", "错误码 成功-0  失败- errcode"
 
 点位整体偏移结束
---------------------
++++++++++++++++++++
 .. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
@@ -793,8 +747,8 @@ jog点动立即停止
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
-代码示例
-^^^^^^^^^^^^
+点位偏移代码示例
++++++++++++++++++++
 
 .. code-block:: python
     :linenos:
@@ -802,24 +756,29 @@ jog点动立即停止
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
-    desc_pos3 = [-127.519, 256.248, 312, -147.278, -51.588, 107.199]
-    desc_pos4 = [-140.519, 219.248, 300, -137.278, -11.188, 127.199]
-    desc_pos5 = [-187.519, 319.248, 397, -157.278, -31.188, 107.199]
-    desc_pos6 = [-207.519, 229.248, 347, -157.278, -31.188, 107.199]
-    tool = 0 #工具坐标系编号
-    user = 0 #工件坐标系编号
-    flag = 1  #0-基坐标系下/工件坐标系下偏移，2-工具坐标系下偏移
-    offset_pos = [10,20,30,0,0,0]  #位姿偏移量
-    ret = robot.PointsOffsetEnable(flag,offset_pos)
-    print("点位整体偏移开始:错误码", ret)
-    robot.MoveL(desc_pos3, tool, user, offset_flag=1, offset_pos=[10,10,10,0,0,0])
-    print("笛卡尔空间直线运动点3:错误码", ret) 
-    robot.MoveL(desc_pos4, tool, user, vel=30, acc=100)
-    print("笛卡尔空间直线运动点4:错误码", ret) 
-    robot.MoveL(desc_pos5, tool, user)
-    print("笛卡尔空间直线运动点5:错误码", ret) 
-    ret = robot.PointsOffsetDisable()
-    print("点位整体偏移结束:错误码", ret)
+    j1 = [-11.904, -99.669, 117.473, -108.616, -91.726, 74.256]
+    j2 = [-45.615, -106.172, 124.296, -107.151, -91.282, 74.255]
+    desc_pos1 = [-419.524, -13.000, 351.569, -178.118, 0.314, 3.833]
+    desc_pos2 = [-321.222, 185.189, 335.520, -179.030, -1.284, -29.869]
+    offset_pos = [0, 0, 0, 0, 0, 0]
+    offset_pos1 = [0, 0, 50, 0, 0, 0]
+    epos = [0, 0, 0, 0]
+    tool = 0
+    user = 0
+    vel = 100.0
+    acc = 100.0
+    ovl = 100.0
+    blendT = -1.0
+    flag = 0
+    robot.SetSpeed(20)
+    robot.MoveJ(joint_pos=j1,tool=tool, user=user, vel=vel)
+    robot.MoveJ(joint_pos=j2, tool=tool, user=user, vel=vel)
+    time.sleep(1)
+    robot.PointsOffsetEnable(flag=0, offset_pos=offset_pos1)
+    robot.MoveJ(joint_pos=j1,tool=tool, user=user, vel=vel)
+    robot.MoveJ(joint_pos=j2, tool=tool, user=user, vel=vel)
+    robot.PointsOffsetDisable()
+    robot.CloseRPC()
 
 控制箱运动AO开始
 +++++++++++++++++++
@@ -837,29 +796,6 @@ jog点动立即停止
     - ``maxAOPercent``:最大TCP速度值对应的AO百分比，默认100%；
     - ``zeroZoneCmp``:死区补偿值AO百分比，整形，默认为20%，范围[0-100]。"
     "返回值", "错误码 成功-0  失败- errcode"
-    
-代码示例
----------------
-
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    #控制箱运动AO开始
-    error = robot.MoveAOStart(0,100,98,1)
-    print("MoveAOStart",error)
-    error,joint_pos = robot.GetActualJointPosDegree()
-    print("GetActualJointPosDegree",error,joint_pos)
-    joint_pos[0] = joint_pos[0]+10
-    #机器人关节运动
-    error = robot.MoveJ(joint_pos,1,1)
-    print("MoveJ",error)
-    time.sleep(3)
-    #控制箱运动AO停止
-    error = robot.MoveAOStop()
-    print("MoveAOStop",error)
 
 控制箱运动AO结束
 +++++++++++++++++++++++
@@ -891,30 +827,7 @@ jog点动立即停止
     - ``maxAOPercent``:最大TCP速度值对应的AO百分比，默认100%；
     - ``zeroZoneCmp``:死区补偿值AO百分比，整形，默认为20%，范围[0-100]。"
     "返回值", "错误码 成功-0  失败- errcode"
-        
-代码示例
----------------
 
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    #末端运动AO开始
-    error = robot.MoveToolAOStart(0,100,98,1)
-    print("MoveToolAOStart",error)
-    error,desc_pos = robot.GetActualTCPPose()
-    print("GetActualTCPPose",error,desc_pos)
-    desc_pos[2] = desc_pos[2]-50
-    #笛卡尔空间直线运动
-    error = robot.MoveL(desc_pos,1,1)
-    print("MoveL",error)
-    time.sleep(3)
-    #末端运动AO停止
-    error = robot.MoveToolAOStop()
-    print("MoveToolAOStop",error)
-    
 末端运动AO结束
 +++++++++++++++++++++++
 .. versionadded:: python SDK-v2.0.4
@@ -928,10 +841,45 @@ jog点动立即停止
     "必选参数", "无"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
+      
+AO飞拍代码示例
++++++++++++++++++++++++
+
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    j1 = [-11.904, -99.669, 117.473, -108.616, -91.726, 74.256]
+    j2 = [-45.615, -106.172, 124.296, -107.151, -91.282, 74.255]
+    desc_pos1 = [-419.524, -13.000, 351.569, -178.118, 0.314, 3.833]
+    desc_pos2 = [-321.222, 185.189, 335.520, -179.030, -1.284, -29.869]
+    offset_pos = [0, 0, 0, 0, 0, 0]
+    offset_pos1 = [0, 0, 50, 0, 0, 0]
+    epos = [0, 0, 0, 0]
+    tool = 0
+    user = 0
+    vel = 20.0
+    acc = 20.0
+    ovl = 100.0
+    blendT = -1.0
+    flag = 0
+    robot.SetSpeed(20)
+    robot.MoveAOStart(0, 100, 100, 20)
+    robot.MoveJ(joint_pos=j1,tool=tool, user=user, vel=vel)
+    robot.MoveJ(joint_pos=j2, tool=tool, user=user, vel=vel)
+    robot.MoveAOStop()
+    time.sleep(1)
+    robot.MoveToolAOStart(0, 100, 100, 20)
+    robot.MoveJ(joint_pos=j1,tool=tool, user=user, vel=vel)
+    robot.MoveJ(joint_pos=j2, tool=tool, user=user, vel=vel)
+    robot.MoveToolAOStop()
+    robot.CloseRPC()
 
 开始Ptp运动FIR滤波
 +++++++++++++++++++++++
-.. versionadded:: python SDK-v3.8.2
+.. versionadded:: python SDK-v2.1.2
 
 .. csv-table:: 
     :stub-columns: 1
@@ -946,7 +894,7 @@ jog点动立即停止
 
 关闭Ptp运动FIR滤波
 +++++++++++++++++++++++
-.. versionadded:: Python SDK-v2.0.8-3.7.8
+.. versionadded:: python SDK-v2.0.7
 
 .. csv-table:: 
     :stub-columns: 1
@@ -958,31 +906,9 @@ jog点动立即停止
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
-代码示例
----------------
-
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    startdescPose = [-569.710, -132.595, 395.147, 178.418, -1.893, 171.051]
-    startjointPos = [-2.334, -79.300, 108.196, -120.594, -91.790, -83.386]
-    enddescPose = [-366.397, -572.427, 418.339, -178.972, 1.829, -142.970]
-    endjointPos = [43.651, -70.284, 91.057, -109.075, -88.768, -83.382]
-    exaxisPos = [0, 0, 0, 0]
-    offdese = [0, 0, 0, 0, 0, 0]
-
-    # Ptp运动FIR滤波开启
-    robot.PtpFIRPlanningStart(maxAcc=1000.0,maxJek=1000.0)
-    robot.MoveJ(startjointPos, 0, 0,vel=50)
-    robot.MoveJ(endjointPos, 0, 0,vel=50)
-    robot.PtpFIRPlanningEnd()
-
 开始LIN、ARC运动FIR滤波
 +++++++++++++++++++++++
-.. versionadded:: Python SDK-v2.0.8-3.7.8
+.. versionadded:: python SDK-v2.0.7
 
 .. csv-table:: 
     :stub-columns: 1
@@ -999,7 +925,7 @@ jog点动立即停止
 
 关闭LIN、ARC运动FIR滤波
 +++++++++++++++++++++++
-.. versionadded:: Python SDK-v2.0.8-3.7.8
+.. versionadded:: python SDK-v2.0.7
 
 .. csv-table:: 
     :stub-columns: 1
@@ -1011,41 +937,40 @@ jog点动立即停止
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"   
 
-代码示例
----------------
-
+FIR滤波代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: python
     :linenos:
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
-    startdescPose = [-569.710, -132.595, 395.147, 178.418, -1.893, 171.051]
-    startjointPos = [-2.334, -79.300, 108.196, -120.594, -91.790, -83.386]
-    enddescPose = [-366.397, -572.427, 418.339, -178.972, 1.829, -142.970]
-    endjointPos = [43.651, -70.284, 91.057, -109.075, -88.768, -83.382]
-    exaxisPos = [0, 0, 0, 0]
-    offdese = [0, 0, 0, 0, 0, 0]
-
-    # LIN、ARC运动FIR滤波开启
-    robot.LinArcFIRPlanningStart(5000, 5000, 5000, 5000)
-    robot.MoveL(startdescPose, 0, 0,vel=100)
-    robot.MoveL(enddescPose, 0, 0,vel=100)
+    startjointPos = [-11.904, -99.669, 117.473, -108.616, -91.726, 74.256]
+    startjointPos = [-11.904, -99.669, 117.473, -108.616, -91.726, 74.256]
+    midjointPos = [-45.615, -106.172, 124.296, -107.151, -91.282, 74.255]
+    endjointPos = [-29.777, -84.536, 109.275, -114.075, -86.655, 74.257]
+    startdescPose = [-419.524, -13.000, 351.569, -178.118, 0.314, 3.833]
+    middescPose = [-321.222, 185.189, 335.520, -179.030, -1.284, -29.869]
+    enddescPose = [-487.434, 154.362, 308.576, 176.600, 0.268, -14.061]
+    exaxisPos = [0.0, 0.0, 0.0, 0.0]
+    offdese = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    rtn = robot.PtpFIRPlanningStart(1000.0, 1000.0)
+    print(f"PtpFIRPlanningStart rtn is {rtn}")
+    error = robot.MoveJ(joint_pos=startjointPos,tool= 0,user= 0,desc_pos=startdescPose,vel= 100,acc=100,ovl=100, blendT=-1.0, offset_flag=0)
+    print(f"MoveJ rtn is {rtn}")
+    error = robot.MoveJ(joint_pos=endjointPos,tool= 0,user= 0,desc_pos=enddescPose,vel= 100,acc=100,ovl=100, blendT=-1.0, offset_flag=0)
+    print(f"MoveJ rtn is {rtn}")
+    robot.PtpFIRPlanningEnd()
+    print(f"PtpFIRPlanningEnd rtn is {rtn}")
+    rtn = robot.LinArcFIRPlanningStart(1000, 1000, 1000, 1000)
+    print(f"LinArcFIRPlanningStart rtn is {rtn}")
+    error = robot.MoveL(desc_pos=startdescPose,tool= 0,user= 0, joint_pos=startjointPos,vel= 100,overSpeedStrategy=1,speedPercent=1)
+    print(f"MoveL rtn is {rtn}")
+    error = robot.MoveC(desc_pos_p=middescPose,tool_p= 0,user_p= 0, joint_pos_p=midjointPos,vel_p= 100,desc_pos_t=enddescPose,tool_t= 0,user_t= 0,joint_pos_t=endjointPos,vel_t= 100)
+    print(f"MoveC rtn is {rtn}")
     robot.LinArcFIRPlanningEnd()
-
-停止运动
-+++++++++++++++++++++++
-.. versionadded:: python SDK-v2.1.1
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-    
-    "原型", "``StopMove()``"
-    "描述", "停止运动"
-    "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "错误码 成功-0  失败- errcode"  
+    print(f"LinArcFIRPlanningEnd rtn is {rtn}")
+    robot.CloseRPC()
 
 加速度平滑开启
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1075,25 +1000,128 @@ jog点动立即停止
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
-代码示例
-------------
+加速度平滑代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: python
     :linenos:
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
+    startjointPos = [-11.904, -99.669, 117.473, -108.616, -91.726, 74.256]
+    endjointPos = [-45.615, -106.172, 124.296, -107.151, -91.282, 74.255]
+    startdescPose = [-419.524, -13.000, 351.569, -178.118, 0.314, 3.833]
+    enddescPose = [-321.222, 185.189, 335.520, -179.030, -1.284, -29.869]
+    exaxisPos = [0.0, 0.0, 0.0, 0.0]
+    offdese = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    rtn = robot.AccSmoothStart(0)
+    print(f"AccSmoothStart rtn is {rtn}")
+    robot.MoveJ(joint_pos=startjointPos,tool= 0,user= 0,vel= 100)
+    robot.MoveJ(joint_pos=endjointPos,tool= 0,user= 0,vel= 100)
+    rtn = robot.AccSmoothEnd(0)
+    print(f"AccSmoothEnd rtn is {rtn}")
 
-    JP1 = [88.927,-85.834,80.289,-85.561,-91.388,108.718]
-    DP1 = [88.739,-527.617,514.939,-179.039,1.494,70.209]
+设置机器指定姿态速度开启
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
 
-    JP2 = [27.036,-83.909,80.284,-85.579,-90.027,108.604]
-    DP2 = [-433.125,-334.428,497.139,-179.723,-0.745,8.437]
-    error = robot.AccSmoothStart(saveFlag=0)
-    print("AccSmoothStart return:",error)
-    error = robot.MoveJ(JP1, tool=0, user=0, vel=100)
-    error = robot.MoveJ(JP2, tool=0, user=0, vel=100)
-    error = robot.MoveJ(JP1, tool=0, user=0, vel=100)
-    error = robot.MoveJ(JP2, tool=0, user=0, vel=100)
-    error = robot.AccSmoothEnd(saveFlag=0)
-    print("AccSmoothEnd return:", error)
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``AngularSpeedStart(ratio)``"
+    "描述", "指定姿态速度开启"
+    "必选参数", "- ``ratio``:姿态速度百分比[0-300]"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode "
+
+指定姿态速度关闭
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``AngularSpeedEnd()``"
+    "描述", "指定姿态速度关闭"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode "
+
+机器人指定姿态速度代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    startjointPos = [-11.904, -99.669, 117.473, -108.616, -91.726, 74.256]
+    endjointPos = [-45.615, -106.172, 124.296, -107.151, -91.282, 74.255]
+    startdescPose = [-419.524, -13.000, 351.569, -178.118, 0.314, 3.833]
+    enddescPose = [-321.222, 185.189, 335.520, -179.030, -1.284, -29.869]
+    exaxisPos = [0.0, 0.0, 0.0, 0.0]
+    offdese = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    rtn = robot.AngularSpeedStart(50)
+    print(f"AngularSpeedStart rtn is {rtn}")
+    robot.MoveJ(joint_pos=startjointPos, tool=0,user= 0,vel= 100)
+    robot.MoveJ(joint_pos=endjointPos, tool=0,user= 0,vel= 100)
+    rtn = robot.AngularSpeedEnd()
+    print(f"AngularSpeedEnd rtn is {rtn}")
+    robot.CloseRPC()
+
+奇异位姿保护开启
++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SingularAvoidStart(protectMode, minShoulderPos=100, minElbowPos=50, minWristPos=10)``"
+    "描述", "开启奇异位姿保护"
+    "必选参数", "
+    - ``protectMode``：奇异位姿保护保护模式：0-关节模式；1-笛卡尔模式
+    "
+    "默认参数", "- ``minShoulderPos``：肩奇异调整范围(mm), 默认100.0
+    - ``minElbowPos``：肘奇异调整范围(mm), 默认50.0
+    - ``minWristPos``：腕奇异调整范围(°), 默认10.0"
+    "返回值", "- 错误码 成功-0  失败- errcode"
+
+奇异位姿保护关闭
++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SingularAvoidEnd()``"
+    "描述", "关闭奇异位姿保护"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode"
+
+机器人奇异位姿保护代码示例
++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos: 
+
+    from fairino import Robot
+    import time
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    startjointPos = [-11.904, -99.669, 117.473, -108.616, -91.726, 74.256]
+    endjointPos = [-45.615, -106.172, 124.296, -107.151, -91.282, 74.255]
+    startdescPose = [-419.524, -13.000, 351.569, -178.118, 0.314, 3.833]
+    enddescPose = [-321.222, 185.189, 335.520, -179.030, -1.284, -29.869]
+    exaxisPos = [0.0, 0.0, 0.0, 0.0]
+    offdese = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    rtn = robot.SingularAvoidStart(2, 10, 5, 5)
+    print(f"SingularAvoidStart rtn is {rtn}")
+    robot.MoveJ(joint_pos=startjointPos, tool=0,user= 0,vel= 100)
+    robot.MoveJ(joint_pos=endjointPos, tool=0,user= 0,vel= 100)
+    rtn = robot.SingularAvoidEnd()
+    print(f"SingularAvoidEnd rtn is {rtn}")
+    robot.CloseRPC()

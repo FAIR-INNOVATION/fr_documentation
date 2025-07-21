@@ -190,7 +190,7 @@ EnTalk板卡硬件环境搭建
 
 .. centered:: 图表 17.2-16 切换远程模式
 
-5. 选择控制器从站协议，点击“设置”按钮。
+5. 选择控制器从站协议，以及是否需要自启动功能，点击“设置”按钮。注意：切换不同的协议，需要先点击“卸载”按钮，再进行其他协议的配置。
 
 .. image:: custom_protocol_slave/011.png
    :width: 6in
@@ -464,6 +464,10 @@ HMI设置（Profinet仿真）
 
 .. centered:: 图表 17.3-1 板卡通讯手动配置
 
+首先，对Entalk板卡IP地址进行配置，如不填写，则板卡按照默认IP: 192.168.0.100进行启动配置。目前IP配置仅适用于EIP、CC-link协议，PN协议由PLC主站扫描从站设备分配IP。
+
+.. note:: 页面上更改IP地址后，需要加载从站模式方可生效。
+
 依次选择DI、DO、AO所需映射功能（见附录一），各参数意义如下：
 
 - DI为机器人控制：机器人从站接受外部信号输入，执行映射的功能；
@@ -596,6 +600,14 @@ HMI设置（Profinet仿真）
    :align: center
 
 .. centered:: 图表 17.3-4 DI、DO、AI、AO交互信息
+
+**Step 5**：加载完成后，可通过示教程序->通讯指令->板卡生成板卡lua指令，实现设置从站DO、AO，获取从站DI、AI，等待从站DI、AI。
+
+.. image:: custom_protocol_slave/051.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 17.3-5 板卡生成板卡lua指令
 
 :download:`附件一：从站模式地址映射表 <../_static/_doc/控制箱从站模式地址对照表.xlsx>`
 

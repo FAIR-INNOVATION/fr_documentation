@@ -4,13 +4,13 @@
 .. toctree:: 
     :maxdepth: 5
 
-设置轨迹记录参数
+设置TPD轨迹记录参数
 ++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
     /**
-    * @brief  设置轨迹记录参数
+    * @brief  设置TPD轨迹记录参数
     * @param  [in] type  记录数据类型，1-关节位置
     * @param  [in] name  轨迹文件名
     * @param  [in] period_ms  数据采样周期，固定值2ms或4ms或8ms
@@ -20,13 +20,13 @@
     */
     int SetTPDParam(int type, String name, int period_ms, int di_choose, int do_choose);
 
-开始轨迹记录
+开始TPD轨迹记录
 ++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
     /**
-    * @brief  开始轨迹记录
+    * @brief  开始轨迹开始TPD轨迹记录记录
     * @param  [in] type  记录数据类型，1-关节位置
     * @param  [in] name  轨迹文件名
     * @param  [in] period_ms  数据采样周期，固定值2ms或4ms或8ms
@@ -36,69 +36,30 @@
     */
     int SetTPDStart(int type, String name, int period_ms, int di_choose, int do_choose);
 
-停止轨迹记录
+停止TPD轨迹记录
 ++++++++++++++++++++++++++++
 .. code-block:: java
     :linenos:
 
     /**
-    * @brief  停止轨迹记录
+    * @brief  停止TPD轨迹记录
     * @return  错误码
     */
     int SetWebTPDStop(); 
 
-删除轨迹记录
+删除TPD轨迹记录
 ++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
     /**
-    * @brief  删除轨迹记录
+    * @brief  删除TPD轨迹记录
     * @param  [in] name  轨迹文件名
     * @return  错误码
     */   
     int SetTPDDelete(string name); 
 
-代码示例
-++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    public static void main(String[] args)
-    {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        int type = 1;
-        String name = "tpd_2024";
-        int period_ms = 2;
-        int di_choose = 0;
-        int do_choose = 0;
-
-        robot.SetTPDDelete(name);//删除轨迹记录
-
-        robot.SetTPDParam(type, name, period_ms, di_choose, do_choose);//设置轨迹记录参数
-
-        robot.Mode(1);
-        robot.Sleep(1000);
-        robot.DragTeachSwitch(1);
-        robot.SetTPDStart(type, name, period_ms, di_choose, do_choose);//开始轨迹记录
-        robot.Sleep(10000);
-        robot.SetWebTPDStop();//停止轨迹记录
-        robot.DragTeachSwitch(0);
-    }
-
-轨迹预加载
+TPD轨迹预加载
 ++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
@@ -110,20 +71,7 @@
     */      
     int LoadTPD(String name);
 
-获取轨迹起始位姿
-++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    /** 
-    * @brief 获取轨迹起始位姿 
-    * @param [in] name  轨迹文件名,不需要文件后缀
-    * @param [out] desc_pose 获取的轨迹起始位姿
-    * @return 错误码 
-    */ 
-    int GetTPDStartPose(String name, DescPose desc_pose); 
-
-轨迹复现
+TPD轨迹复现
 ++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
@@ -137,58 +85,63 @@
     */
     int MoveTPD(String name, int blend, double ovl); 
 
-设置轨迹运行中的速度
+获取TPD起始位姿
 ++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    /**
-    * @brief  设置轨迹运行中的速度
-    * @param  [in] ovl 速度百分比
-    * @return  错误码
-    */
-    int SetTrajectoryJSpeed(double ovl); 
+    /** 
+    * @brief 获取轨迹起始位姿 
+    * @param [in] name  轨迹文件名,不需要文件后缀
+    * @param [out] desc_pose 获取的轨迹起始位姿
+    * @return 错误码 
+    */ 
+    int GetTPDStartPose(String name, DescPose desc_pose); 
 
-代码示例
-++++++++++++++++++
+机器人TPD轨迹记录代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    public static void main(String[] args)
+    public static int TestTPD(Robot robot)
     {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        String name = "tpd_2024";
-        int tool = 0;
-        int user = 0;
-        double vel = 30.0;
-        double acc = 100.0;
+        int type = 1;
+        String name = "tpd2025";
+        int period_ms = 4;
+        int di_choose = 0;
+        int do_choose = 0;
+
+        robot.SetTPDParam(type, name, period_ms, di_choose, do_choose);
+
+        robot.Mode(1);
+        robot.Sleep(1000);
+        robot.DragTeachSwitch(1);
+        robot.SetTPDStart(type, name, period_ms, di_choose, do_choose);
+        robot.Sleep(10000);
+        robot.SetWebTPDStop();
+        robot.DragTeachSwitch(0);
+
         double ovl = 100.0;
-        double blendT = -1.0;
-        int config = -1;
-        byte blend = 1;
+        int blend = 0;
 
-        DescPose desc_pose = new DescPose();
-        robot.GetTPDStartPose(name,  desc_pose);
-        robot.SetTrajectoryJSpeed(100.0);
+        DescPose start_pose =new DescPose() {};
 
-        robot.LoadTPD(name);
-        robot.MoveCart(desc_pose, tool, user, vel, acc, ovl, blendT, config);
-        robot.MoveTPD(name, blend, 80.0);
+        int rtn = robot.LoadTPD(name);
+        System.out.println("LoadTPD rtn is:"+ rtn);
+
+        robot.GetTPDStartPose(name, start_pose);
+        robot.MoveCart(start_pose, 0, 0, 100, 100, ovl, -1, -1);
+        robot.Sleep(1000);
+
+        rtn = robot.MoveTPD(name, blend, ovl);
+        System.out.println("MoveTPD rtn is: "+ rtn);
+        robot.Sleep(5000);
+
+        robot.SetTPDDelete(name);
+        return 0;
     }
 
-外部轨迹文件预处理
+轨迹预处理
 ++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
@@ -202,7 +155,7 @@
     */ 
     int LoadTrajectoryJ(String name, double ovl, int opt); 
 
-外部轨迹文件轨迹复现
+轨迹复现
 ++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
@@ -213,83 +166,7 @@
     */
     int MoveTrajectoryJ();
 
-轨迹预处理(轨迹前瞻)
-+++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: Java SDK-v1.0.3-3.8.0
-
-.. code-block:: Java
-    :linenos:
-
-    /** 
-    * @brief 轨迹预处理(轨迹前瞻) 
-    * @param [in] name  轨迹文件名
-    * @param [in] mode 采样模式，0-不进行采样；1-等数据间隔采样；2-等误差限制采样
-    * @param [in] errorLim 误差限制，使用直线拟合生效
-    * @param [in] type 平滑方式，0-贝塞尔平滑
-    * @param [in] precision 平滑精度，使用贝塞尔平滑时生效
-    * @param [in] vamx 设定的最大速度，mm/s
-    * @param [in] amax 设定的最大加速度，mm/s2
-    * @param [in] jmax 设定的最大加加速度，mm/s3
-    * @return 错误码 
-    */ 
-    int LoadTrajectoryLA(String name, int mode, double errorLim, int type, double precision, double vamx, double amax, double jmax); 
-
-轨迹复现(轨迹前瞻)
-+++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: Java SDK-v1.0.3-3.8.0
-
-.. code-block:: Java
-    :linenos:
-
-    /** 
-    * @brief 轨迹复现(轨迹前瞻)  
-    * @return 错误码 
-    */
-    int MoveTrajectoryLA();
-
-代码示例
-++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    public static void main(String[] args)
-    {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-
-        int rtn = 0;
-
-        String nameA = "/fruser/traj/A.txt";
-        String nameB = "/fruser/traj/B.txt";
-
-        rtn = robot.LoadTrajectoryLA(nameA, 2, 0.0, 0, 1.0, 100.0, 200.0, 1000.0);//B样条
-        //rtn = robot.LoadTrajectoryLA(nameA, 1, 2, 0, 2, 100.0, 200.0, 1000.0);
-
-        //rtn = robot.LoadTrajectoryLA(nameB, 0, 0, 0, 1, 100.0, 100.0, 1000.0);    // 直线拟合
-        System.out.println("LoadTrajectoryLA rtn is :"+ rtn);
-
-        DescPose startPos = new DescPose(0, 0, 0, 0, 0, 0);
-        robot.GetTrajectoryStartPose(nameA, startPos);
-
-        // MoveCart方法调用，假设参数类型和顺序与C++版本一致
-        robot.MoveCart(startPos, 1, 0, (float)100.0, (float)100.0, (float)100.0, -1, -1);
-
-        rtn = robot.MoveTrajectoryLA();
-        System.out.println("MoveTrajectoryLA rtn is: "+ rtn);
-    }
-
-获取轨迹文件轨迹起始位姿
+获取轨迹起始位姿
 ++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
@@ -300,19 +177,42 @@
     * @param [out] desc_pose 获取的轨迹起始位姿
     * @return 错误码 
     */ 
-    int GetTrajectoryStartPose(String name, DescPose desc_pose); 
+    int GetTrajectoryStartPose(String name, DescPose desc_pose);
 
-设置轨迹文件轨迹运行中的力和力矩
-++++++++++++++++++++++++++++++++
+获取轨迹点编号
+++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    /** 
-    * @brief 设置轨迹文件轨迹运行中的力和力矩  
-    * @param [in] ft 三个方向的力和扭矩，单位N和Nm
-    * @return 错误码 
+    /**
+    * @brief  获取轨迹点编号
+    * @return  错误码
     */
-    int SetTrajectoryJForceTorque(ForceTorque ft); 
+    public int GetTrajectoryPointNum(int pnum)
+
+设置轨迹运行中的速度
+++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  设置轨迹运行中的速度
+    * @param  [in] ovl 速度百分比
+    * @return  错误码
+    */
+    public int SetTrajectoryJSpeed(double ovl)
+
+设置轨迹运行中的力和扭矩
+++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  设置轨迹运行中的力和扭矩
+    * @param  [in] ft 三个方向的力和扭矩，单位N和Nm
+    * @return  错误码
+    */
+    public int SetTrajectoryJForceTorque(ForceTorque ft)
 
 设置轨迹运行中的沿x方向的力
 ++++++++++++++++++++++++++++
@@ -386,53 +286,8 @@
     */
     int SetTrajectoryJTorqueTz(double tz);
 
-代码示例
-++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    public static void main(String[] args)
-    {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-
-        ForceTorque tor = new ForceTorque(10.0,10.0, 10.0, 10.0, 10.0, 10.0);
-        robot.SetTrajectoryJForceTorque(tor);
-
-        robot.SetTrajectoryJForceFx(2.0);
-        robot.SetTrajectoryJForceFy(2.0);
-        robot.SetTrajectoryJForceFz(2.0);
-        robot.SetTrajectoryJTorqueTx(2.0);
-        robot.SetTrajectoryJTorqueTy(2.0);
-        robot.SetTrajectoryJTorqueTz(2.0);
-
-
-        robot.LoadTrajectoryJ("/fruser/traj/test1011002.txt", 20, 1);
-        DescPose startPos = new DescPose();
-        robot.GetTrajectoryStartPose("/fruser/traj/test1011002.txt", startPos);
-        robot.MoveCart(startPos, 0, 0, 40, 100.0, 100.0, -1.0, -1);
-
-        ROBOT_STATE_PKG pkg = robot.GetRobotRealTimeState();
-        System.out.println("Trajectory point num is " + pkg.trajectory_pnum);
-        robot.SetTrajectoryJSpeed(40);
-        robot.MoveTrajectoryJ();
-    }
-
 上传轨迹J文件
 ++++++++++++++++++++++++++++
-.. versionadded:: Java SDK-v1.0.1-3.7.8
-
 .. code-block:: Java
     :linenos:
 
@@ -445,8 +300,6 @@
 
 删除轨迹J文件
 ++++++++++++++++++++++++++++
-.. versionadded:: Java SDK-v1.0.1-3.7.8
-
 .. code-block:: Java
     :linenos:
 
@@ -457,53 +310,121 @@
     */
     int TrajectoryJDelete(String fileName);
 
-代码示例
-++++++++++++++++++++++++++++
-.. versionadded:: Java SDK-v1.0.1-3.7.8
+机器人轨迹J文件复现代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static int TestTraj(Robot robot)
+    {
+        int rtn = robot.TrajectoryJUpLoad("D://zUP/traj.txt");
+        System.out.println("Upload TrajectoryJ A :"+ rtn);
+
+        String traj_file_name = "/fruser/traj/traj.txt";
+        rtn = robot.LoadTrajectoryJ(traj_file_name, 100, 1);
+        System.out.println("LoadTrajectoryJ:"+traj_file_name+", rtn is:"+ rtn);
+
+        DescPose traj_start_pose=new DescPose(0,0,0,0,0,0);
+        rtn = robot.GetTrajectoryStartPose(traj_file_name, traj_start_pose);
+
+        robot.Sleep(1000);
+
+
+        ExaxisPos epos=new ExaxisPos(0,0,0,0);
+        DescPose po=new DescPose(0,0,0,0,0,0);
+        robot.SetSpeed(50);
+        robot.MoveCart(traj_start_pose, 0, 0, 100, 100, 100, -1, -1);
+
+        int traj_num = 0;
+        rtn = robot.GetTrajectoryPointNum(traj_num);
+
+        rtn = robot.SetTrajectoryJSpeed(50.0);
+        System.out.println("SetTrajectoryJSpeed is:"+ rtn);
+
+        ForceTorque traj_force=new ForceTorque(0,0,0,0,0,0);
+        traj_force.fx = 10;
+        rtn = robot.SetTrajectoryJForceTorque(traj_force);
+        System.out.println("SetTrajectoryJForceTorque rtn is: "+ rtn);
+
+        rtn = robot.SetTrajectoryJForceFx(10.0);
+        System.out.println("SetTrajectoryJForceFx rtn is:"+ rtn);
+
+        rtn = robot.SetTrajectoryJForceFy(0.0);
+        System.out.println("SetTrajectoryJForceFy rtn is:"+ rtn);
+
+        rtn = robot.SetTrajectoryJForceFz(0.0);
+        System.out.println("SetTrajectoryJForceFz rtn is: "+ rtn);
+
+        rtn = robot.SetTrajectoryJTorqueTx(10.0);
+        System.out.println("SetTrajectoryJTorqueTx rtn is: "+ rtn);
+
+        rtn = robot.SetTrajectoryJTorqueTy(10.0);
+        System.out.println("SetTrajectoryJTorqueTy rtn is:"+ rtn);
+
+        rtn = robot.SetTrajectoryJTorqueTz(10.0);
+        System.out.println("SetTrajectoryJTorqueTz rtn is:"+ rtn);
+
+        rtn = robot.MoveTrajectoryJ();
+        System.out.println("MoveTrajectoryJ rtn is: "+ rtn);
+
+        return 0;
+    }
+
+轨迹预处理(轨迹前瞻)
++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.3-3.8.0
 
 .. code-block:: Java
     :linenos:
 
-    public static void main(String[] args)
+    /** 
+    * @brief 轨迹预处理(轨迹前瞻) 
+    * @param [in] name  轨迹文件名
+    * @param [in] mode 采样模式，0-不进行采样；1-等数据间隔采样；2-等误差限制采样
+    * @param [in] errorLim 误差限制，使用直线拟合生效
+    * @param [in] type 平滑方式，0-贝塞尔平滑
+    * @param [in] precision 平滑精度，使用贝塞尔平滑时生效
+    * @param [in] vamx 设定的最大速度，mm/s
+    * @param [in] amax 设定的最大加速度，mm/s2
+    * @param [in] jmax 设定的最大加加速度，mm/s3
+    * @return 错误码 
+    */ 
+    int LoadTrajectoryLA(String name, int mode, double errorLim, int type, double precision, double vamx, double amax, double jmax); 
+
+轨迹复现(轨迹前瞻)
++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.3-3.8.0
+
+.. code-block:: Java
+    :linenos:
+
+    /** 
+    * @brief 轨迹复现(轨迹前瞻)  
+    * @return 错误码 
+    */
+    int MoveTrajectoryLA();
+
+轨迹复现(轨迹前瞻)代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static int TestLoadTrajLA(Robot robot)
     {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
+        int rtn = robot.TrajectoryJUpLoad("D://zUP/traj.txt");
 
-        robot.TrajectoryJDelete("testA.txt");//删除轨迹文件
-        robot.TrajectoryJUpLoad("D://zUP/testA.txt");//上传轨迹J文件
-
-        int retval = 0;
-        String traj_file_name= "/fruser/traj/testA.txt";
-        retval = robot.LoadTrajectoryJ(traj_file_name, 100, 1);
-        System.out.println("LoadTrajectoryJ %s, retval is:"+traj_file_name+retval);
+        String traj_file_name = "/fruser/traj/traj.txt";
+        rtn = robot.LoadTrajectoryLA(traj_file_name, 1, 2, 0, 2, 100, 200, 1000);
 
         DescPose traj_start_pose=new DescPose(0,0,0,0,0,0);
-        retval = robot.GetTrajectoryStartPose(traj_file_name, traj_start_pose);
-        System.out.println("GetTrajectoryStartPose is: %d"+retval);
-        System.out.println("desc_pos:"+"("+traj_start_pose.tran.x+","+traj_start_pose.tran.y+","+traj_start_pose.tran.z+","+traj_start_pose.rpy.rx+","+traj_start_pose.rpy.ry+","+traj_start_pose.rpy.rz+")");
+        rtn = robot.GetTrajectoryStartPose(traj_file_name, traj_start_pose);
 
-        robot.SetSpeed(30);
-        robot.MoveCart(traj_start_pose, 1, 0, 100, 100, 100, -1, -1);
+        robot.Sleep(1000);
+        robot.SetSpeed(50);
+        robot.MoveCart(traj_start_pose, 0, 0, 100, 100, 100, -1, -1);
 
-        robot.Sleep(5000);
+        rtn = robot.MoveTrajectoryLA();
 
-        int traj_num = 0;
-
-        ROBOT_STATE_PKG pkg = robot.GetRobotRealTimeState();
-        traj_num=pkg.trajectory_pnum;
-        System.out.println("GetTrajectoryStartPose traj num is:"+traj_num);
-
-        retval = robot.MoveTrajectoryJ();
-        System.out.println("MoveTrajectoryJ retval is:"+retval);
+        robot.CloseRPC();
+        return 0;
     }

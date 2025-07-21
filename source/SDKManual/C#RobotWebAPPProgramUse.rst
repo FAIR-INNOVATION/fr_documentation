@@ -109,71 +109,68 @@
     */
     int GetProgramState(ref byte state);
 
-代码示例
-++++++++++++
+机器人LUA程序操作代码示例
+++++++++++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
     private void btnWebApp_Click(object sender, EventArgs e)
     {
-        Robot robot = new Robot();
-        robot.RPC("192.168.58.2");
-
-        string program_name = "/fruser/testWebApp.lua";
+        string program_name = "/fruser/Text1.lua";
         string loaded_name = "";
-        byte state = 0;
-        int line = 0;
+        byte state=0;
+        int line=0;
 
         robot.Mode(0);
+        robot.LoadDefaultProgConfig(0, program_name);
         robot.ProgramLoad(program_name);
         robot.ProgramRun();
-        Thread.Sleep(2000);
+        Thread.Sleep(1000);
         robot.ProgramPause();
         robot.GetProgramState(ref state);
-        Console.WriteLine($"program state : {state}");
+        Console.WriteLine("program state:{0}\n", state);
         robot.GetCurrentLine(ref line);
-        Console.WriteLine($"current line : {line}");
+        Console.WriteLine("current line:{0}\n", line);
         robot.GetLoadedProgram(ref loaded_name);
-        Console.WriteLine($"program name : {loaded_name}");
+        Console.WriteLine("program name:{0}\n", loaded_name);
         Thread.Sleep(1000);
         robot.ProgramResume();
         Thread.Sleep(1000);
         robot.ProgramStop();
+        Thread.Sleep(1000);
     }
 
-下载作业程序
+下载Lua文件
 +++++++++++++++++++++++++++++++++++
-
 .. versionadded:: C#SDK-v1.0.5
 
 .. code-block:: c#
     :linenos:
 
     /** 
-    * @brief 下载作业程序
+    * @brief 下载Lua文件
     * @param [in] fileName 要下载的作业程序"test.lua"或"test.tar.gz"
     * @param [in] savePath 保存作业程序本地路径“D://Down/”
     * @return 错误码 
     */
     public int LuaDownLoad(string fileName, string savePath);
 
-上传作业程序
+上传Lua文件
 +++++++++++++++++++++++++++++++++++
-
 .. versionadded:: C#SDK-v1.0.5
 
 .. code-block:: c#
     :linenos:
 
     /** 
-    * @brief 上传作业程序
+    * @brief 上传Lua文件
     * @param [in] filePath 本地作业程序路径名 ".../test.lua"或".../test.tar.gz"
     * @param [out] errStr 错误信息
     * @return 错误码 
     */
     public int LuaUpload(string filePath, ref string errStr);
 
-删除作业程序
+删除Lua文件
 +++++++++++++++++++++++++++++++++++
 
 .. versionadded:: C#SDK-v1.0.5
@@ -182,13 +179,13 @@
     :linenos:
 
     /** 
-    * @brief 删除作业程序
+    * @brief 删除Lua文件
     * @param [in] fileName 要删除的作业程序名"test.lua"
     * @return 错误码 
     */
     public int LuaDelete(string fileName);
 
-获取当前所有作业程序名称
+获取当前所有lua文件名称
 +++++++++++++++++++++++++++++++++++
 
 .. versionadded:: C#SDK-v1.0.5
@@ -197,15 +194,15 @@
     :linenos:
 
     /** 
-    * @brief 获取当前所有作业程序名称
+    * @brief 获取当前所有lua文件名称
     * @param [out] luaNames 作业程序名称列表
     * @return 错误码 
     */
     public int GetLuaList(ref List<string> luaNames) ;
 
 
-代码示例
-++++++++++++
+机器人LUA文件上传下载代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. versionadded:: C#SDK-v1.0.5
 
@@ -214,16 +211,23 @@
 
     private void btnUploadLua_Click(object sender, EventArgs e)
     {
-        string errstr = "";
-        robot.LuaUpload("D://Upload/test.lua", ref errstr);
-        Console.WriteLine(errstr);
-        robot.LuaDownLoad("test.lua", "D://zDOWN/");
-        robot.LuaDelete("test.lua");
-        List<string> lualist = new List<string>();
-        robot.GetLuaList(ref lualist);
-        int n = lualist.Count;
-        for (int i = 0; i < n; i++)
+        int rtn;
+        List<string> luaNames = new List<string>();
+        rtn = robot.GetLuaList(ref luaNames);
+        Console.WriteLine("res is: {0}", rtn);
+        Console.WriteLine("size is: {0}", luaNames.Count);
+        foreach (var name in luaNames)
         {
-            Console.WriteLine(lualist[i]);
+        Console.WriteLine(name);
         }
+        rtn = robot.LuaDownLoad("TT.lua", "D://zDOWN/");
+        Console.WriteLine("LuaDownLoad rtn is {0}", rtn);
+        string errStr = "";
+        Thread.Sleep(2000);
+
+        rtn = robot.LuaUpload("D://zUP/airlab.lua", ref errStr);
+        Console.WriteLine("LuaUpload rtn is {0}", errStr);
+        Thread.Sleep(2000);
+        rtn = robot.LuaDelete("TT.lua");
+        Console.WriteLine("LuaDelete rtn is {0}", rtn);
     }

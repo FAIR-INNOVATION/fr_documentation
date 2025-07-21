@@ -18,22 +18,6 @@
     - ``block``:0-阻塞，1-非阻塞 默认0"
     "返回值", "错误码 成功-0  失败- errcode"
 
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    # 测试控制箱DO
-    for i in range(0,16):
-        error = robot.SetDO(i,1)      #打开控制箱DO
-    time.sleep(1)
-    for i in range(0,16):
-        robot.SetDO(i,0)      #关闭控制箱DO
-
 设置工具数字量输出
 ++++++++++++++++++++
 .. csv-table:: 
@@ -48,23 +32,6 @@
     - ``block``:0-阻塞，1-非阻塞。"
     "返回值", "错误码 成功-0  失败- errcode"
 
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    # 测试工具DO
-    error_tooldo = 0
-    for i in range(0,2):
-        error = robot.SetToolDO(i,1)    #打开工具DO
-    robot.WaitMs(1000)
-    for i in range(0,2):
-        error = robot.SetToolDO(i,0)    #关闭工具DO
-
-
 设置控制箱模拟量输出
 ++++++++++++++++++++++++
 .. csv-table:: 
@@ -77,20 +44,6 @@
     - ``value``:电流或电压值百分比，范围[0~100%]对应电流值[0~20mA]或电压[0~10V]；"
     "默认参数", "- ``block``:[0]-阻塞，[1]-非阻塞 默认0"
     "返回值", "错误码 成功-0  失败- errcode"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    # 测试控制箱AO
-    error = robot.SetAO(0,100.0)
-    print("设置AO0错误码:", error)
-    error = robot.SetAO(1,100.0)
-    print("设置AO1错误码:", error)
 
 设置工具模拟量输出
 ++++++++++++++++++++
@@ -105,20 +58,41 @@
     "默认参数", "- ``block``:[0]-阻塞，[1]-非阻塞 默认0"
     "返回值", "错误码 成功-0  失败- errcode"
 
-代码示例
-------------
+设置数字量、模拟量输出代码示例
++++++++++++++++++++++++++++++++++++++++++++++
+
 .. code-block:: python
     :linenos:
 
     from fairino import Robot
+    import time
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
-    # 测试末端AO
-    error = robot.SetToolAO(0,100.0)
-    print("设置ToolAO0错误码:", error)
-    Robot.WaitMs(1000)
-    error = robot.SetToolAO(0,0.0)
-    print("设置ToolAO0错误码:", error)
+    status = 1
+    smooth = 0  
+    block = 0 
+    for i in range(16):
+        robot.SetDO(i, status, smooth, block)
+        time.sleep(0.3) 
+    status = 0 
+    for i in range(16):
+        robot.SetDO(i, status, smooth, block)
+        time.sleep(0.3)
+    status = 1
+    for i in range(2):
+        robot.SetToolDO(i, status, smooth, block)
+        time.sleep(1) 
+    status = 0 
+    for i in range(2):
+        robot.SetToolDO(i, status, smooth, block)
+        time.sleep(1)
+    for i in range(100):
+        robot.SetAO(0, i, block)
+        time.sleep(0.03)
+    for i in range(100):
+        robot.SetToolAO(0, i, block)
+        time.sleep(0.03)
+    robot.CloseRPC()
 
 获取控制箱数字量输入
 +++++++++++++++++++++
@@ -133,17 +107,6 @@
     "返回值", "- 错误码 成功-0  失败- errcode
     - ``di``: 0-低电平，1-高电平"
 
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    error = robot.GetDI(0,0)
-    print("获取DI0",error)
-
 获取工具数字量输入
 ++++++++++++++++++++
 .. csv-table:: 
@@ -157,16 +120,98 @@
     "返回值", "错误码 成功-0  失败- errcode
     - ``di``: 0-低电平，1-高电平"
 
-代码示例
-------------
+获取控制箱模拟量输入
+++++++++++++++++++++++++
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetAI(id, block = 0)``"
+    "描述", "获取控制箱模拟量输入"
+    "必选参数", "- ``id``:io编号，范围[0~1]；"
+    "默认参数", "- ``block``:0-阻塞，1-非阻塞 默认0 "
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``value``: 输入电流或电压值百分比，范围 [0~100] 对应电流值 [0~20mA] 或电压 [0~10V]"
+
+获取工具模拟量输入
++++++++++++++++++++++++++
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetToolAI(id, block = 0)``"
+    "描述", "获取末端模拟量输入"
+    "必选参数", "- ``id``:io编号，范围[0]；"
+    "默认参数", "- ``block``:0-阻塞，1-非阻塞 默认0"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``value``: 输入电流或电压值百分比，范围 [0~100] 对应电流值 [0~20mA] 或电压 [0~10V]"
+
+获取机器人末端点记录按钮状态
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetAxlePointRecordBtnState()``"
+    "描述", "获取机器人末端点记录按钮状态"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``buttonstatus``: 按钮状态，0-按下，1-松开"
+
+获取机器人末端DO输出状态
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetToolDO()``"
+    "描述", "获取机器人末端DO输出状态"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``do_state``: DO输出状态，do0~do1对应bit1~bit2,从bit0开始"
+
+获取机器人控制器DO输出状态
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetDO()``"
+    "描述", "获取机器人控制器DO输出状态"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``do_state_h``: DO输出状态，co0~co7对应bit0~bit7 do_state_l DO输出状态，do0~do7对应bit0~bit7"
+
+获取机器人DI、DO状态代码示例
++++++++++++++++++++++++++++++++++++++++++++++
+
 .. code-block:: python
     :linenos:
 
     from fairino import Robot
+    import time
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
-    tool_di = robot.GetToolDI(1,0)
-    print("获取ToolDI",tool_di)
+    block = 0 
+    error,di = robot.GetDI(0, block)
+    print(f"di0: {di}")
+    error,tool_di = robot.GetToolDI(1, block)
+    print(f"tool_di1: {tool_di}")
+    error,ai = robot.GetAI(0, block)
+    print(f"ai0: {ai:.2f}") 
+    error,tool_ai = robot.GetToolAI(0, block)
+    print(f"tool_ai0: {tool_ai:.2f}")
+    error,button_state = robot.GetAxlePointRecordBtnState()
+    print(f"_button_state is: {button_state}")
+    error,tool_do_state = robot.GetToolDO()
+    print(f"tool DO state: {tool_do_state}")
+    error,[do_state_h, do_state_l] = robot.GetDO()
+    print(f"DO state hight  : {do_state_h}")
+    print(f"DO state low : {do_state_l}")
+    robot.CloseRPC()
 
 等待控制箱数字量输入
 +++++++++++++++++++++
@@ -182,19 +227,6 @@
     - ``opt``:超时后策略，0-程序停止并提示超时，1-忽略超时提示程序继续执行，2-一直等待"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    max_waittime = 2000
-    #等待控制箱DI
-    error = robot.WaitDI(0,1,max_waittime,0)
-    print("WaitDI错误码",error)
 
 等待控制箱多路数字量输入
 ++++++++++++++++++++++++++
@@ -212,19 +244,6 @@
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    max_waittime = 2000
-    #等待控制箱多路DI
-    error = robot.WaitMultiDI(1,3,1,max_waittime,0)
-    print("WaitMultiDI错误码",error)
-
 等待工具数字量输入
 ++++++++++++++++++++
 .. csv-table:: 
@@ -239,67 +258,6 @@
     - ``opt``:超时后策略，0-程序停止并提示超时，1-忽略超时提示程序继续执行，2-一直等待"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    max_waittime = 2000
-    #等待工具DI
-    error = robot.WaitToolDI(1,1,max_waittime,0)
-    print("WaitToolDI错误码",error)
-
-获取控制箱模拟量输入
-++++++++++++++++++++++++
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetAI(id, block = 0)``"
-    "描述", "获取控制箱模拟量输入"
-    "必选参数", "- ``id``:io编号，范围[0~1]；"
-    "默认参数", "- ``block``:0-阻塞，1-非阻塞 默认0 "
-    "返回值", "- 错误码 成功-0  失败- errcode
-    - ``value``: 输入电流或电压值百分比，范围 [0~100] 对应电流值 [0~20mA] 或电压 [0~10V]"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    error = robot.GetAI(0)
-    print("获取AI0",error)
-
-获取工具模拟量输入
-+++++++++++++++++++++++++
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``GetToolAI (id, block = 0)``"
-    "描述", "获取末端模拟量输入"
-    "必选参数", "- ``id``:io编号，范围[0]；"
-    "默认参数", "- ``block``:0-阻塞，1-非阻塞 默认0"
-    "返回值", "- 错误码 成功-0  失败- errcode
-    - ``value``: 输入电流或电压值百分比，范围 [0~100] 对应电流值 [0~20mA] 或电压 [0~10V]"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    error = robot.GetToolAI(0)
-    print("获取ToolAI0",error)
 
 等待控制箱模拟量输入
 ++++++++++++++++++++++
@@ -317,19 +275,6 @@
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    max_waittime = 2000
-    #等待控制箱AI
-    error = robot.WaitAI(0,0,50,max_waittime,1)         #忽略超时提示程序继续执行
-    print("WaitAI错误码",error)
-
 等待工具模拟量输入
 ++++++++++++++++++++++
 .. csv-table:: 
@@ -346,18 +291,65 @@
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
-代码示例
-------------
+等待控制箱数字、模拟输入信号代码示例
+++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: python
     :linenos:
 
     from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
-    max_waittime = 2000
-    #等待工具AI
-    error = robot.WaitToolAI(0,0,50,max_waittime,0)
-    print("WaitToolAI错误码",error)
+    status = 1
+    smooth = 0
+    block = 0
+    for i in range(16):
+        robot.SetDO(i, status, smooth, block)
+        time.sleep(0.3)
+    status = 0
+    for i in range(16):
+        robot.SetDO(i, status, smooth, block)
+        time.sleep(0.3)
+    status = 1
+    for i in range(2):
+        robot.SetToolDO(i, status, smooth, block)
+        time.sleep(1)
+    status = 0
+    for i in range(2):
+        robot.SetToolDO(i, status, smooth, block)
+        time.sleep(1)
+    for i in range(100):
+        robot.SetAO(0, i, block)
+        time.sleep(0.03)
+    for i in range(100):
+        robot.SetToolAO(0, i, block)
+        time.sleep(0.03)
+    block = 0
+    error,di = robot.GetDI(0, block)
+    print(f"di0: {di}")
+    error,tool_di = robot.GetToolDI(1, block)
+    print(f"tool_di1: {tool_di}")
+    error,ai = robot.GetAI(0, block)
+    print(f"ai0: {ai:.2f}")
+    error,tool_ai = robot.GetToolAI(0, block)
+    print(f"tool_ai0: {tool_ai:.2f}")
+    error,button_state = robot.GetAxlePointRecordBtnState()
+    print(f"_button_state is: {button_state}")
+    error,tool_do_state = robot.GetToolDO()
+    print(f"tool DO state: {tool_do_state}")
+    error,[do_state_h, do_state_l] = robot.GetDO()
+    print(f"DO state hight  : {do_state_h}")
+    print(f"DO state low : {do_state_l}")
+    rtn = robot.WaitDI(0, 1, 1000, 1)
+    print(f"WaitDI over; rtn is: {rtn}")
+    rtn = robot.WaitMultiDI(1, 3, 3, 1000, 1)
+    print(f"WaitDI over; rtn is: {rtn}")
+    rtn = robot.WaitToolDI(1, 1, 1000, 1)
+    print(f"WaitDI over; rtn is: {rtn}")
+    rtn = robot.WaitAI(0, 0, 50, 1000, 1)
+    print(f"WaitDI over; rtn is: {rtn}")
+    rtn = robot.WaitToolAI(0, 0, 50, 1000, 1)
+    print(f"WaitDI over; rtn is: {rtn}")
+    robot.CloseRPC()
 
 设置控制箱DO停止/暂停后输出是否复位
 ++++++++++++++++++++++++++++++++++++++
@@ -372,90 +364,6 @@
     "必选参数", "- ``resetFlag``：0-不复位；1-复位"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
-
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    import time
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-
-    robot = Robot.RPC('192.168.58.2')
-    time.sleep(5)
-    error = robot.SetDO(1,1)
-    print("SetDO 1  return:",error)
-
-    error = robot.SetDO(3,1)
-    print("SetDO 3  return:",error)
-
-    error = robot.SetToolDO(1,1)
-    print("SetToolDO return:",error)
-
-    error = robot.SetAO(0,25)
-    print("SetAO 0   return:",error)
-
-    error = robot.SetAO(1,87)
-    print("SetAO 1  return:",error)
-
-    error = robot.SetToolAO(0,54)
-    print("SetToolAO return:",error)
-
-    error = robot.SetOutputResetCtlBoxDO(1)
-    print("SetOutputResetCtlBoxDO return:",error)
-
-    error = robot.SetOutputResetCtlBoxAO(1)
-    print("SetOutputResetCtlBoxAO return:",error)
-
-    error = robot.SetOutputResetAxleDO(1)
-    print("SetOutputResetCtlBoxDO return:",error)
-
-    error = robot.SetOutputResetAxleAO(1)
-    print("SetOutputResetCtlBoxAO return:",error)
-
-    error = robot.ProgramRun()
-    print("ProgramRun return:",error)
-    time.sleep(3)
-    error = robot.ProgramStop()
-    print("ProgramPause return:",error)
-
-    time.sleep(5)
-
-    error = robot.SetDO(1,1)
-    print("SetDO 1  return:",error)
-
-    error = robot.SetDO(3,1)
-    print("SetDO 3  return:",error)
-
-    error = robot.SetToolDO(1,1)
-    print("SetToolDO return:",error)
-
-    error = robot.SetAO(0,25)
-    print("SetAO 0   return:",error)
-
-    error = robot.SetAO(1,87)
-    print("SetAO 1  return:",error)
-
-    error = robot.SetToolAO(0,54)
-    print("SetToolAO return:",error)
-    error = robot.SetOutputResetCtlBoxDO(0)
-    print("SetOutputResetCtlBoxDO return:",error)
-
-    error = robot.SetOutputResetCtlBoxAO(0)
-    print("SetOutputResetCtlBoxAO return:",error)
-
-    error = robot.SetOutputResetAxleDO(0)
-    print("SetOutputResetCtlBoxDO return:",error)
-
-    error = robot.SetOutputResetAxleAO(0)
-    print("SetOutputResetCtlBoxAO return:",error)
-
-    error = robot.ProgramRun()
-    print("ProgramRun return:",error)
-    time.sleep(3)
-    error = robot.ProgramStop()
-    print("ProgramPause return:",error)
 
 设置控制箱AO停止/暂停后输出是否复位
 ++++++++++++++++++++++++++++++++++++++
@@ -513,66 +421,6 @@
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
-代码示例
-------------
-.. code-block:: python
-    :linenos:
-
-    from fairino import Robot
-    import time
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-
-    robot = Robot.RPC('192.168.58.2')
-
-    error = robot.SetAuxDO(1,True,False,False)
-    print("SetAuxDO 1  return:",error)
-
-    error = robot.SetAuxDO(3,True,False,False)
-    print("SetAuxDO 3  return:",error)
-
-    error = robot.SetAuxAO(0,10,False)
-    print("SetAuxAO 0   return:",error)
-
-    error = robot.SetAuxAO(1,87,False)
-    print("SetAuxAO 1  return:",error)
-
-    error = robot.SetOutputResetExtDO(1)
-    print("SetOutputResetExtDO return:",error)
-
-    error = robot.SetOutputResetExtAO(1)
-    print("SetOutputResetExtAO return:",error)
-
-    error = robot.ProgramRun()
-    print("ProgramRun return:",error)
-    time.sleep(3)
-    error = robot.ProgramStop()
-    print("ProgramPause return:",error)
-
-    time.sleep(3)
-    error = robot.SetAuxDO(1,True,False,False)
-    print("SetAuxDO 1  return:",error)
-
-    error = robot.SetAuxDO(3,True,False,False)
-    print("SetAuxDO 3  return:",error)
-
-    error = robot.SetAuxAO(0,10,False)
-    print("SetAuxAO 0   return:",error)
-
-    error = robot.SetAuxAO(1,87,False)
-    print("SetAuxAO 1  return:",error)
-
-    error = robot.SetOutputResetExtDO(0)
-    print("SetOutputResetExtDO return:",error)
-
-    error = robot.SetOutputResetExtAO(0)
-    print("SetOutputResetExtAO return:",error)
-
-    error = robot.ProgramRun()
-    print("ProgramRun return:",error)
-    time.sleep(3)
-    error = robot.ProgramStop()
-    print("ProgramPause return:",error)
-
 设置扩展AO停止/暂停后输出是否复位
 ++++++++++++++++++++++++++++++++++++++
 .. versionadded:: python SDK-v2.0.5
@@ -586,3 +434,42 @@
     "必选参数", "- ``resetFlag``：0-不复位；1-复位"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
+
+设置SmartTool停止/暂停后输出是否复位
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.0.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetOutputResetSmartToolDO(resetFlag)``"
+    "描述", "设置SmartTool停止/暂停后输出是否复位"
+    "必选参数", "- ``resetFlag``：是否复位，0-不复位，1-复位"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode "
+
+设置LUA程序停止/暂停后输出复位代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    import time
+    import threading
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    for i in range(16):
+        robot.SetDO(i, 1, 0, 0)
+        time.sleep(0.3)
+    resetFlag = 1
+    robot.SetOutputResetCtlBoxDO(resetFlag)    
+    robot.SetOutputResetCtlBoxAO(resetFlag)    
+    robot.SetOutputResetAxleDO(resetFlag)      
+    robot.SetOutputResetAxleAO(resetFlag)      
+    robot.SetOutputResetExtDO(resetFlag)       
+    robot.SetOutputResetExtAO(resetFlag)       
+    robot.SetOutputResetSmartToolDO(resetFlag) 
+    robot.ProgramLoad("/fruser/test0610.lua")
+    robot.ProgramRun()
+    robot.CloseRPC()

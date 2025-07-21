@@ -17,29 +17,6 @@
     */
     int LoadDefaultProgConfig(int flag, String program_name); 
 
-代码示例
-++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    public static void main(String[] args)
-    {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        robot.LoadDefaultProgConfig(1,"/fruser/1010Test.lua");
-    }
-
 加载指定的作业程序
 +++++++++++++++++++++++++++++++++++
 .. code-block:: Java
@@ -87,42 +64,7 @@
     */
     int ProgramRun();
 
-代码示例
-++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    public static void main(String[] args)
-    {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        robot.Mode(0);
-        robot.ProgramLoad("/fruser/1010Test.lua");
-        String[] loadedNameStr = new String[1];
-        robot.GetLoadedProgram(loadedNameStr);
-        System.out.println("Loaded lua Name is " + loadedNameStr[0]);
-        robot.ProgramRun();
-        while(true)
-        {
-            List<Integer> results =  robot.GetCurrentLine();
-            ROBOT_STATE_PKG pkg = robot.GetRobotRealTimeState();
-            System.out.println("current line is " + results.get(1) + " Robot Runing State: " + pkg.robot_state);
-            robot.Sleep(500);
-        }
-    }
-
-暂停运动
+暂停当前运行的作业程序
 +++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
@@ -133,7 +75,7 @@
     */ 
     int PauseMotion();
 
-恢复运动
+恢复当前暂停的作业程序
 +++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
@@ -155,48 +97,54 @@
     */ 
     int StopMotion();   
 
-代码示例
-++++++++++++
+获取机器人作业程序执行状态
++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    public static void main(String[] args)
-    {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        robot.Mode(0);
-        robot.ProgramLoad("/fruser/1010Test.lua");
-        String[] loadedNameStr = new String[1];
-        robot.GetLoadedProgram(loadedNameStr);
-        System.out.println("Loaded lua Name is " + loadedNameStr[0]);
-        robot.ProgramRun();
+    /**
+    * @brief  获取机器人作业程序执行状态
+    * @param   [out] state 1-程序停止或无程序运行，2-程序运行中，3-程序暂停
+    * @return  错误码
+    */
+    public int GetProgramState(int[] state)
 
-        for(int i = 0; i < 10;  i++)
-        {
-            robot.PauseMotion();//暂停运动
-            robot.Sleep(1000);
-            robot.ResumeMotion();//恢复运动
-            robot.Sleep(1000);
-        }
-        robot.StopMotion();//停止
+机器人LUA程序操作代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static int TestLuaOp(Robot robot)
+    {
+        String program_name = "/fruser/Text1.lua";
+        String[] loaded_name = new String[]{""};
+        int[] state=new int[]{0};
+        List<Integer> line=new ArrayList<>();
+
+        robot.Mode(0);
+        robot.LoadDefaultProgConfig(0, program_name);
+        robot.ProgramLoad(program_name);
+        robot.ProgramRun();
+        robot.Sleep(1000);
+        robot.ProgramPause();
+        robot.GetProgramState(state);
+        System.out.println("program state:"+ state[0]);
+        line=robot.GetCurrentLine();
+        System.out.println("current line:"+ line);
+        robot.GetLoadedProgram(loaded_name);
+        System.out.println("program name:"+ loaded_name[0]);
+        robot.Sleep(1000);
+        robot.ProgramResume();
+        robot.Sleep(1000);
+        robot.ProgramStop();
+        robot.Sleep(1000);
+
+        robot.CloseRPC();
+        return 0;
     }
 
 下载Lua程序
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-.. versionadded:: JavaSDK-v1.0.5
-
 .. code-block:: Java
     :linenos:
 
@@ -208,11 +156,32 @@
     */
     int LuaDownLoad(String fileName, String savePath);
 
+删除Lua程序
++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /** 
+    * @brief 删除作业程序
+    * @param [in] fileName 要删除的作业程序名"test.lua"
+    * @return 错误码 
+    */
+    int LuaDelete(String fileName);
+
+获取当前所有lua文件名称
++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /** 
+    * @brief 获取当前所有lua文件名称
+    * @param [out] luaNames 作业程序名称列表
+    * @return 错误码 
+    */
+    int GetLuaList(List<String> luaNames);
+
 上传Lua程序
 +++++++++++++++++++++++++++++++++++
-
-.. versionadded:: JavaSDK-v1.0.5
-
 .. code-block:: Java
     :linenos:
 
@@ -224,62 +193,30 @@
     */
     int LuaUpload(String filePath, String errStr);
 
-删除Lua程序
-+++++++++++++++++++++++++++++++++++
-
-.. versionadded:: JavaSDK-v1.0.5
-
+机器人LUA文件上传下载代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    /** 
-    * @brief 删除作业程序
-    * @param [in] fileName 要删除的作业程序名"test.lua"
-    * @return 错误码 
-    */
-    int LuaDelete(String fileName);
-
-获取当前所有作业程序名称
-+++++++++++++++++++++++++++++++++++
-
-.. versionadded:: JavaSDK-v1.0.5
-
-.. code-block:: Java
-    :linenos:
-
-    /** 
-    * @brief 获取当前所有作业程序名称
-    * @param [out] luaNames 作业程序名称列表
-    * @return 错误码 
-    */
-    int GetLuaList(List<String> luaNames);
-
-代码示例
-++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    public static void main(String[] args)
+    public static int TestLUAUpDownLoad(Robot robot)
     {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
+        List<String> luaNames=new ArrayList<>();
+        int rtn = robot.GetLuaList(luaNames);
+        System.out.println("res is: "+rtn);
+        System.out.println("size is: "+luaNames.size());
+        for (int it =1; it < luaNames.size(); it++)
         {
-            System.out.println("rpc连接 success");
+            System.out.println(luaNames.get(it));
         }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        robot.LuaDownLoad("1010TestLUA.lua", "D://LUA/");
-        List<String> names = new ArrayList<String>();
-        robot.GetLuaList(names);
-        System.out.println("lua Num " + names.size() + "   " + names.get(0));
-        String errStr = "";
-        robot.LuaUpload("D://LUA/1010TestLUA.lua", errStr);
-        System.out.println("robot upload 1010TestLUA lua result " + errStr);
-        robot.LuaDelete("1010TestLUA.lua");
+
+        rtn = robot.LuaDownLoad("test.lua", "D://zDOWN/");
+        System.out.println("LuaDownLoad rtn is:"+rtn);
+
+        rtn = robot.LuaUpload("D://zUP/XG.lua","");
+        System.out.println("LuaUpload rtn is:"+ rtn);
+
+        rtn = robot.LuaDelete("XG.lua");
+        System.out.println("LuaDelete rtn is:"+ rtn);
+
+        return 0;
     }

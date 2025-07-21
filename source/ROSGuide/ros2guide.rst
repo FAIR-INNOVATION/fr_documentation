@@ -118,14 +118,21 @@ fairino_hardware有两个功能包组成，一个是自定义数据结构的功�
     mkdir -p ros2_ws/src
 
 2. 编译功能包
-将安装包的代码拷贝至ros2_ws/src目录下，在ros2_ws目录下运行如下命令：
+将安装包的代码拷贝至ros2_ws/src目录下，那么在ros2_ws目录下运行如下命令：
+
+.. code-block:: shell
+    :linenos:
+
+    source ~/ros2_control_ws/install/setup.bash
+
+待指令完成之后，运行以下指令：
 
 .. code-block:: shell
     :linenos:
 
     colcon build --packages-select fairino_msgs
 
-等待上一条命令完成编译后
+等待上一条命令完成编译后，再使用以下指令编译fairino_hardware:
 
 .. code-block::  shell
     :linenos:
@@ -371,12 +378,151 @@ API说明
     SetAnticollision(1,1,1,1,1,1)
 
     /*
-    函数功能描述:设置碰撞后策略
-    int strategy - 0-报错停止,1-继续运行
+	 * @brief  设置碰撞后策略
+	 * @param  [in] strategy  0-报错停止，1-继续运行
+	 * @param  [in] safeTime  安全停止时间[1000 - 2000]ms
+	 * @param  [in] safeDistance  安全停止距离[1-150]mm
+	 * @param  [in] safeVel 安全速度[50-250] mm/s
+	 * @param  [in] safetyMargin  j1-j6安全系数[1-10]
+	 * @return  错误码
     */
-    int SetCollisionStrategy(int strategy);
+	int SetCollisionStrategy(int strategy, int safeTime, int safeDistance, int safeVel, int safetyMargin[])
     // 例子
     SetCollisionStrategy(1)
+
+    /*
+	 * @brief 设置机器人碰撞检测方法
+	 * @param [in] method 碰撞检测方法：0-电流模式；1-双编码器；2-电流和双编码器同时开启
+     * @param [in] thresholdMode 碰撞等级阈值方式；0-碰撞等级固定阈值方式；1-自定义碰撞检测阈值
+	 * @return  错误码
+    */
+	int SetCollisionDetectionMethod(int method, int thresholdMode);
+    // 例子
+    SetCollisionDetectionMethod(0,0)
+
+
+    /*
+	 * @brief 设置静态下碰撞检测开始关闭
+	 * @param  [in] status 0-关闭；1-开启
+	 * @return  错误码
+    */
+	int SetStaticCollisionOnOff(int status);
+    // 例子
+    SetStaticCollisionOnOff(1)
+
+
+
+    /*
+	 * @brief 关节扭矩功率检测
+	 * @param  [in] status 0-关闭；1-开启
+	 * @param  [in] power 设定最大功率(W);
+	 * @return  错误码
+    */
+	int SetPowerLimit(int status, double power);
+    //例子
+    SetPowerLimit(1,100)
+
+    /*
+	 * @brief  配置力传感器
+	 * @param  [in] company  力传感器厂商，17-坤维科技，19-航天十一院，20-ATI传感器，21-中科米点，22-伟航敏芯，23-NBIT，24-鑫精诚(XJC)，26-NSR
+	 * @param  [in] device  设备号，坤维(0-KWR75B)，航天十一院(0-MCS6A-200-4)，ATI(0-AXIA80-M8)，中科米点(0-MST2010)，伟航敏芯(0-WHC6L-YB-10A)，NBIT(0-XLH93003ACS)，鑫精诚XJC(0-XJC-6F-D82)，NSR(0-NSR-FTSensorA)
+	 * @param  [in] softvesion  软件版本号，暂不使用，默认为0
+	 * @param  [in] bus 设备挂在末端总线位置，暂不使用，默认为0
+	 * @return  错误码
+    */
+	int FT_SetConfig(int company, int device, int softvesion, int bus);
+    // 例子
+    FT_SetConfig(0,1,0,0)
+
+
+
+    /*
+	 * @brief  获取力传感器配置
+	 * @param  [out] company  力传感器厂商，待定
+	 * @param  [out] device  设备号，暂不使用，默认为0
+	 * @param  [out] softvesion  软件版本号，暂不使用，默认为0
+	 * @param  [out] bus 设备挂在末端总线位置，暂不使用，默认为0
+	 * @return  错误码
+    */
+	int FT_GetConfig(int *company, int *device, int *softvesion, int *bus);
+    // 例子
+    FT_GetConfig()
+
+
+    /*
+	 * @brief  力传感器激活
+	 * @param  [in] act  0-复位，1-激活
+	 * @return  错误码
+    */
+	int FT_Activate(uint8_t act);
+    // 例子
+    FT_Activate(1)
+
+
+    /*
+	 * @brief  力传感器校零
+	 * @param  [in] act  0-去除零点，1-零点矫正
+	 * @return  错误码
+    */
+	int FT_SetZero(uint8_t act);
+    // 例子
+    FT_SetZero(1)
+
+    /*
+	 * @brief  碰撞守护
+	 * @param  [in] flag 0-关闭碰撞守护，1-开启碰撞守护
+	 * @param  [in] sensor_id 力传感器编号
+	 * @param  [in] select  选择六个自由度是否检测碰撞，0-不检测，1-检测
+	 * @param  [in] ft  碰撞力/扭矩，fx,fy,fz,tx,ty,tz
+	 * @param  [in] max_threshold 最大阈值
+	 * @param  [in] min_threshold 最小阈值
+	 * @note   力/扭矩检测范围：(ft-min_threshold, ft+max_threshold)
+	 * @return  错误码
+    */
+	int FT_Guard(uint8_t flag, int sensor_id, uint8_t select[6], ForceTorque *ft, float max_threshold[6], float min_threshold[6]);
+    // 例子
+    FT_Guard(1,1,0,0,1,0,0,0,0,0,100,0,0,0,0,0,200,0,0,0,0,0,50,0,0,0)
+
+
+    /*
+	 * @brief  恒力控制
+	 * @param  [in] flag 0-关闭恒力控制，1-开启恒力控制
+	 * @param  [in] sensor_id 力传感器编号
+	 * @param  [in] select  选择六个自由度是否检测碰撞，0-不检测，1-检测
+	 * @param  [in] ft  碰撞力/扭矩，fx,fy,fz,tx,ty,tz
+	 * @param  [in] ft_pid 力pid参数，力矩pid参数
+	 * @param  [in] adj_sign 自适应启停控制，0-关闭，1-开启
+	 * @param  [in] ILC_sign ILC启停控制， 0-停止，1-训练，2-实操
+	 * @param  [in] max_dis 最大调整距离，单位mm
+	 * @param  [in] max_ang 最大调整角度，单位deg
+	 * @param  [in] filter_Sign 滤波开启标志 0-关；1-开，默认关闭
+     * @param  [in] posAdapt_sign 姿态顺应开启标志 0-关；1-开，默认关闭
+     * @param  [in] isNoBlock 阻塞标志，0-阻塞；1-非阻塞
+	 * @return  错误码
+    */
+	int FT_Control(uint8_t flag, int sensor_id, uint8_t select[6], ForceTorque *ft, float ft_pid[6], uint8_t adj_sign, uint8_t ILC_sign, float max_dis, float max_ang, int filter_Sign = 0, int posAdapt_sign = 0, int isNoBlock = 0);
+    // 例子
+    FT_Control(1,1,0,0,1,0,0,0,0,0,-10,0,0,0,0.0005,0,0,0,0,0,0,0,100,10,0,0,0) 
+
+
+    /*
+	 * @brief  柔顺控制开启
+	 * @param  [in] p 位置调节系数或柔顺系数
+	 * @param  [in] force 柔顺开启力阈值，单位N
+	 * @return  错误码
+    */
+	int FT_ComplianceStart(float p, float force);
+    // 例子
+    FT_ComplianceStart(0.005,20)
+
+
+    /**
+	 * @brief  柔顺控制关闭
+	 * @return  错误码
+    */
+	int FT_ComplianceStop();
+    // 例子
+    FT_ComplianceStop()
 
     /*
     函数功能描述:设置正限位,注意设置值必须在硬限位范围内
@@ -521,28 +667,48 @@ API说明
     float vel - 指令速度百分比,范围0-100
     int tool - 工具坐标系序号
     int user - 工件坐标系序号
+    double expos1 - 外部轴1的位置
+    double expos2 - 外部轴2的位置
+    double expos3 - 外部轴3的位置
+    double expos4 - 外部轴4的位置
     */
-    int MoveJ(string point_name, float vel,int tool, int user);//point_name是输入预存点位信息,
+    int MoveJ(string point_name, float vel,int tool, int user,double expos1,double expos2,double expos3,double expos4);//point_name是输入预存点位信息,
     // 例子
-    MoveJ(JNT1,10,1,1)
+    MoveJ(JNT1,10,1,1,0,0,0,0)
 
     /*
     函数功能描述:笛卡尔空间直线运动
     string point_name - 预存点位名称,比如JNT1就是关节点位信息序号为1的点位,CART1就是笛卡尔点位信息序号为1的点位,MoveL指令支持输入关节点位或者笛卡尔点位。需要注意的,MoveL指令由于默认参数中有指定工具坐标系和工件坐标系,当这两个坐标系序号与当前加载的不一致时,该指令会导致报错,需要在默认参数中修改坐标系参数并load参数后再运行该运动指令。
     float vel - 指令速度百分比,范围0-100
+    int tool - 工具坐标系序号
+    int user - 工件坐标系序号
+    double expos1 - 外部轴1的位置
+    double expos2 - 外部轴2的位置
+    double expos3 - 外部轴3的位置
+    double expos4 - 外部轴4的位置
     */
-    int MoveL(string point_name,float vel);
+    int MoveL(string point_name,float vel,int tool,int user,double expos1,double expos2,double expos3,double expos4);
     // 例子
-    MoveL(CART1,10)
+    MoveL(CART1,10,1,1,0,0,0,0)
 
     /*
     函数功能描述:笛卡尔空间圆弧运动
     string point1_name point2_name - 预存点位名称,比如JNT1就是关节点位信息序号为1的点位,CART1就是笛卡尔点位信息序号为1的点位,MoveC指令支持输入关节点位或者笛卡尔点位,但是两个点位必须同类型的,即不支持第一个点位输入关节空间点位,第二个点位输入笛卡尔点位。需要注意的,MoveC指令由于默认参数中有指定工具坐标系和工件坐标系,当这两个坐标系序号与当前加载的不一致时,该指令会导致报错,需要在默认参数中修改坐标系参数并load参数后再运行该运动指令。
     float vel - 指令速度百分比,范围0-100
+    int tool - 工具坐标系序号
+    int user - 工件坐标系序号
+    double expos1 - 点1的外部轴1的位置
+    double expos2 - 点1的外部轴2的位置
+    double expos3 - 点1的外部轴3的位置
+    double expos4 - 点1的外部轴4的位置
+    double expos1 - 点2的外部轴1的位置
+    double expos2 - 点2的外部轴2的位置
+    double expos3 - 点2的外部轴3的位置
+    double expos4 - 点2的外部轴4的位置
     */
-    int MoveC(string point1_name,string point2_name, float vel);
+    int MoveC(string point1_name,string point2_name, float vel, int tool,int user,double expos1,double expos2,double expos3,double expos4,double expos1,double expos2,double expos3,double expos4);
     // 例子
-    MoveC(JNT1,JNT2,10)
+    MoveC(JNT1,JNT2,10,1,1,0,0,0,0,0,0,0,0)
 
     /*
     函数功能描述:样条运动开始

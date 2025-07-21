@@ -23,7 +23,7 @@
     */
     int AuxServoSetParam(int servoId, int servoCompany, int servoModel, int servoSoftVersion, int servoResolution, double axisMechTransRatio);
     
-获取485扩展轴参数
+获取485扩展轴配置参数
 ++++++++++++++++++++++++++++++++++
 .. versionadded:: C#SDK-v1.0.6
 
@@ -72,48 +72,6 @@
     */
     int AuxServoSetControlMode(int servoId, int mode);
 
-代码示例
-**********
-.. versionadded:: C#SDK-v1.0.6
-    
-.. code-block:: c#
-    :linenos:
-
-    private void btnWeldStart_Click(object sender, EventArgs e)
-    {
-        Robot robot = new Robot();
-        robot.RPC("192.168.58.2");
-
-        robot.AuxServoSetParam(1, 1, 1, 1, 131072, 36);//设置配置参数
-        int ID = -1, company = -1, model = -1, soft = -1, servoResolution= -1;
-        int radio = -1;
-        robot.AuxServoGetParam(1, ref company, ref model, ref soft, ref servoResolution, ref radio);//获取配置参数
-        
-        Thread.Sleep(100);
-        robot.AuxServoEnable(1, 0);//去使能伺服
-        Thread.Sleep(100);
-        robot.AuxServoSetControlMode(1, 0);//设置位置模式
-        Thread.Sleep(100);
-        robot.AuxServoEnable(1, 1);//使能伺服
-    }
-
-设置485扩展轴回零
-++++++++++++++++++++++++++++++++++
-.. versionadded:: C#SDK-v1.0.6
-
-.. code-block:: c#
-    :linenos:
-
-    /** 
-    * @brief 设置485扩展轴回零
-    * @param [in] servoId 伺服驱动器ID，范围[1-15],对应从站ID 
-    * @param [in] mode 回零模式，1-当前位置回零；2-负限位回零；3-正限位回零
-    * @param [in] searchVel 回零速度，mm/s或°/s
-    * @param [in] latchVel 箍位速度，mm/s或°/s
-    * @return 错误码 
-    */
-    int AuxServoHoming(int servoId, int mode, double searchVel, double latchVel);
-
 设置485扩展轴目标位置(位置模式)
 ++++++++++++++++++++++++++++++++++
 .. versionadded:: C#SDK-v1.0.6
@@ -144,49 +102,6 @@
     * @return 错误码 
     */
     int AuxServoSetTargetSpeed(int servoId, double speed);
-
-代码示例
-**********
-.. versionadded:: C#SDK-v1.0.6
-
-.. code-block:: c#
-    :linenos:
-
-    private void btnWeldStart_Click(object sender, EventArgs e)
-    {
-        Robot robot = new Robot();
-        robot.RPC("192.168.58.2");
-
-        robot.AuxServoEnable(1, 0);//去使能
-        Thread.Sleep(100);
-        robot.AuxServoSetControlMode(1, 0);//设置位置模式
-        Thread.Sleep(100);
-        robot.AuxServoEnable(1, 1);//使能
-        Thread.Sleep(100);
-        robot.AuxServoHoming(1, 1, 20, 5);//回零
-        Thread.Sleep(4000);//伺服回零需要一定的时间
-                
-        robot.AuxServoSetTargetPos(1, 1000, 100);//设置目标位置
-        Thread.Sleep(1000);
-        robot.AuxServoSetTargetPos(1, 0, 100);//再次设置目标位置
-        Thread.Sleep(1000);
-
-        robot.AuxServoEnable(1, 0);//去使能
-        Thread.Sleep(100);
-        robot.AuxServoSetControlMode(1, 1);//设置速度模式
-        Thread.Sleep(100);
-        robot.AuxServoEnable(1, 1);//使能
-        Thread.Sleep(100);
-        robot.AuxServoHoming(1, 1, 20, 5);//回零
-        Thread.Sleep(4000);//回零需要一定时间
-        robot.AuxServoSetTargetSpeed(1, 50);//设置目标速度
-        Thread.Sleep(3000);
-
-        robot.AuxServoSetTargetSpeed(1, -300);//设置目标速度
-        Thread.Sleep(3000);
-        robot.AuxServoSetTargetSpeed(1, 0);//伺服停止
-        Thread.Sleep(100);
-    }
     
 设置485扩展轴目标转矩(力矩模式)--暂未开放
 ++++++++++++++++++++++++++++++++++++++++++++
@@ -202,6 +117,23 @@
     * @return 错误码 
     */
     int AuxServoSetTargetTorque(int servoId, double torque);
+
+设置485扩展轴回零
+++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-v1.0.6
+
+.. code-block:: c#
+    :linenos:
+
+    /** 
+    * @brief 设置485扩展轴回零
+    * @param [in] servoId 伺服驱动器ID，范围[1-15],对应从站ID 
+    * @param [in] mode 回零模式，1-当前位置回零；2-负限位回零；3-正限位回零
+    * @param [in] searchVel 回零速度，mm/s或°/s
+    * @param [in] latchVel 箍位速度，mm/s或°/s
+    * @return 错误码 
+    */
+    int AuxServoHoming(int servoId, int mode, double searchVel, double latchVel);
         
 清除485扩展轴错误信息
 ++++++++++++++++++++++++++++++++++++++++++++
@@ -250,30 +182,151 @@
     */
     int AuxServosetStatusID(int servoId);
 
-代码示例
-+++++++++++
-.. versionadded:: C#SDK-v1.0.6
+设置485扩展轴运动加减速度
++++++++++++++++++++++++++++++++
+.. code-block:: C#
+    :linenos:
+
+    /**
+    * @brief 设置485扩展轴运动加减速度
+    * @param [in] acc 485扩展轴运动加速度
+    * @param [in] dec 485扩展轴运动减速度
+    * @return  错误码
+    */
+    int AuxServoSetAcc(double acc, double dec);
+
+设置485扩展轴急停加减速度
++++++++++++++++++++++++++++++++
+.. code-block:: C#
+    :linenos:
+
+    /**
+    * @brief 设置485扩展轴急停加减速度
+    * @param [in] acc 485扩展轴急停加速度
+    * @param [in] dec 485扩展轴急停减速度
+    * @return  错误码
+    */
+    int AuxServoSetEmergencyStopAcc(double acc, double dec);
+
+获取485扩展轴运动加减速度
++++++++++++++++++++++++++++++++
+.. code-block:: C#
+    :linenos:
+
+    /**
+    * @brief 获取485扩展轴运动加减速度
+    * @param [out] acc 485扩展轴运动加速度
+    * @param [out] dec 485扩展轴运动减速度
+    * @return  错误码
+    */
+    int AuxServoGetAcc(ref double acc, ref double dec);
+
+获取485扩展轴急停加减速度
++++++++++++++++++++++++++++++++++++
+.. code-block:: C#
+    :linenos:
+
+    /**
+    * @brief 获取485扩展轴急停加减速度
+    * @param [out] acc 485扩展轴急停加速度
+    * @param [out] dec 485扩展轴急停减速度
+    * @return  错误码
+    */
+    int AuxServoGetEmergencyStopAcc(ref double acc, ref double dec);
+
+扩展轴控制代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.3  Web-3.8.2
 
 .. code-block:: c#
     :linenos:
 
-    private void btnWeldStart_Click(object sender, EventArgs e)
+    private void button64_Click(object sender, EventArgs e)
     {
-        Robot robot = new Robot();
-        robot.RPC("192.168.58.2");
+        int retval = robot.AuxServoSetParam(1, 1, 1, 1, 131072, 15.45);
+        Console.WriteLine($"AuxServoSetParam is: {retval}");
 
-            robot.AuxServoClearError(1);
-        int errCode = 0;
+        int servoCompany = 0;
+        int servoModel = 0;
+        int servoSoftVersion = 0;
+        int servoResolution = 0;
+        double axisMechTransRatio = 0;
+        retval = robot.AuxServoGetParam(1, ref servoCompany, ref servoModel, ref servoSoftVersion, ref servoResolution, ref axisMechTransRatio);
+        Console.WriteLine($"servoCompany {servoCompany}\n" +
+            $"servoModel {servoModel}\n" +
+            $"servoSoftVersion {servoSoftVersion}\n" +
+            $"servoResolution {servoResolution}\n" +
+            $"axisMechTransRatio {axisMechTransRatio}\n");
+
+        retval = robot.AuxServoSetParam(1, 10, 11, 12, 13, 14);
+        Console.WriteLine($"AuxServoSetParam is: {retval}");
+
+        retval = robot.AuxServoGetParam(1, ref servoCompany, ref servoModel, ref servoSoftVersion, ref servoResolution, ref axisMechTransRatio);
+        Console.WriteLine($"servoCompany {servoCompany}\n" +
+            $"servoModel {servoModel}\n" +
+            $"servoSoftVersion {servoSoftVersion}\n" +
+            $"servoResolution {servoResolution}\n" +
+            $"axisMechTransRatio {axisMechTransRatio}\n");
+
+        retval = robot.AuxServoSetParam(1, 1, 1, 1, 131072, 36);
+        Console.WriteLine($"AuxServoSetParam is: {retval}");
+        Thread.Sleep(3000);
+
+        robot.AuxServoSetAcc(3000, 3000);
+        robot.AuxServoSetEmergencyStopAcc(5000, 5000);
+        Thread.Sleep(1000);
+        double emagacc = 0, acc = 0;
+        double emagdec = 0, dec = 0;
+        robot.AuxServoGetEmergencyStopAcc(ref emagacc, ref emagdec);
+        Console.WriteLine($"emergency acc is {emagacc}  dec is {emagdec}");
+        robot.AuxServoGetAcc(ref acc, ref dec);
+        Console.WriteLine($"acc is {acc}  dec is {dec}");
+
+        robot.AuxServoSetControlMode(1, 0);
+        Thread.Sleep(2000);
+
+        retval = robot.AuxServoEnable(1, 0);
+        Console.WriteLine($"AuxServoEnable disenable {retval}");
+        Thread.Sleep(1000);
+        int servoerrcode = 0;
+        int servoErrCode = 0;
         int servoState = 0;
-        double pos = 0;
-        double speed = 0;
-        double torque = 0;
-        robot.AuxServoGetStatus(1, ref errCode, ref servoState, ref pos, ref speed, ref torque);
+        double servoPos = 0;
+        double servoSpeed = 0;
+        double servoTorque = 0;
+        retval = robot.AuxServoGetStatus(1, ref servoErrCode, ref servoState, ref servoPos, ref servoSpeed, ref servoTorque);
+        Console.WriteLine($"AuxServoGetStatus servoState {servoState}");
+        Thread.Sleep(1000);
 
-        robot.AuxServosetStatusID(1);
-        ROBOT_STATE_PKG pKG = new ROBOT_STATE_PKG();
-        robot.GetRobotRealTimeState(ref pKG);
-        Console.WriteLine($"the state is {pKG.auxState.servoPos}");
+        retval = robot.AuxServoEnable(1, 1);
+        Console.WriteLine($"AuxServoEnable enable {retval}");
+        Thread.Sleep(1000);
+        retval = robot.AuxServoGetStatus(1, ref servoErrCode, ref servoState, ref servoPos, ref servoSpeed, ref servoTorque);
+        Console.WriteLine($"AuxServoGetStatus servoState {servoState}");
+        Thread.Sleep(1000);
+
+        retval = robot.AuxServoHoming(1, 1, 5, 1);
+        Console.WriteLine($"AuxServoHoming {retval}");
+        Thread.Sleep(3000);
+
+        retval = robot.AuxServoSetTargetPos(1, 200, 30);
+        Console.WriteLine($"AuxServoSetTargetPos {retval}");
+        Thread.Sleep(1000);
+        retval = robot.AuxServoGetStatus(1, ref servoErrCode, ref servoState, ref servoPos, ref servoSpeed, ref servoTorque);
+        Console.WriteLine($"AuxServoGetStatus servoSpeed {servoSpeed}");
+        Thread.Sleep(8000);
+
+        robot.AuxServoSetControlMode(1, 1);
+        Thread.Sleep(2000);
+
+        robot.AuxServoEnable(1, 0);
+        Thread.Sleep(1000);
+        robot.AuxServoEnable(1, 1);
+        Thread.Sleep(1000);
+        robot.AuxServoSetTargetSpeed(1, 100, 80);
+
+        Thread.Sleep(5000);
+        robot.AuxServoSetTargetSpeed(1, 0, 80);
     }
 
 UDP扩展轴通讯参数配置
@@ -346,35 +399,6 @@ UDP扩展轴通讯参数配置
     * @return 错误码
     */
     int ExtDevUnloadUDPDriver();
-
-代码示例
-**************
-
-.. code-block:: C#
-    :linenos:
-
-    private void btnSetParam_Click(object sender, EventArgs e)
-    {
-        Robot robot = new Robot();
-        robot.RPC("192.168.58.2");
-
-        robot.ExtDevSetUDPComParam("192.168.58.88", 2021, 2, 100, 3, 100, 1, 100, 10);
-        string ip = "";
-        int port = 0;
-        int period = 0;
-        int checktime = 0;
-        int checknum = 0;
-        int disconntime = 0;
-        int reconnenable = 0;
-        int reconntime = 0;
-        int reconnnum = 0;
-        robot.ExtDevGetUDPComParam(ref ip, ref port, ref period, ref checktime, ref checknum, ref disconntime, ref reconntime, ref reconnenable, ref reconnnum);
-        Console.Writeline($"{ip}  {port}  {period} {checktime}  {checknum}  {disconntime}  {reconnenable}  {reconntime}  {reconnnum}");
-
-        robot.ExtDevLoadUDPDriver();
-        Thread.Sleep(1000 * 10);
-        robot.ExtDevUnloadUDPDriver();
-    }
 
 UDP扩展轴通信异常断开后恢复连接
 ++++++++++++++++++++++++++++++++++
@@ -456,162 +480,13 @@ UDP扩展轴参数配置
     * @param [in]  axisDHd2 外部轴DH参数d2 mm
     * @param [in]  axisDHd3 外部轴DH参数d3 mm
     * @param [in]  axisDHd4 外部轴DH参数d4 mm
-    * @param [in]  axisDHa1 外部轴DH参数a1 mm
+    * @param [in]  axisDHa1 外部轴DH参数11 mm
     * @param [in]  axisDHa2 外部轴DH参数a2 mm
     * @param [in]  axisDHa3 外部轴DH参数a3 mm
     * @param [in]  axisDHa4 外部轴DH参数a4 mm
     * @return 错误码
     */
     int SetAxisDHParaConfig(int axisConfig, double axisDHd1, double axisDHd2, double axisDHd3, double axisDHd4, double axisDHa1, double axisDHa2, double axisDHa3, double axisDHa4);
-
-代码示例
-**********
-
-.. code-block:: C#
-    :linenos:
-
-    private void btnSetAxisParam_Click(object sender, EventArgs e)
-    {
-        Robot robot = new Robot();
-        robot.RPC("192.168.58.2");
-
-        int rtn = 0;
-        rtn = robot.SetAxisDHParaConfig(4, 200, 200, 0, 0, 0, 0, 0, 0);
-        Console.WriteLine($"SetAxisDHParaConfig rtn is {rtn}");
-        rtn = robot.SetRobotPosToAxis(1);
-        Console.WriteLine($"SetRobotPosToAxis rtn is {rtn}");
-        rtn = robot.ExtAxisParamConfig(1,0, 1, 100, -100, 10, 10, 12, 131072, 0, 1, 0, 0);
-        Console.WriteLine($"ExtAxisParamConfig rtn is {rtn}");
-    }
-
-设置扩展轴坐标系参考点-四点法
-++++++++++++++++++++++++++++++++++
-.. versionadded:: C#SDK-v1.0.7
-
-.. code-block:: C#
-    :linenos:
-
-    /**
-    * @brief 设置扩展轴坐标系参考点-四点法
-    * @param [in]  pointNum 点编号[1-4]
-    * @return 错误码
-    */
-    int ExtAxisSetRefPoint(int pointNum);
-
-计算扩展轴坐标系-四点法
-++++++++++++++++++++++++++++++++++
-.. versionadded:: C#SDK-v1.0.7
-
-.. code-block:: C#
-    :linenos:
-
-    /**
-    * @brief 计算扩展轴坐标系-四点法
-    * @param [out]  coord 坐标系值
-    * @return 错误码
-    */
-    int ExtAxisComputeECoordSys(DescPose& coord);
-
-应用扩展轴坐标系
-++++++++++++++++++++++++++++++++++
-.. versionadded:: C#SDK-v1.0.7
-
-.. code-block:: C#
-    :linenos:
-
-    /**
-    * @brief 应用扩展轴坐标系
-    * @param [in]  applyAxisId 扩展轴编号 bit0-bit3对应扩展轴编号1-4，如应用扩展轴1和3，则是 0b 0000 0101；也就是5
-    * @param [in]  axisCoordNum 扩展轴坐标系编号
-    * @param [in]  coord 坐标系值
-    * @param [in]  calibFlag 标定标志 0-否，1-是
-    * @return 错误码
-    */
-    int ExtAxisActiveECoordSys(int applyAxisId, int axisCoordNum, DescPose coord, int calibFlag);
-
-代码示例
-************
-
-.. code-block:: C#
-    :linenos:
-
-    private void btnCoordCalib_Click(object sender, EventArgs e)
-    {
-        Robot robot = new Robot();
-        robot.RPC("192.168.58.2");
-
-        robot.ExtAxisSetRefPoint(1);
-        //robot.ExtAxisSetRefPoint(2);
-        //robot.ExtAxisSetRefPoint(3);
-        //robot.ExtAxisSetRefPoint(4);
-        //DescPose pos = new DescPose();
-        //robot.ExtAxisComputeECoordSys(ref pos);
-    }
-
-设置标定参考点在变位机末端坐标系下位姿
-++++++++++++++++++++++++++++++++++++++
-.. versionadded:: C#SDK-v1.0.7
-
-.. code-block:: C#
-    :linenos:
-
-    /**
-    * @brief 设置标定参考点在变位机末端坐标系下位姿
-    * @param [in] pos 位姿值
-    * @return 错误码
-    */
-    int SetRefPointInExAxisEnd(DescPose pos);
-
-变位机坐标系参考点设置
-++++++++++++++++++++++++++++++++++++++
-.. versionadded:: C#SDK-v1.0.7
-
-.. code-block:: C#
-    :linenos:
-
-    /**
-    * @brief 变位机坐标系参考点设置
-    * @param [in]  pointNum 点编号[1-4]
-    * @return 错误码
-    */
-    int PositionorSetRefPoint(int pointNum);
-
-变位机坐标系计算-四点法
-++++++++++++++++++++++++++++++++++++++
-.. versionadded:: C#SDK-v1.0.7
-
-.. code-block:: C#
-    :linenos:
-
-    /**
-    * @brief 变位机坐标系计算-四点法
-    * @param [out] coord 坐标系值
-    * @return 错误码
-    */
-    int PositionorComputeECoordSys(DescPose& coord);
-
-代码示例
-************
-
-.. code-block:: C#
-    :linenos:
-
-    private void btnCoordCalib_Click(object sender, EventArgs e)
-    {
-        Robot robot = new Robot();
-        robot.RPC("192.168.58.2");
-
-        DescPose refPointPos = new DescPose(122.0, 312.0, 0, 0, 0, 0);
-        robot.SetRefPointInExAxisEnd(refPointPos);
-
-        robot.PositionorSetRefPoint(1);
-        //robot.PositionorSetRefPoint(2);
-        //robot.PositionorSetRefPoint(3);
-        //robot.PositionorSetRefPoint(4);
-
-        //DescPose coord = new DescPose();
-        //robot.PositionorComputeECoordSys(ref coord);
-    }
 
 UDP扩展轴使能
 ++++++++++++++++++++++++++++++++++++++
@@ -677,28 +552,280 @@ UDP扩展轴点动停止
     */
     int ExtAxisStopJog(int axisID);
 
-代码示例
-************
+UDP扩展轴配置与点动代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. code-block:: C#
     :linenos:
 
     private void btnJog_Click(object sender, EventArgs e)
     {
-        Robot robot = new Robot();
-        robot.RPC("192.168.58.2");
+        int rtn = robot.ExtDevSetUDPComParam("192.168.58.88", 2021, 2, 100, 3, 200, 1, 100, 5,1);
+        Console.WriteLine("ExtDevSetUDPComParam rtn is " + rtn);
+        string ip = ""; int port = 0; int period = 0; int lossPkgTime = 0; int lossPkgNum = 0; int disconnectTime = 0; int reconnectEnable = 0; int reconnectPeriod = 0; int reconnectNum = 0;
+        rtn = robot.ExtDevGetUDPComParam(ref ip, ref port, ref period, ref lossPkgTime, ref lossPkgNum, ref disconnectTime, ref reconnectEnable, ref reconnectPeriod, ref reconnectNum);
+        string param = "\nip " + ip + "\nport " + port.ToString() + "\nperiod  " + period.ToString() + "\nlossPkgTime " + lossPkgTime.ToString() + "\nlossPkgNum  " + lossPkgNum.ToString() + "\ndisConntime  " + disconnectTime.ToString() + "\nreconnecable  " + reconnectEnable.ToString() + "\nreconnperiod  " + reconnectPeriod.ToString() + "\nreconnnun  " + reconnectNum.ToString();
+        Console.WriteLine("ExtDevGetUDPComParam rtn is " + rtn + param);
 
-        robot.ExtAxisServoOn(1, 1);
-        robot.ExtAxisSetHoming(1, 0, 10, 3);
-        robot.ExtAxisStartJog(1, 1, 100, 100, 20);
-        Thread.Sleep(1000 * 2);
+        robot.ExtDevLoadUDPDriver();
+
+        rtn = robot.ExtAxisServoOn(1, 1);
+        Console.WriteLine("ExtAxisServoOn axis id 1 rtn is " + rtn);
+        rtn = robot.ExtAxisServoOn(2, 1);
+        Console.WriteLine("ExtAxisServoOn axis id 2 rtn is " + rtn);
+        Thread.Sleep(2000);
+
+        rtn = robot.ExtAxisSetHoming(1, 0, 10, 2);
+        Console.WriteLine("ExtAxisSetHoming 1 rtnn is  " + rtn);
+        Thread.Sleep(2000);
+        rtn = robot.ExtAxisSetHoming(2, 0, 10, 2);
+        Console.WriteLine("ExtAxisSetHoming 2 rtnn is  " + rtn);
+
+        Thread.Sleep(4000);
+
+        rtn = robot.SetRobotPosToAxis(1);
+        Console.WriteLine("SetRobotPosToAxis rtn is " + rtn);
+        rtn = robot.SetAxisDHParaConfig(10, 20, 0, 0, 0, 0, 0, 0, 0);
+        Console.WriteLine("SetAxisDHParaConfig rtn is " + rtn);
+        rtn = robot.ExtAxisParamConfig(1, 1, 1, 1000, -1000, 1000, 1000, 1.905f, 262144, 200, 1, 0, 0);
+        Console.WriteLine("ExtAxisParamConfig axis 1 rtn is " + rtn);
+        rtn = robot.ExtAxisParamConfig(2, 1, 1, 1000, -1000, 1000, 1000, 4.444f, 262144, 200, 1, 0, 0);
+        Console.WriteLine("ExtAxisParamConfig axis 2 rtn is " + rtn);
+
+        Thread.Sleep(3000);
+        robot.ExtAxisStartJog(1, 0, 10, 10, 30);
+        Thread.Sleep(1000);
         robot.ExtAxisStopJog(1);
+        Thread.Sleep(3000);
         robot.ExtAxisServoOn(1, 0);
+
+        Thread.Sleep(3000);
+        robot.ExtAxisStartJog(2, 0, 10, 10, 30);
+        Thread.Sleep(1000);
+        robot.ExtAxisStopJog(2);
+        Thread.Sleep(3000);
+        robot.ExtAxisServoOn(2, 0);
+        Thread.Sleep(3000);
+        robot.ExtDevUnloadUDPDriver();
+    }
+
+设置扩展轴坐标系参考点-四点法
+++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-v1.0.7
+
+.. code-block:: C#
+    :linenos:
+
+    /**
+    * @brief 设置扩展轴坐标系参考点-四点法
+    * @param [in]  pointNum 点编号[1-4]
+    * @return 错误码
+    */
+    int ExtAxisSetRefPoint(int pointNum);
+
+计算扩展轴坐标系-四点法
+++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-v1.0.7
+
+.. code-block:: C#
+    :linenos:
+
+    /**
+    * @brief 计算扩展轴坐标系-四点法
+    * @param [out]  coord 坐标系值
+    * @return 错误码
+    */
+    int ExtAxisComputeECoordSys(DescPose& coord);
+
+应用扩展轴坐标系
+++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-v1.0.7
+
+.. code-block:: C#
+    :linenos:
+
+    /**
+    * @brief 应用扩展轴坐标系
+    * @param [in]  applyAxisId 扩展轴编号 bit0-bit3对应扩展轴编号1-4，如应用扩展轴1和3，则是 0b 0000 0101；也就是5
+    * @param [in]  axisCoordNum 扩展轴坐标系编号
+    * @param [in]  coord 坐标系值
+    * @param [in]  calibFlag 标定标志 0-否，1-是
+    * @return 错误码
+    */
+    int ExtAxisActiveECoordSys(int applyAxisId, int axisCoordNum, DescPose coord, int calibFlag);
+
+设置标定参考点在变位机末端坐标系下位姿
+++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-v1.0.7
+
+.. code-block:: C#
+    :linenos:
+
+    /**
+    * @brief 设置标定参考点在变位机末端坐标系下位姿
+    * @param [in] pos 位姿值
+    * @return 错误码
+    */
+    int SetRefPointInExAxisEnd(DescPose pos);
+
+变位机坐标系参考点设置
+++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-v1.0.7
+
+.. code-block:: C#
+    :linenos:
+
+    /**
+    * @brief 变位机坐标系参考点设置
+    * @param [in]  pointNum 点编号[1-4]
+    * @return 错误码
+    */
+    int PositionorSetRefPoint(int pointNum);
+
+变位机坐标系计算-四点法
+++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-v1.0.7
+
+.. code-block:: C#
+    :linenos:
+
+    /**
+    * @brief 变位机坐标系计算-四点法
+    * @param [out] coord 坐标系值
+    * @return 错误码
+    */
+    int PositionorComputeECoordSys(DescPose& coord);
+
+获取扩展轴坐标系
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.3  Web-3.8.2
+    
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 获取扩展轴坐标系
+    * @param [out] coord 扩展轴坐标系
+    * @return 错误码
+    */
+    int ExtAxisGetCoord(ref DescPose coord);
+
+扩展轴坐标系标定代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.3  Web-3.8.2
+    
+.. code-block:: c#
+    :linenos:
+
+    private void button66_Click(object sender, EventArgs e)
+    {
+        int rtn = robot.ExtDevSetUDPComParam("192.168.58.88", 2021, 2, 100, 3, 200, 1, 100, 5,1);
+        Console.WriteLine("ExtDevSetUDPComParam rtn is " + rtn);
+        string ip = ""; int port = 0; int period = 0; int lossPkgTime = 0; int lossPkgNum = 0; int disconnectTime = 0; int reconnectEnable = 0; int reconnectPeriod = 0; int reconnectNum = 0;
+        rtn = robot.ExtDevGetUDPComParam(ref ip, ref port, ref period, ref lossPkgTime, ref lossPkgNum, ref disconnectTime, ref reconnectEnable, ref reconnectPeriod, ref reconnectNum);
+        string param = "\nip " + ip + "\nport " + port.ToString() + "\nperiod  " + period.ToString() + "\nlossPkgTime " + lossPkgTime.ToString() + "\nlossPkgNum  " + lossPkgNum.ToString() + "\ndisConntime  " + disconnectTime.ToString() + "\nreconnecable  " + reconnectEnable.ToString() + "\nreconnperiod  " + reconnectPeriod.ToString() + "\nreconnnun  " + reconnectNum.ToString();
+        Console.WriteLine("ExtDevGetUDPComParam rtn is " + rtn + param);
+
+        robot.ExtDevLoadUDPDriver();
+
+        rtn = robot.ExtAxisServoOn(1, 1);
+        Console.WriteLine("ExtAxisServoOn axis id 1 rtn is " + rtn);
+        rtn = robot.ExtAxisServoOn(2, 1);
+        Console.WriteLine("ExtAxisServoOn axis id 2 rtn is " + rtn);
+        Thread.Sleep(2000);
+
+        robot.ExtAxisSetHoming(1, 0, 10, 2);
+        Thread.Sleep(2000);
+        rtn = robot.ExtAxisSetHoming(2, 0, 10, 2);
+        Console.WriteLine("ExtAxisSetHoming rtnn is  " + rtn);
+
+        Thread.Sleep(4000);
+
+        rtn = robot.SetRobotPosToAxis(1);
+        Console.WriteLine("SetRobotPosToAxis rtn is " + rtn);
+        rtn = robot.SetAxisDHParaConfig(1, 128.5f, 206.4f, 0, 0, 0, 0, 0, 0);
+        Console.WriteLine("SetAxisDHParaConfig rtn is " + rtn);
+        rtn = robot.ExtAxisParamConfig(1, 1, 1, 1000, -1000, 1000, 1000, 1.905f, 262144, 200, 1, 0, 0);
+        Console.WriteLine("ExtAxisParamConfig axis 1 rtn is " + rtn);
+        rtn = robot.ExtAxisParamConfig(2, 1, 1, 1000, -1000, 1000, 1000, 4.444f, 262144, 200, 1, 0, 0);
+        Console.WriteLine("ExtAxisParamConfig axis 1 rtn is " + rtn);
+
+        DescPose toolCoord = new DescPose(0, 0, 210, 0, 0, 0);
+        robot.SetToolCoord(1, toolCoord, 0, 0, 1, 0);
+
+        JointPos jSafe = new JointPos(115.193f, -96.149f, 92.489f, -87.068f, -89.15f, -83.488f);
+        JointPos j1 = new JointPos(117.559f, -92.624f, 100.329f, -96.909f, -94.057f, -83.488f);
+        JointPos j2 = new JointPos(112.239f, -90.096f, 99.282f, -95.909f, -89.824f, -83.488f);
+        JointPos j3 = new JointPos(110.839f, -83.473f, 93.166f, -89.22f, -90.499f, -83.487f);
+        JointPos j4 = new JointPos(107.935f, -83.572f, 95.424f, -92.873f, -87.933f, -83.488f);
+
+        DescPose descSafe = new DescPose();
+        DescPose desc1 = new DescPose();
+        DescPose desc2 = new DescPose();
+        DescPose desc3 = new DescPose();
+        DescPose desc4 = new DescPose();
+        ExaxisPos exaxisPos = new ExaxisPos(0, 0, 0, 0);
+        DescPose offdese = new DescPose(0, 0, 0, 0, 0, 0);
+
+        robot.GetForwardKin( jSafe,  ref descSafe);
+        robot.MoveJ( jSafe,  descSafe, 1, 0, 100, 100, 100,  exaxisPos, -1, 0,  offdese);
+        Thread.Sleep(2000);
+
+        robot.GetForwardKin( j1, ref desc1);
+        robot.MoveJ( j1,  desc1, 1, 0, 100, 100, 100,  exaxisPos, -1, 0,  offdese);
+        Thread.Sleep(2000);
+
+        DescPose actualTCPPos = new DescPose();
+        robot.GetActualTCPPose(0, ref actualTCPPos);
+        robot.SetRefPointInExAxisEnd(actualTCPPos);
+        rtn = robot.PositionorSetRefPoint(1);
+        Console.WriteLine("PositionorSetRefPoint 1 rtn is " + rtn);
+        Thread.Sleep(2000);
+
+        robot.MoveJ( jSafe,  descSafe, 1, 0, 100, 100, 100,  exaxisPos, -1, 0,  offdese);
+        robot.ExtAxisStartJog(1, 0, 50, 50, 10);
+        Thread.Sleep(1000);
+        robot.ExtAxisStartJog(2, 0, 50, 50, 10);
+        Thread.Sleep(1000);
+        robot.GetForwardKin( j2, ref desc2);
+        rtn = robot.MoveJ( j2,  desc2, 1, 0, 100, 100, 100,  exaxisPos, -1, 0,  offdese);
+        rtn = robot.PositionorSetRefPoint(2);
+        Console.WriteLine("PositionorSetRefPoint 2 rtn is " + rtn);
+        Thread.Sleep(2000);
+
+        robot.MoveJ( jSafe,  descSafe, 1, 0, 100, 100, 100,  exaxisPos, -1, 0,  offdese);
+        robot.ExtAxisStartJog(1, 0, 50, 50, 10);
+        Thread.Sleep(1000);
+        robot.ExtAxisStartJog(2, 0, 50, 50, 10);
+        Thread.Sleep(1000);
+        robot.GetForwardKin( j3, ref desc3);
+        robot.MoveJ( j3,  desc3, 1, 0, 100, 100, 100,  exaxisPos, -1, 0,  offdese);
+        rtn = robot.PositionorSetRefPoint(3);
+        Console.WriteLine("PositionorSetRefPoint 3 rtn is " + rtn);
+        Thread.Sleep(2000);
+
+        robot.MoveJ( jSafe,  descSafe, 1, 0, 100, 100, 100,  exaxisPos, -1, 0,  offdese);
+        robot.ExtAxisStartJog(1, 0, 50, 50, 10);
+        Thread.Sleep(1000);
+        robot.ExtAxisStartJog(2, 0, 50, 50, 10);
+        Thread.Sleep(1000);
+        robot.GetForwardKin(j4, ref desc4);
+        robot.MoveJ(j4, desc4, 1, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
+        rtn = robot.PositionorSetRefPoint(4);
+        Console.WriteLine("PositionorSetRefPoint 4 rtn is " + rtn);
+        Thread.Sleep(2000);
+
+        DescPose axisCoord = new DescPose();
+        robot.PositionorComputeECoordSys(ref axisCoord);
+        robot.MoveJ(jSafe, descSafe, 1, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
+        Console.WriteLine("PositionorComputeECoordSys rtn is {0} {1} {2} {3} {4} {5}", axisCoord.tran.x, axisCoord.tran.y, axisCoord.tran.z, axisCoord.rpy.rx, axisCoord.rpy.ry, axisCoord.rpy.rz);
+        rtn = robot.ExtAxisActiveECoordSys(3, 1, axisCoord, 1);
+        Console.WriteLine("ExtAxisActiveECoordSys rtn is " + rtn);
     }
 
 UDP扩展轴运动
-++++++++++++++++++++++++++++++++++++++
-.. versionadded:: C#SDK-v1.0.7
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.5  Web-3.8.4
 
 .. code-block:: C#
     :linenos:
@@ -707,23 +834,25 @@ UDP扩展轴运动
     * @brief UDP扩展轴运动
     * @param [in] pos 目标位置
     * @param [in] ovl 速度百分比
+    * @param [in] blend 平滑参数(mm或ms)
     * @return 错误码
     */
-    int ExtAxisMove(ExaxisPos pos, double ovl);
+    int ExtAxisMove(ExaxisPos pos, double ovl, double blend=-1);
 
-代码示例
-************
+UDP扩展轴运动代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. code-block:: C#
     :linenos:
 
-    private void btnAxisMove_Click(object sender, EventArgs e)
+    private void button66_Click(object sender, EventArgs e)
     {
-        Robot robot = new Robot();
-        robot.RPC("192.168.58.2");
-
-        ExaxisPos pos = new ExaxisPos(10, 0, 0, 0);
-        robot.ExtAxisMove(pos, 10);
+        ExaxisPos axisPos;
+        axisPos.ePos[0] = 20;
+        axisPos.ePos[1] = 0;
+        axisPos.ePos[2] = 0;
+        axisPos.ePos[3] = 0;
+        robot.ExtAxisMove(axisPos, 50);
     }
 
 UDP扩展轴与机器人关节运动同步运动
@@ -751,7 +880,7 @@ UDP扩展轴与机器人关节运动同步运动
     int ExtAxisSyncMoveJ(JointPos joint_pos, DescPose desc_pos, int tool, int user, float vel, float acc, float ovl, ExaxisPos epos, float blendT, byte offset_flag, DescPose offset_pos);
 
 代码示例
-************
+++++++++++++++++++++++++++++++++++++++
 
 .. code-block:: C#
     :linenos:
@@ -841,7 +970,7 @@ UDP扩展轴与机器人直线运动同步运动
     int ExtAxisSyncMoveL(JointPos joint_pos, DescPose desc_pos, int tool, int user, float vel, float acc, float ovl, float blendR, ExaxisPos epos, int offset_flag, DescPose offset_pos);
 
 代码示例
-************
+++++++++++++++++++++++++++++++++++++++
 
 .. code-block:: C#
     :linenos:
@@ -940,7 +1069,7 @@ UDP扩展轴与机器人圆弧运动同步运动
     int ExtAxisSyncMoveC(JointPos joint_pos_p, DescPose desc_pos_p, int ptool, int puser, float pvel, float pacc, ExaxisPos epos_p, int poffset_flag, DescPose offset_pos_p, JointPos joint_pos_t, DescPose desc_pos_t, int ttool, int tuser, float tvel, float tacc, ExaxisPos epos_t, int toffset_flag, DescPose offset_pos_t, float ovl, float blendR);
     
 代码示例
-************
+++++++++++++++++++++++++++++++++++++++
 
 .. code-block:: C#
     :linenos:
@@ -1010,108 +1139,6 @@ UDP扩展轴与机器人圆弧运动同步运动
         robot.ExtAxisSyncMoveC(midjointPos, middescPose, 1, 1, 100, 100, midexaxisPos, 0, offdese, endjointPos, enddescPose, 1, 1, 100, 100, endexaxisPos, 0, offdese, 100, 0);
     }
 
-可移动装置使能
-+++++++++++++++++++++++++++++
-.. versionadded:: C#SDK-v1.0.9
-
-.. code-block:: c#
-    :linenos:
-
-    /**
-    * @brief 可移动装置使能
-    * @param enable false-去使能；true-使能
-    * @return 错误码
-    */
-    int TractorEnable(bool enable);
-
-可移动装置停止运动
-+++++++++++++++++++++++++++++
-.. versionadded:: C#SDK-v1.0.9
-
-.. code-block:: c#
-    :linenos:
-
-    /**
-    * @brief 可移动装置停止运动
-    * @return 错误码
-    */
-    int TractorStop();
-
-可移动装置回零
-+++++++++++++++++++++++++++++
-.. versionadded:: C#SDK-v1.0.9
-
-.. code-block:: c#
-    :linenos:
-
-    /**
-    * @brief 可移动装置回零
-    * @return 错误码
-    */
-    int  TractorHoming();
-
-可移动装置直线运动
-+++++++++++++++++++++++++++++
-.. versionadded:: C#SDK-v1.0.9
-
-.. code-block:: c#
-    :linenos:
-
-    /**
-    * @brief 可移动装置直线运动
-    * @param distance 直线运动距离（mm）
-    * @param vel 直线运动速度百分比（0-100）
-    * @return 错误码
-    */
-    int TractorMoveL(double distance, double vel);
-
-可移动装置圆弧运动
-+++++++++++++++++++++++++++++
-.. versionadded:: C#SDK-v1.0.9
-
-.. code-block:: c#
-    :linenos:
-
-    /**
-    * @brief 可移动装置圆弧运动
-    * @param radio 圆弧运动半径（mm）
-    * @param angle 圆弧运动角度（°）
-    * @param vel 直线运动速度百分比（0-100）
-    * @return 错误码
-    */
-    int TractorMoveC(double radio, double angle, double vel);
-
-代码示例
-+++++++++
-.. versionadded:: C#SDK-v1.0.9
-    
-.. code-block:: c#
-    :linenos:
-
-    private void button6_Click(object sender, EventArgs e)
-    {
-        robot.ExtDevSetUDPComParam("192.168.58.2", 2021, 2, 50, 5, 50, 1, 50, 10);
-        int tru = robot.ExtDevLoadUDPDriver();
-        Thread.Sleep(2000);
-        Console.WriteLine("tru" + tru);
-        robot.ExtAxisParamConfig(1, 0, 0, 50000, -50000, 1000, 1000, 6.280, 16384, 200, 0, 0, 0);
-        robot.ExtAxisParamConfig(2, 0, 0, 50000, -50000, 1000, 1000, 6.280, 16384, 200, 0, 0, 0);
-        robot.SetAxisDHParaConfig(5, 0, 0, 0, 0, 0, 0, 0, 0);
-        int tru1 = robot.TractorEnable(true);
-        Thread.Sleep(3000);
-        robot.TractorHoming();
-        Thread.Sleep(2000);
-        robot.TractorMoveL(100, 20);
-        Thread.Sleep(2000);
-        robot.TractorMoveL(-100, 20);
-        Thread.Sleep(2000);
-        robot.TractorMoveC(50, 60, 20);
-        Thread.Sleep(2000);
-        robot.TractorMoveC(50, -60, 20);
-        Thread.Sleep(1000);
-        robot.TractorStop();//中途停止
-    }
-
 设置扩展DO
 ++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C#SDK-v1.0.7
@@ -1144,33 +1171,6 @@ UDP扩展轴与机器人圆弧运动同步运动
     * @return 错误码
     */
     int SetAuxAO(int AONum, double value, bool block);
-    
-代码示例
-************
-
-.. code-block:: C#
-    :linenos:
-
-    private void btnAODO_Click(object sender, EventArgs e)
-    {
-        Robot robot = new Robot();
-        robot.RPC("192.168.58.2");
-
-        for (int i = 0; i < 128; i++)
-        {
-            robot.SetAuxDO(i, true, false, true);
-            Thread.Sleep(200);
-        }
-
-        for(int i = 0; i < 409; i++)
-        {
-            robot.SetAuxAO(0, i * 10, true);
-            robot.SetAuxAO(1, 4095 - i * 10, true);
-            robot.SetAuxAO(2, i * 10, true);
-            robot.SetAuxAO(3, 4095 - i * 10, true);
-            Thread.Sleep(10);
-        }
-    }
             
 设置扩展DI输入滤波时间
 ++++++++++++++++++++++++++++++++++++++
@@ -1267,101 +1267,163 @@ UDP扩展轴与机器人圆弧运动同步运动
     */
     int GetAuxAI(int AINum, bool isNoBlock, int& value);
 
-代码示例
-***********
+扩展IO代码示例
+++++++++++++++++++++++++++++++++++++++
+
 .. code-block:: C#
     :linenos:
 
-    private void btnAIDI_Click(object sender, EventArgs e)
+    private void btnAODO_Click(object sender, EventArgs e)
     {
-        Robot robot = new Robot();
-        robot.RPC("192.168.58.2");
+        int rtn;
+        for (int i = 0; i < 128; i++)
+        {
+            robot.SetAuxDO(i, true, false, true);
+            Thread.Sleep(100);
+        }
+        for (int i = 0; i < 128; i++)
+        {
+            robot.SetAuxDO(i, false, false, true);
+            Thread.Sleep(100);
+        }
+
+        for (int i = 0; i < 409; i++)
+        {
+            robot.SetAuxAO(0, i * 10, true);
+            robot.SetAuxAO(1, 4095 - i * 10, true);
+            robot.SetAuxAO(2, i * 10, true);
+            robot.SetAuxAO(3, 4095 - i * 10, true);
+            Thread.Sleep(10);
+        }
 
         robot.SetAuxDIFilterTime(10);
-        robot.SetAuxAIFilterTime(10);
+        robot.SetAuxAIFilterTime(0, 10);
 
         for (int i = 0; i < 20; i++)
         {
             bool curValue = false;
-            int rtn = robot.GetAuxDI(i, false, ref curValue);
-            txtRtn.Text = rtn.ToString();
-            Console.Write($"DI{i}  {curValue}  ");
-            Console.WriteLine("  ");
+            rtn = robot.GetAuxDI(i, false, ref curValue);
+            Console.WriteLine("DI" + i + "   " + curValue);
         }
-
-        int curValue = -1;
-        int rtn = 0;
+        int curValueAI = -1;
         for (int i = 0; i < 4; i++)
         {
-            rtn = robot.GetAuxAI(i, true, ref curValue);
-            txtRtn.Text = rtn.ToString();
-            Console.Write($"AI{i} {curValue}   rtn is {rtn} ");
-            Console.WriteLine("  ");
+            rtn = robot.GetAuxAI(i, true, ref curValueAI);
         }
 
-        robot.WaitAuxDI(1, true, 1000, false);
+        robot.WaitAuxDI(1, false, 1000, false);
         robot.WaitAuxAI(1, 1, 132, 1000, false);
     }
 
-设置485扩展轴运动加减速度
-++++++++++++++++++++++++++++
-.. versionadded:: C# SDK-v1.1.0-3.7.8
+可移动装置使能
++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-v1.0.9
 
-.. code-block:: C#
+.. code-block:: c#
     :linenos:
 
     /**
-    * @brief 设置485扩展轴运动加减速度
-    * @param [in] acc 485扩展轴运动加速度
-    * @param [in] dec 485扩展轴运动减速度
-    * @return  错误码
+    * @brief 可移动装置使能
+    * @param enable false-去使能；true-使能
+    * @return 错误码
     */
-    int AuxServoSetAcc(double acc, double dec);
+    int TractorEnable(bool enable);
 
-设置485扩展轴急停加减速度
-++++++++++++++++++++++++++++
-.. versionadded:: C# SDK-v1.1.0-3.7.8
+可移动装置停止运动
++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-v1.0.9
 
-.. code-block:: C#
+.. code-block:: c#
     :linenos:
 
     /**
-    * @brief 设置485扩展轴急停加减速度
-    * @param [in] acc 485扩展轴急停加速度
-    * @param [in] dec 485扩展轴急停减速度
-    * @return  错误码
+    * @brief 可移动装置停止运动
+    * @return 错误码
     */
-    int AuxServoSetEmergencyStopAcc(double acc, double dec);
+    int TractorStop();
 
-获取485扩展轴运动加减速度
-++++++++++++++++++++++++++++
-.. versionadded:: C# SDK-v1.1.0-3.7.8
+可移动装置回零
++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-v1.0.9
 
-.. code-block:: C#
+.. code-block:: c#
     :linenos:
 
     /**
-    * @brief 获取485扩展轴运动加减速度
-    * @param [out] acc 485扩展轴运动加速度
-    * @param [out] dec 485扩展轴运动减速度
-    * @return  错误码
+    * @brief 可移动装置回零
+    * @return 错误码
     */
-    int AuxServoGetAcc(ref double acc, ref double dec);
+    int  TractorHoming();
 
-获取485扩展轴急停加减速度
-++++++++++++++++++++++++++++
-.. versionadded:: C# SDK-v1.1.0-3.7.8
+可移动装置直线运动
++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-v1.0.9
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 可移动装置直线运动
+    * @param distance 直线运动距离（mm）
+    * @param vel 直线运动速度百分比（0-100）
+    * @return 错误码
+    */
+    int TractorMoveL(double distance, double vel);
+
+可移动装置圆弧运动
++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-v1.0.9
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 可移动装置圆弧运动
+    * @param radio 圆弧运动半径（mm）
+    * @param angle 圆弧运动角度（°）
+    * @param vel 直线运动速度百分比（0-100）
+    * @return 错误码
+    */
+    int TractorMoveC(double radio, double angle, double vel);
+
+代码示例
+++++++++++++++++++++++++++++++++++++
     
-.. code-block:: C#
+.. code-block:: c#
     :linenos:
 
-    /**
-    * @brief 获取485扩展轴急停加减速度
-    * @param [out] acc 485扩展轴急停加速度
-    * @param [out] dec 485扩展轴急停减速度
-    * @return  错误码
-    */
-    int AuxServoGetEmergencyStopAcc(ref double acc, ref double dec);
+    private void button6_Click(object sender, EventArgs e)
+    {
+        int rtn;
+        robot.ExtDevSetUDPComParam("192.168.58.2", 2021, 2, 50, 5, 50, 1, 50, 10,1);
+        robot.ExtDevLoadUDPDriver();
+        rtn = robot.ExtAxisServoOn(1, 1);
+        rtn = robot.ExtAxisServoOn(2, 1);
+        Thread.Sleep(2000);
+        robot.ExtAxisSetHoming(1, 0, 10, 2);
+        Thread.Sleep(2000);
+        rtn = robot.ExtAxisSetHoming(2, 0, 10, 2);
+        Thread.Sleep(4000);
+        robot.ExtAxisParamConfig(1, 0, 0, 50000, -50000, 1000, 1000, 6.280f, 16384, 200, 0, 0, 0);
+        robot.ExtAxisParamConfig(2, 0, 0, 50000, -50000, 1000, 1000, 6.280f, 16384, 200, 0, 0, 0);
+        robot.SetAxisDHParaConfig(5, 0, 0, 0, 0, 0, 0, 0, 0);
+        robot.TractorEnable(false);
+        Thread.Sleep(2000);
+        robot.TractorEnable(true);
+        Thread.Sleep(2000);
+        robot.TractorHoming();
+        Thread.Sleep(2000);
+        robot.TractorMoveL(100, 2);
+        Thread.Sleep(5000);
+        robot.TractorStop();
+        robot.TractorMoveL(-100, 20);
+        Thread.Sleep(5000);
+        robot.TractorMoveC(300, 90, 20);
+        Thread.Sleep(10000);
+        robot.TractorMoveC(300, -90, 20);
+        Thread.Sleep(1000);
+        robot.TractorStop();    
+    }
 
 
 

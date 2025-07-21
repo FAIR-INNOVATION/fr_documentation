@@ -4,33 +4,32 @@
 .. toctree:: 
     :maxdepth: 5
 
-焊接开始
+
+设置焊接工艺曲线参数
 ++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    /**
-    * @brief 焊接开始
-    * @param [in] ioType io类型 0-控制器IO； 1-扩展IO
-    * @param [in] arcNum 焊机配置文件编号
-    * @param [in] timeout 起弧超时时间
-    * @return 错误码
+    /** 
+    * @brief 设置焊接工艺曲线参数
+    * @param [in] id 焊接工艺编号(1-99)
+    * @param [in] param 焊接工艺参数
+    * @return 错误码 
     */
-    int ARCStart(int ioType, int arcNum, int timeout);
+    int WeldingSetProcessParam(int id, WeldingProcessParam param);
 
-焊接结束
+获取焊接工艺曲线参数
 ++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    /**
-    * @brief 焊接结束
-    * @param [in] ioType io类型 0-控制器IO； 1-扩展IO
-    * @param [in] arcNum 焊机配置文件编号
-    * @param [in] timeout 熄弧超时时间
-    * @return 错误码
+    /** 
+    * @brief 获取焊接工艺曲线参数
+    * @param [in] id 焊接工艺编号(1-99)
+    * @param [out] param 焊接工艺参数
+    * @return 错误码 
     */
-    int ARCEnd(int ioType, int arcNum, int timeout);
+    int WeldingGetProcessParam(int id, WeldingProcessParam param);
 
 设置焊接电流与输出模拟量对应关系
 ++++++++++++++++++++++++++++++++++
@@ -79,54 +78,6 @@
     * @return 错误码
     */
     int WeldingGetVoltageRelation(WeldVoltageAORelation relation);
-
-代码示例
-++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    public static void main(String[] args)
-    {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        DescPose  desc_p1, desc_p2;
-        desc_p1 = new DescPose(0, 0, 0, 0, 0, 0);
-        desc_p2 = new DescPose(0, 0, 0, 0, 0, 0);
-
-        JointPos j1 = new JointPos(-28.529,-140.397,-81.08,-30.934,92.34,-5.629);
-        JointPos j2 = new JointPos(-11.045,-130.984,-104.495,-12.854,92.475,-5.547);
-
-        robot.GetForwardKin(j1,desc_p1);
-        robot.GetForwardKin(j2,desc_p2);
-
-        ExaxisPos epos = new ExaxisPos();
-        DescPose offset_pos = new DescPose();
-        robot.MoveL(j1, desc_p1,0, 0, 20, 100, 100, -1, epos, 0, 0, offset_pos, 0, 100);
-        robot.ARCStart(0, 0, 10000);//焊接开始
-        robot.MoveL(j2, desc_p2,0, 0, 20, 100, 100, -1, epos, 0, 0, offset_pos, 0, 100);
-        robot.ARCEnd(0, 0, 10000);//焊接结束
-
-        WeldCurrentAORelation currentRelation = new WeldCurrentAORelation(0, 1000, 0, 10, 0);
-        robot.WeldingSetCurrentRelation(currentRelation);
-        WeldVoltageAORelation voltageAORelation = new WeldVoltageAORelation(0, 100, 0, 10, 1);
-        robot.WeldingSetVoltageRelation(voltageAORelation);
-
-        WeldCurrentAORelation tmpCur = new WeldCurrentAORelation();
-        WeldVoltageAORelation tmpVol = new WeldVoltageAORelation();
-        robot.WeldingGetCurrentRelation(tmpCur);
-        robot.WeldingGetVoltageRelation(tmpVol);
-    } 
 
 设置焊接电流
 ++++++++++++++++++++++++++++++++++
@@ -185,6 +136,87 @@
     */
     int WeaveSetPara(int weaveNum, int weaveType, double weaveFrequency, int weaveIncStayTime, double weaveRange, double weaveLeftRange, double weaveRightRange, int additionalStayTime, int weaveLeftStayTime, int weaveRightStayTime, int weaveCircleRadio, int weaveStationary, double weaveYawAngle,double weaveRotAngle)
 
+设置焊接参数代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static int TestSetWeldParam(Robot robot)
+    {
+        WeldingProcessParam para1=new WeldingProcessParam(177, 27, 1000, 178, 28, 176, 26, 1000);
+        WeldingProcessParam para2=new WeldingProcessParam(188, 28, 555, 199, 29, 133, 23, 333);
+
+        robot.WeldingSetProcessParam(1, para1);
+        robot.WeldingSetProcessParam(2, para2);
+
+        double startCurrent = 0;
+        double startVoltage = 0;
+        int startTime = 0;
+        double weldCurrent = 0;
+        double weldVoltage = 0;
+        double endCurrent = 0;
+        double endVoltage = 0;
+        int endTime = 0;
+
+        WeldingProcessParam param=new WeldingProcessParam( startCurrent, startVoltage, startTime, weldCurrent, weldVoltage, endCurrent, endVoltage, endTime);
+        robot.WeldingGetProcessParam(1,param);
+        robot.WeldingGetProcessParam(2,param);
+
+        WeldCurrentAORelation rela1=new WeldCurrentAORelation(0,400,0,10,0);
+        int rtn = robot.WeldingSetCurrentRelation(rela1);
+
+        WeldVoltageAORelation rela2=new WeldVoltageAORelation(0, 40, 0, 10, 1);
+        rtn = robot.WeldingSetVoltageRelation(rela2);
+
+        double current_min = 0;
+        double current_max = 0;
+        double vol_min = 0;
+        double vol_max = 0;
+        double output_vmin = 0;
+        double output_vmax = 0;
+        int curIndex = 0;
+        int volIndex = 0;
+        WeldCurrentAORelation rela3=new WeldCurrentAORelation(current_min, current_max, output_vmin, output_vmax, curIndex);
+        rtn = robot.WeldingGetCurrentRelation(rela3);
+
+        WeldVoltageAORelation rela4=new WeldVoltageAORelation(0,0,0,0,0);
+        rtn = robot.WeldingGetVoltageRelation(rela4);
+
+        rtn = robot.WeldingSetCurrent(0, 100, 0, 0);
+
+        robot.Sleep(3000);
+
+        rtn = robot.WeldingSetVoltage(0, 10, 0, 0);
+
+        rtn = robot.WeaveSetPara(0, 0, 2.000000, 0, 10.000000, 0.000000, 0.000000, 0, 0, 0, 0, 0, 60.000000,0);
+
+        robot.WeaveOnlineSetPara(0, 0, 1, 0, 20, 0, 0, 0, 0);
+
+        rtn = robot.WeldingSetCheckArcInterruptionParam(1, 200);
+        rtn = robot.WeldingSetReWeldAfterBreakOffParam(1, 5.7, 98.2, 0);
+        int enable = 0;
+        double length = 0;
+        double velocity = 0;
+        int moveType = 0;
+        int checkEnable = 0;
+        int arcInterruptTimeLength = 0;
+        List<Integer> inter=new ArrayList<>();
+        List<Number> num=new ArrayList<>();
+
+        inter = robot.WeldingGetCheckArcInterruptionParam();
+        num = robot.WeldingGetReWeldAfterBreakOffParam();
+
+        robot.SetWeldMachineCtrlModeExtDoNum(17);
+        for (int i = 0; i < 5; i++)
+        {
+            robot.SetWeldMachineCtrlMode(0);
+            robot.Sleep(1000);
+            robot.SetWeldMachineCtrlMode(1);
+            robot.Sleep(1000);
+        }
+        return 0;
+    }
+
 即时设置摆动参数
 ++++++++++++++++++++++++++++++++++
 .. code-block:: Java
@@ -204,6 +236,109 @@
     * @return 错误码
     */
     int WeaveOnlineSetPara(int weaveNum, int weaveType, double weaveFrequency, int weaveIncStayTime, double weaveRange, int weaveLeftStayTime, int weaveRightStayTime, int weaveCircleRadio, int weaveStationary);
+
+设置机器人焊接电弧意外中断检测参数
+++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /** 
+    * @brief 设置机器人焊接电弧意外中断检测参数
+    * @param [in] checkEnable 是否使能检测；0-不使能；1-使能
+    * @param [in] arcInterruptTimeLength 电弧中断确认时长(ms)
+    * @return 错误码 
+    */
+    int WeldingSetCheckArcInterruptionParam(int checkEnable, int arcInterruptTimeLength);
+
+获取机器人焊接电弧意外中断检测参数
+++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /** 
+    * @brief 获取机器人焊接电弧意外中断检测参数
+    * @return List[0]:错误码; List[1]:double 是否使能检测；0-不使能；1-使能; List[2]:电弧中断确认时长(ms) 
+    */
+    List<Integer> WeldingGetCheckArcInterruptionParam();
+
+设置机器人焊接中断恢复参数
+++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /** 
+    * @brief 设置机器人焊接中断恢复参数
+    * @param [in] enable 是否使能焊接中断恢复
+    * @param [in] length 焊缝重叠距离(mm)
+    * @param [in] velocity 机器人回到再起弧点速度百分比(0-100)
+    * @param [in] moveType 机器人运动到再起弧点方式；0-LIN；1-PTP
+    * @return 错误码 
+    */
+    int WeldingSetReWeldAfterBreakOffParam(int enable, double length, double velocity, int moveType);
+
+获取机器人焊接中断恢复参数
+++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /** 
+    * @brief 获取机器人焊接中断恢复参数
+    * @return List[0]:错误码; List[1]:int 是否使能焊接中断恢复; List[2]:double 焊缝重叠距离(mm);
+    * @return List[3]:double 机器人回到再起弧点速度百分比(0-100);List[4]:int 机器人运动到再起弧点方式；0-LIN；1-PTP 
+    */
+    List<Number> WeldingGetReWeldAfterBreakOffParam();
+
+设置焊机控制模式扩展DO端口
+++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /** 
+    * @brief 设置焊机控制模式扩展DO端口
+    * @param [in] DONum 焊机控制模式DO端口(0-127)
+    * @return 错误码 
+    */
+    int SetWeldMachineCtrlModeExtDoNum(int DONum);
+
+设置焊机控制模式
+++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /** 
+    * @brief 设置焊机控制模式
+    * @param [in] mode 焊机控制模式;0-一元化
+    * @return 错误码 
+    */
+    int SetWeldMachineCtrlMode(int mode);
+
+焊接开始
+++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 焊接开始
+    * @param [in] ioType io类型 0-控制器IO； 1-扩展IO
+    * @param [in] arcNum 焊机配置文件编号
+    * @param [in] timeout 起弧超时时间
+    * @return 错误码
+    */
+    int ARCStart(int ioType, int arcNum, int timeout);
+
+焊接结束
+++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 焊接结束
+    * @param [in] ioType io类型 0-控制器IO； 1-扩展IO
+    * @param [in] arcNum 焊机配置文件编号
+    * @param [in] timeout 熄弧超时时间
+    * @return 错误码
+    */
+    int ARCEnd(int ioType, int arcNum, int timeout);
 
 摆动开始
 ++++++++++++++++++++++++++++++++++
@@ -228,82 +363,6 @@
     * @return 错误码
     */
     int WeaveEnd(int weaveNum);
-
-代码示例
-++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    public static void main(String[] args)
-    {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        robot.WeldingSetCurrent(0, 500, 0, 0);
-        robot.WeldingSetVoltage(0, 60, 1, 0);
-        robot.WeaveSetPara(0,0, 2.0, 0, 0.0, 0, 0, 0, 100, 100, 50, 50,1);
-
-        DescPose desc_p1 = new DescPose(688.259,-566.358,-139.354,-158.206,0.324,-117.817);
-        DescPose desc_p2 = new DescPose(700.078,-224.752,-149.191,-158.2,0.239,-94.978);
-
-
-        JointPos j1 = new JointPos(0,0,0,0,0,0);
-        JointPos j2 = new JointPos(0,0,0,0,0,0);
-
-        robot.GetInverseKin(0, desc_p1, -1, j1);
-        robot.GetInverseKin(0, desc_p2, -1, j2);
-
-        ExaxisPos epos = new ExaxisPos();
-        DescPose offset_pos = new DescPose();
-
-        robot.MoveL(j1, desc_p1,3, 0, 30, 100, 100, -1, epos, 0, 0, offset_pos, 0, 100);
-        robot.WeaveSetPara(0,0, 1.0, 0, 10.0, 0, 0, 0, 100, 100, 50, 50,1);
-        robot.ARCStart(0, 0, 10000);
-        robot.WeaveStart(0);
-        robot.MoveL(j2, desc_p2,3, 0, 10, 100, 100, -1, epos, 0, 0, offset_pos, 0, 100);
-        robot.ARCEnd(0, 0, 10000);
-        robot.WeaveEnd(0);
-    }
-
-摆动渐变开始
-++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionchanged:: Java SDK-v1.0.5-3.8.2
-
-.. code-block:: Java
-    :linenos:
-
-    /**
-    * @brief  摆动渐变开始
-    * @param  [in] weaveChangeFlag 1-变摆动参数；2-变摆动参数+焊接速度
-    * @param  [in] weaveNum 摆动编号
-    * @param  [in] velStart 焊接开始速度，(cm/min)
-    * @param  [in] velEnd 焊接结束速度，(cm/min)
-    * @return 错误码
-    */
-    int WeaveChangeStart(int weaveChangeFlag, int weaveNum, double velStart, double velEnd)
-
-摆动渐变结束
-++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: Java SDK-v1.0.2-3.7.9
-
-.. code-block:: Java
-    :linenos:
-
-    /**
-    * @brief 摆动渐变结束
-    * @return 错误码
-    */
-    int WeaveChangeEnd(); 
 
 正向送丝
 ++++++++++++++++++++++++++++++++++
@@ -344,41 +403,57 @@
     */
     int SetAspirated(int ioType, int airControl);
 
-代码示例
-++++++++++++++++
+设置机器人焊接中断后恢复焊接
+++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    public static void main(String[] args)
-    {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        robot.SetForwardWireFeed(0, 1);
-        robot.Sleep(2000);
-        robot.SetForwardWireFeed(0, 0);
-        robot.Sleep(2000);
-        robot.SetReverseWireFeed(0, 1);
-        robot.Sleep(2000);
-        robot.SetReverseWireFeed(0, 0);
-        robot.Sleep(2000);
+    /** 
+    * @brief 设置机器人焊接中断后恢复焊接
+    * @return 错误码 
+    */
+    int WeldingStartReWeldAfterBreakOff();
 
-        robot.SetAspirated(0,1);
-        robot.Sleep(2000);
-        robot.SetAspirated(0,0);
+设置机器人焊接中断后退出焊接
+++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /** 
+    * @brief 设置机器人焊接中断后退出焊接
+    * @return 错误码 
+    */
+    int WeldingAbortWeldAfterBreakOff();
+
+机器人焊接控制代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static int TestWelding(Robot robot)
+    {
+        robot.WeldingSetCurrent(0, 230, 0, 0);
+        robot.WeldingSetVoltage(0, 24, 0, 1);
+
+        DescPose p1Desc=new DescPose(228.879, -503.594, 453.984, -175.580, 8.293, 171.267);
+        JointPos p1Joint=new JointPos(102.700, -85.333, 90.518, -102.365, -83.932, 22.134);
+
+        DescPose p2Desc=new DescPose(-333.302, -435.580, 449.866, -174.997, 2.017, 109.815);
+        JointPos p2Joint=new JointPos(41.862, -85.333, 90.526, -100.587, -90.014, 22.135);
+
+        ExaxisPos exaxisPos=new ExaxisPos(0, 0, 0, 0);
+        DescPose offdese=new DescPose(0, 0, 0, 0, 0, 0);
+
+        robot.MoveJ(p1Joint, p1Desc, 13, 0, 20, 100, 100, exaxisPos, -1, 0, offdese);
+        robot.ARCStart(1, 0, 10000);
+        robot.WeaveStart(0);
+        robot.MoveL(p2Joint, p2Desc, 13, 0, 20, 100, 100, -1, 0, exaxisPos, 0, 0, offdese,0,10);
+        robot.ARCEnd(1, 0, 10000);
+        robot.WeaveEnd(0);
+        return 0;
     }
 
-段焊
+段焊开始
 ++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
@@ -410,233 +485,31 @@
     */
     int SegmentWeldStart(DescPose startDesePos, DescPose endDesePos, JointPos startJPos, JointPos endJPos, double weldLength, double noWeldLength, int weldIOType,int arcNum, int weldTimeout, boolean isWeave, int weaveNum, int tool, int user, double vel, double acc, double ovl, double blendR, ExaxisPos epos, int search, int offset_flag, DescPose offset_pos);
 
-代码示例
-++++++++++++++++
+机器人段焊代码示例
+++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    public static void main(String[] args)
+    public static int TestSegWeld(Robot robot)
     {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        DescPose startdescPose = new DescPose(185.859,-520.154,193.129,-177.129,1.339,-137.789);
-        JointPos startjointPos = new JointPos(-60.989,-94.515,-89.479,-83.514,91.957,-13.124);
+        robot.WeldingSetCurrent(0, 230, 0, 0);
+        robot.WeldingSetVoltage(0, 24, 0, 1);
 
-        DescPose enddescPose = new DescPose( -243.7033,-543.868,143.199,-177.954,1.528,177.758);
-        JointPos endjointPos = new JointPos(-105.479,-101.919,-87.979,-78.455,91.955,-13.183);
+        DescPose p1Desc=new DescPose(228.879, -503.594, 453.984, -175.580, 8.293, 171.267);
+        JointPos p1Joint=new JointPos(102.700, -85.333, 90.518, -102.365, -83.932, 22.134);
 
-        ExaxisPos exaxisPos = new ExaxisPos( 0, 0, 0, 0 );
-        DescPose offdese = new DescPose( 0, 0, 0, 0, 0, 0 );
+        DescPose p2Desc=new DescPose(-333.302, -435.580, 449.866, -174.997, 2.017, 109.815);
+        JointPos p2Joint=new JointPos(41.862, -85.333, 90.526, -100.587, -90.014, 22.135);
 
-        robot.SegmentWeldStart(startdescPose, enddescPose, startjointPos, endjointPos, 80, 40, 0, 0, 5000, true, 0, 3, 0, 30, 30, 100, -1, exaxisPos, 0, 0, offdese);
+        ExaxisPos exaxisPos=new ExaxisPos(0, 0, 0, 0);
+        DescPose offdese=new DescPose(0, 0, 0, 0, 0, 0);
+
+        robot.GetForwardKin(p1Joint,p1Desc);
+        robot.GetForwardKin(p2Joint,p2Desc);
+
+        int rtn = robot.SegmentWeldStart(p1Desc, p2Desc, p1Joint, p2Joint, 20, 20, 0, 0, 5000, true,0, 1, 0, 30, 100, 100, -1, exaxisPos, 0, 0, offdese);
+        return 0;
     }
-
-焊丝寻位开始
-++++++++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    /** 
-    * @brief 焊丝寻位开始
-    * @param [in] refPos  1-基准点 2-接触点
-    * @param [in] searchVel   寻位速度 %
-    * @param [in] searchDis  寻位距离 mm
-    * @param [in] autoBackFlag 自动返回标志，0-不自动；-自动
-    * @param [in] autoBackVel  自动返回速度 %
-    * @param [in] autoBackDis  自动返回距离 mm
-    * @param [in] offectFlag  1-带偏移量寻位；2-示教点寻位
-    * @return 错误码 
-    */
-    int WireSearchStart(int refPos, double searchVel, int searchDis, int autoBackFlag, double autoBackVel, int autoBackDis, int offectFlag);
-
-焊丝寻位结束
-++++++++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    /** 
-    * @brief 焊丝寻位结束
-    * @param [in] refPos  1-基准点 2-接触点
-    * @param [in] searchVel   寻位速度 %
-    * @param [in] searchDis  寻位距离 mm
-    * @param [in] autoBackFlag 自动返回标志，0-不自动；-自动
-    * @param [in] autoBackVel  自动返回速度 %
-    * @param [in] autoBackDis  自动返回距离 mm
-    * @param [in] offectFlag  1-带偏移量寻位；2-示教点寻位
-    * @return 错误码 
-    */
-    int WireSearchEnd(int refPos, double searchVel, int searchDis, int autoBackFlag, double autoBackVel, int autoBackDis, int offectFlag);
-
-计算焊丝寻位偏移量
-++++++++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    /** 
-    * @brief 计算焊丝寻位偏移量
-    * @param [in] seamType  焊缝类型
-    * @param [in] method   计算方法
-    * @param [in] varNameRef 基准点1-6，“#”表示无点变量
-    * @param [in] varNameRes 接触点1-6，“#”表示无点变量
-    * @param [out] offset 偏移位姿[x, y, z, a, b, c]及偏移方式
-    * @return 错误码 
-    */
-    int GetWireSearchOffset(int seamType, int method, String[] varNameRef, String[] varNameRes, DescOffset offset);
-
-等待焊丝寻位完成
-++++++++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    /** 
-    * @brief 等待焊丝寻位完成
-    * @return 错误码 
-    */
-    int WireSearchWait(String name);
-
-焊丝寻位接触点写入数据库
-++++++++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    /** 
-    * @brief 焊丝寻位接触点写入数据库
-    * @param [in] varName  接触点名称 “RES0” ~ “RES99”
-    * @param [in] pos  接触点数据[x, y, x, a, b, c]
-    * @return 错误码 
-    */
-    int SetPointToDatabase(String varName, DescPose pos);
-
-代码示例
-++++++++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    public static void main(String[] args)
-    {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        ExaxisPos exaxisPos = new ExaxisPos(0, 0, 0, 0);
-        DescPose offdese = new DescPose(0, 0, 0, 0, 0, 0);
-
-        DescPose descStart = new DescPose(153.736,-715.249,-295.037,-179.829,2.613,-155.615);
-        JointPos jointStart = new JointPos(0,0,0,0,0,0);
-
-        DescPose descEnd = new DescPose(73.748,-645.825,-295.016,-179.828,2.608,-155.614);
-        JointPos jointEnd = new JointPos(0,0,0,0,0,0);
-
-        robot.GetInverseKin(0, descStart, -1, jointStart);
-        robot.GetInverseKin(0, descEnd, -1, jointEnd);
-
-        robot.MoveL(jointStart, descStart, 3, 0, 30, 100, 100, -1, exaxisPos, 0, 0, offdese, 0, 100);
-        robot.MoveL(jointEnd, descEnd, 3, 0, 30, 100, 100, -1, exaxisPos, 0, 0, offdese,0, 100);
-
-        DescPose descREF0A = new DescPose(273.716,-723.539,-295.075,-179.829,2.608,-155.614);
-        JointPos jointREF0A = new JointPos(0,0,0,0,0,0);
-
-        DescPose descREF0B = new DescPose(202.588,-723.543,-295.039,-179.829,2.609,-155.614);
-        JointPos jointREF0B = new JointPos(0,0,0,0,0,0);
-
-        DescPose descREF1A = new DescPose(75.265,-525.091,-295.059,-179.83,2.609,-155.616);
-        JointPos jointREF1A = new JointPos(0,0,0,0,0,0);
-
-        DescPose descREF1B = new DescPose(75.258,-601.157,-295.075,-179.834,2.609,-155.616);
-        JointPos jointREF1B = new JointPos(0,0,0,0,0,0);
-
-        robot.GetInverseKin(0, descREF0A, -1, jointREF0A);
-        robot.GetInverseKin(0, descREF0B, -1, jointREF0B);
-        robot.GetInverseKin(0, descREF1A, -1, jointREF1A);
-        robot.GetInverseKin(0, descREF1B, -1, jointREF1B);
-
-        robot.WireSearchStart(0, 10, 100, 0, 10, 100, 0);
-        robot.MoveL(jointREF0A, descREF0A, 3, 0, 30, 100, 100, -1, exaxisPos, 0, 0, offdese, 0, 100);  //起点
-        robot.MoveL(jointREF0B, descREF0B, 3, 0, 30, 100, 100, -1, exaxisPos, 1, 0, offdese, 0, 100);  //方向点
-        robot.WireSearchWait("REF0");
-        robot.WireSearchEnd(0, 10, 100, 0, 10, 100, 0);
-
-        robot.WireSearchStart(0, 10, 100, 0, 10, 100, 0);
-        robot.MoveL(jointREF1A, descREF1A, 3, 0, 30, 100, 100, -1, exaxisPos, 0, 0, offdese, 0, 100);  //起点
-        robot.MoveL(jointREF1B, descREF1B, 3, 0, 30, 100, 100, -1, exaxisPos, 1, 0, offdese, 0, 100);  //方向点
-        robot.WireSearchWait("REF1");
-        robot.WireSearchEnd(0, 10, 100, 0, 10, 100, 0);
-
-
-        robot.WireSearchStart(0, 10, 100, 0, 10, 100, 0);
-        robot.MoveL(jointREF0A, descREF0A, 3, 0, 30, 100, 100, -1, exaxisPos, 0, 0, offdese, 0, 100);  //起点
-        robot.MoveL(jointREF0B, descREF0B, 3, 0, 30, 100, 100, -1, exaxisPos, 1, 0, offdese, 0, 100);  //方向点
-        robot.WireSearchWait("RES0");
-        robot.WireSearchEnd(0, 10, 100, 0, 10, 100, 0);
-
-        robot.WireSearchStart(0, 10, 100, 0, 10, 100, 0);
-        robot.MoveL(jointREF1A, descREF1A, 3, 0, 30, 100, 100, -1, exaxisPos, 0, 0, offdese, 0, 100);  //起点
-        robot.MoveL(jointREF1B, descREF1B, 3, 0, 30, 100, 100, -1, exaxisPos, 1, 0, offdese, 0, 100);  //方向点
-        robot.WireSearchWait("RES1");
-        robot.WireSearchEnd(0, 10, 100, 0, 10, 100, 0);
-
-        String[] varNameRef = { "REF0", "REF1", "#", "#", "#", "#"};
-        String[] varNameRes = { "RES0", "RES1", "#", "#", "#", "#" };
-
-        DescOffset offectPos = new DescOffset();
-        robot.GetWireSearchOffset(0, 0, varNameRef, varNameRes, offectPos);
-        robot.PointsOffsetEnable(offectPos.offsetFlag, offectPos.offset);
-        robot.MoveL(jointStart, descStart, 3, 1, 30, 100, 100, -1, exaxisPos, 0, 0, offdese, 0, 100);
-        robot.MoveL(jointEnd, descEnd, 3, 1, 30, 100, 100, -1, exaxisPos, 1, 0, offdese, 0, 100);
-        robot.PointsOffsetDisable();
-    }
-
-电弧跟踪控制
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionchanged:: Java SDK-v1.0.2-3.7.9
-
-.. code-block:: Java
-    :linenos:
-
-    /** 
-    * @brief 电弧跟踪控制
-    * @param [in] flag 开关，0-关；1-开
-    * @param [in] delaytime 滞后时间，单位ms
-    * @param [in] isLeftRight 左右偏差补偿
-    * @param [in] klr 左右调节系数(灵敏度)
-    * @param [in] tStartLr 左右开始补偿时间cyc
-    * @param [in] stepMaxLr 左右每次最大补偿量 mm
-    * @param [in] sumMaxLr 左右总计最大补偿量 mm
-    * @param [in] isUpLow 上下偏差补偿
-    * @param [in] kud 上下调节系数(灵敏度)
-    * @param [in] tStartUd 上下开始补偿时间cyc
-    * @param [in] stepMaxUd 上下每次最大补偿量 mm
-    * @param [in] sumMaxUd 上下总计最大补偿量
-    * @param [in] axisSelect 上下坐标系选择，0-摆动；1-工具；2-基座
-    * @param [in] referenceType 上下基准电流设定方式，0-反馈；1-常数
-    * @param [in] referSampleStartUd 上下基准电流采样开始计数(反馈)，cyc
-    * @param [in] referSampleCountUd 上下基准电流采样循环计数(反馈)，cyc
-    * @param [in] referenceCurrent 上下基准电流mA
-    * @param [in] offsetType 偏置跟踪类型，0-不偏置；1-采样；2-百分比
-    * @param [in] offsetParameter 偏置参数；采样(偏置采样开始时间，默认采一周期)；百分比(偏置百分比(-100 ~ 100))
-    * @return 错误码 
-    */
-    int ArcWeldTraceControl(int flag, double delaytime, int isLeftRight, double klr, double tStartLr, double stepMaxLr, double sumMaxLr, int isUpLow, double kud, double tStartUd, double stepMaxUd, double sumMaxUd, int axisSelect, int referenceType, double referSampleStartUd, double referSampleCountUd, double referenceCurrent,int offsetType, int offsetParameter);
 
 仿真摆动开始
 ++++++++++++++++++++++++++++++++++
@@ -686,58 +559,75 @@
     */
     int WeaveInspectEnd(int weaveNum);
 
-设置焊接工艺曲线参数
-++++++++++++++++++++++++++++++++++
+摆动渐变开始
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionchanged:: Java SDK-v1.0.5-3.8.2
+
 .. code-block:: Java
     :linenos:
 
-    /** 
-    * @brief 设置焊接工艺曲线参数
-    * @param [in] id 焊接工艺编号(1-99)
-    * @param [in] param 焊接工艺参数
-    * @return 错误码 
+    /**
+    * @brief  摆动渐变开始
+    * @param  [in] weaveChangeFlag 1-变摆动参数；2-变摆动参数+焊接速度
+    * @param  [in] weaveNum 摆动编号
+    * @param  [in] velStart 焊接开始速度，(cm/min)
+    * @param  [in] velEnd 焊接结束速度，(cm/min)
+    * @return 错误码
     */
-    int WeldingSetProcessParam(int id, WeldingProcessParam param);
+    int WeaveChangeStart(int weaveChangeFlag, int weaveNum, double velStart, double velEnd)
 
-获取焊接工艺曲线参数
-++++++++++++++++++++++++++++++++++
+机器人摆动渐变焊接代码示例
++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    /** 
-    * @brief 获取焊接工艺曲线参数
-    * @param [in] id 焊接工艺编号(1-99)
-    * @param [out] param 焊接工艺参数
-    * @return 错误码 
-    */
-    int WeldingGetProcessParam(int id, WeldingProcessParam param);
-
-代码示例
-++++++++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    public static void main(String[] args)
+    public static int TestWeave(Robot robot)
     {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        WeldingProcessParam param = new WeldingProcessParam(177.0,27.0,1000,178.0,28.0,176.0,26.0,1000);
-        robot.WeldingSetProcessParam(1, param);
+        DescPose p1Desc=new DescPose(228.879, -503.594, 453.984, -175.580, 8.293, 171.267);
+        JointPos p1Joint=new JointPos(102.700, -85.333, 90.518, -102.365, -83.932, 22.134);
 
-        WeldingProcessParam getParam = new WeldingProcessParam();
-        robot.WeldingGetProcessParam(1, getParam);
+        DescPose p2Desc=new DescPose(-333.302, -435.580, 449.866, -174.997, 2.017, 109.815);
+        JointPos p2Joint=new JointPos(41.862, -85.333, 90.526, -100.587, -90.014, 22.135);
+
+        ExaxisPos exaxisPos=new ExaxisPos(0, 0, 0, 0);
+        DescPose offdese=new DescPose(0, 0, 0, 0, 0, 0);
+
+        robot.MoveJ(p1Joint, p1Desc, 13, 0, 20, 100, 100, exaxisPos, -1, 0, offdese);
+        robot.WeaveStartSim(0);
+        robot.MoveL(p2Joint, p2Desc, 13, 0, 20, 100, 100, -1, 0, exaxisPos, 0, 0, offdese,0,10);
+        robot.WeaveEndSim(0);
+        robot.MoveJ(p1Joint, p1Desc, 13, 0, 20, 100, 100, exaxisPos, -1, 0, offdese);
+        robot.WeaveInspectStart(0);
+        robot.MoveL(p2Joint, p2Desc, 13, 0, 20, 100, 100, -1, 0, exaxisPos, 0, 0, offdese,0,10);
+        robot.WeaveInspectEnd(0);
+
+        robot.WeldingSetVoltage(1, 19, 0, 0);
+        robot.WeldingSetCurrent(1, 190, 0, 0);
+        robot.MoveL(p1Joint, p1Desc, 1, 1, 100, 100, 50, -1,0, exaxisPos, 0, 0, offdese,0,10);
+        robot.ARCStart(1, 0, 10000);
+        robot.ArcWeldTraceControl(1, 0, 1, 0.06, 5, 5, 60, 1, 0.06, 5, 5, 80, 0, 0, 4, 1, 10, 0, 0);
+        robot.WeaveStart(0);
+        robot.WeaveChangeStart(1, 0, 50, 30);
+        robot.MoveL(p2Joint, p2Desc, 1, 1, 100, 100, 1, -1, 0,exaxisPos, 0, 0, offdese,0,10);
+        robot.WeaveChangeEnd();
+        robot.WeaveEnd(0);
+        robot.ArcWeldTraceControl(0, 0, 1, 0.06, 5, 5, 60, 1, 0.06, 5, 5, 80, 0, 0, 4, 1, 10, 0, 0);
+        robot.ARCEnd(1, 0, 10000);
+        return 0;
     }
+
+摆动渐变结束
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.2-3.7.9
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 摆动渐变结束
+    * @return 错误码
+    */
+    int WeaveChangeEnd(); 
 
 扩展IO-配置焊机气体检测信号
 ++++++++++++++++++++++++++++++++++
@@ -824,267 +714,215 @@
     */
     int SetExtDIWeldBreakOffRecover(int reWeldDINum, int abortWeldDINum);
 
-代码示例
-++++++++++++++++
+设置扩展IO焊接信号代码示例
++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    public static void main(String[] args)
+    public static int TestExtDIConfig(Robot robot)
     {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        robot.SetArcStartExtDoNum(1);
-        robot.SetAirControlExtDoNum(2);
-        robot.SetWireForwardFeedExtDoNum(3);
-        robot.SetWireReverseFeedExtDoNum(4);
+        robot.SetArcStartExtDoNum(10);
+        robot.SetAirControlExtDoNum(20);
+        robot.SetWireForwardFeedExtDoNum(30);
+        robot.SetWireReverseFeedExtDoNum(40);
 
-        robot.SetWeldReadyExtDiNum(5);
-        robot.SetArcDoneExtDiNum(6);
-        robot.SetExtDIWeldBreakOffRecover(7, 8);
+        robot.SetWeldReadyExtDiNum(50);
+        robot.SetArcDoneExtDiNum(60);
+        robot.SetExtDIWeldBreakOffRecover(70, 80);
+        robot.SetWireSearchExtDIONum(0, 1);
+
+        return 0;
     }
 
-设置焊丝寻位扩展IO端口
-++++++++++++++++++++++++++++++++++
+电弧跟踪控制
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionchanged:: Java SDK-v1.0.2-3.7.9
+
 .. code-block:: Java
     :linenos:
 
     /** 
-    * @brief 设置焊丝寻位扩展IO端口
-    * @param [in] searchDoneDINum 焊丝寻位成功DO端口(0-127)
-    * @param [in] searchStartDONum 焊丝寻位启停控制DO端口(0-127)
+    * @brief 电弧跟踪控制
+    * @param [in] flag 开关，0-关；1-开
+    * @param [in] delaytime 滞后时间，单位ms
+    * @param [in] isLeftRight 左右偏差补偿
+    * @param [in] klr 左右调节系数(灵敏度)
+    * @param [in] tStartLr 左右开始补偿时间cyc
+    * @param [in] stepMaxLr 左右每次最大补偿量 mm
+    * @param [in] sumMaxLr 左右总计最大补偿量 mm
+    * @param [in] isUpLow 上下偏差补偿
+    * @param [in] kud 上下调节系数(灵敏度)
+    * @param [in] tStartUd 上下开始补偿时间cyc
+    * @param [in] stepMaxUd 上下每次最大补偿量 mm
+    * @param [in] sumMaxUd 上下总计最大补偿量
+    * @param [in] axisSelect 上下坐标系选择，0-摆动；1-工具；2-基座
+    * @param [in] referenceType 上下基准电流设定方式，0-反馈；1-常数
+    * @param [in] referSampleStartUd 上下基准电流采样开始计数(反馈)，cyc
+    * @param [in] referSampleCountUd 上下基准电流采样循环计数(反馈)，cyc
+    * @param [in] referenceCurrent 上下基准电流mA
+    * @param [in] offsetType 偏置跟踪类型，0-不偏置；1-采样；2-百分比
+    * @param [in] offsetParameter 偏置参数；采样(偏置采样开始时间，默认采一周期)；百分比(偏置百分比(-100 ~ 100))
+    * @return 错误码 
+    */
+    int ArcWeldTraceControl(int flag, double delaytime, int isLeftRight, double klr, double tStartLr, double stepMaxLr, double sumMaxLr, int isUpLow, double kud, double tStartUd, double stepMaxUd, double sumMaxUd, int axisSelect, int referenceType, double referSampleStartUd, double referSampleCountUd, double referenceCurrent,int offsetType, int offsetParameter);
+
+电弧跟踪AI通带选择
+++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  电弧跟踪AI通带选择
+    * @param  channel 电弧跟踪AI通带选择,[0-3]
+    * @return  错误码
+    */
+    public int ArcWeldTraceExtAIChannelConfig(int channel)
+
+电弧追踪 + 多层多道补偿开启
+++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 电弧追踪 + 多层多道补偿开启
     * @return 错误码
     */
-    int SetWireSearchExtDIONum(int searchDoneDINum, int searchStartDONum);
+    public int ArcWeldTraceReplayStart()
 
-设置焊机控制模式扩展DO端口
+电弧追踪 + 多层多道补偿关闭
 ++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    /** 
-    * @brief 设置焊机控制模式扩展DO端口
-    * @param [in] DONum 焊机控制模式DO端口(0-127)
-    * @return 错误码 
+    /**
+    * @brief 电弧追踪 + 多层多道补偿关闭
+    * @return 错误码
     */
-    int SetWeldMachineCtrlModeExtDoNum(int DONum);
+    public int ArcWeldTraceReplayEnd()
 
-设置焊机控制模式
+偏移量坐标变化-多层多道焊
 ++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    /** 
-    * @brief 设置焊机控制模式
-    * @param [in] mode 焊机控制模式;0-一元化
-    * @return 错误码 
+    /**
+    * @brief 偏移量坐标变化-多层多道焊
+    * @param pointO 基准点笛卡尔位姿
+    * @param pointX 基准点X向偏移方向点笛卡尔位姿
+    * @param pointZ 基准点Z向偏移方向点笛卡尔位姿
+    * @param dx x方向偏移量(mm)
+    * @param dz z方向偏移量(mm)
+    * @param dry 绕y轴偏移量(°)
+    * @param offset 计算结果偏移量
+    * @return 错误码
     */
-    int SetWeldMachineCtrlMode(int mode);
+    public int MultilayerOffsetTrsfToBase(DescTran pointO, DescTran pointX, DescTran pointZ, double dx, double dz, double dry, DescPose offset)
 
-代码示例
-++++++++++++++++++++++++++++++++++
+多层多道焊电弧跟踪代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    public static void main(String[] args)
+    public static int TestArcWeldTrace(Robot robot)
     {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        UDPComParam param = new UDPComParam("192.168.58.88", 2021, 2, 50, 5, 50, 1, 50, 10);
-        robot.ExtDevSetUDPComParam(param);//udp扩展轴通讯
-        robot.ExtDevLoadUDPDriver();
+        JointPos mulitilineorigin1_joint=new JointPos(-24.090, -63.501, 84.288, -111.940, -93.426, 57.669);
+        DescPose mulitilineorigin1_desc=new DescPose(-677.559, 190.951, -1.205, 1.144, -41.482, -82.577);
 
-        robot.SetWeldMachineCtrlModeExtDoNum(17);//DO
-        for (int i = 0; i < 5; i++)
-        {
-            robot.SetWeldMachineCtrlMode(0);//设置焊机控制模式
-            robot.Sleep(500);
-            robot.SetWeldMachineCtrlMode(1);
-            robot.Sleep(500);
-        }
+        DescTran mulitilineX1_desc=new DescTran(0,0,0);
+        mulitilineX1_desc.x = -677.556;
+        mulitilineX1_desc.y = 211.949;
+        mulitilineX1_desc.z = -1.206;
 
-        robot.SetWeldMachineCtrlModeExtDoNum(18);
-        for (int i = 0; i < 5; i++)
-        {
-            robot.SetWeldMachineCtrlMode(0);
-            robot.Sleep(500);
-            robot.SetWeldMachineCtrlMode(1);
-            robot.Sleep(500);
-        }
-    }
+        DescTran mulitilineZ1_desc=new DescTran(0,0,0);
+        mulitilineZ1_desc.x = -677.564;
+        mulitilineZ1_desc.y = 190.956;
+        mulitilineZ1_desc.z = 19.817;
 
-设置机器人焊接电弧意外中断检测参数
-++++++++++++++++++++++++++++++++++
-.. versionadded:: Java SDK-v1.0.1-3.7.8
+        JointPos mulitilinesafe_joint=new JointPos(-25.734, -63.778, 81.502, -108.975, -93.392, 56.021);
+        DescPose mulitilinesafe_desc=new DescPose(-677.561, 211.950, 19.812, 1.144, -41.482, -82.577);
+        JointPos mulitilineorigin2_joint=new JointPos(-29.743, -75.623, 101.241, -116.354, -94.928, 55.735);
+        DescPose mulitilineorigin2_desc=new DescPose(-563.961, 215.359, -0.681, 2.845, -40.476, -87.443);
 
-.. code-block:: Java
-    :linenos:
+        DescTran mulitilineX2_desc=new DescTran(0,0,0);
+        mulitilineX2_desc.x = -563.965;
+        mulitilineX2_desc.y = 220.355;
+        mulitilineX2_desc.z = -0.680;
 
-    /** 
-    * @brief 设置机器人焊接电弧意外中断检测参数
-    * @param [in] checkEnable 是否使能检测；0-不使能；1-使能
-    * @param [in] arcInterruptTimeLength 电弧中断确认时长(ms)
-    * @return 错误码 
-    */
-    int WeldingSetCheckArcInterruptionParam(int checkEnable, int arcInterruptTimeLength);
+        DescTran mulitilineZ2_desc=new DescTran(0,0,0);
+        mulitilineZ2_desc.x = -563.968;
+        mulitilineZ2_desc.y = 215.362;
+        mulitilineZ2_desc.z = 4.331;
 
-获取机器人焊接电弧意外中断检测参数
-++++++++++++++++++++++++++++++++++
-.. versionadded:: Java SDK-v1.0.1-3.7.8
+        ExaxisPos epos=new ExaxisPos(0, 0, 0, 0);
+        DescPose offset=new DescPose(0, 0, 0, 0, 0, 0);
 
-.. code-block:: Java
-    :linenos:
+        robot.Sleep(10);
+        int error = robot.MoveJ(mulitilinesafe_joint, mulitilinesafe_desc, 13, 0, 10, 100, 100, epos, -1, 0, offset);
 
-    /** 
-    * @brief 获取机器人焊接电弧意外中断检测参数
-    * @return List[0]:错误码; List[1]:double 是否使能检测；0-不使能；1-使能; List[2]:电弧中断确认时长(ms) 
-    */
-    List<Integer> WeldingGetCheckArcInterruptionParam();
+        error = robot.MoveL(mulitilineorigin1_joint, mulitilineorigin1_desc, 13, 0, 10, 100, 100, -1, 0,epos, 0, 0, offset, 0, 100);
 
-设置机器人焊接中断恢复参数
-++++++++++++++++++++++++++++++++++
-.. versionadded:: Java SDK-v1.0.1-3.7.8
+        error = robot.MoveJ(mulitilinesafe_joint, mulitilinesafe_desc, 13, 0, 10, 100, 100, epos, -1, 0, offset);
 
-.. code-block:: Java
-    :linenos:
+        error = robot.MoveL(mulitilineorigin2_joint, mulitilineorigin2_desc, 13, 0, 10, 100, 100, -1, 0,epos, 0, 0, offset, 0, 100);
 
-    /** 
-    * @brief 设置机器人焊接中断恢复参数
-    * @param [in] enable 是否使能焊接中断恢复
-    * @param [in] length 焊缝重叠距离(mm)
-    * @param [in] velocity 机器人回到再起弧点速度百分比(0-100)
-    * @param [in] moveType 机器人运动到再起弧点方式；0-LIN；1-PTP
-    * @return 错误码 
-    */
-    int WeldingSetReWeldAfterBreakOffParam(int enable, double length, double velocity, int moveType);
+        error = robot.MoveJ(mulitilinesafe_joint, mulitilinesafe_desc, 13, 0, 10, 100, 100, epos, -1, 0, offset);
 
-获取机器人焊接中断恢复参数
-++++++++++++++++++++++++++++++++++
-.. versionadded:: Java SDK-v1.0.1-3.7.8
+        error = robot.MoveL(mulitilineorigin1_joint, mulitilineorigin1_desc, 13, 0, 10, 100, 100, -1,0, epos, 0, 0, offset, 0, 100);
 
-.. code-block:: Java
-    :linenos:
+        error = robot.ARCStart(1, 0, 3000);
 
-    /** 
-    * @brief 获取机器人焊接中断恢复参数
-    * @return List[0]:错误码; List[1]:int 是否使能焊接中断恢复; List[2]:double 焊缝重叠距离(mm);
-    * @return List[3]:double 机器人回到再起弧点速度百分比(0-100);List[4]:int 机器人运动到再起弧点方式；0-LIN；1-PTP 
-    */
-    List<Number> WeldingGetReWeldAfterBreakOffParam();
+        error = robot.WeaveStart(0);
 
-设置机器人焊接中断后恢复焊接
-++++++++++++++++++++++++++++++++++
-.. versionadded:: Java SDK-v1.0.1-3.7.8
+        error = robot.ArcWeldTraceControl(1, 0, 1, 0.06, 5, 5, 50, 1, 0.06, 5, 5, 55, 0, 0, 4, 1, 10,0,0);
 
-.. code-block:: Java
-    :linenos:
+        error = robot.MoveL(mulitilineorigin2_joint, mulitilineorigin2_desc, 13, 0, 1, 100, 100, -1, 0,epos, 0, 0,offset, 0, 100);
 
-    /** 
-    * @brief 设置机器人焊接中断后恢复焊接
-    * @return 错误码 
-    */
-    int WeldingStartReWeldAfterBreakOff();
+        error = robot.ArcWeldTraceControl(0, 0, 1, 0.06, 5, 5, 50, 1, 0.06, 5, 5, 55, 0, 0, 4, 1, 10,0,0);
 
-设置机器人焊接中断后退出焊接
-++++++++++++++++++++++++++++++++++
-.. versionadded:: Java SDK-v1.0.1-3.7.8
+        error = robot.WeaveEnd(0);
 
-.. code-block:: Java
-    :linenos:
+        error = robot.ARCEnd(1, 0, 10000);
 
-    /** 
-    * @brief 设置机器人焊接中断后退出焊接
-    * @return 错误码 
-    */
-    int WeldingAbortWeldAfterBreakOff();
+        error = robot.MoveJ(mulitilinesafe_joint, mulitilinesafe_desc, 13, 0, 10, 100, 100, epos, -1, 0, offset);
 
-代码示例
-++++++++++++++++++++++++++++++++++
-.. versionadded:: Java SDK-v1.0.1-3.7.8
+        error = robot.MultilayerOffsetTrsfToBase(mulitilineorigin1_desc.tran, mulitilineX1_desc, mulitilineZ1_desc, 10.0, 0.0, 0.0, offset);
 
-.. code-block:: Java
-    :linenos:
+        error = robot.MoveL(mulitilineorigin1_joint, mulitilineorigin1_desc, 13, 0, 10, 100, 100, -1, 0,epos, 0, 1, offset, 0, 100);
 
-    public static void main(String[] args)
-    {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        int rtn = -1;
-        rtn = robot.WeldingSetCheckArcInterruptionParam(1, 200);
-        System.out.println("WeldingSetCheckArcInterruptionParam: "+rtn);
-        rtn = robot.WeldingSetReWeldAfterBreakOffParam(1, 5.7, 98.2, 0);
-        System.out.println("WeldingSetReWeldAfterBreakOffParam: "+rtn);
-        int enable = 0;
-        double length = 0;
-        double velocity = 0;
-        int moveType = 0;
-        int checkEnable = 0;
-        int arcInterruptTimeLength = 0;
-        List<Integer> rtnArray = new ArrayList<Integer>() {};
-        List<Number> rtnArrayWeld = new ArrayList<Number>() {};
-        rtnArray = robot.WeldingGetCheckArcInterruptionParam();
-        checkEnable=rtnArray.get(1);
-        arcInterruptTimeLength=rtnArray.get(2);
-        System.out.println("WeldingGetCheckArcInterruptionParam  checkEnable:"+checkEnable +", arcInterruptTimeLength : "+ arcInterruptTimeLength);
-        rtnArrayWeld = robot.WeldingGetReWeldAfterBreakOffParam();
-        enable=(int) rtnArrayWeld.get(1);
-        length=(double) rtnArrayWeld.get(2);
-        velocity=(double) rtnArrayWeld.get(3);
-        moveType=(int) rtnArrayWeld.get(4);
-        System.out.println("WeldingGetReWeldAfterBreakOffParam :"+ enable +",length: "+length+",velocity :"+velocity+",moveType :"+moveType);
-        //焊接中断恢复
-        robot.ProgramLoad("/fruser/test.lua");
-        robot.ProgramRun();
+        error = robot.ARCStart(1, 0, 3000);
 
-        robot.Sleep(5000);
+        error = robot.MultilayerOffsetTrsfToBase(mulitilineorigin2_desc.tran, mulitilineX2_desc, mulitilineZ2_desc, 10, 0, 0, offset);
 
-        while (true)
-        {
-            ROBOT_STATE_PKG pkg=new ROBOT_STATE_PKG();
-            pkg=robot.GetRobotRealTimeState();
-            System.out.println("welding breakoff state is "+pkg.weldingBreakOffstate.breakOffState);
-            if (pkg.weldingBreakOffstate.breakOffState == 1)
-            {
-                System.out.println("welding breakoff !");
-                robot.Sleep(2000);
-                rtn = robot.WeldingStartReWeldAfterBreakOff();
-                System.out.println("WeldingStartReWeldAfterBreakOff: "+rtn);
-                break;
-            }
-            robot.Sleep(100);
-        }
+        error = robot.ArcWeldTraceReplayStart();
+
+        error = robot.MoveL(mulitilineorigin2_joint, mulitilineorigin2_desc, 13, 0, 2, 100, 100, -1, 0,epos, 0, 1, offset, 0, 100);
+
+        error = robot.ArcWeldTraceReplayEnd();
+
+        error = robot.ARCEnd(1, 0, 10000);
+
+        error = robot.MoveJ(mulitilinesafe_joint, mulitilinesafe_desc, 13, 0, 10, 100, 100, epos, -1, 0, offset);
+
+        error = robot.MultilayerOffsetTrsfToBase(mulitilineorigin1_desc.tran, mulitilineX1_desc, mulitilineZ1_desc, 0, 10, 0, offset);
+
+        error = robot.MoveL(mulitilineorigin1_joint, mulitilineorigin1_desc, 13, 0, 10, 100, 100, -1,0, epos, 0, 1, offset, 0, 100);
+
+        error = robot.ARCStart(1, 0, 3000);
+
+        error = robot.MultilayerOffsetTrsfToBase(mulitilineorigin2_desc.tran, mulitilineX2_desc, mulitilineZ2_desc, 0, 10, 0, offset);
+
+        error = robot.ArcWeldTraceReplayStart();
+
+        error = robot.MoveL(mulitilineorigin2_joint, mulitilineorigin2_desc, 13, 0, 2, 100, 100, -1,0, epos, 0, 1, offset, 0, 100);
+
+        error = robot.ArcWeldTraceReplayEnd();
+
+        error = robot.ARCEnd(1, 0, 3000);
+
+        error = robot.MoveJ(mulitilinesafe_joint, mulitilinesafe_desc, 13, 0, 10, 100, 100, epos, -1, 0, offset);
+
+        robot.CloseRPC();
+        return 0;
     }
 
 电弧跟踪焊机电流反馈AI通道选择
@@ -1149,56 +987,213 @@
     */
     int ArcWeldTraceVoltagePara(double AILow, double AIHigh, double voltageLow, double voltageHigh)
 
-代码示例
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+电弧跟踪代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
     public static void WeldTraceControlWithCtrlBoxAI(Robot robot)
     {
-        DescPose startdescPose = new DescPose(-473.86,257.879,-20.849,-37.317,-42.021,2.543);
-        JointPos startjointPos = new JointPos(-43.487,-76.526,95.568,-104.445,-89.356,3.72);
+        DescPose startdescPose = new DescPose(-473.86, 257.879, -20.849, -37.317, -42.021, 2.543);
+        JointPos startjointPos = new JointPos(-43.487, -76.526, 95.568, -104.445, -89.356, 3.72);
 
-        DescPose safedescPose = new DescPose(-504.043,275.181,40.908,-28.002,-42.025,-14.044);
-        JointPos safejointPos = new JointPos(-39.078,-76.732,87.227,-99.47,-94.301,18.714);
+        DescPose safedescPose = new DescPose(-504.043, 275.181, 40.908, -28.002, -42.025, -14.044);
+        JointPos safejointPos = new JointPos(-39.078, -76.732, 87.227, -99.47, -94.301, 18.714);
 
-        DescPose enddescPose =new DescPose(-499.844,141.225,7.72,-34.856,-40.17,13.13);
-        JointPos endjointPos =new JointPos(-31.305,-82.998,99.401,-104.426,-89.35,3.696);
+        DescPose enddescPose = new DescPose(-499.844, 141.225, 7.72, -34.856, -40.17, 13.13);
+        JointPos endjointPos = new JointPos(-31.305, -82.998, 99.401, -104.426, -89.35, 3.696);
 
-        ExaxisPos exaxisPos = new ExaxisPos(0, 0, 0, 0 );
-        DescPose offdese = new DescPose( 0, 0, 0, 0, 0, 0);
+        ExaxisPos exaxisPos = new ExaxisPos(0, 0, 0, 0);
+        DescPose offdese = new DescPose(0, 0, 0, 0, 0, 0);
         //起始运动到安全点
         robot.MoveJ(safejointPos, safedescPose, 1, 0, 5, 20, 100, exaxisPos, -1, 0, offdese);
 
-        WeldCurrentAORelation current=new WeldCurrentAORelation(0, 495, 1, 10, 0);
-        WeldVoltageAORelation voltage=new WeldVoltageAORelation(10, 45, 1, 10, 1);
-        robot.WeldingSetCurrentRelation(current);
-        robot.WeldingSetVoltageRelation(voltage);
-        robot.WeldingSetVoltage(0, 25, 1, 0);
-        robot.WeldingSetCurrent(0, 260, 0, 0);
+        WeldCurrentAORelation current = new WeldCurrentAORelation(0, 495, 1, 10, 0);
+        WeldVoltageAORelation voltage = new WeldVoltageAORelation(10, 45, 1, 10, 1);
+        robot.WeldingSetCurrentRelation(current);//电流与输出模拟量的关系
+        robot.WeldingSetVoltageRelation(voltage);//电压与输出模拟量的关系
+        robot.WeldingSetVoltage(0, 25, 1, 0);//设置电压
+        robot.WeldingSetCurrent(0, 260, 0, 0);//设置电流
 
         int rtn = robot.ArcWeldTraceAIChannelCurrent(4);
-        System.out.println("ArcWeldTraceAIChannelCurrent rtn is "+rtn);
+        System.out.println("ArcWeldTraceAIChannelCurrent rtn is " + rtn);
 
         rtn = robot.ArcWeldTraceAIChannelVoltage(5);
-        System.out.println("ArcWeldTraceAIChannelVoltage rtn is "+rtn);
+        System.out.println("ArcWeldTraceAIChannelVoltage rtn is " + rtn);
 
-        rtn = robot.ArcWeldTraceCurrentPara(0.0,  5, 0, 500);
-        System.out.println("ArcWeldTraceCurrentPara rtn is "+rtn);
+        rtn = robot.ArcWeldTraceCurrentPara(0.0, 5, 0, 500);
+        System.out.println("ArcWeldTraceCurrentPara rtn is " + rtn);
 
-        rtn = robot.ArcWeldTraceVoltagePara( 1.018,  10, 0, 50);
-        System.out.println("ArcWeldTraceVoltagePara rtn is "+rtn);
+        rtn = robot.ArcWeldTraceVoltagePara(1.018, 10, 0, 50);
+        System.out.println("ArcWeldTraceVoltagePara rtn is " + rtn);
 
-        robot.MoveJ(startjointPos, startdescPose, 1, 0, 20, 20, 100, exaxisPos, -1, 0, offese);
+        robot.MoveJ(startjointPos, startdescPose, 1, 0, 20, 20, 100, exaxisPos, -1, 0, offdese);
         robot.ArcWeldTraceControl(1, 0, 1, 0.08, 5, 5, 300, 1, 0.06, 4, 4, 300, 1, 0, 4, 1, 10, 0, 0);
         robot.ARCStart(0, 0, 10000);
         robot.WeaveStart(0);
-        robot.MoveL(endjointPos, enddescPose, 1, 0, 100, 100, 2, -1, exaxisPos, 0, 0, offdese,0,10);
+        robot.MoveL(endjointPos, enddescPose, 1, 0, 100, 100, 2, -1, 0, exaxisPos, 0, 0, offdese, 0, 10);
         robot.ARCEnd(0, 0, 10000);
         robot.WeaveEnd(0);
         robot.ArcWeldTraceControl(0, 0, 1, 0.08, 5, 5, 300, 1, 0.06, 4, 4, 300, 1, 0, 4, 1, 10, 0, 0);
 
         robot.MoveJ(safejointPos, safedescPose, 1, 0, 20, 20, 100, exaxisPos, -1, 0, offdese);
+    }
+
+焊丝寻位开始
+++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /** 
+    * @brief 焊丝寻位开始
+    * @param [in] refPos  1-基准点 2-接触点
+    * @param [in] searchVel   寻位速度 %
+    * @param [in] searchDis  寻位距离 mm
+    * @param [in] autoBackFlag 自动返回标志，0-不自动；-自动
+    * @param [in] autoBackVel  自动返回速度 %
+    * @param [in] autoBackDis  自动返回距离 mm
+    * @param [in] offectFlag  1-带偏移量寻位；2-示教点寻位
+    * @return 错误码 
+    */
+    int WireSearchStart(int refPos, double searchVel, int searchDis, int autoBackFlag, double autoBackVel, int autoBackDis, int offectFlag);
+
+焊丝寻位结束
+++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /** 
+    * @brief 焊丝寻位结束
+    * @param [in] refPos  1-基准点 2-接触点
+    * @param [in] searchVel   寻位速度 %
+    * @param [in] searchDis  寻位距离 mm
+    * @param [in] autoBackFlag 自动返回标志，0-不自动；-自动
+    * @param [in] autoBackVel  自动返回速度 %
+    * @param [in] autoBackDis  自动返回距离 mm
+    * @param [in] offectFlag  1-带偏移量寻位；2-示教点寻位
+    * @return 错误码 
+    */
+    int WireSearchEnd(int refPos, double searchVel, int searchDis, int autoBackFlag, double autoBackVel, int autoBackDis, int offectFlag);
+
+计算焊丝寻位偏移量
+++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /** 
+    * @brief 计算焊丝寻位偏移量
+    * @param [in] seamType  焊缝类型
+    * @param [in] method   计算方法
+    * @param [in] varNameRef 基准点1-6，“#”表示无点变量
+    * @param [in] varNameRes 接触点1-6，“#”表示无点变量
+    * @param [out] offset 偏移位姿[x, y, z, a, b, c]及偏移方式
+    * @return 错误码 
+    */
+    int GetWireSearchOffset(int seamType, int method, String[] varNameRef, String[] varNameRes, DescOffset offset);
+
+等待焊丝寻位完成
+++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /** 
+    * @brief 等待焊丝寻位完成
+    * @return 错误码 
+    */
+    int WireSearchWait(String name);
+
+焊丝寻位接触点写入数据库
+++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /** 
+    * @brief 焊丝寻位接触点写入数据库
+    * @param [in] varName  接触点名称 “RES0” ~ “RES99”
+    * @param [in] pos  接触点数据[x, y, x, a, b, c]
+    * @return 错误码 
+    */
+    int SetPointToDatabase(String varName, DescPose pos);
+
+机器人焊丝寻位代码示例
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static int TestWireSearch(Robot robot)
+    {
+        DescPose toolCoord=new DescPose(0, 0, 200, 0, 0, 0);
+        robot.SetToolCoord(1, toolCoord, 0, 0, 1, 0);
+        DescPose wobjCoord=new DescPose(0, 0, 0, 0, 0, 0);
+        robot.SetWObjCoord(1, wobjCoord, 0);
+
+        int rtn0, rtn1, rtn2 = 0;
+        ExaxisPos exaxisPos = new ExaxisPos( 0, 0, 0, 0 );
+        DescPose offdese = new DescPose(0, 0, 0, 0, 0, 0);
+
+
+        DescPose descStart = new DescPose(216.543, 445.175, 93.465, 179.683, 1.757, -112.641);
+        JointPos jointStart = new JointPos(-128.345, -86.660, 114.679, -119.625, -89.219, 74.303);
+
+        DescPose descEnd =new DescPose(111.143, 523.384, 87.659, 179.703, 1.835, -97.750);
+        JointPos jointEnd =new JointPos(-113.454, -81.060, 109.328, -119.954, -89.218, 74.302 );
+
+        robot.MoveL(jointStart, descStart, 1, 1, 100, 100, 100, -1,0, exaxisPos, 0, 0, offdese,0,100);
+        robot.MoveL(jointEnd, descEnd, 1, 1, 100, 100, 100, -1, 0,exaxisPos, 0, 0, offdese,0,100);
+
+        DescPose descREF0A = new DescPose(142.135, 367.604, 86.523, 179.728, 1.922, -111.089);
+        JointPos jointREF0A =new JointPos(-126.794, -100.834, 128.922, -119.864, -89.218, 74.302);
+
+        DescPose descREF0B = new DescPose(254.633, 463.125, 72.604, 179.845, 2.341, -114.704);
+        JointPos jointREF0B = new JointPos(-130.413, -81.093, 112.044, -123.163, -89.217, 74.303);
+
+        DescPose descREF1A =new DescPose(92.556, 485.259, 47.476, -179.932, 3.130, -97.512);
+        JointPos jointREF1A =new JointPos(-113.231, -83.815, 119.877, -129.092, -89.217, 74.303);
+
+        DescPose descREF1B =new DescPose(203.103, 583.836, 63.909, 179.991, 2.854, -103.372);
+        JointPos jointREF1B = new JointPos(-119.088, -69.676, 98.692, -121.761, -89.219, 74.303);
+
+        rtn0 = robot.WireSearchStart(0, 10, 100, 0, 10, 100, 0);
+        robot.MoveL(jointREF0A, descREF0A, 1, 1, 100, 100, 100, -1,0, exaxisPos, 0, 0, offdese,0,10);  //起点
+        robot.MoveL(jointREF0B, descREF0B, 1, 1, 100, 100, 100, -1,0, exaxisPos, 1, 0, offdese,0,10);  //方向点
+        rtn1 = robot.WireSearchWait("REF0");
+        rtn2 = robot.WireSearchEnd(0, 10, 100, 0, 10, 100, 0);
+
+        rtn0 = robot.WireSearchStart(0, 10, 100, 0, 10, 100, 0);
+        robot.MoveL(jointREF1A, descREF1A, 1, 1, 100, 100, 100, -1, 0,exaxisPos, 0, 0, offdese,0,10);  //起点
+        robot.MoveL(jointREF1B, descREF1B, 1, 1, 100, 100, 100, -1,0, exaxisPos, 1, 0, offdese,0,10);  //方向点
+        rtn1 = robot.WireSearchWait("REF1");
+        rtn2 = robot.WireSearchEnd(0, 10, 100, 0, 10, 100, 0);
+
+        rtn0 = robot.WireSearchStart(0, 10, 100, 0, 10, 100, 0);
+        robot.MoveL(jointREF0A, descREF0A, 1, 1, 100, 100, 100, -1,0, exaxisPos, 0, 0, offdese,0,10);  //起点
+        robot.MoveL(jointREF0B, descREF0B, 1, 1, 100, 100, 100, -1,0, exaxisPos, 1, 0, offdese,0,10);  //方向点
+        rtn1 = robot.WireSearchWait("RES0");
+        rtn2 = robot.WireSearchEnd(0, 10, 100, 0, 10, 100, 0);
+
+        rtn0 = robot.WireSearchStart(0, 10, 100, 0, 10, 100, 0);
+        robot.MoveL(jointREF1A, descREF1A, 1, 1, 100, 100, 100, -1, 0,exaxisPos, 0, 0, offdese,0,10);  //起点
+        robot.MoveL(jointREF1B, descREF1B, 1, 1, 100, 100, 100, -1, 0,exaxisPos, 1, 0, offdese,0,10);  //方向点
+        rtn1 = robot.WireSearchWait("RES1");
+        rtn2 = robot.WireSearchEnd(0, 10, 100, 0, 10, 100, 0);
+
+        String[] varNameRef =new String[]{"REF0", "REF1", "#", "#", "#", "#"};
+        String[] varNameRes = new String[]{ "RES0", "RES1", "#", "#", "#", "#" };
+        int offectFlag = 0;
+
+        DescPose pos = new DescPose(0,0,0,0,0,0);
+        DescOffset offectPos=new DescOffset();
+        offectPos.offset=pos;
+        offectPos.offsetFlag=0;
+
+        rtn0 = robot.GetWireSearchOffset(0, 0, varNameRef, varNameRes, offectPos);
+        robot.PointsOffsetEnable(0, pos);
+        robot.MoveL(jointStart, descStart, 1, 1, 100, 100, 100, -1,0, exaxisPos, 0, 0, offdese,0,10);
+        robot.MoveL(jointEnd, descEnd, 1, 1, 100, 100, 100, -1, 0,exaxisPos, 1, 0, offdese,0,10);
+        robot.PointsOffsetDisable();
+
+        robot.CloseRPC();
+        return 0;
     }
 
 设置焊接电压渐变开始
@@ -1219,7 +1214,7 @@
     */
     int WeldingSetVoltageGradualChangeStart(int IOType, double voltageStart, double voltageEnd, int AOIndex, int blend)
 
-设置焊接电压渐变开始
+设置焊接电压渐变结束
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: Java SDK-v1.0.5-3.8.2
 
@@ -1263,32 +1258,32 @@
     */
     int WeldingSetCurrentGradualChangeEnd()
 
-代码示例
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+机器人焊接电流电压渐变代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    public static void  WeldparamChange(Robot robot)
+    public static void WeldparamChange(Robot robot) 
     {
         DescPose startdescPose = new DescPose(-484.707, 276.996, -14.013, -37.657, -40.508, -1.548);
-        JointPos startjointPos =new JointPos(-45.421, -75.673, 93.627, -104.302, -87.938, 6.005);
+        JointPos startjointPos = new JointPos(-45.421, -75.673, 93.627, -104.302, -87.938, 6.005);
 
         DescPose enddescPose = new DescPose(-508.767, 137.109, -13.966, -37.639, -40.508, -1.559);
-        JointPos endjointPos =new JointPos(-32.768, -80.947, 100.254, -106.201, -87.201, 18.648);
+        JointPos endjointPos = new JointPos(-32.768, -80.947, 100.254, -106.201, -87.201, 18.648);
 
-        DescPose safedescPose = new DescPose( -484.709, 294.436, 13.621, -37.660, -40.508, -1.545);
-        JointPos safejointPos = new JointPos( -46.604, -75.410, 89.109, -100.003, -88.012, 4.823);
+        DescPose safedescPose = new DescPose(-484.709, 294.436, 13.621, -37.660, -40.508, -1.545);
+        JointPos safejointPos = new JointPos(-46.604, -75.410, 89.109, -100.003, -88.012, 4.823);
 
         ExaxisPos exaxisPos = new ExaxisPos(0, 0, 0, 0);
-        DescPose offdese = new DescPose(0, 0, 0, 0, 0, 0 );
+        DescPose offdese = new DescPose(0, 0, 0, 0, 0, 0);
 
-        WeldCurrentAORelation cur=new WeldCurrentAORelation(0, 495, 1, 10, 0);
-        WeldVoltageAORelation vol=new WeldVoltageAORelation(10, 45, 1, 10, 1);
+        WeldCurrentAORelation cur = new WeldCurrentAORelation(0, 495, 1, 10, 0);
+        WeldVoltageAORelation vol = new WeldVoltageAORelation(10, 45, 1, 10, 1);
         robot.WeldingSetCurrentRelation(cur);
         robot.WeldingSetVoltageRelation(vol);
 
-        robot.WeldingSetVoltage(0, 25, 1, 0);
-        robot.WeldingSetCurrent(0, 260, 0, 0);
+        robot.WeldingSetVoltage(0, 25, 1, 0);// ----设置电压
+        robot.WeldingSetCurrent(0, 260, 0, 0);// ----设置电流
 
         robot.MoveJ(safejointPos, safedescPose, 1, 0, 5, 100, 100, exaxisPos, -1, 0, offdese);
 
@@ -1297,12 +1292,12 @@
         int rtn = robot.ArcWeldTraceControl(1, 0, 1, 0.08, 5, 5, 300, 1, 0.06, 4, 4, 300, 1, 0, 4, 1, 10, 0, 0);
 
         robot.MoveJ(startjointPos, startdescPose, 1, 0, 5, 100, 100, exaxisPos, -1, 0, offdese);
-        System.out.println("ArcWeldTraceControl rtn is "+rtn);
+        System.out.println("ArcWeldTraceControl rtn is " + rtn);
 
         robot.ARCStart(0, 0, 10000);
         robot.WeaveStart(0);
         robot.WeaveChangeStart(2, 1, 24, 36);
-        robot.MoveL(endjointPos, enddescPose, 1, 0, 100, 100, 2, -1, exaxisPos, 0, 0, offdese,0,10);
+        robot.MoveL(endjointPos, enddescPose, 1, 0, 100, 100, 2, -1, 0, exaxisPos, 0, 0, offdese, 0, 10);
         robot.ARCEnd(0, 0, 10000);
         robot.WeaveChangeEnd();
         robot.WeaveEnd(0);

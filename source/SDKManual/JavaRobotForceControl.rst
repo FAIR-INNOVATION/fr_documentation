@@ -58,50 +58,6 @@
     */
     int FT_SetZero(int act); 
 
-代码示例
-+++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    public static void main(String[] args)
-    {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        DeviceConfig config = new DeviceConfig();
-        config.company = 24;
-        config.device = 0;
-        config.softwareVersion = 0;
-        config.bus = 0;
-
-        robot.FT_SetConfig(config);
-        robot.Sleep(1000);
-        config.company = 0;
-        robot.FT_GetConfig(config);
-        System.out.println("FT config : " + config.company + ", " + config.device + ", " + config.softwareVersion + ", " + config.bus);
-
-        robot.FT_Activate(0);  //复位
-        robot.Sleep(2000);
-
-        robot.FT_Activate(1);  //激活
-        robot.Sleep(2000);
-
-        robot.FT_SetZero(0);//0去除零点
-        robot.Sleep(2000);
-
-        robot.FT_SetZero(1);//1零点矫正
-    }
-
 设置力传感器参考坐标系
 +++++++++++++++++++++++
 .. code-block:: Java
@@ -113,7 +69,155 @@
     * @param  [in] coord  自由坐标系值
     * @return  错误码
     */
-    int FT_SetRCS(int type, DescPose coord); 
+    int FT_SetRCS(int type, DescPose coord);
+
+设置力传感器下负载重量
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 设置力传感器下负载重量
+    * @param [in] weight 负载重量 kg
+    * @return 错误码
+    */
+    int SetForceSensorPayLoad(double weight);
+
+设置力传感器下负载质心
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 设置力传感器下负载质心
+    * @param [in] cog 负载质心 mm
+    * @return 错误码
+    */
+    int SetForceSensorPayLoadCog(DescTran cog);
+
+获取力传感器下负载重量
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 获取力传感器下负载重量
+    * @return List[0]:错误码; List[1] : weight 负载重量 kg
+    */
+    List<Number> GetForceSensorPayLoad();
+
+获取力传感器下负载质心
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 获取力传感器下负载质心
+    * @param [out] cog 负载质心 mm
+    * @return 错误码
+    */
+    int GetForceSensorPayLoadCog(DescTran cog);
+
+力传感器自动校零
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 力传感器自动校零
+    * @param [in] massCenter 传感器质量(kg) 及 质心(mm)
+    * @return 错误码
+    */
+    int ForceSensorAutoComputeLoad(MassCenter massCenter);
+
+获取参考坐标系下力/扭矩数据
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  获取参考坐标系下力/扭矩数据
+    * @param  [in] flag 0-阻塞，1-非阻塞
+    * @param  [out] ft  力/扭矩，fx,fy,fz,tx,ty,tz
+    * @return  错误码
+    */   
+    int FT_GetForceTorqueRCS(int flag, ForceTorque ft); 
+
+获取力传感器原始力/扭矩数据
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  获取力传感器原始力/扭矩数据
+    * @param  [in] flag 0-阻塞，1-非阻塞
+    * @param  [out] ft  力/扭矩，fx,fy,fz,tx,ty,tz
+    * @return  错误码
+    */   
+    int FT_GetForceTorqueOrigin(int flag, ForceTorque ft); 
+
+力传感器配置及自动校零代码示例
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static int TestFTInit(Robot robot)
+    {
+        DescTran tr1=new DescTran(0,0,0);
+        robot.SetForceSensorPayload(0);
+        robot.SetForceSensorPayloadCog(tr1);
+
+        int company = 24;
+        int device = 0;
+        int softversion = 0;
+        int bus = 1;
+        int index = 1;
+
+        DeviceConfig con=new DeviceConfig(company,device,softversion,bus);
+        robot.FT_SetConfig(con);
+        robot.Sleep(1000);
+        robot.FT_GetConfig(con);
+        robot.Sleep(1000);
+
+        robot.FT_Activate(0);
+        robot.Sleep(1000);
+        robot.FT_Activate(1);
+        robot.Sleep(1000);
+
+        robot.Sleep(1000);
+        robot.FT_SetZero(0);
+        robot.Sleep(1000);
+
+        ForceTorque ft=new ForceTorque(0,0,0,0,0,0);
+        robot.FT_GetForceTorqueOrigin(0, ft);
+        robot.FT_SetZero(1);
+        robot.Sleep(1000);
+
+        DescPose ftCoord = new DescPose();
+        robot.FT_SetRCS(0, ftCoord);
+
+        robot.SetForceSensorPayload(0.824);
+
+        DescTran tr=new DescTran(0.778, 2.554, 48.765);
+        robot.SetForceSensorPayloadCog(tr);
+        List<Number> weight = new ArrayList<>();
+        double x = 0, y = 0, z = 0;
+        weight=robot.GetForceSensorPayload();
+        robot.GetForceSensorPayloadCog(tr);
+        tr.x=0;
+        tr.y=0;
+        tr.z=0;
+        robot.SetForceSensorPayload(0);
+        robot.SetForceSensorPayloadCog(tr);
+
+        double computeWeight = 0;
+        DescTran tran = new DescTran();
+        MassCenter mass=new MassCenter();
+        mass.weight=weight.get(1).doubleValue();
+        mass.cog=tran;
+        robot.ForceSensorAutoComputeLoad(mass);
+        return 0;
+    }
 
 负载重量辨识记录
 +++++++++++++++++++++++
@@ -152,7 +256,7 @@
     int FT_PdCogIdenRecord(int id, int index); 
 
 负载质心辨识计算
-+++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
@@ -163,94 +267,73 @@
     */   
     int FT_PdCogIdenCompute(DescTran cog);
 
-代码示例
-+++++++++++++++
+力传感器负载辨识代码示例
++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    public static void main(String[] args)
+    public static int TestFTLoadCompute(Robot robot)
     {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        DeviceConfig config = new DeviceConfig();
-        config.company = 24;
-        config.device = 0;
-        config.softwareVersion = 0;
-        config.bus = 0;
+        DescTran tr1=new DescTran(0,0,0);
+        robot.SetForceSensorPayload(0);
+        robot.SetForceSensorPayloadCog(tr1);
 
-        robot.FT_SetConfig(config);
+        int company = 24;
+        int device = 0;
+        int softversion = 0;
+        int bus = 1;
+        int index = 1;
+
+        DeviceConfig con=new DeviceConfig(company, device, softversion, bus);
+        robot.FT_SetConfig(con);
         robot.Sleep(1000);
-        DescPose tcoord, desc_p1, desc_p2, desc_p3;
-        tcoord = new DescPose(0, 0, 0, 0, 0, 0);
-        desc_p1 = new DescPose(-14.404,-455.283,319.847,-172.935,25.141,-68.097);
-        desc_p2 = new DescPose(-107.999,-599.174,285.939,153.472,12.686,-71.284);
-        desc_p3 = new DescPose(6.586,-704.897,309.638,178.909,-27.759,-70.479);
-
-        DescPose coord = new DescPose(0, 0 ,0, 1, 0, 0);
-        robot.FT_SetRCS(0, coord);
+        robot.FT_GetConfig(con);
         robot.Sleep(1000);
 
+        robot.FT_Activate(0);
+        robot.Sleep(1000);
+        robot.FT_Activate(1);
+        robot.Sleep(1000);
+
+        robot.Sleep(1000);
+        robot.FT_SetZero(0);
+        robot.Sleep(1000);
+
+        ForceTorque ft=new ForceTorque(0,0,0,0,0,0);
+        robot.FT_GetForceTorqueOrigin(0, ft);
+        robot.FT_SetZero(1);
+        robot.Sleep(1000);
+
+        DescPose tcoord = new DescPose();
         tcoord.tran.z = 35.0;
-        robot.SetToolCoord(8, tcoord, 1, 0);
-        robot.Sleep(1000);
+        robot.SetToolCoord(10, tcoord, 1, 0, 0, 0);
+
         robot.FT_PdIdenRecord(10);
         robot.Sleep(1000);
-        List<Number> rtnArray =  robot.FT_PdIdenCompute();
-        System.out.println("payload weight : " + rtnArray.get(1));
 
-        robot.MoveCart(desc_p1, 0, 0, 20.0f, 100.0f, 100.0f, -1.0f, -1);
-        robot.Sleep(1000);
-        robot.FT_PdCogIdenRecord(2, 1);
-        robot.MoveCart(desc_p2, 0, 0, 20.0f, 100.0f, 100.0f, -1.0f, -1);
-        robot.Sleep(1000);
-        robot.FT_PdCogIdenRecord(2, 2);
-        robot.MoveCart(desc_p3, 0, 0, 20.0f, 100.0f, 100.0f, -1.0f, -1);
-        robot.Sleep(1000);
-        robot.FT_PdCogIdenRecord(2, 3);
-        robot.Sleep(1000);
+        List<Number> weight =new ArrayList<>();
+        weight=robot.FT_PdIdenCompute();
 
-        DescTran rtnCog = new DescTran();
-        robot.FT_PdCogIdenCompute(rtnCog);
-        System.out.println("cog : " + rtnCog.x + ", " + rtnCog.y + ", " + rtnCog.z);
+        DescPose desc_p1=new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose desc_p2=new DescPose(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
+        DescPose desc_p3=new DescPose(-327.622, 402.230, 320.402, -178.067, 2.127, -46.207);
+
+        robot.MoveCart(desc_p1, 0, 0, 100.0, 100.0, 100.0, -1.0, -1);
+        robot.Sleep(1000);
+        robot.FT_PdCogIdenRecord(10, 1);
+        robot.MoveCart(desc_p2, 0, 0, 100.0, 100.0, 100.0, -1.0, -1);
+        robot.Sleep(1000);
+        robot.FT_PdCogIdenRecord(10, 2);
+        robot.MoveCart(desc_p3, 0, 0, 100.0, 100.0, 100.0, -1.0, -1);
+        robot.Sleep(1000);
+        robot.FT_PdCogIdenRecord(10, 3);
+        robot.Sleep(1000);
+        DescTran cog=new DescTran(0,0,0);
+        robot.FT_PdCogIdenCompute(cog);
+
+        robot.CloseRPC();
+        return 0;
     }
-
-
-获取参考坐标系下力/扭矩数据
-+++++++++++++++++++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    /**
-    * @brief  获取参考坐标系下力/扭矩数据
-    * @param  [in] flag 0-阻塞，1-非阻塞
-    * @param  [out] ft  力/扭矩，fx,fy,fz,tx,ty,tz
-    * @return  错误码
-    */   
-    int FT_GetForceTorqueRCS(int flag, ForceTorque ft); 
-
-获取力传感器原始力/扭矩数据
-+++++++++++++++++++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    /**
-    * @brief  获取力传感器原始力/扭矩数据
-    * @param  [in] flag 0-阻塞，1-非阻塞
-    * @param  [out] ft  力/扭矩，fx,fy,fz,tx,ty,tz
-    * @return  错误码
-    */   
-    int FT_GetForceTorqueOrigin(int flag, ForceTorque ft); 
 
 碰撞守护
 +++++++++++++++++++++++++++++++++++++++++++++
@@ -270,8 +353,8 @@
     */   
     int FT_Guard(int flag, int sensor_id, Object[] select, ForceTorque ft, Object[] max_threshold, Object[] min_threshold); 
 
-代码示例
-+++++++++++++++
+碰撞守护代码示例
++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
@@ -332,54 +415,61 @@
     */   
     int FT_Control(int flag, int sensor_id, Object[] select, ForceTorque ft, Object[] ft_pid, int adj_sign, int ILC_sign, double max_dis, double max_ang, int filter_Sign, int posAdapt_sign, int isNoBlock);   
 
-代码示例
-+++++++++++++++
+恒力控制代码示例
++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    public static void main(String[] args)
+    public static int TestFTControl(Robot robot)
     {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        byte flag = 1;
-        byte sensor_id = 8;
-        Object[] select = { 0,0,1,0,0,0 };
-        Object[] ft_pid = { 0.0005, 0.0, 0.0, 0.0, 0.0, 0.0 };
-        byte adj_sign = 0;
-        byte ILC_sign = 0;
-        float max_dis = 100.0f;
-        float max_ang = 0.0f;
-        ForceTorque ft = new ForceTorque(0, 0, -10, 0 ,0 ,0);
+        DescTran tr1=new DescTran(0,0,0);
+        robot.SetForceSensorPayload(0);
+        robot.SetForceSensorPayloadCog(tr1);
 
-        JointPos j1=new JointPos(-21.724,-136.814,-59.518,-68.853,89.245,-66.35);
-        DescPose desc_p1 = new DescPose(703.996,-391.695,240.708,-178.756,-4.709,-45.447);
+        int company = 24;
+        int device = 0;
+        int softversion = 0;
+        int bus = 1;
+        int index = 1;
+        DeviceConfig con=new DeviceConfig(company, device, softversion, bus);
 
-        JointPos j2=new JointPos(0.079,-130.285,-71.029,-72.115,88.945,-62.736);
-        DescPose desc_p2 = new DescPose(738.755,-102.812,226.704,177.488,2.566,-27.209);
+        robot.FT_SetConfig(con);
+        robot.Sleep(1000);
+        robot.FT_GetConfig(con);
+        robot.Sleep(1000);
 
-        ExaxisPos epos = new ExaxisPos(0, 0, 0, 0);
-        DescPose offset_pos = new DescPose(0, 0, 0, 0, 0, 0);
+        robot.FT_Activate(0);
+        robot.Sleep(1000);
+        robot.FT_Activate(1);
+        robot.Sleep(1000);
 
-        //关节空间运动
-        robot.MoveL(j1, desc_p1, 0, 0, 40.0f, 180.0f, 20.0f, -1.0f, epos, 0, 0, offset_pos, 0, 100);
-        int rtn = robot.FT_Control(flag, sensor_id, select, ft, ft_pid, adj_sign, ILC_sign, max_dis, max_ang, 0, 0, 0);
-        System.out.println("FT_Control start rtn " + rtn);
+        robot.Sleep(1000);
+        robot.FT_SetZero(0);
+        robot.Sleep(1000);
 
-        robot.MoveL(j2, desc_p2, 0, 0, 10.0f, 180.0f, 20.0f, -1.0f, epos, 0, 0, offset_pos, 0, 100);
-        flag = 0;
-        rtn = robot.FT_Control(flag, sensor_id, select, ft, ft_pid, adj_sign, ILC_sign, max_dis, max_ang, 0, 0 ,0);
-        System.out.println("FT_Control end rtn " + rtn);
+        int sensor_id = 1;
+        Object[] select =new Object[] { 0,0,1,0,0,0 };
+        Object[] ft_pid =new Object[]{ 0.0005,0.0,0.0,0.0,0.0,0.0 };
+        int adj_sign = 0;
+        int ILC_sign = 0;
+        double max_dis = 100.0;
+        double max_ang = 0.0;
+
+        ForceTorque ft=new ForceTorque(0,0,0,0,0,0);
+        ExaxisPos epos=new ExaxisPos(0, 0, 0, 0);
+        JointPos j1=new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        JointPos j2=new JointPos(-45.615, -106.172, 124.296, -107.151, -91.282, 74.255);
+        DescPose desc_p1=new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose desc_p2=new DescPose(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
+        DescPose offset_pos=new DescPose(0, 0, 0, 0, 0, 0);
+
+        ft.fz = -10.0;
+
+        int rtn = robot.MoveJ(j1, desc_p1, 0, 0, 100.0, 180.0, 100.0, epos, -1.0, 0, offset_pos);
+        robot.FT_Control(1, sensor_id, select, ft, ft_pid, adj_sign, ILC_sign, max_dis, max_ang,0,0,0);
+        rtn = robot.MoveJ(j2, desc_p2, 0, 0, 100.0, 180.0, 100.0, epos, -1.0, 0, offset_pos);
+        robot.FT_Control(0, sensor_id, select, ft, ft_pid, adj_sign, ILC_sign, max_dis, max_ang,0,0,0);
+        return 0;
     }
 
 柔顺控制开启
@@ -406,59 +496,79 @@
     */   
     int FT_ComplianceStop(); 
 
-代码示例
-+++++++++++++++
+柔顺控制代码示例
++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    public static void main(String[] args)
+    public static int TestCompliance(Robot robot)
     {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        byte flag = 1;
-        int sensor_id = 8;
-        Object[] select = { 1, 1, 1, 0, 0, 0 };
-        Object[] ft_pid = { 0.0005, 0.0, 0.0, 0.0, 0.0, 0.0 };
+        DescTran tr1=new DescTran(0,0,0);
+        robot.SetForceSensorPayload(0);
+        robot.SetForceSensorPayloadCog(tr1);
+
+        int company = 24;
+        int device = 0;
+        int softversion = 0;
+        int bus = 1;
+        int index = 1;
+
+        DeviceConfig con=new DeviceConfig(company, device, softversion, bus);
+        robot.FT_SetConfig(con);
+        robot.Sleep(1000);
+        robot.FT_GetConfig(con);
+
+        robot.Sleep(1000);
+
+        robot.FT_Activate(0);
+        robot.Sleep(1000);
+        robot.FT_Activate(1);
+        robot.Sleep(1000);
+
+        robot.Sleep(1000);
+        robot.FT_SetZero(0);
+        robot.Sleep(1000);
+
+        int flag = 1;
+        int sensor_id = 1;
+        Object[] select =new Object[] { 1,1,1,0,0,0 };
+        Object[] ft_pid =new Object[] { 0.0005,0.0,0.0,0.0,0.0,0.0 };
         int adj_sign = 0;
         int ILC_sign = 0;
         double max_dis = 100.0;
         double max_ang = 0.0;
 
-        ForceTorque ft = new ForceTorque(-10.0, -10.0, -10.0, 0.0, 0.0, 0.0);
-        DescPose desc_p1, desc_p2, offset_pos;
-        JointPos j1;
-        j1=new JointPos(-21.724, -136.814, -59.518, -68.853, 89.245, -66.359);
+        ForceTorque ft=new ForceTorque(0,0,0,0,0,0);
+        DescPose  offset_pos=new DescPose(0, 0, 0, 0, 0, 0);
+        ExaxisPos epos=new ExaxisPos(0, 0, 0, 0);
 
-        ExaxisPos epos = new ExaxisPos(0, 0, 0, 0);
-        desc_p1 = new DescPose(703.996, -391.695, 240.708, -178.756, -4.709, -45.447);
-        offset_pos = new DescPose(0, 0, 0, 0, 0, 0);
+
+        JointPos j1=new JointPos(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        JointPos j2=new JointPos(-45.615, -106.172, 124.296, -107.151, -91.282, 74.255);
+        DescPose desc_p1=new DescPose(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose desc_p2=new DescPose(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
 
         ft.fx = -10.0;
         ft.fy = -10.0;
         ft.fz = -10.0;
-        robot.FT_Control(flag, sensor_id, select, ft, ft_pid, adj_sign, ILC_sign, max_dis, max_ang,0,0,0);
-        float p = 0.00005f;
-        float force = 10.0f;
+        robot.FT_Control(flag, sensor_id, select, ft, ft_pid, adj_sign, ILC_sign, max_dis, max_ang, 0, 0, 0);
+        double p = 0.00005;
+        double force = 30.0;
         int rtn = robot.FT_ComplianceStart(p, force);
-        System.out.println("FT_ComplianceStart rtn " + rtn);
 
-        robot.MoveL(j1, desc_p1, 0, 0, 20.0, 180.0, 100.0, -1.0, epos, 0, 1, offset_pos, 0, 100);
-
-        rtn = robot.FT_ComplianceStop();
-        System.out.println("FT_ComplianceStop rtn " + rtn);
+        int count = 15;
+        while (count>0)
+        {
+            robot.MoveL(j1, desc_p1, 0, 0, 100.0, 180.0, 100.0, -1.0,0, epos, 0, 1, offset_pos,0,10);
+            robot.MoveL(j2, desc_p2, 0, 0, 100.0, 180.0, 100.0, -1.0,0, epos, 0, 0, offset_pos,0,10);
+            count -= 1;
+        }
+        robot.FT_ComplianceStop();
         flag = 0;
-        robot.FT_Control(flag, sensor_id, select, ft, ft_pid, adj_sign, ILC_sign, max_dis, max_ang,0,0,0);
+        robot.FT_Control(flag, sensor_id, select, ft, ft_pid, adj_sign, ILC_sign, max_dis, max_ang, 0, 0, 0);
+
+        robot.CloseRPC();
+        return 0;
     }
 
 负载辨识初始化
@@ -509,16 +619,36 @@
     */
     List<Number> LoadIdentifyGetResult(Object[] gain);
 
-获取力传感器拖动开关状态
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+机器人负载辨识代码示例
++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    /**
-    * @brief 获取力传感器拖动开关状态
-    * @return List[0]:错误码; List[1] : dragState 力传感器辅助拖动控制状态，0-关闭；1-开启; List[1] : sixDimensionalDragState 六维力辅助拖动控制状态，0-关闭；1-开启
-    */
-    List<Integer> GetForceAndTorqueDragState();
+    public static int TestIdentify(Robot robot)
+    {
+        int retval = 0;
+
+        retval = robot.LoadIdentifyDynFilterInit();
+
+        retval = robot.LoadIdentifyDynVarInit();
+
+        JointPos posJ = new JointPos(0,0,0,0,0,0);
+        DescPose posDec = new DescPose(0,0,0,0,0,0);
+        List<Number> joint_toq=new ArrayList<>();
+        robot.GetActualJointPosDegree( posJ);
+        posJ.J2 = posJ.J2 + 10;
+        joint_toq=robot.GetJointTorques(0);
+
+        Object[] gain =new Object[] { 0,0.05,0,0,0,0,0,0.02,0,0,0,0 };
+        double weight = 0;
+        DescTran load_pos=new DescTran(0,0,0);
+        List<Number> num=new ArrayList<>();
+        num = robot.LoadIdentifyGetResult(gain);
+
+        robot.CloseRPC();
+        return 0;
+
+    }
 
 力传感器辅助拖动
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -544,46 +674,57 @@
     */
     int EndForceDragControl(int status, int asaptiveFlag, int interfereDragFlag,int ingularityConstraintsFlag, int forceCollisionFlag, Object[] M, Object[] B, Object[] K, Object[] F, double Fmax, double Vmax)
 
-代码示例
+获取力传感器拖动开关状态
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 获取力传感器拖动开关状态
+    * @return List[0]:错误码; List[1] : dragState 力传感器辅助拖动控制状态，0-关闭；1-开启; List[1] : sixDimensionalDragState 六维力辅助拖动控制状态，0-关闭；1-开启
+    */
+    List<Integer> GetForceAndTorqueDragState();
+
+报错清除后力传感器自动开启
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 报错清除后力传感器自动开启
+    * @param [in] status 控制状态，0-关闭；1-开启
+    * @return 错误码
+    */
+    int SetForceSensorDragAutoFlag(int status)
+
+力传感器辅助拖动代码示例
 ++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    public static void main(String[] args)
+    public static int TestEndForceDragCtrl(Robot robot)
     {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        Object[] M = { 15.0, 15.0, 15.0, 0.5, 0.5, 0.1 };
-        Object[] B = { 150.0, 150.0, 150.0, 5.0, 5.0, 1.0 };
-        Object[] K = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
-        Object[] F = { 10.0, 10.0, 10.0, 1.0, 1.0, 1.0 };
-        int rtn = robot.EndForceDragControl(1, 0, 0, 0, 1, M, B, K, F, 50, 100);
-        System.out.println("force drag control start rtn is:"+ rtn);
-        robot.Sleep(5000);
+        DescTran tr1=new DescTran(0,0,0);
+        robot.SetForceSensorPayload(0);
+        robot.SetForceSensorPayloadCog(tr1);
 
-        rtn = robot.EndForceDragControl(0, 0, 0, 0, 1, M, B, K, F, 50, 100);
-        System.out.println("force drag control end rtn is:"+ rtn);
+        robot.SetForceSensorDragAutoFlag(1);
 
-        rtn = robot.ResetAllError();
-        System.out.println("ResetAllError rtn is:"+ rtn);
+        Object[] M =new Object[] { 15.0, 15.0, 15.0, 0.5, 0.5, 0.1 };
+        Object[] B =new Object[] { 150.0, 150.0, 150.0, 5.0, 5.0, 1.0 };
+        Object[] K =new Object[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+        Object[] F =new Object[] { 10.0, 10.0, 10.0, 1.0, 1.0, 1.0 };
+        robot.EndForceDragControl(1, 0, 0, 0, M, B, K, F, 50, 100);
 
-        robot.EndForceDragControl(1, 0, 0, 0, 1, M, B, K, F, 50, 100);
-        System.out.println("force drag control start again rtn is:"+ rtn);
-        robot.Sleep(5000);
+        robot.Sleep(10000);
 
-        rtn = robot.EndForceDragControl(0, 0, 0, 0, 1, M, B, K, F, 50, 100);
-        System.out.println("force drag control end again rtn is:"+ rtn);
+        int dragState = 0;
+        int sixDimensionalDragState = 0;
+        List<Integer> state=new ArrayList<>();
+        state=robot.GetForceAndTorqueDragState();
+
+        robot.EndForceDragControl(0, 0, 0, 0, M, B, K, F, 50, 100);
+        return 0;
     }
 
 设置六维力和关节阻抗混合拖动开关及参数
@@ -604,137 +745,110 @@
     */
     int ForceAndJointImpedanceStartStop(int status, int impedanceFlag, Object[] lamdeGain, Object[] KGain, Object[] BGain, double dragMaxTcpVel, double dragMaxTcpOriVel);
 
-代码示例
-+++++++++++++++
+六维力和关节阻抗混合拖动代码示例
++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    public static void main(String[] args)
+    public static int TestForceAndJointImpedance(Robot robot)
     {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
         robot.DragTeachSwitch(1);
-        Object[] lamdeDain = { 3.0, 2.0, 2.0, 2.0, 2.0, 3.0 };
-        Object[] KGain = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
-        Object[] BGain = { 150.0, 150.0, 150.0, 5.0, 5.0, 1.0 };
-        robot.ForceAndJointImpedanceStartStop(1, 0, lamdeDain, KGain, BGain, 1000.0, 180.0);
+        Object[] lamdeDain =new Object[] { 3.0, 2.0, 2.0, 2.0, 2.0, 3.0 };
+        Object[] KGain = new Object[]{ 0, 0, 0, 0, 0, 0 };
+        Object[] BGain =new Object[] { 150, 150, 150, 5.0, 5.0, 1.0 };
+        int rtn = robot.ForceAndJointImpedanceStartStop(1, 0, lamdeDain, KGain, BGain, 1000.0, 180.0);
 
-        List<Integer> rtnArray = robot.GetForceAndTorqueDragState();
-        System.out.println("the drag state is  " + rtnArray.get(1) + "  ForceAndJointImpedance state  " + rtnArray.get(2));
+        robot.Sleep(10000);
+
+        robot.DragTeachSwitch(0);
+        rtn = robot.ForceAndJointImpedanceStartStop(0, 0, lamdeDain, KGain, BGain, 1000.0, 180.0);
+
+        robot.CloseRPC();
+        return 0;
     }
 
-设置力传感器下负载重量
-+++++++++++++++++++++++++++++++++++++++++++++
+设置焊丝寻位扩展IO端口
+++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    /**
-    * @brief 设置力传感器下负载重量
-    * @param [in] weight 负载重量 kg
+    /** 
+    * @brief 设置焊丝寻位扩展IO端口
+    * @param [in] searchDoneDINum 焊丝寻位成功DO端口(0-127)
+    * @param [in] searchStartDONum 焊丝寻位启停控制DO端口(0-127)
     * @return 错误码
     */
-    int SetForceSensorPayLoad(double weight);
+    int SetWireSearchExtDIONum(int searchDoneDINum, int searchStartDONum);
 
-设置力传感器下负载质心
-+++++++++++++++++++++++++++++++++++++++++++++
+示例程序
+++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    /**
-    * @brief 设置力传感器下负载质心
-    * @param [in] cog 负载质心 mm
-    * @return 错误码
-    */
-    int SetForceSensorPayLoadCog(DescTran cog);
-
-获取力传感器下负载重量
-+++++++++++++++++++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    /**
-    * @brief 获取力传感器下负载重量
-    * @return List[0]:错误码; List[1] : weight 负载重量 kg
-    */
-    List<Number> GetForceSensorPayLoad();
-
-获取力传感器下负载质心
-+++++++++++++++++++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    /**
-    * @brief 获取力传感器下负载质心
-    * @param [out] cog 负载质心 mm
-    * @return 错误码
-    */
-    int GetForceSensorPayLoadCog(DescTran cog);
-    
-代码示例
-+++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    public static void main(String[] args)
+    private static void TestUDPWireSearch(Robot robot)
     {
-        Robot robot = new Robot();
-        robot.SetReconnectParam(true,20,500);//设置重连次数、间隔
-        robot.LoggerInit(FrLogType.DIRECT, FrLogLevel.INFO, "D://log", 10, 10);
-        int rtn = robot.RPC("192.168.58.2");
-        if(rtn == 0)
-        {
-            System.out.println("rpc连接 success");
-        }
-        else
-        {
-            System.out.println("rpc连接 fail");
-            return ;
-        }
-        robot.SetForceSensorPayLoad(1.34);
-        DescTran cog = new DescTran(0.778, 2.554, 48.765);
-        robot.SetForceSensorPayLoadCog(cog);
-        double weight = 0;
+        UDPComParam param = new UDPComParam("192.168.58.88", 2021, 2, 100, 3, 100, 1, 100, 10,0);
+        robot.ExtDevSetUDPComParam(param);//udp扩展轴通讯
 
-        List<Number> rtnArrays = robot.GetForceSensorPayLoad();
-        DescTran getCog = new DescTran(0.0, 0.0, 0.0);
-        robot.GetForceSensorPayLoadCog(getCog);
-        System.out.println("the FT load is " +  rtnArrays.get(1) + "  cog is  " + getCog.x + "  " + getCog.y + "   " + getCog.z);
+        robot.SetWireSearchExtDIONum(0, 0);
+
+        int rtn0, rtn1, rtn2 = 0;
+        ExaxisPos exaxisPos = new ExaxisPos(0.0, 0.0, 0.0, 0.0);
+        DescPose offdese = new DescPose(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+
+        DescPose descStart = new DescPose(-158.767, -510.596, 271.709, -179.427, -0.745, -137.349);
+        JointPos jointStart = new JointPos(61.667, -79.848, 108.639, -119.682, -89.700, -70.985);
+
+        DescPose descEnd = new DescPose(0.332, -516.427, 270.688, 178.165, 0.017, -119.989);
+        JointPos jointEnd = new JointPos(79.021, -81.839, 110.752, -118.298, -91.729, -70.981);
+
+        robot.MoveL(jointStart, descStart, 1, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese, 0, 100);
+        robot.MoveL(jointEnd, descEnd, 1, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese, 0, 100);
+
+        DescPose descREF0A = new DescPose(-66.106, -560.746, 270.381, 176.479, -0.126, -126.745);
+        JointPos jointREF0A = new JointPos(73.531, -75.588, 102.941, -116.250, -93.347, -69.689);
+
+        DescPose descREF0B = new DescPose(-66.109, -528.440, 270.407, 176.479, -0.129, -126.744);
+        JointPos jointREF0B = new JointPos(72.534, -79.625, 108.046, -117.379, -93.366, -70.687);
+
+        DescPose descREF1A = new DescPose(72.975, -473.242, 270.399, 176.479, -0.129, -126.744);
+        JointPos jointREF1A = new JointPos(87.169, -86.509, 115.710, -117.341, -92.993, -56.034);
+
+        DescPose descREF1B = new DescPose(31.355, -473.238, 270.405, 176.480, -0.130, -126.745);
+        JointPos jointREF1B = new JointPos(82.117, -87.146, 116.470, -117.737, -93.145, -61.090);
+
+        rtn0 = robot.WireSearchStart(0, 10, 100, 0, 10, 100, 0);
+        robot.MoveL(jointREF0A, descREF0A, 1, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese, 0, 100);  //起点
+        robot.MoveL(jointREF0B, descREF0B, 1, 0, 10, 100, 100, -1, exaxisPos, 1, 0, offdese, 0, 100);  //方向点
+        rtn1 = robot.WireSearchWait("REF0");
+        rtn2 = robot.WireSearchEnd(0, 10, 100, 0, 10, 100, 0);
+
+        rtn0 = robot.WireSearchStart(0, 10, 100, 0, 10, 100, 0);
+        robot.MoveL(jointREF1A, descREF1A, 1, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese, 0, 100);  //起点
+        robot.MoveL(jointREF1B, descREF1B, 1, 0, 10, 100, 100, -1, exaxisPos, 1, 0, offdese, 0, 100);  //方向点
+        rtn1 = robot.WireSearchWait("REF1");
+        rtn2 = robot.WireSearchEnd(0, 10, 100, 0, 10, 100, 0);
+
+        rtn0 = robot.WireSearchStart(0, 10, 100, 0, 10, 100, 0);
+        robot.MoveL(jointREF0A, descREF0A, 1, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese, 0, 100);  //起点
+        robot.MoveL(jointREF0B, descREF0B, 1, 0, 10, 100, 100, -1, exaxisPos, 1, 0, offdese, 0, 100);  //方向点
+        rtn1 = robot.WireSearchWait("RES0");
+        rtn2 = robot.WireSearchEnd(0, 10, 100, 0, 10, 100, 0);
+
+        rtn0 = robot.WireSearchStart(0, 10, 100, 0, 10, 100, 0);
+        robot.MoveL(jointREF1A, descREF1A, 1, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese, 0, 100);  //起点
+        robot.MoveL(jointREF1B, descREF1B, 1, 0, 10, 100, 100, -1, exaxisPos, 1, 0, offdese, 0, 100);  //方向点
+        rtn1 = robot.WireSearchWait("RES1");
+        rtn2 = robot.WireSearchEnd(0, 10, 100, 0, 10, 100, 0);
+
+        String[] varNameRef = {"REF0", "REF1", "#", "#", "#", "#"};
+        String[] varNameRes = {"RES0", "RES1", "#", "#", "#", "#"};
+        int offectFlag = 0;
+        //DescPose offectPos = new DescPose(0, 0, 0, 0, 0, 0);
+        DescOffset offset = new DescOffset();
+        rtn0 = robot.GetWireSearchOffset(0, 0, varNameRef, varNameRes, offset);
+        robot.PointsOffsetEnable(0, offset.offset);
+        robot.MoveL(jointStart, descStart, 1, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese, 0, 100);
+        robot.MoveL(jointEnd, descEnd, 1, 0, 100, 100, 100, -1, exaxisPos, 1, 0, offdese, 0, 100);
+        robot.PointsOffsetDisable();
     }
-
-力传感器自动校零
-+++++++++++++++++++++++++++++++++++++++++++++
-.. code-block:: Java
-    :linenos:
-
-    /**
-    * @brief 力传感器自动校零
-    * @param [in] massCenter 传感器质量(kg) 及 质心(mm)
-    * @return 错误码
-    */
-    int ForceSensorAutoComputeLoad(MassCenter massCenter);
-
-设置机器人碰撞检测方法
-++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionchanged:: Java SDK-v1.0.5-3.8.2
-
-.. code-block:: Java
-    :linenos:
-
-    /**
-    * @brief 设置机器人碰撞检测方法
-    * @param [in] method 碰撞检测方法：0-电流模式；1-双编码器；2-电流和双编码器同时开启
-    * @param [in] thresholdMode 碰撞等级阈值方式；0-碰撞等级固定阈值方式；1-自定义碰撞检测阈值
-    * @return 错误码
-    */
-    int SetCollisionDetectionMethod(int method,int thresholdMode)

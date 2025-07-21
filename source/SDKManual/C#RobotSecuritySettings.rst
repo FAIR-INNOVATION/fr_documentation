@@ -34,146 +34,6 @@
     */
     int SetCollisionStrategy(int strategy, int safeTime, int safeDistance, int safeVel,int[] safetyMargin);
 
-设置正限位
-++++++++++++++++++++++++++++++++
-.. code-block:: c#
-    :linenos:
-
-    /**
-    * @brief  设置正限位
-    * @param  [in] limit 六个关节位置，单位deg
-    * @return  错误码
-    */
-    int SetLimitPositive(double[] limit); 
-
-设置负限位
-++++++++++++++++++++++++++++++++
-.. code-block:: c#
-    :linenos:
-
-    /**
-    * @brief  设置负限位
-    * @param  [in] limit 六个关节位置，单位deg
-    * @return  错误码
-    */
-    int SetLimitNegative(double[] limit); 
-
-错误状态清除
-++++++++++++++++++++++++++++++++
-.. code-block:: c#
-    :linenos:
-
-    /**
-    * @brief  错误状态清除
-    * @return  错误码
-    */
-    int ResetAllError(); 
-
-关节摩擦力补偿开关
-++++++++++++++++++++++++++++++++
-.. code-block:: c#
-    :linenos:
-
-    /** 
-    * @brief 关节摩擦力补偿开关 
-    * @param [in] state 0-关，1-开 
-    * @return 错误码 
-    */ 
-    int FrictionCompensationOnOff(byte state); 
-
-设置关节摩擦力补偿系数-正装
-++++++++++++++++++++++++++++++++
-.. code-block:: c#
-    :linenos:
-
-    /**
-    * @brief  设置关节摩擦力补偿系数-正装
-    * @param  [in]  coeff 六个关节补偿系数，范围[0~1]
-    * @return  错误码
-    */
-    int SetFrictionValue_level(double[] coeff);
-
-设置关节摩擦力补偿系数-侧装
-++++++++++++++++++++++++++++++++
-.. code-block:: c#
-    :linenos:
-
-    /**
-    * @brief  设置关节摩擦力补偿系数-侧装
-    * @param  [in]  coeff 六个关节补偿系数，范围[0~1]
-    * @return  错误码
-    */
-    int SetFrictionValue_wall(double[] coeff); 
-
-设置关节摩擦力补偿系数-倒装
-++++++++++++++++++++++++++++++++
-.. code-block:: c#
-    :linenos:
-
-    /**
-    * @brief  设置关节摩擦力补偿系数-倒装
-    * @param  [in]  coeff 六个关节补偿系数，范围[0~1]
-    * @return  错误码
-    */
-    int SetFrictionValue_ceiling(double[] coeff);
-
-设置关节摩擦力补偿系数-自由安装
-++++++++++++++++++++++++++++++++
-.. code-block:: c#
-    :linenos:
-
-    /**
-    * @brief  设置关节摩擦力补偿系数-自由安装
-    * @param  [in]  coeff 六个关节补偿系数，范围[0~1]
-    * @return  错误码
-    */
-    int SetFrictionValue_freedom(double[] coeff);
-
-代码示例
-++++++++++++++
-.. code-block:: c#
-    :linenos:
-
-    private void btnRobotSafetySet_Click(object sender, EventArgs e)
-    {
-        Robot robot = new Robot();
-        robot.RPC("192.168.58.2");
-
-        int mode = 0;
-        int config = 1;
-        double[] level1 = new double[6] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 };
-        double[] level2 = new double[6] { 0.5, 0.2, 0.3, 0.4, 0.5, 0.12 };
-
-        robot.SetAnticollision(mode, level1, config);
-        mode = 1;
-        robot.SetAnticollision(mode, level2, config);
-        int[] safetyMargin = { 1, 1, 1, 1, 1, 1 };
-        robot.SetCollisionStrategy(5, 1000, 150,150,safetyMargin);
-
-        double[] plimit = new double[6] { 170.0, 80.0, 150.0, 80.0, 170.0, 160.0 };
-        int rtn = robot.SetLimitPositive(plimit);
-        Console.WriteLine($"SetLimitPositive  rtn  {rtn}");
-        double[] nlimit = new double[6] { -170.0, -260.0, -150.0, -260.0, -170.0, -160.0 };
-        rtn = robot.SetLimitNegative(nlimit);
-        Console.WriteLine($"SetLimitNegative  rtn  {rtn}");
-
-        robot.ResetAllError();
-
-        double[] lcoeff = new double[6] { 0.9, 0.9, 0.9, 0.9, 0.9, 0.9 };
-        double[] wcoeff = new double[6] { 0.4, 0.4, 0.4, 0.4, 0.4, 0.4 };
-        double[] ccoeff = new double[6] { 0.6, 0.6, 0.6, 0.6, 0.6, 0.6 };
-        double[] fcoeff = new double[6] { 0.5, 0.5, 0.5, 0.5, 0.5, 0.5 };
-        robot.FrictionCompensationOnOff(1);
-        rtn = robot.SetFrictionValue_level(lcoeff);
-        Console.WriteLine($"SetFrictionValue_level  rtn  {rtn}");
-        rtn = robot.SetFrictionValue_wall(wcoeff);
-        Console.WriteLine($"SetFrictionValue_wall  rtn  {rtn}");
-        rtn = robot.SetFrictionValue_ceiling(ccoeff);
-        Console.WriteLine($"SetFrictionValue_ceiling  rtn  {rtn}");
-        rtn = robot.SetFrictionValue_freedom(fcoeff);
-        Console.WriteLine($"SetFrictionValue_freedom  rtn  {rtn}");
-    }
-
 自定义碰撞检测阈值功能开始
 ++++++++++++++++++++++++++++++++
 .. code-block:: c#
@@ -200,38 +60,182 @@
     */
     int CustomCollisionDetectionEnd()
 
-代码示例
-++++++++++++++
+机器人碰撞等级设置代码示例
+++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    private void button24_Click(object sender, EventArgs e)
+    {
+        int mode = 0;
+        int config = 1;
+        double[] level1 = { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f };
+        double[] level2 = { 50.0f, 20.0f, 30.0f, 40.0f, 50.0f, 60.0f };
+
+        int rtn = robot.SetAnticollision(mode, level1, config);
+        Console.WriteLine($"SetAnticollision mode 0 rtn is {rtn}");
+        mode = 1;
+        rtn = robot.SetAnticollision(mode, level2, config);
+        Console.WriteLine($"SetAnticollision mode 1 rtn is {rtn}");
+
+        JointPos p1Joint = new JointPos(-11.904f, -99.669f, 117.473f, -108.616f, -91.726f, 74.256f);
+        JointPos p2Joint = new JointPos(-45.615f, -106.172f, 124.296f, -107.151f, -91.282f, 74.255f);
+
+        DescPose p1Desc = new DescPose(-419.524f, -13.000f, 351.569f, -178.118f, 0.314f, 3.833f);
+        DescPose p2Desc = new DescPose(-321.222f, 185.189f, 335.520f, -179.030f, -1.284f, -29.869f);
+
+        ExaxisPos exaxisPos = new ExaxisPos(0.0f, 0.0f, 0.0f, 0.0f);
+        DescPose offdese = new DescPose(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+        robot.MoveL( p2Joint,  p2Desc, 0, 0, 100, 100, 100, 2,  exaxisPos, 0, 0,  offdese);
+        robot.ResetAllError();
+        int[] safety = { 5, 5, 5, 5, 5, 5 };
+        rtn = robot.SetCollisionStrategy(3, 1000, 150, 250, safety);
+        Console.WriteLine($"SetCollisionStrategy rtn is {rtn}");
+
+        double[] jointDetectionThreshould = { 0.1, 0.1, 0.1, 0.1, 0.1, 0.1 };
+        double[] tcpDetectionThreshould = { 60, 60, 60, 60, 60, 60 };
+        rtn = robot.CustomCollisionDetectionStart(3, jointDetectionThreshould, tcpDetectionThreshould, 0);
+        Console.WriteLine($"CustomCollisionDetectionStart rtn is {rtn}");
+
+        robot.MoveL( p1Joint,  p1Desc, 0, 0, 100, 100, 100, -1,  exaxisPos, 0, 0,  offdese);
+        robot.MoveL( p2Joint,  p2Desc, 0, 0, 100, 100, 100, -1,  exaxisPos, 0, 0,  offdese);
+        rtn = robot.CustomCollisionDetectionEnd();
+        Console.WriteLine($"CustomCollisionDetectionEnd rtn is {rtn}");
+    }
+
+设置正限位
+++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  设置正限位
+    * @param  [in] limit 六个关节位置，单位deg
+    * @return  错误码
+    */
+    int SetLimitPositive(double[] limit); 
+
+设置负限位
+++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  设置负限位
+    * @param  [in] limit 六个关节位置，单位deg
+    * @return  错误码
+    */
+    int SetLimitNegative(double[] limit); 
+
+获取关节软限位角度
+++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  获取关节软限位角度
+    * @param  [in] flag 0-阻塞，1-非阻塞	 
+    * @param  [out] negative  负限位角度，单位deg
+    * @param  [out] positive  正限位角度，单位deg
+    * @return  错误码
+    */
+    int GetJointSoftLimitDeg(byte flag, ref double[] negative, ref double[] positive);
+
+机器人限位设置代码示例
+++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
     private void btnRobotSafetySet_Click(object sender, EventArgs e)
     {
-        while (true)
-        {
-            int[] safety = { 5, 5, 5, 5, 5, 5 };
-            robot.SetCollisionStrategy(3, 1000, 150, 250, safety);
+        double[] plimit = { 170.0f, 80.0f, 150.0f, 80.0f, 170.0f, 160.0f };
+        robot.SetLimitPositive(plimit);
+        double[] nlimit = { -170.0f, -260.0f, -150.0f, -260.0f, -170.0f, -160.0f };
+        robot.SetLimitNegative(nlimit);
 
-            double[] jointDetectionThreshold = { 0.3, 0.3, 0.3, 0.3, 0.3, 0.3 };
-            double[] tcpDetectionThreshold = { 80, 80, 80, 80, 80, 80 };
-            int rtn = robot.CustomCollisionDetectionStart(3, jointDetectionThreshold, tcpDetectionThreshold, 0);
-            Console.WriteLine($"CustomCollisionDetectionStart rtn is {rtn}");
-
-            DescPose p1Desc = new DescPose(228.879, -503.594, 453.984, -175.580, 8.293, 171.267);
-            JointPos p1Joint = new JointPos(102.700, -85.333, 90.518, -102.365, -83.932, 22.134);
-
-            DescPose p2Desc = new DescPose(-333.302, -435.580, 449.866, -174.997, 2.017, 109.815);
-            JointPos p2Joint = new JointPos(41.862, -85.333, 90.526, -100.587, -90.014, 22.135);
-
-            ExaxisPos exaxisPos = new ExaxisPos(0.0, 0.0, 0.0, 0.0);
-            DescPose offdese = new DescPose(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-
-            // 假设MoveL方法签名如下：
-            robot.MoveL(p1Joint, p1Desc, 0, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese);
-            robot.MoveL(p2Joint, p2Desc, 0, 0, 100, 100, 100, -1, exaxisPos, 0, 0, offdese);
-
-            rtn = robot.CustomCollisionDetectionEnd();
-            Console.WriteLine($"CustomCollisionDetectionEnd rtn is {rtn}");
-        }
+        double[] neg_deg = new double[6] {0,0,0,0,0,0 };
+        double[] pos_deg = new double[6] { 0, 0, 0, 0, 0, 0 };
+        robot.GetJointSoftLimitDeg(0, ref neg_deg,ref pos_deg);
+        Console.WriteLine($"neg limit deg:{neg_deg[0]},{neg_deg[1]},{neg_deg[2]},{neg_deg[3]},{neg_deg[4]},{neg_deg[5]}");
+        Console.WriteLine($"pos limit deg:{pos_deg[0]},{pos_deg[1]},{pos_deg[2]},{pos_deg[3]},{pos_deg[4]},{pos_deg[5]}");
     }
 
+设置机器人碰撞检测方法
+++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 设置机器人碰撞检测方法
+    * @param  [in] method 碰撞检测方法：0-电流模式；1-双编码器；2-电流和双编码器同时开启
+    * @param [in] thresholdMode 碰撞等级阈值方式；0-碰撞等级固定阈值方式；1-自定义碰撞检测阈值
+    * @return  错误码
+    */
+    int SetCollisionDetectionMethod(int method,int thresholdMode=0);
+
+
+设置静态下碰撞检测开始关闭
+++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 设置静态下碰撞检测开始关闭
+    * @param  [in] status 0-关闭；1-开启
+    * @return  错误码
+    */
+    int SetStaticCollisionOnOff(int status);
+
+设置机器人碰撞检测方法代码示例
+++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    private void button26_Click(object sender, EventArgs e)
+    {
+        int rtn = robot.SetCollisionDetectionMethod(0, 0);
+
+        rtn = robot.SetStaticCollisionOnOff(1);
+        Console.WriteLine($"SetStaticCollisionOnOff On rtn is {rtn}");
+        Thread.Sleep(5000);
+        rtn = robot.SetStaticCollisionOnOff(0);
+        Console.WriteLine($"SetStaticCollisionOnOff Off rtn is {rtn}");
+    }
+
+关节扭矩功率检测
+++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 关节扭矩功率检测
+    * @param  [in] status 0-关闭；1-开启
+    * @param  [in] power 设定最大功率(W)
+    * @return  错误码
+    */
+    int SetPowerLimit(int status, double power);
+
+关节扭矩功率检测代码示例
+++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    private void button26_Click(object sender, EventArgs e)
+    {
+        robot.DragTeachSwitch(1);
+        robot.SetPowerLimit(1, 200);
+        double[] torques = { 0, 0, 0, 0, 0, 0 };
+        robot.GetJointTorques(1, torques);
+
+        int count = 100;
+        robot.ServoJTStart();
+        int error = 0;
+        while (count > 0)
+        {
+            error = robot.ServoJT(torques, 0.001f);
+            count--;
+            Thread.Sleep(1);
+        }
+        error = robot.ServoJTEnd();
+        robot.DragTeachSwitch(0);
+    }
