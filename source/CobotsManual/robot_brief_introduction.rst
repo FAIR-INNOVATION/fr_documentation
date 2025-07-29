@@ -48,19 +48,19 @@
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 2.2-2 FR3WML型号协作机器人运动范围
+.. centered:: 图表 2.2-2 FR3-WML型号协作机器人运动范围
 
 .. figure:: installation/104.png
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 2.2-3 FR3WMS型号协作机器人运动范围
+.. centered:: 图表 2.2-3 FR3-WMS型号协作机器人运动范围
 
 .. figure:: installation/105.png
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 2.2-4 FR3C型号协作机器人运动范围
+.. centered:: 图表 2.2-4 FR3-C型号协作机器人运动范围
 
 .. figure:: installation/019.png
 	:align: center
@@ -191,7 +191,7 @@ FR系列协作机器人DH参数展示如下：
      - 0.261
      - [-0.05, -1.11, -20.05]
 
-.. centered:: 表格 2.4-2 FR3WMS 协作机器人DH参数表
+.. centered:: 表格 2.4-2 FR3-WMS 协作机器人DH参数表
 
 .. list-table::
    :widths: 70 50 50 50 50 70 50 120
@@ -262,7 +262,7 @@ FR系列协作机器人DH参数展示如下：
      - 0.28
      - [1.81，1.33，-20.41]
 
-.. centered:: 表格 2.4-3 FR3WMSL 协作机器人DH参数表
+.. centered:: 表格 2.4-3 FR3-WMSL 协作机器人DH参数表
 
 .. list-table::
    :widths: 70 50 50 50 50 70 50 120
@@ -333,7 +333,7 @@ FR系列协作机器人DH参数展示如下：
      - 0.28
      - [1.9，1.6，-20.08]
 
-.. centered:: 表格 2.4-4 FR3C 协作机器人DH参数表
+.. centered:: 表格 2.4-4 FR3-C 协作机器人DH参数表
 
 .. list-table::
    :widths: 70 50 50 50 50 70 50 120
