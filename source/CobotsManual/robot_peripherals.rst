@@ -5905,3 +5905,661 @@ CNC功能包支持在示教程序中调用控制指令，并实时获取机床�
      - 立三角摆动三角尖点等待时间
      - float
      - 0-99999(ms)
+
+协作机器人阵列式吸盘应用
+-------------------------------------------------------------
+
+概述
+~~~~~~~~~~~~~~~~~~~~~~
+在机器人末端安装阵列式吸盘可帮助机器人快速部署不同场景的物料抓取工作站，可针对不同尺寸、形状的物料自定义吸盘数量和布局，提高工作效率和稳定性。
+
+协作机器人支持最多20个吸盘组成的吸盘阵列，可以单独控制其中某个吸盘的抓取和释放，也可以控制当前连接的整个阵列所有吸盘同步动作。每个吸盘从站号支持1~20配置，配置基于DynamicLAB软件进行。 
+
+硬件描述
++++++++++++++++++++++++++++++++++++++++++++
+
+协作机器人通过以太网转485模块与吸盘阵列进行通讯控制，在WebApp上生成阵列式吸盘通讯协议，协议将控制数据通过TCPIP发送至以太网转485模块，模块再将收到的控制数据通过485发送至各个吸盘，从而实现对阵列式吸盘的控制（上述控制数据格式为ModbusRTU协议格式）。
+
+其中以太网转485模块为以太网通讯的服务端、485通讯的主站，阵列中的每个吸盘均为485通讯从站，且每个吸盘应配置不同的从站号。
+
+.. figure:: robot_peripherals/272.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.21-1 协作机器人吸盘阵列夹爪应用
+
+以太网转485模块通常有两个TCPServer端口对应多个485从站端口，以CH9121为例，其TCPServer端口1对应485从站端口1-10，TCPServer端口2对应485从站端口11-20。机器人与以太网转485模块建立两个TCP通信，最终分别控制20个吸盘。
+
+上述以太网转485模块需进行如下配置：
+
+- ①以太网端配置为TCPServer，IP地址为：192.168.58.10，端口1的端口号为50001，端口2的端口号为50002；
+- ②485端配置波特率为115200，数据位8，停止位1，无校验。以太网转485模块通常会配备一个调试软件，可以在调试软件中进行上述配置，下图是CH9121型号以太网转485模块的配置工具页面：
+
+.. figure:: robot_peripherals/273.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.21-2 以太网转485模块调试工具
+
+功能配置
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+打开WebApp，依次点击“初始设置”->“外设”->“阵列式吸盘”；阵列式吸盘的控制模式有单播模式和广播模式两种：
+
+**单播模式**：通讯协议中包含对每个吸盘的通讯控制内容，可实现对阵列中的每个吸盘独立控制。
+
+**广播模式**：对阵列中的所有吸盘生成通讯协议，可同步控制阵列中所有吸盘的抓取和释放，但不能单独控制其中的某一个吸盘。
+
+工作中可根据实际场景可仅配置单播模式，也可两种模式同时配置(既可以单独控制某个吸盘，也可以同步控制所有吸盘)。
+
+.. figure:: robot_peripherals/274.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.21-3 阵列吸盘控制模式
+
+单播模式配置
+++++++++++++++++++++++++++++++++++
+
+打开WebApp，依次点击“初始设置”->“外设”->“阵列式吸盘”->“单播模式”。单播模式协议配置方式有“自动配置”和“手动配置”两种：
+
+.. figure:: robot_peripherals/275.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.21-4 单播配置模式
+
+**自动配置**：将已存在的协议文件直接上传至机器人控制器，已存在的协议文件可能来自：①其它已配置和调试完成阵列式吸盘的机器人中下载得到；②技术人员根据实际场景编写得到（用户编写协议文件可以实现更灵活、更高效的吸盘控制）。若多台设备使用相同的阵列式吸盘，通过自动配置直接上传协议的方式可以提高部署速度。
+
+**手动配置**：根据阵列中吸盘的从站ID和真空度情况配置每个吸盘的通讯协议。手动配置操作步骤如下：
+
+选择从站号为1，输入最大真空度、最小真空度、抓取超时时间(超时时间暂未开放)，点击“配置”按钮。此时在“设备操作及状态”栏中出现协议编号为1的吸盘协议，同时在“手动配置”、“从站号”标签上会显示当前已经配置的所有从站号。
+
+.. figure:: robot_peripherals/276.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.21-5 配置单播吸盘
+
+重复上述步骤，可根据需要配置多个从站号的吸盘，每配置一个吸盘，机器人系统都会自动更新“协议编号：1”对应的吸盘通讯协议内容，最多支持配置20个吸盘。所有吸盘都配置完成后，在“协议编号1”框中点击“连接”按钮，机器人与吸盘的通讯开始运行，“运行状态”指示灯亮起(注意：请先配置完成所有的从站号吸盘，再点击“连接”按钮，通讯建立后再配置吸盘从站无效)。
+
+机器人与吸盘的通讯建立成功后，在“设备操作及状态”栏中出现所有配置的吸盘从站操作框列表；在每个从站号对应吸盘的操作框页面中可以进行吸盘的控制和状态监控（包括“吸取状态”、“当前真空度”、“吸盘压力”等），下图中配置的吸盘从站ID分别为2和11。
+
+.. figure:: robot_peripherals/277.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.21-6 单播吸盘连接
+
+在从站号1吸盘的控制框右上角点击“吸取”按钮，吸盘即执行“设定真空度吸取”动作。此时“吸取”按钮变成“释放”按钮，再次点击该按钮，吸盘即执行释放动作。吸盘执行上述动作时，对应的“吸取状态”、“当前真空度”等状态项将实时显示吸盘的状态。
+
+.. note:: 注意：配置吸盘协议并连接完成后，需要点击一次“吸取”按钮激活该吸盘，同时也可以测试机器人与吸盘间的通讯是否正常。
+  
+若机器人与吸盘连接失败，则不会显示吸盘控制框，且“协议编号：1”中的运行状态指示灯熄灭。
+
+.. note:: 注意：若使用过程中吸盘与以太网转485模块通讯物理连接断开再重新连接，可能出现协议无法建立连接的情况，此时可以拔插以太网转485模块的网线，再重新尝试连接。
+
+.. figure:: robot_peripherals/278.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.21-7 机器人与吸盘连接失败
+
+单播模式协议下载
+++++++++++++++++++++++++++++++++++++++++++
+
+在“手动配置”中点击“下载”按钮，即可将吸盘协议下载到本地计算机。吸盘协议为一个循环执行的LUA程序，程序在每个循环执行如下步骤：
+
+- ①从机器人中读取吸盘控制数据；
+- ②通过socket将控制数据写入到吸盘；
+- ③通过socket从吸盘读取状态数据；
+- ④向机器人中反馈吸盘状态数据；
+
+吸盘通讯协议循环执行实现机器人与吸盘的通讯控制。在通讯协议中用户可自定义循环周期、控制数据寄存器地址和状态数据寄存器地址，可根据实际情况对该协议内容进行修改。以下为一个吸盘通讯协议代码示例：
+
+吸盘协议程序示例：
+
+.. code-block:: console
+    :linenos:
+
+    local id = 1 
+    local ctrlValues = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} 
+    local realTimeState = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+    local suckerConfig = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+    clearSuckerState() 
+    socket1 = TCPClientConnect('192.168.58.10', 50001, 500, 10, 2, 3)
+    socket2 = TCPClientConnect('192.168.58.10', 50002, 500, 10, 2, 3)
+    suckerConfig[1] = 30
+    suckerConfig[2] = 20
+    suckerConfig[3] = 100
+    ModbusRTUOverTCPWriteMultiReg(socket1, 0, 0x0501, 3, suckerConfig)
+    ModbusRTUOverTCPWriteMultiReg(socket2, 0, 0x0501, 3, suckerConfig)
+    sleep_ms(10) 
+    while(1) do
+      setAllCtrl,ctrlValues[1],ctrlValues[2],ctrlValues[3],ctrlValues[4],ctrlValues[5],ctrlValues[6],ctrlValues[7],ctrlValues[8],ctrlValues[9], ctrlValues[10], ctrlValues[11], ctrlValues[12],ctrlValues[13],ctrlValues[14],ctrlValues[15],ctrlValues[16],ctrlValues[17],ctrlValues[18],ctrlValues[19], ctrlValues[20] = getSuckerCtrlState()
+      if(setAllCtrl ~= 0) then 
+        ModbusRTUOverTCPWriteSingleReg(socket1, 0, 0x0500, setAllCtrl) 
+        ModbusRTUOverTCPWriteSingleReg(socket2, 0, 0x0500, setAllCtrl) 
+        ctrlValues = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} 
+        sleep_ms(1) 
+      else 
+        ModbusRTUOverTCPWriteSingleReg(socket1, 2, 0x0500, ctrlValues[2]) 
+        ModbusRTUOverTCPWriteSingleReg(socket2, 11, 0x0500, ctrlValues[11])
+      end 
+      suckerState, pressValue, error, default1, default2 = ModbusRTUOverTCPReadReg(socket1, 2, 0x0600, 3) 
+      realTimeState[1] = suckerState
+      realTimeState[2] = pressValue 
+      realTimeState[3] = error 
+      ctrlState, maxPress, minPress, time, default2 = ModbusRTUOverTCPReadReg(socket1, 2, 0x0500, 4) 
+      realTimeState[4] = ctrlState 
+      realTimeState[5] = maxPress 
+      realTimeState[6] = minPress 
+      realTimeState[7] = time 
+      setSuckerRealtimeState(2, realTimeState) 
+      suckerState, pressValue, error, default1, default2 = ModbusRTUOverTCPReadReg(socket2, 11, 0x0600, 3) 
+      realTimeState[1] = suckerState
+      realTimeState[2] = pressValue 
+      realTimeState[3] = error 
+      ctrlState, maxPress, minPress, time, default2 = ModbusRTUOverTCPReadReg(socket2, 11, 0x0500, 4) 
+      realTimeState[4] = ctrlState 
+      realTimeState[5] = maxPress 
+      realTimeState[6] = minPress 
+      realTimeState[7] = time 
+      setSuckerRealtimeState(11, realTimeState) 
+      local stopFlag = GetOpenLUAStopFlag(id) 
+      if(stopFlag ~= 0) then 
+        TCPClientDisconnect(socket1) 
+        TCPClientDisconnect(socket2) 
+        clearSuckerState() 
+        break 
+      end 
+      sleep_ms(100) 
+    end 
+
+上述协议通过getSuckerCtrlState()指令获取吸盘控制数据，并通过ModbusRTUOverTCPWriteSingleReg()指令将控制数据通过通信写入到吸盘中，通过ModbusRTUOverTCPReadReg()指令读取吸盘的状态数据，再通过setSuckerRealtimeState()将吸盘状态数据反馈至机器人中。上述几个指令的详细定义如下：
+
+.. centered:: 表格 8.21-1 getSuckerCtrlState()返回值
+
+.. list-table:: 
+   :widths: 10 10 20 40
+   :header-rows: 0
+   :align: center
+   :class: sheet-center
+
+   * - **序号**
+     - **类型**
+     - **变量名**
+     - **描述**
+
+   * - 1
+     - int
+     - setAllCtrl
+     - 广播模式控制数据：1-按最大真空度吸取；2-按设置真空度吸取，即吸盘真空度保持在最大真空度和最小真空度之间；3-停止吸取
+
+   * - 2 ~ 21
+     - int
+     - ctrlValues[i]
+     - 从站号1 ~ 20对应的吸盘控制数据：1-按最大真空度吸取；2-按设置真空度吸取，即吸盘真空度保持在最大真空度和最小真空度之间；3-停止吸取
+
+.. centered:: 表格 8.21-2 ModbusRTUOverTCPWriteSingleReg()详细参数
+
+.. list-table:: 
+   :widths: 10 10 20 40
+   :header-rows: 0
+   :align: center
+   :class: sheet-center
+
+   * - **序号**
+     - **类型**
+     - **变量名**
+     - **描述**
+
+   * - 1
+     - int
+     - socket
+     - socket句柄
+
+   * - 2
+     - int
+     - slaveID
+     - 从站号 0-20；0-广播；1~20-从站号
+
+   * - 3
+     - uint16_t
+     - regAddr
+     - 写入寄存器地址
+
+   * - 4
+     - uint16_t
+     - data
+     - 要写入的数据
+
+.. centered:: 表格 8.21-3 ModbusRTUOverTCPWriteMultiReg()详细参数
+
+.. list-table:: 
+   :widths: 10 10 20 40
+   :header-rows: 0
+   :align: center
+   :class: sheet-center
+
+   * - **序号**
+     - **类型**
+     - **变量名**
+     - **描述**
+
+   * - 1
+     - int
+     - socket
+     - socket句柄
+
+   * - 2
+     - int
+     - slaveID
+     - 从站号 0-20；0-广播；1~20-从站号
+
+   * - 3
+     - uint16_t
+     - regStartAddr
+     - 写入多个寄存器起始地址
+
+   * - 4
+     - int
+     - num
+     - 写入寄存器数量
+
+   * - 5
+     - uint16_t[]
+     - data
+     - 要写入的数据内容数组
+
+.. centered:: 表格 8.21-4 ModbusRTUOverTCPReadReg()详细参数
+
+.. list-table:: 
+   :widths: 10 10 20 40
+   :header-rows: 0
+   :align: center
+   :class: sheet-center
+
+   * - **序号**
+     - **类型**
+     - **变量名**
+     - **描述**
+
+   * - 1
+     - int
+     - socket
+     - socket句柄
+
+   * - 2
+     - int
+     - slaveID
+     - 从站号 0-20；0-广播；1~20-从站号
+
+   * - 3
+     - uint16_t
+     - regStartAddr
+     - 读多个寄存器起始地址
+
+   * - 4
+     - int
+     - num
+     - 读取寄存器数量
+
+.. centered:: 表格 8.21-5 ModbusRTUOverTCPReadReg()返回值
+
+.. list-table:: 
+   :widths: 10 10 20 40
+   :header-rows: 0
+   :align: center
+   :class: sheet-center
+
+   * - **序号**
+     - **类型**
+     - **变量名**
+     - **描述**
+
+   * - 1
+     - int
+     - suckState
+     - 吸盘当前状态：0-释放物体或吸盘启动成功；1-检测到工件，吸附到物体；2-没有吸附到物体；3-物体脱离
+
+   * - 2
+     - float
+     - pressValue
+     - 当前真空度/压力
+
+   * - 3
+     - int
+     - err
+     - 错误码：0-正常；其它：异常
+
+.. centered:: 表格 8.21-6 setSuckerRealtimeState()详细参数
+
+.. list-table:: 
+   :widths: 10 10 20 40
+   :header-rows: 0
+   :align: center
+   :class: sheet-center
+
+   * - **序号**
+     - **类型**
+     - **变量名**
+     - **描述**
+
+   * - 1
+     - int
+     - slaveID
+     - 从站ID
+
+   * - 2
+     - int[]
+     - states
+     - states[1]：当前状态0-释放物体或吸盘启动成功；1-检测到工件，吸附到物体；2-没有吸附到物体；3-物体脱离。
+        states[2]：当前真空度/压力；
+        states[3]：等待寄存器值；
+        states[4]：控制状态；
+        states[5]：最大真空度；
+        states[6]：最小真空度；
+        state[7]：超时时间；
+        states[8~10]：预留。
+
+广播模式
+++++++++++++++++++++++++++++++++++
+
+协作机器人通过广播模式可以同时控制连接的所有吸盘动作。
+
+.. note:: 注意：需要先配置完成单播模式，才能配置广播模式
+
+打开WebApp，依次点击“初始设置”->“外设”->“阵列式吸盘”，先在单播模式配置完成所有需要的吸盘从站(仅配置，不进行通信协议连接建立)。
+
+点击“广播模式”，在“参数配置”中输入吸盘的“最大真空度”、“最小真空度”、“抓取超时时间”(超时时间暂未开放)，点击“配置”按钮，此时在“设备操作及状态”框中出现广播模式通讯协议。在广播模式下，设置真空度参数对连接的每个吸盘均生效。
+
+.. figure:: robot_peripherals/279.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.21-8 广播模式参数配置
+
+在“协议编号1”操作框中点击“连接”按钮，“运行状态”指示灯亮起，表示机器人与阵列式吸盘已经建立通讯连接，连接成功后，所有连接的吸盘操作框列表显示在“设备操作及状态”栏中。
+
+在“参数配置”->“一键吸取”中点击“开始”，阵列式吸盘中的每个吸盘即按照“设定真空度吸取”动作，点击“停止”，阵列式吸盘中的每个吸盘即停止吸取动作。
+
+.. figure:: robot_peripherals/280.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.21-9 广播模式通信建立
+
+广播模式下载协议文件与单播模式操作一致，两处下载的协议文件均可以通过单播模式页面中的“自动配置”处上传至机器人中。
+
+阵列式吸盘LUA程序应用
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+在机器人LUA程序中增加阵列吸盘控制、状态获取等指令，配合机器人运动指令，可以灵活、便捷的实现物料抓取搬运应用。
+
+打开WebApp，依次点击“示教程序”->“程序编程”，新建LUA程序“testSucker.lua”。
+
+.. figure:: robot_peripherals/281.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.21-10 新建“testSucker.lua”程序
+
+选择指令类型为“外设指令”，在外设指令中点击“吸盘”按钮。此时在WebApp右侧出现“Sucker”阵列式吸盘指令添加页面。
+
+.. figure:: robot_peripherals/282.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.21-11 阵列式吸盘指令添加
+
+吸盘控制指令添加
++++++++++++++++++++++++++++++++++++++++++++
+
+在LUA程序中编写吸盘控制指令可以对吸盘进行吸取控制和释放控制。单播模式和广播模式的控制有不同的逻辑效果。
+
+单播模式控制指令添加
+***********************************************************
+
+单播模式控制可以根据从站起始地址和数量进行单个或多个吸盘控制，可为每个吸盘设置不同的控制状态。
+
+在吸盘指令添加页面中点击“吸盘控制指令”，选择控制模式为“单播模式”，输入从站号为1，写入数量为2，吸取状态为“1,2”。点击“添加”按钮，即在“程序预览”中添加一条单播模式的吸盘控制指令。
+
+.. figure:: robot_peripherals/283.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.21-12 添加吸盘控制指令
+
+吸盘控制指令中的各参数含义如下：
+
+- **从站号**：单播模式控制吸盘起始从站号。
+- **写入数量**：单播模式控制从起始从站号开始要控制的吸盘数量。
+- **吸取状态**：单播模式从起始从站号开始，每个吸盘的控制状态标志（1-按最大真空度吸取；2-按设置真空度吸取，即吸盘真空度保持在最大真空度和最小真空度之间；3-停止吸取）；其中每个吸盘的控制状态标志通过“,”分割，且控制标志个数与要控制的吸盘个数要一致；若要控制两个吸盘，其控制操作分别按“最大真空度吸取”和“设置真空度吸取”，则该项输入内容为“1,2”。
+
+点击“应用”按钮，此时“testSucker.lua”程序中即添加一条吸盘控制指令，将机器人切换至自动模式，执行该LUA程序，机器人将控制从站号分别为1和2的两个吸盘分别按最大真空度和设定真空度进行吸取动作。
+
+.. figure:: robot_peripherals/284.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.21-13 LUA程序中添加吸盘指令
+
+广播模式控制指令添加
+***********************************************************
+
+广播模式控制指令设置的吸取状态对当前连接的所有吸盘生效。
+
+点击“吸盘控制指令”，选择控制模式为“广播模式”，输入吸取状态为1（按最大真空度吸取）。点击“添加”按钮。
+
+.. figure:: robot_peripherals/285.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.21-14 添加一条广播控制指令
+
+点击“应用”按钮，此时“testSucker.lua”中即添加一条广播模式吸盘控制指令。将机器人切换到自动模式，执行该程序，则连接的所有吸盘均开始按最大真空度吸取动作。
+
+.. figure:: robot_peripherals/286.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.21-15 在LUA程序中添加一条广播控制指令
+
+吸盘状态获取指令添加
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+点击“获取吸盘状态”，选择要获取状态吸盘的从站号，依次点击“添加”、“应用”按钮。即在“testSucker.lua”中添加一条获取吸盘状态的指令“GetSuckerState(1)”。
+
+.. figure:: robot_peripherals/287.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.21-16 添加获取吸盘状态指令
+
+GetSuckerState()指令返回3个数值，分别如下：
+
+- **state**：吸盘当前状态：0-释放物体或吸盘启动成功；1-检测到工件，吸附到物体；2-没有吸附到物体；3-物体脱离。
+- **pressValue**：当前真空度/压力；
+- **err**：错误码：0-正常；其它：异常。
+
+在“testSucker.lua”中用三个变量接收GetSuckerState()函数的返回值。并通过Lua变量查询将上述信息显示在WebApp变量查询显示区中。
+
+.. figure:: robot_peripherals/288.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.21-17 获取吸盘状态程序
+
+等待吸盘吸附状态指令添加
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+阵列式吸盘实际场景应用中常需要等待吸盘吸取(释放)完成后再执行下一动作。协作机器人提供等待吸盘动作完成指令，当吸盘达到设定状态时指令执行结束，否则在设定超时时间内一直阻塞等待吸盘动作完成。
+
+在阵列式吸盘指令添加页面中点击“等待吸盘吸附状态”，选择吸盘对应的从站号1，选择控制模式为“检测到工件，吸附到物体”，输入超时时间为10000ms。点击“添加”按钮。
+
+.. figure:: robot_peripherals/289.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.21-18 等待吸盘状态指令添加
+
+点击“应用”按钮，“testSucker.lua”中即添加一条等待吸盘吸取到物体的指令。
+
+.. figure:: robot_peripherals/290.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.21-19 LUA程序中添加等待吸盘吸取到物体
+
+应用示例
+++++++++++++++++++++++++++++++++++
+
+吸盘搬运控制LUA程序示例：
+
+.. code-block:: console
+  :linenos:
+
+  while (1) do 
+  ::satety_suck::
+  PTP(sucker_safey,100,-1,0)
+  PTP(sucker_suck,100,-1,0)
+  SetSuckerCtrl(2, 1, {2})
+  SetSuckerCtrl(11, 1, {2})
+  loop1 = 0 
+  while (loop1 < 10) do 
+      state, press, errorcode = GetSuckerState(2)
+      RegisterVar("number","state")
+      RegisterVar("number","press")
+      RegisterVar("number","errorcode")
+      state11, press11, errorcode11 = GetSuckerState(11)
+      RegisterVar("number","state11")
+      RegisterVar("number","press11")
+      RegisterVar("number","errorcode11")
+      loop1 = loop1 + 1
+      WaitMs(50)
+  end
+  
+  if(state11 == 1) then
+      PTP(sucker_safey,100,-1,0)
+      PTP(sucker_release,100,-1,0)
+      WaitMs(1000)
+      SetSuckerCtrl(2, 1, {3})
+      SetSuckerCtrl(11, 1, {3})
+      WaitMs(500)
+  else
+      PTP(sucker_safey,100,-1,0)
+      SetSuckerCtrl(2, 1, {3})
+      SetSuckerCtrl(11, 1, {3})
+      WaitMs(2000)
+      goto satety_suck
+  end
+  ::satety_release::
+  PTP(sucker_safey,100,-1,0)
+  PTP(sucker_release,100,-1,0)
+  SetSuckerCtrl(2, 1, {2})
+  SetSuckerCtrl(11, 1, {2})
+  loop1 = 0 
+  while (loop1 < 10) do 
+      state, press, errorcode = GetSuckerState(2)
+      RegisterVar("number","state")
+      RegisterVar("number","press")
+      RegisterVar("number","errorcode")
+      state11, press11, errorcode11 = GetSuckerState(11)
+      RegisterVar("number","state11")
+      RegisterVar("number","press11")
+      RegisterVar("number","errorcode11")
+      loop1 = loop1 + 1
+      WaitMs(50)
+  end
+  
+  if(state11 == 1) then
+      PTP(sucker_safey,100,-1,0)
+      PTP(sucker_suck,100,-1,0)
+      WaitMs(1000)
+      SetSuckerCtrl(2, 1, {3})
+      SetSuckerCtrl(11, 1, {3})
+      WaitMs(500)
+  else
+      PTP(sucker_safey,100,-1,0)
+      SetSuckerCtrl(2, 1, {3})
+      SetSuckerCtrl(11, 1, {3})
+      WaitMs(2000)
+      goto satety_release
+  end
+  end 
+  
+激光寻位点位置获取功能
+-----------------------------------------------------------
+
+机器人激光寻位点位置获取系统构成
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. figure:: robot_peripherals/291.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.22‑1 机器人激光寻位点位置获取系统构成拓扑图
+.. centered:: 系统中，（a）为计算机，（b）为机器人及其控制箱，（c）为激光传感器。
+
+激光传感器通信配置
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+打开WebApp，依次点击“初始设置”->“外设”->“跟踪”->“传感器”，对传感器通信进行配置。
+
+.. figure:: robot_peripherals/292.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.22‑2 传感器通信配置
+
+激光寻位点位置获取功能
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+获取激光寻位点位置的操作流程如下：
+
+**Step 1**:激光寻位之前首先指定寻位开始点“seamStartPt1”、“seamStartPt2”，然后点击“示教程序”、“程序编程”，选择“点到点”，让激光传感器的光线靠近焊缝1起点附近的寻位开始点1 “seamStartPt1”。
+
+.. figure:: robot_peripherals/293.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.22‑3 添加移动到寻位开始点1指令
+
+**Step 2**:在指令类型中点击“寻位开始”后，选择标定的传感器坐标系，设置寻位方向、速度、长度以及最大寻位时间，点击“添加”按钮。然后点击“寻位结束”，点击“添加”按钮。
+
+.. figure:: robot_peripherals/294.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.22‑4 添加寻位开始指令
+
+**Step 3**:选择“传感器取点运动”，坐标系名称选择标定的“激光传感器”，运动方式选择“PTP”或者“LIN”，设置调试速度以及选择“是否配置位姿”，点击“添加”按钮，点击“应用”按钮添加至LUA程序。
+
+.. figure:: robot_peripherals/295.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.22‑5 添加传感器取点运动指令
+
+**Step 4**:在“程序编程”界面点击“切换模式”按钮，将变量“pos”改为“pos1”，并删除移动到寻位点指令。
+
+.. figure:: robot_peripherals/296.png
+   :align: center
+   :width: 4in
+
+.. centered:: 图表 8.22‑6 程序编程切换模式
+
+.. figure:: robot_peripherals/297.png
+   :align: center
+   :width: 4in
+
+.. centered:: 图表 8.22‑7 修改获取激光寻位点程序
+
+**Step 5**:按照步骤Step1-Step4，进行第二条焊缝的寻位，获取激光寻位点位置。
+
+.. figure:: robot_peripherals/298.png
+   :align: center
+   :width: 4in
+
+.. centered:: 图表 8.22‑8 第二条焊缝寻位点获取

@@ -7,15 +7,37 @@
 概述
 -------------------
 
-为了便于PLC通过不同的工业总线协议（CC-Link、Profinet、Ethernet/IP和EtherCAT）对机器人进行运动控制，在集成式mini控制箱上增加赫优讯板卡模块，实现功能如下：
-
-1) CC-Link slave 协议支持；
-2) Profinet slave 协议支持；
-3) Ethernet/IP slave 协议支持；
-4) EtherCAT slave 协议支持（EnTalk板卡不支持）；
+为了便于PLC通过不同的工业总线协议（CC-Link、Profinet、Ethernet/IP和EtherCAT）对机器人进行运动控制，在集成式mini控制箱上增加赫优讯板卡、FRJ-PCIeN-EIP/CC/PN-RJ-V10板卡、FRJ-PCIeN-EC-RJ-V10板卡设备。
 
 环境配置
 --------------------------
+
+板卡型号、软件版本描述如下：
+
+.. list-table:: 
+   :widths: 20 50 30
+   :header-rows: 1
+   :align: center
+
+   * - **协议类型**
+     - **板卡型号**
+     - **机器人软件版本**
+
+   * - CC-link
+     - 赫优讯板卡、FRJ-PCIeN-EIP/CC/PN-RJ-V10板卡
+     - V3.8.0及以上
+
+   * - Profinet
+     - 赫优讯板卡、FRJ-PCIeN-EIP/CC/PN-RJ-V10板卡
+     - V3.8.0及以上
+
+   * - Ethernet/IP
+     - 赫优讯板卡、FRJ-PCIeN-EIP/CC/PN-RJ-V10板卡
+     - V3.8.0及以上
+
+   * - EtherCAT
+     - 赫优讯板卡、FRJ-PCIeN-EC-RJ-V10板卡
+     - V3.8.4.1及以上
 
 赫优讯板卡硬件环境搭建
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -71,7 +93,7 @@
 
 .. important:: 当协议切换为EtherCAT总线时，板卡的网口需要区分为EtherCAT_IN和EtherCAT_OUT，此时，欧姆龙PLC的EtherCAT网口需要与板卡的EtherCAT_IN网口通过一根网线直连。
 
-EnTalk板卡硬件环境搭建
+FRJ-PCIeN板卡硬件环境搭建
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 1. 将板卡安装到集成式mini控制箱，如图所示。
@@ -80,7 +102,7 @@ EnTalk板卡硬件环境搭建
    :width: 4in
    :align: center
 
-.. centered:: 图表 17.2-7 EnTalk板卡网口
+.. centered:: 图表 17.2-7 FRJ-PCIeN板卡网口
 
 2. 机器人控制箱和PLC接线如下图所示。
 
@@ -110,7 +132,7 @@ EnTalk板卡硬件环境搭建
     5：西门子PLC（Profinet网口）；
     6：汇川PLC（Ethernet/IP）；
 
-3. EnTalk板卡进行协议切换时，需进行固件升级。在进行固件升级时，需将连接板卡PC的IP地址修为“192.168.0.xxx”，然后打开“网关工具集”软件->选择需要连接的PC网卡设备->点击右下角“开始”按钮->点击右上角“搜索”按钮，搜索板卡设备。
+3. FRJ-PCIeN板卡进行协议切换时，需进行固件升级。在进行固件升级时，需将连接板卡PC的IP地址修为“192.168.0.xxx”，然后打开“网关工具集”软件->选择需要连接的PC网卡设备->点击右下角“开始”按钮->点击右上角“搜索”按钮，搜索板卡设备。
 
 .. image:: custom_protocol_slave/045.png
    :width: 6in
@@ -235,10 +257,10 @@ PLC环境搭建
      - Sysmac Studio V1.50
   
    * - EtherCAT
-     - 欧姆龙
-     - MX102-1100
-     - V1.3
-     - Sysmac Studio V1.50
+     - 汇川
+     - Easy521-0808TN
+     - /
+     - AutoShop 4.10.2.4
 
 西门子Profinet
 ++++++++++++++++++++++++++++++++++
@@ -339,6 +361,65 @@ CC-Link 刷新设置：同样在CC-Link IEF Basic设置，点击刷新设置，�
 打开下载界面后，点击左上方“参数+程序”，再点击右下角“执行”进行下载，等待下载完成。
 
 .. image:: custom_protocol_slave/026.png
+   :width: 6in
+   :align: center
+
+汇川EtherCAT
+++++++++++++++++++++++++++++++++++
+
+1. XML文件导入
+
+打开汇川编程软件AutoShop，新建PLC工程，右侧工具箱栏选择“EtheCATDevices”：
+
+.. image:: custom_protocol_slave/052.png
+   :width: 6in
+   :align: center
+
+鼠标左键点击“EtheCATDevices”后，右键弹出“导入设备XML”对话框，左键确定，找到放置板卡XML文件的文件夹。
+
+导入成功后“EtherCAT Devices”目录下会出现板卡的名称，这时关闭工程重新打开后完成XML文件导入流程。
+
+.. image:: custom_protocol_slave/053.png
+   :width: 6in
+   :align: center
+
+2. XML文件导入
+
+左侧工具栏双击变量表，新建输入为256字节的数组，软元件地址为D0。新建输出为256字节的数组，软元件地址为D200。
+
+.. image:: custom_protocol_slave/054.png
+   :width: 6in
+   :align: center
+
+左侧工具栏“EtherCAT”下双击“Xone-PCIe-ECATs”，在弹出对话框中单击 “I/O功能映射”，单击方框进行变量地址绑定，在弹出对话框中单击“变量表”，在选择需要对应的输入\输出，单击确定，其他地址按顺序绑定操作同上。
+
+.. image:: custom_protocol_slave/055.png
+   :width: 6in
+   :align: center
+
+3. 程序下载
+
+打开测试程序，将PLC IP地址改为“192.168.0.88”，默认是“192.168.1.88”。
+
+.. image:: custom_protocol_slave/056.png
+   :width: 6in
+   :align: center
+
+点击“修改IP/设备名”进入IP修改设置界面，将IP地址和网关修改为“192.168.0.88”：
+
+.. image:: custom_protocol_slave/057.png
+   :width: 6in
+   :align: center
+
+点击“修改IP”，弹出对话框后点击“是”确认，修改IP地址成功。
+
+.. image:: custom_protocol_slave/058.png
+   :width: 6in
+   :align: center
+
+通讯成功，下载PLC程序。
+
+.. image:: custom_protocol_slave/059.png
    :width: 6in
    :align: center
 
@@ -464,7 +545,7 @@ HMI设置（Profinet仿真）
 
 .. centered:: 图表 17.3-1 板卡通讯手动配置
 
-首先，对Entalk板卡IP地址进行配置，如不填写，则板卡按照默认IP: 192.168.0.100进行启动配置。目前IP配置仅适用于EIP、CC-link协议，PN协议由PLC主站扫描从站设备分配IP。
+首先，对FRJ-PCIeN板卡IP地址进行配置，如不填写，则板卡按照默认IP: 192.168.0.100进行启动配置。目前IP配置仅适用于EIP、CC-link协议，PN协议由PLC主站扫描从站设备分配IP。
 
 .. note:: 页面上更改IP地址后，需要加载从站模式方可生效。
 
