@@ -839,12 +839,11 @@ UDP扩展轴运动
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``ExtAxisMove(pos,ovl,blend)``"
+    "原型", "``ExtAxisMove(pos,ovl,blend=-1)``"
     "描述", "UDP扩展轴运动"
     "必选参数", "- ``pos=[exaxis[0],exaxis[1],exaxis[2],exaxis[3]]``：目标位置 轴1位置~轴4位置;
-    - ``ovl``：速度百分比
-    - ``blend``：平滑参数(mm或ms)，-1,等待运动完成"
-    "默认参数", "无"
+    - ``ovl``：速度百分比"
+    "默认参数", "- ``blend``：平滑参数(mm或ms)，-1,等待运动完成，默认-1"
     "返回值", "错误码 成功-0  失败- errcode"
                                         
 UDP扩展轴运动代码示例
@@ -870,7 +869,7 @@ UDP扩展轴与机器人关节运动同步运动
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``ExtAxisSyncMoveJ(joint_pos,desc_pos,tool,user,exaxis_pos, vel=20.0, acc=0.0, ovl= 100.0,  blendT=-1.0, offset_flag=0, offset_pos=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0])``"
+    "原型", "``ExtAxisSyncMoveJ(joint_pos,tool,user,exaxis_pos, desc_pos=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0], vel=20.0, acc=0.0, ovl= 100.0,  blendT=-1.0, offset_flag=0, offset_pos=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0])``"
     "描述", "UDP扩展轴与机器人关节运动同步运动"
     "必选参数", "
     - ``joint_pos``： 目标关节位置，单位 [°]；
@@ -879,6 +878,7 @@ UDP扩展轴与机器人关节运动同步运动
     - ``user``：工件号，[0~14]
     - ``exaxis_pos``：外部轴 1 位置 ~ 外部轴 4 位"
     "默认参数", "
+    - ``desc_pos``:目标笛卡尔位姿，单位 [mm][°] 默认初值为[0.0,0.0,0.0,0.0,0.0,0.0]，默认值调用正运动学求解返回值;
     - ``vel``： 速度百分比，[0~100] 默认20.0；
     - ``acc``：加速度百分比，[0~100] 暂不开放,默认0.0 ；
     - ``ovl``：速度缩放因子，[0~100] 默认100.0  ；
@@ -928,28 +928,29 @@ UDP扩展轴与机器人关节运动同步运动代码示例
                   
 UDP扩展轴与机器人直线运动同步运动
 ++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.4
+.. versionadded:: python SDK-v2.1.5
 
 .. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``ExtAxisSyncMoveL(self, joint_pos,desc_pos, tool, user, exaxis_pos, vel=20.0, acc=0.0, ovl=100.0, blendR=-1.0, search=0, offset_flag=0, offset_pos=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0])``"
+    "原型", "``ExtAxisSyncMoveL(desc_pos, tool, user, exaxis_pos, joint_pos=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0], vel=20.0, acc=0.0, ovl=100.0, blendR=-1.0, search=0, offset_flag=0, offset_pos=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0],config=-1)``"
     "描述", "UDP扩展轴与机器人直线运动同步运动"
     "必选参数", "
-    - ``joint_pos``： 目标关节位置，单位 [°]；
     - ``desc_pos``：目标笛卡尔位姿，单位 [mm][°]；
     - ``tool``：工具号，[0~14]；
     - ``user``：工件号，[0~14]；
     - ``exaxis_pos``：外部轴 1 位置 ~ 外部轴 4 位；"
     "默认参数", "
+    - ``joint_pos``:目标关节位置，单位 [°] 默认初值为[0.0,0.0,0.0,0.0,0.0,0.0]，默认值调用逆运动学求解返回值;
     - ``vel``： 速度百分比，[0~100] 默认20.0；
     - ``acc``：加速度百分比，[0~100] 暂不开放,默认0.0；
     - ``ovl``：速度缩放因子，[0~100] 默认100.0；
     - ``blendR``：[-1.0]-运动到位 (阻塞)，[0~500.0]-平滑时间 (非阻塞)，单位 [ms] 默认-1.0；
     - ``search``：[0]-不焊丝寻位，[1]-焊丝寻位；
     - ``offset_flag``：[0]-不偏移，[1]-工件/基坐标系下偏移，[2]-工具坐标系下偏移 默认 0；
-    - ``offset_pos``：位姿偏移量，单位 [mm][°] 默认[0.0,0.0,0.0,0.0,0.0,0.0] ；"
+    - ``offset_pos``：位姿偏移量，单位 [mm][°] 默认[0.0,0.0,0.0,0.0,0.0,0.0] ；
+    - ``config``:逆解关节空间配置，[-1]-参考当前关节位置解算，[0~7]-依据特定关节空间配置求解，默认-1"
     "返回值", "错误码 成功-0  失败- errcode；"
                                             
 UDP扩展轴与机器人直线运动同步运动代码示例
@@ -994,26 +995,26 @@ UDP扩展轴与机器人直线运动同步运动代码示例
                       
 UDP扩展轴与机器人圆弧运动同步运动
 ++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.0.4
+.. versionadded:: python SDK-v2.1.5
 
 .. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``ExtAxisSyncMoveC(joint_pos_p, desc_pos_p, tool_p, user_p,exaxis_pos_p, joint_pos_t, desc_pos_t, tool_t, user_t,exaxis_pos_t,vel_p=20.0, acc_p=100.0, offset_flag_p=0, offset_pos_p =[0.0, 0.0, 0.0, 0.0, 0.0, 0.0], vel_t=20.0, acc_t=100.0, offset_flag_t=0, offset_pos_t=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0], ovl=100.0, blendR=-1.0)``"
+    "原型", "``ExtAxisSyncMoveC(desc_pos_p, tool_p, user_p,exaxis_pos_p, desc_pos_t, tool_t, user_t,exaxis_pos_t,joint_pos_p=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0], joint_pos_t=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0],vel_p=20.0, acc_p=100.0, offset_flag_p=0, offset_pos_p =[0.0, 0.0, 0.0, 0.0, 0.0, 0.0], vel_t=20.0, acc_t=100.0, offset_flag_t=0, offset_pos_t=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0], ovl=100.0, blendR=-1.0, config=-1)``"
     "描述", " UDP扩展轴与机器人圆弧运动同步运动"
     "必选参数", "
-    - ``joint_pos_p``： 路径点关节位置，单位 [°] ；
     - ``desc_pos_p``：路径点笛卡尔位姿，单位 [mm][°]；
     - ``tool_p``：路径点工具号，[0~14]；
     - ``user_p``：路径点工件号，[0~14]；
     - ``exaxis_pos_p``：路径点外部轴 1 位置 ~ 外部轴 4 位置 默认[0.0,0.0,0.0,0.0]；
-    - ``joint_pos_t``：目标点关节位置，单位 [°] ；
     - ``desc_pos_t``：目标点笛卡尔位姿，单位 [mm][°]；
     - ``tool_t``：工具号，[0~14]；
     - ``user_t``：工件号，[0~14]；
     - ``exaxis_pos_t``：目标点外部轴 1 位置 ~ 外部轴 4 位置 默认[0.0,0.0,0.0,0.0]；"
     "默认参数", "
+    - ``joint_pos_p``:目标关节位置，单位 [°] 默认初值为[0.0,0.0,0.0,0.0,0.0,0.0]，默认值调用逆运动学求解返回值;
+    - ``joint_pos_t``:目标关节位置，单位 [°] 默认初值为[0.0,0.0,0.0,0.0,0.0,0.0]，默认值调用逆运动学求解返回值;
     - ``vel_p``: 路径点速度百分比，[0~100] 默认20.0；
     - ``acc_p``: 路径点加速度百分比，[0~100] 暂不开放,默认0.0 ；   
     - ``offset_flag_p``: 路径点是否偏移[0]-不偏移，[1]-工件/基坐标系下偏移，[2]-工具坐标系下偏移 默认 0；
@@ -1023,7 +1024,8 @@ UDP扩展轴与机器人圆弧运动同步运动
     - ``offset_flag_t``: 目标点是否偏移[0]-不偏移，[1]-工件/基坐标系下偏移，[2]-工具坐标系下偏移 默认 0；
     - ``offset_pos_t``: 目标点位姿偏移量，单位 [mm][°] 默认[0.0,0.0,0.0,0.0,0.0,0.0]；
     - ``ovl``: 速度缩放因子，[0~100] 默认100.0；
-    - ``blendR``：[-1.0]-运动到位 (阻塞)，[0~1000]-平滑半径 (非阻塞)，单位 [mm] 默认-1.0；"
+    - ``blendR``：[-1.0]-运动到位 (阻塞)，[0~1000]-平滑半径 (非阻塞)，单位 [mm] 默认-1.0；
+    - ``config``:逆解关节空间配置，[-1]-参考当前关节位置解算，[0~7]-依据特定关节空间配置求解，默认-1"
     "返回值", "错误码 成功-0  失败- errcode；"
                                                 
 UDP扩展轴与机器人圆弧运动同步运动代码示例
@@ -1357,4 +1359,336 @@ UDP扩展轴与机器人圆弧运动同步运动代码示例
     time.sleep(10)
     robot.TractorMoveC(300, -90, 20)
     time.sleep(1)
+    robot.CloseRPC()
+
+激光传感器记录点
+++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.4
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``LaserRecordPoint(coordID)``"
+    "描述", "激光传感器记录点"
+    "必选参数", "- ``coordID``：激光传感器坐标系"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``joint``：激光传感器识别点关节位置
+    - ``desc``：激光传感器识别点笛卡尔位置
+    - ``exaxis``：激光传感器识别点扩展轴位置"
+
+激光传感器记录点代码示例
+++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.4
+
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    direction_point = [0, 0, 0]
+    rtn = robot.LaserTrackingSearchStart(2, direction_point, 10, 100, 10000, 2)
+    print(f"LaserTrackingSearchStart rtn is {rtn}")
+    robot.LaserTrackingSearchStop()
+    coord_id = 2
+    rtn, joint, desc, exaxis = robot.LaserRecordPoint(coord_id)
+    print(f"rtn is {rtn}")
+    print(f"desc_pos:{desc[0]},{desc[1]},{desc[2]},"
+          f"{desc[3]},{desc[4]},{desc[5]}")
+    print(f"joint_pos:{joint[0]},{joint[1]},{joint[2]},{joint[3]},{joint[4]},{joint[5]}")
+    print(f"exaxis pos is {exaxis[0]} {exaxis[1]} {exaxis[2]} {exaxis[3]}")
+    off = [0] * 6
+    robot.MoveJ(joint,tool=1,user=0,vel=100,acc=100,ovl=50,exaxis_pos=exaxis,blendT=-1,offset_flag=0,offset_pos=off)
+    robot.CloseRPC()
+
+设置扩展轴与机器人同步运动策略
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetExAxisRobotPlan(strategy)``"
+    "描述", "设置扩展轴与机器人同步运动策略"
+    "必选参数", "- ``strategy``：策略；0-以机器人为主；1-扩展轴与机器人同步"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+设置扩展轴与机器人同步运动策略代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.5
+
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    joint_pos1 = [-22.016, -49.217, 124.714, -161.100, -85.108, -0.333]
+    joint_pos2 = [-21.083, -46.613, 110.079, -147.796, -80.757, -0.330]
+    joint_pos3 = [-25.572, -60.090, 135.397, -163.889, -82.489, -0.345]
+    desc_pos1 = [2.637, -0.001, 30.673, 178.786, -4.134, 68.326]
+    desc_pos2 = [213.812, -1.440, 47.311, 177.410, 0.166, 68.946]
+    desc_pos3 = [444.342, -12.723, 82.470, -177.701, -1.325, 65.151]
+    epos1 = [0.001, 0.000, 0.000, 0.000]
+    epos2 = [299.977, 0.000, 0.000, 0.000]
+    epos3 = [399.969, 0.000, 0.000, 0.000]
+    offset_pos = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    rtn = robot.SetExAxisRobotPlan(0)
+    print(f"SetExAxisRobotPlan rtn is {rtn}")
+    time.sleep(1)
+    rtn = robot.ExtAxisSyncMoveL(desc_pos=desc_pos1,tool=1,user=0,vel=100,acc=100,ovl=100,blendR=-1,exaxis_pos=epos1,offset_flag=0,offset_pos=offset_pos)
+    print(f"ExtAxisSyncMoveL 1 rtn is {rtn}")
+    rtn = robot.ExtAxisSyncMoveL(desc_pos=desc_pos2,tool=1,user=0,vel=100,acc=100,ovl=100,blendR=-1,exaxis_pos=epos2,offset_flag=0,offset_pos=offset_pos)
+    print(f"ExtAxisSyncMoveL 2 rtn is {rtn}")
+    rtn = robot.ExtAxisSyncMoveL(desc_pos=desc_pos3,tool=1,user=0,vel=100,acc=100,ovl=100,blendR=-1,exaxis_pos=epos3,offset_flag=0,offset_pos=offset_pos)
+    print(f"ExtAxisSyncMoveL 3 rtn is {rtn}")
+    time.sleep(8)
+    robot.CloseRPC()
+
+控制阵列式吸盘
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetSuckerCtrl(slaveID, len, ctrlValue)``"
+    "描述", "控制阵列式吸盘"
+    "必选参数", "- ``slaveID``：从站号
+    - ``len``：长度
+    - ``ctrlValue``：控制值 1-按最大真空度吸取 2-按设定真空度吸取 3-停止吸取"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+获取阵列式吸盘状态
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetSuckerState(slaveID)``"
+    "描述", "获取阵列式吸盘状态"
+    "必选参数", "- ``slaveID``：从站号"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``state``：吸附状态 0-释放物体 1-检测到工件吸附成功 2-没有吸附到物体 3-物体脱离
+    - ``pressValue``：当前真空度 单位kpa
+    - ``error``：吸盘当前的错误码"
+
+等待吸盘状态
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``WaitSuckerState(slaveID, state, ms)``"
+    "描述", "等待吸盘状态"
+    "必选参数", "- ``slaveID``：从站号
+    - ``state``：吸附状态 0-释放物体 1-检测到工件吸附成功 2-没有吸附到物体 3-物体脱离
+    - ``ms``：等待最大时间"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+阵列式吸盘控制指令代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.5
+
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    robot.OpenLuaUpload("C://项目/外设SDK/CtrlDev_sucker.lua")
+    time.sleep(2)
+    robot.UnloadCtrlOpenLUA(1)
+    robot.LoadCtrlOpenLUA(1)
+    time.sleep(1)
+    ctrl = bytearray(20)
+    ctrl[0] = 1
+    robot.SetSuckerCtrl(0, 1, ctrl)
+    for i in range(100):
+        rtn, state, press_value, error = robot.GetSuckerState(1)
+        print(f"sucker1 state is {state}, pressValue is {press_value}, error num is {error}")
+        rtn, state, press_value, error = robot.GetSuckerState(12)
+        print(f"sucker12 state is {state}, pressValue is {press_value}, error num is {error}")
+        time.sleep(0.1)
+    ret = robot.WaitSuckerState(1, 1, 100)
+    print(f"WaitSuckerState result is {ret}")
+    ctrl[0] = 3
+    robot.SetSuckerCtrl(1, 1, ctrl)
+    robot.SetSuckerCtrl(12, 1, ctrl)
+    robot.CloseRPC()
+
+上传开放协议的Lua文件
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``OpenLuaUpload(filePath)``"
+    "描述", "上传开放协议的Lua文件"
+    "必选参数", "- ``filePath``：本地开放协议lua文件路径名"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+获取从站板卡参数
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetFieldBusConfig()``"
+    "描述", "获取从站板卡参数"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``type``：0-Ethercat，1-CClink, 3-Ethercat, 4-EIP
+    - ``version``：协议版本
+    - ``connState``：0-未连接 1-已连接"
+
+写入从站DO
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``FieldBusSlaveWriteDO(DOIndex, wirteNum, status)``"
+    "描述", "写入从站DO"
+    "必选参数", "- ``DOIndex``：DO编号
+    - ``wirteNum``：写入的数量
+    - ``status``：写入的数值，最多写8个"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+写入从站AO
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``FieldBusSlaveWriteAO(AOIndex, wirteNum, status)``"
+    "描述", "写入从站AO"
+    "必选参数", "- ``AOIndex``：AO编号
+    - ``wirteNum``：写入的数量
+    - ``status``：写入的数值，最多写8个"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+读取从站DI
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``FieldBusSlaveReadDI(DOIndex, readeNum)``"
+    "描述", "读取从站DI"
+    "必选参数", "- ``DOIndex``：DI编号
+    - ``readeNum``：读取的数量"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``status[8]``：读取到的数值，最多读8个"
+
+读取从站AI
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``FieldBusSlaveReadAI(AOIndex, readeNum)``"
+    "描述", "读取从站AI"
+    "必选参数", "- ``AOIndex``：AI编号
+    - ``readeNum``：读取的数量"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``status[8]``：读取到的数值，最多读8个"
+
+等待扩展DI输入
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``FieldBusSlaveWaitDI(DIIndex, status, waitMs)``"
+    "描述", "等待扩展DI输入"
+    "必选参数", "- ``DIIndex``：DI编号
+    - ``status``：0-低电平；1-高电平
+    - ``waitMs``：最大等待时间(ms)"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+等待扩展AI输入
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.5
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``FieldBusSlaveWaitAI(AIIndex, waitType, value, waitMs)``"
+    "描述", "等待扩展AI输入"
+    "必选参数", "- ``AIIndex``：AI编号
+    - ``waitType``：0-大于；1-小于
+    - ``value``：AI值
+    - ``waitMs``：最大等待时间(ms)"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+从站模式相关接口指令代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.5
+
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+    robot.OpenLuaUpload("D://zUP/外设/CtrlDev_field.lua")
+    time.sleep(2)
+    robot.SetCtrlOpenLUAName(3,"CtrlDev_field.lua")
+    robot.UnloadCtrlOpenLUA(3)
+    robot.LoadCtrlOpenLUA(3)
+    time.sleep(8)
+    rtn,type, version, conn_state = robot.GetFieldBusConfig()
+    print(f"type is {type}, version is {version}, connState is {conn_state}")
+    # Write digital outputs
+    ctrl = [1, 0, 1]  # DO0=1, DO1=0, DO2=1
+    robot.FieldBusSlaveWriteDO(0, 3, ctrl)
+    # Write analog output
+    ctrl_ao = [0x1000]  # AO2 = 0x1000
+    robot.FieldBusSlaveWriteAO(2, 1, ctrl_ao)
+    for i in range(100):
+        rtn,di = robot.FieldBusSlaveReadDI(0, 4)
+        print(f"DI0 is {di[0]}, DI1 is {di[1]}, DI2 is {di[2]}, DI3 is {di[3]}")
+        rtn, ai = robot.FieldBusSlaveReadAI(0, 3)
+        print(f"AI0 is {ai[0]}, AI1 is {ai[1]}, AI2 is {ai[2]}")
+        time.sleep(0.01)
+    ret = robot.FieldBusSlaveWaitDI(0, 1, 100)
+    print(f"FieldBusSlaveWaitDI result is {ret}")
+    ret = robot.FieldBusSlaveWaitAI(0, 0, 400.00, 100)
+    print(f"FieldBusSlaveWaitAI result is {ret}")
     robot.CloseRPC()

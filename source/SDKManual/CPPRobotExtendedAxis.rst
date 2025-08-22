@@ -899,6 +899,28 @@ UDP扩展轴与机器人关节运动同步运动
     */
     errno_t ExtAxisSyncMoveJ(JointPos joint_pos, DescPose desc_pos, int tool, int user, float vel, float acc, float ovl, ExaxisPos epos, float blendT, byte offset_flag, DescPose offset_pos);
 
+UDP扩展轴与机器人关节运动同步运动 (自动正运动学计算）
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief UDP扩展轴与机器人关节运动同步运动 (自动正运动学计算)
+    * @param [in] joint_pos 目标关节位置,单位deg
+    * @param [in] tool 工具坐标号，范围[0~14]
+    * @param [in] user 工件坐标号，范围[0~14]
+    * @param [in] vel 速度百分比，范围[0~100]
+    * @param [in] acc 加速度百分比，范围[0~100],暂不开放
+    * @param [in] ovl 速度缩放因子，范围[0~100]
+    * @param [in] epos 扩展轴位置，单位mm
+    * @param [in] blendT [-1.0]-运动到位(阻塞)，[0~500.0]-平滑时间(非阻塞)，单位ms
+    * @param [in] offset_flag 0-不偏移，1-基坐标系/工件坐标系下偏移，2-工具坐标系下偏移
+    * @param [in] offset_pos 位姿偏移量
+    * @return 错误码
+    */
+    errno_t ExtAxisSyncMoveJ(JointPos joint_pos, int tool, int user, float vel, float acc, float ovl, ExaxisPos epos, float blendT, uint8_t offset_flag, DescPose offset_pos);
+
 UDP扩展轴与机器人关节运动同步运动代码示例
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -961,6 +983,9 @@ UDP扩展轴与机器人关节运动同步运动代码示例
       robot.MoveJ(&startjointPos, &startdescPose, 1, 1, 100, 100, 100, &startexaxisPos, 0, 0, &offdese);
       //开始同步运动
       robot.ExtAxisSyncMoveJ(endjointPos, enddescPose, 1, 1, 100, 100, 100, endexaxisPos, -1, 0, offdese);
+      robot.MoveJ(&startjointPos, 1, 1, 100, 100, 100, &startexaxisPos, 0, 0, &offdese);
+      //开始同步运动
+      robot.ExtAxisSyncMoveJ(endjointPos, 1, 1, 100, 100, 100, endexaxisPos, -1, 0, offdese);
       robot.CloseRPC();
     }
 
@@ -987,6 +1012,29 @@ UDP扩展轴与机器人直线运动同步运动
     * @return 错误码
     */
     errno_t ExtAxisSyncMoveL(JointPos joint_pos, DescPose desc_pos, int tool, int user, float vel, float acc, float ovl, float blendR, ExaxisPos epos, int offset_flag, DescPose offset_pos);
+
+UDP扩展轴与机器人直线运动同步运动 (自动逆运动学计算）
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief UDP扩展轴与机器人直线运动同步运动 (自动逆运动学计算)
+    * @param [in] desc_pos  目标笛卡尔位姿
+    * @param [in] tool 工具坐标号，范围[0~14]
+    * @param [in] user 工件坐标号，范围[0~14]
+    * @param [in] vel 速度百分比，范围[0~100]
+    * @param [in] acc 加速度百分比，范围[0~100],暂不开放
+    * @param [in] ovl 速度缩放因子，范围[0~100]
+    * @param [in] blendR [-1.0]-运动到位(阻塞)，[0~1000.0]-平滑半径(非阻塞)，单位mm
+    * @param [in] epos 扩展轴位置，单位mm
+    * @param [in] offset_flag 0-不偏移，1-基坐标系/工件坐标系下偏移，2-工具坐标系下偏移
+    * @param [in] offset_pos 位姿偏移量
+    * @param [in] config 逆解关节空间配置，[-1]-参考当前关节位置解算，[0~7]-依据特定关节空间配置求解
+    * @return 错误码
+    */
+    errno_t ExtAxisSyncMoveL(DescPose desc_pos, int tool, int user, float vel, float acc, float ovl, float blendR, ExaxisPos epos, uint8_t offset_flag, DescPose offset_pos, int config = -1);
 
 UDP扩展轴与机器人直线运动同步运动代码示例
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1050,6 +1098,10 @@ UDP扩展轴与机器人直线运动同步运动代码示例
       robot.MoveJ(&startjointPos, &startdescPose, 1, 1, 100, 100, 100, &startexaxisPos, 0, 0, &offdese);
       //开始同步运动
       robot.ExtAxisSyncMoveL(endjointPos, enddescPose, 1, 1, 100, 100, 100, 0, endexaxisPos, 0, offdese);
+      
+      robot.MoveJ(&startjointPos, 1, 1, 100, 100, 100, &startexaxisPos, 0, 0, &offdese);
+      //开始同步运动
+      robot.ExtAxisSyncMoveL(enddescPose, 1, 1, 100, 100, 100, 0, endexaxisPos, 0, offdese);
       robot.CloseRPC();
     }
     
@@ -1085,7 +1137,38 @@ UDP扩展轴与机器人圆弧运动同步运动
     * @return 错误码
     */
     errno_t ExtAxisSyncMoveC(JointPos joint_pos_p, DescPose desc_pos_p, int ptool, int puser, float pvel, float pacc, ExaxisPos epos_p, int poffset_flag, DescPose offset_pos_p, JointPos joint_pos_t, DescPose desc_pos_t, int ttool, int tuser, float tvel, float tacc, ExaxisPos epos_t, int toffset_flag, DescPose offset_pos_t, float ovl, float blendR);
-    
+        
+UDP扩展轴与机器人圆弧运动同步运动 (自动逆运动学计算）
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief UDP扩展轴与机器人圆弧运动同步运动 (自动逆运动学计算)
+    * @param [in] desc_pos_p  路径点笛卡尔位姿
+    * @param [in] ptool 工具坐标号，范围[0~14]
+    * @param [in] puser 工件坐标号，范围[0~14]
+    * @param [in] pvel 速度百分比，范围[0~100]
+    * @param [in] pacc 加速度百分比，范围[0~100],暂不开放
+    * @param [in] epos_p 扩展轴位置，单位mm
+    * @param [in] poffset_flag 0-不偏移，1-基坐标系/工件坐标系下偏移，2-工具坐标系下偏移
+    * @param [in] offset_pos_p 位姿偏移量
+    * @param [in] desc_pos_t  目标点笛卡尔位姿
+    * @param [in] ttool 工具坐标号，范围[0~14]
+    * @param [in] tuser 工件坐标号，范围[0~14]
+    * @param [in] tvel 速度百分比，范围[0~100]
+    * @param [in] tacc 加速度百分比，范围[0~100],暂不开放
+    * @param [in] epos_t 扩展轴位置，单位mm
+    * @param [in] toffset_flag 0-不偏移，1-基坐标系/工件坐标系下偏移，2-工具坐标系下偏移
+    * @param [in] offset_pos_t 位姿偏移量
+    * @param [in] ovl 速度缩放因子，范围[0~100]
+    * @param [in] blendR [-1.0]-运动到位(阻塞)，[0~1000.0]-平滑半径(非阻塞)，单位mm
+    * @param [in] config 逆解关节空间配置，[-1]-参考当前关节位置解算，[0~7]-依据特定关节空间配置求解
+    * @return 错误码
+    */
+    errno_t ExtAxisSyncMoveC(DescPose desc_pos_p, int ptool, int puser, float pvel, float pacc, ExaxisPos epos_p, uint8_t poffset_flag, DescPose offset_pos_p, DescPose desc_pos_t, int ttool, int tuser, float tvel, float tacc, ExaxisPos epos_t, uint8_t toffset_flag, DescPose offset_pos_t, float ovl, float blendR, int config = -1);
+
 UDP扩展轴与机器人圆弧运动同步运动代码示例
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -1152,6 +1235,9 @@ UDP扩展轴与机器人圆弧运动同步运动代码示例
       robot.MoveJ(&startjointPos, &startdescPose, 1, 1, 100, 100, 100, &startexaxisPos, 0, 0, &offdese);
       //开始同步运动
       robot.ExtAxisSyncMoveC(midjointPos, middescPose, 1, 1, 100, 100, midexaxisPos, 0, offdese, endjointPos, enddescPose, 1, 1, 100, 100, endexaxisPos, 0, offdese, 100, 0);
+      robot.MoveJ(&startjointPos, 1, 1, 100, 100, 100, &startexaxisPos, 0, 0, &offdese);
+      //开始同步运动
+      robot.ExtAxisSyncMoveC(middescPose, 1, 1, 100, 100, midexaxisPos, 0, offdese, enddescPose, 1, 1, 100, 100, endexaxisPos, 0, offdese, 100, 0);
       robot.CloseRPC();
     }
     

@@ -383,18 +383,19 @@ TPD轨迹复现
     :linenos:
 
     /**
-	 * @brief  轨迹预处理(轨迹前瞻)
-	 * @param  [in] name  轨迹文件名
-	 * @param  [in] mode 采样模式，0-不进行采样；1-等数据间隔采样；2-等误差限制采样
-	 * @param  [in] errorLim 误差限制，使用直线拟合生效
-	 * @param  [in] type 平滑方式，0-贝塞尔平滑
-	 * @param  [in] precision 平滑精度，使用贝塞尔平滑时生效
-	 * @param  [in] vamx 设定的最大速度，mm/s
-	 * @param  [in] amax 设定的最大加速度，mm/s2
-	 * @param  [in] jmax 设定的最大加加速度，mm/s3
-	 * @return  错误码
-	 */
-    errno_t LoadTrajectoryLA(char name[30], int mode, double errorLim, int type, double precision, double vamx, double amax, double jmax);
+     * @brief 轨迹预处理(轨迹前瞻)
+     * @param [in] name  轨迹文件名
+     * @param [in] mode 采样模式，0-不进行采样；1-等数据间隔采样；2-等误差限制采样
+     * @param [in] errorLim 误差限制，使用直线拟合生效
+     * @param [in] type 平滑方式，0-贝塞尔平滑
+     * @param [in] precision 平滑精度，使用贝塞尔平滑时生效
+     * @param [in] vamx 设定的最大速度，mm/s
+     * @param [in] amax 设定的最大加速度，mm/s2
+     * @param [in] jmax 设定的最大加加速度，mm/s3
+     * @param [in] flag 匀速前瞻开启开关 0-不开启；1-开启
+     * @return 错误码
+     */
+    errno_t LoadTrajectoryLA(char name[30], int mode, double errorLim, int type, double precision, double vamx, double amax, double jmax, int flag = 0);
 
 轨迹复现(轨迹前瞻)
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

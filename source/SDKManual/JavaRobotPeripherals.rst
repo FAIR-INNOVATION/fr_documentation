@@ -933,3 +933,268 @@ SmartTool按钮代码示例
             robot.Sleep(100);
         }
     }
+
+上传开放协议的Lua文件
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.8-3.8.5
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 上传开放协议的Lua文件
+    * @param  filePath 本地开放协议lua文件路径名
+    * @return 错误码
+    */
+    public int OpenLuaUpload(String filePath)
+
+
+获取从站板卡参数
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.8-3.8.5
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  获取从站板卡参数
+    * @param  type  0-Ethercat，1-CClink, 3-Ethercat, 4-EIP
+    * @param  version  协议版本
+    * @param  connState  0-未连接 1-已连接
+    * @return  错误码
+    */
+    public int GetFieldBusConfig(int[] type, int[] version, int[] connState)
+
+写入从站DO
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.8-3.8.5
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  写入从站DO
+    * @param   DOIndex  DO编号
+    * @param   wirteNum  写入的数量
+    * @param   status 写入的数值，最多写8个
+    * @return  错误码
+    */
+    public int FieldBusSlaveWriteDO(int DOIndex, int wirteNum, int[] status)
+
+写入从站AO
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.8-3.8.5
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  写入从站AO
+    * @param  AOIndex  AO编号
+    * @param  wirteNum  写入的数量
+    * @param  status 写入的数值，最多写8个
+    * @return  错误码
+    */
+    public int FieldBusSlaveWriteAO(int AOIndex, int wirteNum, int[] status)
+
+读取从站DI
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.8-3.8.5
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  读取从站DI
+    * @param  DOIndex  DI编号
+    * @param  readNum  读取的数量
+    * @param  status 读取到的数值，最多读8个
+    * @return  错误码
+    */
+    public int FieldBusSlaveReadDI(int DOIndex, int readNum, int[] status)
+
+读取从站AI
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.8-3.8.5
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  读取从站AI
+    * @param  AIIndex  AI编号
+    * @param  readNum  读取的数量
+    * @param  status 读取到的数值，最多读8个
+    * @return  错误码
+    */
+    public int FieldBusSlaveReadAI(int AIIndex, int readNum, double[] status)
+
+等待扩展DI输入
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.8-3.8.5
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 等待扩展DI输入
+    * @param  DIIndex DI编号
+    * @param  status 0-低电平；1-高电平
+    * @param  waitMs 最大等待时间(ms)
+    * @return 错误码
+    */
+    public int FieldBusSlaveWaitDI(int DIIndex, int status, int waitMs)
+
+等待扩展AI输入
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.8-3.8.5
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 等待扩展AI输入
+    * @param  AIIndex AI编号
+    * @param  waitType 0-大于；1-小于
+    * @param  value AI值
+    * @param  waitMs 最大等待时间(ms)
+    * @return 错误码
+    */
+    public int FieldBusSlaveWaitAI(int AIIndex, int waitType, double value, int waitMs)
+
+从站模式相关接口指令代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static void testFieldBusBoard(Robot robot)
+    {
+        //上传并加载开放协议文件
+        robot.OpenLuaUpload("D://zUP/1111/CtrlDev_field.lua");
+        robot.Sleep(2000);
+        robot.SetCtrlOpenLUAName(3, "CtrlDev_field.lua");
+        robot.UnloadCtrlOpenLUA(3);
+        robot.LoadCtrlOpenLUA(3);
+        robot.Sleep(8000);
+        int[] type=new int[1];
+        int[] version=new int[1];
+        int[] connState=new int[1];
+        //获取从站板卡的协议类型、软件版本、与PLC的连接状态
+        robot.GetFieldBusConfig(type, version, connState);
+        System.out.println("type is: "+type[0]+", version is : "+version[0]+", connState is : "+connState[0]);
+        //写入DO0 = 1、DO1 = 0、DO2 = 1
+        int[] ctrl =new int[8];
+        ctrl[0] = 1;
+        ctrl[1] = 0;
+        ctrl[2] = 1;
+        robot.FieldBusSlaveWriteDO(0, 3, ctrl);
+        //写入AO2 = 0x1000
+        int[] ctrlAO =new int[8];
+        ctrlAO[0] = 0x1000;
+        robot.FieldBusSlaveWriteAO(2, 1, ctrlAO);
+        int[] DI=new int[4];
+        double[] AI=new double[3];
+        //循环监控DI0~DI3 AI0~AI2
+        for (int i = 0; i < 100; i++)
+        {
+            robot.FieldBusSlaveReadDI(0, 4, DI);
+            System.out.println("DI0 is: "+DI[0]+", DI1 is: "+DI[1]+",DI2 is: "+DI[2]+",DI3 is: "+DI[3]);
+            robot.FieldBusSlaveReadAI(0, 3, AI);
+            System.out.println("AI0 is: "+AI[0]+ ",AI1 is: "+AI[1]+",AI2 is: "+AI[2]);
+            robot.Sleep(10);
+        }
+        //等待DI0是否为1，等待时间100ms，并打印结果
+        int ret = robot.FieldBusSlaveWaitDI(0, 1, 100);
+        System.out.println("FieldBusSlaveWaitDI result is: "+ ret);
+        //等待AI0是否大于400，等待时间100ms，并打印结果
+        ret = robot.FieldBusSlaveWaitAI(0,0,400.00,100);
+        System.out.println("FieldBusSlaveWaitAI result is: "+ ret);
+        robot.CloseRPC();
+    }
+
+控制阵列式吸盘
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.8-3.8.5
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 控制阵列式吸盘
+    * @param  slaveID 从站号
+    * @param  len 长度
+    * @param  ctrlValue 控制值 1-按最大真空度吸取 2-按设定真空度吸取 3-停止吸取
+    * @return 错误码
+    */
+    public int SetSuckerCtrl(int slaveID, int len, int[] ctrlValue)
+
+获取阵列式吸盘状态
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.8-3.8.5
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 获取阵列式吸盘状态
+    * @param  slaveID 从站号
+    * @param  state 吸附状态 0-释放物体 1-检测到工件吸附成功 2-没有吸附到物体 3-物体脱离
+    * @param  pressValue 当前真空度 单位kpa
+    * @param  error 吸盘当前的错误码
+    * @return 错误码
+    */
+    public int GetSuckerState(int slaveID, int[] state, int[] pressValue, int[] error)
+
+等待吸盘状态
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.8-3.8.5
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 等待吸盘状态
+    * @param  slaveID 从站号
+    * @param  state 吸附状态 0-释放物体 1-检测到工件吸附成功 2-没有吸附到物体 3-物体脱离
+    * @param  ms 等待最大时间
+    * @return 错误码
+    */
+    public int WaitSuckerState(int slaveID, int state, int ms)
+
+阵列式吸盘控制指令代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static void testSucker(Robot robot)
+    {
+        //上传并加载开放协议文件
+        robot.OpenLuaUpload("C：//项目/外设SDK/CtrlDev_sucker.lua");
+        robot.Sleep(2000);
+        robot.UnloadCtrlOpenLUA(1);
+        robot.LoadCtrlOpenLUA(1);
+        robot.Sleep(1000);
+        //控制吸盘广播模式下，按照最大能力吸附
+        int[] ctrl = {1};
+        robot.SetSuckerCtrl(0, 1, ctrl);
+        int[] state=new int[1];
+        int[] pressVlaue=new int[1];
+        int[] error=new int[1];
+        //循环监控1号吸盘和12号吸盘的状态
+        for (int i = 0; i < 100; i++)
+        {
+            robot.GetSuckerState(1, state,pressVlaue, error);
+            System.out.println("sucker1 state is:"+state[0]+",pressVlaue is:"+pressVlaue[0]+",error num is"+error[0]);
+            robot.GetSuckerState(12, state, pressVlaue, error);
+            System.out.println("sucker12 state is :"+state[0]+", pressVlaue is:"+pressVlaue[0]+",error num is:"+error[0]);
+            robot.Sleep(100);
+        }
+        //等待1号吸盘是否为吸附到物体的状态，等待时间100ms
+        int ret = robot.WaitSuckerState(1, 1, 100);
+        System.out.println("WaitSuckerState result is:"+ ret);
+        //单播模式关闭1号和12号吸盘
+        ctrl[0] = 3;
+        robot.SetSuckerCtrl(1, 1, ctrl);
+        robot.SetSuckerCtrl(12, 1, ctrl);
+        robot.CloseRPC();
+    }
