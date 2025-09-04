@@ -1152,13 +1152,13 @@
 
     "原型", "``WireSearchStart(refPos,searchVel,searchDis,autoBackFlag,autoBackVel,autoBackDis,offectFlag)``"
     "描述", "焊丝寻位开始"
-    "必选参数", "- ``refPos``： 1-基准点 2-接触点
+    "必选参数", "- ``refPos``： 1-基准点 0-接触点
     - ``searchVel``： 寻位速度 %
     - ``searchDis``： 寻位距离 mm
     - ``autoBackFlag``： 自动返回标志，0-不自动；-自动
     - ``autoBackVel``： 自动返回速度 %
     - ``autoBackDis``： 自动返回距离 mm
-    - ``offectFlag``： 1-带偏移量寻位；2-示教点寻位"
+    - ``offectFlag``： 1-带偏移量寻位；0-示教点寻位"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
