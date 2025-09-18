@@ -309,9 +309,7 @@ FAIRINO SimMachine
 
 码垛机frcap
 ---------------------------------
-    :download:`码垛机Palletizer-QX-v2.1.0 <_static/_doc/码垛机Palletizer-QX-v2.1.0.zip>`
-
-    :download:`码垛机Palletizer-LA-v2.1.0 <_static/_doc/码垛机Palletizer-LA-v2.1.0.zip>`
+    :download:`码垛机Palletizer-v2.1.0 <_static/_doc/码垛机Palletizer-v2.1.0.zip>`
 
 CPP SDK
 ---------------------------------
