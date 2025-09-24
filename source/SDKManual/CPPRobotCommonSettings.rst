@@ -473,16 +473,19 @@
     errno_t SetLoadWeight(int loadNum = 0, float weight);
 
 设置末端负载质心坐标
-+++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v3.8.6
+    
 .. code-block:: c++
     :linenos:
 
     /**
-    * @brief  设置末端负载质心坐标
-    * @param  [in] coord 质心坐标，单位mm
-    * @return  错误码
+    * @brief 设置末端负载质心坐标
+    * @param [in] loadNum 负载编号
+    * @param [in] coord 质心坐标，单位mm
+    * @return 错误码
     */
-    errno_t  SetLoadCoord(DescTran *coord);
+    errno_t SetLoadCoord(int loadNum, DescTran* coord);
 
 获取当前负载的重量
 ++++++++++++++++++++++++++++++++++++

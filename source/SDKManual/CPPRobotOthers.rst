@@ -442,3 +442,31 @@
     robot.CloseRPC();
     return 0;
     }
+
+机器人操作系统升级(LA控制箱)
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v3.8.6
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 机器人操作系统升级(LA控制箱)
+    * @param [in] filePath 操作系统升级包全路径
+    * @return 错误码
+    */
+    errno_t KernelUpgrade(std::string filePath);
+        
+获取机器人操作系统升级结果(LA控制箱)
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v3.8.6
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 获取机器人操作系统升级结果(LA控制箱)
+    * @param [out] result 升级结果：0:成功；-1:失败
+    * @return 错误码
+    */
+    errno_t GetKernelUpgradeResult(int& result);

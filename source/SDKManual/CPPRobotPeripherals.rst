@@ -1357,3 +1357,504 @@ SmartTool按钮代码示例
 
         robot.CloseRPC();
     }
+
+激光外设打开关闭
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v3.8.6
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+	 * @brief 激光外设打开关闭函数
+	 * @param [in] OnOff 0-关闭 1-打开
+	 * @param [in] weldId 焊缝ID 默认为0
+	 * @return 错误码
+	 */
+	errno_t LaserTrackingLaserOnOff(int OnOff,int weldId);
+        
+激光跟踪开始结束
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v3.8.6
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+	 * @brief 激光跟踪开始结束函数
+	 * @param [in] OnOff 0-结束 1-开始
+	 * @param [in] coordId 激光外设工具坐标系编号
+	 * @return 错误码
+	 */
+ 	errno_t LaserTrackingTrackOnOff(int OnOff, int coordId); 
+            
+激光寻位开始-固定方向
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v3.8.6
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 激光寻位-固定方向
+    * @param [in] direction 0-x+ 1-x- 2-y+ 3-y- 4-z+ 5-z-
+    * @param [in] vel 速度 单位%
+    * @param [in] distance 最大寻位距离 单位mm
+    * @param [in] distance 寻位超时时间 单位ms
+    * @param [in] posSensorNum 激光标定的工具坐标编号
+    * @return 错误码
+    */
+    errno_t LaserTrackingSearchStart_xyz(int direction, int vel, int distance, int timeout, int posSensorNum);
+                
+激光寻位开始-任意点方向
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v3.8.6
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+	 * @brief 激光寻位-任意方向
+	 * @param [in] directionPoint 寻位输入的点的xyz左边
+	 * @param [in] vel 速度 单位%
+	 * @param [in] distance 最大寻位距离 单位mm
+	 * @param [in] distance 寻位超时时间 单位ms
+	 * @param [in] posSensorNum 激光标定的工具坐标编号
+	 * @return 错误码
+	 */
+    errno_t LaserTrackingSearchStart_point(DescTran directionPoint, int vel, int distance, int timeout, int posSensorNum);
+                    
+激光寻位结束
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v3.8.6
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+	 * @brief 激光寻位结束
+	 * @return 错误码
+	 */
+    errno_t LaserTrackingSearchStop();
+
+激光网络参数配置
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v3.8.6
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+	 * @brief 激光网络参数配置
+	 * @param [in] ip 激光外设的ip地址
+	 * @param [in] port 激光外设的端口号
+	 * @return 错误码
+	 */
+    errno_t LaserTrackingSensorConfig(std::string ip, int port);
+    
+激光外设采样周期配置
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v3.8.6
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 激光外设采样周期配置
+    * @param [in] period 激光外设采样周期 单位ms
+    * @return 错误码
+    */
+    errno_t LaserTrackingSensorSamplePeriod(int period);
+        
+激光外设驱动加载
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v3.8.6
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+	 * @brief 激光外设驱动加载
+	 * @param [in] type 激光外设驱动的协议类型 101-睿牛 102-创想 103-全视 104-同舟 105-奥太
+	 * @return 错误码
+	 */
+    errno_t LoadPosSensorDriver(int type);
+            
+激光外设驱动卸载
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v3.8.6
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+	 * @brief 激光外设驱动卸载
+	 * @return 错误码
+	 */
+    errno_t UnLoadPosSensorDriver();
+                
+激光焊缝轨迹记录
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v3.8.6
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 激光焊缝轨迹记录
+    * @param [in] status 0-停止记录 1-实时跟踪  2-开始记录
+    * @param [in] delayTime 延时时间 单位ms
+    * @return 错误码
+    */
+    errno_t LaserSensorRecord1(int status, int delayTime); 
+                    
+激光焊缝轨迹复现
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v3.8.6
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+	 * @brief 激光焊缝轨迹复现
+	 * @param [in] delayTime 延时时间 单位ms
+	 * @param [in] speed 速度 单位%
+	 * @return 错误码
+	 */
+    errno_t LaserSensorReplay(int delayTime, double speed);
+                        
+激光跟踪复现
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v3.8.6
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+	 * @brief 激光跟踪复现
+	 * @return 错误码
+	 */
+    errno_t MoveLTR();
+                            
+激光焊缝轨迹记录及复现
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v3.8.6
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+	 * @brief 激光焊缝轨迹记录及复现
+	 * @param [in] delayMode 模式 0-延时时间 1-延时距离
+	 * @param [in] delayTime 延时时间 单位ms
+	 * @param [in] delayDisExAxisNum 扩展轴编号
+	 * @param [in] delayDis 延时距离 单位mm
+	 * @param [in] sensitivePara 补偿灵敏系数
+	 * @param [in] speed 速度 单位%
+	 * @return 错误码
+	 */
+    errno_t LaserSensorRecordandReplay(int delayMode, int delayTime, int delayDisExAxisNum, double delayDis, double sensitivePara, double speed);
+                                
+运动到焊缝记录的起点
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v3.8.6
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 运动到焊缝记录的起点
+    * @param [in] moveType 0-moveJ 1-moveL
+    * @param [in] ovl 速度 单位%
+    * @return 错误码
+    */
+    errno_t MoveToLaserRecordStart(int moveType, double ovl);
+                                    
+运动到焊缝记录的终点
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v3.8.6
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 运动到焊缝记录的终点
+    * @param [in] moveType 0-moveJ 1-moveL
+    * @param [in] ovl 速度 单位%
+    * @return 错误码
+    */
+    errno_t MoveToLaserRecordEnd(int moveType, double ovl);
+                                        
+运动到激光传感器寻位点
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v3.8.6
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 运动到激光传感器寻位点
+    * @param [in] moveFlag 运动类型：0-PTP；1-LIN
+    * @param [in] ovl 速度缩放因子，0-100
+    * @param [in] dataFlag 焊缝缓存数据选择：0-执行规划数据；1-执行记录数据
+    * @param [in] plateType 板材类型：0-波纹板；1-瓦楞板；2-围栏板；3-油桶；4-波纹甲壳钢
+    * @param [in] trackOffectType 激光传感器偏移类型：0-不偏移；1-基坐标系偏移；2-工具坐标系偏移；3-激光传感器原始数据偏移
+    * @param [in] offset 偏移量
+    * @return 错误码
+    */
+    errno_t MoveToLaserSeamPos(int moveFlag, double ovl, int dataFlag, int plateType, int trackOffectType, DescPose offset);
+                                            
+获取激光传感器寻位点坐标
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v3.8.6
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 获取激光传感器寻位点坐标信息
+    * @param [in] trackOffectType 激光传感器偏移类型：0-不偏移；1-基坐标系偏移；2-工具坐标系偏移；3-激光传感器原始数据偏移
+    * @param [in] offset 偏移量
+    * @param [out] jPos 关节位置[°]
+    * @param [out] descPos 笛卡尔位置[mm]
+    * @param [out] tool 工具坐标系
+    * @param [out] user 工件坐标系
+    * @param [out] exaxis 扩展轴位置[mm]
+    * @return 错误码
+    */
+    errno_t GetLaserSeamPos(int trackOffectType, DescPose offset, JointPos& jPos, DescPose& descPos, int& tool, int& user, ExaxisPos& exaxis); 
+                                                
+激光外设传感器参数配置及调试代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v3.8.6
+    
+.. code-block:: c++
+    :linenos:
+
+    void testLaserConfig()
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        uint8_t ctrl[20];
+        uint8_t state;
+        int pressVlaue;
+        int error;
+        robot.CloseRPC();
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return;
+        }
+        robot.SetReConnectParam(true, 30000, 500);
+        //设置IP地址和端口号
+        robot.LaserTrackingSensorConfig("192.168.58.20", 5020);
+        //设置采样周期
+        robot.LaserTrackingSensorSamplePeriod(20);
+        //加载驱动
+        robot.LoadPosSensorDriver(101);
+        //关闭激光外设
+        robot.LaserTrackingLaserOnOff(0,0);
+        robot.Sleep(3000);
+        //打开激光外设
+        robot.LaserTrackingLaserOnOff(1, 0);
+        robot.CloseRPC();
+    }
+                                                    
+激光轨迹扫描及轨迹复现的代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v3.8.6
+    
+.. code-block:: c++
+    :linenos:
+
+    void testLaserRecordAndReplay()
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        uint8_t ctrl[20];
+        uint8_t state;
+        int pressVlaue;
+        int error;
+        robot.CloseRPC();
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return;
+        }
+        robot.SetReConnectParam(true, 30000, 500);
+
+        //上传并加载开放协议文件
+        robot.OpenLuaUpload("E://openlua/CtrlDev_laser_ruiniu-0117.lua");
+        robot.Sleep(2000);
+        robot.SetCtrlOpenLUAName(0, "CtrlDev_laser_ruiniu-0117.lua");
+        robot.UnloadCtrlOpenLUA(0);
+        robot.LoadCtrlOpenLUA(0);
+        robot.Sleep(8000);
+        int cnt = 1;
+        while(cnt<31)
+        { 
+            //运动到扫描的起点
+            JointPos startjointPos(56.205, -117.951, 141.872, -118.149, -94.217, -122.176);
+            DescPose startdescPose(-97.552, -282.855, 26.675, 174.182, -1.338, -91.707);
+            ExaxisPos exaxisPos(0, 0, 0, 0);
+            DescPose offdese(0, 0, 0, 0, 0, 0);
+            robot.MoveL(&startjointPos, &startdescPose, 1, 0, 100, 100, 100, -1, &exaxisPos, 0, 0, &offdese, 1, 1);
+            //开始轨迹记录
+            robot.LaserSensorRecord1(2, 10);
+            //运动到需要记录的终点
+            JointPos endjointPos(68.809, -87.100, 121.120, -127.233, -95.038, -109.555);
+            DescPose enddescPose(-103.555, -464.234, 13.076, 174.179, -1.344, -91.709);
+            robot.MoveL(&endjointPos, &enddescPose, 1, 0, 30, 100, 100, -1, &exaxisPos, 0, 0, &offdese, 1, 1);
+            //停止记录
+            robot.LaserSensorRecord1(0, 10);
+            //运动到记录的焊缝起点
+            robot.MoveToLaserRecordStart(1, 30);
+            //开始轨迹复现
+            robot.LaserSensorReplay(10, 100);
+            robot.MoveLTR();
+            //停止轨迹复现
+            robot.LaserSensorRecord1(0, 10);
+            printf("激光扫描+轨迹复现稳定性测试第%d次\n", cnt);
+            cnt++;
+        }
+        robot.CloseRPC();
+    }
+                                                        
+激光寻位及实时跟踪的代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v3.8.6
+    
+.. code-block:: c++
+    :linenos:
+
+    void testLasertrack()
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        uint8_t ctrl[20];
+        uint8_t state;
+        int pressVlaue;
+        int error;
+        robot.CloseRPC();
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        int rtn = robot.RPC("192.168.58.2");
+
+        if (rtn != 0)
+        {
+            return;
+        }
+        robot.SetReConnectParam(true, 30000, 500);
+
+        //上传并加载开放协议文件
+        robot.OpenLuaUpload("E://openlua/CtrlDev_laser_ruiniu-0117.lua");
+        robot.Sleep(2000);
+        robot.SetCtrlOpenLUAName(0, "CtrlDev_laser_ruiniu-0117.lua");
+        robot.UnloadCtrlOpenLUA(0);
+        robot.LoadCtrlOpenLUA(0);
+        robot.Sleep(8000);
+        int cnt = 1;
+        while (cnt < 2)
+        {
+            //运动到需要寻位的起始点
+            JointPos startjointPos(58.337, -119.628, 146.037, -116.358, -92.224, -117.654);
+            DescPose startdescPose(-53.375, -255.363, 0.919, 178.054, 1.077, -94.026);
+            ExaxisPos exaxisPos(0, 0, 0, 0);
+            DescPose offdese(0, 0, 0, 0, 0, 0);
+            DescTran directionPoint;
+            robot.MoveL(&startjointPos, &startdescPose, 1, 0, 100, 100, 100, -1, &exaxisPos, 0, 0, &offdese, 1, 1);
+
+            //沿着-y方向开始寻位
+            int ret = robot.LaserTrackingSearchStart_xyz(3, 100, 300, 1000, 2);
+            robot.LaserTrackingSearchStop();
+            //如果寻位成功
+            if (ret == 0)
+            {
+                //运动到寻位点
+                robot.MoveToLaserSeamPos(1, 30, 0, 0, 0, offdese);
+                //开始沿着寻位点进行激光跟踪
+                robot.LaserTrackingTrackOnOff(1, 2);
+                JointPos endjointPos(70.580, -90.918, 126.593, -125.154, -92.162, -105.403);
+                DescPose enddescPose(-53.375, -419.020, 0.920, 178.054, 1.076, -94.026);
+                robot.MoveL(&endjointPos, &enddescPose, 1, 0, 20, 100, 100, -1, &exaxisPos, 0, 0, &offdese, 1, 1);
+                //停止跟踪
+                robot.LaserTrackingTrackOnOff(0, 2);
+
+            }
+            cnt++;
+        }
+        robot.CloseRPC();
+    }
+                                                            
+扩展轴与机器人同步进行激光跟踪的代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v3.8.6
+    
+.. code-block:: c++
+    :linenos:
+
+    void testLasertrackandExitAxis()
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        uint8_t ctrl[20];
+        uint8_t state;
+        int pressVlaue;
+        int error;
+        robot.CloseRPC();
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        int rtn = robot.RPC("192.168.58.2");
+
+        if (rtn != 0)
+        {
+            return;
+        }
+        robot.SetReConnectParam(true, 30000, 500);
+
+        ExaxisPos startexaxisPos = { 0,0,0,0 };
+        ExaxisPos seamexaxisPos = { -10,0,0,0 };
+        ExaxisPos endexaxisPos = { -30, 0, 0, 0 };
+        DescPose offdese = { 0, 0, 0, 0, 0, 0 };
+        JointPos seamjointPos(0, 0, 0, 0, 0, 0);
+        DescPose seamdescPose(0, 0, 0, 0, 0, 0);
+        
+        int cnt = 1;
+        while (cnt < 31)
+        {
+            //运动到需要寻位的起始点
+            JointPos startjointPos(58.337, -119.628, 146.037, -116.358, -92.224, -117.654);
+            DescPose startdescPose(-53.375, -255.363, 0.919, 178.054, 1.077, -94.026);
+            robot.ExtAxisSyncMoveJ(startjointPos, startdescPose, 1, 0, 100, 100, 100, startexaxisPos, -1, 0, offdese);
+
+            //沿着-y方向开始寻位
+            int ret = robot.LaserTrackingSearchStart_xyz(3, 100, 300, 1000, 2);
+            robot.LaserTrackingSearchStop();
+            int tool = 0;
+            int user = 0;
+            robot.GetLaserSeamPos(0, offdese, seamjointPos, seamdescPose, tool, user, startexaxisPos);
+            printf("%f, %f, %f,%f, %f, %f,%f, %f, %f,%f, %f, %f\n", seamjointPos.jPos[0], seamjointPos.jPos[1], seamjointPos.jPos[2], seamjointPos.jPos[3], seamjointPos.jPos[4], seamjointPos.jPos[5], seamdescPose.tran.x, seamdescPose.tran.y, seamdescPose.tran.z, seamdescPose.rpy.rx, seamdescPose.rpy.ry, seamdescPose.rpy.rz);
+
+            //如果寻位成功
+            if (ret == 0)
+            {
+                //机器人和扩展轴同步运动到寻位点
+                robot.ExtAxisSyncMoveJ(seamjointPos, seamdescPose, 1, 0, 100, 100, 100, seamexaxisPos, -1, 0, offdese);
+
+                //开始沿着寻位点进行激光跟踪并与扩展轴同步运动
+                robot.LaserTrackingTrackOnOff(1, 2);
+                JointPos endjointPos(70.580, -90.918, 126.593, -125.154, -92.162, -105.403);
+                DescPose enddescPose(-53.375, -419.020, 0.920, 178.054, 1.076, -94.026);
+                robot.ExtAxisSyncMoveL(endjointPos, enddescPose, 1, 0, 20, 100, 100, -1, endexaxisPos, 0, offdese);;
+                //停止跟踪
+                robot.LaserTrackingTrackOnOff(0, 2);
+            }
+            cnt++;
+            printf("扩展轴与机器人同步进行激光跟踪  第%d次\n", cnt);
+        }
+        robot.CloseRPC();
+    } 
