@@ -250,5 +250,16 @@
         public int smartToolState; //SmartTool手柄按钮状态
         public float wideVoltageCtrlBoxTemp;        //宽电压控制箱温度
         public UInt16 wideVoltageCtrlBoxFanVel;   //宽电压控制箱风扇电流（mA）
-        public UInt16 check_sum;         /* 和校验 */                          
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 6)]
+        public double[] toolCoord; // Tool coordinate system
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 6)]
+        public double[] wobjCoord; // Workpiece coordinate system
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 6)]
+        public double[] extoolCoord; // External tool coordinate system
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 6)]
+        public double[] exAxisCoord; // Extended axis coordinate system
+        public double load; // Load mass
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
+        public double[] loadCog;           // Load center of gravity
+        public UInt16 check_sum;         /* Checksum */                      
     }

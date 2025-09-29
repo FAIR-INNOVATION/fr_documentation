@@ -493,3 +493,213 @@
         System.out.println("robot SN is "+SN[0]);
         return 0;
     }
+
+根据编号获取工具坐标系
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.9-3.8.6
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 根据编号获取工具坐标系
+    * @param [in] id 工具坐标系编号
+    * @param [out] coord 坐标系数值
+    * @return 错误码
+    */
+    int GetToolCoordWithID(int id, DescPose coord)
+
+根据编号获取工件坐标系
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.9-3.8.6
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 根据编号获取工件坐标系
+    * @param [in]  id 工件坐标系编号
+    * @param [out] coord 坐标系数值
+    * @return 错误码
+    */
+    public int GetWObjCoordWithID(int id, DescPose coord)
+
+根据编号获取外部工具坐标系
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.9-3.8.6
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 根据编号获取外部工具坐标系
+    * @param [in]  id 外部工具坐标系编号
+    * @param [out] coord 坐标系数值
+    * @return 错误码
+    */
+    public int GetExToolCoordWithID(int id, DescPose coord)
+
+根据编号获取扩展轴坐标系
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.9-3.8.6
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 根据编号获取扩展轴坐标系
+    * @param [in]  id 外部工具坐标系编号
+    * @param [out] coord 坐标系数值
+    * @return 错误码
+    */
+    public int GetExAxisCoordWithID(int id, DescPose coord)
+
+获取当前工具坐标系
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.9-3.8.6
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+     * @brief 获取当前工具坐标系
+     * @param [out] coord 坐标系数值
+     * @return 错误码
+     */
+    public int GetCurToolCoord(DescPose coord)
+
+获取当前工件坐标系
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.9-3.8.6
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+     * @brief 获取当前工件坐标系
+     * @param [out] coord 坐标系数值
+     * @return 错误码
+     */
+    public int GetCurWObjCoord(DescPose coord)
+
+获取当前外部工具坐标系
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.9-3.8.6
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+     * @brief 获取当前外部工具坐标系
+     * @param  [out] coord 坐标系数值
+     * @return 错误码
+     */
+    public int GetCurExToolCoord(DescPose coord)
+
+获取当前扩展轴坐标系
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: Java SDK-v1.0.9-3.8.6
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+     * @brief 获取当前扩展轴坐标系
+     * @param [out] coord 坐标系数值
+     * @return 错误码
+     */
+    public int GetCurExAxisCoord(DescPose coord)
+
+获取机器人坐标系及负载代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static void TestCoord(Robot robot)
+    {
+        int id = 1;
+        int rtn = 0;
+        DescPose toolCoord = new DescPose();
+        DescPose extoolCoord = new DescPose();
+        DescPose wobjCoord = new DescPose();
+        DescPose exAxisCoord = new DescPose();
+
+
+        robot.GetCurToolCoord(toolCoord);//工具
+        System.out.println("GetToolCoord:"+id+","+
+                toolCoord.tran.x+","+ toolCoord.tran.y+","+ toolCoord.tran.z+","+
+                toolCoord.rpy.rx+","+ toolCoord.rpy.ry+","+ toolCoord.rpy.rz);
+
+
+        robot.GetCurWObjCoord(toolCoord);//工件
+        System.out.println("GetCurWObjCoord:"+id+","+
+                toolCoord.tran.x+","+ toolCoord.tran.y+","+ toolCoord.tran.z+","+
+                toolCoord.rpy.rx+","+ toolCoord.rpy.ry+","+ toolCoord.rpy.rz);
+
+        robot.GetCurExToolCoord(toolCoord);//外部工具
+        System.out.println("GetCurExToolCoord:"+id+","+
+                toolCoord.tran.x+","+ toolCoord.tran.y+","+ toolCoord.tran.z+","+
+                toolCoord.rpy.rx+","+ toolCoord.rpy.ry+","+ toolCoord.rpy.rz);
+
+
+        robot.GetCurExAxisCoord(toolCoord);//扩展轴
+        System.out.println("GetCurExToolCoord:"+id+","+
+                toolCoord.tran.x+","+ toolCoord.tran.y+","+ toolCoord.tran.z+","+
+                toolCoord.rpy.rx+","+ toolCoord.rpy.ry+","+ toolCoord.rpy.rz);
+
+
+        List<Number> weightT = new ArrayList<>();//质心
+        DescTran cogT=new DescTran();
+        weightT=robot.GetTargetPayload(0);
+        robot.GetTargetPayloadCog(0,cogT);
+        System.out.println("GetTargetPayload :"+weightT.get(1).doubleValue()+", "+
+                cogT.x+", "+cogT.y+", "+cogT.z);
+
+
+        robot.GetToolCoordWithID(id, toolCoord);
+        System.out.println("GetToolCoordWithID:"+id+","+
+                toolCoord.tran.x+","+ toolCoord.tran.y+","+ toolCoord.tran.z+","+
+                toolCoord.rpy.rx+","+ toolCoord.rpy.ry+","+ toolCoord.rpy.rz);
+
+        robot.GetWObjCoordWithID(id, wobjCoord);
+        System.out.println("GetWObjCoordWithID "+id+", "+
+                wobjCoord.tran.x+","+ wobjCoord.tran.y+","+ wobjCoord.tran.z+","+
+                wobjCoord.rpy.rx+","+ wobjCoord.rpy.ry+","+ wobjCoord.rpy.rz);
+
+
+        robot.GetExToolCoordWithID(id, extoolCoord);//外部工具
+        System.out.println("GetExToolCoordWithID :"+ id+","+
+                extoolCoord.tran.x+","+ extoolCoord.tran.y+","+ extoolCoord.tran.z+","+
+                extoolCoord.rpy.rx+","+ extoolCoord.rpy.ry+","+ extoolCoord.rpy.rz);
+
+        robot.GetExAxisCoordWithID(id, exAxisCoord);//扩展轴
+        System.out.println("GetExAxisCoordWithID "+id+","+
+                exAxisCoord.tran.x+","+ exAxisCoord.tran.y+","+ exAxisCoord.tran.z+","+
+                exAxisCoord.rpy.rx+","+ exAxisCoord.rpy.ry+","+ exAxisCoord.rpy.rz);
+
+
+        double[] weight = new double[1];//负载质心
+        DescTran getCog = new DescTran();
+        robot.GetTargetPayloadWithID(id, weight, getCog);
+        System.out.println("GetTargetPayloadWithID :"+ id+","+ weight[0]+","+
+                getCog.x+","+ getCog.y+","+ getCog.z);
+
+        DescPose coordSet0 = new DescPose(0, 0, 0, 0, 0, 0);
+        DescPose coordSet = new DescPose(1, 2, 3, 4, 5, 6);
+        DescPose etcp = new DescPose(10, 20, 30, 40, 50, 60);
+        DescPose etool = new DescPose(0.1, 0.2, 0.3, 0.4, 0.5, 0.6);
+        DescTran cog = new DescTran(1, 2, 3);
+
+        robot.SetToolCoord(id, coordSet, 0, 0, 1, 0);
+        robot.Sleep(100);
+        robot.SetWObjCoord(id, coordSet, 0);
+        robot.Sleep(100);
+        robot.ExtAxisActiveECoordSys(id, 1, coordSet, 1); //将标定结果应用到扩展轴坐标系
+        robot.Sleep(100);
+        rtn = robot.SetExToolCoord(id, etcp, etool);
+        robot.Sleep(100);
+        rtn = robot.SetLoadWeight(id, 1.5);
+        robot.Sleep(500);
+        rtn = robot.SetLoadCoord(id, cog);
+        robot.Sleep(100);
+    }

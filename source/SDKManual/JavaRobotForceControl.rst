@@ -852,3 +852,85 @@
         robot.MoveL(jointEnd, descEnd, 1, 0, 100, 100, 100, -1, exaxisPos, 1, 0, offdese, 0, 100);
         robot.PointsOffsetDisable();
     }
+
+阻抗启停控制
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 阻抗启停控制
+    * @param [in] status 0：关闭；1-开启
+    * @param [in] workSpace 0-关节空间；1-迪卡尔空间
+    * @param [in] forceThreshold 触发力阈值(N)
+    * @param [in] m 质量参数
+    * @param [in] b 阻尼参数
+    * @param [in] k 刚度参数
+    * @param [in] maxV 最大线速度(mm/s)
+    * @param [in] maxVA 最大线加速度(mm/s2)
+    * @param [in] maxW 最大角速度(°/s)
+    * @param [in] maxWA 最大角加速度(°/s2)
+    * @return 错误码
+    */
+    public int ImpedanceControlStartStop(int status, int workSpace, double[] forceThreshold, double[] m, double[] b, double[] k, double maxV, double maxVA, double maxW, double maxWA)
+
+
+机器人阻抗启停控制代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static int TestImpedanceControl(Robot robot)
+    {
+        JointPos j1=new JointPos(102.622, -135.990, 120.769, -73.950, -90.848, 35.507);
+        JointPos j2=new JointPos(93.674, -80.062, 82.947, -92.199, -90.967, 26.559);
+        DescPose desc_pos1=new DescPose(136.552, -149.799, 449.532, 179.817, -1.172, 157.123);
+        DescPose desc_pos2=new DescPose(136.540, -561.048, 449.542, 179.819, -1.172, 157.122);
+        DescPose offset_pos=new DescPose(0, 0, 0, 0, 0, 0);
+        ExaxisPos epos=new ExaxisPos(0, 0, 0, 0);
+        int tool = 0;
+        int user = 0;
+        double vel = 100.0;
+        double acc = 200.0;
+        double ovl = 100.0;
+        double blendT = -1.0;
+        double blendR = -1.0;
+        int flag = 0;
+        int search = 0;
+        robot.SetSpeed(20);
+        int company = 17;
+        int device = 0;
+        int softversion = 0;
+        int bus = 1;
+        DeviceConfig con=new DeviceConfig(company, device, softversion, bus);
+        robot.FT_SetConfig(con);
+        robot.Sleep(1000);
+        robot.FT_GetConfig(con);
+        System.out.println("FT config:"+con.company+","+con.device+","+con.softwareVersion+"con"+ con.bus);
+        robot.Sleep(1000);
+        robot.FT_Activate(0);
+        robot.Sleep(1000);
+        robot.FT_Activate(1);
+        robot.Sleep(1000);
+        robot.Sleep(1000);
+        robot.FT_SetZero(0);
+        robot.Sleep(1000);
+        robot.FT_SetZero(1);
+        robot.Sleep(1000);
+        double[] forceThreshold = { 30,30,30,5,5,5 };
+        double[] m= { 0.1,0.1,0.1,0.02,0.02,0.02 };
+        double[] b = { 1,1,1,0.08,0.08,0.08 };
+        double[] k = { 0,0,0,0,0,0 };
+        int rtn = robot.ImpedanceControlStartStop(1, 1, forceThreshold, m, b, k, 1000, 500, 100, 100);
+        System.out.println("ImpedanceControlStartStop errcode:"+ rtn);
+        rtn = robot.MoveL(desc_pos1, tool, user, vel, acc, ovl, blendR, 0, epos, search, flag, offset_pos, -1,0,-1, 1);
+        rtn = robot.MoveL(desc_pos2, tool, user, vel, acc, ovl, blendR, 0, epos, search, flag, offset_pos, -1,0,-1, 1);
+        rtn = robot.MoveL(desc_pos1, tool, user, vel, acc, ovl, blendR, 0, epos, search, flag, offset_pos, -1,0,-1, 1);
+        rtn = robot.MoveL(desc_pos2, tool, user, vel, acc, ovl, blendR, 0, epos, search, flag, offset_pos, -1,0,-1, 1);
+        rtn = robot.MoveL(desc_pos1, tool, user, vel, acc, ovl, blendR, 0, epos, search, flag, offset_pos, -1,0,-1, 1);
+        rtn = robot.MoveL(desc_pos2, tool, user, vel, acc, ovl, blendR, 0, epos, search, flag, offset_pos, -1,0,-1, 1);
+        System.out.println("movel errcode:"+ rtn);
+        robot.ImpedanceControlStartStop(0, 1, forceThreshold, m, b, k, 1000, 500, 100, 100);
+        robot.CloseRPC();
+        return 0;
+    }
