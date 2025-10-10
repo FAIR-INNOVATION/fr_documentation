@@ -46,6 +46,16 @@ WebApp 访问登录
 ~~~~~~~~~
 
 .. note:: 
+   .. image:: teaching_pendant_software/064.png
+      :width: 0.75in
+      :height: 0.75in
+      :align: left
+
+   名称：**打开示教程序按钮**
+   
+   作用：打开程序编程、图形化编程和节点图编程的示教程序
+
+.. note:: 
    .. image:: teaching_pendant_software/003.png
       :width: 0.75in
       :height: 0.75in
@@ -102,6 +112,66 @@ WebApp 访问登录
    作用：Stopped-停止，Running-运行，Pause-暂停，Drag-拖动
 
 .. note:: 
+   .. image:: teaching_pendant_software/009.png
+      :width: 0.75in
+      :height: 0.75in
+      :align: left
+
+   名称：**运行速度百分比**
+   
+   作用：机器人当前模式运行时速度
+
+.. note:: 
+   .. image:: teaching_pendant_software/012.png
+      :width: 0.75in
+      :height: 0.75in
+      :align: left
+
+   名称：**自动模式**
+   
+   作用：机器人自动运行模式，开启手动切自动模式全局速度调整并指定速度时，全局速度会自动调整为指定速度
+
+.. note:: 
+   .. image:: teaching_pendant_software/013.png
+      :width: 0.75in
+      :height: 0.75in
+      :align: left
+
+   名称：**手动模式**
+   
+   作用：机器人手动模式，进行机器人示教操作
+
+.. note:: 
+   .. image:: teaching_pendant_software/010.png
+      :width: 0.75in
+      :height: 0.75in
+      :align: left
+
+   名称：**机器人运行正常状态**
+   
+   作用：当前机器人正常运行
+
+.. note:: 
+   .. image:: teaching_pendant_software/011.png
+      :width: 0.75in
+      :height: 0.75in
+      :align: left
+
+   名称：**机器人运行错误状态**
+   
+   作用：当前机器人运行有错误
+
+.. note:: 
+   .. image:: teaching_pendant_software/065.png
+      :width: 0.75in
+      :height: 0.75in
+      :align: left
+
+   名称：**机器人状态折叠/展开按钮**
+   
+   作用：折叠/展开工具坐标系、工件坐标系、扩展轴坐标系、负载、机器人拖动状态、本地/远程模式、机器人连接状态、BOOT模式和账户信息内容
+
+.. note:: 
    .. image:: teaching_pendant_software/008.png
       :width: 0.75in
       :height: 0.75in
@@ -130,56 +200,16 @@ WebApp 访问登录
    名称：**扩展轴坐标系编号**
    
    作用：展示当前应用的扩展轴坐标系编号
-   
+
 .. note:: 
-   .. image:: teaching_pendant_software/009.png
+   .. image:: teaching_pendant_software/066.png
       :width: 0.75in
       :height: 0.75in
       :align: left
 
-   名称：**运行速度百分比**
+   名称：**负载**
    
-   作用：机器人当前模式运行时速度
-
-.. note:: 
-   .. image:: teaching_pendant_software/010.png
-      :width: 0.75in
-      :height: 0.75in
-      :align: left
-
-   名称：**机器人运行正常状态**
-   
-   作用：当前机器人正常运行
-
-.. note:: 
-   .. image:: teaching_pendant_software/011.png
-      :width: 0.75in
-      :height: 0.75in
-      :align: left
-
-   名称：**机器人运行错误状态**
-   
-   作用：当前机器人运行有错误
-
-.. note:: 
-   .. image:: teaching_pendant_software/012.png
-      :width: 0.75in
-      :height: 0.75in
-      :align: left
-
-   名称：**自动模式**
-   
-   作用：机器人自动运行模式，开启手动切自动模式全局速度调整并指定速度时，全局速度会自动调整为指定速度
-
-.. note:: 
-   .. image:: teaching_pendant_software/013.png
-      :width: 0.75in
-      :height: 0.75in
-      :align: left
-
-   名称：**手动模式**
-   
-   作用：机器人手动模式，进行机器人示教操作
+   作用：展示当前应用的负载重量和质心坐标X、Y、Z
 
 .. note:: 
    .. image:: teaching_pendant_software/014.png
@@ -200,6 +230,26 @@ WebApp 访问登录
    名称：**机器人拖动状态**
    
    作用：当前机器人不可拖动
+
+.. note:: 
+   .. image:: teaching_pendant_software/068.png
+      :width: 0.75in
+      :height: 0.75in
+      :align: left
+
+   名称：**机器人本地模式**
+   
+   作用：当前机器人通过控制箱控制
+
+.. note:: 
+   .. image:: teaching_pendant_software/067.png
+      :width: 0.75in
+      :height: 0.75in
+      :align: left
+
+   名称：**机器人远程模式**
+   
+   作用：当前机器人只能通过PLC控制
 
 .. note:: 
    .. image:: teaching_pendant_software/017.png
