@@ -180,7 +180,7 @@ FRJ-PCIeN板卡硬件环境搭建
 
 1. 浏览器IP输入192.168.58.2，账号为admin，密码为123，点击“登录”，进入机器人控制箱Web界面。
 
-.. image:: custom_protocol_slave/007.png
+.. image:: teaching_pendant_software/001.png
    :width: 6in
    :align: center
 

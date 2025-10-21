@@ -124,3 +124,22 @@
    :align: center
 
 .. centered:: 图表13.2‑6 数据视图显示
+
+数据筛选
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1. 在停止查询后，输入x/y的最小/大值，图表数据范围也会相应进行改变，如下图：
+
+.. image:: status/012.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表13.2‑7 数据筛选界面
+
+2. 点击还原按钮，图表数据范围恢复默认，如下图：
+
+.. image:: status/013.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表13.2‑8 数据还原
