@@ -1540,3 +1540,14 @@ FIR滤波代码示例
 
         return 0;
     }
+
+清空运动指令队列
++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 清空运动指令队列
+    * @return 错误码
+    */
+    public int MotionQueueClear()

@@ -1133,6 +1133,19 @@
         robot.MoveJ(safetyjointPos, safetydescPose, 1, 0, 20, 100, 100, exaxisPos, -1, 0, offdese);
     }
 
+设置焊丝寻位扩展IO端口
++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 设置焊丝寻位扩展IO端口
+    * @param searchDoneDINum 焊丝寻位成功DO端口(0-127)
+    * @param searchStartDONum 焊丝寻位启停控制DO端口(0-127)
+    * @return 错误码
+    */
+    int SetWireSearchExtDIONum(int searchDoneDINum, int searchStartDONum);
+
 焊丝寻位开始
 ++++++++++++++++++++++++++++++++++
 .. code-block:: c#

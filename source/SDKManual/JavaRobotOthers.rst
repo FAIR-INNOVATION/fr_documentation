@@ -403,3 +403,14 @@
      * @return  错误码
      */
     public int GetKernelUpgradeResult(int[] result)
+
+机器人MCU日志生成
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 机器人MCU日志生成
+    * @return 错误码
+    */
+    public int RobotMCULogCollect()

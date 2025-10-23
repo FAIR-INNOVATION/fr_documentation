@@ -1694,5 +1694,16 @@ FIR滤波代码示例
     */
     int GetSafetyCode();
 
+清空运动指令队列
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.9  Web-3.8.7
+    
+.. code-block:: c#
+    :linenos:
 
+    /**
+    * @brief 清空运动指令队列
+    * @return 错误码
+    */
+    public int MotionQueueClear();
 

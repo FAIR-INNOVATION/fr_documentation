@@ -1482,3 +1482,14 @@ FIR滤波代码示例
          robot.CloseRPC();
          return 0;
      }
+    
+清空运动指令队列
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 清空运动指令队列
+    * @return 错误码
+    */
+    errno_t MotionQueueClear();
