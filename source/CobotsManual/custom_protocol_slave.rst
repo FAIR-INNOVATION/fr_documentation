@@ -186,39 +186,31 @@ FRJ-PCIeN板卡硬件环境搭建
 
 .. centered:: 图表 17.2-13 Web登录界面
 
-2. 点击辅助应用->工具应用->系统升级界面，选择software.tar.gz文件，上传升级包。
+2. 点击系统设置->关于界面，点击软件升级按钮，选择software.tar.gz文件，上传升级包。
 
 .. image:: custom_protocol_slave/008.png
-   :width: 4in
+   :width: 6in
    :align: center
 
 .. centered:: 图表 17.2-14 软件升级
 
 .. note:: QX控制箱web版本需要3.8.0及以上，LA控制箱web版本需要3.8.0及以上。
 
-3. 进入外设->远程控制， 控制模式选择“Profinet控制”，厂商选择“Hilscher”，循环周期选择“4ms”，点击“设置”。
-
-.. image:: custom_protocol_slave/009.png
-   :width: 4in
-   :align: center
-
-.. centered:: 图表 17.2-15 接口配置
-
-4. 点击右上角“本地模式”->切换远程模式。
+3. 点击右上角扩展按钮，切换“本地模式”->“远程模式”。
 
 .. image:: custom_protocol_slave/010.png
    :width: 4in
    :align: center
 
-.. centered:: 图表 17.2-16 切换远程模式
+.. centered:: 图表 17.2-15 切换远程模式
 
-5. 选择控制器从站协议，以及是否需要自启动功能，点击“设置”按钮。注意：切换不同的协议，需要先点击“卸载”按钮，再进行其他协议的配置。
+4. 选择控制器从站协议，以及是否需要自启动功能，点击“设置”按钮。注意：切换不同的协议，需要先点击“卸载”按钮，再进行其他协议的配置。
 
 .. image:: custom_protocol_slave/011.png
    :width: 6in
    :align: center
 
-.. centered:: 图表 17.2-17 配置通讯协议
+.. centered:: 图表 17.2-16 配置通讯协议
 
 .. note:: 切换不同的协议，需要重启控制箱再进行协议的配置。
 

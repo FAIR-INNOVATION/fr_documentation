@@ -22,13 +22,13 @@
 
 1. 在登录界面（或首次激活界面均可设置），在右上角进行语言选择。
 
-.. image:: teach_pendant/002.png
+.. image:: teaching_pendant_software/062.png
    :width: 6in
    :align: center
 
 .. centered:: 图表 16.2‑1 激活界面设置语言
 
-.. image:: teach_pendant/003.png
+.. image:: teaching_pendant_software/063.png
    :width: 6in
    :align: center
 
