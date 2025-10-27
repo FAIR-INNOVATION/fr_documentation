@@ -5825,7 +5825,7 @@ CNC功能包支持在示教程序中调用控制指令，并实时获取机床�
 
 .. figure:: robot_peripherals/110.png
    :align: center
-   :width: 6in
+   :width: 4in
 
 .. centered:: 图表 8.15‑4 UDP通信配置界面
 
@@ -5855,7 +5855,7 @@ CNC功能包支持在示教程序中调用控制指令，并实时获取机床�
 
 .. figure:: robot_peripherals/246.png
    :align: center
-   :width: 6in
+   :width: 4in
 
 .. centered:: 图表 8.15‑6 焊机配置页面
 
@@ -5870,7 +5870,7 @@ CNC功能包支持在示教程序中调用控制指令，并实时获取机床�
 
 .. figure:: robot_peripherals/247.png
    :align: center
-   :width: 6in
+   :width: 4in
 
 .. centered:: 图表 8.15‑7 工具坐标系配置页面
 
@@ -5878,7 +5878,7 @@ CNC功能包支持在示教程序中调用控制指令，并实时获取机床�
 
 .. figure:: robot_peripherals/248.png
    :align: center
-   :width: 6in
+   :width: 4in
 
 .. centered:: 图表 8.15‑8 选择6点法对焊枪进行标定
 
@@ -5886,7 +5886,7 @@ CNC功能包支持在示教程序中调用控制指令，并实时获取机床�
 
 .. figure:: robot_peripherals/148.png
    :align: center
-   :width: 6in
+   :width: 4in
 
 .. centered:: 图表 8.15‑9 选择5点法对激光传感器进行标定
 
@@ -5906,7 +5906,7 @@ CNC功能包支持在示教程序中调用控制指令，并实时获取机床�
 
 .. figure:: robot_peripherals/077.png
    :align: center
-   :width: 6in
+   :width: 4in
 
 .. centered:: 图表 8.15‑10 扩展轴坐标系设置页面
 
@@ -5914,7 +5914,7 @@ CNC功能包支持在示教程序中调用控制指令，并实时获取机床�
 
 .. figure:: robot_peripherals/249.png
    :align: center
-   :width: 6in
+   :width: 4in
 
 .. centered:: 图表 8.15‑11 扩展轴标定页面
 
@@ -6059,7 +6059,7 @@ CNC功能包支持在示教程序中调用控制指令，并实时获取机床�
 
 .. figure:: robot_peripherals/245.png
    :align: center
-   :width: 6in
+   :width: 4in
 
 .. centered:: 图表 8.16‑2 传感器通信配置
 
