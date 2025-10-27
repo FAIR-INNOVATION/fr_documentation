@@ -909,7 +909,7 @@ LIN指令关节超速处理功能
 **Step2**：点击添加摆动指令。
 
 .. image:: coding/068.png
-   :width: 1.5in
+   :width: 5in
    :align: center
 
 .. centered:: 图表 9.5-26-3 点击添加摆动指令
@@ -2515,7 +2515,7 @@ ModbusTCP主站通信测试
 编写ModbusTCP主站程序
 ++++++++++++++++++++++++++
 
-依次点击“全部”、“通讯指令”，打开通讯指令添加页面。
+依次点击“通讯指令”，打开通讯指令添加页面。
 
 .. image:: coding/176.png
    :width: 6in
