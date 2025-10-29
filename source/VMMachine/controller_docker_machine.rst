@@ -219,10 +219,6 @@ web操作虚拟机器人
    
 以修改IP为192.168.56.2/24为例。
 
-.. image:: controller_virtual_machine/051.png
-   :width: 6in
-   :align: center 
-
 4. 打开终端，关闭容器；
  	
 查看容器ID：
@@ -288,10 +284,6 @@ web操作虚拟机器人
    docker start [容器ID]
 
 8. 此时打开浏览器， 输入修改后 IP 地址，即可访问 web 界面，操作虚拟机器人。
-
-.. image:: controller_virtual_machine/056.png
-   :width: 6in
-   :align: center 
 
 虚拟机版本升降级
 ----------------------------
