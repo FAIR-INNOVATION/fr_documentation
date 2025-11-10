@@ -52,7 +52,7 @@
 -------------
 如果您已有FRCap项目文件夹，且符合FRCap项目结构，请直接阅读\ `构建FRCap <frcap_quick_start.html#id3>`__\。
 
-如果您已有文件后缀名称为“.frcap”的完整插件包，请直接阅读\ `Hello FRCap <frcap_quick_start.html#hello-frcap>`__\。
+如果您已有文件后缀名称为“.plugin”的完整插件包，请直接阅读\ `Hello FRCap <frcap_quick_start.html#hello-frcap>`__\。
 
 构建FRCap
 -------------
@@ -74,7 +74,7 @@
 
    ./build.sh
 
-构建完成后，在FRCap项目目录下生成文件名称为FRCap名称的，文件后缀为“.frcap”的包文件。
+构建完成后，在FRCap项目目录下生成文件名称为FRCap名称的，文件后缀为“.plugin”的包文件。
 
 .. image:: frcap_pictures/006.png
    :width: 6in
@@ -84,7 +84,7 @@
 
 Hello FRCap
 -------------
-FRCap项目构建完成后，在本地计算机中打开浏览器并输入机器人默认IP地址（http://192.168.58.2）并登录进入WebApp，依次点击“系统设置”->“FRCap管理”->“导入”。选择构建完成的“.frcap”后缀的FRCap包文件，打开即可上传。上传成功后在下方的插件信息列表中展示导入的FRCap信息。
+FRCap项目构建完成后，在本地计算机中打开浏览器并输入机器人默认IP地址（http://192.168.58.2）并登录进入WebApp，依次点击“系统设置”->“FRCap管理”->“导入”。选择构建完成的“.plugin”后缀的FRCap包文件，打开即可上传。上传成功后在下方的插件信息列表中展示导入的FRCap信息。
 
 通过列表中的操作栏控制FRCap启用与否和删除，在启停状态栏查看FRCap的启用状态。
 

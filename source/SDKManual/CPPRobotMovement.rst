@@ -143,24 +143,24 @@ jog点动立即停止
     :linenos:
 
     /**
-    * @brief  笛卡尔空间直线运动
-    * @param  [in] joint_pos  目标关节位置,单位deg
-    * @param  [in] desc_pos   目标笛卡尔位姿
-    * @param  [in] tool  工具坐标号，范围[0~14]
-    * @param  [in] user  工件坐标号，范围[0~14]
-    * @param  [in] vel  速度百分比，范围[0~100]
-    * @param  [in] acc  加速度百分比，范围[0~100],暂不开放
-    * @param  [in] ovl  速度缩放因子，范围[0~100]
-    * @param  [in] blendR [-1.0]-运动到位(阻塞)，[0~1000.0]-平滑半径(非阻塞)，单位mm
-    * @param  [in] blendMode 过渡方式；0-内切过渡；1-角点过渡
-    * @param  [in] epos  扩展轴位置，单位mm
-    * @param  [in] search  0-不焊丝寻位，1-焊丝寻位
-    * @param  [in] offset_flag  0-不偏移，1-基坐标系/工件坐标系下偏移，2-工具坐标系下偏移
-    * @param  [in] offset_pos  位姿偏移量
-    * @param  [in] velAccParamMode 速度加速度参数模式；0-百分比；1-物理速度(mm/s)加速度(mm/s2)
-    * @param  [in] overSpeedStrategy  超速处理策略，1-标准；2-超速时报错停止；3-自适应降速，默认为0
-    * @param  [in] speedPercent  允许降速阈值百分比[0-100]，默认10%
-    * @return  错误码
+    * @brief  笛卡尔空间直线运动
+    * @param  [in] joint_pos  目标关节位置,单位deg
+    * @param  [in] desc_pos   目标笛卡尔位姿
+    * @param  [in] tool  工具坐标号，范围[0~14]
+    * @param  [in] user  工件坐标号，范围[0~14]
+    * @param  [in] vel  速度百分比，范围[0~100]
+    * @param  [in] acc  加速度百分比，范围[0~100],暂不开放
+    * @param  [in] ovl  速度缩放因子，范围[0~100]
+    * @param  [in] blendR [-1.0]-运动到位(阻塞)，[0~1000.0]-平滑半径(非阻塞)，单位mm
+    * @param  [in] blendMode 过渡方式；0-内切过渡；1-角点过渡
+    * @param  [in] epos  扩展轴位置，单位mm
+    * @param  [in] search  0-不焊丝寻位，1-焊丝寻位
+    * @param  [in] offset_flag  0-不偏移，1-基坐标系/工件坐标系下偏移，2-工具坐标系下偏移
+    * @param  [in] offset_pos  位姿偏移量
+    * @param  [in] velAccParamMode 速度加速度参数模式；0-百分比；1-物理速度(mm/s)加速度(mm/s2)
+    * @param  [in] overSpeedStrategy  超速处理策略，1-标准；2-超速时报错停止；3-自适应降速，默认为0
+    * @param  [in] speedPercent  允许降速阈值百分比[0-100]，默认10%
+    * @return  错误码
     */
     errno_t MoveL(JointPos *joint_pos, DescPose *desc_pos, int tool, int user, float vel, float acc, float ovl, float blendR, int blendMode, ExaxisPos *epos, uint8_t search, uint8_t offset_flag, DescPose *offset_pos, int velAccParamMode = 0, int overSpeedStrategy = 0, int speedPercent = 10);
 
@@ -196,29 +196,29 @@ jog点动立即停止
     :linenos:
 
     /**
-    * @brief  笛卡尔空间圆弧运动
-    * @param  [in] joint_pos_p  路径点关节位置,单位deg
-    * @param  [in] desc_pos_p   路径点笛卡尔位姿
-    * @param  [in] ptool  工具坐标号，范围[0~14]
-    * @param  [in] puser  工件坐标号，范围[0~14]
-    * @param  [in] pvel  速度百分比，范围[0~100]
-    * @param  [in] pacc  加速度百分比，范围[0~100],暂不开放
-    * @param  [in] epos_p  扩展轴位置，单位mm
-    * @param  [in] poffset_flag  0-不偏移，1-基坐标系/工件坐标系下偏移，2-工具坐标系下偏移
-    * @param  [in] offset_pos_p  位姿偏移量
-    * @param  [in] joint_pos_t  目标点关节位置,单位deg
-    * @param  [in] desc_pos_t   目标点笛卡尔位姿
-    * @param  [in] ttool  工具坐标号，范围[0~14]
-    * @param  [in] tuser  工件坐标号，范围[0~14]
-    * @param  [in] tvel  速度百分比，范围[0~100]
-    * @param  [in] tacc  加速度百分比，范围[0~100],暂不开放
-    * @param  [in] epos_t  扩展轴位置，单位mm
-    * @param  [in] toffset_flag  0-不偏移，1-基坐标系/工件坐标系下偏移，2-工具坐标系下偏移
-    * @param  [in] offset_pos_t  位姿偏移量
-    * @param  [in] ovl  速度缩放因子，范围[0~100]
-    * @param  [in] blendR [-1.0]-运动到位(阻塞)，[0~1000.0]-平滑半径(非阻塞)，单位mm
-    * @param  [in] velAccParamMode 速度加速度参数模式；0-百分比；1-物理速度(mm/s)加速度(mm/s2)
-    * @return  错误码
+    * @brief  笛卡尔空间圆弧运动
+    * @param  [in] joint_pos_p  路径点关节位置,单位deg
+    * @param  [in] desc_pos_p   路径点笛卡尔位姿
+    * @param  [in] ptool  工具坐标号，范围[0~14]
+    * @param  [in] puser  工件坐标号，范围[0~14]
+    * @param  [in] pvel  速度百分比，范围[0~100]
+    * @param  [in] pacc  加速度百分比，范围[0~100],暂不开放
+    * @param  [in] epos_p  扩展轴位置，单位mm
+    * @param  [in] poffset_flag  0-不偏移，1-基坐标系/工件坐标系下偏移，2-工具坐标系下偏移
+    * @param  [in] offset_pos_p  位姿偏移量
+    * @param  [in] joint_pos_t  目标点关节位置,单位deg
+    * @param  [in] desc_pos_t   目标点笛卡尔位姿
+    * @param  [in] ttool  工具坐标号，范围[0~14]
+    * @param  [in] tuser  工件坐标号，范围[0~14]
+    * @param  [in] tvel  速度百分比，范围[0~100]
+    * @param  [in] tacc  加速度百分比，范围[0~100],暂不开放
+    * @param  [in] epos_t  扩展轴位置，单位mm
+    * @param  [in] toffset_flag  0-不偏移，1-基坐标系/工件坐标系下偏移，2-工具坐标系下偏移
+    * @param  [in] offset_pos_t  位姿偏移量
+    * @param  [in] ovl  速度缩放因子，范围[0~100]
+    * @param  [in] blendR [-1.0]-运动到位(阻塞)，[0~1000.0]-平滑半径(非阻塞)，单位mm
+    * @param  [in] velAccParamMode 速度加速度参数模式；0-百分比；1-物理速度(mm/s)加速度(mm/s2)
+    * @return  错误码
     */
     errno_t MoveC(JointPos *joint_pos_p, DescPose *desc_pos_p, int ptool, int puser, float pvel, float pacc, ExaxisPos *epos_p, uint8_t poffset_flag, DescPose *offset_pos_p, JointPos *joint_pos_t, DescPose *desc_pos_t, int ttool, int tuser, float tvel, float tacc, ExaxisPos *epos_t, uint8_t toffset_flag, DescPose *offset_pos_t, float ovl, float blendR, int velAccParamMode = 0);
 
@@ -258,28 +258,28 @@ jog点动立即停止
     :linenos:
 
     /**
-    * @brief  笛卡尔空间整圆运动
-    * @param  [in] joint_pos_p  路径点1关节位置,单位deg
-    * @param  [in] desc_pos_p   路径点1笛卡尔位姿
-    * @param  [in] ptool  工具坐标号，范围[0~14]
-    * @param  [in] puser  工件坐标号，范围[0~14]
-    * @param  [in] pvel  速度百分比，范围[0~100]
-    * @param  [in] pacc  加速度百分比，范围[0~100],暂不开放
-    * @param  [in] epos_p  扩展轴位置，单位mm
-    * @param  [in] joint_pos_t  路径点2关节位置,单位deg
-    * @param  [in] desc_pos_t   路径点2笛卡尔位姿
-    * @param  [in] ttool  工具坐标号，范围[0~14]
-    * @param  [in] tuser  工件坐标号，范围[0~14]
-    * @param  [in] tvel  速度百分比，范围[0~100]
-    * @param  [in] tacc  加速度百分比，范围[0~100],暂不开放
-    * @param  [in] epos_t  扩展轴位置，单位mm
-    * @param  [in] ovl  速度缩放因子，范围[0~100]
-    * @param  [in] offset_flag  0-不偏移，1-基坐标系/工件坐标系下偏移，2-工具坐标系下偏移
-    * @param  [in] offset_pos  位姿偏移量
-    * @param  [in] oacc 加速度百分比
-    * @param  [in] blendR -1：阻塞；0~1000：平滑半径
-    * @param  [in] velAccParamMode 速度加速度参数模式；0-百分比；1-物理速度(mm/s)加速度(mm/s2)
-    * @return  错误码
+    * @brief  笛卡尔空间整圆运动
+    * @param  [in] joint_pos_p  路径点1关节位置,单位deg
+    * @param  [in] desc_pos_p   路径点1笛卡尔位姿
+    * @param  [in] ptool  工具坐标号，范围[0~14]
+    * @param  [in] puser  工件坐标号，范围[0~14]
+    * @param  [in] pvel  速度百分比，范围[0~100]
+    * @param  [in] pacc  加速度百分比，范围[0~100],暂不开放
+    * @param  [in] epos_p  扩展轴位置，单位mm
+    * @param  [in] joint_pos_t  路径点2关节位置,单位deg
+    * @param  [in] desc_pos_t   路径点2笛卡尔位姿
+    * @param  [in] ttool  工具坐标号，范围[0~14]
+    * @param  [in] tuser  工件坐标号，范围[0~14]
+    * @param  [in] tvel  速度百分比，范围[0~100]
+    * @param  [in] tacc  加速度百分比，范围[0~100],暂不开放
+    * @param  [in] epos_t  扩展轴位置，单位mm
+    * @param  [in] ovl  速度缩放因子，范围[0~100]
+    * @param  [in] offset_flag  0-不偏移，1-基坐标系/工件坐标系下偏移，2-工具坐标系下偏移
+    * @param  [in] offset_pos  位姿偏移量
+    * @param  [in] oacc 加速度百分比
+    * @param  [in] blendR -1：阻塞；0~1000：平滑半径
+    * @param  [in] velAccParamMode 速度加速度参数模式；0-百分比；1-物理速度(mm/s)加速度(mm/s2)
+    * @return  错误码
     */
     errno_t Circle(JointPos* joint_pos_p, DescPose* desc_pos_p, int ptool, int puser, float pvel, float pacc, ExaxisPos* epos_p, JointPos* joint_pos_t, DescPose* desc_pos_t, int ttool, int tuser, float tvel, float tacc, ExaxisPos* epos_t, float ovl, uint8_t offset_flag, DescPose* offset_pos, double oacc = 100.0, double blendR = -1, int velAccParamMode = 0);
 
@@ -595,11 +595,14 @@ jog点动立即停止
 
     /**
     * @brief 关节扭矩控制
-    * @param [in] torque j1~j6关节扭矩，单位Nm
-    * @param [in] interval 指令周期，单位s，范围[0.001~0.008]
-    * @return 错误码
+    * @param  [in] torque j1~j6关节扭矩，单位Nm
+    * @param  [in] interval 指令周期，单位s，范围[0.001~0.008]
+    * @param  [in] checkFlag 检测策略 0-不限制；1-限制功率；2-限制速度；3-功率和速度同时限制
+    * @param  [in] jPowerLimit 关节最大功率限制(W)
+    * @param  [in] jVelLimit 关节最大速度(°/s)
+    * @return  错误码
     */
-    errno_t ServoJT(float torque[], double interval);
+    errno_t ServoJT(float torque[], double interval, int checkFlag, double jPowerLimit[6], double jVelLimit[6]);
 
 关节扭矩控制结束
 ++++++++++++++++++++++++++++++++++++++++++
@@ -650,6 +653,46 @@ jog点动立即停止
          robot.CloseRPC();
          return 0;
      }
+
+具有超速保护的关节扭矩控制代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    int ServoJTWithSafety(FRRobot* robot)
+    {
+        robot->ResetAllError();
+        robot->Sleep(500);
+        float torques[] = { 0, 0, 0, 0, 0, 0 };
+        robot->GetJointTorques(1, torques);
+        robot->ServoJTStart(); 
+        ROBOT_STATE_PKG pkg = {};
+        robot->DragTeachSwitch(1);
+        int checkFlag = 3;
+        //double jPowerLimit[6] = {1, 1, 1, 1, 1, 1}; 
+        double jPowerLimit[6] = { 10.0, 10.0, 10.0, 10.0, 10.0, 10.0 };
+        double jVelLimit[6] = { 181, 80, 80, 80, 80, 80 };
+        int count = 800000;
+        int error = 0;
+        while (count > 0)
+        {
+            torques[2] = torques[2] + 0.01;
+            error = robot->ServoJT(torques, 0.008, checkFlag, jPowerLimit, jVelLimit); 
+            if (error != 0)
+            {
+                robot->ServoJTEnd();
+            }
+            printf("ServoJT rtn is %d\n", error);
+            count = count - 1;
+            robot->Sleep(1);
+            robot->GetRobotRealTimeState(&pkg);
+            printf("maincode %d, subcode %d\n", pkg.main_code, pkg.sub_code);
+        }
+        robot->DragTeachSwitch(0);
+        error = robot->ServoJTEnd();  
+        return 0;
+    }
 
 笛卡尔空间伺服模式运动
 ++++++++++++++++++++++++++++++++++
@@ -1482,3 +1525,14 @@ FIR滤波代码示例
          robot.CloseRPC();
          return 0;
      }
+    
+清空运动指令队列
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 清空运动指令队列
+    * @return 错误码
+    */
+    errno_t MotionQueueClear();

@@ -790,12 +790,15 @@ jog点动立即停止
     :linenos:
 
     /**
-    * @brief  关节扭矩控制
-    * @param  [in] torque j1~j6关节扭矩，单位Nm
-    * @param  [in] interval 指令周期，单位s，范围[0.001~0.008]
+    * @brief 关节扭矩控制
+    * @param  torque j1~j6关节扭矩，单位Nm
+    * @param  interval 指令周期，单位s，范围[0.001~0.008]
+    * @param  checkFlag 检测策略 0-不限制；1-限制功率；2-限制速度；3-功率和速度同时限制
+    * @param  jPowerLimit 关节最大功率限制(W)
+    * @param  jVelLimit 关节最大速度(°/s)
     * @return  错误码
     */
-    int ServoJT(Object[] torque, double interval)
+    public int ServoJT(double[] torque, double interval, int checkFlag, double[] jPowerLimit, double[] jVelLimit)
 
 关节扭矩控制结束
 +++++++++++++++++++++++++++++
@@ -834,6 +837,41 @@ jog点动立即停止
 
         robot.CloseRPC();
         return 0;
+    }
+
+具有超速保护的关节扭矩控制代码示例
++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static void ServoJTWithSafety(Robot robot)
+    {
+        robot.ResetAllError();
+        robot.Sleep(500);
+        List<Number> torques;
+        torques=robot.GetJointTorques(1);
+        robot.ServoJTStart(); //   #servoJT开始
+        ROBOT_STATE_PKG pkg=new ROBOT_STATE_PKG();
+        robot.DragTeachSwitch(1);
+        int checkFlag = 3;//-1,3
+        //double[] jPowerLimit = {1.0,1.0,1.0,1.0,1.0,1.0};//5001
+        double[] jPowerLimit = { 10.0, 10.0, 10.0, 10.0, 10.0, 10.0 };
+        double[] jVelLimit = { 50, 50, 50, 50, 50, 50};//180.1,-1
+        int count = 800000;
+        int error = 0;
+        double[] tor=new double[]{(double)torques.get(1),(double)torques.get(2),(double)torques.get(3),(double)torques.get(4),(double)torques.get(5),(double)torques.get(6)};
+        while (count > 0)
+        {
+            tor[2] = tor[2]+0.01;//  #每次1轴增加0.01NM，运动100次
+            error = robot.ServoJT(tor, 0.01, checkFlag, jPowerLimit, jVelLimit);  //# 关节空间伺服模式运动
+            System.out.printf("ServoJT rtn is %d\n", error);
+            count = count - 1;
+            robot.Sleep(1);
+            pkg=robot.GetRobotRealTimeState();
+            System.out.printf("maincode %d, subcode %d\n", pkg.main_code, pkg.sub_code);
+        }
+        robot.DragTeachSwitch(0);
+        error = robot.ServoJTEnd();  //#伺服运动结束
     }
 
 笛卡尔空间伺服模式运动
@@ -1540,3 +1578,14 @@ FIR滤波代码示例
 
         return 0;
     }
+
+清空运动指令队列
++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 清空运动指令队列
+    * @return 错误码
+    */
+    public int MotionQueueClear()

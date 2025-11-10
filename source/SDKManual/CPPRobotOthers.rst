@@ -470,3 +470,15 @@
     * @return 错误码
     */
     errno_t GetKernelUpgradeResult(int& result);
+        
+机器人MCU日志生成
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 机器人MCU日志生成
+    * @return 错误码
+    */
+    errno_t RobotMCULogCollect();

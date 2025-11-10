@@ -6,7 +6,7 @@
 
 控制器状态反馈数据包
 ~~~~~~~~~~~~~~~~~~~~~~~~
-.. versionadded:: python SDK-v2.1.6
+.. versionadded:: python SDK-v2.1.7
     
 .. csv-table:: 
     :header-rows: 1
@@ -108,6 +108,8 @@
     "exAxisCoord[i]","扩展轴坐标系,i:0~5"
     "load","负载质量"
     "loadCog[i]","负载质心,i:0~2"
+    "lastServoTarget[i]","队列中最后一个ServoJ目标位置,i:0~5"
+    "servoJCmdNum","ServoJ指令计数"
 
 伺服控制器状态
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -353,3 +355,10 @@
     print("loadCog0:", robot.robot_state_pkg.loadCog[0])
     print("loadCog1:", robot.robot_state_pkg.loadCog[1])
     print("loadCog2:", robot.robot_state_pkg.loadCog[2])
+    print("lastServoTarget0:", robot.robot_state_pkg.lastServoTarget[0])
+    print("lastServoTarget1:", robot.robot_state_pkg.lastServoTarget[1])
+    print("lastServoTarget2:", robot.robot_state_pkg.lastServoTarget[2])
+    print("lastServoTarget3:", robot.robot_state_pkg.lastServoTarget[3])
+    print("lastServoTarget4:", robot.robot_state_pkg.lastServoTarget[4])
+    print("lastServoTarget5:", robot.robot_state_pkg.lastServoTarget[5])
+    print("servoJCmdNum:", robot.robot_state_pkg.servoJCmdNum)

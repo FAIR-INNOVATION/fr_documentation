@@ -902,11 +902,14 @@ jog点动立即停止
 
     /**
     * @brief 关节扭矩控制
-    * @param  [in] torque j1~j6关节扭矩，单位Nm
-    * @param  [in] interval 指令周期，单位s，范围[0.001~0.008]
-    * @return  错误码
+    * @param [in] torque j1~j6关节扭矩，单位Nm
+    * @param [in] interval 指令周期，单位s，范围[0.001~0.008]
+    * @param [in] checkFlag 检测策略 0-不限制；1-限制功率；2-限制速度；3-功率和速度同时限制
+    * @param [in] jPowerLimit 关节最大功率限制(W)
+    * @param [in] jVelLimit 关节最大速度(°/s)
+    * @return 错误码
     */
-    int ServoJT(double[] torque, double interval);
+    public int ServoJT(double[] torque, double interval, int checkFlag, double[] jPowerLimit, double[] jVelLimit)
 
 关节扭矩控制结束
 ++++++++++++++++++++++++++++++++++
@@ -942,6 +945,59 @@ jog点动立即停止
         }
         error = robot.ServoJTEnd();
         robot.DragTeachSwitch(0);
+    }
+
+具有超速保护的关节扭矩控制代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    public int ServoJTWithSafety()
+    {
+        robot.ResetAllError();
+        Thread.Sleep(500);
+
+        double[] torques = new double[6] { 0, 0, 0, 0, 0, 0 };
+        robot.GetJointTorques(1, torques);
+
+        robot.ServoJTStart();
+        ROBOT_STATE_PKG pkg = new ROBOT_STATE_PKG();
+        robot.DragTeachSwitch(1);
+
+        int checkFlag = 0;
+        double[] jPowerLimit = new double[6] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
+        //double[] jPowerLimit = new double[6] { 10.0, 10.0, 10.0, 10.0, 10.0, 10.0 };
+        // double[] jVelLimit = new double[6] { 10.0, 10.0, 10.0, 10.0, 10.0, 10.0 };
+        double[] jVelLimit = new double[6] {50, 50, 50, 50, 50, 50 };
+        int count = 80000;
+        int errorNum = 0;
+        int error = 0;
+        while (count > 0)
+        {
+            
+            torques[2] = torques[2] + 0.01; 
+            error = robot.ServoJT(torques, 0.008, checkFlag, jPowerLimit, jVelLimit); 
+
+            Console.WriteLine($"ServoJT rtn is {error}");
+            count = count - 1;
+            Thread.Sleep(1);
+                
+            robot.GetRobotRealTimeState(ref pkg);
+            Console.WriteLine($"maincode {pkg.main_code}, subcode {pkg.sub_code}");
+            if (error != 0)
+            {
+                errorNum++;
+                if (errorNum > 5)
+                {
+                    break;
+                }
+
+            }
+        }
+        robot.DragTeachSwitch(0);
+        error = robot.ServoJTEnd();
+
+        return 0;
     }
 
 笛卡尔空间伺服模式运动
@@ -1694,5 +1750,16 @@ FIR滤波代码示例
     */
     int GetSafetyCode();
 
+清空运动指令队列
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.9  Web-3.8.7
+    
+.. code-block:: c#
+    :linenos:
 
+    /**
+    * @brief 清空运动指令队列
+    * @return 错误码
+    */
+    public int MotionQueueClear();
 

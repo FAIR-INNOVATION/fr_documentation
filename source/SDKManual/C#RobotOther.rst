@@ -317,9 +317,117 @@
      */
     public int GetKernelUpgradeResult(ref int[] result)
 
+设置编码器升级
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.5  Web-3.8.4
+    
+.. code-block:: c#
+    :linenos:
 
+    /**
+    * @brief 设置编码器升级
+    * @param [in] path 本地升级包全路径(D://zUP/XXXXX.bin)
+    * @return 错误码
+    */
+    int SetEncoderUpgrade(string path);
 
+设置关节固件升级
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.5  Web-3.8.4
+    
+.. code-block:: c#
+    :linenos:
 
+    /**
+    * @brief 设置关节固件升级
+    * @param [in] type 升级文件类型；1-升级固件；2-升级从站配置文件
+    * @param [in] path 本地升级包全路径(D://zUP/XXXXX.bin)
+    * @return 错误码
+    */
+    int SetJointFirmwareUpgrade(int type, string path);
+
+设置控制箱固件升级
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.5  Web-3.8.4
+    
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 设置控制箱固件升级
+    * @param [in] type 升级文件类型；1-升级固件；2-升级从站配置文件
+    * @param [in] path 本地升级包全路径(D://zUP/XXXXX.bin)
+    * @return 错误码
+    */
+    int SetCtrlFirmwareUpgrade(int type, string path);
+
+设置末端固件升级
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.5  Web-3.8.4
+    
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 设置末端固件升级
+    * @param [in] type 升级文件类型；1-升级固件；2-升级从站配置文件
+    * @param [in] path 本地升级包全路径(D://zUP/XXXXX.bin)
+    * @return 错误码
+    */
+    int SetEndFirmwareUpgrade(int type, string path);
+
+关节全参数配置文件升级
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.5  Web-3.8.4
+    
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 关节全参数配置文件升级
+    * @param [in] path 本地升级包全路径(D://zUP/XXXXX.bin)
+    * @return 错误码
+    */
+    int JointAllParamUpgrade(string path);
+
+机器人从站固件升级代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.5  Web-3.8.4
+    
+.. code-block:: c#
+    :linenos:
+
+    private void button83_Click(object sender, EventArgs e)
+    {
+        robot.RobotEnable(0);
+        Thread.Sleep(200);
+        int rtn = robot.JointAllParamUpgrade("D://zUP/upgrade/jointallparameters.db");
+        Console.WriteLine($"robot JointAllParamUpgrade rtn is{rtn}");
+        rtn = robot.SetCtrlFirmwareUpgrade(2, "D://zUP/upgrade/FAIR_Cobot_Cbd_Asix_V2.0.bin");
+        Console.WriteLine($"robot SetCtrlFirmwareUpgrade rtn is{rtn}");
+        rtn = robot.SetEndFirmwareUpgrade(2, "D://zUP/upgrade/FAIR_Cobot_Axle_Asix_V2.4.bin");
+        Console.WriteLine($"robot SetEndFirmwareUpgrade rtn is {rtn}");
+        robot.SetSysServoBootMode();
+        rtn = robot.SetCtrlFirmwareUpgrade(1, "D://zUP/upgrade/FR_CTRL_PRIMCU_FV201212_MAIN_U4_T01_20250428(MT).bin");
+        Console.WriteLine($"robot SetCtrlFirmwareUpgrade rtn is{rtn}");
+        rtn = robot.SetEndFirmwareUpgrade(1, "D://zUP/upgrade/FR_END_FV201009_MAIN_U1_T01_20250428.bin");
+        Console.WriteLine($"robot SetEndFirmwareUpgrade rtn is {rtn}");
+        rtn = robot.SetJointFirmwareUpgrade(1, "D://zUP/upgrade/FR_SERVO_FV504214_MAIN_U7_T07_20250519.bin");
+        Console.WriteLine($"robot SetJointFirmwareUpgrade rtn is{rtn}");
+    }
+
+机器人MCU日志生成
+++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.9  Web-3.8.7
+    
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 机器人MCU日志生成
+    * @return 错误码
+    */
+    public int RobotMCULogCollect();
 
 
 

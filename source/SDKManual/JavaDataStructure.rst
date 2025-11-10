@@ -198,21 +198,23 @@
     */
     public class SpiralParam
     {
-      public int circle_num;              /* 螺旋圈数  */
-      public double circle_angle;         /* 螺旋倾角  */
-      public double rad_init;             /* 螺旋初始半径，单位mm  */
-      public double rad_add;              /* 半径增量  */
-      public double rotaxis_add;          /* 转轴方向增量  */
-      public int rot_direction;           /* 旋转方向，0-顺时针，1-逆时针  */
-      public SpiralParam(int circleNum, double circleAngle, double radInit, double radAdd, double rotaxisAdd, int rotDirection)
-      {
-        circle_num = circleNum;
-        circle_angle = circleAngle;
-        rad_init = radInit;
-        rad_add = radAdd;
-        rotaxis_add = rotaxisAdd;
-        rot_direction = rotDirection;
-      }
+        public int circle_num;           /* 螺旋圈数  */
+        public double circle_angle;         /* 螺旋倾角  */
+        public double rad_init;             /* 螺旋初始半径，单位mm  */
+        public double rad_add;              /* 半径增量  */
+        public double rotaxis_add;          /* 转轴方向增量  */
+        public int rot_direction;  /* 旋转方向，0-顺时针，1-逆时针  */
+        public int velAccMode;     /* 速度加速度参数模式：0-角速度恒定；1-线速度恒定 */
+        public SpiralParam(int circleNum, double circleAngle, double radInit, double radAdd, double rotaxisAdd, int rotDirection,int vel_AccMode)
+        {
+            circle_num = circleNum;
+            circle_angle = circleAngle;
+            rad_init = radInit;
+            rad_add = radAdd;
+            rotaxis_add = rotaxisAdd;
+            rot_direction = rotDirection;
+            velAccMode=vel_AccMode;
+        }
     }
 
 扩展轴状态类型
@@ -446,6 +448,9 @@ UDP扩展轴通讯参数
       public double[] exAxisCoord=new double[6];		   //扩展轴坐标系
       public double load;                   //负载质量
       public double[] loadCog=new double[3];             //负载质心
+
+      public double[] lastServoTarget=new double[6];      //队列中最后一个servo]目标位置
+      public int servoJCmdNum;                            //servo]指令计数
 
       public short check_sum = 0;          /* 和校验 */
 
