@@ -1,10 +1,6 @@
 FRCap插件系统
 ================
 
-.. figure:: frcap_pictures/010.png
-    :align: center
-    :figclass: align-center
-
 .. toctree:: 
     :maxdepth: 12
     :numbered: 10
