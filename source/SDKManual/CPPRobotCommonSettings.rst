@@ -1020,9 +1020,54 @@
     /**
     * @brief 获取关节扭矩传感器灵敏度标定结果
     * @param [out] calibResult j1~j6关节灵敏度[0-1]
+    * @param [out] linearityn j1~j6关节线性度[0-1]
     * @return 错误码
     */
-    errno_t JointSensitivityCalibration(double result[6]);
+    errno_t JointSensitivityCalibration(double calibResult[6], double linearity[6]);
+
+获取关节扭矩传感器迟滞误差
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 获取关节扭矩传感器迟滞误差
+    * @param [out] hysteresisError j1~j6关节迟滞误差
+    * @return 错误码
+    */
+    errno_t JointHysteresisError(double hysteresisError[6]);
+    
+获取关节扭矩传感器重复精度
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c++
+    :linenos:
+    
+    /**
+    * @brief 获取关节扭矩传感器重复精度
+    * @param [out] repeatability j1~j6关节扭矩传感器重复精度
+    * @return 错误码
+    */
+    errno_t JointRepeatability(double repeatability[6]);
+    
+设置关节力传感器参数
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 设置关节力传感器参数
+    * @param [in] M J1-J6质量系数[0.001 ~ 10]
+    * @param [in] B J1-J6阻尼系数[0.001 ~ 10]
+    * @param [in] K J1-J6刚度系数[0.001 ~ 10]
+    * @param [in] threshold 力控制阈值，Nm
+    * @param [in] sensitivity 灵敏度,Nm/V,[0 ~ 10]
+    * @param [in] setZeroFlag 功能开启标志位；0-关闭；1-开启；2-位置1记录零点；3-位置2记录零点
+    * @return 错误码
+    */
+    errno_t SetAdmittanceParams(double M[6], double B[6], double K[6], double threshold[6], double sensitivity[6], int setZeroFlag);
 
 关节扭矩传感器灵敏度自动标定代码示例
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1042,15 +1087,16 @@
         {
             return 0;
         }
+        rtn = robot.JointSensitivityEnable(0);
         rtn = robot.JointSensitivityEnable(1);
         printf("JointSensitivityEnable rtn is %d\n", rtn);
         JointPos curJPos = {};
         robot.GetActualJointPosDegree(0, &curJPos);
+        ExaxisPos epos = { 0,0,0,0 };
+        DescPose offset_pos = { 0,0,0,0,0,0 };
         JointPos jointPos1 = { curJPos.jPos[0], 0, 0, -90, 0.02, curJPos.jPos[5] };
         DescPose descPos1 = {};
         robot.GetForwardKin(&jointPos1, &descPos1);
-        ExaxisPos epos = { 0,0,0,0 };
-        DescPose offset_pos = { 0,0,0,0,0,0 };
         robot.MoveJ(&jointPos1, &descPos1, 0, 0, 100, 100, 100, &epos, -1, 0, &offset_pos);
         robot.Sleep(200);
         rtn = robot.JointSensitivityCollect();
@@ -1104,13 +1150,65 @@
         rtn = robot.JointSensitivityCollect();
         printf("JointSensitivityCollect 7 rtn is %d\n", rtn);
         robot.Sleep(100);
+        //-------------------
+        robot.MoveJ(&jointPos6, &descPos6, 0, 0, 100, 100, 100, &epos, -1, 0, &offset_pos);
+        robot.Sleep(100);
+        rtn = robot.JointSensitivityCollect();
+        printf("JointSensitivityCollect 8 rtn is %d\n", rtn);
+        robot.Sleep(100);
+        robot.MoveJ(&jointPos5, &descPos5, 0, 0, 100, 100, 100, &epos, -1, 0, &offset_pos);
+        robot.Sleep(100);
+        rtn = robot.JointSensitivityCollect();
+        printf("JointSensitivityCollect 9 rtn is %d\n", rtn);
+        robot.Sleep(100);
+        robot.MoveJ(&jointPos4, &descPos4, 0, 0, 100, 100, 100, &epos, -1, 0, &offset_pos);
+        robot.Sleep(100);
+        rtn = robot.JointSensitivityCollect();
+        printf("JointSensitivityCollect 10 rtn is %d\n", rtn);
+        robot.Sleep(100);
+        robot.MoveJ(&jointPos3, &descPos3, 0, 0, 100, 100, 100, &epos, -1, 0, &offset_pos);
+        robot.Sleep(100);
+        rtn = robot.JointSensitivityCollect();
+        printf("JointSensitivityCollect 11 rtn is %d\n", rtn);
+        robot.Sleep(100);
+        robot.MoveJ(&jointPos2, &descPos2, 0, 0, 100, 100, 100, &epos, -1, 0, &offset_pos);
+        robot.Sleep(100);
+        rtn = robot.JointSensitivityCollect();
+        printf("JointSensitivityCollect 12 rtn is %d\n", rtn);
+        robot.Sleep(100);
+        robot.MoveJ(&jointPos1, &descPos1, 0, 0, 100, 100, 100, &epos, -1, 0, &offset_pos);
+        robot.Sleep(200);
+        rtn = robot.JointSensitivityCollect();
+        printf("JointSensitivityCollect 13 rtn is %d\n", rtn);
+        robot.Sleep(100);
         double calibResult[6] = { 0.0 };
-        rtn = robot.JointSensitivityCalibration(calibResult);
+        double linearity[6] = { 0.0 };
+        rtn = robot.JointSensitivityCalibration(calibResult, linearity);
         printf("JointSensitivityCalibration rtn is %d\n", rtn);
         rtn = robot.JointSensitivityEnable(0);
         printf("JointSensitivityEnable rtn is %d\n", rtn);
-        printf("jointSensor Calib result is %f %f %f %f %f %f\n", calibResult[0], calibResult[1], calibResult[2], 
-            calibResult[3], calibResult[4], calibResult[5]);
+        printf("jointSensor Calib result is %f %f %f %f %f %f\njointSensor linearity is %f %f %f %f %f %f\n", 
+            calibResult[0], calibResult[1], calibResult[2], 
+            calibResult[3], calibResult[4], calibResult[5], 
+            linearity[0], linearity[1], linearity[2],
+            linearity[3], linearity[4], linearity[5]);
+        double hysteresisError[6] = { 0.0 };
+        rtn = robot.JointHysteresisError(hysteresisError);
+        printf("JointHysteresisError result is %f %f %f %f %f %f\n",
+            hysteresisError[0], hysteresisError[1], hysteresisError[2],
+            hysteresisError[3], hysteresisError[4], hysteresisError[5]);
+        double repeatability[6] = { 0.0 };
+        rtn = robot.JointRepeatability(repeatability);
+        printf("JointRepeatability result is %f %f %f %f %f %f\n",
+            repeatability[0], repeatability[1], repeatability[2],
+            repeatability[3], repeatability[4], repeatability[5]);
+        double M[6] = { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
+        double B[6] = { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
+        double K[6] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+        double threshold[6] = { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
+        int setZeroFlag = 1;
+        rtn = robot.SetAdmittanceParams(M, B, K, threshold, calibResult, setZeroFlag);
+        printf("SetAdmittanceParams rtn is %d\n", rtn);
         robot.CloseRPC();
     }
     

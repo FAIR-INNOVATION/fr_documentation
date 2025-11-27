@@ -898,21 +898,6 @@
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
-获取关节扭矩传感器灵敏度标定结果
-+++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: python SDK-v2.1.7
-
-.. csv-table:: 
-    :stub-columns: 1
-    :widths: 10 30
-
-    "原型", "``JointSensitivityCalibration()``"
-    "描述", "获取关节扭矩传感器灵敏度标定结果"
-    "必选参数", "无"
-    "默认参数", "无"
-    "返回值", "- 错误码 成功-0  失败- errcode
-    - ``calibResult``：j1~j6关节灵敏度[0-1]"
-
 关节扭矩传感器灵敏度数据采集
 +++++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: python SDK-v2.1.7
@@ -926,6 +911,69 @@
     "必选参数", "无"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
+    
+获取关节扭矩传感器灵敏度标定结果
++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-v2.1.7
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``JointSensitivityCalibration()``"
+    "描述", "获取关节扭矩传感器灵敏度标定结果"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``calibResult``：j1~j6关节灵敏度[0-1]
+    - ``linearityn``：j1~j6关节线性度[0-1]"
+
+获取关节扭矩传感器迟滞误差
++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``JointHysteresisError()``"
+    "描述", "获取关节扭矩传感器迟滞误差"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``hysteresisError``：j1~j6关节迟滞误差"
+
+获取关节扭矩传感器重复精度
++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``JointRepeatability()``"
+    "描述", "获取关节扭矩传感器重复精度"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``repeatability``：j1~j6关节重复精度"
+
+设置关节力传感器参数
++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetAdmittanceParams(M, B, K, threshold, sensitivity, setZeroFlag)``"
+    "描述", "设置关节力传感器参数"
+    "必选参数", "
+    - ``M``：J1-J6质量系数[0.001 ~ 10]
+    - ``B``：J1-J6阻尼系数[0.001 ~ 10]
+    - ``K``：J1-J6刚度系数[0.001 ~ 10]
+    - ``threshold``：力控制阈值，Nm
+    - ``sensitivity``：灵敏度,Nm/V,[0 ~ 10]
+    - ``setZeroFlag``：功能开启标志位；0-关闭；1-开启；2-位置1记录零点；3-位置2记录零点"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode"
 
 关节扭矩传感器灵敏度自动标定代码示例
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -934,19 +982,18 @@
 
     from fairino import Robot
     import time
-    import threading
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
+    rtn = robot.JointSensitivityEnable(0)
     rtn = robot.JointSensitivityEnable(1)
     print(f"JointSensitivityEnable rtn is {rtn}")
     curJPos = [0.0] * 6
     rtn, curJPos = robot.GetActualJointPosDegree(0)
-    jointPos1 = [curJPos[0], 0.0, 0.0, -90.0, 0.02, curJPos[5]]
-    descPos1 = [0.0] * 6
-    rtn , descPos1 = robot.GetForwardKin(jointPos1)
     epos = [0.0] * 4
     offset_pos = [0.0] * 6
-    robot.MoveJ(joint_pos=jointPos1, desc_pos=descPos1,tool= 0,user= 0,vel= 100,acc= 100,ovl= 100,exaxis_pos= epos,blendT= -1,offset_flag= 0,offset_pos= offset_pos)
+    jointPos1 = [curJPos[0], 0.0, 0.0, -90.0, 0.02, curJPos[5]]
+    descPos1 = [0.0] * 6
+    rtn, descPos1 = robot.GetForwardKin(jointPos1)
+    robot.MoveJ(joint_pos=jointPos1, desc_pos=descPos1, tool=0, user=0, vel=100, acc=100, ovl=100, exaxis_pos=epos, blendT=-1, offset_flag=0, offset_pos=offset_pos)
     time.sleep(0.2)
     rtn = robot.JointSensitivityCollect()
     print(f"JointSensitivityCollect 1 rtn is {rtn}")
@@ -954,7 +1001,7 @@
     jointPos2 = [curJPos[0], -30.0, 0.0, -90.0, 0.02, curJPos[5]]
     descPos2 = [0.0] * 6
     rtn, descPos2 = robot.GetForwardKin(jointPos2)
-    robot.MoveJ(joint_pos=jointPos2, desc_pos=descPos2,tool= 0,user= 0,vel= 100,acc= 100,ovl= 100,exaxis_pos= epos,blendT= -1,offset_flag= 0,offset_pos= offset_pos)
+    robot.MoveJ(joint_pos=jointPos2, desc_pos=descPos2, tool=0, user=0, vel=100, acc=100, ovl=100, exaxis_pos=epos, blendT=-1, offset_flag=0, offset_pos=offset_pos)
     time.sleep(0.1)
     rtn = robot.JointSensitivityCollect()
     print(f"JointSensitivityCollect 2 rtn is {rtn}")
@@ -962,7 +1009,7 @@
     jointPos3 = [curJPos[0], -60.0, 0.0, -90.0, 0.02, curJPos[5]]
     descPos3 = [0.0] * 6
     rtn, descPos3 = robot.GetForwardKin(jointPos3)
-    robot.MoveJ(joint_pos=jointPos3,desc_pos= descPos3,tool= 0,user= 0,vel= 100,acc= 100,ovl= 100,exaxis_pos= epos,blendT= -1,offset_flag= 0,offset_pos= offset_pos)
+    robot.MoveJ(joint_pos=jointPos3, desc_pos=descPos3, tool=0, user=0, vel=100, acc=100, ovl=100, exaxis_pos=epos, blendT=-1, offset_flag=0, offset_pos=offset_pos)
     time.sleep(0.1)
     rtn = robot.JointSensitivityCollect()
     print(f"JointSensitivityCollect 3 rtn is {rtn}")
@@ -970,7 +1017,7 @@
     jointPos4 = [curJPos[0], -90.0, 0.0, -90.0, 0.02, curJPos[5]]
     descPos4 = [0.0] * 6
     rtn, descPos4 = robot.GetForwardKin(jointPos4)
-    robot.MoveJ(joint_pos=jointPos4, desc_pos= descPos4,tool= 0,user= 0,vel= 100,acc= 100,ovl= 100,exaxis_pos= epos,blendT= -1,offset_flag= 0,offset_pos= offset_pos)
+    robot.MoveJ(joint_pos=jointPos4, desc_pos=descPos4, tool=0, user=0, vel=100, acc=100, ovl=100, exaxis_pos=epos, blendT=-1, offset_flag=0, offset_pos=offset_pos)
     time.sleep(0.1)
     rtn = robot.JointSensitivityCollect()
     print(f"JointSensitivityCollect 4 rtn is {rtn}")
@@ -978,7 +1025,7 @@
     jointPos5 = [curJPos[0], -120.0, 0.0, -90.0, 0.02, curJPos[5]]
     descPos5 = [0.0] * 6
     rtn, descPos5 = robot.GetForwardKin(jointPos5)
-    robot.MoveJ(joint_pos=jointPos5, desc_pos= descPos5,tool= 0,user= 0,vel= 100,acc= 100,ovl= 100,exaxis_pos= epos,blendT= -1,offset_flag= 0,offset_pos= offset_pos)
+    robot.MoveJ(joint_pos=jointPos5, desc_pos=descPos5, tool=0, user=0, vel=100, acc=100, ovl=100, exaxis_pos=epos, blendT=-1, offset_flag=0, offset_pos=offset_pos)
     time.sleep(0.1)
     rtn = robot.JointSensitivityCollect()
     print(f"JointSensitivityCollect 5 rtn is {rtn}")
@@ -986,7 +1033,7 @@
     jointPos6 = [curJPos[0], -150.0, 0.0, -90.0, 0.02, curJPos[5]]
     descPos6 = [0.0] * 6
     rtn, descPos6 = robot.GetForwardKin(jointPos6)
-    robot.MoveJ(joint_pos=jointPos6, desc_pos= descPos6,tool= 0,user= 0,vel= 100,acc= 100,ovl= 100,exaxis_pos= epos,blendT= -1,offset_flag= 0,offset_pos= offset_pos)
+    robot.MoveJ(joint_pos=jointPos6, desc_pos=descPos6, tool=0, user=0, vel=100, acc=100, ovl=100, exaxis_pos=epos, blendT=-1, offset_flag=0, offset_pos=offset_pos)
     time.sleep(0.1)
     rtn = robot.JointSensitivityCollect()
     print(f"JointSensitivityCollect 6 rtn is {rtn}")
@@ -994,17 +1041,62 @@
     jointPos7 = [curJPos[0], -180.0, 0.0, -90.0, 0.02, curJPos[5]]
     descPos7 = [0.0] * 6
     rtn, descPos7 = robot.GetForwardKin(jointPos7)
-    robot.MoveJ(joint_pos=jointPos7, desc_pos= descPos7,tool= 0,user= 0,vel= 100,acc= 100,ovl= 100,exaxis_pos= epos,blendT= -1,offset_flag= 0,offset_pos= offset_pos)
+    robot.MoveJ(joint_pos=jointPos7, desc_pos=descPos7, tool=0, user=0, vel=100, acc=100, ovl=100, exaxis_pos=epos, blendT=-1, offset_flag=0, offset_pos=offset_pos)
     time.sleep(0.1)
     rtn = robot.JointSensitivityCollect()
     print(f"JointSensitivityCollect 7 rtn is {rtn}")
     time.sleep(0.1)
+    robot.MoveJ(joint_pos=jointPos6, desc_pos=descPos6, tool=0, user=0, vel=100, acc=100, ovl=100, exaxis_pos=epos, blendT=-1, offset_flag=0, offset_pos=offset_pos)
+    time.sleep(0.1)
+    rtn = robot.JointSensitivityCollect()
+    print(f"JointSensitivityCollect 8 rtn is {rtn}")
+    time.sleep(0.1)
+    robot.MoveJ(joint_pos=jointPos5, desc_pos=descPos5, tool=0, user=0, vel=100, acc=100, ovl=100, exaxis_pos=epos, blendT=-1, offset_flag=0, offset_pos=offset_pos)
+    time.sleep(0.1)
+    rtn = robot.JointSensitivityCollect()
+    print(f"JointSensitivityCollect 9 rtn is {rtn}")
+    time.sleep(0.1)
+    robot.MoveJ(joint_pos=jointPos4, desc_pos=descPos4, tool=0, user=0, vel=100, acc=100, ovl=100, exaxis_pos=epos, blendT=-1, offset_flag=0, offset_pos=offset_pos)
+    time.sleep(0.1)
+    rtn = robot.JointSensitivityCollect()
+    print(f"JointSensitivityCollect 10 rtn is {rtn}")
+    time.sleep(0.1)
+    robot.MoveJ(joint_pos=jointPos3, desc_pos=descPos3, tool=0, user=0, vel=100, acc=100, ovl=100, exaxis_pos=epos, blendT=-1, offset_flag=0, offset_pos=offset_pos)
+    time.sleep(0.1)
+    rtn = robot.JointSensitivityCollect()
+    print(f"JointSensitivityCollect 11 rtn is {rtn}")
+    time.sleep(0.1)
+    robot.MoveJ(joint_pos=jointPos2, desc_pos=descPos2, tool=0, user=0, vel=100, acc=100, ovl=100, exaxis_pos=epos, blendT=-1, offset_flag=0, offset_pos=offset_pos)
+    time.sleep(0.1)
+    rtn = robot.JointSensitivityCollect()
+    print(f"JointSensitivityCollect 12 rtn is {rtn}")
+    time.sleep(0.1)
+    robot.MoveJ(joint_pos=jointPos1, desc_pos=descPos1, tool=0, user=0, vel=100, acc=100, ovl=100, exaxis_pos=epos, blendT=-1, offset_flag=0, offset_pos=offset_pos)
+    time.sleep(0.2)
+    rtn = robot.JointSensitivityCollect()
+    print(f"JointSensitivityCollect 13 rtn is {rtn}")
+    time.sleep(0.1)
     calibResult = [0.0] * 6
-    rtn,calibResult = robot.JointSensitivityCalibration()
+    linearity = [0.0] * 6
+    rtn,calibResult, linearity = robot.JointSensitivityCalibration()
     print(f"JointSensitivityCalibration rtn is {rtn}")
     rtn = robot.JointSensitivityEnable(0)
     print(f"JointSensitivityEnable rtn is {rtn}")
     print(f"jointSensor Calib result is {calibResult[0]},{calibResult[1]},{calibResult[2]},{calibResult[3]},{calibResult[4]},{calibResult[5]}")
+    print( f"jointSensor linearity is {linearity[0]},{linearity[1]},{linearity[2]},{linearity[3]},{linearity[4]},{linearity[5]}")
+    hysteresisError = [0.0] * 6
+    rtn,hysteresisError = robot.JointHysteresisError()
+    print(f"JointHysteresisError result is {hysteresisError[0]},{hysteresisError[1]},{hysteresisError[2]},{hysteresisError[3]},{hysteresisError[4]},{hysteresisError[5]}")
+    repeatability = [0.0] * 6
+    rtn,repeatability = robot.JointRepeatability()
+    print(f"JointRepeatability result is {repeatability[0]},{repeatability[1]},{repeatability[2]},{repeatability[3]},{repeatability[4]},{repeatability[5]}")
+    M = [1.0] * 6
+    B = [1.0] * 6
+    K = [0.0] * 6
+    threshold = [1.0] * 6
+    setZeroFlag = 1
+    rtn = robot.SetAdmittanceParams(M, B, K, threshold, calibResult, setZeroFlag)
+    print(f"SetAdmittanceParams rtn is {rtn}")
     robot.CloseRPC()
 
 获取机器人8个从站端口错误帧数

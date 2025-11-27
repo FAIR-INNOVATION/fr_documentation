@@ -989,9 +989,54 @@
     /**
     * @brief 获取关节扭矩传感器灵敏度标定结果
     * @param calibResult j1~j6关节灵敏度[0-1]
+    * @param linearityn j1~j6关节线性度[0-1]
     * @return 错误码
     */
-    public int JointSensitivityCalibration(double[] calibResult)
+    public int JointSensitivityCalibration(double calibResult[6], double linearity[6])
+
+获取关节扭矩传感器迟滞误差
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 获取关节扭矩传感器迟滞误差
+    * @param hysteresisError j1~j6关节迟滞误差
+    * @return 错误码
+    */
+    public int JointHysteresisError(double[] hysteresisError);
+    
+获取关节扭矩传感器重复精度
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: Java
+    :linenos:
+    
+    /**
+    * @brief 获取关节扭矩传感器重复精度
+    * @param repeatability j1~j6关节扭矩传感器重复精度
+    * @return 错误码
+    */
+    public int JointRepeatability(double[] repeatability);
+    
+设置关节力传感器参数
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 设置关节力传感器参数
+    * @param 必选参数 M J1-J6质量系数[]
+    * @param 必选参数 B J1-J6阻尼系数[]
+    * @param 必选参数 K J1-J6刚度系数[]
+    * @param 默认参数 threshold 力控制阈值，Nm
+    * @param 默认参数 sensitivity 灵敏度,Nm/V,[]
+    * @param 默认参数 setZeroFlag 功能开启标志位；0-关闭；1-开启；2-位置1记录零点；3-位置2记录零点
+    * @return 错误码
+    */
+    public int SetAdmittanceParams(double[] M, double[] B, double[] K, double[] threshold, double[] sensitivity, int setZeroFlag);
 
 关节扭矩传感器灵敏度自动标定代码示例
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1000,35 +1045,36 @@
 
     public static void TestSensitivityCalib(Robot robot)
     {
-        int rtn = robot.JointSensitivityEnable(1);
-        System.out.println("JointSensitivityEnable rtn is " + rtn);
+        int rtn = robot.JointSensitivityEnable(0);
+        rtn = robot.JointSensitivityEnable(1);
+        System.out.printf("JointSensitivityEnable rtn is %d\n", rtn);
         JointPos curJPos = new JointPos();
         robot.GetActualJointPosDegree(curJPos);
+        ExaxisPos epos = new ExaxisPos(0,0,0,0);
+        DescPose offset_pos =new DescPose(0,0,0,0,0,0 );
         JointPos jointPos1 = new JointPos(curJPos.J1, 0, 0, -90, 0.02, curJPos.J6);
         DescPose descPos1 = new DescPose();
         robot.GetForwardKin(jointPos1, descPos1);
-        ExaxisPos epos = new ExaxisPos(0, 0, 0, 0);
-        DescPose offset_pos = new DescPose(0, 0, 0, 0, 0, 0);
         robot.MoveJ(jointPos1, descPos1, 0, 0, 100, 100, 100, epos, -1, 0, offset_pos);
         robot.Sleep(200);
         rtn = robot.JointSensitivityCollect();
-        System.out.println("JointSensitivityCollect 1 rtn is " + rtn);
+        System.out.printf("JointSensitivityCollect 1 rtn is %d\n", rtn);
         robot.Sleep(100);
-        JointPos jointPos2 = new JointPos(curJPos.J1, -30, 0, -90, 0.02, curJPos.J6);
-        DescPose descPos2 = new DescPose();
+        JointPos jointPos2 =new JointPos( curJPos.J1, -30, 0, -90, 0.02, curJPos.J6 );
+        DescPose descPos2 =new DescPose();
         robot.GetForwardKin(jointPos2, descPos2);
         robot.MoveJ(jointPos2, descPos2, 0, 0, 100, 100, 100, epos, -1, 0, offset_pos);
         robot.Sleep(100);
         rtn = robot.JointSensitivityCollect();
-        System.out.println("JointSensitivityCollect 2 rtn is " + rtn);
+        System.out.printf("JointSensitivityCollect 2 rtn is %d\n", rtn);
         robot.Sleep(100);
-        JointPos jointPos3 = new JointPos(curJPos.J1, -60, 0, -90, 0.02, curJPos.J6);
-        DescPose descPos3 = new DescPose();
+        JointPos jointPos3 = new JointPos( curJPos.J1, -60, 0, -90, 0.02, curJPos.J6 );
+        DescPose descPos3 =new DescPose();
         robot.GetForwardKin(jointPos3, descPos3);
         robot.MoveJ(jointPos3, descPos3, 0, 0, 100, 100, 100, epos, -1, 0, offset_pos);
         robot.Sleep(100);
         rtn = robot.JointSensitivityCollect();
-        System.out.println("JointSensitivityCollect 3 rtn is " + rtn);
+        System.out.printf("JointSensitivityCollect 3 rtn is %d\n", rtn);
         robot.Sleep(100);
         JointPos jointPos4 = new JointPos(curJPos.J1, -90, 0, -90, 0.02, curJPos.J6);
         DescPose descPos4 = new DescPose();
@@ -1036,7 +1082,7 @@
         robot.MoveJ(jointPos4, descPos4, 0, 0, 100, 100, 100, epos, -1, 0, offset_pos);
         robot.Sleep(100);
         rtn = robot.JointSensitivityCollect();
-        System.out.println("JointSensitivityCollect 4 rtn is " + rtn);
+        System.out.printf("JointSensitivityCollect 4 rtn is %d\n", rtn);
         robot.Sleep(100);
         JointPos jointPos5 = new JointPos(curJPos.J1, -120, 0, -90, 0.02, curJPos.J6);
         DescPose descPos5 = new DescPose();
@@ -1044,7 +1090,7 @@
         robot.MoveJ(jointPos5, descPos5, 0, 0, 100, 100, 100, epos, -1, 0, offset_pos);
         robot.Sleep(100);
         rtn = robot.JointSensitivityCollect();
-        System.out.println("JointSensitivityCollect 5 rtn is " + rtn);
+        System.out.printf("JointSensitivityCollect 5 rtn is %d\n", rtn);
         robot.Sleep(100);
         JointPos jointPos6 = new JointPos(curJPos.J1, -150, 0, -90, 0.02, curJPos.J6);
         DescPose descPos6 = new DescPose();
@@ -1052,7 +1098,7 @@
         robot.MoveJ(jointPos6, descPos6, 0, 0, 100, 100, 100, epos, -1, 0, offset_pos);
         robot.Sleep(100);
         rtn = robot.JointSensitivityCollect();
-        System.out.println("JointSensitivityCollect 6 rtn is " + rtn);
+        System.out.printf("JointSensitivityCollect 6 rtn is %d\n", rtn);
         robot.Sleep(100);
         JointPos jointPos7 = new JointPos(curJPos.J1, -180, 0, -90, 0.02, curJPos.J6);
         DescPose descPos7 = new DescPose();
@@ -1060,17 +1106,67 @@
         robot.MoveJ(jointPos7, descPos7, 0, 0, 100, 100, 100, epos, -1, 0, offset_pos);
         robot.Sleep(100);
         rtn = robot.JointSensitivityCollect();
-        System.out.println("JointSensitivityCollect 7 rtn is " + rtn);
+        System.out.printf("JointSensitivityCollect 7 rtn is %d\n", rtn);
         robot.Sleep(100);
-        double[] calibResult = new double[6];
-        rtn = robot.JointSensitivityCalibration(calibResult);
-        System.out.println("JointSensitivityCalibration rtn is " + rtn);
+        //反向行程
+        robot.MoveJ(jointPos6, descPos6, 0, 0, 100, 100, 100, epos, -1, 0, offset_pos);
+        robot.Sleep(100);
+        rtn = robot.JointSensitivityCollect();
+        System.out.printf("JointSensitivityCollect 8 rtn is %d\n", rtn);
+        robot.Sleep(100);
+        robot.MoveJ(jointPos5, descPos5, 0, 0, 100, 100, 100, epos, -1, 0, offset_pos);
+        robot.Sleep(100);
+        rtn = robot.JointSensitivityCollect();
+        System.out.printf("JointSensitivityCollect 9 rtn is %d\n", rtn);
+        robot.Sleep(100);
+        robot.MoveJ(jointPos4, descPos4, 0, 0, 100, 100, 100, epos, -1, 0, offset_pos);
+        robot.Sleep(100);
+        rtn = robot.JointSensitivityCollect();
+        System.out.printf("JointSensitivityCollect 10 rtn is %d\n", rtn);
+        robot.Sleep(100);
+        robot.MoveJ(jointPos3, descPos3, 0, 0, 100, 100, 100, epos, -1, 0, offset_pos);
+        robot.Sleep(100);
+        rtn = robot.JointSensitivityCollect();
+        System.out.printf("JointSensitivityCollect 11 rtn is %d\n", rtn);
+        robot.Sleep(100);
+        robot.MoveJ(jointPos2, descPos2, 0, 0, 100, 100, 100, epos, -1, 0, offset_pos);
+        robot.Sleep(100);
+        rtn = robot.JointSensitivityCollect();
+        System.out.printf("JointSensitivityCollect 12 rtn is %d\n", rtn);
+        robot.Sleep(100);
+        robot.MoveJ(jointPos1, descPos1, 0, 0, 100, 100, 100, epos, -1, 0, offset_pos);
+        robot.Sleep(200);
+        rtn = robot.JointSensitivityCollect();
+        System.out.printf("JointSensitivityCollect 13 rtn is %d\n", rtn);
+        robot.Sleep(100);
+        double[] calibResult =new double[6];
+        double[] linearity = new double[6];
+        rtn = robot.JointSensitivityCalibration(calibResult, linearity);
+        System.out.printf("JointSensitivityCalibration rtn is %d\n", rtn);
         rtn = robot.JointSensitivityEnable(0);
-        System.out.println("JointSensitivityEnable rtn is " + rtn);
-        System.out.println("jointSensor Calib result is " +
-                calibResult[0] + " " + calibResult[1] + " " + calibResult[2] + " " +
-                calibResult[3] + " " + calibResult[4] + " " + calibResult[5]);
-        robot.CloseRPC();
+        System.out.printf("JointSensitivityEnable rtn is %d\n", rtn);
+        System.out.printf("jointSensor Calib result is %f %f %f %f %f %f\njointSensor linearity is %f %f %f %f %f %f\n",
+                calibResult[0], calibResult[1], calibResult[2],
+                calibResult[3], calibResult[4], calibResult[5],
+                linearity[0], linearity[1], linearity[2],
+                linearity[3], linearity[4], linearity[5]);
+        double[] hysteresisError = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+        rtn = robot.JointHysteresisError(hysteresisError);
+        System.out.printf("JointHysteresisError result is %f %f %f %f %f %f\n",
+                hysteresisError[0], hysteresisError[1], hysteresisError[2],
+                hysteresisError[3], hysteresisError[4], hysteresisError[5]);
+        double[] repeatability = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+        rtn = robot.JointRepeatability(repeatability);
+        System.out.printf("JointRepeatability result is %f %f %f %f %f %f\n",
+                repeatability[0], repeatability[1], repeatability[2],
+                repeatability[3], repeatability[4], repeatability[5]);
+        double[] M = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+        double[] B = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+        double[] K = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+        double[] threshold = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+        int setZeroFlag = 1;
+        rtn = robot.SetAdmittanceParams(M, B, K, threshold, calibResult, setZeroFlag);
+        System.out.printf("SetAdmittanceParams rtn is %d\n", rtn);
     }
 
 获取机器人8个从站端口错误帧数

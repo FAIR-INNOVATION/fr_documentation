@@ -3182,7 +3182,7 @@ PLC -> 机器人控制器
 
 .. figure:: robot_peripherals/073.png
    :align: center
-   :width: 2in
+   :width: 3in
 
 .. centered:: 图表 8.6‑50 协议未加载报错
 
@@ -3588,7 +3588,7 @@ UDP扩展轴
 
 .. figure:: robot_peripherals/113.png
    :align: center
-   :width: 4in
+   :width: 6in
 
 .. centered:: 图表 8.7‑24 传感器三点法标定
 
@@ -6113,3 +6113,207 @@ CNC功能包支持在示教程序中调用控制指令，并实时获取机床�
    :width: 4in
 
 .. centered:: 图表 8.16‑8 第二条焊缝寻位点获取
+
+大儒DFC力控打磨头应用
+-----------------------------------------------------------
+
+概述
+~~~~~~~~~~~~~~~~~~~~~~~
+
+在机器人末端安装DFC打磨头可帮助机器人快速部署不同场景的打磨、抛光、去除毛刺等工作，可针对不同尺寸、形状的工件自定义打磨力控大小，提高打磨工作的精度和效果。
+
+硬件描述
++++++++++++++++++++++++++++++
+协作机器人通过以太网与大儒DFC打磨头进行通讯控制，在WebApp上生成大儒DFC打磨头通讯协议，协议将控制数据通过TCPIP发送至大儒力控控制器模块，模块再将收到的控制数据发送至DFC力控执行器，从而实现对打磨头的控制。其中力控控制器模块为以太网通讯的服务端，可连接两个通道的打磨头执行器。
+
+.. figure:: robot_peripherals/267.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.17‑1 协作机器人大儒DFC打磨头应用
+
+力控控制器模块需进行如下配置：以太网端配置为IP地址为：192.168.58.88，端口号为2000。 
+
+功能配置
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+打开WebApp，依次点击“初始设置”、“外设”、“打磨”；打磨头的控制类型有已适配设备和外设开放协议两种：
+已适配设备：对已适配的打磨头设备类型自动生成加载开放协议，不需要用户撰写。
+外设开放协议：用户通过lua撰写需要适配的打磨头开放协议实现通信控制。
+
+.. figure:: robot_peripherals/268.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.17‑2 打磨控制类型
+
+已适配设备配置
++++++++++++++++++++++++++++++++++++++++
+
+打开WebApp，依次点击“初始设置”、“外设”、“打磨头”、“已适配设备”。设备状态中的类型选择“大儒DFC打磨头”，点击“配置”，则会自动加载内嵌的外设开放协议“CtrlDev_DARUDFCPOLISH.lua”
+
+.. figure:: robot_peripherals/269.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.17‑3 大儒DFC设备外设开放协议自动加载
+ 
+在确保硬件链路连接正确的情况下，可启动开放协议，当运行状态为绿色并且右侧Polish状态反馈的通信状态为建立连接时说明机器人成功与打磨头控制器建立通信。此时可通过参数配置，配置需要设置力控的打磨头通道及设定力大小，开放协议会循环发送设定值、通道、机器人当前的rx、ry、rz至打磨头，如图2-3所示。此外Polish状态反馈也会实时显示当前打磨头反馈的力控值和力控超限警告，当产生警告时，页面右上角也会进行报警提醒，如图2-4所示。
+
+.. figure:: robot_peripherals/270.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.17‑4 DFC打磨头页面设置及状态反馈
+
+.. figure:: robot_peripherals/271.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.17‑5 DFC打磨头力控超限报警
+
+外设开放协议下载
++++++++++++++++++++++++++++++++++++++++
+
+在“外设开放协议”中点击“下载”按钮，即可将协议下载到本地计算机。外设开放协议为一个循环执行的LUA程序，程序在每个循环执行如下步骤：
+
+①从机器人中读取DFC打磨头的控制数据；
+
+②通过socket将控制数据写入到DFC打磨头中；
+
+③通过socket从DFC打磨头读取状态数据；
+
+④向机器人中反馈DFC打磨头状态数据；
+
+通讯协议循环执行实现机器人与打磨头的通讯控制。在通讯协议中用户可自定义循环周期、需要连接的服务端端口及IP。
+
+以下为大儒DFC打磨头通讯协议代码示例：
+
+.. code-block:: 
+    :linenos:
+
+    local id = 1 
+    local ctrlValues = {0,0, 0,0, 0,0, 0,0}
+    local realTimeState = {0,0, 0,0, 0,0, 0,0}
+    socket1 = TCPClientConnect('192.168.58.88', 2000, 500, 10, 2, 3)
+    sleepCnt = 100
+    while(sleepCnt > 0) do
+        local stopFlag = GetOpenLUAStopFlag(id)
+        if(stopFlag ~= 0) then 
+          TCPClientDisconnect(socket1)
+          setDFCPolishRealtimeState(0, 0, 0)
+          break
+        end 
+      sleepCnt = sleepCnt -1
+      sleep_ms(50)
+    end
+    local cnt = 5
+    while(1) do
+        channel, force = getDFCPolishSet()
+        comState, sendBuff = DFCPolishInput(socket1, channel, force)
+        sleep_ms(50)
+
+        byte, error, forceFeedback = DFCPolishOutput(socket1)
+        setDFCPolishRealtimeState(comState, error, forceFeedback)
+        sleep_ms(50)
+
+      if(comState == 0) then
+          TCPClientDisconnect(socket1)
+          while(cnt > 0) do
+            socket1 = TCPClientConnect('192.168.58.88', 2000, 500, 10, 2, 3)
+            cnt = cnt - 1
+            if(socket1 > 0)then
+              break
+            end
+          end
+      end
+
+        local stopFlag = GetOpenLUAStopFlag(id)
+        if(stopFlag ~= 0 or cnt == 0) then 
+          TCPClientDisconnect(socket1)
+          setDFCPolishRealtimeState(0, 0, 0)
+          break
+        end    
+    end
+
+DFC打磨头LUA程序应用
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+在机器人LUA程序中增加DFC力控配置和通道切换、状态获取等指令，配合机器人运动指令，可以灵活、便捷的实现打磨应用。
+打开WebApp，依次点击“示教程序”、“程序编程”，新建LUA程序“testDFC.lua”。
+
+.. figure:: robot_peripherals/272.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.17‑6 新建“testDFC.lua”程序
+
+选择指令类型为“外设指令”，在外设指令中点击“打磨设备”按钮。此时在WebApp右侧出现“Polish”打磨指令添加页面，设备类型选择“大儒DFC打磨头”。
+
+.. figure:: robot_peripherals/273.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.17‑7 打磨头指令添加
+
+打磨头控制指令添加
+++++++++++++++++++++++++++++++++++++++++++++
+
+在LUA程序中编写打磨头控制指令可以对DFC进行力控设置和通道选择。
+
+在打磨设备指令添加页面中点击“设置DFC”，选择打磨头通道模式为“2”，设定力为“10”。点击“添加”按钮，即在“程序预览”中添加打磨头设置指令。
+
+.. figure:: robot_peripherals/274.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.17‑8 添加打磨头控制指令
+ 
+打磨头状态获取指令添加
+++++++++++++++++++++++++++++++++++++++++++++++++
+
+点击“获取DFC数据”，依次点击“添加”、“应用”按钮。即在“testDFC.lua”中添加一条获取打磨头数据的指令“GetDFCState()”。
+
+.. figure:: robot_peripherals/275.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.17‑9 添加获取打磨头状态指令
+
+GetDFCState ()指令返回2个数值，分别如下：
+
+**DFCwarn**：力控超限警告 0-正常 1-报警；
+
+**force**：力控反馈值。
+
+在“testDFC.lua”中用三个变量接收GetDFCState ()函数的返回值。并通过Lua变量查询将上述信息显示在WebApp变量查询显示区中。
+
+.. figure:: robot_peripherals/276.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.17‑10 获取打磨头状态程序
+
+应用示例
++++++++++++++++++++++++++++++++++++++++
+
+以下为DFC 打磨头控制及监控LUA程序示例：
+
+.. code-block:: 
+    :linenos:
+
+    SetDFCForce(0,25)
+    while (1) do 
+        PTP(c1,100,-1,0)
+        SetDO(0,1,0,0)
+        ARC(c2,0,0,0,0,0,0,0,c3,0,0,0,0,0,0,0,100,-1,0,100,200)
+        DFCwarn,force = GetDFCState()
+        RegisterVar("number","DFCwarn")
+        RegisterVar("number","force")
+        if(DFCwarn == 1) then
+            PTP(safe,100,-1,0)
+            break
+        else
+            PTP(p6,100,-1,0)
+        end
+        SetDO(0,0,0,0)
+    end
