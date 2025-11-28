@@ -13,6 +13,15 @@
      - **日期**
      - **更新描述**
 
+   * - V3.9.0
+     - 2025-11-26
+     - | 1.JointSensitivityCalibration()接口增加j1~j6关节线性度返回
+       | 2.增加JointHysteresisError()接口
+       | 3.增加JointRepeatability()接口
+       | 4.增加SetAdmittanceParams()接口
+       | 5.增加MoveToIntersectLineStart()接口
+       | 6.增加MoveIntersectLine()接口
+
    * - V3.8.7
      - 2025-10-21
      - | 1.NewSpiral()接口增加velAccMode参数
