@@ -13,7 +13,7 @@
     "原型", "``LoadDefaultProgConfig(flag,program_name)``"
     "描述", "设置开机自动加载默认的作业程序"
     "必选参数", "- ``flag``：1-开机自动加载默认程序，0-不自动加载默认程序
-    - ``program_name``：作业程序名及路径，如“/fruser/movej.lua”，其中“/fruser/”为固定路径"
+    - ``program_name``：作业程序名及路径，如“/fruser/movej.lua”，其中/fruser/为QX固定路径，/usr/local/etc/controller/lua/为LA固定路径"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
@@ -25,7 +25,7 @@
 
     "原型", "``ProgramLoad(program_name)``"
     "描述", "加载指定的作业程序"
-    "必选参数", "- ``program_name``：作业程序名及路径，如“/fruser/movej.lua”，其中“/fruser/”为固定路径"
+    "必选参数", "- ``program_name``：作业程序名及路径，如“/fruser/movej.lua”，其中/fruser/为QX固定路径，/usr/local/etc/controller/lua/为LA固定路径"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 

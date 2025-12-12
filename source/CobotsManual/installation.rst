@@ -92,35 +92,41 @@
 
 .. centered:: 图表 3.1-5 FR5型号协作机器人
 
+.. figure:: installation/126.png
+	:align: center
+	:width: 6in
+
+.. centered:: 图表 3.1-6 FR5-WML型号协作机器人
+
 .. figure:: installation/004.png
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 3.1-6 FR10型号协作机器人
+.. centered:: 图表 3.1-7 FR10型号协作机器人
 
 .. figure:: installation/005.png
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 3.1-7 FR16型号协作机器人
+.. centered:: 图表 3.1-8 FR16型号协作机器人
 
 .. figure:: installation/006.png
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 3.1-8 FR20型号协作机器人
+.. centered:: 图表 3.1-9 FR20型号协作机器人
 
 .. figure:: installation/007.png
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 3.1-9 FR30型号协作机器人
+.. centered:: 图表 3.1-10 FR30型号协作机器人
 
 .. figure:: installation/125.png
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 3.1-10 FR30L型号协作机器人
+.. centered:: 图表 3.1-11 FR30L型号协作机器人
 
 有效性和责任
 ~~~~~~~~~~~~~~~~

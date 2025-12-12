@@ -4238,7 +4238,7 @@ TCP检测阈值功能设置说明
 **Step3**：在碰撞检测功能内，添加相应的运动指令，如图10所示。
    
 .. image:: coding/314.png
-   :width: 6in
+   :width: 4in
    :align: center
 
 .. centered:: 图表 9.26-10 lua脚本程序示例界面
