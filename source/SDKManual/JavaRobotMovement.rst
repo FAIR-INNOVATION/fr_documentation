@@ -139,25 +139,27 @@ jog点动立即停止
     :linenos:
 
     /**
-    * @brief  笛卡尔空间直线运动
-    * @param  [in] joint_pos  目标关节位置,单位deg
-    * @param  [in] desc_pos   目标笛卡尔位姿
-    * @param  [in] tool  工具坐标号，范围[0~14]
-    * @param  [in] user  工件坐标号，范围[0~14]
-    * @param  [in] vel  速度百分比，范围[0~100]
-    * @param  [in] acc  加速度百分比，范围[0~100],暂不开放
-    * @param  [in] ovl  速度缩放因子，范围[0~100]
-    * @param  [in] blendR [-1.0]-运动到位(阻塞)，[0~1000.0]-平滑半径(非阻塞)，单位mm
-    * @param  [in] blendMode 过渡方式；0-内切过渡；1-角点过渡
-    * @param  [in] epos  扩展轴位置，单位mm
-    * @param  [in] search  0-不焊丝寻位，1-焊丝寻位
-    * @param  [in] offset_flag  0-不偏移，1-基坐标系/工件坐标系下偏移，2-工具坐标系下偏移
-    * @param  [in] offset_pos  位姿偏移量
-    * @param  [in] overSpeedStrategy  超速处理策略，1-标准；2-超速时报错停止；3-自适应降速，默认为0
-    * @param  [in] speedPercent  允许降速阈值百分比[0-100]，默认10%
+    * @brief  笛卡尔空间直线运动(重载函数1 增加blendMode)
+    * @param  joint_pos  目标关节位置,单位deg
+    * @param  desc_pos   目标笛卡尔位姿
+    * @param  tool  工具坐标号，范围[1~15]
+    * @param  user  工件坐标号，范围[1~15]
+    * @param  vel  速度百分比，范围[0~100]
+    * @param  acc  加速度百分比，范围[0~100],暂不开放
+    * @param  ovl  速度缩放因子[0~100]/物理速度(mm/s)
+    * @param  blendR [-1.0]-运动到位(阻塞)，[0~1000.0]-平滑半径(非阻塞)，单位mm
+    * @param  blendMode 过渡方式；0-内切过渡；1-角点过渡
+    * @param  epos  扩展轴位置，单位mm
+    * @param  search  0-不焊丝寻位，1-焊丝寻位
+    * @param  offset_flag  0-不偏移，1-基坐标系/工件坐标系下偏移，2-工具坐标系下偏移
+    * @param  offset_pos  位姿偏移量
+    * @param  oacc 加速度缩放因子[0-100]/物理加速度(mm/s2)
+    * @param  velAccParamMode 速度加速度参数模式；0-百分比；1-物理速度(mm/s)加速度(mm/s2)
+    * @param  overSpeedStrategy  超速处理策略，1-标准；2-超速时报错停止；3-自适应降速，默认为0
+    * @param  speedPercent  允许降速阈值百分比[0-100]，默认10%
     * @return  错误码
-    */   
-    int MoveL(JointPos joint_pos, DescPose desc_pos, int tool, int user, double vel, double acc, double ovl, double blendR, int blendMode,ExaxisPos epos, int search, int offset_flag, DescPose offset_pos, int overSpeedStrategy, int speedPercent);
+    */
+    public int MoveL(JointPos joint_pos, DescPose desc_pos, int tool, int user, double vel, double acc, double ovl, double blendR, int blendMode, ExaxisPos epos, int search, int offset_flag, DescPose offset_pos, double oacc,int velAccParamMode, int overSpeedStrategy, int speedPercent)
 
 笛卡尔空间直线运动(自动逆运动学计算)
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -280,29 +282,31 @@ jog点动立即停止
 
     /**
     * @brief  笛卡尔空间圆弧运动
-    * @param  [in] joint_pos_p  路径点关节位置,单位deg
-    * @param  [in] desc_pos_p   路径点笛卡尔位姿
-    * @param  [in] ptool  工具坐标号，范围[0~14]
-    * @param  [in] puser  工件坐标号，范围[0~14]
-    * @param  [in] pvel  速度百分比，范围[0~100]
-    * @param  [in] pacc  加速度百分比，范围[0~100],暂不开放
-    * @param  [in] epos_p  扩展轴位置，单位mm
-    * @param  [in] poffset_flag  0-不偏移，1-基坐标系/工件坐标系下偏移，2-工具坐标系下偏移
-    * @param  [in] offset_pos_p  位姿偏移量
-    * @param  [in] joint_pos_t  目标点关节位置,单位deg
-    * @param  [in] desc_pos_t   目标点笛卡尔位姿
-    * @param  [in] ttool  工具坐标号，范围[0~14]
-    * @param  [in] tuser  工件坐标号，范围[0~14]
-    * @param  [in] tvel  速度百分比，范围[0~100]
-    * @param  [in] tacc  加速度百分比，范围[0~100],暂不开放
-    * @param  [in] epos_t  扩展轴位置，单位mm
-    * @param  [in] toffset_flag  0-不偏移，1-基坐标系/工件坐标系下偏移，2-工具坐标系下偏移
-    * @param  [in] offset_pos_t  位姿偏移量
-    * @param  [in] ovl  速度缩放因子，范围[0~100]
-    * @param  [in] blendR [-1.0]-运动到位(阻塞)，[0~1000.0]-平滑半径(非阻塞)，单位mm 
+    * @param  joint_pos_p  路径点关节位置,单位deg
+    * @param  desc_pos_p   路径点笛卡尔位姿
+    * @param  ptool  工具坐标号，范围[1~15]
+    * @param  puser  工件坐标号，范围[1~15]
+    * @param  pvel  速度百分比，范围[0~100]
+    * @param  pacc  加速度百分比，范围[0~100],暂不开放
+    * @param  epos_p  扩展轴位置，单位mm
+    * @param  poffset_flag  0-不偏移，1-基坐标系/工件坐标系下偏移，2-工具坐标系下偏移
+    * @param  offset_pos_p  位姿偏移量
+    * @param  joint_pos_t  目标点关节位置,单位deg
+    * @param  desc_pos_t   目标点笛卡尔位姿
+    * @param  ttool  工具坐标号，范围[1~15]
+    * @param  tuser  工件坐标号，范围[1~15]
+    * @param  tvel  速度百分比，范围[0~100]
+    * @param  tacc  加速度百分比，范围[0~100],暂不开放
+    * @param  epos_t  扩展轴位置，单位mm
+    * @param  toffset_flag  0-不偏移，1-基坐标系/工件坐标系下偏移，2-工具坐标系下偏移
+    * @param  offset_pos_t  位姿偏移量
+    * @param  ovl  速度缩放因子[0~100]/物理速度(mm/s)
+    * @param  blendR [-1.0]-运动到位(阻塞)，[0~1000.0]-平滑半径(非阻塞)，单位mm
+    * @param  oacc 加速度缩放因子[0-100]/物理加速度(mm/s2)
+    * @param  velAccParamMode 速度加速度参数模式；0-百分比；1-物理速度(mm/s)加速度(mm/s2)
     * @return  错误码
-    */      
-    int MoveC(JointPos joint_pos_p, DescPose desc_pos_p, int ptool, int puser, double pvel, double pacc, ExaxisPos epos_p, int poffset_flag, DescPose offset_pos_p, JointPos joint_pos_t, DescPose desc_pos_t, int ttool, int tuser, double tvel, double tacc, ExaxisPos epos_t, int toffset_flag, DescPose offset_pos_t, double ovl, double blendR);
+    */
+    public int MoveC(JointPos joint_pos_p, DescPose desc_pos_p, int ptool, int puser, double pvel, double pacc, ExaxisPos epos_p, int poffset_flag, DescPose offset_pos_p, JointPos joint_pos_t, DescPose desc_pos_t, int ttool, int tuser, double tvel, double tacc, ExaxisPos epos_t, int toffset_flag, DescPose offset_pos_t, double ovl, double blendR, double oacc,int velAccParamMode)
 
 笛卡尔空间圆弧运动(自动逆运动学计算)
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -411,29 +415,30 @@ jog点动立即停止
     :linenos:
 
     /**
-    * @brief  笛卡尔空间整圆运动
-    * @param  [in] joint_pos_p  路径点1关节位置,单位deg
-    * @param  [in] desc_pos_p   路径点1笛卡尔位姿
-    * @param  [in] ptool  工具坐标号，范围[0~14]
-    * @param  [in] puser  工件坐标号，范围[0~14]
-    * @param  [in] pvel  速度百分比，范围[0~100]
-    * @param  [in] pacc  加速度百分比，范围[0~100],暂不开放
-    * @param  [in] epos_p  扩展轴位置，单位mm
-    * @param  [in] joint_pos_t  路径点2关节位置,单位deg
-    * @param  [in] desc_pos_t   路径点2笛卡尔位姿
-    * @param  [in] ttool  工具坐标号，范围[0~14]
-    * @param  [in] tuser  工件坐标号，范围[0~14]
-    * @param  [in] tvel  速度百分比，范围[0~100]
-    * @param  [in] tacc  加速度百分比，范围[0~100],暂不开放
-    * @param  [in] epos_t  扩展轴位置，单位mm
-    * @param  [in] ovl  速度缩放因子，范围[0~100]
-    * @param  [in] offset_flag  0-不偏移，1-基坐标系/工件坐标系下偏移，2-工具坐标系下偏移
-    * @param  [in] offset_pos  位姿偏移量
-    * @param  [in] oacc 加速度百分比
-    * @param  [in] blendR -1：阻塞；0~1000：平滑半径
-    * @return  错误码
+    *@brief  笛卡尔空间整圆运动
+    *@param  joint_pos_p  路径点1关节位置,单位deg
+    *@param  desc_pos_p   路径点1笛卡尔位姿
+    *@param  ptool  工具坐标号，范围[1~15]
+    *@param  puser  工件坐标号，范围[1~15]
+    *@param  pvel  速度百分比，范围[0~100]
+    *@param  pacc  加速度百分比，范围[0~100],暂不开放
+    *@param  epos_p  扩展轴位置，单位mm
+    *@param  joint_pos_t  路径点2关节位置,单位deg
+    *@param  desc_pos_t   路径点2笛卡尔位姿
+    *@param  ttool  工具坐标号，范围[1~15]
+    *@param  tuser  工件坐标号，范围[1~15]
+    *@param  tvel  速度百分比，范围[0~100]
+    *@param  tacc  加速度百分比，范围[0~100],暂不开放
+    *@param  epos_t  扩展轴位置，单位mm
+    *@param  ovl  速度缩放因子[0~100]/物理速度(mm/s)
+    *@param  offset_flag  0-不偏移，1-基坐标系/工件坐标系下偏移，2-工具坐标系下偏移
+    *@param  offset_pos  位姿偏移量
+    *@param  oacc 加速度缩放因子[0-100]/物理加速度(mm/s2)
+    *@param  blendR -1：阻塞；0~1000：平滑半径
+    *@param  velAccParamMode 速度加速度参数模式；0-百分比；1-物理速度(mm/s)加速度(mm/s2)
+    *@return  错误码
     */
-    int Circle(JointPos joint_pos_p, DescPose desc_pos_p, int ptool, int puser, double pvel, double pacc, ExaxisPos epos_p, JointPos joint_pos_t, DescPose desc_pos_t, int ttool, int tuser, double tvel, double tacc, ExaxisPos epos_t, double ovl, int offset_flag, DescPose offset_pos, double oacc, double blendR)
+    public int Circle(JointPos joint_pos_p, DescPose desc_pos_p, int ptool, int puser, double pvel, double pacc, ExaxisPos epos_p, JointPos joint_pos_t, DescPose desc_pos_t, int ttool, int tuser, double tvel, double tacc, ExaxisPos epos_t, double ovl, int offset_flag, DescPose offset_pos, double oacc, double blendR, int velAccParamMode)
 
 笛卡尔空间整圆运动(自动逆运动学计算)
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -568,52 +573,41 @@ jog点动立即停止
         DescPose desc_pos4=new DescPose(-443.165, 147.881, 480.951, 179.511, -0.775, -15.409);
         DescPose offset_pos=new DescPose(0, 0, 0, 0, 0, 0);
         ExaxisPos epos=new ExaxisPos(0, 0, 0, 0);
-
         int tool = 0;
         int user = 0;
         double vel = 100.0;
         double acc = 100.0;
         double ovl = 100.0;
+        double oacc = 100.0;
         double blendT = 0.0;
         double blendR = 0.0;
         int flag = 0;
         int search = 0;
-
+        int blendMode = 0;
+        int velAccMode = 0;
         robot.SetSpeed(20);
-
         rtn = robot.MoveJ(j1, desc_pos1, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
-        System.out.println("movej errcode:"+ rtn);
-
-        rtn = robot.MoveL(j2, desc_pos2, tool, user, vel, acc, ovl, blendR, 0,epos, search, flag, offset_pos,0,10);
-        System.out.println("movel errcode:"+ rtn);
-
-        rtn = robot.MoveC(j3, desc_pos3, tool, user, vel, acc, epos, flag, offset_pos, j4, desc_pos4, tool, user, vel, acc, epos, flag, offset_pos, ovl, blendR);
-        System.out.println("movec errcode:"+ rtn);
-
+        System.out.printf("movej errcode:%d\n", rtn);
+        rtn = robot.MoveL(j2, desc_pos2, tool, user, vel, acc, ovl, blendR, blendMode, epos, search, flag, offset_pos, oacc, velAccMode,0,10);
+        System.out.printf("movel errcode:%d\n", rtn);
+        rtn = robot.MoveC(j3, desc_pos3, tool, user, vel, acc, epos, flag, offset_pos, j4, desc_pos4, tool, user, vel, acc, epos, flag, offset_pos, ovl, blendR, oacc, velAccMode);
+        System.out.printf("movec errcode:%d\n", rtn);
         rtn = robot.MoveJ(j2, desc_pos2, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
-        System.out.println("movej errcode:"+ rtn);
-
-        rtn = robot.Circle(j3, desc_pos3, tool, user, vel, acc, epos, j1, desc_pos1, tool, user, vel, acc, epos, ovl, flag, offset_pos);
-        System.out.println("circle errcode:"+ rtn);
-
+        System.out.printf("movej errcode:%d\n", rtn);
+        rtn = robot.Circle(j3, desc_pos3, tool, user, vel, acc, epos, j1, desc_pos1, tool, user, vel, acc, epos, ovl, flag, offset_pos, oacc, -1, velAccMode);
+        System.out.printf("circle errcode:%d\n", rtn);
         rtn = robot.MoveCart(desc_pos4, tool, user, vel, acc, ovl, blendT, -1);
-        System.out.println("MoveCart errcode:"+ rtn);
-
+        System.out.printf("MoveCart errcode:%d\n", rtn);
         rtn = robot.MoveJ(j1, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
-        System.out.println("movej errcode:"+ rtn);
-
-        rtn = robot.MoveL(desc_pos2, tool, user, vel, acc, ovl, blendR, 0,epos, search, flag, offset_pos,-1,0,10);
-        System.out.println("movel errcode:"+ rtn);
-
-        rtn = robot.MoveC(desc_pos3, tool, user, vel, acc, epos, flag, offset_pos, desc_pos4, tool, user, vel, acc, epos, flag, offset_pos, ovl, blendR,-1);
-        System.out.println("movec errcode:"+ rtn);
-
+        System.out.printf("movej errcode:%d\n", rtn);
+        rtn = robot.MoveL(desc_pos2, tool, user, vel, acc, ovl, blendR, blendMode, epos, search, flag, offset_pos, -1, velAccMode,0,10);
+        System.out.printf("movel errcode:%d\n", rtn);
+        rtn = robot.MoveC(desc_pos3, tool, user, vel, acc, epos, flag, offset_pos, desc_pos4, tool, user, vel, acc, epos, flag, offset_pos, ovl, blendR, -1, velAccMode);
+        System.out.printf("movec errcode:%d\n", rtn);
         rtn = robot.MoveJ(j2, tool, user, vel, acc, ovl, epos, blendT, flag, offset_pos);
-        System.out.println("movej errcode:"+ rtn);
-
-        rtn = robot.Circle(desc_pos3, tool, user, vel, acc, epos, desc_pos1, tool, user, vel, acc, epos, ovl, flag, offset_pos, 100,-1,-1);
-        System.out.println("circle errcode:"+ rtn);
-
+        System.out.printf("movej errcode:%d\n", rtn);
+        rtn = robot.Circle(desc_pos3, tool, user, vel, acc, epos, desc_pos1, tool, user, vel, acc, epos, ovl, flag, offset_pos, oacc, blendR, -1, velAccMode);
+        System.out.printf("circle errcode:%d\n", rtn);
         return 0;
     }
 

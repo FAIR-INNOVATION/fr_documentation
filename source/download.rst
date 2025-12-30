@@ -305,13 +305,15 @@
 FAIRINO SimMachine
 -----------------------
 
-    :download:`FAIRINO SimMachine VMware <https://pan.baidu.com/s/1J_FLGX5iAc7sPh6hDH7rKA?pwd=px26>`
+    :download:`FAIRINO SimMachine VMware <https://pan.baidu.com/s/1qyax8e4azLRLw-ljrSso-A?pwd=vqkt>`
     
-    :download:`FAIRINO SimMachine Docker <https://pan.baidu.com/s/1iqtwVAHqhAXZILI0YjR6Xg?pwd=nhhn>`
+    :download:`FAIRINO SimMachine Docker <https://pan.baidu.com/s/1oqwp7haPoL6iWRf7XB8uJg?pwd=qh2j>`
+    
+    :download:`FAIRINO_SimMachine_Software <https://pan.baidu.com/s/1vTSqvFxkX1A4mhs7Frx0mA?pwd=3bd1>`
 
 码垛机frcap
 ---------------------------------
-    :download:`码垛机Palletizer-v2.1.0 <_static/_doc/码垛机Palletizer-v2.1.0.zip>`
+    :download:`码垛机Palletizer-v2.2.0 <_static/_doc/Palletizer-v2.2.0.zip>`
 
 CPP SDK
 ---------------------------------
@@ -353,5 +355,7 @@ Java SDK
 
 机器人软件下载
 ---------------------------------
-    :download:`FAIRINO-CobotSoftware-QX-V3.9.0-20251127.zip <https://pan.baidu.com/s/1iPfGDEi20u_OwsbooLSrOg?pwd=1a49>`
+    :download:`FAIRINO-CobotSoftware-QX-V3.9.1-20251230.zip <https://pan.baidu.com/s/1iPfGDEi20u_OwsbooLSrOg?pwd=1a49>`
+    
+    :download:`FAIRINO-CobotSoftware-LA-V3.9.1-20251230.zip <https://pan.baidu.com/s/1iPfGDEi20u_OwsbooLSrOg?pwd=1a49>`
 

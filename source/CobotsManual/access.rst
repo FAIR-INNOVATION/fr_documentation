@@ -102,6 +102,16 @@ WebApp 访问登录
 ~~~~~~~~~~~~
 
 .. note:: 
+   .. image:: teaching_pendant_software/011.png
+      :width: 0.75in
+      :height: 0.75in
+      :align: left
+
+   名称：**机器人运行错误状态**
+   
+   作用：当前机器人运行有错误，无错误时隐藏
+
+.. note:: 
    .. image:: teaching_pendant_software/007.png
       :width: 0.75in
       :height: 0.75in
@@ -110,6 +120,16 @@ WebApp 访问登录
    名称：**机器人状态**
    
    作用：Stopped-停止，Running-运行，Pause-暂停，Drag-拖动
+
+.. note:: 
+   .. image:: teaching_pendant_software/010.png
+      :width: 0.75in
+      :height: 0.75in
+      :align: left
+
+   名称：**机器人工具坐标系、工件坐标系、扩展轴坐标系和负载编号**
+   
+   作用：左上——当前工具坐标系编号、右上——当前工件坐标系编号、左下——当前扩展轴坐标系编号、右下——当前负载编号
 
 .. note:: 
    .. image:: teaching_pendant_software/009.png
@@ -142,26 +162,6 @@ WebApp 访问登录
    作用：机器人手动模式，进行机器人示教操作
 
 .. note:: 
-   .. image:: teaching_pendant_software/010.png
-      :width: 0.75in
-      :height: 0.75in
-      :align: left
-
-   名称：**机器人运行正常状态**
-   
-   作用：当前机器人正常运行
-
-.. note:: 
-   .. image:: teaching_pendant_software/011.png
-      :width: 0.75in
-      :height: 0.75in
-      :align: left
-
-   名称：**机器人运行错误状态**
-   
-   作用：当前机器人运行有错误
-
-.. note:: 
    .. image:: teaching_pendant_software/065.png
       :width: 0.75in
       :height: 0.75in
@@ -170,6 +170,8 @@ WebApp 访问登录
    名称：**机器人状态折叠/展开按钮**
    
    作用：折叠/展开工具坐标系、工件坐标系、扩展轴坐标系、负载、机器人拖动状态、本地/远程模式、机器人连接状态、BOOT模式和账户信息内容
+
+点击折叠按钮，查看以下状态信息内容。
 
 .. note:: 
    .. image:: teaching_pendant_software/008.png
@@ -190,7 +192,7 @@ WebApp 访问登录
    名称：**工件坐标系编号**
    
    作用：展示当前应用的工件坐标系编号
-
+   
 .. note:: 
    .. image:: teaching_pendant_software/028.png
       :width: 0.75in

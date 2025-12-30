@@ -144,25 +144,26 @@ jog点动立即停止
 
     /**
     * @brief  笛卡尔空间直线运动
-    * @param  [in] joint_pos  目标关节位置,单位deg
-    * @param  [in] desc_pos   目标笛卡尔位姿
-    * @param  [in] tool  工具坐标号，范围[0~14]
-    * @param  [in] user  工件坐标号，范围[0~14]
-    * @param  [in] vel  速度百分比，范围[0~100]
-    * @param  [in] acc  加速度百分比，范围[0~100],暂不开放
-    * @param  [in] ovl  速度缩放因子，范围[0~100]
-    * @param  [in] blendR [-1.0]-运动到位(阻塞)，[0~1000.0]-平滑半径(非阻塞)，单位mm
-    * @param  [in] blendMode 过渡方式；0-内切过渡；1-角点过渡
-    * @param  [in] epos  扩展轴位置，单位mm
-    * @param  [in] search  0-不焊丝寻位，1-焊丝寻位
-    * @param  [in] offset_flag  0-不偏移，1-基坐标系/工件坐标系下偏移，2-工具坐标系下偏移
-    * @param  [in] offset_pos  位姿偏移量
-    * @param  [in] velAccParamMode 速度加速度参数模式；0-百分比；1-物理速度(mm/s)加速度(mm/s2)
-    * @param  [in] overSpeedStrategy  超速处理策略，1-标准；2-超速时报错停止；3-自适应降速，默认为0
-    * @param  [in] speedPercent  允许降速阈值百分比[0-100]，默认10%
-    * @return  错误码
+    * @param [in] joint_pos 目标关节位置,单位deg
+    * @param [in] desc_pos 目标笛卡尔位姿
+    * @param [in] tool 工具坐标号，范围[0~14]
+    * @param [in] user 工件坐标号，范围[0~14]
+    * @param [in] vel 速度百分比，范围[0~100]
+    * @param [in] acc 加速度百分比，范围[0~100],暂不开放
+    * @param [in] ovl 速度缩放因子[0~100]/物理速度(mm/s)
+    * @param [in] blendR [-1.0]-运动到位(阻塞)，[0~1000.0]-平滑半径(非阻塞)，单位mm
+    * @param [in] blendMode 过渡方式；0-内切过渡；1-角点过渡
+    * @param [in] epos 扩展轴位置，单位mm
+    * @param [in] search 0-不焊丝寻位，1-焊丝寻位
+    * @param [in] offset_flag 0-不偏移，1-基坐标系/工件坐标系下偏移，2-工具坐标系下偏移
+    * @param [in] offset_pos 位姿偏移量
+    * @param [in] oacc 加速度缩放因子[0-100]/物理加速度(mm/s2)
+    * @param [in] velAccParamMode 速度加速度参数模式；0-百分比；1-物理速度(mm/s)加速度(mm/s2)
+    * @param [in] overSpeedStrategy 超速处理策略，1-标准；2-超速时报错停止；3-自适应降速，默认为0
+    * @param [in] speedPercent 允许降速阈值百分比[0-100]，默认10%
+    * @return 错误码
     */
-    errno_t MoveL(JointPos *joint_pos, DescPose *desc_pos, int tool, int user, float vel, float acc, float ovl, float blendR, int blendMode, ExaxisPos *epos, uint8_t search, uint8_t offset_flag, DescPose *offset_pos, int velAccParamMode = 0, int overSpeedStrategy = 0, int speedPercent = 10);
+    errno_t MoveL(JointPos *joint_pos, DescPose *desc_pos, int tool, int user, float vel, float acc, float ovl, float blendR, int blendMode, ExaxisPos *epos, uint8_t search, uint8_t offset_flag, DescPose *offset_pos, float oacc = 100.0, int velAccParamMode = 0, int overSpeedStrategy = 0, int speedPercent = 10);
 
 笛卡尔空间直线运动(自动逆运动学计算)
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -215,12 +216,13 @@ jog点动立即停止
     * @param  [in] epos_t  扩展轴位置，单位mm
     * @param  [in] toffset_flag  0-不偏移，1-基坐标系/工件坐标系下偏移，2-工具坐标系下偏移
     * @param  [in] offset_pos_t  位姿偏移量
-    * @param  [in] ovl  速度缩放因子，范围[0~100]
+    * @param  [in] ovl  速度缩放因子[0~100]/物理速度(mm/s)
     * @param  [in] blendR [-1.0]-运动到位(阻塞)，[0~1000.0]-平滑半径(非阻塞)，单位mm
+    * @param  [in] oacc 加速度缩放因子[0-100]/物理加速度(mm/s2)
     * @param  [in] velAccParamMode 速度加速度参数模式；0-百分比；1-物理速度(mm/s)加速度(mm/s2)
     * @return  错误码
     */
-    errno_t MoveC(JointPos *joint_pos_p, DescPose *desc_pos_p, int ptool, int puser, float pvel, float pacc, ExaxisPos *epos_p, uint8_t poffset_flag, DescPose *offset_pos_p, JointPos *joint_pos_t, DescPose *desc_pos_t, int ttool, int tuser, float tvel, float tacc, ExaxisPos *epos_t, uint8_t toffset_flag, DescPose *offset_pos_t, float ovl, float blendR, int velAccParamMode = 0);
+    errno_t MoveC(JointPos *joint_pos_p, DescPose *desc_pos_p, int ptool, int puser, float pvel, float pacc, ExaxisPos *epos_p, uint8_t poffset_flag, DescPose *offset_pos_p, JointPos *joint_pos_t, DescPose *desc_pos_t, int ttool, int tuser, float tvel, float tacc, ExaxisPos *epos_t, uint8_t toffset_flag, DescPose *offset_pos_t, float ovl, float blendR, float oacc = 100.0, int velAccParamMode = 0);
 
 笛卡尔空间圆弧运动 (自动逆运动学计算)
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -273,10 +275,10 @@ jog点动立即停止
     * @param  [in] tvel  速度百分比，范围[0~100]
     * @param  [in] tacc  加速度百分比，范围[0~100],暂不开放
     * @param  [in] epos_t  扩展轴位置，单位mm
-    * @param  [in] ovl  速度缩放因子，范围[0~100]
+    * @param  [in] ovl  速度缩放因子[0~100]/物理速度(mm/s)
     * @param  [in] offset_flag  0-不偏移，1-基坐标系/工件坐标系下偏移，2-工具坐标系下偏移
     * @param  [in] offset_pos  位姿偏移量
-    * @param  [in] oacc 加速度百分比
+    * @param  [in] oacc 加速度缩放因子[0-100]/物理加速度(mm/s2)
     * @param  [in] blendR -1：阻塞；0~1000：平滑半径
     * @param  [in] velAccParamMode 速度加速度参数模式；0-百分比；1-物理速度(mm/s)加速度(mm/s2)
     * @return  错误码
@@ -338,60 +340,65 @@ jog点动立即停止
 
     int TestMove(void)
     {
-      ROBOT_STATE_PKG pkg = {};
-      FRRobot robot;
-      robot.LoggerInit();
-      robot.SetLoggerLevel(1);
-      int rtn = robot.RPC("192.168.58.2");
-      if (rtn != 0)
-      {
-        return -1;
-      }
-      robot.SetReConnectParam(true, 30000, 500);
-      JointPos j1(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
-      JointPos j2(-45.615, -106.172, 124.296, -107.151, -91.282, 74.255);
-      JointPos j3(-29.777, -84.536, 109.275, -114.075, -86.655, 74.257);
-      JointPos j4(-31.154, -95.317, 94.276, -88.079, -89.740, 74.256);
-      DescPose desc_pos1(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
-      DescPose desc_pos2(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
-      DescPose desc_pos3(-487.434, 154.362, 308.576, 176.600, 0.268, -14.061);
-      DescPose desc_pos4(-443.165, 147.881, 480.951, 179.511, -0.775, -15.409);
-      DescPose offset_pos(0, 0, 0, 0, 0, 0);
-      ExaxisPos epos(0, 0, 0, 0);
-      int tool = 0;
-      int user = 0;
-      float vel = 100.0;
-      float acc = 100.0;
-      float ovl = 100.0;
-      float blendT = 0.0;
-      float blendR = 0.0;
-      uint8_t flag = 0;
-      uint8_t search = 0;
-      robot.SetSpeed(20);
-      rtn = robot.MoveJ(&j1, &desc_pos1, tool, user, vel, acc, ovl, &epos, blendT, flag, &offset_pos);
-      printf("movej errcode:%d\n", rtn);
-      rtn = robot.MoveL(&j2, &desc_pos2, tool, user, vel, acc, ovl, blendR, &epos, search, flag, &offset_pos);
-      printf("movel errcode:%d\n", rtn);
-      rtn = robot.MoveC(&j3, &desc_pos3, tool, user, vel, acc, &epos, flag, &offset_pos, &j4, &desc_pos4, tool, user, vel, acc, &epos, flag, &offset_pos, ovl, blendR);
-      printf("movec errcode:%d\n", rtn);
-      rtn = robot.MoveJ(&j2, &desc_pos2, tool, user, vel, acc, ovl, &epos, blendT, flag, &offset_pos);
-      printf("movej errcode:%d\n", rtn);
-      rtn = robot.Circle(&j3, &desc_pos3, tool, user, vel, acc, &epos, &j1, &desc_pos1, tool, user, vel, acc, &epos, ovl, flag, &offset_pos, 100, -1);
-      printf("circle errcode:%d\n", rtn);
-      rtn = robot.MoveCart(&desc_pos4, tool, user, vel, acc, ovl, blendT, -1);
-      printf("MoveCart errcode:%d\n", rtn);
-      rtn = robot.MoveJ(&j1, tool, user, vel, acc, ovl, &epos, blendT, flag, &offset_pos);
-      printf("movej errcode:%d\n", rtn);
-      rtn = robot.MoveL(&desc_pos2, tool, user, vel, acc, ovl, blendR, 0, &epos, search, flag, &offset_pos);
-      printf("movel errcode:%d\n", rtn);
-      rtn = robot.MoveC(&desc_pos3, tool, user, vel, acc, &epos, flag, &offset_pos, &desc_pos4, tool, user, vel, acc, &epos, flag, &offset_pos, ovl, blendR);
-      printf("movec errcode:%d\n", rtn);
-      rtn = robot.MoveJ(&j2, tool, user, vel, acc, ovl, &epos, blendT, flag, &offset_pos);
-      printf("movej errcode:%d\n", rtn);
-      rtn = robot.Circle(&desc_pos3, tool, user, vel, acc, &epos, &desc_pos1, tool, user, vel, acc, &epos, ovl, flag, &offset_pos, 100, -1);
-      printf("circle errcode:%d\n", rtn);
-      robot.CloseRPC();
-      return 0;
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return -1;
+        }
+        robot.SetReConnectParam(true, 30000, 500);
+
+        JointPos j1(-11.904, -99.669, 117.473, -108.616, -91.726, 74.256);
+        JointPos j2(-45.615, -106.172, 124.296, -107.151, -91.282, 74.255);
+        JointPos j3(-29.777, -84.536, 109.275, -114.075, -86.655, 74.257);
+        JointPos j4(-31.154, -95.317, 94.276, -88.079, -89.740, 74.256);
+        DescPose desc_pos1(-419.524, -13.000, 351.569, -178.118, 0.314, 3.833);
+        DescPose desc_pos2(-321.222, 185.189, 335.520, -179.030, -1.284, -29.869);
+        DescPose desc_pos3(-487.434, 154.362, 308.576, 176.600, 0.268, -14.061);
+        DescPose desc_pos4(-443.165, 147.881, 480.951, 179.511, -0.775, -15.409);
+        DescPose offset_pos(0, 0, 0, 0, 0, 0);
+        ExaxisPos epos(0, 0, 0, 0);
+        int tool = 0;
+        int user = 0;
+        float vel = 100.0;
+        float acc = 100.0;
+        float ovl = 100.0;
+        float oacc = 100.0;
+        float blendT = 0.0;
+        float blendR = 0.0;
+        uint8_t flag = 0;
+        uint8_t search = 0;
+        int blendMode = 0;
+        int velAccMode = 0;
+        robot.SetSpeed(20);
+        rtn = robot.MoveJ(&j1, &desc_pos1, tool, user, vel, acc, ovl, &epos, blendT, flag, &offset_pos);
+        printf("movej errcode:%d\n", rtn);
+        rtn = robot.MoveL(&j2, &desc_pos2, tool, user, vel, acc, ovl, blendR, blendMode, &epos, search, flag, &offset_pos, oacc, velAccMode);
+        printf("movel errcode:%d\n", rtn);
+        rtn = robot.MoveC(&j3, &desc_pos3, tool, user, vel, acc, &epos, flag, &offset_pos, &j4, &desc_pos4, tool, user, vel, acc, &epos, flag, &offset_pos, ovl, blendR, oacc, velAccMode);
+        printf("movec errcode:%d\n", rtn);
+        rtn = robot.MoveJ(&j2, &desc_pos2, tool, user, vel, acc, ovl, &epos, blendT, flag, &offset_pos);
+        printf("movej errcode:%d\n", rtn);
+        rtn = robot.Circle(&j3, &desc_pos3, tool, user, vel, acc, &epos, &j1, &desc_pos1, tool, user, vel, acc, &epos, ovl, flag, &offset_pos, oacc, -1, velAccMode);
+        printf("circle errcode:%d\n", rtn);
+        rtn = robot.MoveCart(&desc_pos4, tool, user, vel, acc, ovl, blendT, -1);
+        printf("MoveCart errcode:%d\n", rtn);
+        rtn = robot.MoveJ(&j1, tool, user, vel, acc, ovl, &epos, blendT, flag, &offset_pos);
+        printf("movej errcode:%d\n", rtn);
+        rtn = robot.MoveL(&desc_pos2, tool, user, vel, acc, ovl, blendR, blendMode, &epos, search, flag, &offset_pos, -1, velAccMode);
+        printf("movel errcode:%d\n", rtn);
+        rtn = robot.MoveC(&desc_pos3, tool, user, vel, acc, &epos, flag, &offset_pos, &desc_pos4, tool, user, vel, acc, &epos, flag, &offset_pos, ovl, blendR, -1, velAccMode);
+        printf("movec errcode:%d\n", rtn);
+        rtn = robot.MoveJ(&j2, tool, user, vel, acc, ovl, &epos, blendT, flag, &offset_pos);
+        printf("movej errcode:%d\n", rtn);
+        rtn = robot.Circle(&desc_pos3, tool, user, vel, acc, &epos, &desc_pos1, tool, user, vel, acc, &epos, ovl, flag, &offset_pos, oacc, blendR, -1, velAccMode);
+        printf("circle errcode:%d\n", rtn);
+        robot.CloseRPC();
+        return 0;
     }
 
 笛卡尔空间螺旋线运动
