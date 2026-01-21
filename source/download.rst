@@ -353,6 +353,9 @@ Java SDK
 
 机器人软件下载
 ---------------------------------
+
+    :download:`FAIRINO-CobotSoftware-QX-V3.8.6.1-20260120.zip <https://pan.baidu.com/s/1yvIK2Y75tu0-E4FAqnmztQ?pwd=g95z>`
+
     :download:`FAIRINO-CobotSoftware-QX-V3.8.6-20251023.zip <https://pan.baidu.com/s/161TunXDnJzjq6OsbL8oXfA?pwd=e4gv>`
     
     :download:`FAIRINO-CobotSoftware-LA-V3.8.6-20251023.zip <https://pan.baidu.com/s/1sckTD5dhWTgF-KTbCBvI6Q?pwd=8sam>`
