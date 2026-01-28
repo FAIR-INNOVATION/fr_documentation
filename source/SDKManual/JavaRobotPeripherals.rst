@@ -1385,16 +1385,19 @@ SmartTool按钮代码示例
     :linenos:
 
     /**
-     * @brief 激光焊缝轨迹复现
-     * @param [in] delayMode 模式 0-延时时间 1-延时距离
-     * @param [in] delayTime 延时时间 单位ms
-     * @param [in] delayDisExAxisNum 扩展轴编号
-     * @param [in] delayDis 延时距离 单位mm
-     * @param [in] sensitivePara 补偿灵敏系数
-     * @param [in] speed 速度 单位%
-     * @return 错误码
-     */
-    public int LaserSensorRecordandReplay(int delayMode, int delayTime, int delayDisExAxisNum, double delayDis, double sensitivePara, double speed)
+    * @brief 激光焊缝轨迹复现
+    * @param delayMode 模式 0-延时时间 1-延时距离
+    * @param delayTime 延时时间 单位ms
+    * @param delayDisExAxisNum 扩展轴编号
+    * @param delayDis 延时距离 单位mm
+    * @param sensitivePara 补偿灵敏系数
+    * @param trackMode 定点跟踪类型。0-扩展轴异步运动；1-机器人
+    * @param triggerMode 定点跟踪触发方式。0-跟踪时长；1-IO
+    * @param runTime 机器人定点跟踪时长(s)
+    * @param speed 速度 单位%
+    * @return 错误码
+    */
+    public int LaserSensorRecordandReplay(int delayMode, int delayTime, int delayDisExAxisNum, double delayDis, double sensitivePara, int trackMode, int triggerMode, double runTime, double speed)
     
 运动到焊缝记录的起点
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -13,13 +13,25 @@
      - **日期**
      - **更新描述**
 
+   * - V3.9.2
+     - 2026-01-26
+     - | 1.FT_RotInsertion()接口增加未检测到力/力矩的处理策略参数
+       | 2.LaserSensorRecordandReplay()接口增加机器人定点跟踪相关参数
+       | 3.增加MoveStationary()接口
+       | 4.增加TCPComputeRPY()接口
+       | 5.增加TCPComputeXYZ()接口
+       | 6.增加TCPRecordFlangePosStart()接口
+       | 7.增加TCPRecordFlangePosEnd()接口
+       | 8.增加TCPGetRecordFlangePos()接口
+       | 9.增加PhotoelectricSensorTCPCalibration()接口
+
    * - V3.9.1
      - 2025-12-25
-     - | 1.MoveL()接口增加oacc速度缩放因子参数/物理加速度参数；
-       | 2.MoveC()接口增加oacc速度缩放因子参数/物理加速度参数；
-       | 3.Circle()接口优化关于物理速度和物理加速度的参数描述；
-       | 4.增加FT_Control()重载函数，具有rx、ry启动阈值、力矩调节系数参数；
-       | 5.增加SerCoderCompenParams()接口；
+     - | 1.MoveL()接口增加oacc速度缩放因子参数/物理加速度参数
+       | 2.MoveC()接口增加oacc速度缩放因子参数/物理加速度参数
+       | 3.Circle()接口优化关于物理速度和物理加速度的参数描述
+       | 4.增加FT_Control()重载函数，具有rx、ry启动阈值、力矩调节系数参数
+       | 5.增加SerCoderCompenParams()接口
 
    * - V3.9.0
      - 2025-11-26

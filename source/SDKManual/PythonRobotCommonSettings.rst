@@ -1221,3 +1221,116 @@
     rtn,getRadio = robot.GetVelFeedForwardRatio()
     print(f"{getRadio[0]},{getRadio[1]},{getRadio[2]},{getRadio[3]},{getRadio[4]},{getRadio[5]}")
     robot.CloseRPC()
+
+光电传感器TCP标定-计算工具RPY
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``TCPComputeRPY(Btool, Etool, sensor, radius, dz)``"
+    "描述", "光电传感器TCP标定-计算工具RPY"
+    "必选参数", "
+    - ``Btool``：机器人笛卡尔位置
+    - ``Etool``：当前工具坐标系数值
+    - ``Btsenserool``：当前传感器坐标系数值(暂未开放)
+    - ``radius``：圆周运动半径mm(暂未开放)
+    - ``dz``：沿基座标系z轴负方向运动距离；当dz = 10000时，函数直接返回工具RPY"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode"
+
+光电传感器TCP标定-计算工具XYZ
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``TCPComputeXYZ(select, originDirection, pos1, pos2, pos3, pos4)``"
+    "描述", "光电传感器TCP标定-计算工具XYZ"
+    "必选参数", "
+    - ``select``：0-计算工具TCP；1-计算传感器原点；2-计算传感器姿态；3-直接返回工具TCP；4-记录当前工件坐标系和工具坐标系
+    - ``originDirection``：0-X方向；1-Y方向；2-Z方向
+    - ``pos1``：机器人笛卡尔位置1
+    - ``pos2``：机器人笛卡尔位置2
+    - ``pos3``：机器人笛卡尔位置3
+    - ``pos4``：机器人笛卡尔位置4"
+    "默认参数", "无"
+    "返回值", "
+    - 错误码 成功-0  失败- errcode
+    - 返回值（调用成功返回） TCP 工具XYZ数值"
+
+光电传感器TCP标定-开始记录末端法兰中心位置
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``TCPRecordFlangePosStart()``"
+    "描述", "光电传感器TCP标定-开始记录末端法兰中心位置"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode"
+
+光电传感器TCP标定-停止记录末端法兰中心位置
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``TCPRecordFlangePosEnd()``"
+    "描述", "光电传感器TCP标定-停止记录末端法兰中心位置"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode"
+
+光电传感器TCP标定-获取末端工具中心点位置
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``TCPGetRecordFlangePos()``"
+    "描述", "光电传感器TCP标定-获取末端工具中心点位置"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "
+    - 错误码 成功-0  失败- errcode
+    - 返回值（调用成功返回） TCP 工具中心点位置(x,y,z)"
+
+光电传感器TCP标定
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``PhotoelectricSensorTCPCalibration(luaPath, offsetX)``"
+    "描述", "光电传感器TCP标定"
+    "必选参数", "
+    - ``luaPath``：自动标定lua程序路径：QX版本机器人-'/fruser/FR_CalibrateTheToolTcp.lua';LA版本机器人-'/usr/local/etc/controller/lua/FR_CalibrateTheToolTcp.lua'
+    - ``offsetX``：示教点偏移(x,y,z)mm"
+    "默认参数", "无"
+    "返回值", "
+    - 错误码 成功-0  失败- errcode
+    - 返回值（调用成功返回） TCP 工具XYZ数值"
+
+光电传感器TCP标定代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: python
+    :linenos: 
+
+    from fairino import Robot
+    import time
+    robot = Robot.RPC('192.168.58.2')
+    offset = [10.0, 10.0, 3.0]
+    TCP = [0.0] * 6
+    rtn, TCP = robot.PhotoelectricSensorTCPCalibration("/fruser/FR_CalibrateTheToolTcp.lua", offset)
+    print(f"PhotoelectricSensorTCPCalibration rtn is {rtn},{TCP[0]},{TCP[1]},{TCP[2]},{TCP[3]},{TCP[4]},{TCP[5]}")
+    robot.CloseRPC()
+    return 0

@@ -1196,13 +1196,16 @@ SmartTool按钮代码示例
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``LaserSensorRecordandReplay(delayMode, delayTime, delayDisExAxisNum, delayDis, sensitivePara, speed)``"
+    "原型", "``LaserSensorRecordandReplay(delayMode, delayTime, delayDisExAxisNum, delayDis, sensitivePara, int trackMode, int triggerMode, double runTime, speed)``"
     "描述", "激光焊缝轨迹复现"
     "必选参数", "- ``delayMode``：模式 0-延时时间 1-延时距离
     - ``delayTime``：延时时间 单位ms
     - ``delayDisExAxisNum``：扩展轴编号
     - ``delayDis``：延时距离 单位mm
     - ``sensitivePara``：补偿灵敏系数
+    - ``trackMode``：定点跟踪类型。0-扩展轴异步运动；1-机器人
+    - ``triggerMode``：定点跟踪触发方式。0-跟踪时长；1-IO
+    - ``runTime``：机器人定点跟踪时长(s)
     - ``speed``：速度 单位%"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"

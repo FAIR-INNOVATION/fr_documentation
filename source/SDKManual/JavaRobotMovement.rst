@@ -1692,3 +1692,31 @@ FIR滤波代码示例
         robot.CloseRPC();
         return ;
     }
+                
+原地空运动
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 原地空运动
+    * @return 错误码
+    */
+    public int MoveStationary()
+
+原地空运动代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static void test_RecordandReplay(Robot robot)
+    {
+        int rtn = robot.LaserSensorRecordandReplay(0, 10, 1, 0, 0.1, 1, 1, 10, 100);
+        System.out.printf("LaserSensorRecordandReplay rtn is %d\n", rtn);
+        rtn = robot.MoveStationary();
+        System.out.printf("MoveStationary rtn is %d\n", rtn);
+        rtn = robot.LaserSensorRecord1(0, 10);
+        System.out.printf("LaserSensorRecordandReplay rtn is %d\n", rtn);
+        robot.CloseRPC();
+        robot.Sleep(9999999);
+    }

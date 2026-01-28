@@ -175,6 +175,18 @@ FRJ-PCIeN板卡硬件环境搭建
 
 当协议切换为Profinet时，并且从站设备名称与主站一致时，主站会自动配置从站的 IP 地址。
 
+5. FRJ-PCIeN-EC-RJ-V10板卡固件升级
+
+网址输入192.169.58.2进入机器人界面，点击 “初始设置”->“外设”->“板卡通讯”界面，可以获取到FRJ-PCIeN-EC-RJ-V10板卡固件版本号。选择待升级的bin文件，点击上传，等待固件升级成功后，重启控制箱即可。
+
+.. image:: custom_protocol_slave/064.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 17.2-13 板卡固件升级
+
+.. note:: 1、仅V3.9.2及以上版本支持Ethercat协议固件升级；2、升级Ethercat协议固件需卸载已运行的开放协议。
+
 软件环境搭建
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -184,7 +196,7 @@ FRJ-PCIeN板卡硬件环境搭建
    :width: 6in
    :align: center
 
-.. centered:: 图表 17.2-13 Web登录界面
+.. centered:: 图表 17.2-14 Web登录界面
 
 2. 点击系统设置->关于界面，点击软件升级按钮，选择software.tar.gz文件，上传升级包。
 
@@ -192,7 +204,7 @@ FRJ-PCIeN板卡硬件环境搭建
    :width: 6in
    :align: center
 
-.. centered:: 图表 17.2-14 软件升级
+.. centered:: 图表 17.2-15 软件升级
 
 .. note:: QX控制箱web版本需要3.8.0及以上，LA控制箱web版本需要3.8.0及以上。
 
@@ -202,7 +214,7 @@ FRJ-PCIeN板卡硬件环境搭建
    :width: 4in
    :align: center
 
-.. centered:: 图表 17.2-15 切换远程模式
+.. centered:: 图表 17.2-16 切换远程模式
 
 4. 选择控制器从站协议，以及是否需要自启动功能，点击“设置”按钮。注意：切换不同的协议，需要先点击“卸载”按钮，再进行其他协议的配置。
 
@@ -210,7 +222,7 @@ FRJ-PCIeN板卡硬件环境搭建
    :width: 6in
    :align: center
 
-.. centered:: 图表 17.2-16 配置通讯协议
+.. centered:: 图表 17.2-17 配置通讯协议
 
 .. note:: 切换不同的协议，需要重启控制箱再进行协议的配置。
 
@@ -683,6 +695,33 @@ HMI设置（Profinet仿真）
 .. centered:: 图表 17.3-5 板卡生成板卡lua指令
 
 :download:`附件一：从站模式地址映射表 <../_static/_doc/控制箱从站模式地址对照表.xlsx>`
+
+板卡通讯周期配置
+---------------------------------------------------------
+
+通过上位机可以配置板卡的通讯周期，当前仅提供PN协议固件，后续兼容EIP、CClink ie basic、ECAT协议。
+
+(1) 将PC（Win11系统）网口与板卡网口直连，打开Device Assistant v1.1.0，双击“以太网”，点击左上角“刷新”按钮，可以扫描到当前连接的板卡设备。
+
+.. image:: custom_protocol_slave/060.png
+   :width: 6in
+   :align: center
+
+.. image:: custom_protocol_slave/061.png
+   :width: 6in
+   :align: center
+
+(2) 在固件更新界面，上传新版本PN固件，点击“更新”按钮，左下角提示“升级成功”打印即可。
+
+.. image:: custom_protocol_slave/062.png
+   :width: 6in
+   :align: center
+
+(3) 输入需要的通讯周期（支持1~100ms），点击“设置”按钮，左下角提示“周期设置成功”打印即可。
+
+.. image:: custom_protocol_slave/063.png
+   :width: 6in
+   :align: center
 
 附录
 -------------------

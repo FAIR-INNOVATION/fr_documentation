@@ -1299,3 +1299,101 @@
         System.out.printf(" %f %f %f %f %f %f\n", getRadio[0], getRadio[1], getRadio[2], getRadio[3], getRadio[4], getRadio[5]);
         robot.CloseRPC();
     }
+
+光电传感器TCP标定-计算工具RPY
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 光电传感器TCP标定-计算工具RPY
+    * @param  Btool 机器人笛卡尔位置
+    * @param  Etool 当前工具坐标系数值
+    * @param  sensor 当前传感器坐标系数值(暂未开放)
+    * @param  radius 圆周运动半径mm(暂未开放)
+    * @param  dz 沿基座标系z轴负方向运动距离；当dz = 10000时，函数直接返回工具RPY
+    * @param  TCPRPY 工具RPY数值
+    * @return 错误码
+    */
+    public int TCPComputeRPY(DescPose Btool, DescPose Etool, DescPose sensor, double radius, double dz, Rpy TCPRPY)
+
+光电传感器TCP标定-计算工具XYZ
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 光电传感器TCP标定-计算工具XYZ
+    * @param  select 0-计算工具TCP；1-计算传感器原点；2-计算传感器姿态；3-直接返回工具TCP；4-记录当前工件坐标系和工具坐标系
+    * @param  originDirection 0-X方向；1-Y方向；2-Z方向
+    * @param  pos1 机器人笛卡尔位置1
+    * @param  pos2 机器人笛卡尔位置2
+    * @param  pos3 机器人笛卡尔位置3
+    * @param  pos4 机器人笛卡尔位置4
+    * @param  TCP 工具XYZ数值
+    * @return 错误码
+    */
+    public int TCPComputeXYZ(int select, double originDirection, DescTran pos1, DescTran pos2, DescTran pos3, DescTran pos4, DescTran TCP)
+
+光电传感器TCP标定-开始记录末端法兰中心位置
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 光电传感器TCP标定-开始记录末端法兰中心位置
+    * @return 错误码
+    */
+    public int TCPRecordFlangePosStart()
+
+光电传感器TCP标定-停止记录末端法兰中心位置
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 光电传感器TCP标定-停止记录末端法兰中心位置
+    * @return 错误码
+    */
+    public int TCPRecordFlangePosEnd()
+
+光电传感器TCP标定-获取末端工具中心点位置
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 光电传感器TCP标定-获取末端工具中心点位置
+    * @param  TCP 工具中心点位置(x,y,z)
+    * @return 错误码
+    */
+    public int TCPGetRecordFlangePos(DescTran TCP)
+
+光电传感器TCP标定
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 光电传感器TCP标定
+    * @param luaPath 自动标定lua程序路径：QX版本机器人-"/fruser/FR_CalibrateTheToolTcp.lua";LA版本机器人-"/usr/local/etc/controller/lua/FR_CalibrateTheToolTcp.lua"
+    * @param offset 示教点偏移(x,y,z)mm
+    * @param TCP 标定后的工具坐标系(x,y,z,rx,ry,rz)
+    * @return 错误码
+    */
+    public int PhotoelectricSensorTCPCalibration(String luaPath, DescTran offset, DescPose TCP)
+
+光电传感器TCP标定代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static void TestPhotoelectricSensorTCPCalib(Robot robot)
+    {
+        DescTran offset = new DescTran(10.0, 10.0, 3.0 );
+        DescPose TCP = new DescPose();
+        int rtn = robot.PhotoelectricSensorTCPCalibration("/fruser/FR_CalibrateTheToolTcp.lua", offset, TCP);
+        System.out.printf("PhotoelectricSensorTCPCalibration rtn is %d %f %f %f %f %f %f \n", rtn, TCP.tran.x, TCP.tran.y, TCP.tran.z, TCP.rpy.rx, TCP.rpy.ry, TCP.rpy.rz);
+        robot.CloseRPC();
+        robot.Sleep(9999999);
+    }
