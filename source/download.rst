@@ -302,6 +302,8 @@
 
     :download:`智能焊接工作站 STEP模型 <_static/_doc/智能焊接.zip>`
 
+    :download:`包络图 STEP模型 <_static/_doc/包络图.zip>`
+
 FAIRINO SimMachine
 -----------------------
 
