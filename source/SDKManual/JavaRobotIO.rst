@@ -372,110 +372,119 @@
 .. code-block:: Java
     :linenos:
 
-    /** 
-    * @brief 设置控制箱DO停止/暂停后输出是否复位 
-    * @param [in] resetFlag  0-不复位；1-复位
-    * @return 错误码 
-    */ 
-    int SetOutputResetCtlBoxDO(int resetFlag);
+    /**
+    * @brief 设置控制箱DO停止/暂停后输出是否复位
+    * @param resetFlag  0-不复位；1-复位
+    * @param reloadFlag 暂停恢复后是否重加载，0-不加载；1-加载
+    * @return 错误码
+    */
+    public int SetOutputResetCtlBoxDO(int resetFlag, int reloadFlag)
 
 设置控制箱AO停止/暂停后输出是否复位
 +++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    /** 
-    * @brief 设置控制箱AO停止/暂停后输出是否复位 
-    * @param [in] resetFlag  0-不复位；1-复位
-    * @return 错误码 
-    */ 
-    int SetOutputResetCtlBoxAO(int resetFlag);
+    /**
+    * @brief 设置控制箱AO停止/暂停后输出是否复位
+    * @param resetFlag  0-不复位；1-复位
+    * @param reloadFlag 暂停恢复后是否重加载，0-不加载；1-加载
+    * @return 错误码
+    */
+    public int SetOutputResetCtlBoxAO(int resetFlag, int reloadFlag)
 
 设置末端工具DO停止/暂停后输出是否复位
 +++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    /** 
+    /**
     * @brief 设置末端工具DO停止/暂停后输出是否复位
-    * @param [in] resetFlag  0-不复位；1-复位
-    * @return 错误码 
-    */ 
-    int SetOutputResetAxleDO(int resetFlag);
+    * @param resetFlag  0-不复位；1-复位
+    * @param reloadFlag 暂停恢复后是否重加载，0-不加载；1-加载
+    * @return 错误码
+    */
+    public int SetOutputResetAxleDO(int resetFlag, int reloadFlag)
 
 设置末端工具AO停止/暂停后输出是否复位
 +++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    /** 
-    * @brief 设置末端工具AO停止/暂停后输出是否复位 
-    * @param [in] resetFlag  0-不复位；1-复位
-    * @return 错误码 
-    */ 
-    int SetOutputResetAxleAO(int resetFlag);
+    /**
+    * @brief 设置末端工具AO停止/暂停后输出是否复位
+    * @param resetFlag  0-不复位；1-复位
+    * @param reloadFlag 暂停恢复后是否重加载，0-不加载；1-加载
+    * @return 错误码
+    */
+    public int SetOutputResetAxleAO(int resetFlag, int reloadFlag)
     
 设置扩展DO停止/暂停后输出是否复位
 +++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    /** 
+    /**
     * @brief 设置扩展DO停止/暂停后输出是否复位
-    * @param [in] resetFlag  0-不复位；1-复位
-    * @return 错误码 
-    */ 
-    int SetOutputResetExtDO(int resetFlag);
+    * @param resetFlag  0-不复位；1-复位
+    * @param reloadFlag 暂停恢复后是否重加载，0-不加载；1-加载
+    * @return 错误码
+    */
+    public int SetOutputResetExtDO(int resetFlag, int reloadFlag)
     
 设置扩展AO停止/暂停后输出是否复位
 +++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    /** 
+    /**
     * @brief 设置扩展AO停止/暂停后输出是否复位
-    * @param [in] resetFlag  0-不复位；1-复位
-    * @return 错误码 
-    */ 
-    int SetOutputResetExtAO(int resetFlag);
+    * @param resetFlag  0-不复位；1-复位
+    * @param reloadFlag 暂停恢复后是否重加载，0-不加载；1-加载
+    * @return 错误码
+    */
+    public int SetOutputResetExtAO(int resetFlag, int reloadFlag)
 
 设置SmartTool停止/暂停后输出是否复位
 +++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    /** 
+    /**
     * @brief 设置SmartTool停止/暂停后输出是否复位
-    * @param [in] resetFlag  0-不复位；1-复位
-    * @return 错误码 
-    */ 
-    int SetOutputResetSmartToolDO(int resetFlag)
+    * @param resetFlag  0-不复位；1-复位
+    * @param reloadFlag 暂停恢复后是否重加载，0-不加载；1-加载
+    * @return 错误码
+    */
+    public int SetOutputResetSmartToolDO(int resetFlag, int reloadFlag)
 
 设置LUA程序停止/暂停后输出复位代码示例
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    public static int TestDOReset(Robot robot)
+    public static void TestDOReset(Robot robot)
     {
-
-        int rtn=-1;
         for (int i = 0; i < 16; i++)
         {
             robot.SetDO(i, 1, 0, 0);
-            robot.Sleep(300);
+            robot.Sleep(200);
         }
-
         int resetFlag = 1;
-        rtn = robot.SetOutputResetCtlBoxDO(resetFlag);
-        robot.SetOutputResetCtlBoxAO(resetFlag);
-        robot.SetOutputResetAxleDO(resetFlag);
-        robot.SetOutputResetAxleAO(resetFlag);
-        robot.SetOutputResetExtDO(resetFlag);
-        robot.SetOutputResetExtAO(resetFlag);
-        robot.SetOutputResetSmartToolDO(resetFlag);
-
+        int resumeReloadFlag = 1;
+        int rtn = robot.SetOutputResetCtlBoxDO(resetFlag, resumeReloadFlag);
+        robot.SetOutputResetCtlBoxAO(resetFlag, resumeReloadFlag);
+        robot.SetOutputResetAxleDO(resetFlag, resumeReloadFlag);
+        robot.SetOutputResetAxleAO(resetFlag, resumeReloadFlag);
+        robot.SetOutputResetExtDO(resetFlag, resumeReloadFlag);
+        robot.SetOutputResetExtAO(resetFlag, resumeReloadFlag);
+        robot.SetOutputResetSmartToolDO(resetFlag, resumeReloadFlag);
         robot.ProgramLoad("/fruser/test.lua");
         robot.ProgramRun();
-        return 0;
+        robot.Sleep(2000);
+        robot.PauseMotion();
+        robot.Sleep(2000);
+        robot.ResumeMotion();
+        robot.Sleep(2000);
+        robot.CloseRPC();
     }

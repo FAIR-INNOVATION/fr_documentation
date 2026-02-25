@@ -13,6 +13,18 @@
      - **日期**
      - **更新描述**
 
+   * - V3.9.3
+     - 2026-02-11
+     - | 1.ServoCart()接口增加扩展轴参数
+       | 2.SetOutputResetCtlBoxDO()接口增加暂停恢复后是否重加载复位前DO状态参数
+       | 3.SetOutputResetCtlBoxAO()接口增加暂停恢复后是否重加载复位前DO状态参数
+       | 4.SetOutputResetAxleDO()接口增加暂停恢复后是否重加载复位前DO状态参数
+       | 5.SetOutputResetAxleAO()接口增加暂停恢复后是否重加载复位前DO状态参数
+       | 6.SetOutputResetExtDO()接口增加暂停恢复后是否重加载复位前DO状态参数
+       | 7.SetOutputResetExtAO()接口增加暂停恢复后是否重加载复位前DO状态参数
+       | 8.SetOutputResetSmartToolDO()接口增加暂停恢复后是否重加载复位前DO状态参数
+       | 9.增加GetInverseKinExaxis()包含扩展轴位置的逆运动学求解接口
+       
    * - V3.9.2
      - 2026-01-26
      - | 1.FT_RotInsertion()接口增加未检测到力/力矩的处理策略参数

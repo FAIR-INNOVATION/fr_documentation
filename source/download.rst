@@ -307,11 +307,11 @@
 FAIRINO SimMachine
 -----------------------
 
-    :download:`FAIRINO SimMachine VMware <https://pan.baidu.com/s/1sKJn_pzHUvImUgsLZsPO4A?pwd=5krh>`
+    :download:`FAIRINO SimMachine VMware <https://pan.baidu.com/s/1cUNpZXLiE-hZMUWp2l-eAA?pwd=z1ak>`
     
-    :download:`FAIRINO SimMachine Docker <https://pan.baidu.com/s/10YOfYvF3RaIp2QiAp3Hs5Q?pwd=cpsf>`
+    :download:`FAIRINO SimMachine Docker <https://pan.baidu.com/s/11GcY1cFqcHWcqfOSUSv0UA?pwd=ksmb>`
     
-    :download:`FAIRINO_SimMachine_Software <https://pan.baidu.com/s/1ED2ZG5iesUBkuXfi7eB3zg?pwd=mt45>`
+    :download:`FAIRINO_SimMachine_Software <https://pan.baidu.com/s/1RlWHGXaGyRnL_nXiOX3MNg?pwd=5b7n>`
 
 码垛机frcap
 ---------------------------------
@@ -357,7 +357,7 @@ Java SDK
 
 机器人软件下载
 ---------------------------------
-    :download:`FAIRINO-CobotSoftware-QX-V3.9.2-20260126.zip <https://pan.baidu.com/s/1n8QX71RJzWrCR9St-Saoew?pwd=3rsp>`
+    :download:`FAIRINO-CobotSoftware-QX-V3.9.3-20260211.zip <https://pan.baidu.com/s/1DTeSySKKZHaW7WIQJfWJNA?pwd=75mg>`
     
-    :download:`FAIRINO-CobotSoftware-LA-V3.9.2-20260126.zip <https://pan.baidu.com/s/1fQOjBrdTxl-S4_SQJHXTOA?pwd=51ys>`
+    :download:`FAIRINO-CobotSoftware-LA-V3.9.3-20260211.zip <https://pan.baidu.com/s/1gxmV9P3Byybz7Ebrii3Jzw?pwd=5m1e>`
 

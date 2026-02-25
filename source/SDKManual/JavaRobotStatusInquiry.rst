@@ -374,6 +374,45 @@
     */   
     int GetInverseKinRef(int posMode, DescPose desc_pos, JointPos joint_pos_ref, JointPos joint_pos); 
 
+逆运动学求解，笛卡尔空间包含扩展轴位置
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 逆运动学求解，笛卡尔空间包含扩展轴位置
+    * @param  type 0-绝对位姿(基坐标系)，1-增量位姿(基坐标系)，2-增量位姿(工具坐标系)
+    * @param  desc_pos 笛卡尔位姿
+    * @param  exaxis 扩展轴位置
+    * @param  tool 工具号
+    * @param  workPiece 工件号
+    * @param  joint_pos 关节位置
+    * @return 错误码
+    */
+    public int GetInverseKinExaxis(int type, DescPose desc_pos, ExaxisPos exaxis, int tool, int workPiece, JointPos joint_pos)
+    
+逆运动学求解包含扩展轴位置代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static void  TestInverseKinExaxis(Robot robot)
+    {
+        DescPose desc=new DescPose(99.957, -0.002, 29.994, -176.569, -6.757, -167.462);
+        ExaxisPos exaxis=new ExaxisPos(100.0, 0.0, 0.0, 0.0);
+        JointPos jointPos =new JointPos();
+        DescPose offsetPos =new DescPose();
+        ROBOT_STATE_PKG pkg=robot.GetRobotRealTimeState();
+        int toolnum = pkg.tool;
+        int workPcsNum = pkg.user;
+        robot.GetInverseKinExaxis(0, desc, exaxis, toolnum, workPcsNum, jointPos);
+        System.out.printf("GetInverseKinExaxis joint is %f, %f, %f, %f, %f, %f\n", jointPos.J1, jointPos.J2, jointPos.J3, jointPos.J4, jointPos.J5, jointPos.J6);
+        robot.ExtAxisMove(exaxis, 100, -1);
+        robot.MoveJ(jointPos, desc, toolnum, workPcsNum, 100.0, 100.0, 100.0, exaxis, -1, 0, offsetPos);
+        robot.CloseRPC();
+        robot.Sleep(9999999);
+    }
+
 获取逆运动学是否有解
 +++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java

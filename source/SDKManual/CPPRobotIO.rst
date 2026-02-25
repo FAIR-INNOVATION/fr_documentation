@@ -181,11 +181,11 @@
     :linenos:
 
     /**
-     * @brief 获取机器人末端点记录按钮状态
-     * @param [out] state 按钮状态，0-按下，1-松开
-     * @return 错误码
-     */
-    errno_t  GetAxlePointRecordBtnState(uint8_t *state);
+     * @brief 获取机器人末端点记录按钮状态
+     * @param [out] state 按钮状态，0-按下，1-松开
+     * @return 错误码
+     */
+    errno_t  GetAxlePointRecordBtnState(uint8_t *state);
 
 获取机器人末端DO输出状态
 ++++++++++++++++++++++++++++++++++
@@ -193,11 +193,11 @@
     :linenos:
 
     /**
-     * @brief 获取机器人末端DO输出状态
-     * @param [out] do_state DO输出状态，do0~do1对应bit1~bit2,从bit0开始
-     * @return 错误码
-     */
-    errno_t  GetToolDO(uint8_t *do_state);
+     * @brief 获取机器人末端DO输出状态
+     * @param [out] do_state DO输出状态，do0~do1对应bit1~bit2,从bit0开始
+     * @return 错误码
+     */
+    errno_t  GetToolDO(uint8_t *do_state);
 
 获取机器人控制器DO输出状态
 ++++++++++++++++++++++++++++++++++
@@ -205,12 +205,12 @@
     :linenos:
 
     /**
-     * @brief 获取机器人控制器DO输出状态
-     * @param [out] do_state_h DO输出状态，co0~co7对应bit0~bit7
-     * @param [out] do_state_l DO输出状态，do0~do7对应bit0~bit7
-     * @return 错误码
-     */
-    errno_t  GetDO(uint8_t *do_state_h, uint8_t *do_state_l);
+     * @brief 获取机器人控制器DO输出状态
+     * @param [out] do_state_h DO输出状态，co0~co7对应bit0~bit7
+     * @param [out] do_state_l DO输出状态，do0~do7对应bit0~bit7
+     * @return 错误码
+     */
+    errno_t  GetDO(uint8_t *do_state_h, uint8_t *do_state_l);
 
 获取机器人DI、DO状态代码示例
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -386,9 +386,10 @@
     /**
     * @brief 设置控制箱DO停止/暂停后输出是否复位
     * @param [in] resetFlag 0-不复位；1-复位
+    * @param [in] reloadFlag 暂停恢复后是否重加载，0-不加载；1-加载
     * @return 错误码
     */
-    errno_t SetOutputResetCtlBoxDO(int resetFlag);
+    errno_t SetOutputResetCtlBoxDO(int resetFlag, int reloadFlag = 0);
 
 设置控制箱AO停止/暂停后输出是否复位
 ++++++++++++++++++++++++++++++++++++++++++
@@ -398,11 +399,12 @@
     :linenos:
 
     /**
-     * @brief 设置控制箱AO停止/暂停后输出是否复位
-     * @param [in] resetFlag 0-不复位；1-复位
-     * @return 错误码
-     */
-    errno_t SetOutputResetCtlBoxAO(int resetFlag);
+    * @brief 设置控制箱AO停止/暂停后输出是否复位
+    * @param [in] resetFlag  0-不复位；1-复位
+    * @param [in] reloadFlag 暂停恢复后是否重加载，0-不加载；1-加载
+    * @return 错误码
+    */
+    errno_t SetOutputResetCtlBoxAO(int resetFlag, int reloadFlag = 0);
 
 设置末端工具DO停止/暂停后输出是否复位
 ++++++++++++++++++++++++++++++++++++++++++
@@ -412,11 +414,12 @@
     :linenos:
 
     /**
-     * @brief 设置末端工具DO停止/暂停后输出是否复位
-     * @param [in] resetFlag 0-不复位；1-复位
-     * @return 错误码
-     */
-    errno_t SetOutputResetAxleDO(int resetFlag);
+    * @brief 设置末端工具DO停止/暂停后输出是否复位
+    * @param [in] resetFlag  0-不复位；1-复位
+    * @param [in] reloadFlag 暂停恢复后是否重加载，0-不加载；1-加载
+    * @return 错误码
+    */
+    errno_t SetOutputResetAxleDO(int resetFlag, int reloadFlag = 0);
 
 设置末端工具AO停止/暂停后输出是否复位
 ++++++++++++++++++++++++++++++++++++++++++
@@ -426,11 +429,12 @@
     :linenos:
 
     /**
-     * @brief 设置末端工具AO停止/暂停后输出是否复位
-     * @param [in] resetFlag 0-不复位；1-复位
-     * @return 错误码
-     */
-    errno_t SetOutputResetAxleAO(int resetFlag);
+    * @brief 设置末端工具AO停止/暂停后输出是否复位
+    * @param [in] resetFlag  0-不复位；1-复位
+    * @param [in] reloadFlag 暂停恢复后是否重加载，0-不加载；1-加载
+    * @return  错误码
+    */
+    errno_t SetOutputResetAxleAO(int resetFlag, int reloadFlag = 0);
 
 设置扩展DO停止/暂停后输出是否复位
 ++++++++++++++++++++++++++++++++++++++++++
@@ -440,11 +444,12 @@
     :linenos:
 
     /**
-     * @brief 设置扩展DO停止/暂停后输出是否复位
-     * @param [in] resetFlag 0-不复位；1-复位
-     * @return 错误码
-     */
-    errno_t SetOutputResetExtDO(int resetFlag);
+    * @brief 设置扩展DO停止/暂停后输出是否复位
+    * @param [in] resetFlag  0-不复位；1-复位
+    * @param [in] reloadFlag 暂停恢复后是否重加载，0-不加载；1-加载
+    * @return  错误码
+    */
+    errno_t SetOutputResetExtDO(int resetFlag, int reloadFlag = 0);
 
 设置扩展AO停止/暂停后输出是否复位
 ++++++++++++++++++++++++++++++++++++++++++
@@ -454,11 +459,12 @@
     :linenos:
 
     /**
-     * @brief 设置扩展AO停止/暂停后输出是否复位
-     * @param [in] resetFlag 0-不复位；1-复位
-     * @return 错误码
-     */
-    errno_t SetOutputResetExtAO(int resetFlag);
+    * @brief 设置扩展AO停止/暂停后输出是否复位
+    * @param [in] resetFlag  0-不复位；1-复位
+    * @param [in] reloadFlag 暂停恢复后是否重加载，0-不加载；1-加载
+    * @return  错误码
+    */
+    errno_t SetOutputResetExtAO(int resetFlag, int reloadFlag = 0);
 
 设置SmartTool停止/暂停后输出是否复位
 ++++++++++++++++++++++++++++++++++++++++++
@@ -468,11 +474,12 @@
     :linenos:
 
     /**
-     * @brief 设置SmartTool停止/暂停后输出是否复位
-     * @param [in] resetFlag 0-不复位；1-复位
-     * @return 错误码
-     */
-    errno_t SetOutputResetSmartToolDO(int resetFlag);
+    * @brief 设置SmartTool停止/暂停后输出是否复位
+    * @param [in] resetFlag  0-不复位；1-复位
+    * @param [in] reloadFlag 暂停恢复后是否重加载，0-不加载；1-加载
+    * @return  错误码
+    */
+    errno_t SetOutputResetSmartToolDO(int resetFlag, int reloadFlag = 0);
 
 设置LUA程序停止/暂停后输出复位代码示例
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -483,31 +490,37 @@
 
     int TestDOReset(void)
     {
-      ROBOT_STATE_PKG pkg = {};
-      FRRobot robot;
-      robot.LoggerInit();
-      robot.SetLoggerLevel(1);
-      int rtn = robot.RPC("192.168.58.2");
-      if (rtn != 0)
-      {
+    ROBOT_STATE_PKG pkg = {};
+    FRRobot robot;
+    robot.LoggerInit();
+    robot.SetLoggerLevel(3);
+    int rtn = robot.RPC("192.168.58.2");
+    if (rtn != 0)
+    {
         return -1;
-      }
-      robot.SetReConnectParam(true, 30000, 500);
-      for (int i = 0; i < 16; i++)
-      {
+    }
+    robot.SetReConnectParam(true, 30000, 500);
+    for (int i = 0; i < 16; i++)
+    {
         robot.SetDO(i, 1, 0, 0);
-        robot.Sleep(300);
-      }
-      int resetFlag = 1;
-      rtn = robot.SetOutputResetCtlBoxDO(resetFlag);
-      robot.SetOutputResetCtlBoxAO(resetFlag);
-      robot.SetOutputResetAxleDO(resetFlag);
-      robot.SetOutputResetAxleAO(resetFlag);
-      robot.SetOutputResetExtDO(resetFlag);
-      robot.SetOutputResetExtAO(resetFlag);
-      robot.SetOutputResetSmartToolDO(resetFlag);
-      robot.ProgramLoad("/fruser/test.lua");
-      robot.ProgramRun();
-      robot.CloseRPC();
-      return 0;
+        robot.Sleep(200);
+    }
+    int resetFlag = 0;
+    int resumeReloadFlag = 0;
+    rtn = robot.SetOutputResetCtlBoxDO(resetFlag, resumeReloadFlag);
+    robot.SetOutputResetCtlBoxAO(resetFlag, resumeReloadFlag);
+    robot.SetOutputResetAxleDO(resetFlag, resumeReloadFlag);
+    robot.SetOutputResetAxleAO(resetFlag, resumeReloadFlag);
+    robot.SetOutputResetExtDO(resetFlag, resumeReloadFlag);
+    robot.SetOutputResetExtAO(resetFlag, resumeReloadFlag);
+    robot.SetOutputResetSmartToolDO(resetFlag, resumeReloadFlag);
+    robot.ProgramLoad("/fruser/test.lua");
+    robot.ProgramRun();
+    robot.Sleep(2000);
+    robot.PauseMotion();
+    robot.Sleep(2000);
+    robot.ResumeMotion();
+    robot.Sleep(2000);
+    robot.CloseRPC();
+    return 0;
     }

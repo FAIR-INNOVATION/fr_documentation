@@ -407,6 +407,54 @@
     */   
     int GetInverseKinRef(int posMode, DescPose desc_pos, JointPos joint_pos_ref, ref JointPos joint_pos); 
 
+逆运动学求解，笛卡尔空间包含扩展轴位置
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 逆运动学求解，笛卡尔空间包含扩展轴位置
+    * @param [in] type 0-绝对位姿(基坐标系)，1-增量位姿(基坐标系)，2-增量位姿(工具坐标系)
+    * @param [in] desc_pos 笛卡尔位姿
+    * @param [in] exaxis 扩展轴位置
+    * @param [in] tool 工具号
+    * @param [in] workPiece 工件号
+    * @param [out] joint_pos 关节位置
+    * @return 错误码
+    */
+    public int GetInverseKinExaxis(int type, DescPose desc_pos, ExaxisPos exaxis, int tool, int workPiece, ref JointPos joint_pos);
+
+逆运动学求解包含扩展轴位置代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    public void TestInverseKinExaxis()
+    {
+        ROBOT_STATE_PKG pkg = new ROBOT_STATE_PKG();
+        
+
+        DescPose desc = new DescPose(99.957f, -0.002f, 29.994f, -176.569f, -6.757f, -167.462f);
+        ExaxisPos exaxis = new ExaxisPos(100.0f, 0.0f, 0.0f, 0.0f);
+        JointPos jointPos = new JointPos(0,0,0,0,0,0);
+        DescPose offsetPos = new DescPose(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+        int rtn;
+        robot.GetRobotRealTimeState(ref pkg);
+        int toolnum = pkg.tool;
+        int workPcsNum = pkg.user;
+
+        robot.GetInverseKinExaxis(0, desc, exaxis, toolnum, workPcsNum, ref jointPos);
+        Console.WriteLine($"GetInverseKinExaxis joint is {jointPos.jPos[0]}, {jointPos.jPos[1]}, {jointPos.jPos[2]}, {jointPos.jPos[3]}, {jointPos.jPos[4]}, {jointPos.jPos[5]}");
+
+        robot.ExtAxisMove(exaxis, 100, -1);
+
+        int blendMode = 0;
+        int velAccMode = 0;
+        float oacc = 100.0f;
+        byte flag = 0;
+        robot.MoveJ(jointPos, desc, toolnum, workPcsNum, (float)100.0, (float)100.0, (float)100.0, exaxis, -1, 0, offsetPos);
+    }
+
 获取逆运动学是否有解
 ++++++++++++++++++++++++++++++++++++
 .. code-block:: c#

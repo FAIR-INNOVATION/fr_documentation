@@ -23,12 +23,12 @@
     :linenos:
 
     /**
-     * @brief  获取关节反馈速度-deg/s
-     * @param  [in] flag 0-阻塞，1-非阻塞
-     * @param  [out] speed 六个关节速度
-     * @return  错误码 
-     */ 
-    errno_t  GetActualJointSpeedsDegree(uint8_t flag, float speed[6]);
+     * @brief  获取关节反馈速度-deg/s
+     * @param  [in] flag 0-阻塞，1-非阻塞
+     * @param  [out] speed 六个关节速度
+     * @return  错误码 
+     */ 
+    errno_t  GetActualJointSpeedsDegree(uint8_t flag, float speed[6]);
 
 获取关节反馈加速度
 +++++++++++++++++++++++++++++++++
@@ -36,12 +36,12 @@
     :linenos:
 
     /**
-     * @brief  获取关节反馈加速度-deg/s^2
-     * @param  [in] flag 0-阻塞，1-非阻塞
-     * @param  [out] acc 六个关节加速度
-     * @return  错误码 
-     */ 
-    errno_t  GetActualJointAccDegree(uint8_t flag, float acc[6]);   
+     * @brief  获取关节反馈加速度-deg/s^2
+     * @param  [in] flag 0-阻塞，1-非阻塞
+     * @param  [out] acc 六个关节加速度
+     * @return  错误码 
+     */ 
+    errno_t  GetActualJointAccDegree(uint8_t flag, float acc[6]);   
 
 获取TCP指令合速度
 +++++++++++++++++++++++++++++++++
@@ -49,13 +49,13 @@
     :linenos:
 
     /**
-     * @brief  获取TCP指令合速度
-     * @param  [in] flag 0-阻塞，1-非阻塞
-     * @param  [out] tcp_speed 线性速度
-     * @param  [out] ori_speed 姿态速度
-     * @return  错误码 
-     */
-    errno_t  GetTargetTCPCompositeSpeed(uint8_t flag, float *tcp_speed, float *ori_speed);
+     * @brief  获取TCP指令合速度
+     * @param  [in] flag 0-阻塞，1-非阻塞
+     * @param  [out] tcp_speed 线性速度
+     * @param  [out] ori_speed 姿态速度
+     * @return  错误码 
+     */
+    errno_t  GetTargetTCPCompositeSpeed(uint8_t flag, float *tcp_speed, float *ori_speed);
 
 获取TCP反馈合速度
 +++++++++++++++++++++++++++++++++
@@ -63,13 +63,13 @@
     :linenos:
 
     /**
-     * @brief  获取TCP反馈合速度
-     * @param  [in] flag 0-阻塞，1-非阻塞
-     * @param  [out] tcp_speed 线性速度
-     * @param  [out] ori_speed 姿态速度
-     * @return  错误码 
-     */ 
-    errno_t  GetActualTCPCompositeSpeed(uint8_t flag, float *tcp_speed, float *ori_speed);
+     * @brief  获取TCP反馈合速度
+     * @param  [in] flag 0-阻塞，1-非阻塞
+     * @param  [out] tcp_speed 线性速度
+     * @param  [out] ori_speed 姿态速度
+     * @return  错误码 
+     */ 
+    errno_t  GetActualTCPCompositeSpeed(uint8_t flag, float *tcp_speed, float *ori_speed);
 
 获取TCP指令速度
 +++++++++++++++++++++++++++++++++
@@ -77,12 +77,12 @@
     :linenos:
 
     /**
-     * @brief  获取TCP指令速度
-     * @param  [in] flag 0-阻塞，1-非阻塞
-     * @param  [out] speed [x,y,z,rx,ry,rz]速度
-     * @return  错误码 
-     */ 
-    errno_t  GetTargetTCPSpeed(uint8_t flag, float speed[6]);
+     * @brief  获取TCP指令速度
+     * @param  [in] flag 0-阻塞，1-非阻塞
+     * @param  [out] speed [x,y,z,rx,ry,rz]速度
+     * @return  错误码 
+     */ 
+    errno_t  GetTargetTCPSpeed(uint8_t flag, float speed[6]);
 
 获取TCP反馈速度
 +++++++++++++++++++++++++++++++++
@@ -90,12 +90,12 @@
     :linenos:
 
     /**
-     * @brief  获取TCP反馈速度
-     * @param  [in] flag 0-阻塞，1-非阻塞
-     * @param  [out] speed [x,y,z,rx,ry,rz]速度
-     * @return  错误码 
-     */ 
-    errno_t  GetActualTCPSpeed(uint8_t flag, float speed[6]);
+     * @brief  获取TCP反馈速度
+     * @param  [in] flag 0-阻塞，1-非阻塞
+     * @param  [out] speed [x,y,z,rx,ry,rz]速度
+     * @return  错误码 
+     */ 
+    errno_t  GetActualTCPSpeed(uint8_t flag, float speed[6]);
 
 获取当前工具位姿
 +++++++++++++++++++++++++++++++++
@@ -192,11 +192,11 @@
     :linenos:
 
     /**
-     * @brief  查询机器人运动队列缓存长度
-     * @param  [out]  len  缓存长度
-     * @return  错误码
-     */ 
-    errno_t  GetMotionQueueLength(int *len);
+     * @brief  查询机器人运动队列缓存长度
+     * @param  [out]  len  缓存长度
+     * @return  错误码
+     */ 
+    errno_t  GetMotionQueueLength(int *len);
 
 获取机器人急停状态
 +++++++++++++++++++++++++++++++++++++++++++++
@@ -390,6 +390,56 @@
     */   
     errno_t  GetInverseKinRef(int type, DescPose *desc_pos, JointPos *joint_pos_ref, JointPos *joint_pos);
 
+逆运动学求解，笛卡尔空间包含扩展轴位置
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 逆运动学求解，笛卡尔空间包含扩展轴位置
+    * @param [in] type 0-绝对位姿(基坐标系)，1-增量位姿(基坐标系)，2-增量位姿(工具坐标系)
+    * @param [in] desc_pos 笛卡尔位姿
+    * @param [in] exaxis 扩展轴位置
+    * @param [in] tool 工具号
+    * @param [in] workPiece 工件号
+    * @param [out] joint_pos 关节位置
+    * @return 错误码
+    */
+    errno_t GetInverseKinExaxis(int type, DescPose desc_pos, ExaxisPos exaxis, int tool, int workPiece, JointPos& joint_pos);
+
+逆运动学求解包含扩展轴位置代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    int TestInverseKinExaxis()
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return 0;
+        }
+        robot.SetReConnectParam(true, 30000, 500);
+        DescPose desc(99.957, -0.002, 29.994, -176.569, -6.757, -167.462);
+        ExaxisPos exaxis(100.0, 0.0, 0.0, 0.0);
+        JointPos jointPos = {};
+        DescPose offsetPos = {};
+        robot.GetRobotRealTimeState(&pkg);
+        int toolnum = pkg.tool;
+        int workPcsNum = pkg.user;
+        robot.GetInverseKinExaxis(0, desc, exaxis, toolnum, workPcsNum, jointPos);
+        printf("GetInverseKinExaxis joint is %f, %f, %f, %f, %f, %f\n", jointPos.jPos[0], jointPos.jPos[1], jointPos.jPos[2], jointPos.jPos[3], jointPos.jPos[4], jointPos.jPos[5]);
+        robot.ExtAxisMove(exaxis, 100, -1);
+        robot.MoveJ(&jointPos, &desc, toolnum, workPcsNum, 100.0, 100.0, 100.0, &exaxis, -1, 0, &offsetPos);
+        robot.CloseRPC();
+        robot.Sleep(9999999);
+        return 0;
+    }
+
 获取逆运动学是否有解
 ++++++++++++++++++++++++++++++++++++
 .. code-block:: c++
@@ -458,12 +508,12 @@
     :linenos:
 
     /**
-     * @brief  查询机器人示教管理点位数据
-     * @param  [in]  name  点位名
-     * @param  [out]  data   点位数据
-     * @return  错误码
-     */ 
-    errno_t  GetRobotTeachingPoint(char name[64], float data[20]);
+     * @brief  查询机器人示教管理点位数据
+     * @param  [in]  name  点位名
+     * @param  [out]  data   点位数据
+     * @return  错误码
+     */ 
+    errno_t  GetRobotTeachingPoint(char name[64], float data[20]);
 
 获取机器人DH参数补偿值
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -359,9 +359,11 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``SetOutputResetCtlBoxDO(resetFlag)``"
+    "原型", "``SetOutputResetCtlBoxDO(resetFlag,reloadFlag)``"
     "描述", "设置控制箱DO停止/暂停后输出是否复位"
-    "必选参数", "- ``resetFlag``：0-不复位；1-复位"
+    "必选参数", "
+    - ``resetFlag``：0-不复位；1-复位
+    - ``reloadFlag``：暂停恢复后是否重加载，0-不加载；1-加载"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
@@ -373,9 +375,11 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``SetOutputResetCtlBoxDO(resetFlag)``"
+    "原型", "``SetOutputResetCtlBoxDO(resetFlag,reloadFlag)``"
     "描述", "设置控制箱AO停止/暂停后输出是否复位"
-    "必选参数", "- ``resetFlag``：0-不复位；1-复位"
+    "必选参数", "
+    - ``resetFlag``：0-不复位；1-复位
+    - ``reloadFlag``：暂停恢复后是否重加载，0-不加载；1-加载"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
@@ -387,9 +391,11 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``SetOutputResetAxleDO(resetFlag)``"
+    "原型", "``SetOutputResetAxleDO(resetFlag,reloadFlag)``"
     "描述", "设置末端工具DO停止/暂停后输出是否复位"
-    "必选参数", "- ``resetFlag``：0-不复位；1-复位"
+    "必选参数", "
+    - ``resetFlag``：0-不复位；1-复位
+    - ``reloadFlag``：暂停恢复后是否重加载，0-不加载；1-加载"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
@@ -401,9 +407,11 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``SetOutputResetAxleAO(resetFlag)``"
+    "原型", "``SetOutputResetAxleAO(resetFlag,reloadFlag)``"
     "描述", "设置末端工具AO停止/暂停后输出是否复位"
-    "必选参数", "- ``resetFlag``：0-不复位；1-复位"
+    "必选参数", "
+    - ``resetFlag``：0-不复位；1-复位
+    - ``reloadFlag``：暂停恢复后是否重加载，0-不加载；1-加载"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
@@ -415,9 +423,11 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``SetOutputResetExtDO (resetFlag)``"
+    "原型", "``SetOutputResetExtDO (resetFlag,reloadFlag)``"
     "描述", "设置扩展DO停止/暂停后输出是否复位"
-    "必选参数", "- ``resetFlag``：0-不复位；1-复位"
+    "必选参数", "
+    - ``resetFlag``：0-不复位；1-复位
+    - ``reloadFlag``：暂停恢复后是否重加载，0-不加载；1-加载"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
@@ -429,9 +439,11 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``SetOutputResetExtAO (resetFlag)``"
+    "原型", "``SetOutputResetExtAO (resetFlag,reloadFlag)``"
     "描述", "设置扩展AO停止/暂停后输出是否复位"
-    "必选参数", "- ``resetFlag``：0-不复位；1-复位"
+    "必选参数", "
+    - ``resetFlag``：0-不复位；1-复位
+    - ``reloadFlag``：暂停恢复后是否重加载，0-不加载；1-加载"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
@@ -443,9 +455,11 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``SetOutputResetSmartToolDO(resetFlag)``"
+    "原型", "``SetOutputResetSmartToolDO(resetFlag,reloadFlag)``"
     "描述", "设置SmartTool停止/暂停后输出是否复位"
-    "必选参数", "- ``resetFlag``：是否复位，0-不复位，1-复位"
+    "必选参数", "
+    - ``resetFlag``：0-不复位；1-复位
+    - ``reloadFlag``：暂停恢复后是否重加载，0-不加载；1-加载"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode "
 
@@ -456,20 +470,25 @@
 
     from fairino import Robot
     import time
-    import threading
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
     for i in range(16):
         robot.SetDO(i, 1, 0, 0)
-        time.sleep(0.3)
-    resetFlag = 1
-    robot.SetOutputResetCtlBoxDO(resetFlag)    
-    robot.SetOutputResetCtlBoxAO(resetFlag)    
-    robot.SetOutputResetAxleDO(resetFlag)      
-    robot.SetOutputResetAxleAO(resetFlag)      
-    robot.SetOutputResetExtDO(resetFlag)       
-    robot.SetOutputResetExtAO(resetFlag)       
-    robot.SetOutputResetSmartToolDO(resetFlag) 
-    robot.ProgramLoad("/fruser/test0610.lua")
+        time.sleep(0.2)
+    resetFlag = 0
+    resumeReloadFlag = 0
+    rtn = robot.SetOutputResetCtlBoxDO(resetFlag, resumeReloadFlag)
+    robot.SetOutputResetCtlBoxAO(resetFlag, resumeReloadFlag)
+    robot.SetOutputResetAxleDO(resetFlag, resumeReloadFlag)
+    robot.SetOutputResetAxleAO(resetFlag, resumeReloadFlag)
+    robot.SetOutputResetExtDO(resetFlag, resumeReloadFlag)
+    robot.SetOutputResetExtAO(resetFlag, resumeReloadFlag)
+    robot.SetOutputResetSmartToolDO(resetFlag, resumeReloadFlag)
+    robot.ProgramLoad("/fruser/test.lua")
     robot.ProgramRun()
+    time.sleep(2)
+    robot.PauseMotion()
+    time.sleep(2)
+    robot.ResumeMotion()
+    time.sleep(2)
     robot.CloseRPC()
+    return 0

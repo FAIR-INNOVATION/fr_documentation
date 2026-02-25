@@ -1018,45 +1018,52 @@ jog点动立即停止
     :linenos:
 
     /**
-    * @brief  笛卡尔空间伺服模式运动
-    * @param  [in]  mode  0-绝对运动(基坐标系)，1-增量运动(基坐标系)，2-增量运动(工具坐标系)
-    * @param  [in]  desc_pos  目标笛卡尔位姿或位姿增量
-    * @param  [in]  pos_gain  位姿增量比例系数，仅在增量运动下生效，范围[0~1]
-    * @param  [in] acc  加速度百分比，范围[0~100],暂不开放，默认为0
-    * @param  [in] vel  速度百分比，范围[0~100]，暂不开放，默认为0
-    * @param  [in] cmdT  指令下发周期，单位s，建议范围[0.001~0.0016]
-    * @param  [in] filterT 滤波时间，单位s，暂不开放，默认为0
-    * @param  [in] gain  目标位置的比例放大器，暂不开放，默认为0
-    * @return  错误码
+    * @brief 笛卡尔空间伺服模式运动
+    * @param [in] mode 0-绝对运动(基坐标系)，1-增量运动(基坐标系)，2-增量运动(工具坐标系)
+    * @param [in] desc_pos 目标笛卡尔位姿或位姿增量
+    * @param [in] exaxis 扩展轴位置
+    * @param [in] pos_gain 位姿增量比例系数，仅在增量运动下生效，范围[0~1]
+    * @param [in] acc 加速度百分比，范围[0~100],暂不开放，默认为0
+    * @param [in] vel 速度百分比，范围[0~100]，暂不开放，默认为0
+    * @param [in] cmdT 指令下发周期，单位s，建议范围[0.001~0.016]
+    * @param [in] filterT 滤波时间，单位s，暂不开放，默认为0
+    * @param [in] gain 目标位置的比例放大器，暂不开放，默认为0
+    * @return 错误码
     */
-    int ServoCart(int mode, DescPose desc_pos, double[] pos_gain, float acc, float vel, float cmdT, float filterT, float gain);
+    public int ServoCart(int mode, DescPose desc_pose, ExaxisPos exaxis, double[] pos_gain, double acc, double vel, double cmdT, double filterT, double gain);
 
 笛卡尔空间伺服模式运动代码示例
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 .. code-block:: c#
     :linenos:
 
-    private void btnDescServoMove_Click(object sender, EventArgs e)
+    public void TestServoCart()
     {
-        DescPose desc_pos_dt = new DescPose(0, 0, 0, 0, 0, 0);
+        ROBOT_STATE_PKG pkg = new ROBOT_STATE_PKG();
 
-        desc_pos_dt.tran.z = -0.5;
-        double[] pos_gain = new double[6]{ 0.0, 0.0, 1.0, 0.0, 0.0, 0.0 };
-        int mode = 2;
+        int rtn;
+        DescPose desc_pos_dt = new DescPose(83.00800f, 50.525000f, 29.246f, 179.629f, -7.138f, -166.975f);
+        ExaxisPos exaxis = new ExaxisPos(100.0f, 0.0f, 0.0f, 0.0f);
+        double[] pos_gain = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+        int mode = 0;
         float vel = 0.0f;
         float acc = 0.0f;
-        float cmdT = 0.008f;
+        float cmdT = 0.001f;
         float filterT = 0.0f;
         float gain = 0.0f;
-        int count = 500;
+        byte flag = 0;
+        int count = 5000;
 
         robot.SetSpeed(20);
 
         while (count > 0)
         {
-        robot.ServoCart(mode, desc_pos_dt, pos_gain, acc, vel, cmdT, filterT, gain);
-        count -= 1;
-        robot.WaitMs((int)(cmdT * 1000));
+            rtn = robot.ServoCart(mode, desc_pos_dt, exaxis, pos_gain, acc, vel, cmdT, filterT, gain);
+            Console.WriteLine($"ServoCart rtn is {rtn}");
+            count -= 1;
+            desc_pos_dt.tran.x += 0.01f;
+            exaxis.ePos[0] += 0.01f;
         }
     }
 

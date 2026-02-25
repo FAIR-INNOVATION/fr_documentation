@@ -874,50 +874,48 @@ jog点动立即停止
     :linenos:
 
     /**
-    * @brief  笛卡尔空间伺服模式运动
-    * @param  [in]  mode  0-绝对运动(基坐标系)，1-增量运动(基坐标系)，2-增量运动(工具坐标系)
-    * @param  [in]  desc_pose  目标笛卡尔位姿或位姿增量
-    * @param  [in]  pos_gain  位姿增量比例系数，仅在增量运动下生效，范围[0~1]
-    * @param  [in]  acc  加速度百分比，范围[0~100],暂不开放，默认为0
-    * @param  [in]  vel  速度百分比，范围[0~100]，暂不开放，默认为0
-    * @param  [in]  cmdT  指令下发周期，单位s，建议范围[0.001~0.0016]
-    * @param  [in]  filterT 滤波时间，单位s，暂不开放，默认为0
-    * @param  [in]  gain  目标位置的比例放大器，暂不开放，默认为0
-    * @return  错误码
+    *@brief 笛卡尔空间伺服模式运动
+    *@param mode 0-绝对运动(基坐标系)，1-增量运动(基坐标系)，2-增量运动(工具坐标系)
+    *@param desc_pose 目标笛卡尔位姿或位姿增量
+    *@param exaxis 扩展轴位置
+    *@param pos_gain 位姿增量比例系数，仅在增量运动下生效，范围[0~1]
+    *@param acc 加速度百分比，范围[0~100],暂不开放，默认为0
+    *@param vel 速度百分比，范围[0~100]，暂不开放，默认为0
+    *@param cmdT 指令下发周期，单位s，建议范围[0.001~0.016]
+    *@param filterT 滤波时间，单位s，暂不开放，默认为0
+    *@param gain 目标位置的比例放大器，暂不开放，默认为0
+    *@return 错误码
     */
-    int ServoCart(int mode, DescPose desc_pose, Object[] pos_gain, double acc, double vel, double cmdT, double filterT, double gain);
+    public int ServoCart(int mode, DescPose desc_pose, ExaxisPos exaxis, double[] pos_gain, double acc, double vel, double cmdT, double filterT, double gain)
 
 笛卡尔空间伺服模式运动代码示例
 +++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    public static int TestServoCart(Robot robot)
+    public static void TestServoCart1(Robot robot)
     {
-        DescPose desc_pos_dt=new DescPose(0,0,0,0,0,0);
-
-        desc_pos_dt.tran.z = -0.5;
-        Object[] pos_gain = { 0.0,0.0,1.0,0.0,0.0,0.0 };
-        int mode = 2;
+        DescPose desc_pos_dt = new DescPose(83.00800, 50.525000 , 29.246 , 179.629 , -7.138 , -166.975 );
+        ExaxisPos exaxis = new ExaxisPos( 100.0, 0.0, 0.0, 0.0 );
+        double[] pos_gain = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+        int mode = 0;
         double vel = 0.0;
         double acc = 0.0;
-        double cmdT = 0.008;
+        double cmdT = 0.001;
         double filterT = 0.0;
         double gain = 0.0;
         int flag = 0;
-        int count = 100;
-
+        int count = 5000;
         robot.SetSpeed(20);
-
         while (count>0)
         {
-            robot.ServoCart(mode, desc_pos_dt, pos_gain, acc, vel, cmdT, filterT, gain);
+            int rtn = robot.ServoCart(mode, desc_pos_dt, exaxis, pos_gain, acc, vel, cmdT, filterT, gain);
+            System.out.printf("ServoCart rtn is %d\n", rtn);
             count -= 1;
-            double time=cmdT*1000;
-            robot.WaitMs((int)time);
+            desc_pos_dt.tran.x += 0.01;
+            exaxis.axis1 += 0.01;
         }
-
-        return 0;
+        robot.CloseRPC();
     }
 
 样条运动开始

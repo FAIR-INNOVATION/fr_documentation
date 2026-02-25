@@ -1173,6 +1173,148 @@ ServoJ伺服控制（关节空间运动）指令，该指令可以通过机器�
 
 .. centered:: 图表 9.5-29-8 ServoJ连续运动示例1
 
+扩展轴调试指令
+***********************************************************
+
+概述
+""""""""""""""""""""""""""""""""""
+
+扩展轴目标位置的逆运动学GetInverseKinExaxis指令接口和带扩展轴位置的ServoCart指令接口，支持扩展轴和机器人同时使用的多种场景。
+
+操作流程
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：逆运动学GetInverseKinExaxis指令接口参数、返回值如下表所示。
+
+.. centered:: 表 9.5-1  GetInverseKinExaxis参数
+
+.. list-table::
+   :widths: 10 20 30 40
+   :header-rows: 0
+   :align: center
+
+   * - **序号**
+     - **数据类型**
+     - **变量名**
+     - **详细说明**
+
+   * - 1
+     - uint8_t
+     - posMode
+     - 0：绝对位姿，1：相对位姿-基坐标系，2：相对位姿-工具坐标系
+
+   * - 2
+     - float
+     - desePos[6]
+     - 机器人笛卡尔位置
+
+   * - 3
+     - float
+     - exaxis[4]
+     - 扩展轴位置
+
+   * - 4
+     - int
+     - toolNum
+     - 工具号[0-14]
+
+   * - 5
+     - int
+     - workPieceNum
+     - 工件号[0-14]
+
+.. centered:: 表 9.5-2  GetInverseKinExaxis返回值
+
+.. list-table::
+   :widths: 10 20 30 40
+   :header-rows: 0
+   :align: center
+
+   * - **序号**
+     - **数据类型**
+     - **变量名**
+     - **详细说明**
+
+   * - 1
+     - float
+     - jointPos[6]
+     - 关节位置
+
+**Step2**：逆运动学GetInverseKinExaxis指令在lua程序中调用格式如图所示，只需输入表中所列参数，即可求出对应的关节值，在SDK中的调用需参考对应的SDK说明。
+
+.. image:: coding/543.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.5-29-9 GetInverseKinExaxis在lua中调用
+
+**Step3**：带扩展轴位置的ServoCart指令接口如下表所示，无返回值。
+
+.. centered:: 表 9.5-3  ServoCart参数
+
+.. list-table::
+   :widths: 10 20 30 40
+   :header-rows: 0
+   :align: center
+
+   * - **序号**
+     - **数据类型**
+     - **变量名**
+     - **详细说明**
+
+   * - 1
+     - uint8_t
+     - posMode
+     - 0：绝对位姿，1：相对位姿-基坐标系，2：相对位姿-工具坐标系
+
+   * - 2
+     - float
+     - desePos[6]
+     - 机器人笛卡尔位置
+
+   * - 3
+     - float
+     - gain[6]
+     - 位姿比例系数，相对位姿情况下使用
+
+   * - 4
+     - float
+     - exaxis[4]
+     - 扩展轴位置
+
+   * - 5
+     - float
+     - acc
+     - 加速度比例，0~100，默认为0
+
+   * - 6
+     - float
+     - vel
+     - 速度比例，0~100，默认为0
+
+   * - 7
+     - float
+     - interval
+     - 指令周期[s]
+
+   * - 8
+     - float
+     - filterTime
+     - 滤波时间[s]，暂时不可用
+
+   * - 9
+     - float
+     - posGain
+     - 目标位置的比例放大器，暂时不可用
+
+**Step4**：带扩展轴位置的ServoCart指令在lua程序中调用格式如下图所示，只需输入表中所列参数，机器人即可执行带扩展轴位置的ServoCart运动，在SDK中的调用需参考对应的SDK说明。
+
+.. image:: coding/544.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.5-29-10 ServoCart在lua中调用
+
 轨迹命令
 ++++++++++++++++
 

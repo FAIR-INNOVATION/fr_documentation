@@ -487,9 +487,10 @@ jog点动立即停止
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``ServoCart(mode, desc_pos, pos_gain = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0] , acc = 0.0, vel = 0.0, cmdT = 0.008, filterT = 0.0, gain = 0.0)``"
+    "原型", "``ServoCart(mode, desc_pos, exaxis, pos_gain=[1.0, 1.0, 1.0, 1.0, 1.0, 1.0], acc=0.0, vel=0.0, cmdT=0.008,filterT=0.0, gain=0.0)``"
     "描述", "笛卡尔空间伺服模式运动"
     "必选参数", "- ``mode``:[0]-绝对运动(基坐标系)，[1]-增量运动(基坐标系)，[2]-增量运动(工具坐标系)；
+    - ``exaxis``:扩展轴位置；
     - ``desc_pos``:目标笛卡尔位置/目标笛卡尔位置增量；"
     "默认参数", "- ``pos_gain``:位姿增量比例系数，仅在增量运动下生效，范围 [0~1], 默认为 [1.0, 1.0, 1.0, 1.0, 1.0, 1.0];
     - ``acc``:加速度，范围 [0~100]，暂不开放，默认为 0.0;
@@ -507,25 +508,27 @@ jog点动立即停止
 
     from fairino import Robot
     import time
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
     robot = Robot.RPC('192.168.58.2')
-    desc_pos_dt = [0.0,0.0,0.0,0.0,0.0,0.0]  # [x, y, z, rx, ry, rz]
-    desc_pos_dt[2] = -0.5 
-    pos_gain = [0.0, 0.0, 1.0, 0.0, 0.0, 0.0]
-    mode = 2
+    desc_pos_dt = [83.00800, 50.525000, 29.246, 179.629, -7.138, -166.975]
+    exaxis = [100.0, 0.0, 0.0, 0.0]
+    pos_gain = [0.0] * 6
+    mode = 0
     vel = 0.0
     acc = 0.0
-    cmdT = 0.008
-    filterT = 0.0 
-    gain = 0.0 
+    cmdT = 0.001
+    filterT = 0.0
+    gain = 0.0
     flag = 0
-    count = 100 
+    count = 5000
     robot.SetSpeed(20)
-    while count > 0:
-        robot.ServoCart(mode=mode, desc_pos=desc_pos_dt, pos_gain=pos_gain, acc=acc, vel=vel, cmdT=cmdT, filterT=filterT, gain=gain)
+    while count:
+        rtn = robot.ServoCart(mode, desc_pos_dt, exaxis, pos_gain, acc, vel, cmdT, filterT, gain)
+        print(f"ServoCart rtn is {rtn}")
         count -= 1
-        time.sleep(cmdT)
+        desc_pos_dt[0] += 0.01
+        exaxis[0] += 0.01
     robot.CloseRPC()
+    return 0
 
 样条运动开始
 ++++++++++++++++
