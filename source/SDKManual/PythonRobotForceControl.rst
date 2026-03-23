@@ -231,9 +231,9 @@
 .. code-block:: python
     :linenos:
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
+    robot = Robot.RPC('192.168.58.2')
     rcs = robot.FT_GetForceTorqueRCS()  #查询传感器坐标系下数据
     print(rcs)
 
@@ -255,9 +255,9 @@
 .. code-block:: python
     :linenos:
 
-    import frrpc
+    from fairino import Robot
     # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = frrpc.RPC('192.168.58.2')
+    robot = Robot.RPC('192.168.58.2')
     origin = robot.FT_GetForceTorqueOrigin()   #查询传感器原始数据
     print(origin)
 
