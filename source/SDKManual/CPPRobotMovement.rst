@@ -497,9 +497,10 @@ jog点动立即停止
 
     /**
     * @brief 伺服运动开始，配合ServoJ、ServoCart指令使用
+    * @param [in] comType 指令下发类型；0-xmlrpc；1-UDP(对应机器人20007端口)
     * @return 错误码
     */
-    errno_t ServoMoveStart();
+    errno_t ServoMoveStart(int comType = 0);
 
 伺服运动结束
 +++++++++++++++++++++++++++++
@@ -508,9 +509,10 @@ jog点动立即停止
 
     /**
     * @brief 伺服运动结束，配合ServoJ、ServoCart指令使用
+    * @param [in] comType 指令下发类型；0-xmlrpc；1-UDP(对应机器人20007端口)
     * @return 错误码
     */
-    errno_t ServoMoveEnd();
+    errno_t ServoMoveEnd(int comType = 0);
 
 关节空间伺服模式运动
 +++++++++++++++++++++++++++++
@@ -518,18 +520,19 @@ jog点动立即停止
     :linenos:
 
     /**
-    * @brief  关节空间伺服模式运动
-    * @param  [in] joint_pos  目标关节位置,单位deg
-    * @param  [in] axisPos  外部轴位置,单位mm
-    * @param  [in] acc  加速度百分比，范围[0~100],暂不开放，默认为0
-    * @param  [in] vel  速度百分比，范围[0~100]，暂不开放，默认为0
-    * @param  [in] cmdT  指令下发周期，单位s，建议范围[0.001~0.0016]
-    * @param  [in] filterT 滤波时间，单位s，暂不开放，默认为0
-    * @param  [in] gain  目标位置的比例放大器，暂不开放，默认为0
-    * @param  [in] id servoJ指令ID,默认为0
-    * @return  错误码
+    * @brief 关节空间伺服模式运动
+    * @param [in] joint_pos 目标关节位置,单位deg
+    * @param [in] axisPos 外部轴位置,单位mm
+    * @param [in] acc 加速度百分比，范围[0~100],暂不开放，默认为0
+    * @param [in] vel 速度百分比，范围[0~100]，暂不开放，默认为0
+    * @param [in] cmdT 指令下发周期，单位s，建议范围[0.001~0.0016]
+    * @param [in] filterT 滤波时间，单位s，暂不开放，默认为0
+    * @param [in] gain 目标位置的比例放大器，暂不开放，默认为0
+    * @param [in] id servoJ指令ID,默认为0
+    * @param [in] comType 指令下发类型；0-xmlrpc；1-UDP(对应机器人20007端口)
+    * @return 错误码
     */
-    errno_t ServoJ(JointPos *joint_pos, ExaxisPos* axisPos, float acc, float vel, float cmdT, float filterT, float gain, int id = 0);
+    errno_t ServoJ(JointPos *joint_pos, ExaxisPos* axisPos, float acc, float vel, float cmdT, float filterT, float gain, int id = 0, int comType = 0);
 
 关节空间伺服模式运动示例程序
 ++++++++++++++++++++++++++++++++++++++++++
@@ -580,6 +583,96 @@ jog点动立即停止
         return 0;
     }
 
+基于UDP通信的机器人关节空间伺服模式运动代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    void UDPFrameCallBack(int srcType, int count, int cmdID, int len, std::string content)
+    {
+        cout << "recv cmd: cmdID:  " << to_string(cmdID) << "  content is " << content << "  count is " << count << endl;;
+            return;
+    }
+
+    int TestServoJUDP(void)
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        int rtn = 0;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        rtn = robot.SetCmdRpyCallback(UDPFrameCallBack);
+        printf("SetCmdRpyCallback rtn is %d\n", rtn);
+        rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return -1;
+        }
+        robot.SetReConnectParam(true, 30000, 50);
+        JointPos j(0, -90, 90, 0, 0, 0);
+        ExaxisPos epos(0, 0, 0, 0);
+        DescPose offset_pos(0, 0, 0, 0, 0, 0);
+        while (true)
+        {
+            robot.MoveJ(&j, 0, 0, 100, 100, 100, &epos, -1, 0, &offset_pos);
+            float vel = 0.0;
+            float acc = 0.0;
+            float cmdT = 0.016;
+            float filterT = 0.0;
+            float gain = 0.0;
+            uint8_t flag = 0;
+            float dt = 0.1;
+            int cmdID = 0;
+            int ret = robot.GetActualJointPosDegree(flag, &j);
+            if (ret != 0)
+            {
+                printf("GetActualJointPosDegree errcode:%d\n", ret);
+            }
+            int comType = 1;
+            int count = 300;
+            rtn = robot.ServoMoveStart(comType);
+            printf("ServoMoveStart rtn is %d\n", rtn);
+            while (count)
+            {
+                rtn = robot.ServoJ(&j, &epos, acc, vel, cmdT, filterT, gain, cmdID, comType);
+                printf("ServoJ rtn is %d\n", rtn);
+                j.jPos[0] += dt;
+                j.jPos[1] += dt;
+                j.jPos[2] += dt;
+                j.jPos[3] += dt;
+                j.jPos[4] += dt;
+                j.jPos[5] += dt;
+                epos.ePos[0] += dt;
+                count -= 1;
+                robot.Sleep(15);
+            }
+            robot.ServoMoveEnd(comType);
+            printf("ServoMoveEnd rtn is %d\n", rtn);
+            count = 300;
+            robot.ServoMoveStart(comType);
+            printf("ServoMoveStart rtn is %d\n", rtn);
+            while (count)
+            {
+                robot.ServoJ(&j, &epos, acc, vel, cmdT, filterT, gain, cmdID, comType);
+                printf("ServoJ rtn is %d\n", rtn);
+                j.jPos[0] -= dt;
+                j.jPos[1] -= dt;
+                j.jPos[2] -= dt;
+                j.jPos[3] -= dt;
+                j.jPos[4] -= dt;
+                j.jPos[5] -= dt;
+                epos.ePos[0] -= dt;
+                count -= 1;
+                robot.Sleep(15);
+            }
+            robot.ServoMoveEnd(comType);
+            printf("ServoMoveEnd rtn is %d\n", rtn);
+        }
+        robot.Sleep(4000);
+        robot.CloseRPC();
+        return 0;
+    }
+
 关节扭矩控制开始
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0
@@ -589,9 +682,10 @@ jog点动立即停止
 
     /**
     * @brief 关节扭矩控制开始
+    * @param [in] comType 指令下发类型；0-xmlrpc；1-UDP(对应机器人20007端口)
     * @return 错误码
     */
-    errno_t ServoJTStart();
+    errno_t ServoJTStart(int comType = 0);
 
 关节扭矩控制
 ++++++++++++++++++++++++++++++++++++++++++
@@ -602,14 +696,15 @@ jog点动立即停止
 
     /**
     * @brief 关节扭矩控制
-    * @param  [in] torque j1~j6关节扭矩，单位Nm
-    * @param  [in] interval 指令周期，单位s，范围[0.001~0.008]
-    * @param  [in] checkFlag 检测策略 0-不限制；1-限制功率；2-限制速度；3-功率和速度同时限制
-    * @param  [in] jPowerLimit 关节最大功率限制(W)
-    * @param  [in] jVelLimit 关节最大速度(°/s)
-    * @return  错误码
+    * @param [in] torque j1~j6关节扭矩，单位Nm
+    * @param [in] interval 指令周期，单位s，范围[0.001~0.008]
+    * @param [in] checkFlag 检测策略 0-不限制；1-限制功率；2-限制速度；3-功率和速度同时限制
+    * @param [in] jPowerLimit 关节最大功率限制(W)
+    * @param [in] jVelLimit 关节最大速度(°/s)
+    * @param [in] comType 指令下发类型；0-xmlrpc；1-UDP(对应机器人20007端口)
+    * @return 错误码
     */
-    errno_t ServoJT(float torque[], double interval, int checkFlag, double jPowerLimit[6], double jVelLimit[6]);
+    errno_t ServoJT(float torque[], double interval, int checkFlag, double jPowerLimit[6], double jVelLimit[6], int comType = 0);
 
 关节扭矩控制结束
 ++++++++++++++++++++++++++++++++++++++++++
@@ -620,9 +715,10 @@ jog点动立即停止
 
     /**
     * @brief 关节扭矩控制结束
+    * @param [in] comType 指令下发类型；0-xmlrpc；1-UDP(对应机器人20007端口)
     * @return 错误码
     */
-    errno_t ServoJTEnd();
+    errno_t ServoJTEnd(int comType = 0);
 
 关节扭矩控制代码示例
 +++++++++++++++++++++++++++++++++++++++
@@ -698,6 +794,78 @@ jog点动立即停止
         }
         robot->DragTeachSwitch(0);
         error = robot->ServoJTEnd();  
+        return 0;
+    }
+
+基于UDP通信的机器人关节扭矩控制代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    void UDPFrameCallBack(int srcType, int count, int cmdID, int len, std::string content)
+    {
+        cout << "recv cmd: cmdID:  " << to_string(cmdID) << "  content is " << content << "  count is " << count << endl;
+        
+        return;
+    }
+    int TestServoJTUDP(void)
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        robot.SetCmdRpyCallback(UDPFrameCallBack);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+        	return -1;
+        }
+        robot.SetReConnectParam(true, 30000, 500);
+        JointPos j(0, -90, 90, 0, 0, 0);
+        ExaxisPos epos(0, 0, 0, 0);
+        DescPose offset_pos(0, 0, 0, 0, 0, 0);
+        robot.MoveJ(&j, 0, 0, 100, 100, 100, &epos, -1, 0, &offset_pos);
+        robot.Sleep(1000);
+        robot.DragTeachSwitch(1);
+        float torques[] = { 0, 0, 0, 0, 0, 0 };
+        robot.GetJointTorques(1, torques);
+        int comType = 1;
+        int count = 100;
+        int checkFlag = 3;
+        double jPowerLimit[6] = { 10.0, 10.0, 10.0, 10.0, 10.0, 10.0 };
+        double jVelLimit[6] = { 80, 80, 80, 80, 80, 80 };
+        rtn = robot.ServoJTStart(comType);
+        printf("ServoJTStart rtn is %d\n", rtn);
+        while (true)
+        {
+            torques[0] = 0.05;
+            rtn = robot.ServoJT(torques, 0.001, checkFlag, jPowerLimit, jVelLimit, comType);
+            printf("ServoJT rtn is %d\n", rtn);
+            robot.Sleep(1);
+            robot.GetRobotRealTimeState(&pkg);
+            if (pkg.jt_cur_pos[0] > 30)
+            {
+                break;
+            }
+        }
+        while (true)
+        {
+            torques[0] = -0.03;
+            rtn = robot.ServoJT(torques, 0.001, checkFlag, jPowerLimit, jVelLimit, comType);
+            printf("ServoJT rtn is %d\n", rtn);
+            robot.Sleep(1);
+            robot.GetRobotRealTimeState(&pkg);
+            if (pkg.jt_cur_pos[0] < 0 || pkg.jt_cur_pos[1] < -110)
+            {
+                break;
+            }
+        }
+        rtn = robot.ServoJTEnd(comType);
+        printf("ServoJTEnd rtn is %d\n", rtn);
+        robot.DragTeachSwitch(0);
+        robot.Sleep(1000);
+        robot.CloseRPC();
         return 0;
     }
 
@@ -1701,5 +1869,122 @@ FIR滤波代码示例
         printf("LaserSensorRecordandReplay rtn is %d\n", rtn);
         robot.CloseRPC();
         robot.Sleep(9999999);
+        return 0;
+    }
+
+定点摆动开始
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 定点摆动开始
+    * @param [in] weaveNum 摆动编号[0-7]
+    * @param [in] mode 0-工具坐标系；1-参考点
+    * @param [in] refPoint 参考点笛卡尔坐标[x,y,z,a,b,c]
+    * @param [in] weaveTime 摆动时间[s]
+    * @return 错误码
+    */
+    errno_t OriginPointWeaveStart(int weaveNum, int mode, DescPose refPoint, double weaveTime);
+    
+定点摆动结束
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 定点摆动结束
+    * @return 错误码
+    */
+    errno_t OriginPointWeaveEnd();
+        
+定点摆动的SDK代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    int TestOriginPointWeave()
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return -1;
+        }
+        robot.SetReConnectParam(true, 30000, 500);
+        JointPos j(39.886, -98.580, -124.032, -47.393, 90.000, 40.842);
+        ExaxisPos epos(0, 0, 0, 0);
+        DescPose offset_pos(0, 0, 0, 0, 0, 0);
+        DescPose refPoint = { 400.021,300.022,299.996,179.997,-0.003,-90.956 };
+        robot.MoveJ(&j, 1, 0, 100, 100, 100, &epos, -1, 0, &offset_pos);
+        robot.OriginPointWeaveStart(0, 0, refPoint, 3);
+        robot.MoveStationary();
+        robot.OriginPointWeaveEnd();
+        robot.Sleep(2000);
+        robot.MoveJ(&j, 1, 0, 100, 100, 100, &epos, -1, 0, &offset_pos);
+        robot.OriginPointWeaveStart(0, 1, refPoint, 3);
+        robot.MoveStationary();
+        robot.OriginPointWeaveEnd();
+        robot.CloseRPC();
+        robot.Sleep(1000);
+        return 0;
+    }
+
+定点摆动(包含激光传感器及扩展轴)代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    int TestOriginPointWeave()
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return -1;
+        }
+        robot.SetReConnectParam(true, 30000, 500);
+        JointPos j(39.886, -98.580, -124.032, -47.393, 90.000, 40.842);
+        ExaxisPos epos1(0, 0, 0, 0);
+        DescPose offset_pos(0, 0, 0, 0, 0, 0);
+        ExaxisPos epos2(5, 0.000, 0.000, 0.000);
+        DescPose refPoint(400.021, 300.022, 299.996, 179.997, -0.003, -90.956);
+        robot.LaserTrackingSensorConfig("192.168.58.20", 5020);
+        robot.LaserTrackingSensorSamplePeriod(20);
+        robot.LoadPosSensorDriver(101);
+        robot.ExtDevLoadUDPDriver();
+        rtn = robot.SetExAxisCmdDoneTime(5000.0);
+        printf("SetExAxisCmdDoneTime rtn is %d\n" , rtn);
+        rtn = robot.ExtAxisServoOn(1, 1);
+        printf("ExtAxisServoOn axis id 1 rtn is %d\n" , rtn);
+        rtn = robot.ExtAxisServoOn(2, 1);
+        printf("ExtAxisServoOn axis id 2 rtn is %d\n" , rtn);
+        robot.Sleep(2000);
+        robot.ExtAxisSetHoming(1, 0, 10, 2);
+        rtn = robot.LaserTrackingLaserOnOff(1, 0);
+        printf("LaserTrackingLaserOnOff id 2 rtn is %d\n", rtn);
+        robot.LaserTrackingTrackOnOff(1, 4);
+        robot.Sleep(200);
+        robot.OriginPointWeaveStart(0, 0, refPoint, 10);
+        robot.MoveStationary();  
+        robot.OriginPointWeaveEnd();
+        robot.LaserTrackingTrackOnOff(0, 4);
+
+        robot.Sleep(2000);      
+    
+        robot.ExtAxisMove(epos1, 100, -1);
+        robot.LaserTrackingTrackOnOff(1, 4);
+        robot.OriginPointWeaveStart(0, 0, refPoint, 20);
+        robot.ExtAxisMove(epos2, 100, -1);
+        robot.OriginPointWeaveEnd();
+        robot.LaserTrackingTrackOnOff(0, 4);
+        robot.CloseRPC();
+        robot.Sleep(1000);
         return 0;
     }

@@ -336,9 +336,9 @@ jog点动立即停止
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``ServoMoveStart()``"
+    "原型", "``ServoMoveStart(cmdType=0)``"
     "描述", "伺服运动开始，配合ServoJ、ServoCart指令使用"
-    "必选参数", "无"
+    "必选参数", "- ``cmdType``: 命令传输类型，0=XML-RPC，1=UDP透传"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
@@ -349,9 +349,9 @@ jog点动立即停止
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``ServoMoveEnd()``"
+    "原型", "``ServoMoveEnd(cmdType=0)``"
     "描述", "伺服运动结束，配合ServoJ、ServoCart指令使用"
-    "必选参数", "无"
+    "必选参数", "- ``cmdType``: 命令传输类型，0=XML-RPC，1=UDP透传"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
@@ -362,7 +362,7 @@ jog点动立即停止
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``ServoJ(joint_pos, axisPos, acc = 0.0, vel = 0.0, cmdT = 0.008, filterT = 0.0, gain = 0.0, id=0)``"
+    "原型", "``ServoJ(joint_pos, axisPos, acc = 0.0, vel = 0.0, cmdT = 0.008, filterT = 0.0, gain = 0.0, id=0, cmdType=0)``"
     "描述", "关节空间伺服模式运动"
     "必选参数", "- ``joint_pos``:目标关节位置，单位[°]；
     - ``axisPos``:外部轴位置,单位mm；"
@@ -371,8 +371,85 @@ jog点动立即停止
     - ``cmdT``:指令下发周期，单位s，建议范围[0.001~0.0016], 默认为0.008;
     - ``filterT``:滤波时间，单位 [s]，暂不开放， 默认为0.0;
     - ``gain``:目标位置的比例放大器，暂不开放， 默认为0.0;
-    - ``id``:servoJ指令ID,默认为0;"
+    - ``id``:servoJ指令ID,默认为0;
+    - ``cmdType``:命令传输类型，0=XML-RPC，1=UDP透传;"
     "返回值", "错误码 成功-0  失败- errcode"
+
+基于UDP通信的ServoJ、ServoMoveStart、ServoMoveEnd SDK代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: python
+    :linenos:
+
+    from time import sleep
+    import time
+    from fairino import Robot
+
+    # 与机器人控制器建立连接
+    robot = Robot.RPC('192.168.58.2')
+
+    def TestServoJUDP(self):
+        # 设置回调
+        def callback(src_type, count, cmd_id, data_len, content):
+            print("回调函数: cmd_id={} count={} data_len={} content={}".format(cmd_id, count, data_len, content))
+            return 0
+
+        robot.SetUDPCmdRpyCallback(callback)
+        # # 初始化关节位置和外部轴位置
+        j= [105, -108, 74, -66, -88.893, -1.621]
+        offset_pos = [0, 0, 0, 0, 0, 0]
+        epos = [0, 0, 0, 0]
+        # # 移动到初始位置
+        result=robot.MoveJ(joint_pos=j, tool=0, user=0, vel=100, acc=100, ovl=100,exaxis_pos=epos, blendT=-1, offset_flag=0, offset_pos=offset_pos)
+        print("MoveJ返回结果: {}".format(result))
+        vel = 0.0
+        acc = 0.0
+        cmdT = 0.016
+        filterT = 0.0
+        gain = 0.0
+        flag = 0
+        dt = 0.1
+        cmdID = 0
+
+        # 获取当前关节位置
+        ret, j = robot.GetActualJointPosDegree(flag)
+        if ret != 0:
+            print(f"GetActualJointPosDegree errcode:{ret}")
+        while 1:
+            count = 300
+            result = robot.ServoMoveStart(cmdType=1)
+            print("ServoMoveStart返回结果: {}".format(result))
+            while count > 0:
+                result = robot.ServoJ(joint_pos=j, axisPos=epos, acc=acc, vel=vel, cmdT=cmdT,filterT=filterT, gain=gain, id=cmdID, cmdType=1)
+                j[0] += dt
+                j[1] += dt
+                j[2] += dt
+                j[3] += dt
+                j[4] += dt
+                j[5] += dt
+                count -= 1
+                time.sleep(0.01)
+            result = robot.ServoMoveEnd(cmdType=1)
+            print("ServoMoveEnd返回结果: {}".format(result))
+
+            count = 300
+            result = robot.ServoMoveStart(cmdType=1)
+            print("ServoMoveStart返回结果: {}".format(result))
+            while count > 0:
+                result = robot.ServoJ(joint_pos=j, axisPos=epos, acc=acc, vel=vel, cmdT=cmdT,filterT=filterT, gain=gain, id=cmdID, cmdType=1)
+                j[0] -= dt
+                j[1] -= dt
+                j[2] -= dt
+                j[3] -= dt
+                j[4] -= dt
+                j[5] -= dt
+                count -= 1
+                time.sleep(0.01)
+            result = robot.ServoMoveEnd(cmdType=1)
+            print("ServoMoveEnd返回结果: {}".format(result))
+        robot.CloseRPC()
+        return 0
+    TestServoJUDP(robot)
 
 关节空间伺服模式运动代码示例
 ++++++++++++++++++++++++++++++++++++++++++++
@@ -422,9 +499,9 @@ jog点动立即停止
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``ServoJTStart()``"
+    "原型", "``ServoJTStart(cmdType=0)``"
     "描述", "关节扭矩控制开始"
-    "必选参数", "无"
+    "必选参数", "- ``cmdType``: 命令传输类型，0=XML-RPC，1=UDP透传"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
@@ -435,13 +512,14 @@ jog点动立即停止
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``ServoJT(torque, interval, checkFlag=0, jPowerLimit=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0],jVelLimit=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0])``"
+    "原型", "``ServoJT(torque, interval, checkFlag=0, jPowerLimit=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0],jVelLimit=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0], cmdType=0)``"
     "描述", "关节扭矩控制"
     "必选参数", "- ``torque``:j1~j6关节扭矩，单位Nm
                 - ``interval``:指令周期，单位s，范围[0.001~0.008]
                 - ``checkFlag``:检测策略 0-不限制；1-限制功率；2-限制速度；3-功率和速度同时限制,默认0
                 - ``jPowerLimit``:默认参数 jPowerLimit 关节最大功率限制(W)，默认[0.0,0.0,0.0,0.0,0.0,0.0]
-                - ``jVelLimit``:关节最大速度(°/s)，默认[0.0,0.0,0.0,0.0,0.0,0.0]"
+                - ``jVelLimit``:关节最大速度(°/s)，默认[0.0,0.0,0.0,0.0,0.0,0.0]
+                - ``cmdType``:命令传输类型，0=XML-RPC，1=UDP透传"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
@@ -452,11 +530,100 @@ jog点动立即停止
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``ServoJTEnd()``"
+    "原型", "``ServoJTEnd(cmdType=0)``"
     "描述", "关节扭矩控制结束"
-    "必选参数", "无"
+    "必选参数", "- ``cmdType``: 命令传输类型，0=XML-RPC，1=UDP透传"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
+
+基于UDP通信的ServoJT、ServoJTStart、ServoJTEnd SDK代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: python
+    :linenos:
+
+    from time import sleep
+    import time
+    from fairino import Robot
+
+    # 与机器人控制器建立连接
+    robot = Robot.RPC('192.168.58.2')
+
+    def TestServoJTUDP(self):
+        # 设置回调
+        def callback(src_type, count, cmd_id, data_len, content):
+            print("回调函数: cmd_id={} count={} data_len={} content={}".format(cmd_id, count, data_len, content))
+            return 0
+
+        robot.SetUDPCmdRpyCallback(callback)
+        while True:
+            # 初始化关节位置和外部轴位置
+            j = [0, -90, 90, 0, 0, 0]
+            epos = [0, 0, 0, 0]
+            offset_pos = [0, 0, 0, 0, 0, 0]
+
+            # 移动到初始位置
+            robot.MoveJ(joint_pos=j, tool=0, user=0, vel=100, acc=100, ovl=100,
+                        exaxis_pos=epos, blendT=-1, offset_flag=0, offset_pos=offset_pos)
+            time.sleep(3)
+            # 开启拖动示教
+            result=robot.DragTeachSwitch(1)
+            print("DragTeachSwitch返回结果: {}".format(result))
+            torques = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+            # 获取关节力矩
+            ret, torques = robot.GetJointTorques(flag=1)
+            if ret != 0:
+                print(f"GetJointTorques errcode:{ret}")
+
+            count = 100
+            result = robot.ServoJTStart(cmdType=1)
+            print("ServoJTStart返回结果: {}".format(result))
+            # 正向力矩控制
+            while True:
+                torques[0] = 0.03
+                result = robot.ServoJT(
+                    torque=torques,
+                    interval=0.001,
+                    checkFlag=0,
+                    jPowerLimit=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                    jVelLimit=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                    cmdType=1
+                )
+                print("返回结果: {}".format(result))
+                time.sleep(1)
+
+                ret, pkg = robot.GetRobotRealTimeState()
+                if pkg.jt_cur_pos[0] > 30:
+                    break
+
+            # 反向力矩控制
+            while True:
+                torques[0] = -0.03
+                result = robot.ServoJT(
+                        torque=torques,
+                        interval=0.001,
+                        checkFlag=0,
+                        jPowerLimit=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                        jVelLimit=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                        cmdType=1
+                    )
+                print("返回结果: {}".format(result))
+                time.sleep(1)
+
+                ret, pkg = robot.GetRobotRealTimeState()
+                if pkg.jt_cur_pos[0] < 0:
+                    break
+
+            # 结束力矩控制并关闭拖动示教
+            result = robot.ServoJTEnd(cmdType=1)
+            print("ServoJTEnd返回结果: {}".format(result))
+            result = robot.DragTeachSwitch(0)
+            print("DragTeachSwitch返回结果: {}".format(result))
+
+        robot.CloseRPC()
+        return 0
+    TestServoJTUDP(robot)
 
 关节扭矩控制代码示例
 ++++++++++++++++++++++
@@ -1328,3 +1495,154 @@ FIR滤波代码示例
     robot.CloseRPC()
     return 0
 
+定点摆动开始
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``OriginPointWeaveStart(weaveNum, mode, refPoint, weaveTime)``"
+    "描述", "定点摆动开始"
+    "必选参数", "
+    - ``weaveNum``:摆动编号[0-7]
+    - ``mode``:0-工具坐标系；1-参考点
+    - ``refPoint``:参考点笛卡尔坐标[x,y,z,a,b,c]
+    - ``weaveTime``:摆动时间[s]
+    - "
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode "
+
+定点摆动结束
++++++++++++++++++++++++++++++++++
+    
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``OriginPointWeaveEnd()``"
+    "描述", "定点摆动结束"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode"
+
+定点摆动的SDK代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: python
+    :linenos: 
+
+    from time import sleep
+    import time
+    from fairino import Robot
+
+    # 与机器人控制器建立连接
+    robot = Robot.RPC('192.168.58.2')
+
+    def TestOriginPointWeave(self):
+        time.sleep(2)
+        # 初始化关节位置、外部轴和偏移
+        j = [39.886, -98.580, -124.032, -47.393, 90.000, 40.842]
+        epos = [0, 0, 0, 0]
+        offset_pos = [0, 0, 0, 0, 0, 0]
+
+        # 参考点位置 [x, y, z, rx, ry, rz]
+        refPoint = [400.021, 300.022, 299.996, 179.997, -0.003, -90.956]
+
+        # 移动到起始位置
+        robot.MoveJ(joint_pos=j, tool=1, user=0, vel=100, acc=100, ovl=100,
+                    exaxis_pos=epos, blendT=-1, offset_flag=0, offset_pos=offset_pos)
+
+        # 第一次摆动：绝对坐标系（tool=0），模式0
+        robot.OriginPointWeaveStart(0, 0, refPoint, 3)
+        robot.MoveStationary()
+        robot.OriginPointWeaveEnd()
+
+        time.sleep(2)
+
+        # 再次移动到起始位置
+        robot.MoveJ(joint_pos=j, tool=1, user=0, vel=100, acc=100, ovl=100,
+                    exaxis_pos=epos, blendT=-1, offset_flag=0, offset_pos=offset_pos)
+
+        # 第二次摆动：绝对坐标系（tool=0），模式1
+        robot.OriginPointWeaveStart(0, 1, refPoint, 3)
+        robot.MoveStationary()
+        robot.OriginPointWeaveEnd()
+
+        # 关闭连接
+        robot.CloseRPC()
+        time.sleep(1)
+
+    TestOriginPointWeave(robot)
+
+定点摆动（包含激光及拓展轴）的SDK代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: python
+    :linenos: 
+
+    from time import sleep
+    import time
+    from fairino import Robot
+
+    # 与机器人控制器建立连接
+    robot = Robot.RPC('192.168.58.2')
+
+    def TestOriginPointWeave(self):
+        time.sleep(2)
+        # 初始化关节位置、外部轴和偏移
+        j = [39.886, -98.580, -124.032, -47.393, 90.000, 40.842]
+        epos1 = [0, 0, 0, 0]
+        offset_pos = [0, 0, 0, 0, 0, 0]
+        epos2 = [5, 0.000, 0.000, 0.000]
+        # 参考点位置 [x, y, z, rx, ry, rz]
+        refPoint = [400.021, 300.022, 299.996, 179.997, -0.003, -90.956]
+
+        rtn = 0
+        robot.LaserTrackingSensorConfig("192.168.58.20", 5020)
+        robot.LaserTrackingSensorSamplePeriod(20)
+        robot.LoadPosSensorDriver(101)
+
+        # 加载 UDP 驱动
+        robot.ExtDevLoadUDPDriver()
+
+        # 设置外部轴命令完成时间
+        rtn = robot.SetExAxisCmdDoneTime(5000.0)
+        print(f"SetExAxisCmdDoneTime rtn is {rtn}")
+
+        # 使能外部轴 1 和 2
+        rtn = robot.ExtAxisServoOn(1, 1)
+        print(f"ExtAxisServoOn axis id 1 rtn is {rtn}")
+        rtn = robot.ExtAxisServoOn(2, 1)
+        print(f"ExtAxisServoOn axis id 2 rtn is {rtn}")
+        time.sleep(2)
+
+        # 设置外部轴回零
+        robot.ExtAxisSetHoming(1, 0, 10, 2)
+        robot.LaserTrackingLaserOnOff(1)
+
+        # 1---不带扩展轴
+        robot.LaserTrackingTrackOnOff(1, 4)
+        time.sleep(0.2)
+        # 启动定点摆动
+        robot.OriginPointWeaveStart(0, 0, refPoint, 10)
+        robot.MoveStationary()  # 执行固定运动（假设该方法存在）
+        robot.OriginPointWeaveEnd()
+        robot.LaserTrackingTrackOnOff(0, 4)
+
+        time.sleep(2)  # 等待2秒
+
+        # 2----带扩展轴
+        robot.ExtAxisMove(epos1, 100, -1)
+        robot.LaserTrackingTrackOnOff(1, 4)
+        # 启动定点摆动
+        robot.OriginPointWeaveStart(0, 0, refPoint, 20)
+        robot.ExtAxisMove(epos2, 100, -1)
+        robot.OriginPointWeaveEnd()
+        robot.LaserTrackingTrackOnOff(0, 4)
+
+        # 关闭连接
+        robot.CloseRPC()
+        time.sleep(1)
+
+    TestOriginPointWeave(robot)

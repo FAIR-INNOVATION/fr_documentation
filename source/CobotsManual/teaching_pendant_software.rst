@@ -167,6 +167,11 @@
      - it
      - 是
 
+   * - 德语
+     - Deutsch
+     - de
+     - 是
+
 1. 在登录界面（或首次激活界面均可设置），在右上角进行语言选择；
 
 .. image:: teaching_pendant_software/062.png

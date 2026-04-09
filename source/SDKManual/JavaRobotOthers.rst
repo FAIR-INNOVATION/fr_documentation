@@ -414,3 +414,136 @@
     * @return 错误码
     */
     public int RobotMCULogCollect()
+
+设置端口通讯断开时停止机器人运行
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 设置端口通讯断开时停止机器人运行
+    * @param pordID 端口编号 0-8080；1-8083；2-20002；3-20004
+    * @param enable 0-关闭；1-开启
+    * @param confirmTime 通讯中断确认时长(ms)[0-5000]
+    * @return 错误码
+    */
+    public int SetRobotStopOnComDisc(int portID, bool enable, int confirmTime)
+    
+获取端口通讯断开时停止机器人运行参数
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 获取端口通讯断开时停止机器人运行参数
+    * @param pordID 端口编号 0-8080；1-8083；2-20002；3-20004
+    * @param enable 结果数组，index 0: 0-关闭；1-开启
+    * @param confirmTime 结果数组，index 0: 通讯中断确认时长(ms)[0-5000] 
+    * @return 错误码
+    */
+    public int GetRobotStopOnComDisc(int pordID, int[] enable, int[] confirmTime)
+
+端口通讯断开时停止机器人运行参数代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    void TestRobotStopOnComDisc(Robot robot)
+    {
+        int[] enable = {0};
+        int[] confirmTime = {0};
+        int rtn = 0;
+        rtn = robot.SetRobotStopOnComDisc(0, true, 330);
+        rtn = robot.SetRobotStopOnComDisc(1, true, 550);
+        rtn = robot.SetRobotStopOnComDisc(2, true, 110);
+        rtn = robot.SetRobotStopOnComDisc(3, true, 220);
+        System.out.printf("SetRobotStopOnComDisc %d\n", rtn);
+
+        robot.GetRobotStopOnComDisc(0, enable, confirmTime);
+        System.out.printf("GetRobotStopOnComDisc 8080 rtn %d; enable is %d; confirm time is %d\n", rtn, enable[0], confirmTime[0]);
+        robot.GetRobotStopOnComDisc(1, enable, confirmTime);
+        System.out.printf("GetRobotStopOnComDisc 8083 rtn %d; enable is %d; confirm time is %d\n", rtn, enable[0], confirmTime[0]);
+        robot.GetRobotStopOnComDisc(2, enable, confirmTime);
+        System.out.printf("GetRobotStopOnComDisc 20002 rtn %d; enable is %d; confirm time is %d\n", rtn, enable[0], confirmTime[0]);
+        robot.GetRobotStopOnComDisc(3, enable, confirmTime);
+        System.out.printf("GetRobotStopOnComDisc 20004 rtn %d; enable is %d; confirm time is %d\n", rtn, enable[0], confirmTime[0]);
+
+        return;
+    }
+
+UDP发送指令帧
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief UDP发送指令帧
+    * @param 指令帧
+    * @return 错误码
+    */
+    public int SendUDPFrame(String frame)
+    
+关于UDP通信的SDK代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static void TestRobotUDP (Robot robot) {
+        robot.udpCmdClient.SetUDPCmdRpyCallback((srcType, count, cmdID, dataLen, content) -> {
+            System.out.println("\n[收到机器人 UDP 回复]");
+            System.out.println("srcType: " + srcType);
+            System.out.println("count: " + count);
+            System.out.println("cmdID: " + cmdID);
+            System.out.println("dataLen: " + dataLen);
+            System.out.println("内容 (content): " + content);
+            return 0;
+        });
+        // 发送帧
+        String frameToSend = "/f/bIII52III236III7IIIMode(1)III/b/f";
+        robot.SendUDPFrame(frameToSend);
+        robot.Sleep(2000);
+        frameToSend = "/f/bIII52III236III7IIIMode(0)III/b/f";
+        robot.SendUDPFrame(frameToSend);
+        robot.Sleep(2000);
+        frameToSend = "/f/bIII41III201III153IIIMoveJ(53.857,-89.441,119.453,-22.664,61.059,3.369,-54.249,-491.930,375.396,96.474,-6.896,-7.783,0,0,100,100,100,0.000,0.000,0.000,0.000,-1,0,0,0,0,0,0,0)III/b/f";
+        robot.SendUDPFrame(frameToSend);
+        robot.Sleep(2000);
+        frameToSend = "/f/bIII42III203III163IIIMoveL(81.736,-85.284,114.974,-23.261,88.746,6.799,125.744,-506.570,375.396,96.474,-6.896,-7.783,0,0,100,100,100,-1,0,0.000,0.000,0.000,0.000,0,0,0,0,0,0,0,0,100,0)III/b/f";
+        robot.SendUDPFrame(frameToSend);
+        robot.Sleep(2000);
+        frameToSend = "/f/bIII47III400III15IIIGetMCVersion(1)III/b/f/f/bIII48III424III21IIIGetSlaveFirmVersion()III/b/f";
+        robot.SendUDPFrame(frameToSend);
+        robot.Sleep(2000);
+    }
+        
+设置用户自定义机器人末端灯色
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 设置用户自定义机器人末端灯色
+    * @param r 末端红灯控制；0-灭；1-亮
+    * @param g 末端绿灯控制；0-灭；1-亮
+    * @param b 末端蓝灯控制；0-灭；1-亮
+    * @return 错误码
+    */
+    public int SetUserLEDColor(bool r, bool g, bool b)
+            
+设置用户自定义机器人末端灯色的SDK代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public void testled(robot)
+    {
+        robot.SetUserLEDColor(true, true, true);
+        robot.Sleep(1000);
+        robot.SetUserLEDColor(false, false, false);
+        robot.Sleep(1000);
+        robot.SetUserLEDColor(true, false, false);
+        robot.Sleep(1000);
+        robot.SetUserLEDColor(false, true, false);
+        robot.Sleep(1000);
+        robot.SetUserLEDColor(false, false, true);
+    }

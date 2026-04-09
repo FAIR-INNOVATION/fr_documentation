@@ -482,3 +482,197 @@
     * @return 错误码
     */
     errno_t RobotMCULogCollect();
+        
+设置端口通讯断开时停止机器人运行
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 设置端口通讯断开时停止机器人运行
+    * @param [in] pordID 端口编号 0-8080；1-8083；2-20002；3-20004
+    * @param [in] enable 0-关闭；1-开启
+    * @param [in] confirmTime 通讯中断确认时长(ms)[0-5000]
+    * @return 错误码
+    */
+    errno_t SetRobotStopOnComDisc(int pordID, bool enable, int confirmTime);
+        
+获取端口通讯断开时停止机器人运行参数
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 获取端口通讯断开时停止机器人运行参数
+    * @param [in] pordID 端口编号 0-8080；1-8083；2-20002；3-20004
+    * @param [out] enable 0-关闭；1-开启
+    * @param [out] confirmTime 通讯中断确认时长(ms)[0-5000]
+    * @return 错误码
+    */
+    errno_t GetRobotStopOnComDisc(int pordID, bool &enable, int &confirmTime);
+
+端口通讯断开时停止机器人运行参数代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    int TestRobotStopOnComDisc()
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return -1;
+        }
+        robot.SetReConnectParam(true, 30000, 500);
+        bool enable = false;
+        int confirmTime = 0;
+        rtn = robot.SetRobotStopOnComDisc(0, true, 330);
+        rtn = robot.SetRobotStopOnComDisc(1, true, 550);
+        rtn = robot.SetRobotStopOnComDisc(2, true, 110);
+        rtn = robot.SetRobotStopOnComDisc(3, true, 220);
+        printf("SetRobotStopOnComDisc %d\n", rtn);
+        robot.GetRobotStopOnComDisc(0, enable, confirmTime);
+        printf("GetRobotStopOnComDisc 8080 rtn %d; enable is %d; confirm time is %d\n", rtn, enable, confirmTime);
+        robot.GetRobotStopOnComDisc(1, enable, confirmTime);
+        printf("GetRobotStopOnComDisc 80803 rtn %d; enable is %d; confirm time is %d\n", rtn, enable, confirmTime);
+        robot.GetRobotStopOnComDisc(2, enable, confirmTime);
+        printf("GetRobotStopOnComDisc 20002 rtn %d; enable is %d; confirm time is %d\n", rtn, enable, confirmTime);
+        robot.GetRobotStopOnComDisc(3, enable, confirmTime);
+        printf("GetRobotStopOnComDisc 20004 rtn %d; enable is %d; confirm time is %d\n", rtn, enable, confirmTime);
+        robot.CloseRPC();
+        robot.Sleep(1000);
+        return 0;
+    }
+
+UDP发送指令帧
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief UDP发送指令帧
+    * @param [in] frame 发送数据帧字符串如：/f/bIII20III303III7IIIMode(0)III/b/f
+    * @return 错误码
+    */
+    errno_t SendUDPFrame(std::string frame);
+
+设置SDK通过UDP发送指令的执行结果回调函数
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 设置SDK通过UDP发送指令的执行结果回调函数
+    * @param [in] CallBack 回调函数；comType-指令结果通讯回复类型0-TCP，1-UDP；count-指令回复帧计数；cmdID-指令编号；contentLen-数据长度；content-数据内容
+    * @return 错误码
+    */
+    errno_t SetCmdRpyCallback(void (*CallBack)(int comType, int count, int cmdID, int contentLen, std::string content));
+
+UDP指令下发代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    int TestSendUDPFrame()
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        int rtn = robot.SetCmdRpyCallback(UDPFrameCallBack);
+        printf("SetCmdRpyCallback rtn is %d\n", rtn);
+        rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return -1;
+        }
+        robot.SetReConnectParam(true, 30000, 500);
+        rtn = robot.SendUDPFrame("/f/bIII20III303III7IIIMode(0)III/b/f");
+        printf("SendUDPFrame Mode(0) rtn is %d\n", rtn);
+        robot.Sleep(1000);
+        rtn = robot.SendUDPFrame("/f/bIII21III303III7IIIMode(1)III/b/f");
+        printf("SendUDPFrame Mode(1) rtn is %d\n", rtn);
+        robot.Sleep(1000);
+        rtn = robot.SendUDPFrame("/f/bIII49III201III184IIIMoveJ(-15.625, -82.680, 101.654, -110.950, -88.290, 0.017, -383.012, -2.325, 242.655, -178.024, 1.710, 74.416, 0, 0, 100, 100, 100, 0.000, 0.000, 0.000, 0.000, -1, 0, 0, 0, 0, 0, 0, 0)III/b/f");
+        printf("SendUDPFrame MoveJ(-15.625 rtn is %d\n", rtn);
+        robot.Sleep(1000);
+        rtn = robot.SendUDPFrame("/f/bIII48III203III199IIIMoveL(-75.622, -82.680, 101.654, -110.950, -88.290, 0.017, -193.537, 330.525, 242.657, -178.024, 1.710, 14.420, 0, 0, 100, 100, 100, -1, 0, 0.000, 0.000, 0.000, 0.000, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0)III/b/f");
+        printf("SendUDPFrame MoveL(-75.622 rtn is %d\n", rtn);
+        robot.Sleep(1000);
+        rtn = robot.SendUDPFrame("/f/bIII4III905III20IIIGetSoftwareVersion()III/b/f");
+        printf("SendUDPFrame GetSoftwareVersion() rtn is %d\n", rtn);
+        robot.Sleep(1000);
+        rtn = robot.SendUDPFrame("/f/bIII20III303III7IIIMode(0)III/b/f");
+        printf("SendUDPFrame rtn is %d\n", rtn);
+        rtn = robot.SendUDPFrame("III20III303III7IIIMode(0)III/b/f");
+        printf("SendUDPFrame rtn is %d\n", rtn);
+        rtn = robot.SendUDPFrame("/f/bIII20III303III7IIIMode(0)");
+        printf("SendUDPFrame rtn is %d\n", rtn);
+        rtn = robot.SendUDPFrame("/f/bIII20III303III6IIIMode(0)III/b/f");
+        printf("SendUDPFrame rtn is %d\n", rtn);
+        rtn = robot.SendUDPFrame("/f/b|||20|||303|||7|||Mode(0)|||/b/f");
+        printf("SendUDPFrame rtn is %d\n", rtn);
+        rtn = robot.SendUDPFrame("/f/bII20II303II7IIMode(0)II/b/f");
+        printf("SendUDPFrame rtn is %d\n", rtn);
+        robot.CloseRPC();
+        robot.Sleep(1000);
+        return 0;
+    }
+    
+设置用户自定义机器人末端灯色
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 设置用户自定义机器人末端灯色
+    * @param [in] r 末端红灯控制；0-灭；1-亮
+    * @param [in] g 末端绿灯控制；0-灭；1-亮
+    * @param [in] b 末端蓝灯控制；0-灭；1-亮
+    * @return 错误码
+    */
+    errno_t SetUserLEDColor(bool r, bool g, bool b);
+        
+设置用户自定义机器人末端灯色代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    int TestUserLedColor()
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return 0;
+        }
+        robot.SetReConnectParam(true, 30000, 500);
+        robot.SetUserLEDColor(true, true, true);
+        robot.Sleep(1000);
+        robot.SetUserLEDColor(false, false, false);
+        robot.Sleep(1000);
+        robot.SetUserLEDColor(true, false, false);
+        robot.Sleep(1000);
+        robot.SetUserLEDColor(false, true, false);
+        robot.Sleep(1000);
+        robot.SetUserLEDColor(false, false, true);
+        robot.Sleep(1000);
+        robot.CloseRPC();
+        robot.Sleep(1000);
+        return 0;
+    }

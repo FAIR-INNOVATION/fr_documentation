@@ -368,9 +368,11 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``SetWeldMachineCtrlMode(mode)``"
+    "原型", "``SetWeldMachineCtrlMode(mode, ioType)``"
     "描述", "设置焊机控制模式"
-    "必选参数", "- ``mode``：焊机控制模式;0-一元化"
+    "必选参数", "
+    - ``ioType``：控制类型；0-控制箱IO；1-数字通信协议(UDP);2-数字通信协议(ModbusTCP)
+    - ``mode``：焊机控制模式;0-一元化"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode" 
 

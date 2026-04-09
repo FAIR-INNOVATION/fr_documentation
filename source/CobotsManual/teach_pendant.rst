@@ -100,19 +100,11 @@
 - 2. 使用实体示教器F1自定义按键功能配置IP复位（长按10秒）可进行控制箱网卡0、网卡1以及实体示教器的IP重置；
 - 3. 使用实体示教器F2和F4组合按键，同时长按10秒，可以在实体示教器未登录时进行实体示教器设备的IP重置。
 
-标准控制箱网卡示意图和mini控制箱网卡示意图如下所示。
-
-.. image:: teach_pendant/009.png
-   :width: 5in
-   :align: center
-
-.. centered:: 图表 16.3‑1 标准控制箱网口示意图
-
 .. image:: teach_pendant/010.png
    :width: 5in
    :align: center
 
-.. centered:: 图表 16.3‑2 mini控制箱网口示意图
+.. centered:: 图表 16.3‑1 mini控制箱网口示意图
 
 Webrecovery界面IP重置
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -123,7 +115,7 @@ Webrecovery界面IP重置
    :width: 5in
    :align: center
 
-.. centered:: 图表 16.3‑3 Webrecovery界面IP重置功能
+.. centered:: 图表 16.3‑2 Webrecovery界面IP重置功能
 
 二次确认后会提示重启生效。重启后控制器网卡0 IP恢复为默认192.168.57.2，网卡1 IP恢复为默认192.168.58.2。
 
@@ -131,7 +123,7 @@ Webrecovery界面IP重置
    :width: 6in
    :align: center
 
-.. centered:: 图表 16.3‑4 Webrecovery界面IP重置二次确认
+.. centered:: 图表 16.3‑3 Webrecovery界面IP重置二次确认
 
 实体示教器F1按键自定义IP重置
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -142,7 +134,7 @@ Webrecovery界面IP重置
    :width: 6in
    :align: center
 
-.. centered:: 图表 16.3‑5 实体示教器F1按键自定义IP重置
+.. centered:: 图表 16.3‑4 实体示教器F1按键自定义IP重置
 
 此功能仅在实体示教器登录webapp时生效，长按F1按键10秒后会提示重启生效。重启后控制器网卡0 IP恢复为默认192.168.57.2，网卡1 IP恢复为默认192.168.58.2，实体示教器IP恢复为默认192.168.58.77。
 

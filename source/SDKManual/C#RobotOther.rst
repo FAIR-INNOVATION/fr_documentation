@@ -429,7 +429,147 @@
     */
     public int RobotMCULogCollect();
 
+设置端口通讯断开时停止机器人运行
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c#
+    :linenos:
+    
+    /**
+    * @brief 设置端口通讯断开时停止机器人运行
+    * @param [in] pordID 端口编号 0-8080；1-8083；2-20002；3-20004
+    * @param [in] enable 0-关闭；1-开启
+    * @param [in] confirmTime 通讯中断确认时长(ms)[0-5000]
+    * @return  错误码
+    */
+    public int SetRobotStopOnComDisc(int portID, bool enable, int confirmTime)
+
+获取端口通讯断开时停止机器人运行参数
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c#
+    :linenos:
+    
+    /**
+    * @brief 获取端口通讯断开时停止机器人运行参数
+    * @param [in] pordID 端口编号 0-8080；1-8083；2-20002；3-20004
+    * @param [out] enable 0-关闭；1-开启
+    * @param [out] confirmTime 通讯中断确认时长(ms)[0-5000]
+    * @return  错误码
+    */
+    public int GetRobotStopOnComDisc(int portID, ref bool enable, ref int confirmTime)
+    
+端口通讯断开时停止机器人运行参数代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c#
+    :linenos:
+    
+    void TestRobotStopOnComDisc()
+    {
+        int rtn = 0;
+
+        // 设置四个端口的参数
+        rtn = robot.SetRobotStopOnComDisc(0, true, 330);
+        rtn = robot.SetRobotStopOnComDisc(1, true, 550);
+        rtn = robot.SetRobotStopOnComDisc(2, true, 110);
+        rtn = robot.SetRobotStopOnComDisc(3, true, 220);
+        Console.WriteLine($"SetRobotStopOnComDisc {rtn}");
+
+        bool enable = false;
+        int confirmTime = 0;
+
+        // 获取并打印每个端口的设置
+        robot.GetRobotStopOnComDisc(0, ref enable, ref confirmTime);
+        Console.WriteLine($"GetRobotStopOnComDisc 8080 rtn {rtn}; enable is {(enable ? 1 : 0)}; confirm time is {confirmTime}");
+
+        robot.GetRobotStopOnComDisc(1, ref enable, ref confirmTime);
+        Console.WriteLine($"GetRobotStopOnComDisc 8083 rtn {rtn}; enable is {(enable ? 1 : 0)}; confirm time is {confirmTime}");
+
+        robot.GetRobotStopOnComDisc(2, ref enable, ref confirmTime);
+        Console.WriteLine($"GetRobotStopOnComDisc 20002 rtn {rtn}; enable is {(enable ? 1 : 0)}; confirm time is {confirmTime}");
+
+        robot.GetRobotStopOnComDisc(3, ref enable, ref confirmTime);
+        Console.WriteLine($"GetRobotStopOnComDisc 20004 rtn {rtn}; enable is {(enable ? 1 : 0)}; confirm time is {confirmTime}");
+
+    }
+
+UDP发送指令帧
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief UDP发送指令帧
+    * @param [in] 指令帧
+    * @return 错误码
+    */
+    public int SendUDPFrame(string frame)
+        
+基于UDP通信的SDK代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    void TestRobotUDP()
+    {
+        robot.OnUdpFrameReceived += (comType, frameCount, frameCmdID, contentLen, content) =>
+        {
+            Console.WriteLine($"[UDP响应] comType={comType}, count={frameCount}, cmdID={frameCmdID}, content={content}");
+        };
 
 
+        //发送帧
+        string frameToSend = "/f/bIII52III236III7IIIMode(1)III/b/f";
+        robot.SendUDPFrame(frameToSend);
+        Thread.Sleep(2000);
+        frameToSend = "/f/bIII52III236III7IIIMode(0)III/b/f";
+        robot.SendUDPFrame(frameToSend);
+        Thread.Sleep(2000);
+        frameToSend = "/f/bIII41III201III153IIIMoveJ(53.857,-89.441,119.453,-22.664,61.059,3.369,-54.249,-491.930,375.396,96.474,-6.896,-7.783,0,0,100,100,100,0.000,0.000,0.000,0.000,-1,0,0,0,0,0,0,0)III/b/f";
+        robot.SendUDPFrame(frameToSend);
+        Thread.Sleep(2000);
+        frameToSend = "/f/bIII42III203III163IIIMoveL(81.736,-85.284,114.974,-23.261,88.746,6.799,125.744,-506.570,375.396,96.474,-6.896,-7.783,0,0,100,100,100,-1,0,0.000,0.000,0.000,0.000,0,0,0,0,0,0,0,0,100,0)III/b/f";
+        robot.SendUDPFrame(frameToSend);
+        Thread.Sleep(2000);
+        frameToSend = "/f/bIII47III400III15IIIGetMCVersion(1)III/b/f/f/bIII48III424III21IIIGetSlaveFirmVersion()III/b/f";
+        robot.SendUDPFrame(frameToSend);
+        Thread.Sleep(2000);
 
+    }
+        
+设置用户自定义机器人末端灯色
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 设置用户自定义机器人末端灯色
+    * @param [in] r 末端红灯控制；0-灭；1-亮
+    * @param [in] g 末端绿灯控制；0-灭；1-亮
+    * @param [in] b 末端蓝灯控制；0-灭；1-亮
+    * @return 错误码
+    */
+    public int SetUserLEDColor(bool r, bool g, bool b)
+            
+设置用户自定义机器人末端灯色的SDK代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    public void testled()
+    {
+        robot.SetUserLEDColor(true, true, true);
+        robot.Sleep(1000);
+        robot.SetUserLEDColor(false, false, false);
+        robot.Sleep(1000);
+        robot.SetUserLEDColor(true, false, false);
+        robot.Sleep(1000);
+        robot.SetUserLEDColor(false, true, false);
+        robot.Sleep(1000);
+        robot.SetUserLEDColor(false, false, true);
+    }

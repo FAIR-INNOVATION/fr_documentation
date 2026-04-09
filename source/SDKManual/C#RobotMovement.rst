@@ -805,22 +805,24 @@ jog点动立即停止
 .. code-block:: c#
     :linenos:
 
-    /** 
+    /**
     * @brief 伺服运动开始，配合ServoJ、ServoCart指令使用
-    * @return 错误码 
-    */ 
-    int ServoMoveStart();
+    * @param[in] comType 指令下发类型；0-xmlrpc；1-UDP(对应机器人20007端口)
+    * @return 错误码
+    */
+    public int ServoMoveStart (int comType = 0)
 
 伺服运动结束
 +++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
-    /** 
-    * @brief 伺服运动结束，配合ServoJ、ServoCart指令使用
-    * @return 错误码 
-    */ 
-    int ServoMoveEnd();
+    /**
+    * @brief 伺服运动开始，配合ServoJ、ServoCart指令使用
+    * @param[in] comType 指令下发类型；0-xmlrpc；1-UDP(对应机器人20007端口)
+    * @return  错误码
+    */
+    public int ServoMoveEnd (int comType = 0)
 
 关节空间伺服模式运动
 +++++++++++++++++++++++++++++
@@ -832,15 +834,97 @@ jog点动立即停止
     /**
     * @brief  关节空间伺服模式运动
     * @param  [in] joint_pos  目标关节位置,单位deg
+    * @param  [in] axisPos  外部轴位置,单位mm
     * @param  [in] acc  加速度百分比，范围[0~100],暂不开放，默认为0
     * @param  [in] vel  速度百分比，范围[0~100]，暂不开放，默认为0
     * @param  [in] cmdT  指令下发周期，单位s，建议范围[0.001~0.0016]
     * @param  [in] filterT 滤波时间，单位s，暂不开放，默认为0
     * @param  [in] gain  目标位置的比例放大器，暂不开放，默认为0
     * @param  [in] id servoJ指令ID,默认为0
+    * @param  [in] comType 指令下发类型；0-xmlrpc；1-UDP(对应机器人20007端口)
     * @return  错误码
     */
-    int ServoJ(JointPos joint_pos, float acc, float vel, float cmdT, float filterT, float gain,int id=0);
+    public int ServoJ(JointPos joint_pos, ExaxisPos axisPos, float acc, float vel, float cmdT, float filterT, float gain, int id = 0, int comType = 0)
+
+基于UDP通信的ServoJ、ServoMoveStart、ServoMoveEnd SDK代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C#SDK-V1.1.4  Web-3.8.3
+    
+.. code-block:: c#
+    :linenos:
+
+    public void TestServoJUDP()
+    {
+        // 订阅回调
+        robot.OnUdpFrameReceived += (comType, frameCount, frameCmdID, contentLen, content) =>
+        {
+            Console.WriteLine($"[] comType={comType}, count={frameCount}, cmdID={frameCmdID}, content={content}");
+        };
+
+        ROBOT_STATE_PKG pkg = new ROBOT_STATE_PKG();
+
+        float vel = 0.0f;
+        float acc = 0.0f;
+        float cmdT = 0.008f;
+        float filterT = 0.0f;
+        float gain = 0.0f;
+        byte flag = 0;
+        int count = 300;
+        float dt = 0.1f;
+        int cmdID = 0;
+
+        while (true)
+        {
+            JointPos j = new JointPos(0, -90, 90, 0, 0, 0);
+            ExaxisPos epos = new ExaxisPos(0, 0, 0, 0);
+            DescPose offset_pos = new DescPose(0, -90, 90, 0, 0, 0);
+            robot.MoveJ(j, 0, 0, 100, 100, 100, epos, -1, 0, offset_pos);
+            int ret = robot.GetActualJointPosDegree(flag, ref j);
+            if (ret == 0)
+            {
+                count = 300;
+                cmdID += 1;
+                robot.ServoMoveStart(1);
+
+                while (count > 0)
+                {
+                    robot.ServoJ(j, epos, acc, vel, cmdT, filterT, gain, cmdID, 1);
+                    j.jPos[0] += dt;
+                    j.jPos[1] += dt;
+                    j.jPos[3] += dt;
+                    j.jPos[4] += dt;
+                    j.jPos[5] += dt;
+                    epos.ePos[0] += dt;
+                    count -= 1;
+                    Thread.Sleep(1);
+                    robot.GetRobotRealTimeState(ref pkg);
+                }
+                robot.ServoMoveEnd(1);
+
+                Thread.Sleep(1000);
+                count = 300;
+                robot.ServoMoveStart(1);
+                while (count > 0)
+                {
+                    robot.ServoJ(j, epos, acc, vel, cmdT, filterT, gain, cmdID, 1);
+                    j.jPos[0] -= dt;
+                    j.jPos[1] -= dt;
+                    j.jPos[3] -= dt;
+                    j.jPos[4] -= dt;
+                    j.jPos[5] -= dt;
+                    epos.ePos[0] -= dt;
+                    count -= 1;
+                    Thread.Sleep(1);
+                    robot.GetRobotRealTimeState(ref pkg);
+                }
+                robot.ServoMoveEnd(1);
+            }
+            else
+            {
+                Console.WriteLine($"GetActualJointPosDegree errcode:{ret}");
+            }
+        }
+    }
 
 关节空间伺服模式运动代码示例
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -903,9 +987,10 @@ jog点动立即停止
 
     /**
     * @brief 关节扭矩控制开始
-    * @return  错误码
+    * @param [in] comType 指令下发类型；0-xmlrpc；1-UDP(对应机器人20007端口)
+    * @return 错误码
     */
-    int ServoJTStart();
+    public int ServoJTStart (int comType = 0)
 
 关节扭矩控制
 ++++++++++++++++++++++++++++++++++
@@ -919,9 +1004,10 @@ jog点动立即停止
     * @param [in] checkFlag 检测策略 0-不限制；1-限制功率；2-限制速度；3-功率和速度同时限制
     * @param [in] jPowerLimit 关节最大功率限制(W)
     * @param [in] jVelLimit 关节最大速度(°/s)
+    * @param [in]  comType 指令下发类型；0-xmlrpc；1-UDP(对应机器人20007端口)
     * @return 错误码
     */
-    public int ServoJT(double[] torque, double interval, int checkFlag, double[] jPowerLimit, double[] jVelLimit)
+    public int ServoJT(double[] torque, double interval, int checkFlag, double[] jPowerLimit, double[] jVelLimit, int comType = 0)
 
 关节扭矩控制结束
 ++++++++++++++++++++++++++++++++++
@@ -930,9 +1016,83 @@ jog点动立即停止
 
     /**
     * @brief 关节扭矩控制结束
+    * @param[in] comType 指令下发类型；0-xmlrpc；1-UDP(对应机器人20007端口)
     * @return  错误码
     */
-    int ServoJTEnd();
+    public int ServoJTEnd (int comType = 0)
+
+基于UDP通信的ServoJT、ServoJTStart、ServoJTEnd SDK代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    public int ServoJTWithSafetyUDP()
+    {
+        // 订阅回调
+        robot.OnUdpFrameReceived += (comType, frameCount, frameCmdID, contentLen, content) =>
+        {
+            Console.WriteLine($"[UDP响应] comType={comType}, count={frameCount}, cmdID={frameCmdID}, content={content}");
+        };
+        while (true)
+        {
+            robot.ResetAllError();
+            Thread.Sleep(500);
+
+            JointPos j = new JointPos(7.053, -89.699, 156.141, -72.751, 7.829, 1.889);
+            ExaxisPos epos = new ExaxisPos(0, 0, 0, 0);
+            DescPose offset_pos = new DescPose(-151.288, -321.186, 221.989, 89.140, 4.361, -0.795);
+            robot.MoveJ(j, 0, 0, 100, 100, 100, epos, -1, 0, offset_pos);
+
+            double[] torques = new double[6] { 0, 0, 0, 0, 0, 0 };
+            robot.GetJointTorques(1, torques);
+
+            robot.ServoJTStart(1);
+            ROBOT_STATE_PKG pkg = new ROBOT_STATE_PKG();
+            robot.DragTeachSwitch(1);
+
+            int checkFlag = 0;
+            double[] jPowerLimit = new double[6] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
+            double[] jVelLimit = new double[6] { 50, 50, 50, 50, 50, 50 };
+            int error = 0;
+            while (true)
+            {
+
+                torques[0] = 0.1;
+                error = robot.ServoJT(torques, 0.008, checkFlag, jPowerLimit, jVelLimit, 1);
+
+                Console.WriteLine($"ServoJT rtn is {error}");
+                Thread.Sleep(1);
+
+                robot.GetRobotRealTimeState(ref pkg);
+                Console.WriteLine($"maincode {pkg.main_code}, subcode {pkg.sub_code}");
+                if (pkg.jt_cur_pos[0] > 30)
+                {
+                    break;
+                }
+            }
+
+            while (true)
+            {
+
+                torques[0] = -0.1;
+                error = robot.ServoJT(torques, 0.008, checkFlag, jPowerLimit, jVelLimit, 1);
+
+                Console.WriteLine($"ServoJT rtn is {error}");
+                Thread.Sleep(1);
+
+                robot.GetRobotRealTimeState(ref pkg);
+                Console.WriteLine($"maincode {pkg.main_code}, subcode {pkg.sub_code}");
+                if (pkg.jt_cur_pos[0] < 0)
+                {
+                    break;
+                }
+            }
+
+            robot.DragTeachSwitch(0);
+            error = robot.ServoJTEnd(1);
+        }
+        return 0;
+    }
 
 关节扭矩控制代码示例
 ++++++++++++++++++++++++++++++++++
@@ -1925,4 +2085,125 @@ FIR滤波代码示例
         Console.WriteLine($"MoveStationary rtn is {rtn}");
         rtn = robot.LaserSensorRecord1(0, 10);
         Console.WriteLine($"LaserSensorRecord1 rtn is {rtn}"); 
+    }
+
+定点摆动开始
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 定点摆动开始
+    * @param [in] weaveNum 摆动编号[0-7]
+    * @param [in] mode 0-工具坐标系；1-参考点
+    * @param [in] refPoint 参考点笛卡尔坐标[x,y,z,a,b,c]
+    * @param [in] weaveTime 摆动时间[s]
+    * @return 错误码
+    */
+    public int OriginPointWeaveStart(int weaveNum, int mode, DescPose refPoint, double weaveTime);
+    
+定点摆动结束
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 定点摆动结束
+    * @return 错误码
+    */
+    public int OriginPointWeaveEnd();
+        
+定点摆动的SDK代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    void TestOriginPointWeave()
+    {
+        // 创建关节位置对象
+        JointPos j = new JointPos(39.886, -98.580, -124.032, -47.393, 90.000, 40.842);
+        ExaxisPos epos = new ExaxisPos(0, 0, 0, 0);
+        DescPose offset_pos = new DescPose(0, 0, 0, 0, 0, 0);
+
+        // 参考点坐标
+        DescPose refPoint = new DescPose(400.021, 300.022, 299.996, 179.997, -0.003, -90.956);
+
+        //// 第一次运动
+        robot.MoveJ(j, 1, 0, 100, 100, 100, epos, -1, 0, offset_pos);
+
+        // 启动定点摆动（模式0）
+        robot.OriginPointWeaveStart(0, 0, refPoint, 3);
+        robot.MoveStationary();   // 执行固定运动（假设该方法存在）
+        robot.OriginPointWeaveEnd();
+
+        Thread.Sleep(2000);         // 等待2秒
+
+        // 第二次运动
+        robot.MoveJ(j, 1, 0, 100, 100, 100, epos, -1, 0, offset_pos);
+
+        // 启动定点摆动（模式1）
+        robot.OriginPointWeaveStart(0, 1, refPoint, 3);
+        robot.MoveStationary();
+        robot.OriginPointWeaveEnd();
+    }
+        
+定点摆动（包含激光及扩展轴）的SDK代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    void TestOriginPointWeave2()
+    {
+        // 创建关节位置对象
+        JointPos j = new JointPos(39.886, -98.580, -124.032, -47.393, 90.000, 40.842);
+        ExaxisPos epos1 = new ExaxisPos(0, 0, 0, 0);
+        DescPose offset_pos = new DescPose(0, 0, 0, 0, 0, 0);
+        ExaxisPos epos2 = new ExaxisPos(5, 0.000, 0.000, 0.000);
+
+        // 参考点坐标
+        DescPose refPoint = new DescPose(400.021, 300.022, 299.996, 179.997, -0.003, -90.956);
+
+        int rtn = 0;
+        robot.LaserTrackingSensorConfig("192.168.58.20", 5020);
+        robot.LaserTrackingSensorSamplePeriod(20);
+        robot.LoadPosSensorDriver(101);
+
+        // 加载 UDP 驱动
+        robot.ExtDevLoadUDPDriver();
+
+        // 设置外部轴命令完成时间
+        rtn = robot.SetExAxisCmdDoneTime(5000.0);
+        Console.WriteLine("SetExAxisCmdDoneTime rtn is " + rtn);
+
+        // 使能外部轴 1 和 2
+        rtn = robot.ExtAxisServoOn(1, 1);
+        Console.WriteLine("ExtAxisServoOn axis id 1 rtn is " + rtn);
+        rtn = robot.ExtAxisServoOn(2, 1);
+        Console.WriteLine("ExtAxisServoOn axis id 2 rtn is " + rtn);
+        Thread.Sleep(2000);
+
+        // 设置外部轴回零
+        robot.ExtAxisSetHoming(1, 0, 10, 2);
+        robot.LaserTrackingLaserOnOff(1);
+
+
+        //// 1---不带扩展轴
+        robot.LaserTrackingTrackOnOff(1, 4);
+        robot.Sleep(200);
+        // 启动定点摆动
+        robot.OriginPointWeaveStart(0, 0, refPoint, 10);
+        robot.MoveStationary();   // 执行固定运动
+        robot.OriginPointWeaveEnd();
+        robot.LaserTrackingTrackOnOff(0, 4);
+
+        Thread.Sleep(2000);         // 等待2秒
+
+        //// 2----带扩展轴
+        robot.ExtAxisMove(epos1, 100, -1);
+        robot.LaserTrackingTrackOnOff(1, 4);
+        // 启动定点摆动
+        robot.OriginPointWeaveStart(0, 0, refPoint, 20);
+        robot.ExtAxisMove(epos2, 100, -1);
+        robot.OriginPointWeaveEnd();
+        robot.LaserTrackingTrackOnOff(0, 4);
     }

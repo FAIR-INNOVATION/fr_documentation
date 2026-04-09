@@ -78,12 +78,12 @@
     :linenos:
 
     /**
-     * @brief  获取夹爪运动状态
-     * @param  [out] fault  0-无错误，1-有错误
-     * @param  [out] staus  0-运动未完成，1-运动完成
-     * @return  错误码
-     */
-    errno_t  GetGripperMotionDone(uint16_t *fault, uint8_t *status);
+     * @brief  获取夹爪运动状态
+     * @param  [out] fault  0-无错误，1-有错误
+     * @param  [out] staus  0-运动未完成，1-运动完成
+     * @return  错误码
+     */
+    errno_t  GetGripperMotionDone(uint16_t *fault, uint8_t *status);
 
 获取夹爪激活状态
 ++++++++++++++++++++++++++
@@ -91,12 +91,12 @@
     :linenos:
 
     /**
-     * @brief  获取夹爪激活状态
-     * @param  [out] fault  0-无错误，1-有错误
-     * @param  [out] status  bit0~bit15对应夹爪编号0~15，bit=0为未激活，bit=1为激活
-     * @return  错误码
-     */
-    errno_t  GetGripperActivateStatus(uint16_t *fault, uint16_t *status);
+     * @brief  获取夹爪激活状态
+     * @param  [out] fault  0-无错误，1-有错误
+     * @param  [out] status  bit0~bit15对应夹爪编号0~15，bit=0为未激活，bit=1为激活
+     * @return  错误码
+     */
+    errno_t  GetGripperActivateStatus(uint16_t *fault, uint16_t *status);
 
 获取夹爪位置
 ++++++++++++++++++++++++++
@@ -104,12 +104,12 @@
     :linenos:
 
     /**
-     * @brief  获取夹爪位置
-     * @param  [out] fault  0-无错误，1-有错误
-     * @param  [out] position  位置百分比，范围0~100%
-     * @return  错误码
-     */
-    errno_t  GetGripperCurPosition(uint16_t *fault, uint8_t *position);
+     * @brief  获取夹爪位置
+     * @param  [out] fault  0-无错误，1-有错误
+     * @param  [out] position  位置百分比，范围0~100%
+     * @return  错误码
+     */
+    errno_t  GetGripperCurPosition(uint16_t *fault, uint8_t *position);
 
 获取夹爪速度
 ++++++++++++++++++++++++++
@@ -117,12 +117,12 @@
     :linenos:
 
     /**
-     * @brief  获取夹爪速度
-     * @param  [out] fault  0-无错误，1-有错误
-     * @param  [out] speed  速度百分比，范围0~100%
-     * @return  错误码
-     */
-    errno_t  GetGripperCurSpeed(uint16_t *fault, int8_t *speed);
+     * @brief  获取夹爪速度
+     * @param  [out] fault  0-无错误，1-有错误
+     * @param  [out] speed  速度百分比，范围0~100%
+     * @return  错误码
+     */
+    errno_t  GetGripperCurSpeed(uint16_t *fault, int8_t *speed);
 
 获取夹爪电流
 ++++++++++++++++++++++++++
@@ -130,12 +130,12 @@
     :linenos:
 
     /**
-     * @brief  获取夹爪电流
-     * @param  [out] fault  0-无错误，1-有错误
-     * @param  [out] current  电流百分比，范围0~100%
-     * @return  错误码
-     */
-    errno_t  GetGripperCurCurrent(uint16_t *fault, int8_t *current);
+     * @brief  获取夹爪电流
+     * @param  [out] fault  0-无错误，1-有错误
+     * @param  [out] current  电流百分比，范围0~100%
+     * @return  错误码
+     */
+    errno_t  GetGripperCurCurrent(uint16_t *fault, int8_t *current);
 
 获取夹爪电压
 ++++++++++++++++++++++++++
@@ -143,12 +143,12 @@
     :linenos:
 
     /**
-     * @brief  获取夹爪电压
-     * @param  [out] fault  0-无错误，1-有错误
-     * @param  [out] voltage  电压,单位0.1V
-     * @return  错误码
-     */
-    errno_t  GetGripperVoltage(uint16_t *fault, int *voltage);
+     * @brief  获取夹爪电压
+     * @param  [out] fault  0-无错误，1-有错误
+     * @param  [out] voltage  电压,单位0.1V
+     * @return  错误码
+     */
+    errno_t  GetGripperVoltage(uint16_t *fault, int *voltage);
 
 获取夹爪温度
 ++++++++++++++++++++++++++
@@ -156,12 +156,12 @@
     :linenos:
 
     /**
-     * @brief  获取夹爪温度
-     * @param  [out] fault  0-无错误，1-有错误
-     * @param  [out] temp  温度，单位℃
-     * @return  错误码
-     */
-    errno_t  GetGripperTemp(uint16_t *fault, int *temp);
+     * @brief  获取夹爪温度
+     * @param  [out] fault  0-无错误，1-有错误
+     * @param  [out] temp  温度，单位℃
+     * @return  错误码
+     */
+    errno_t  GetGripperTemp(uint16_t *fault, int *temp);
 
 计算预抓取点-视觉
 ++++++++++++++++++++++++++
@@ -169,13 +169,13 @@
     :linenos:
 
     /**
-     * @brief  计算预抓取点-视觉
-     * @param  [in] desc_pos  抓取点笛卡尔位姿
-     * @param  [in] zlength   z轴偏移量
-     * @param  [in] zangle    绕z轴旋转偏移量
-     * @return  错误码 
-     */
-    errno_t  ComputePrePick(DescPose *desc_pos, double zlength, double zangle, DescPose *pre_pos);
+     * @brief  计算预抓取点-视觉
+     * @param  [in] desc_pos  抓取点笛卡尔位姿
+     * @param  [in] zlength  z轴偏移量
+     * @param  [in] zangle   绕z轴旋转偏移量
+     * @return  错误码 
+     */
+    errno_t  ComputePrePick(DescPose *desc_pos, double zlength, double zangle, DescPose *pre_pos);
 
 计算撤退点-视觉
 ++++++++++++++++++++++++++
@@ -183,13 +183,13 @@
     :linenos:
 
     /**
-     * @brief  计算撤退点-视觉
-     * @param  [in] desc_pos  抓取点笛卡尔位姿
-     * @param  [in] zlength   z轴偏移量
-     * @param  [in] zangle    绕z轴旋转偏移量
-     * @return  错误码 
-     */
-    errno_t  ComputePostPick(DescPose *desc_pos, double zlength, double zangle, DescPose *post_pos);
+     * @brief  计算撤退点-视觉
+     * @param  [in] desc_pos  抓取点笛卡尔位姿
+     * @param  [in] zlength  z轴偏移量
+     * @param  [in] zangle   绕z轴旋转偏移量
+     * @return  错误码 
+     */
+    errno_t  ComputePostPick(DescPose *desc_pos, double zlength, double zangle, DescPose *post_pos);
 
 机器人夹爪操作代码示例
 ++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1861,3 +1861,183 @@ SmartTool按钮代码示例
         }
         robot.CloseRPC();
     } 
+                                                            
+末端透传功能打开关闭
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 末端透传功能打开关闭
+    * @param [in] 使能，0-关闭，1-开启
+    * @return 错误码
+    */
+    errno_t SetAxleGenComEnable(int mode);
+                                                            
+末端透传功能非周期数据收发
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+    
+    /**
+    * @brief 末端透传功能非周期数据收发
+    * @param [in] len_snd 发送的长度
+    * @param [in] sndBuff 发送数据
+    * @param [in] len_rcv 选择接受的长度
+    * @param [out] rcvBuff 应答的数据
+    * @return 错误码
+    */
+    errno_t SndRcvAxleGenComCmdData(int lenSnd, int sndBuff[130], int lenRcv, int rcvData[130]);
+                                                                
+基于末端透传功能倍益康艾灸头非周期数据通信代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    int testAxleGenCom()
+    {
+      ROBOT_STATE_PKG pkg = {};
+      FRRobot robot;
+      robot.LoggerInit();
+      robot.SetLoggerLevel(1);
+      int rtn = robot.RPC("192.168.58.2");
+      if (rtn != 0)
+      {
+        return -1;
+      }
+      robot.SetReConnectParam(true, 30000, 500);
+      int led_on[6] = { 0xAB, 0xBA, 0x12, 0x01, 0x01, 0x79 };
+      int led_off[6] = { 0xAB, 0xBA, 0x12, 0x01, 0x00, 0x78 };
+      int version[5] = { 0xAB, 0xBA, 0x11, 0x00, 0x76 };
+      int state[6] = { 0xAB, 0xBA, 0x1B, 0x01, 0xAA, 0x2B };
+      int cycleState[6] = { 0xAB, 0xBA, 0x12, 0x01, 0x00, 0x78 };
+      int rcvdata[16] = {0};
+      int ret = 0;
+      int cnt = 1;
+      JointPos p1Joint(88.708, -86.178, 140.989, -141.825, -89.162, -49.879);
+      DescPose p1Desc(188.007, -377.850, 260.207, 178.715, 2.823, -131.466);
+      JointPos p2Joint(112.131, -75.554, 126.989, -139.027, -88.044, -26.477);
+      DescPose p2Desc(368.003, -377.848, 260.211, 178.715, 2.823, -131.465);
+      ExaxisPos exaxisPos(0, 0, 0, 0);
+      DescPose offdese(0, 0, 0, 0, 0, 0);
+      //开启末端透传功能
+      robot.SetAxleGenComEnable(1);
+      robot.SetAxleLuaEnable(1);
+      while (cnt <= 10000)
+      {
+        //读取版本号
+        ret = robot.SndRcvAxleGenComCmdData(5, version, 10, rcvdata);
+        printf(" hard version : %d,hard code:%d, soft version:%d %d, soft code:%d \n", rcvdata[4], rcvdata[5], rcvdata[6] ,rcvdata[7], rcvdata[8]);
+        if (ret != 0)
+        {
+          break;
+        }
+        robot.Sleep(1000);
+        //读取艾灸头在位状态
+        ret = robot.SndRcvAxleGenComCmdData(6, state, 6, rcvdata);
+        printf(" state : %d \n", rcvdata[4]);
+        robot.Sleep(1000);
+        //开启艾灸头激光
+        ret = robot.SndRcvAxleGenComCmdData(6, led_on, 6, rcvdata);
+        printf("led on rcv data is: %d, %d, %d, %d, %d, %d  \n", rcvdata[0], rcvdata[1], rcvdata[2], rcvdata[3], rcvdata[4], rcvdata[5]);
+        robot.MoveJ(&p1Joint, &p1Desc, 0, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+        robot.Sleep(4000);
+        //关闭艾灸头激光
+        ret = robot.SndRcvAxleGenComCmdData(6, led_off, 6, rcvdata);
+        printf("led off rcv data is: %d, %d, %d, %d, %d, %d \n", rcvdata[0], rcvdata[1], rcvdata[2], rcvdata[3], rcvdata[4], rcvdata[5]);
+        robot.MoveJ(&p2Joint, &p2Desc, 0, 0, 100, 100, 100, &exaxisPos, -1, 0, &offdese);
+        robot.Sleep(1000);
+        printf("***********************complate No. %d SDK test*****************************\n", cnt);
+        cnt++;
+      }
+      robot.CloseRPC();
+    }
+
+下载开放协议Lua文件
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 下载开放协议Lua文件
+    * @param [in] fileName 开放协议文件名称“CtrlDev_XXX.lua”
+    * @param [in] savePath 开放协议保存文件路径
+    * @return 错误码
+    */
+    errno_t OpenLuaDownload(std::string fileName, std::string savePath);
+    
+删除开放协议Lua文件
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 删除开放协议Lua文件
+    * @param [in] fileName 要删除的开放协议lua文件名“CtrlDev_XXX.lua”
+    * @return 错误码
+    */
+    errno_t OpenLuaDelete(std::string fileName);
+        
+删除所有开放协议Lua文件
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 删除所有开放协议Lua文件
+    * @return 错误码
+    */
+    errno_t AllOpenLuaDelete();
+
+控制器外设开放协议上传下载删除代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    int TestCtrlOpenLuaOperate()
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return 0;
+        }
+        robot.SetReConnectParam(true, 30000, 500);
+        rtn = robot.OpenLuaUpload("D://zUP/openlua/CtrlDev_WELDING_A.lua");
+        printf("OpenLuaUpload rtn is %d\n", rtn);
+        rtn = robot.OpenLuaUpload("D://zUP/openlua/CtrlDev_SWDPOLISH.lua");
+        printf("OpenLuaUpload rtn is %d\n", rtn);
+        rtn = robot.OpenLuaDownload("CtrlDev_WELDING_A.lua", "D://zDOWN/");
+        printf("OpenLuaDownload rtn is %d\n", rtn);
+        rtn = robot.OpenLuaDownload("CtrlDev_SWDPOLISH.lua", "D://zDOWN/");
+        printf("OpenLuaDownload rtn is %d\n", rtn);
+        rtn = robot.SetCtrlOpenLUAName(0, "CtrlDev_WELDING_A.lua");
+        printf("SetCtrlOpenLUAName rtn is %d\n", rtn);
+        rtn = robot.SetCtrlOpenLUAName(1, "CtrlDev_SWDPOLISH.lua");
+        printf("SetCtrlOpenLUAName rtn is %d\n", rtn);
+        std::string name[4] = {};
+        rtn = robot.GetCtrlOpenLUAName(name);
+        printf("ctrl open lua names : %s, %s, %s, %s\n", name[0].c_str(), name[1].c_str(), name[2].c_str(), name[3].c_str());
+        rtn = robot.LoadCtrlOpenLUA(1);
+        printf("LoadCtrlOpenLUA rtn is %d\n", rtn);
+        robot.Sleep(2000);
+        rtn = robot.UnloadCtrlOpenLUA(1);
+        printf("UnloadCtrlOpenLUA rtn is %d\n", rtn);
+        rtn = robot.OpenLuaDelete("CtrlDev_WELDING_A.lua");
+        printf("OpenLuaDelete rtn is %d\n", rtn);
+        rtn = robot.AllOpenLuaDelete();
+        printf("AllOpenLuaDelete rtn is %d\n", rtn);
+        robot.CloseRPC();
+        robot.Sleep(1000);
+        return 0;
+    }

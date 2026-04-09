@@ -370,17 +370,18 @@ UDP扩展轴通讯参数配置
     /**
     * @brief 获取UDP扩展轴通讯参数
     * @param [out] ip PLC IP地址
-    * @param [out] port	端口号
-    * @param [out] period	通讯周期(ms，默认为2，请勿修改此参数)
-    * @param [out] lossPkgTime	丢包检测时间(ms)
-    * @param [out] lossPkgNum	丢包次数
-    * @param [out] disconnectTime	通讯断开确认时长
-    * @param [out] reconnectEnable	通讯断开自动重连使能 0-不使能 1-使能
-    * @param [out] reconnectPeriod	重连周期间隔(ms)
-    * @param [out] reconnectNum	重连次数
+    * @param [out] port 端口号
+    * @param [out] period   通讯周期(ms，默认为2，请勿修改此参数)
+    * @param [out] lossPkgTime  丢包检测时间(ms)
+    * @param [out] lossPkgNum   丢包次数
+    * @param [out] disconnectTime   通讯断开确认时长
+    * @param [out] reconnectEnable  通讯断开自动重连使能 0-不使能 1-使能
+    * @param [out] reconnectPeriod  重连周期间隔(ms)
+    * @param [out] reconnectNum 重连次数
+    * @param [out] selfStart 重启控制箱后是否自动重连；0-不重连；1-重连
     * @return 错误码
     */
-    errno_t ExtDevGetUDPComParam(std::string& ip, int& port, int& period, int& lossPkgTime, int& lossPkgNum, int& disconnectTime, int& reconnectEnable, int& reconnectPeriod, int& reconnectNum);
+    errno_t ExtDevGetUDPComParam(std::string& ip, int& port, int& period, int& lossPkgTime, int& lossPkgNum, int& disconnectTime, int& reconnectEnable, int& reconnectPeriod, int& reconnectNum, int& selfConnect);
         
 加载UDP通信
 ++++++++++++++++++++++++++++++++++
@@ -1542,3 +1543,16 @@ UDP扩展轴与机器人圆弧运动同步运动代码示例
       robot.CloseRPC();
       return 0;
     }
+
+UDP扩展轴定位完成时间设置
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief UDP扩展轴定位完成时间设置
+    * @param [in] time 定位完成时间[ms]
+    * @return 错误码
+    */
+    errno_t SetExAxisCmdDoneTime(double time);

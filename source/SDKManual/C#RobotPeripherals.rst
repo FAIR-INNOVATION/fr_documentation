@@ -1778,3 +1778,180 @@
         }     
     }
 
+末端透传功能打开关闭
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 开启末端通用透传功能
+    * @param [in] 使能，0-关闭，1-开启
+    * @return 错误码
+    */
+    public int SetAxleGenComEnable(int mode)
+
+末端透传功能非周期数据收发
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 末端发送非周期数据并等待应答
+    * @param [in]  len_snd，发送的长度
+    * @param [in]  sndBuff[]，发送数据
+    * @param [in]  len_rcv，选择接受的长度
+    * @param [out]  rcvBuff[]，应答的数据
+    * @return 错误码
+    */
+    public int SndRcvAxleGenComCmdData(int len_snd, int[] sndBuff, int len_rcv, ref int[] rcvdata)
+
+基于末端透传功能倍益康艾灸头非周期数据通信代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    void testAxleGenCom()
+    {
+        int[] led_on = new int[6] { 0xAB, 0xBA, 0x12, 0x01, 0x01, 0x79 };
+        int[] led_off = new int[6] { 0xAB, 0xBA, 0x12, 0x01, 0x00, 0x78 };
+        int[] version = new int[5]{ 0xAB, 0xBA, 0x11, 0x00, 0x76 };
+        int[] state = new int[6] { 0xAB, 0xBA, 0x1B,0x01, 0xAA, 0x2B };
+        int[] cycleState = new int[6] { 0xAB, 0xBA, 0x12, 0x01, 0x00, 0x78 };
+
+        int[] rcvdata = new int[16];
+        int ret = 0;
+        int cnt = 1;
+
+        JointPos p1Joint = new JointPos(88.708, -86.178, 140.989, -141.825, -89.162, -49.879);
+        DescPose p1Desc = new DescPose(188.007, -377.850, 260.207, 178.715, 2.823, -131.466);
+
+        JointPos p2Joint = new JointPos(112.131, -75.554, 126.989, -139.027, -88.044, -26.477);
+        DescPose p2Desc = new DescPose(368.003, -377.848, 260.211, 178.715, 2.823, -131.465);
+
+        ExaxisPos exaxisPos = new ExaxisPos(0, 0, 0, 0);
+        DescPose offdese = new DescPose(0, 0, 0, 0, 0, 0);
+
+        //开启末端透传功能
+        robot.SetAxleGenComEnable(1);
+        robot.SetAxleLuaEnable(1);
+
+        while(cnt<=10)
+        { 
+            //读取版本号
+            ret = robot.SndRcvAxleGenComCmdData(5, version, 10, ref rcvdata);
+            Console.WriteLine($" hard version : {rcvdata[4]},hard code:{rcvdata[5]}, soft version:{rcvdata[6]} {rcvdata[7]}, soft code:{rcvdata[8]}");
+            if (ret != 0)
+            {
+                break;
+            }
+            Thread.Sleep(1000);
+            //读取艾灸头在位状态
+            ret = robot.SndRcvAxleGenComCmdData(6, state, 6, ref rcvdata);
+            Console.WriteLine($" state : {rcvdata[4]}");
+            Thread.Sleep(1000);
+            //开启艾灸头激光
+            ret = robot.SndRcvAxleGenComCmdData(6, led_on, 6, ref rcvdata);
+            Console.WriteLine($"led on rcv data is: {rcvdata[0]},{rcvdata[1]}, {rcvdata[2]}, {rcvdata[3]}, {rcvdata[4]}, {rcvdata[5]}");
+            robot.MoveJ(p1Joint, p1Desc, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
+            Thread.Sleep(4000);
+            //关闭艾灸头激光
+            ret = robot.SndRcvAxleGenComCmdData(6, led_off, 6, ref rcvdata);
+            Console.WriteLine($"led off rcv data is: {rcvdata[0]},{rcvdata[1]}, {rcvdata[2]}, {rcvdata[3]}, {rcvdata[4]}, {rcvdata[5]}");
+            robot.MoveJ(p2Joint, p2Desc, 0, 0, 100, 100, 100, exaxisPos, -1, 0, offdese);
+            Thread.Sleep(1000);
+            Console.WriteLine($"***********************complate No. {cnt}  SDK test*****************************");
+            cnt++;
+        }
+
+    }
+
+下载开放协议Lua文件
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 下载开放协议Lua文件
+    * @param [in] fileName 开放协议文件名称“CtrlDev_XXX.lua”
+    * @param [in] savePath 开放协议保存文件路径
+    * @return 错误码
+    */
+    public int OpenLuaDownload(string fileName, string savePath)
+    
+删除开放协议Lua文件
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 删除开放协议Lua文件
+    * @param [in] fileName 要删除的开放协议lua文件名“CtrlDev_XXX.lua”
+    * @return 错误码
+    */
+    public int OpenLuaDelete(string fileName)
+        
+删除所有开放协议Lua文件
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 删除所有开放协议Lua文件
+    * @return 错误码
+    */
+    public int AllOpenLuaDelete()
+
+开放协议Lua文件操作的SDK代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c#
+    :linenos:
+
+    public int TestCtrlOpenLuaOperate()
+    {
+        int rtn;
+
+        // 上传 Lua 文件到机器人
+        rtn = robot.OpenLuaUpload("D://zUP/openlua/CtrlDev_WELDING_A.lua");
+        Console.WriteLine($"OpenLuaUpload rtn is {rtn}");
+        rtn = robot.OpenLuaUpload("D://zUP/openlua/CtrlDev_SWDPOLISH.lua");
+        Console.WriteLine($"OpenLuaUpload rtn is {rtn}");
+
+        // 从机器人下载 Lua 文件
+        rtn = robot.OpenLuaDownload("CtrlDev_WELDING_A.lua", "D://zDOWN/");
+        Console.WriteLine($"OpenLuaDownload rtn is {rtn}");
+        rtn = robot.OpenLuaDownload("CtrlDev_SWDPOLISH.lua", "D://zDOWN/");
+        Console.WriteLine($"OpenLuaDownload rtn is {rtn}");
+
+        // 设置控制开放协议 Lua 名称
+        rtn = robot.SetCtrlOpenLUAName(0, "CtrlDev_WELDING_A.lua");
+        Console.WriteLine($"SetCtrlOpenLUAName rtn is {rtn}");
+        rtn = robot.SetCtrlOpenLUAName(1, "CtrlDev_SWDPOLISH.lua");
+        Console.WriteLine($"SetCtrlOpenLUAName rtn is {rtn}");
+
+        // 获取控制开放协议 Lua 名称
+        string[] name = new string[4];
+        rtn = robot.GetCtrlOpenLUAName(ref name);
+        Console.WriteLine($"ctrl open lua names : {name[0]}, {name[1]}, {name[2]}, {name[3]}");
+
+        // 加载和卸载开放协议 Lua
+        rtn = robot.LoadCtrlOpenLUA(1);
+        Console.WriteLine($"LoadCtrlOpenLUA rtn is {rtn}");
+        robot.Sleep(2000);
+        rtn = robot.UnloadCtrlOpenLUA(1);
+        Console.WriteLine($"UnloadCtrlOpenLUA rtn is {rtn}");
+
+        // 删除指定 Lua 文件和所有 Lua 文件
+        rtn = robot.OpenLuaDelete("CtrlDev_WELDING_A.lua");
+        Console.WriteLine($"OpenLuaDelete rtn is {rtn}");
+        rtn = robot.AllOpenLuaDelete();
+        Console.WriteLine($"AllOpenLuaDelete rtn is {rtn}");
+
+        return 0;
+    }

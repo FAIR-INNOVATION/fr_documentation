@@ -239,3 +239,69 @@
         error = robot.ServoJTEnd();
         robot.DragTeachSwitch(0);
     }
+
+设置安全速度参数
+++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 设置安全速度参数
+    * @param [in] enable 0-关；1-手动模式启用；2-所有模式启用(不支持自动限速)
+    * @param [in] maxTCPVel 限制最大TCP速度;[0-1000]mm/s
+    * @param [in] strategy 超速后策略；0-停止报警；1-自动限速；2-停止报警并去使能
+    * @return 错误码
+    */
+    public int SetVelReducePara(int enable, double maxTCPVel, int strategy)
+    
+设置安全速度参数的SDK代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    public int TestSetVelReducePara()
+    {
+        int rtn = 0;
+        JointPos j1 = new JointPos(0, -90, 90, 0, 0, 0);
+        JointPos j2 = new JointPos(90, -90, 90, 0, 0, 0);
+        ExaxisPos epos = new ExaxisPos(0, 0, 0, 0);
+        DescPose offset_pos = new DescPose(0, 0, 0, 0, 0, 0);
+
+        robot.SetSpeed(80);
+
+        // 测试参数错误
+        rtn = robot.SetVelReducePara(2, 30, 1);
+        Console.WriteLine($"SetVelReducePara param error rtn is {rtn}");
+
+        // 禁用减速
+        rtn = robot.SetVelReducePara(0, 30, 1);
+        Console.WriteLine($"SetVelReducePara disable reduce vel rtn is {rtn}");
+        robot.MoveJ(j1, 0, 0, 100, 100, 100, epos, -1, 0, offset_pos);
+        robot.MoveJ(j2, 0, 0, 100, 100, 100, epos, -1, 0, offset_pos);
+
+        // 启用减速（手动模式）
+        rtn = robot.SetVelReducePara(1, 30, 1);
+        Console.WriteLine($"SetVelReducePara reduce vel rtn is {rtn}");
+        robot.MoveJ(j1, 0, 0, 100, 100, 100, epos, -1, 0, offset_pos);
+        robot.MoveJ(j2, 0, 0, 100, 100, 100, epos, -1, 0, offset_pos);
+
+        // 所有模式启用，策略为停止报警并去使能
+        rtn = robot.SetVelReducePara(2, 30, 2);
+        Console.WriteLine($"SetVelReducePara disable robot rtn is {rtn}");
+        robot.MoveJ(j1, 0, 0, 100, 100, 100, epos, -1, 0, offset_pos);
+        robot.MoveJ(j2, 0, 0, 100, 100, 100, epos, -1, 0, offset_pos);
+
+        Thread.Sleep(2000);
+        robot.ResetAllError();
+        robot.RobotEnable(1);
+        Thread.Sleep(1000);
+
+        // 所有模式启用，策略为停止报警（正常参数）
+        rtn = robot.SetVelReducePara(2, 30, 0);
+        Console.WriteLine($"SetVelReducePara report error rtn is {rtn}");
+        robot.MoveJ(j1, 0, 0, 100, 100, 100, epos, -1, 0, offset_pos);
+        robot.MoveJ(j2, 0, 0, 100, 100, 100, epos, -1, 0, offset_pos);
+
+        Thread.Sleep(1000);
+        return 0;
+    }

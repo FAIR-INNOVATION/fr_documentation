@@ -6723,3 +6723,176 @@ GetDFCState ()指令返回2个数值，分别如下：
         end
         SetDO(0,0,0,0)
     end
+
+末端透传功能
+----------------------------------------------------------
+
+概述
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+用户可通过配置末端透传功能，基于末端外设开放协议+CNDE+SDK接口，实现任意末端外设的非周期数据收发及周期数据获取的功能。其中周期数据需要撰写末端lua开放协议并上传应用到末端，实现周期性与外设交互读取，并通过CNDE配置获取外设反馈周期数据，非周期数据通过SDK接口实现数据帧的收发。 
+
+使用说明
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Step1**：打开机器人页面选择“初始设置”->“外设”->“末端透传”，上传并应用需要适配外设的末端lua开放协议。
+
+.. figure:: robot_peripherals/289.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.18‑1 末端透传协议上传
+ 
+**Step2**：重启机器人后，打开“末端协议启用”按钮，即可开启该功能。需要注意的是开启该功能后，其他已适配末端设备将不可同时使用。
+
+.. figure:: robot_peripherals/290.png
+   :align: center
+   :width: 4in
+
+.. centered:: 图表 8.18‑2 末端透传协议开启
+ 
+**Step3**：打开机器人页面选择“示教程序”->“外设指令”->“末端透传”，即可在末端透传开启后，通过lua接口进行末端非周期数据的收发及周期数据的获取的调试测试，实际使用需要配合机器人的CNDE功能及SDK进行使用。其中非周期指令发送与接受数据长度最长16byte，周期数据最大128byte。
+
+.. figure:: robot_peripherals/291.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.18‑3 末端透传非周期数据lua接口
+
+.. figure:: robot_peripherals/292.png
+   :align: center
+   :width: 6in
+
+.. centered:: 图表 8.18‑4 末端透传周期数据lua接口
+
+末端透传功能Lua脚本
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+概述
+++++++++++++++++++++++++
+
+Lua开放协议功能新增通用数据透传接口，根据约定的Lua C接口编写Lua脚本，配合CNDE，实现对末端挂载设备的数据收发。
+
+末端Lua脚本编写说明
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Rs485发送与接收Lua C注册函数
+*********************************************************************
+（1）Rs485发送Lua C注册函数：EndTxCustomData()。此函数将指令通过Rs485发送给挂载设备。
+
+.. code-block:: 
+    :linenos:
+
+    Tcmd={0}
+    EndTxCustomData(Tcmd)
+
+.. centered:: 代码8.18-1 Lua脚本说明
+
+（2）Rs485接收Lua C注册函数：EndRxCustomData()。此函数接收挂载设备通过Rs485反馈的响应指令。
+
+.. code-block:: 
+    :linenos:
+
+    Rcmd={0}
+    EndRxCustomData(Rcmd)
+
+.. centered:: 代码8.18-2 Lua脚本说明
+
+非周期数据下发与反馈Lua C注册函数
+*********************************************************************
+
+（1）非周期数据下发Lua C注册函数：GetHostTransparentCmd()。通过此函数获取控制器是否下发非周期数据指令，有下发指令后获取非周期数据指令。非周期数据指令发送长度最大16Bytes。
+
+.. code-block:: 
+    :linenos:
+
+    Tcmd={0}
+    RxFlag=0
+    RxFlag = GetHostTransparentCmd(Tcmd)
+    if(RxFlag == 1)then
+    EndTxCustomData(Tcmd)
+
+.. centered:: 代码8.18-3 Lua脚本说明
+
+（2）非周期数据指令反馈Lua C注册函数：BackHostTransparentCmd()。通过此函数将挂载设备响应的非周期数据指令透传给控制器。非周期数据指令接收长度最大16Bytes。
+
+.. code-block:: 
+    :linenos:
+
+    Rcmd={0}
+    EndRxCustomData(Rcmd)
+    BackHostTransparentCmd(Rcmd)
+
+.. centered:: 代码8.18-4 Lua脚本说明
+
+周期数据反馈Lua C注册函数
+*********************************************************************
+
+（1）周期数据反馈Lua C注册函数：SetDWrodInputBack()。通过此函数将读取到的挂载设备周期数据透传给控制器。周期数据反馈最大128Bytes。
+
+.. code-block:: 
+    :linenos:
+
+    R = {0}
+    TotalNum =0
+    PacketNum=0
+    TotalNum,PacketNum=SetDWrodInputBack(R)
+
+.. centered:: 代码8.18-5 Lua脚本说明
+
+以倍益康艾灸头为例编写的Lua脚本
+*********************************************************************
+
+.. code-block:: 
+    :linenos:
+
+    --***
+    --维持末端其他功能正常运行
+    while(1)
+    do
+    IwdgTaskHandle()
+    MainLoop()
+    UpDownLoadHandle()
+    SdoRwPara()
+    EndErrClear()
+    local BFlag=LuaBreak()
+    if(BFlag==1)then
+    break
+    end
+    --***
+    --***
+    --非周期数据下发示例
+    Rcmd = {0}       --存储挂载设备响应的非周期数据
+    Tcmd = {0}       --存储控制器下发的非周期数据
+    RxFlag=0         --控制器是否下发指令标志位
+    RxFlag = GetHostTransparentCmd(Tcmd)
+    if(RxFlag == 1)then
+    EndTxCustomData(Tcmd)
+    DelayMs(35)
+    EndRxCustomData(Rcmd)
+    if((#Rcmd) > 1))and(R[1]==0xAB)and(R[2]==0xBA)) then
+    BackHostTransparentCmd(Rcmd)
+    end
+    end
+    --***
+    --***
+    --周期数据下发示例
+    R = {0}          --存储挂载设备响应的周期数据
+    T = {0xAB,0xBA,0x14,0x01,0xAA,0x24}     --查询挂载设备周期数据指令
+    if TotalNum==0 then
+    EndTxCustomData(T)
+    DelayMs(35)
+    EndRxCustomData(R)
+    end
+    TotalNum =0      --周期数据如需分包，总分包数
+    PacketNum=0     --当前包序号
+    if((#R==19)and(R[1]==0xAB)and(R[2]==0xBA)and(R[3]==0x14)and(R[4]==0x0E))then
+    TotalNum,PacketNum=SetDWrodInputBack(R)
+    if PacketNum>TotalNum then
+    PacketNum=0
+    TotalNum=0
+    end
+    end
+    --***
+    LuaGc()
+    end
+

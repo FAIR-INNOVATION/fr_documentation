@@ -13,6 +13,48 @@
      - **日期**
      - **更新描述**
 
+   * - V3.9.4
+     - 2026-03-25
+     - | 1.ServoJTStart()接口新增通信类型选择参数，支持XMLPRC/UDP通信；
+       | 2.ServoJTEnd()接口新增通信类型选择参数，支持XMLPRC/UDP通信；
+       | 3.ServoJT()接口新增通信类型选择参数，支持XMLPRC/UDP通信；
+       | 4.ServoMoveStart()接口新增通信类型选择参数，支持XMLPRC/UDP通信；
+       | 5.ServoMoveEnd()接口新增通信类型选择参数，支持XMLPRC/UDP通信；
+       | 6.ServoJ()接口新增通信类型选择参数，支持XMLPRC/UDP通信；
+       | 7.SetWeldMachineCtrlMode()接口新增控制模式选择参数；
+       | 8.ExtDevGetUDPComParam()接口新增获取UDP通信参数：重启控制箱后是否自动重连；
+       | 9.新增SetAxleGenComEnable()开启末端通用透传功能接口；
+       | 10.新增SndRcvAxleGenComCmdData()末端发送非周期数据并等待应答接口；
+       | 11.新增SetRobotStopOnComDisc()设置端口通讯断开时停止机器人运行接口；
+       | 12.新增GetRobotStopOnComDisc()获取端口通讯断开时停止机器人运行参数接口；
+       | 13.新增SetDIConfig()设置控制箱可配置 CI 端口功能接口；
+       | 14.新增GetDIConfig()获取控制箱可配置 CI 端口功能接口；
+       | 15.新增SetDOConfig()设置控制箱可配置 CO 端口功能接口；
+       | 16.新增GetDOConfig()获取控制箱可配置 CO 端口功能接口；
+       | 17.新增SetToolDIConfig()设置末端可配置 End-CI 端口功能接口；
+       | 18.新增GetToolDIConfig()获取末端可配置 End-CI 端口功能接口；
+       | 19.新增SetDIConfigLevel()设置控制箱可配置 CI 有效状态接口；
+       | 20.新增GetDIConfigLevel()获取控制箱可配置 CI 有效状态接口；
+       | 21.新增SetDOConfigLevel()设置控制箱可配置 CO 有效状态接口；
+       | 22.新增GetDOConfigLevel()获取控制箱可配置 CO 有效状态接口；
+       | 23.新增SetToolDIConfigLevel()设置末端可配置 CI 有效状态接口；
+       | 24.新增GetToolDIConfigLevel()获取末端可配置 CI 有效状态接口；
+       | 25.新增SetStandardDILevel()设置控制箱标准 DI 有效状态接口；
+       | 26.新增GetStandardDILevel()获取控制箱标准 DI 有效状态接口；
+       | 27.新增SetStandardDOLevel()设置控制箱标准 DO 有效状态接口；
+       | 28.新增GetStandardDOLevel()获取控制箱标准 DO 有效状态接口；
+       | 29.新增SetExAxisCmdDoneTimeUDP() 扩展轴定位完成时间设置接口；
+       | 30.新增SendUDPFrameUDP ()发送指令帧接口；
+       | 31.新增SetUDPCmdRpyCallback()设置 SDK 通过 UDP 发送指令的执行结果回调函数接口；
+       | 32.新增SetVelReducePara()设置安全速度参数接口；
+       | 33.新增OriginPointWeaveStart()定点摆动开始接口；
+       | 34.新增OriginPointWeaveEnd()定点摆动结束接口；
+       | 35.新增SetUserLEDColor()设置用户自定义机器人末端灯色接口；
+       | 36.新增MoveToTPDStart()运动到 TPD 轨迹记录起点接口；
+       | 37.新增OpenLuaDownload()下载开放协议 Lua 文件接口；
+       | 38.新增OpenLuaDelete()删除开放协议 Lua 文件接口；
+       | 39.新增AllOpenLuaDelete()删除开放协议 Lua 文件接口；
+
    * - V3.9.3
      - 2026-02-11
      - | 1.ServoCart()接口增加扩展轴参数

@@ -305,12 +305,13 @@
 .. code-block:: Java
     :linenos:
 
-    /** 
+    /**
     * @brief 设置焊机控制模式
-    * @param [in] mode 焊机控制模式;0-一元化
-    * @return 错误码 
+    * @param mode 焊机控制模式; 0-直流一元模式；1-脉冲一元模式；2-JOB模式；3-近控模式；4-分别模式；5-CC/CV模式；6-TIG；7-CMT
+    * @param ioType 控制类型；0-控制箱IO;1-数字通信协议(UDP);2-数字通信协议(ModbusTCP)
+    * @return 错误码* @return 错误码
     */
-    int SetWeldMachineCtrlMode(int mode);
+    public int SetWeldMachineCtrlMode(int mode, int ioType)
 
 焊接开始
 ++++++++++++++++++++++++++++++++++
