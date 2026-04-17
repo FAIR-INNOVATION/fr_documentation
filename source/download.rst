@@ -4,25 +4,25 @@
 
 宣传册
 --------------
-    :download:`法奥意威公司简介 <_static/_doc/法奥意威公司简介.pdf>`
+    :download:`法奥公司简介 <_static/_doc/法奥意威公司简介.pdf>`
 
-    :download:`法奥意威产品手册 <_static/_doc/FAIRINO产品手册.pdf>`
+    :download:`法奥产品手册 <_static/_doc/FAIRINO产品手册.pdf>`
 
-    :download:`法奥意威生态产品手册 <_static/_doc/FAIRINO生态产品手册.pdf>`
+    :download:`法奥生态产品手册 <_static/_doc/FAIRINO生态产品手册.pdf>`
 
-    :download:`法奥意威医疗行业案例 <_static/_doc/法奥意威医疗行业案例.pdf>`
+    :download:`法奥医疗行业案例 <_static/_doc/法奥意威医疗行业案例.pdf>`
 
-    :download:`法奥意威焊接宣传册 <_static/_doc/法奥意威焊接宣传册.pdf>`
+    :download:`法奥焊接宣传册 <_static/_doc/法奥意威焊接宣传册.pdf>`
 
-    :download:`法奥意威码垛宣传册 <_static/_doc/法奥意威码垛宣传册.pdf>`
+    :download:`法奥码垛宣传册 <_static/_doc/法奥意威码垛宣传册.pdf>`
 
 资质认证
 ---------------------------------
-    :download:`法奥意威ISO9001质量认证证书 <_static/_doc/法奥意威ISO9001质量认证证书.pdf>`
+    :download:`法奥ISO9001质量认证证书 <_static/_doc/法奥意威ISO9001质量认证证书.pdf>`
     
-    :download:`法奥意威ISO14001环境管理体系认证证书 <_static/_doc/法奥意威ISO14001环境管理体系认证证书.pdf>`
+    :download:`法奥ISO14001环境管理体系认证证书 <_static/_doc/法奥意威ISO14001环境管理体系认证证书.pdf>`
     
-    :download:`法奥意威ISO45001职业健康安全管理认证证书 <_static/_doc/法奥意威ISO45001职业健康安全管理认证证书.pdf>`
+    :download:`法奥ISO45001职业健康安全管理认证证书 <_static/_doc/法奥意威ISO45001职业健康安全管理认证证书.pdf>`
 
 机器人认证证书：
 

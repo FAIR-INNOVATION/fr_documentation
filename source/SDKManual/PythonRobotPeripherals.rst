@@ -1751,8 +1751,8 @@ SmartTool按钮代码示例
     "原型", "``OpenLuaDownload(fileName, savePath)``"
     "描述", "下载开放协议Lua文件"
     "必选参数", "
-    - ``fileName``：开放协议文件名称“CtrlDev_XXX.lua”;
-    - ``savePath``开放协议保存文件路径;
+    - ``fileName``：开放协议文件名称CtrlDev_XXX.lua;
+    - ``savePath``: 开放协议保存文件路径;
     "
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
@@ -1767,7 +1767,7 @@ SmartTool按钮代码示例
     "原型", "``OpenLuaDelete(fileName)``"
     "描述", "删除指定开放协议Lua文件"
     "必选参数", "
-    - ``fileName``：要删除的开放协议lua文件名“CtrlDev_XXX.lua”
+    - ``fileName``：要删除的开放协议lua文件名CtrlDev_XXX.lua
     "
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
