@@ -194,16 +194,116 @@ TPD轨迹复现
     int GetTrajectoryPointNum(ref int pnum);
 
 设置轨迹文件轨迹运行速度
-++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
-    /** 
-    * @brief 设置轨迹文件轨迹运行速度   
-    * @param [in] ovl 速度百分比  
-    * @return 错误码 
-    */  
-    int SetTrajectoryJSpeed(double ovl);
+    /**
+    * @brief  设置轨迹运行中的速度
+    * @param  [in] ovl 速度百分比
+    * @param  [in] mode 0-降速模式 1-直接切换
+    * @return  错误码
+    */
+    public int SetTrajectoryJSpeed(double ovl, int mode = 0)
+
+设置轨迹运行中的速度代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    public int RunTrajectoryJ(string localFilePath = "D://zUP/trajHelix_aima_1.txt", string remoteFilePath = "/fruser/traj/trajHelix_aima_1.txt",
+    int initialSpeedPercent = 50, int trajSpeedMode = 1)
+    {
+        int rtn;
+
+        // 1. 上传轨迹 J 文件
+        rtn = robot.TrajectoryJUpLoad(localFilePath);
+        if (rtn != 0)
+        {
+            Console.WriteLine($"Upload TrajectoryJ failed: {rtn}");
+            return rtn;
+        }
+        Console.WriteLine($"Upload TrajectoryJ success: {localFilePath}");
+
+        // 2. 加载轨迹文件
+        rtn = robot.LoadTrajectoryJ(remoteFilePath, 100, 1);
+        if (rtn != 0)
+        {
+            Console.WriteLine($"LoadTrajectoryJ failed: {rtn}");
+            return rtn;
+        }
+        Console.WriteLine($"LoadTrajectoryJ success: {remoteFilePath}");
+
+        // 3. 获取轨迹起始位姿
+        DescPose trajStartPose = new DescPose(0, 0, 0, 0, 0, 0);
+        rtn = robot.GetTrajectoryStartPose(remoteFilePath, ref trajStartPose);
+        if (rtn != 0)
+        {
+            Console.WriteLine($"GetTrajectoryStartPose failed: {rtn}");
+            return rtn;
+        }
+        Console.WriteLine($"Trajectory start pose: ({trajStartPose.tran.x}, {trajStartPose.tran.y}, {trajStartPose.tran.z}, " +
+                            $"{trajStartPose.rpy.rx}, {trajStartPose.rpy.ry}, {trajStartPose.rpy.rz})");
+
+        // 4. 移动到轨迹起始点（使用笛卡尔空间 PTP）
+        robot.SetSpeed(initialSpeedPercent);
+        rtn = robot.MoveCart(trajStartPose, 0, 0, 100, 100, 100, -1, -1);
+        if (rtn != 0)
+        {
+            Console.WriteLine($"MoveCart to start pose failed: {rtn}");
+            return rtn;
+        }
+
+        // 5. 获取轨迹点数（可选，仅用于显示）
+        int trajPointNum = 0;
+        rtn = robot.GetTrajectoryPointNum(ref trajPointNum);
+        if (rtn != 0)
+        {
+            Console.WriteLine($"GetTrajectoryPointNum failed: {rtn}");
+            // 不返回，继续执行
+        }
+        else
+        {
+            Console.WriteLine($"Trajectory points count: {trajPointNum}");
+        }
+
+        // 6. 开始执行轨迹运动（非阻塞）
+        rtn = robot.MoveTrajectoryJ();
+        if (rtn != 0)
+        {
+            Console.WriteLine($"MoveTrajectoryJ failed: {rtn}");
+            return rtn;
+        }
+        Console.WriteLine("MoveTrajectoryJ started.");
+
+        // 7. 在运动过程中动态修改速度（交替 10% 和 80%）
+        // 使用 GetRobotMotionDone 检查运动是否完成
+        byte motionDone = 0;
+        robot.GetRobotMotionDone(ref motionDone);
+
+        while (motionDone == 0)
+        {
+            // 设置为 10% 速度
+            rtn = robot.SetTrajectoryJSpeed(10.0, trajSpeedMode);
+            Console.WriteLine($"SetTrajectoryJSpeed to 10% returned: {rtn}");
+            robot.Sleep(1000);
+
+            // 重新检查运动状态
+            robot.GetRobotMotionDone(ref motionDone);
+            if (motionDone != 0) break;
+
+            // 设置为 80% 速度
+            rtn = robot.SetTrajectoryJSpeed(80.0, trajSpeedMode);
+            Console.WriteLine($"SetTrajectoryJSpeed to 80% returned: {rtn}");
+            robot.Sleep(1000);
+
+            // 再次检查运动状态
+            robot.GetRobotMotionDone(ref motionDone);
+        }
+
+        Console.WriteLine("Trajectory J motion completed.");
+        return 0;
+    }
 
 设置轨迹文件轨迹运行中的力和力矩
 ++++++++++++++++++++++++++++++++

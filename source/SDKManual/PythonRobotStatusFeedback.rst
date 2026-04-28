@@ -4,6 +4,241 @@
 .. toctree:: 
     :maxdepth: 5
 
+机器人状态反馈结构体类型
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: python
+    :linenos:
+
+    class ROBOT_AUX_STATE(Structure):
+        _pack_ = 1
+        _fields_ = [
+            ("servoId", c_uint8),         # 伺服驱动器ID号
+            ("servoErrCode", c_int),     # 伺服驱动器故障码
+            ("servoState", c_int),       # 伺服驱动器状态
+            ("servoPos", c_double),      # 伺服当前位置
+            ("servoVel", c_float),       # 伺服当前速度
+            ("servoTorque", c_float),    # 伺服当前转矩
+        ]
+
+    class EXT_AXIS_STATUS(Structure):
+        _pack_ = 1
+        _fields_ = [
+            ("pos", c_double),        # 扩展轴位置
+            ("vel", c_double),        # 扩展轴速度
+            ("errorCode", c_int),     # 扩展轴故障码
+            ("ready", c_uint8),        # 伺服准备好
+            ("inPos", c_uint8),        # 伺服到位
+            ("alarm", c_uint8),        # 伺服报警
+            ("flerr", c_uint8),        # 跟随误差
+            ("nlimit", c_uint8),       # 到负限位
+            ("pLimit", c_uint8),       # 到正限位
+            ("mdbsOffLine", c_uint8),  # 驱动器485总线掉线
+            ("mdbsTimeout", c_uint8),  # 控制卡与控制箱485通信超时
+            ("homingStatus", c_uint8), # 扩展轴回零状态
+        ]
+
+    class WELDING_BREAKOFF_STATE(Structure):
+        _pack_ = 1
+        _fields_ = [
+            ("breakOffState", c_uint8),        # 焊接中断状态
+            ("weldArcState", c_uint8),        # 焊接电弧中断状态
+        ]
+
+    # ==================== 完整机器人状态结构体 ====================
+    class RobotStatePkg(Structure):
+        """
+        机器人状态反馈数据包
+        """
+        _pack_ = 1
+        _fields_ = [
+            # 帧头信息
+            ("frame_head", c_uint16),           # 帧头，约定为0x5A5A
+            ("frame_cnt", c_uint8),             # 帧计数，循环计数0-255
+            ("data_len", c_uint16),             # 数据内容的长度
+            ("program_state", c_uint8),         # 程序运行状态，1-停止；2-运行；3-暂停
+            ("robot_state", c_uint8),             # 机器人运动状态，1-停止；2-运行；3-暂停；4-拖动
+            ("main_code", c_int),               # 主故障码
+            ("sub_code", c_int),                # 子故障码
+            ("robot_mode", c_uint8),            # 机器人模式，1-手动模式；0-自动模式
+
+            # 关节位置和速度
+            ("jt_cur_pos", c_double * 6),       # 6个轴当前关节位置，单位deg
+            ("tl_cur_pos", c_double * 6),       # 工具当前位置 [x,y,z,rx,ry,rz]
+            ("flange_cur_pos", c_double * 6),   # 末端法兰当前位置 [x,y,z,rx,ry,rz]
+            ("actual_qd", c_double * 6),        # 当前6个关节速度，单位deg/s
+            ("actual_qdd", c_double * 6),       # 当前6个关节加速度，单位deg/s^2
+            ("target_TCP_CmpSpeed", c_double * 2),  # TCP合成指令速度[位置mm/s,姿态deg/s]
+            ("target_TCP_Speed", c_double * 6), # TCP指令速度[x,y,z,rx,ry,rz]
+            ("actual_TCP_CmpSpeed", c_double * 2),  # TCP合成实际速度[位置mm/s,姿态deg/s]
+            ("actual_TCP_Speed", c_double * 6), # TCP实际速度[x,y,z,rx,ry,rz]
+            ("jt_cur_tor", c_double * 6),       # 6个轴当前扭矩，单位N·m
+
+            # 工具和用户坐标系
+            ("tool", c_int),                    # 应用的工具坐标系编号
+            ("user", c_int),                    # 应用的工件坐标系编号
+
+            # 数字IO
+            ("cl_dgt_output_h", c_uint8),       # 控制箱数字量IO输出15-8
+            ("cl_dgt_output_l", c_uint8),       # 控制箱数字量IO输出7-0
+            ("tl_dgt_output_l", c_uint8),       # 工具数字量IO输出7-0，仅bit0-bit1有效
+            ("cl_dgt_input_h", c_uint8),        # 控制箱数字量IO输入15-8
+            ("cl_dgt_input_l", c_uint8),        # 控制箱数字量IO输入7-0
+            ("tl_dgt_input_l", c_uint8),        # 工具数字量IO输入7-0，仅bit0-bit1有效
+
+            # 模拟量IO 
+            ("cl_analog_input", c_uint16 * 2),  # 控制箱模拟量输入[0],[1]
+            ("tl_anglog_input", c_uint16),      # 工具模拟量输入
+
+            # 力矩传感器
+            ("ft_sensor_raw_data", c_double * 6),   # 力矩传感器原始数据
+            ("ft_sensor_data", c_double * 6),      # 力矩传感器数据
+            ("ft_sensor_active", c_uint8),          # 力矩传感器激活状态
+
+            # 状态信号
+            ("EmergencyStop", c_uint8),         # 急停标志，0-急停未按下，1-急停按下
+            ("motion_done", c_int),             # 运动到位信号，1-到位，0-未到位
+            ("gripper_motiondone", c_uint8),    # 夹爪运动完成信号，1-完成，0-未完成
+            ("mc_queue_len", c_int),            # 运动指令队列长度
+            ("collisionState", c_uint8),        # 碰撞检测，1-碰撞，0-无碰撞
+            ("trajectory_pnum", c_int),         # 轨迹点编号
+            ("safety_stop0_state", c_uint8),    # 安全停止信号SI0
+            ("safety_stop1_state", c_uint8),    # 安全停止信号SI1
+
+            # 夹爪信息
+            ("gripper_fault_id", c_uint8),      # 错误夹爪号
+            ("gripper_fault", c_uint16),        # 夹爪故障
+            ("gripper_active", c_uint16),      # 夹爪激活状态
+            ("gripper_position", c_uint8),      # 夹爪位置
+            ("gripper_speed", c_int8),          # 夹爪速度
+            ("gripper_current", c_int8),        # 夹爪电流
+            ("gripper_temp", c_int),            # 夹爪温度
+            ("gripper_voltage", c_int),         # 夹爪电压
+
+            # 扩展轴状态
+            ("aux_axis_state", ROBOT_AUX_STATE * 25),    # 485扩展轴状态 (25个)
+            ("extAxisStatus", EXT_AXIS_STATUS * 4), # UDP扩展轴状态 (4个)
+
+            # 扩展IO状态
+            ("extDIState", c_uint16 * 8),       # 扩展DI输入
+            ("extDOState", c_uint16 * 8),       # 扩展DO输出
+            ("extAIState", c_uint16 * 4),        # 扩展AI输入
+            ("extAOState", c_uint16 * 4),        # 扩展AO输出
+
+            # 机器人和关节状态
+            ("rbtEnableState", c_int),                  # 机器人使能状态
+            ("jointDriverTorque", c_double * 6),        # 机器人关节驱动器扭矩
+            ("jointDriverTemperature", c_double * 6),   # 机器人关节驱动器温度
+
+            # 机器人时间
+            #("robotTime", c_int * 7),             # 机器人系统时间 [year,month,day,hour,min,sec,ms]
+            ("year", ctypes.c_uint16),  # 年
+            ("mouth", ctypes.c_uint8),  # 月
+            ("day", ctypes.c_uint8),  # 日
+            ("hour", ctypes.c_uint8),  # 小时
+            ("minute", ctypes.c_uint8),  # 分
+            ("second", ctypes.c_uint8),  # 秒
+            ("millisecond", ctypes.c_uint16),  # 毫秒
+
+            ("softwareUpgradeState", c_int),      # 机器人软件升级状态
+            ("endLuaErrCode", c_uint16),          # 末端LUA运行状态
+
+            # 模拟量输出
+            ("cl_analog_output", c_uint16 * 2), # 控制箱模拟量输出[0],[1]
+            ("tl_analog_output", c_uint16),       # 工具模拟量输出
+
+            # 旋转夹爪
+            ("gripperRotNum", c_float),         # 旋转夹爪当前旋转圈数
+            ("gripperRotSpeed", c_uint8),       # 旋转夹爪当前旋转速度百分比
+            ("gripperRotTorque", c_uint8),      # 旋转夹爪当前旋转力矩百分比
+
+            # 焊接中断状态 - 使用结构体
+            ("weldingBreakOffState", WELDING_BREAKOFF_STATE),  # 焊接中断状态
+
+            # 目标关节扭矩
+            ("jt_tgt_tor", c_double * 6),       # 关节指令力矩
+
+            ("smartToolState", c_int),          # SmartTool手柄按钮状态
+            ("wideVoltageCtrlBoxTemp", c_float),        # 宽电压控制箱温度
+            ("wideVoltageCtrlBoxFanCurrent", c_uint16), # 宽电压控制箱风扇电流(mA)
+
+            # 坐标系数值
+            ("toolCoord", c_double * 6),        # 当前工具坐标系数值；x,y,z,rx,ry,rz
+            ("wobjCoord", c_double * 6),        # 当前工件坐标系数值；x,y,z,rx,ry,rz
+            ("extoolCoord", c_double * 6),      # 当前外部工具坐标系数值；x,y,z,rx,ry,rz
+            ("exAxisCoord", c_double * 6),      # 当前扩展轴坐标系数值；x,y,z,rx,ry,rz
+
+            # 负载
+            ("load", c_double),                 # 负载质量
+            ("loadCog", c_double * 3),            # 负载质心
+
+            # 伺服指令
+            ("lastServoTarget", c_double * 6),  # 队列中最后一个ServoJ目标位置
+            ("servoJCmdNum", c_int),            # servoJ指令计数
+
+            # 目标关节数据
+            ("targetJointPos", c_double * 6),   # 6个关节指令位置，单位°
+            ("targetJointVel", c_double * 6),   # 6个关节指令速度，单位°/s
+            ("targetJointAcc", c_double * 6),   # 6个关节指令加速度，单位°/s2
+            ("targetJointCurrent", c_double * 6), # 6个关节指令电流，单位A
+            ("actualJointCurrent", c_double * 6), # 6个关节当前电流，单位A
+            ("actualTCPForce", c_double * 6),   # 机器人末端力矩Nm；x,y,z,rx,ry,rz
+            ("targetTCPPos", c_double * 6),     # 机器人TCP指令位置mm；x,y,z,rx,ry,rz
+
+            ("collisionLevel", c_uint8 * 6),    # 机器人碰撞等级
+            ("speedScaleManual", c_double),     # 手动模式全局速度百分比
+            ("speedScaleAuto", c_double),       # 自动模式全局速度百分比
+            ("luaLineNum", c_int),              # 当前lua程序运行行号
+            ("abnomalStop", c_uint8),           # 0-无异常；1-有异常
+            ("currentLuaFileName", c_uint8 * 256),  # 当前运行lua程序名称
+            ("programTotalLine", c_uint8),      # lua程序总行数
+            ("safetyBoxSingal", c_uint8 * 6),   # 机器人按钮盒按钮状态
+
+            # 焊接数据
+            ("weldVoltage", c_double),          # 焊接电压 V
+            ("weldCurrent", c_double),          # 焊接电流
+            ("weldTrackVel", c_double),         # 焊缝跟踪速度 mm/s
+
+            ("tpdException", c_uint8),            # TPD轨迹加载数量超限，0-未超限，1-超限
+            ("alarmRebootRobot", c_uint8),      # 警告，1-松开急停按钮请断电重启控制箱，2-关节通讯异常请断电重启控制箱
+            ("modbusMasterConnect", c_uint8),   # bit0-bit7位对应ModbusTCP的0-7主站连接状态
+            ("modbusSlaveConnect", c_uint8),    # ModbusTCP从站连接状态
+            ("btnBoxStopSignal", c_uint8),      # 按钮盒急停信号
+            ("dragAlarm", c_uint8),             # 拖动警告
+            ("safetyDoorAlarm", c_uint8),       # 安全门警告
+            ("safetyPlaneAlarm", c_uint8),      # 进入安全墙警告
+            ("motonAlarm", c_uint8),            # 运动警告
+            ("interfaceAlarm", c_uint8),        # 进入干涉区警告
+            ("udpCmdState", c_int),             # 20007端口UDP通讯连接状态
+            ("weldReadyState", c_uint8),        # 焊机准备完成状态
+            ("alarmCheckEmergStopBtn", c_uint8),    # 0-正常；1-通信异常，检查急停按钮是否松开
+            ("tsTmCmdComError", c_uint8),       # 0-正常；1-扭矩指令通讯失败
+            ("tsTmStateComError", c_uint8),     # 0-正常；1-扭矩状态通讯失败
+            ("ctrlBoxError", c_int),            # 控制箱错误
+            ("safetyDataState", c_uint8),       # 安全数据状态标志
+            ("forceSensorErrState", c_uint8),   # 力传感器连接超时故障
+            ("ctrlOpenLuaErrCode", c_uint8 * 4),  # 4个控制器外设协议错误码
+            ("strangePosFlag", c_uint8),        # 当前处于奇异位姿标志
+            ("alarm", c_uint8),                 # 警告
+            ("driverAlarm", c_uint8),           # 驱动器报警轴号
+            ("aliveSlaveNumError", c_uint8),    # 活动从站数量错误
+            ("slaveComError", c_uint8 * 8),     # 从站错误状态
+            ("cmdPointError", c_uint8),         # 指令点错误
+            ("IOError", c_uint8),               # IO错误
+            ("gripperError", c_uint8),          # 夹爪错误
+            ("fileError", c_uint8),             # 文件错误
+            ("paraError", c_uint8),             # 参数错误
+            ("exaxisOutLimitError", c_uint8),   # 外部轴超出软限位错误
+            ("driverComError", c_uint8 * 6),    # 与驱动器通信故障
+            ("driverError", c_uint8),           # 驱动器通信故障轴号
+            ("outSoftLimitError", c_uint8),     # 超出软限位故障
+            ("axleGenComData", c_uint8 * 130),   # 轴通用通讯非周期数据
+            ("socketConnTimeout", c_uint8),     # socket连接超时
+            ("socketReadTimeout", c_uint8),     # socket读取超时
+            ("tsWebStateComErr", c_uint8),      # TS_WEB状态通讯错误
+            ("check_sum", c_uint16)          # 和校验
+        ]
+
 控制器状态反馈数据包
 ~~~~~~~~~~~~~~~~~~~~~~~~
 .. versionadded:: python SDK-v2.1.7
@@ -362,3 +597,146 @@
     print("lastServoTarget4:", robot.robot_state_pkg.lastServoTarget[4])
     print("lastServoTarget5:", robot.robot_state_pkg.lastServoTarget[5])
     print("servoJCmdNum:", robot.robot_state_pkg.servoJCmdNum)
+
+机器人状态反馈配置列表枚举类型
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: python
+    :linenos:
+
+    # ==================== RobotState配置列表枚举 ====================
+    class RobotState(enum.Enum):
+        """CNDE状态类型枚举"""
+        FrameHead = 0
+        FrameCnt = 1
+        DataLen = 2
+        ProgramState = 3
+        RobotState = 4
+        MainCode = 5
+        SubCode = 6
+        RobotMode = 7
+        JointCurPos = 8
+        ToolCurPos = 9
+        FlangeCurPos = 10
+        ActualJointVel = 11
+        ActualJointAcc = 12
+        TargetTCPCmpSpeed = 13
+        TargetTCPSpeed = 14
+        ActualTCPCmpSpeed = 15
+        ActualTCPSpeed = 16
+        ActualJointTorque = 17
+        Tool = 18
+        User = 19
+        ClDgtOutputH = 20
+        ClDgtOutputL = 21
+        TlDgtOutputL = 22
+        ClDgtInputH = 23
+        ClDgtInputL = 24
+        TlDgtInputL = 25
+        ClAnalogInput = 26
+        TlAnglogInput = 27
+        FtSensorRawData = 28
+        FtSensorData = 29
+        FtSensorActive = 30
+        EmergencyStop = 31
+        MotionDone = 32
+        GripperMotiondone = 33
+        McQueueLen = 34
+        CollisionState = 35
+        TrajectoryPnum = 36
+        SafetyStop0State = 37
+        SafetyStop1State = 38
+        GripperFaultId = 39
+        GripperFault = 40
+        GripperActive = 41
+        GripperPosition = 42
+        GripperSpeed = 43
+        GripperCurrent = 44
+        GripperTemp = 45
+        GripperVoltage = 46
+        AuxState = 47
+        ExtAxisStatus = 48
+        ExtDIState = 49
+        ExtDOState = 50
+        ExtAIState = 51
+        ExtAOState = 52
+        RbtEnableState = 53
+        JointDriverTorque = 54
+        JointDriverTemperature = 55
+        RobotTime = 56
+        SoftwareUpgradeState = 57
+        EndLuaErrCode = 58
+        ClAnalogOutput = 59
+        TlAnalogOutput = 60
+        GripperRotNum = 61
+        GripperRotSpeed = 62
+        GripperRotTorque = 63
+        WeldingBreakOffState = 64
+        TargetJointTorque = 65
+        SmartToolState = 66
+        WideVoltageCtrlBoxTemp = 67
+        WideVoltageCtrlBoxFanCurrent = 68
+        ToolCoord = 69
+        WobjCoord = 70
+        ExtoolCoord = 71
+        ExAxisCoord = 72
+        Load = 73
+        LoadCog = 74
+        LastServoTarget = 75
+        ServoJCmdNum = 76
+        TargetJointPos = 77
+        TargetJointVel = 78
+        TargetJointAcc = 79
+        TargetJointCurrent = 80
+        ActualJointCurrent = 81
+        ActualTCPForce = 82
+        TargetTCPPos = 83
+        CollisionLevel = 84
+        SpeedScaleManual = 85
+        SpeedScaleAuto = 86
+        LuaLineNum = 87
+        AbnomalStop = 88
+        CurrentLuaFileName = 89
+        ProgramTotalLine = 90
+        SafetyBoxSingal = 91
+        WeldVoltage = 92
+        WeldCurrent = 93
+        WeldTrackVel = 94
+        TpdException = 95
+        AlarmRebootRobot = 96
+        ModbusMasterConnect = 97
+        ModbusSlaveConnect = 98
+        BtnBoxStopSignal = 99
+        DragAlarm = 100
+        SafetyDoorAlarm = 101
+        SafetyPlaneAlarm = 102
+        MotonAlarm = 103
+        InterfaceAlarm = 104
+        UdpCmdState = 105
+        WeldReadyState = 106
+        AlarmCheckEmergStopBtn = 107
+        TsTmCmdComError = 108
+        TsTmStateComError = 109
+        CtrlBoxError = 110
+        SafetyDataState = 111
+        ForceSensorErrState = 112
+        CtrlOpenLuaErrCode = 113
+        StrangePosFlag = 114
+        Alarm = 115
+        DriverAlarm = 116
+        AliveSlaveNumError = 117
+        SlaveComError = 118
+        CmdPointError = 119
+        IOError = 120
+        GripperError = 121
+        FileError = 122
+        ParaError = 123
+        ExaxisOutLimitError = 124
+        DriverComError = 125
+        DriverError = 126
+        OutSoftLimitError = 127
+        AxleGenComData = 128
+        SocketConnTimeout = 129
+        SocketReadTimeout = 130
+        TsWebStateComErr = 131
+        CheckSum = 132

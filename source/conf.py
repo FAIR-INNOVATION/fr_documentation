@@ -9,7 +9,7 @@
 project = '法奥协作机器人用户手册'
 copyright = '2022-2026, 法奥（苏州）机器人技术股份有限公司'
 author = '法奥（苏州）机器人技术股份有限公司'
-release = '3.9.4'
+release = '3.9.5'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -44,3 +44,15 @@ html_theme_options = {
 #     app.add_css_file('_static/custom.css')
 
 # rst_epilog = '\n.. include:: .custom-style.rst\n'
+
+latex_elements = {
+    # 1. 启用图片“草稿模式”，这是节省内存最有效的一步
+    'preamble': r'\PassOptionsToPackage{draft}{graphicx}',
+    
+    # 2. 增加列表深度限制，防止复杂列表导致内存飙升
+    'maxlistdepth': '10',
+    
+    # 3. 其他优化
+    'pointsize': '10pt',      # 使用较小的默认字体
+    'releasename': '',        # 简化一些标题
+}

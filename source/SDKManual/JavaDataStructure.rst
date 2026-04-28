@@ -362,100 +362,293 @@ UDP扩展轴通讯参数
 
     /**
     * @brief  机器人状态反馈结构体类型
+    * /
+    public class ROBOT_STATE_PKG {
+        public int frame_head;                      // 帧头
+        public int frame_cnt;                       // 帧计数
+        public int data_len;                        // 数据长度
+        public int program_state;                   // 程序状态 - 1-停止；2-运行；3-暂停
+        public int robot_state;                     // 机器人运动状态 - 1-停止；2-运行；3-暂停；4-拖动
+        public int main_code;                       // 主故障码
+        public int sub_code;                        // 子故障码
+        public int robot_mode;                      // 机器人模式 - 1-手动模式；0-自动模式
+        public double[] jt_cur_pos = new double[6]; // 6个轴当前关节位置，单位deg
+        public double[] tl_cur_pos = new double[6]; // 工具当前位置 - [x,y,z,rx,ry,rz]
+        public double[] flange_cur_pos = new double[6]; // 末端法兰当前位置 - [x,y,z,rx,ry,rz]
+        public double[] actual_qd = new double[6];  // 当前6个关节速度，单位deg/s
+        public double[] actual_qdd = new double[6]; // 当前6个关节加速度，单位deg/s^2
+        public double[] target_TCP_CmpSpeed = new double[2]; // TCP合成指令速度 - [位置mm/s, 姿态deg/s]
+        public double[] target_TCP_Speed = new double[6]; // TCP指令速度 - [vx,vy,vz,wx,wy,wz]
+        public double[] actual_TCP_CmpSpeed = new double[2]; // TCP合成实际速度 - [位置mm/s, 姿态deg/s]
+        public double[] actual_TCP_Speed = new double[6]; // TCP实际速度 - [vx,vy,vz,wx,wy,wz]
+        public double[] jt_cur_tor = new double[6]; // 当前关节力矩
+        public int tool;                            // 工具ID
+        public int user;                            // 工件ID
+        public int cl_dgt_output_h;                 // 控制柜数字输出高字节
+        public int cl_dgt_output_l;                 // 控制柜数字输出低字节
+        public int tl_dgt_output_l;                 // 工具数字输出低字节
+        public int cl_dgt_input_h;                  // 控制柜数字输入高字节
+        public int cl_dgt_input_l;                  // 控制柜数字输入低字节
+        public int tl_dgt_input_l;                  // 工具数字输入低字节
+        public int[] cl_analog_input = new int[2];  // 控制柜模拟输入
+        public int tl_anglog_input;                 // 工具模拟输入
+        public double[] ft_sensor_raw_data = new double[6]; // 力传感器原始数据
+        public double[] ft_sensor_data = new double[6]; // 力传感器数据
+        public int ft_sensor_active;                // 力传感器激活状态
+        public int EmergencyStop;                   // 急停状态
+        public int motion_done;                     // 运动完成
+        public int gripper_motiondone;              // 夹爪运动完成
+        public int mc_queue_len;                    // 运动队列长度
+        public int collisionState;                  // 碰撞状态
+        public int trajectory_pnum;                 // 轨迹点序号
+        public int safety_stop0_state;              // 安全停止0状态
+        public int safety_stop1_state;              // 安全停止1状态
+        public int gripper_fault_id;                // 夹爪故障ID
+        public int gripper_fault;                   // 夹爪故障
+        public int gripper_active;                  // 夹爪激活
+        public int gripper_position;                // 夹爪位置
+        public int gripper_speed;                   // 夹爪速度
+        public int gripper_current;                 // 夹爪电流
+        public int gripper_temp;                    // 夹爪温度
+        public int gripper_voltage;                 // 夹爪电压
+        public AuxState aux_state = new AuxState(); // 内部辅助轴状态
+        public EXT_AXIS_STATUS[] extAxisStatus = new EXT_AXIS_STATUS[4]; // 扩展轴状态数组
+        public short[] extDIState = new short[8];   // 扩展IO
+        public short[] extDOState = new short[8];   // 扩展IO
+        public short[] extAIState = new short[4];   // 扩展IO
+        public short[] extAOState = new short[4];   // 扩展IO
+        public int rbtEnableState;                  // 机器人使能状态
+        public double[] jointDriverTorque = new double[6]; // 关节驱动器力矩
+        public double[] jointDriverTemperature = new double[6]; // 关节驱动器温度
+        public ROBOT_TIME robotTime = new ROBOT_TIME(); // 机器人时间对象
+        public int softwareUpgradeState;            // 软件升级状态
+        public int endLuaErrCode;                   // 末端Lua错误码
+        public int[] cl_analog_output = new int[2]; // 控制柜模拟输出
+        public int tl_analog_output;                // 工具模拟输出
+        public float gripperRotNum;                 // 旋转夹爪圈数
+        public int gripperRotSpeed;                 // 旋转夹爪速度
+        public int gripperRotTorque;                // 旋转夹爪力矩
+        public WELDING_BREAKOFF_STATE weldingBreakOffState = new WELDING_BREAKOFF_STATE(); // 焊接中断状态
+        public double[] jt_tgt_tor = new double[6]; // 目标关节力矩
+        public int smartToolState;                  // 智能工具状态
+        public float wideVoltageCtrlBoxTemp;        // 宽电压控制箱温度
+        public int wideVoltageCtrlBoxFanCurrent;    // 宽电压控制箱风扇电流
+        public double[] toolCoord = new double[6];  // 工具坐标系
+        public double[] wobjCoord = new double[6];  // 工件坐标系
+        public double[] extoolCoord = new double[6]; // 外部工具坐标系
+        public double[] exAxisCoord = new double[6]; // 扩展轴坐标系
+        public double load;                         // 负载
+        public double[] loadCog = new double[3];    // 负载重心
+        public double[] lastServoTarget = new double[6]; // 上一次伺服J目标位置
+        public int servoJCmdNum;                    // 伺服J命令数量
+        public double[] targetJointPos = new double[6]; // 目标关节位置
+        public double[] targetJointVel = new double[6]; // 目标关节速度
+        public double[] targetJointAcc = new double[6]; // 目标关节加速度
+        public double[] targetJointCurrent = new double[6]; // 目标关节电流
+        public double[] actualJointCurrent = new double[6]; // 实际关节电流
+        public double[] actualTCPForce = new double[6]; // 实际TCP力
+        public double[] targetTCPPos = new double[6]; // 目标TCP位置
+        public int[] collisionLevel = new int[6];   // 碰撞等级
+        public double speedScaleManual;              // 手动速度比例
+        public double speedScaleAuto;                // 自动速度比例
+        public int luaLineNum;                       // Lua行号
+        public int abnomalStop;                      // 异常停止
+        public String currentLuaFileName;            // 当前Lua文件名
+        public int programTotalLine;                 // 程序总行数
+        public int[] safetyBoxSingal = new int[6];   // 安全箱信号
+        public double weldVoltage;                   // 焊接电压
+        public double weldCurrent;                   // 焊接电流
+        public double weldTrackVel;                  // 焊接跟踪速度
+        public int tpdException;                     // TPD异常
+        public int alarmRebootRobot;                 // 报警重启机器人
+        public int modbusMasterConnect;              // Modbus主站连接
+        public int modbusSlaveConnect;               // Modbus从站连接
+        public int btnBoxStopSignal;                 // 按钮盒停止信号
+        public int dragAlarm;                        // 拖动报警
+        public int safetyDoorAlarm;                  // 安全门报警
+        public int safetyPlaneAlarm;                 // 安全平面报警
+        public int motonAlarm;                       // 运动报警
+        public int interfaceAlarm;                   // 干涉报警
+        public int udpCmdState;                      // UDP命令状态
+        public int weldReadyState;                   // 焊接准备状态
+        public int alarmCheckEmergStopBtn;           // 报警检查急停按钮
+        public int tsTmCmdComError;                  // 命令通信错误
+        public int tsTmStateComError;                // 状态通信错误
+        public int ctrlBoxError;                     // 控制箱错误
+        public int safetyDataState;                  // 安全数据状态
+        public int forceSensorErrState;              // 力传感器错误状态
+        public int[] ctrlOpenLuaErrCode = new int[4]; // 控制打开Lua错误码
+        public int strangePosFlag;                   // 奇异位置标志
+        public int alarm;                            // 报警
+        public int driverAlarm;                      // 驱动器报警
+        public int aliveSlaveNumError;               // 存活从站数量错误
+        public int[] slaveComError = new int[8];     // 从站通信错误
+        public int cmdPointError;                    // 命令点错误
+        public int IOError;                          // IO错误
+        public int gripperError;                     // 夹爪错误
+        public int fileError;                        // 文件错误
+        public int paraError;                        // 参数错误
+        public int exaxisOutLimitError;              // 扩展轴超出软限位错误
+        public int[] driverComError = new int[6];    // 驱动器通信错误
+        public int driverError;                      // 驱动器错误
+        public int outSoftLimitError;                // 超出软限位错误
+        public byte[] axleGenComData = new byte[130]; // 通用轴通信数据
+        public int check_sum;                        // 校验和
+        public int socketConnTimeout;                // Socket连接超时
+        public int socketReadTimeout;                // Socket读取超时
+        public int tsWebStateComErr;                 // TS Web状态通信错误
+    }
+
+机器人状态反馈配置结果类
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * 机器人状态反馈配置结果类，包含状态列表和周期
     */
-    public class ROBOT_STATE_PKG
-    {
-      public short frame_head = 0;            //帧头 0x5A5A
-      public byte frame_cnt = 0;              //帧计数
-      public short data_len = 0;              //数据长度  5
-      public int program_state = 0;          //程序运行状态，1-停止；2-运行；3-暂停
-      public int robot_state = 0;            //机器人运动状态，1-停止；2-运行；3-暂停；4-拖动  7
-      public int main_code = 0;               //主故障码
-      public int sub_code = 0;                //子故障码
-      public int robot_mode = 0;             //机器人模式，0-自动模式；1-手动模式 16
-      public double[] jt_cur_pos  =new double[6];                  //关节当前位置
-      public double[] tl_cur_pos = new double[6];                  //工具当前位姿
-      public double[] flange_cur_pos = new double[6];              //末端法兰当前位姿
-      public double[] actual_qd = new double[6];                   //机器人当前关节速度
-      public double[] actual_qdd = new double[6];                  //机器人当前关节加速度
-      public double[] target_TCP_CmpSpeed = new double[2];         //机器人TCP合成指令速度
-      public double[] target_TCP_Speed = new double[6];            //机器人TCP指令速度
-      public double[] actual_TCP_CmpSpeed = new double[2];         //机器人TCP合成实际速度
-      public double[] actual_TCP_Speed = new double[6];            //机器人TCP实际速度
-      public double[] jt_cur_tor = new double[6];                             //当前扭矩
-      public int tool = 0;                        //工具号
-      public int user = 0;                        //工件号
-      public int cl_dgt_output_h = 0;            //数字输出15-8
-      public int cl_dgt_output_l = 0;            //数字输出7-0
-      public int tl_dgt_output_l = 0;            //工具数字输出7-0(仅bit0-bit1有效)
-      public int cl_dgt_input_h = 0;             //数字输入15-8
-      public int cl_dgt_input_l = 0;             //数字输入7-0
-      public int tl_dgt_input_l = 0;             //工具数字输入7-0(仅bit0-bit1有效)
-      public short[] cl_analog_input = new short[2];          //控制箱模拟量输入
-      public short tl_anglog_input = 0;                       //工具模拟量输入
-      public double[] ft_sensor_raw_data = new double[6];     //力/扭矩传感器原始数据
-      public double[] ft_sensor_data = new double[6];         //参考坐标系下力/扭矩传感器数据
-      public int ft_sensor_active = 0;           //力/扭矩传感器激活状态， 0-复位，1-激活
-      public int EmergencyStop = 0;              //急停标志
-      public int motion_done = 0;                 //到位信号
-      public int gripper_motiondone = 0;         //夹爪运动完成信号
-      public int mc_queue_len = 0;                //运动队列长度
-      public int collisionState = 0;             //碰撞检测，1-碰撞；0-无碰撞
-      public int trajectory_pnum = 0;             //轨迹点编号
-      public int safety_stop0_state = 0;  /* 安全停止信号SI0 */
-      public int safety_stop1_state = 0;  /* 安全停止信号SI1 */
-      public int gripper_fault_id = 0;    /* 错误夹爪号 */               // + 19 = 567
-      public short gripper_fault = 0;      /* 夹爪故障 */
-      public short gripper_active = 0;     /* 夹爪激活状态 */
-      public int gripper_position = 0;    /* 夹爪位置 */
-      public int gripper_speed = 0;       /* 夹爪速度 */
-      public int gripper_current = 0;     /* 夹爪电流 */
-      public int gripper_tmp = 0;          /* 夹爪温度 */
-      public int gripper_voltage = 0;      /* 夹爪电压 */
-      public ROBOT_AUX_STATE auxState = new ROBOT_AUX_STATE(); /* 485扩展轴状态 */
-      public EXT_AXIS_STATUS extAxisStatus0 = new EXT_AXIS_STATUS();
-      public EXT_AXIS_STATUS extAxisStatus1 = new EXT_AXIS_STATUS();
-      public EXT_AXIS_STATUS extAxisStatus2 = new EXT_AXIS_STATUS();
-      public EXT_AXIS_STATUS extAxisStatus3 = new EXT_AXIS_STATUS();
-      public short[] extDIState = new short[8];        //扩展DI输入
-      public short[] extDOState = new short[8];        //扩展DO输出
-      public short[] extAIState = new short[4];        //扩展AI输入
-      public short[] extAOState = new short[4];        //扩展AO输出
-      public int rbtEnableState = 0;       //机器人使能状态--robot enable s
-      public double[] jointDriverTorque  =new double[6];       //关节驱动器当前扭矩
-      public double[] jointDriverTemperature = new double[6];  //关节驱动器当前温度
-      public ROBOT_TIME robotTime = new ROBOT_TIME();
-      public int softwareUpgradeState = 0;   //机器人软件升级状态 0-空闲中或上传升级包中；1~100：升级完成百分比；-1:升级软件失败；-2：校验失败；-3：版本校验失败；-4：解压失败；-5：用户配置升级失败；-6：外设配置升级失败；-7：扩展轴配置升级失败；-8：机器人配置升级失败；-9：DH参数配置升级失败
-      public int endLuaErrCode;              //末端LUA运行状态
+    public static class StateConfigResult {
+      public final List<RobotState> stateList;
+      public final int period;
+    }
 
-      public int[] cl_analog_output = new int[2];  //控制箱模拟量输出
-      public int tl_analog_output;              //工具模拟量输出
-      public float gripperRotNum;               //旋转夹爪当前旋转圈数
-      ublic int gripperRotSpeed;                //旋转夹爪当前旋转速度百分比
-      public int gripperRotTorque;	            //旋转夹爪当前旋转力矩百分比
+机器人状态反馈配置枚举类型
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
 
-      public  WELDING_BREAKOFF_STATE weldingBreakOffstate=new WELDING_BREAKOFF_STATE();//焊接中断状态
-
-      public double[] jt_tgt_tor = new double[6];    //关节指令力矩
-      public int smartToolState;         //SmartTool手柄按钮状态
-
-      public float wideVoltageCtrlBoxTemp;        //宽电压控制箱温度
-      public int wideVoltageCtrlBoxFanVel;   //宽电压控制箱风扇转速(mA)
-
-      public double[] toolCoord=new double[6];           //工具坐标系
-      public double[] wobjCoord=new double[6];		   //工件坐标系
-      public double[] extoolCoord=new double[6];		   //外部工具坐标系
-      public double[] exAxisCoord=new double[6];		   //扩展轴坐标系
-      public double load;                   //负载质量
-      public double[] loadCog=new double[3];             //负载质心
-
-      public double[] lastServoTarget=new double[6];      //队列中最后一个servo]目标位置
-      public int servoJCmdNum;                            //servo]指令计数
-
-      public short check_sum = 0;          /* 和校验 */
-
-      public ROBOT_STATE_PKG()
-      {
-
-      }
+    /**
+    * 机器人状态枚举类型
+    * 用于实时状态反馈配置
+    */
+    public enum RobotState {
+        ProgramState,
+        RobotState,
+        MainCode,
+        SubCode,
+        RobotMode,
+        JointCurPos,
+        ToolCurPos,
+        FlangeCurPos,
+        ActualJointVel,
+        ActualJointAcc,
+        TargetTCPCmpSpeed,
+        TargetTCPSpeed,
+        ActualTCPCmpSpeed,
+        ActualTCPSpeed,
+        ActualJointTorque,
+        Tool,
+        User,
+        ClDgtOutputH,
+        ClDgtOutputL,
+        TlDgtOutputL,
+        ClDgtInputH,
+        ClDgtInputL,
+        TlDgtInputL,
+        ClAnalogInput,
+        TlAnglogInput,
+        FtSensorRawData,
+        FtSensorData,
+        FtSensorActive,
+        EmergencyStop,
+        MotionDone,
+        GripperMotiondone,
+        McQueueLen,
+        CollisionState,
+        TrajectoryPnum,
+        SafetyStop0State,
+        SafetyStop1State,
+        GripperFaultId,
+        GripperFault,
+        GripperActive,
+        GripperPosition,
+        GripperSpeed,
+        GripperCurrent,
+        GripperTemp,
+        GripperVoltage,
+        AuxState,
+        ExtAxisStatus,
+        ExtDIState,
+        ExtDOState,
+        ExtAIState,
+        ExtAOState,
+        RbtEnableState,
+        JointDriverTorque,
+        JointDriverTemperature,
+        RobotTime,
+        SoftwareUpgradeState,
+        EndLuaErrCode,
+        ClAnalogOutput,
+        TlAnalogOutput,
+        GripperRotNum,
+        GripperRotSpeed,
+        GripperRotTorque,
+        WeldingBreakOffState,
+        TargetJointTorque,
+        SmartToolState,
+        WideVoltageCtrlBoxTemp,
+        WideVoltageCtrlBoxFanCurrent,
+        ToolCoord,
+        WobjCoord,
+        ExtoolCoord,
+        ExAxisCoord,
+        Load,
+        LoadCog,
+        LastServoTarget,
+        ServoJCmdNum,
+        TargetJointPos,
+        TargetJointVel,
+        TargetJointAcc,
+        TargetJointCurrent,
+        ActualJointCurrent,
+        ActualTCPForce,
+        TargetTCPPos,
+        CollisionLevel,
+        SpeedScaleManual,
+        SpeedScaleAuto,
+        LuaLineNum,
+        AbnomalStop,
+        CurrentLuaFileName,
+        ProgramTotalLine,
+        SafetyBoxSingal,
+        WeldVoltage,
+        WeldCurrent,
+        WeldTrackVel,
+        TpdException,
+        AlarmRebootRobot,
+        ModbusMasterConnect,
+        ModbusSlaveConnect,
+        BtnBoxStopSignal,
+        DragAlarm,
+        SafetyDoorAlarm,
+        SafetyPlaneAlarm,
+        MotonAlarm,
+        InterfaceAlarm,
+        UdpCmdState,
+        WeldReadyState,
+        AlarmCheckEmergStopBtn,
+        TsTmCmdComError,
+        TsTmStateComError,
+        SocketConnTimeout,
+        SocketReadTimeout,
+        TsWebStateComErr,
+        CtrlBoxError,
+        SafetyDataState,
+        ForceSensorErrState,
+        CtrlOpenLuaErrCode,
+        StrangePosFlag,
+        Alarm,
+        DriverAlarm,
+        AliveSlaveNumError,
+        SlaveComError,
+        CmdPointError,
+        IOError,
+        GripperError,
+        FileError,
+        ParaError,
+        ExaxisOutLimitError,
+        DriverComError,
+        DriverError,
+        OutSoftLimitError,
+        AxleGenComData;
     }

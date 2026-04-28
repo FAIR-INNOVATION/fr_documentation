@@ -988,14 +988,14 @@ SmartTool按钮代码示例
 .. code-block:: Java
     :linenos:
 
-    /**
+    /*
     * @brief  写入从站AO
-    * @param  AOIndex  AO编号
-    * @param  wirteNum  写入的数量
-    * @param  status 写入的数值，最多写8个
+    * @param  AOIndex AO编号
+    * @param  wirteNum 写入数量
+    * @param  status 写入数值数组（最多8个）,AO0~AO15为整型,AO16~AO31为浮点
     * @return  错误码
     */
-    public int FieldBusSlaveWriteAO(int AOIndex, int wirteNum, int[] status)
+    public int FieldBusSlaveWriteAO(int AOIndex, int wirteNum, double[] status)
 
 读取从站DI
 ++++++++++++++++++++++++++++++++++++++++++++++++++++

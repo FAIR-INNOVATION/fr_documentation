@@ -13,6 +13,18 @@
      - **日期**
      - **更新描述**
 
+   * - V3.9.5
+     - 2026-04-24
+     - | 1.SetTrajectoryJSpeed()接口新增模式降速模式、直接切换；
+       | 2.更新机器人状态反馈结构体类型；
+       | 3.新增机器人状态反馈配置枚举类型；
+       | 4.新增机器人状态反馈配置结果类；
+       | 5.新增SetRobotRealtimeStateConfig()配置机器人CNDE状态反馈接口；
+       | 6.新增AddRobotRealtimeState()CNDE状态配置添加一个机器人状态接口；
+       | 7.新增DeleteRobotRealtimeState()CNDE状态配置删除一个机器人状态接口；
+       | 8.新增SetRobotRealtimeStatePeriod()设置CNDE状态反馈周期接口；
+       | 9.新增GetRobotRealtimeStateConfig()获取当前CNDE状态反馈所有状态集合和周期接口。
+
    * - V3.9.4
      - 2026-03-25
      - | 1.ServoJTStart()接口新增通信类型选择参数，支持XMLPRC/UDP通信；

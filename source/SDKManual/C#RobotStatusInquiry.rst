@@ -182,10 +182,10 @@
 
     /**
     * @brief  获取系统时间
-    * @param  [out] t_ms 单位ms
+    * @param  [out] t_ms 单位ms,可按照UTC时间转换,机器人故障状态下获取CLock为0并返回错误码
     * @return  错误码
     */
-    int GetSystemClock(ref double t_ms);
+    public int GetSystemClock(ref double t_ms)
 
 查询机器人运动是否完成
 ++++++++++++++++++++++++++++++++++++
@@ -268,17 +268,17 @@
     */
     int GetJointDriverTorque(double torque[]);
 
-获取机器人实时状态结构体
-++++++++++++++++++++++++++++++++++++
+获取最新一帧的机器人实时状态数据（内部机制改动）
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
-    /** 
-    * @brief 获取机器人实时状态结构体
-    * @param [out] pkg 机器人实时状态结构体 
-    * @return 错误码 
+    /**
+    * @brief 获取最新一帧的机器人实时状态数据（内部线程持续更新，此接口直接返回缓存数据）
+    * @param [out] pkg 引用参数，用于接收机器人状态数据（ROBOT_STATE_PKG 结构体）
+    * @return 成功返回 0；失败返回负错误码（例如网络通信错误）
     */
-    int GetRobotRealTimeState(ref ROBOT_STATE_PKG pkg);
+    public int GetRobotRealTimeState(ref ROBOT_STATE_PKG pkg)
 
 机器人状态查询代码示例
 ++++++++++++++++++++++++++++++++++++
