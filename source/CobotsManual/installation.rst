@@ -2249,7 +2249,7 @@ FR30型号协作机器人最大可携带负载为35kg，额定负载为30kg，�
 控制器I/O面板
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-您可以使用控制箱内的I/O 来控制各种设备，包括气动继电器、PLC 和紧限位装置止按钮。图表3.5-2显示了控制箱的电气接口组，图表3.5-3显示了易制造控制箱的电气接口组。
+您可以使用控制箱内的I/O 来控制各种设备，包括气动继电器、PLC 和紧限位装置止按钮。图表3.5-2显示了控制箱的电气接口组，图表3.5-3显示了集成式mini控制箱（mini BOX）的电气接口组。
 
 .. figure:: installation/038.png
 	:align: center
@@ -2261,7 +2261,7 @@ FR30型号协作机器人最大可携带负载为35kg，额定负载为30kg，�
 	:align: center
 	:width: 6in
 
-.. centered:: 图表 3.5-3 易制造控制箱电气接口示意图
+.. centered:: 图表 3.5-3 集成式mini控制箱（mini BOX）电气接口示意图
 
 RJ45网络接口组
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2322,20 +2322,34 @@ RJ45网络接口组
 
 机器人必须按照电气规范进行安装。
 
-通过配置“电源通讯”接口，可以使用内部或外部24V电源为数字I/O供电。该接口中上面两个端子（ex24V和exon）为外部电源的24V和地，下面两个端子（24V和GND）为内部电源的24V和地。默认配置是使用内部电源，如下图所示。
+通过配置“电源通讯”接口，可以使用内部或外部24V电源为数字I/O供电。该接口中上面两个端子（ex24V和exon）为外部电源的24V和地，下面两个端子（24V和GND）为内部电源的24V和地。默认配置是使用内部电源，控制箱及集成式mini控制箱（mini BOX）如下图所示。
 
 .. figure:: installation/044.png
 	:align: center
 	:width: 3in
 
+.. centered:: 控制箱
+
+.. figure:: installation/134.png
+	:align: center
+	:width: 3in
+
+.. centered:: 集成式mini控制箱（mini BOX）
 .. centered:: 图表 3.5-8 电源通信示意图01
 
-如果负载功率较大，可以按如下图连接外部电源。
+如果负载功率较大，可以按如下图连接外部电源。交流宽压集成式mini控制箱（mini BOX）外部电源与内部电源共0V连接。
 
 .. figure:: installation/045.png
 	:align: center
 	:width: 3in
 
+.. centered:: 控制箱
+
+.. figure:: installation/135.png
+	:align: center
+	:width: 3in
+
+.. centered:: 集成式mini控制箱（mini BOX）
 .. centered:: 图表 3.5-9 电源通信示意图02
 
 内部和外部电源的电气规格如下表格所示：
@@ -2574,6 +2588,13 @@ RJ45网络接口组
 	:align: center
 	:width: 3in
 
+.. centered:: 控制箱
+
+.. figure:: installation/136.png
+	:align: center
+	:width: 3in
+
+.. centered:: 集成式mini控制箱（mini BOX）
 .. centered:: 图表 3.5-10 安全防护示意图01
 
 **连接紧急停止按钮**
@@ -2583,6 +2604,13 @@ RJ45网络接口组
 	:align: center
 	:width: 3in
 
+.. centered:: 控制箱
+  
+.. figure:: installation/137.png
+	:align: center
+	:width: 3in
+
+.. centered:: 集成式mini控制箱（mini BOX）
 .. centered:: 图表 3.5-11 安全防护示意图02
 
 **连接安全停止按钮**
@@ -2592,6 +2620,13 @@ RJ45网络接口组
 	:align: center
 	:width: 3in
 
+.. centered:: 控制箱
+  
+.. figure:: installation/138.png
+	:align: center
+	:width: 3in
+
+.. centered:: 集成式mini控制箱（mini BOX）
 .. centered:: 图表 3.5-12 安全防护示意图03
 
 通用数字量I/O
@@ -2609,6 +2644,13 @@ RJ45网络接口组
 	:align: center
 	:width: 3in
 
+.. centered:: 控制箱
+  
+.. figure:: installation/139.png
+	:align: center
+	:width: 6in
+
+.. centered:: 集成式mini控制箱（mini BOX）
 .. centered:: 图表 3.5-13 通用数字量输出示意图01
 
 从按钮进行的数字输入
@@ -2620,6 +2662,13 @@ RJ45网络接口组
 	:align: center
 	:width: 3in
 
+.. centered:: 控制箱
+  
+.. figure:: installation/140.png
+	:align: center
+	:width: 6in
+
+.. centered:: 集成式mini控制箱（mini BOX）
 .. centered:: 图表 3.5-14 通用数字量输出示意图02
 
 与其他设备或PLC交互
@@ -2631,6 +2680,13 @@ RJ45网络接口组
 	:align: center
 	:width: 6in
 
+.. centered:: 控制箱
+  
+.. figure:: installation/141.png
+	:align: center
+	:width: 6in
+
+.. centered:: 集成式mini控制箱（mini BOX）
 .. centered:: 图表 3.5-15 与其他设备或PLC交互示意图
 
 模拟量I/O
@@ -2773,6 +2829,13 @@ RJ45网络接口组
 	:align: center
 	:width: 3in
 
+.. centered:: 控制箱
+  
+.. figure:: installation/142.png
+	:align: center
+	:width: 6in
+
+.. centered:: 集成式mini控制箱（mini BOX）
 .. centered:: 图表 3.5-16 模拟量输出示意图
 
 **使用模拟量输入**
@@ -2783,6 +2846,13 @@ RJ45网络接口组
 	:align: center
 	:width: 3in
 
+.. centered:: 控制箱
+  
+.. figure:: installation/143.png
+	:align: center
+	:width: 6in
+
+.. centered:: 集成式mini控制箱（mini BOX）
 .. centered:: 图表 3.5-17 模拟量输入示意图
 
 FR3MT&3C选配模块
