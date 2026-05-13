@@ -306,6 +306,8 @@
 
     :download:`按钮盒 STEP模型 <_static/_doc/按钮盒.zip>`
 
+    :download:`CNC工作站 STEP模型 <_static/_doc/CNC工作站.zip>`
+
     :download:`码垛工作站 STEP模型 <_static/_doc/码垛.zip>`
 
     :download:`分拣工作站 STEP模型 <_static/_doc/分拣.zip>`
