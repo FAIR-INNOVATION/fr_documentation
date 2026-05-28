@@ -1513,3 +1513,242 @@
 
         robot.CloseRPC();
     }
+
+激光焊机参数配置
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 激光焊机参数配置
+    * @param  io_type 通信类型 0-IO 1-UDP
+    * @param  num 需要设置的组号（1~10）
+    * @param  scanSpeed 扫描速度
+    * @param  scanWidth 扫描宽度
+    * @param  peakPower 峰值功率
+    * @param  dutyCycle 占空比
+    * @param  freq 频率
+    * @return 错误码
+    */
+    public int SetLaserWeldingParam(int io_type, int num, int scanSpeed, int scanWidth, int peakPower, int dutyCycle, int freq);
+
+设置激光焊接开始停止
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 设置激光焊接开始停止
+    * @param io_type 通信类型 0-IO 1-UDP
+    * @param status 控制字 0-收光 1-出光
+    * @param max_waittime 最大等待时间，单位毫秒，默认10000
+    * @return 错误码
+    */
+    public int SetLaserWeldingStartEnd(int io_type, int status, int max_waittime)
+
+激光焊机使能去使能
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 激光焊机使能去使能
+    * @param io_type 通信类型 0-IO 1-UDP
+    * @param status 0-去使能 1-使能
+    * @return 错误码
+    */
+    public int SetLaserWeldingEnable(int io_type, int status)
+
+激光焊机故障复位
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 激光焊机故障复位
+    * @param io_type 通信类型 0-IO 1-UDP
+    * @param status 控制字 0-无效 1-故障复位
+    * @return 错误码
+    */
+    public int ResetLaserWeldingErr(int io_type, int status)
+
+获取激光焊机运行状态
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 获取激光焊机运行状态
+    * @param io_type 通信类型 0-IO 1-UDP
+    * @param  status 控制字 0-停机 1-运行
+    * @return 错误码
+    */
+    public int GetLaserWeldingRunningState(int io_type, int[] status)
+
+获取激光焊机故障状态
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 获取激光焊机故障状态
+    * @param io_type 通信类型 0-IO 1-UDP
+    * @param  status 0-无故障 1-存在故障
+    * @return 错误码
+    */
+    public int GetLaserWeldingErrState(int io_type, int[] status)
+
+获取激光焊机配置参数
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 获取激光焊机10个工艺组中某一个的配置参数
+    * @param num 需要设置的组号（1~10）
+    * @param params 输出参数数组：[scanSpeed, scanWidth, peakPower, dutyCycle, freq]
+    * @return 错误码
+    */
+    public int GetLaserWeldingParamTarget(int num, int[] params)
+
+获取当前激光焊机生效的配置参数
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 获取当前激光焊机生效的配置参数
+    * @param io_type 通信类型 0-IO 1-UDP
+    * @param params 输出参数数组：[scanSpeed, scanWidth, peakPower, dutyCycle, freq]
+    * @return 错误码
+    */
+    public int GetLaserWeldingParamActual(int io_type, int[] params)
+
+配置激光焊机扩展IO使能DO端口
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 激光焊机设置扩展IO，使能的DO端口
+    * @param ctrlModeDONum 激光焊机使能的扩展DO端口号
+    * @return 错误码
+    */
+    public int SetLaserWeldingEnableExtDoNum(int ctrlModeDONum)
+
+配置激光焊机扩展IO启动DO端口
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 激光焊机设置扩展IO，启动的DO端口
+    * @param ctrlModeDONum 激光焊机启动（出光收光）的扩展DO端口号
+    * @return 错误码
+    */
+    public int SetLaserWeldingStartExtDoNum(int ctrlModeDONum)
+
+配置激光焊机扩展IO故障复位DO端口
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 激光焊机设置扩展IO，故障复位的DO端口
+    * @param ctrlModeDONum 激光焊机故障复位的扩展DO端口号
+    * @return 错误码
+    */
+    public int SetLaserWeldingErrResetExtDoNum(int ctrlModeDONum)
+
+配置激光焊机扩展IO运行状态（出光状态）DI端口
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 配置激光焊机扩展IO运行状态（出光状态）DI端口
+    * @param diNum 配置激光焊机运行状态（出光状态）扩展DI端口
+    * @return 错误码，0表示成功，非0表示失败
+    */
+    public int SetLaserWeldingRunningStateExtDiNum(int diNum);
+
+配置激光焊机扩展IO故障状态DI端口
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 配置激光焊机扩展IO故障状态DI端口
+    * @param diNum 配置激光焊机故障状态扩展DI端口
+    * @return 错误码，0表示成功，非0表示失败
+    */
+    public int SetLaserWeldingErrStateExtDiNum(int diNum);
+
+激光焊接代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static int testLsaerWeld(Robot robot) {
+        int rtn = -1;
+        rtn = robot.ExtDevLoadUDPDriver();
+        if (rtn != 0) {
+            System.out.println("Failed to load UDP driver, error code: " + rtn);
+        }
+        robot.Sleep(1000);
+        rtn = robot.SetLaserWeldingParam(1, 3, 2000, 3, 1500, 100, 1000);
+        if (rtn != 0) {
+            System.out.println("SetLaserWeldingParam failed, error code: " + rtn);
+        } else {
+            System.out.println("SetLaserWeldingParam success");
+        }
+        rtn = robot.SetLaserWeldingStartExtDoNum(1);
+        if (rtn != 0) {
+            System.out.println("SetLaserWeldingStartExtDoNum failed, error code: " + rtn);
+        }
+        rtn = robot.Mode(0);
+        if (rtn != 0) {
+            System.out.println("Set mode 0 failed, error code: " + rtn);
+        }
+        robot.Sleep(1000);
+        DescPose desc_pos1 = new DescPose(-303.721, -206.960, 297.105, 152.209, 19.857, 109.166);
+        DescPose desc_pos2 = new DescPose(-301.575, -254.888, 284.786, 155.919, 26.946, 111.629);
+        DescPose desc_safe = new DescPose(-344.386, -280.830, 435.073, 173.835, 15.333, 124.931);
+
+        JointPos jointPos1 = new JointPos(9.827, -99.740, 120.088, -78.900, -77.241, -17.904);
+        JointPos jointPos2 = new JointPos(15.251, -96.456, 120.138, -84.664, -68.542, -17.843);
+        JointPos jointSafe = new JointPos(19.142, -98.078, 101.493, -83.078, -77.070, -17.794);
+
+        ExaxisPos exaxis = new ExaxisPos(0.0, 0.0, 0.0, 0.0);
+        DescPose offset = new DescPose(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+        int error = robot.MoveL(desc_pos1, 0, 0, 100, 100, 100, -1, 0, exaxis, 0, 0, offset, -1, 0,0,0);
+        System.out.println("MoveL to pos1 return: " + error);
+        rtn = robot.SetLaserWeldingStartEnd(1, 1, 10000);
+        if (rtn != 0) {
+            System.out.println("SetLaserWeldingStartEnd (start) failed, error code: " + rtn);
+        } else {
+            System.out.println("Laser started");
+        }
+        rtn = robot.MoveL(desc_pos2, 0, 0, 30, 100, 100, -1, 0, exaxis, 0, 0, offset, -1, 0,0, 0);
+        System.out.println("MoveL to pos2 return: " + rtn);
+        rtn = robot.SetLaserWeldingStartEnd(1, 0, 10000);
+        if (rtn != 0) {
+            System.out.println("SetLaserWeldingStartEnd (stop) failed, error code: " + rtn);
+        } else {
+            System.out.println("Laser stopped");
+        }
+        robot.Sleep(500);
+        rtn = robot.MoveL(desc_safe, 0, 0, 100, 100, 100, -1, 0, exaxis, 0, 0, offset, -1, 0,0,0);
+        System.out.println("MoveL to safe_pos return: " + rtn);
+        rtn = robot.Mode(1);
+        if (rtn != 0) {
+            System.out.println("Set mode 1 failed, error code: " + rtn);
+        }
+        robot.Sleep(1000);
+        robot.CloseRPC();
+        robot.Sleep(1000);
+
+        System.out.println("Test completed");
+
+        return 0;
+    }

@@ -369,7 +369,7 @@
         public byte socketConnTimeout;     // socket连接超时标志
         public byte socketReadTimeout;     // socket读取超时标志
         public byte tsWebStateComErr;      // ts_web_state_com_err
-
+        public byte exaxisCoordID;         //扩展轴坐标系编号
         public UInt16 check_sum;         /* 和校验 */                 
 
         // 构造函数：初始化所有数组字段
@@ -420,17 +420,20 @@
         }
     }
 
-机器人可配置状态枚举
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+机器人状态反馈配置枚举类型
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
 .. code-block:: c#
     :linenos:
 
     /**
-    * @brief  机器人可配置状态枚举 范围 3~131
+    * @brief  机器人可配置状态枚举 范围 0~132
     */
     public enum RobotState
     {
+        FrameHead = 0,
+        FrameCnt = 1,
+        DataLen = 2,
         ProgramState = 3,
         RobotState = 4,
         MainCode = 5,
@@ -559,5 +562,6 @@
         AxleGenComData = 128,
         SocketConnTimeout = 129,     //socket连接超时，bit0-bit4:socketID 1-4
         SocketReadTimeout = 130,     //socket读取超时，bit0-bit4:socketID 1-4
-        TsWebStateComErr = 131     //web-扭矩通讯失败；0-正常；1-失败
+        TsWebStateComErr = 131,     //web-扭矩通讯失败；0-正常；1-失败
+        ExaxisCoordID = 132          //扩展轴坐标系编号
     }

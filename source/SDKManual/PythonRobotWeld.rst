@@ -1619,3 +1619,271 @@
     robot.MoveL(desc_pos=desc_p2, tool=3, user=0, vel=100, ovl=10, speedPercent=100)
     robot.WeaveEnd(0)
     robot.CloseRPC()
+
+激光焊机参数配置
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetLaserWeldingParam(self, num, scanSpeed, scanWidth, peakPower, dutyCycle, Freq, io_type=1)``"
+    "描述", "写入激光焊机10个工艺组中某一个的配置参数并配置给焊机"
+    "必选参数", "
+    - ``io_type``:通信类型 0-IO 1-UDP
+    - ``Num``:需要设置的组号（1~10）
+    - ``scanSpeed``:扫描速度
+    - ``scanWidth``:扫描宽度
+    - ``peakPower``:峰值功率
+    - ``dutyCycle``:占空比
+    - ``Freq``:频率
+    "
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+设置激光焊接开始停止
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetLaserWeldingStartEnd(self, status, io_type=1, max_waittime=10000)``"
+    "描述", "设置激光焊机开启关闭"
+    "必选参数", "
+    - ``io_type``:通信类型 0-IO 1-UDP
+    - ``status``:控制字 0-收光 1-出光
+    - ``max_waittime``:最大等待时间
+    "
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+激光焊机使能去使能
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetLaserWeldingEnable(self, status, io_type=1)``"
+    "描述", "激光焊机使能去使能"
+    "必选参数", "
+    - ``io_type``:通信类型 0-IO 1-UDP
+    - ``status``:0-去使能 1-使能
+    "
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+激光焊机故障复位
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``ResetLaserWeldingErr(self,status, io_type=1)``"
+    "描述", "激光焊机故障复位"
+    "必选参数", "
+    - ``io_type``:通信类型 0-IO 1-UDP
+    - ``status``:控制字 0-无效 1-故障复位
+    "
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+获取激光焊机运行状态
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetLaserWeldingRunningState(self, io_type=1)``"
+    "描述", "获取激光焊机运行状态"
+    "必选参数", "
+    - ``io_type``:通信类型 0-IO 1-UDP
+    - ``status``:控制字 0-停机 1-运行
+    "
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+获取激光焊机故障状态
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetLaserWeldingErrState(self, io_type=1)``"
+    "描述", "获取激光焊机故障状态"
+    "必选参数", "
+    - ``io_type``:通信类型 0-IO 1-UDP
+    - ``status``:0-无故障 1-存在故障
+    "
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+获取激光焊机配置参数
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetLaserWeldingParamTarget(self, num)``"
+    "描述", "获取激光焊机10个工艺组中某一个的配置参数"
+    "必选参数", "
+    - ``Num``:需要设置的组号（1~10）
+    - ``scanSpeed``:扫描速度
+    - ``scanWidth``:扫描宽度
+    - ``peakPower``:峰值功率
+    - ``dutyCycle``:占空比
+    - ``Freq``:频率
+    "
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+获取当前激光焊机生效的配置参数
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetLaserWeldingParamActual(self, io_type=1)``"
+    "描述", "获取当前激光焊机生效的配置参数"
+    "必选参数", "
+    - ``io_type``:通信类型 0-IO 1-UDP
+    - ``scanSpeed``:扫描速度
+    - ``scanWidth``:扫描宽度
+    - ``peakPower``:峰值功率
+    - ``dutyCycle``:占空比
+    - ``Freq``:频率
+    "
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+配置激光焊机扩展IO使能DO端口
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetLaserWeldingEnableExtDoNum(self, ctrlModeDONum)``"
+    "描述", "配置激光焊机扩展IO使能DO端口"
+    "必选参数", "
+    - ``ctrlModeDONum``:激光焊机使能的扩展DO端口号
+    "
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+配置激光焊机扩展IO启动DO端口
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetLaserWeldingStartExtDoNum(self, ctrlModeDONum)``"
+    "描述", "激光焊机设置扩展IO，启动的DO端口"
+    "必选参数", "
+    - ``ctrlModeDONum``:激光焊机启动（出光收光）的扩展DO端口号
+    "
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+配置激光焊机扩展IO故障复位DO端口
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetLaserWeldingErrResetExtDoNum(self, ctrlModeDONum)``"
+    "描述", "激光焊机设置扩展IO，故障复位的DO端口"
+    "必选参数", "
+    - ``ctrlModeDONum``:激光焊机故障复位的扩展DO端口号
+    "
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+配置激光焊机扩展IO运行状态（出光状态）DI端口
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetLaserWeldingRunningStateExtDiNum(self, diNum)``"
+    "描述", "配置激光焊机扩展IO运行状态（出光状态）DI端口"
+    "必选参数", "
+    - ``diNum``:配置激光焊机运行状态（出光状态）扩展DI端口
+    "
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+配置激光焊机扩展IO故障状态DI端口
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetLaserWeldingErrStateExtDiNum(self, diNum)``"
+    "描述", "配置激光焊机扩展IO故障状态DI端口"
+    "必选参数", "
+    - ``diNum``:配置激光焊机故障状态 扩展DI端口
+    "
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+激光焊接代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: python
+    :linenos: 
+
+    from time import sleep
+    from fairino import Robot
+    import time
+
+    # 与机器人控制器建立连接，连接成功返回一个机器人对象
+    robot = Robot.RPC('192.168.58.2')
+
+    def testLsaerWeld():
+        robot.ExtDevLoadUDPDriver()
+        time.sleep(1)
+
+        robot.SetLaserWeldingParam(num = 3, scanSpeed = 2000, scanWidth = 3, peakPower = 1500, dutyCycle = 100, Freq = 1000, io_type=1)
+        robot.SetLaserWeldingStartExtDoNum(ctrlModeDONum=1)
+
+        robot.Mode(0)
+        time.sleep(1)
+
+        desc_pos1 = [-303.721, -206.960, 297.105, 152.209, 19.857, 109.166]
+        desc_pos2 = [-301.575, -254.888, 284.786, 155.919, 26.946, 111.629]
+        desc_safe = [-344.386, -280.830, 435.073, 173.835, 15.333, 124.931]
+        jointPos1 = [9.827, -99.740, 120.088, -78.900, -77.241, -17.904]
+        jointPos2 = [15.251, -96.456, 120.138, -84.664, -68.542, -17.843]
+        jointSafe = [19.142, -98.078, 101.493, -83.078, -77.070, -17.794]
+
+        error = robot.MoveL(desc_pos=desc_pos1,joint_pos=jointPos1, tool=1, user=0, vel=100, ovl= 2, acc=100)
+        print("MoveL return:", error)
+        robot.SetLaserWeldingStartEnd(1, io_type=1, max_waittime=10000)
+
+        error = robot.MoveL(desc_pos=desc_pos2, joint_pos=jointPos2, tool=1, user=0, vel=100, ovl= 2, acc=100)
+        print("MoveL return:", error)
+        robot.SetLaserWeldingStartEnd(0, io_type=1, max_waittime=10000)
+
+        error = robot.MoveL(desc_pos=desc_safe, joint_pos=jointSafe, tool=1, user=0, vel=100, ovl= 2, acc=100)
+        print("MoveL return:", error)
+
+        robot.Mode(1)
+        time.sleep(1)
+
+        # 关闭连接
+        robot.CloseRPC()
+        time.sleep(1)
+
+    # 调用测试函数
+    testLsaerWeld()

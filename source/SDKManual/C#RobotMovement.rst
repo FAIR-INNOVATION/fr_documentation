@@ -2207,3 +2207,166 @@ FIR滤波代码示例
         robot.OriginPointWeaveEnd();
         robot.LaserTrackingTrackOnOff(0, 4);
     }
+        
+关节空间速度伺服模式运动
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  关节空间速度伺服模式运动
+    * @param  [in] joint_pos  6个目标关节速度,单位deg/s
+    * @param  [in] axisPos  4个外部轴速度,单位deg/s
+    * @param  [in] acc  加速度百分比，范围[0~100],暂不开放，默认为0
+    * @param  [in] vel  速度百分比，范围[0~100]，暂不开放，默认为0
+    * @param  [in] cmdT  指令下发周期，单位s，建议范围[0.001~0.0016]
+    * @param  [in] filterT 滤波时间，单位s，暂不开放，默认为0
+    * @param  [in] gain  目标位置的比例放大器，暂不开放，默认为0
+    * @param  [in] id servoJ指令ID,默认为0
+    * @param[in] comType 指令下发类型；0-xmlrpc；1-UDP(对应机器人20007端口)
+    * @return  错误码
+    */
+    public int ServoJV(double[] joint_vel, double[] exis_vel, float acc, float vel, float cmdT, float filterT, float gain, int id = 0, int comType = 0)
+
+关节空间速度伺服模式运动代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    public int ServoJVtest()
+    {
+        double[] joint_vel = new double[6] { 10, 0, 0, 0, 0, 0 };
+        double[] exis_vel = new double[4] { 0, 0, 0, 0 };
+        float acc = 0.0f; 
+        float vel = 0.0f;
+        float cmdT = 0.01f; 
+        float filterT = 0.0f; 
+        float gain = 0.0f;
+        int cnt = 0;
+        while (cnt < 200)
+        {
+            int error = robot.ServoJV(joint_vel, exis_vel, acc, vel, cmdT, filterT, gain);
+            Console.WriteLine($"ServoJV rtn is {error}");
+            cnt++;
+        }
+        return 0;
+    }
+
+关节MIT控制开始
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 关节MIT控制开始
+    * @param [in]  comType 指令下发类型；0-xmlrpc；1-UDP(对应机器人20007端口)
+    * @return  错误码
+    */
+    public int ServoMITStart(int comType = 0)
+
+关节MIT控制结束
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 关节MIT控制结束
+    * @param [in]  comType 指令下发类型；0-xmlrpc；1-UDP(对应机器人20007端口)
+    * @return  错误码
+    */
+    public int ServoMITEnd(int comType = 0)
+
+关节MIT控制
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 关节MIT控制
+    * @param [in] posGain j1~j6关节位置增益
+    * @param [in] desPos j1~j6关节期望位置 单位:deg
+    * @param [in] velGain j1~j6关节速度增益
+    * @param [in] desVel j1~j6关节期望速度 单位:deg/s
+    * @param [in] torque_ff j1~j6前馈力矩 单位:Nm
+    * @param [in] interval 指令周期，单位s，范围[0.001~0.008]
+    * @param [in]  comType 指令下发类型；0-xmlrpc；1-UDP(对应机器人20007端口)
+    * @return 错误码
+    */
+    public int ServoMIT(double[] posGain, double[] desPos, double[] velGain, double[] desVel, double[] torque_ff, double interval, int comType = 0)
+
+关节MIT控制运动代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    public int ServoMITtest()
+    {
+        // 订阅回调
+        robot.OnUdpFrameReceived += (comType, frameCount, frameCmdID, contentLen, content) =>
+        {
+            Console.WriteLine($"[UDP响应] comType={comType}, count={frameCount}, cmdID={frameCmdID}, content={content}");
+        };
+        while (true)
+        {
+            robot.ResetAllError();
+            Thread.Sleep(500);
+
+            double[] posGain = new double[6] { 0, 0, 0, 0, 0, 0 };
+            double[] desPos = new double[6] { 0, 0, 0, 0, 0, 0 };
+            double[] velGain = new double[6] { 0, 0, 0, 0, 0, 0 };
+            double[] desVel = new double[6] { 0, 0, 0, 0, 0, 0 };
+            double[] torques = new double[6] { 0, 0, 0, 0, 0, 0 };
+            robot.GetJointTorques(1, torques);
+            Console.WriteLine($"111111");
+            //robot.ServoMITEnd(0);
+            robot.ServoMITStart(0);
+            Console.WriteLine($"ServoMITStart");
+            ROBOT_STATE_PKG pkg = new ROBOT_STATE_PKG();
+            robot.DragTeachSwitch(1);
+            Console.WriteLine($"DragTeachSwitch");
+            double intev = 0.008;
+            double[] jPowerLimit = new double[6] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
+            double[] jVelLimit = new double[6] { 50, 50, 50, 50, 50, 50 };
+            int error = 0;
+            while (true)
+            {
+
+                torques[5] = 0.03;
+                Console.WriteLine($"ServoMIT call ");
+                error = robot.ServoMIT(posGain, desPos, velGain, desVel, torques, intev, 0);
+
+                Console.WriteLine($"ServoMIT111111 rtn is {error}");
+                Thread.Sleep(1);
+
+                robot.GetRobotRealTimeState(ref pkg);
+                //Console.WriteLine($"maincode {pkg.main_code}, subcode {pkg.sub_code}");
+                Console.WriteLine($"pkg.jt_cur_pos[5]:{pkg.jt_cur_pos[5]}");
+                if (pkg.jt_cur_pos[5] > 30)
+                {
+                    break;
+                }
+            }
+
+            while (true)
+            {
+
+                torques[5] = -0.03;
+                error = robot.ServoMIT(posGain, desPos, velGain, desVel, torques, intev, 0);
+
+                Console.WriteLine($"ServoJT222222 rtn is {error}");
+                Thread.Sleep(1);
+
+                robot.GetRobotRealTimeState(ref pkg);
+                //Console.WriteLine($"maincode {pkg.main_code}, subcode {pkg.sub_code}");
+                Console.WriteLine($"pkg.jt_cur_pos[5]:{pkg.jt_cur_pos[5]}");
+                if (pkg.jt_cur_pos[5] < 0)
+                {
+                    break;
+                }
+            }
+
+            robot.DragTeachSwitch(0);
+            error = robot.ServoMITEnd(0);
+        }
+        return 0;
+    }

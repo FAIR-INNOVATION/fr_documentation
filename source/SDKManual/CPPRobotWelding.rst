@@ -163,24 +163,24 @@
     :linenos:
 
     /**
-     * @brief 设置摆动参数
-     * @param [in] weaveNum 摆焊参数配置编号
-     * @param [in] weaveType 摆动类型 0-平面三角波摆动；1-垂直L型三角波摆动；2-顺时针圆形摆动；3-逆时针圆形摆动；4-平面正弦波摆动；5-垂直L型正弦波摆动；6-垂直三角波摆动；7-垂直正弦波摆动
-     * @param [in] weaveFrequency 摆动频率(Hz)
-     * @param [in] weaveIncStayTime 等待模式 0-周期不包含等待时间；1-周期包含等待时间
-     * @param [in] weaveRange 摆动幅度(mm)
-     * @param [in] weaveLeftRange 垂直三角摆动左弦长度(mm)
-     * @param [in] weaveRightRange 垂直三角摆动右弦长度(mm)
-     * @param [in] additionalStayTime 垂直三角摆动垂三角点停留时间(mm)
-     * @param [in] weaveLeftStayTime 摆动左停留时间(ms)
-     * @param [in] weaveRightStayTime 摆动右停留时间(ms)
-     * @param [in] weaveCircleRadio 圆形摆动-回调比率(0-100%)
-     * @param [in] weaveStationary 摆动位置等待，0-等待时间内位置继续移动；1-等待时间内位置静止
-     * @param [in] weaveYawAngle 摆动方向方位角(绕摆动Z轴旋转)，单位°
-     * @param [in] weaveRotAngle 摆动方向侧倾角(绕摆动X轴偏转)，单位°
-     * @return 错误码
-     */
-      errno_t WeaveSetPara(int weaveNum, int weaveType, double weaveFrequency, int weaveIncStayTime, double weaveRange, double weaveLeftRange, double weaveRightRange, int additionalStayTime, int weaveLeftStayTime, int weaveRightStayTime, int weaveCircleRadio, int weaveStationary, double weaveYawAngle, double weaveRotAngle = 0);
+     * @brief 设置摆动参数
+     * @param [in] weaveNum 摆焊参数配置编号
+     * @param [in] weaveType 摆动类型 0-平面三角波摆动；1-垂直L型三角波摆动；2-顺时针圆形摆动；3-逆时针圆形摆动；4-平面正弦波摆动；5-垂直L型正弦波摆动；6-垂直三角波摆动；7-垂直正弦波摆动
+     * @param [in] weaveFrequency 摆动频率(Hz)
+     * @param [in] weaveIncStayTime 等待模式 0-周期不包含等待时间；1-周期包含等待时间
+     * @param [in] weaveRange 摆动幅度(mm)
+     * @param [in] weaveLeftRange 垂直三角摆动左弦长度(mm)
+     * @param [in] weaveRightRange 垂直三角摆动右弦长度(mm)
+     * @param [in] additionalStayTime 垂直三角摆动垂三角点停留时间(mm)
+     * @param [in] weaveLeftStayTime 摆动左停留时间(ms)
+     * @param [in] weaveRightStayTime 摆动右停留时间(ms)
+     * @param [in] weaveCircleRadio 圆形摆动-回调比率(0-100%)
+     * @param [in] weaveStationary 摆动位置等待，0-等待时间内位置继续移动；1-等待时间内位置静止
+     * @param [in] weaveYawAngle 摆动方向方位角(绕摆动Z轴旋转)，单位°
+     * @param [in] weaveRotAngle 摆动方向侧倾角(绕摆动X轴偏转)，单位°
+     * @return 错误码
+     */
+      errno_t WeaveSetPara(int weaveNum, int weaveType, double weaveFrequency, int weaveIncStayTime, double weaveRange, double weaveLeftRange, double weaveRightRange, int additionalStayTime, int weaveLeftStayTime, int weaveRightStayTime, int weaveCircleRadio, int weaveStationary, double weaveYawAngle, double weaveRotAngle = 0);
 
 设置焊接参数代码示例
 ++++++++++++++++++++++++++++++++++++++++++++++++
@@ -700,14 +700,14 @@
     :linenos:
 
     /**
-     * @brief 摆动渐变开始
-     * @param [in] weaveChangeFlag 1-变摆动参数；2-变摆动参数+焊接速度
-     * @param [in] weaveNum 摆动编号 
-     * @param [in] velStart 焊接开始速度，(cm/min)
-     * @param [in] velEnd 焊接结束速度，(cm/min)
-     * @return 错误码
-     */
-     errno_t WeaveChangeStart(int weaveChangeFlag, int weaveNum, double velStart, double velEnd);
+     * @brief 摆动渐变开始
+     * @param [in] weaveChangeFlag 1-变摆动参数；2-变摆动参数+焊接速度
+     * @param [in] weaveNum 摆动编号 
+     * @param [in] velStart 焊接开始速度，(cm/min)
+     * @param [in] velEnd 焊接结束速度，(cm/min)
+     * @return 错误码
+     */
+     errno_t WeaveChangeStart(int weaveChangeFlag, int weaveNum, double velStart, double velEnd);
 
 机器人摆动渐变焊接代码示例
 +++++++++++++++++++++++++++++++++++++++++++++
@@ -938,12 +938,12 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief  设置电弧跟踪输入信号端口
-      * @param  [in] channel 电弧跟踪AI通带选择,[0-3]
-      * @return  错误码
-      */
-     errno_t ArcWeldTraceExtAIChannelConfig(int channel);
+     /**
+      * @brief  设置电弧跟踪输入信号端口
+      * @param  [in] channel 电弧跟踪AI通带选择,[0-3]
+      * @return  错误码
+      */
+     errno_t ArcWeldTraceExtAIChannelConfig(int channel);
 
 
 电弧追踪 + 多层多道补偿开启
@@ -1102,11 +1102,11 @@
     :linenos:
 
     /**
-     * @brief 电弧跟踪焊机电流反馈AI通道选择
-     * @param [in]  channel 通道；0-扩展AI0；1-扩展AI1；2-扩展AI2；3-扩展AI3；4-控制箱AI0；5-控制箱AI1
-     * @return 错误码
-     */
-     errno_t ArcWeldTraceAIChannelCurrent(int channel);
+     * @brief 电弧跟踪焊机电流反馈AI通道选择
+     * @param [in]  channel 通道；0-扩展AI0；1-扩展AI1；2-扩展AI2；3-扩展AI3；4-控制箱AI0；5-控制箱AI1
+     * @return 错误码
+     */
+     errno_t ArcWeldTraceAIChannelCurrent(int channel);
 
 电弧跟踪焊机电压反馈AI通道选择
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1114,11 +1114,11 @@
     :linenos:
 
     /**
-     * @brief 电弧跟踪焊机电压反馈AI通道选择
-     * @param [in]  channel 通道；0-扩展AI0；1-扩展AI1；2-扩展AI2；3-扩展AI3；4-控制箱AI0；5-控制箱AI1
-     * @return 错误码
-     */
-     errno_t ArcWeldTraceAIChannelVoltage(int channel);
+     * @brief 电弧跟踪焊机电压反馈AI通道选择
+     * @param [in]  channel 通道；0-扩展AI0；1-扩展AI1；2-扩展AI2；3-扩展AI3；4-控制箱AI0；5-控制箱AI1
+     * @return 错误码
+     */
+     errno_t ArcWeldTraceAIChannelVoltage(int channel);
 
 电弧跟踪焊机电流反馈转换参数
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1126,29 +1126,29 @@
     :linenos:
 
      /**
-      * @brief 电弧跟踪焊机电流反馈转换参数
-      * @param [in] AILow AI通道下限，默认值0V，范围[0-10V]
-      * @param [in] AIHigh AI通道上限，默认值10V，范围[0-10V]
-      * @param [in] currentLow AI通道下限对应焊机电流值，默认值0V，范围[0-200V]
-      * @param [in] currentHigh AI通道上限对应焊机电流值，默认值100V，范围[0-200V]
-      * @return 错误码
-      */
-     errno_t ArcWeldTraceCurrentPara(float AILow, float AIHigh, float currentLow, float currentHigh);
+      * @brief 电弧跟踪焊机电流反馈转换参数
+      * @param [in] AILow AI通道下限，默认值0V，范围[0-10V]
+      * @param [in] AIHigh AI通道上限，默认值10V，范围[0-10V]
+      * @param [in] currentLow AI通道下限对应焊机电流值，默认值0V，范围[0-200V]
+      * @param [in] currentHigh AI通道上限对应焊机电流值，默认值100V，范围[0-200V]
+      * @return 错误码
+      */
+     errno_t ArcWeldTraceCurrentPara(float AILow, float AIHigh, float currentLow, float currentHigh);
 
 电弧跟踪焊机电压反馈转换参数
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: c++
     :linenos:
 
-     /**
-    * @brief 电弧跟踪焊机电压反馈转换参数
-    * @param [in] AILow AI通道下限，默认值0V，范围[0-10V]
-    * @param [in] AIHigh AI通道上限，默认值10V，范围[0-10V]
-    * @param [in] voltageLow AI通道下限对应焊机电压值，默认值0V，范围[0-200V]
-    * @param [in] voltageHigh AI通道上限对应焊机电压值，默认值100V，范围[0-200V]
-    * @return 错误码
-    */
-    errno_t ArcWeldTraceVoltagePara(float AILow, float AIHigh, float voltageLow, float voltageHigh);
+     /**
+    * @brief 电弧跟踪焊机电压反馈转换参数
+    * @param [in] AILow AI通道下限，默认值0V，范围[0-10V]
+    * @param [in] AIHigh AI通道上限，默认值10V，范围[0-10V]
+    * @param [in] voltageLow AI通道下限对应焊机电压值，默认值0V，范围[0-200V]
+    * @param [in] voltageHigh AI通道上限对应焊机电压值，默认值100V，范围[0-200V]
+    * @return 错误码
+    */
+    errno_t ArcWeldTraceVoltagePara(float AILow, float AIHigh, float voltageLow, float voltageHigh);
 
 电弧跟踪代码示例
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1294,17 +1294,17 @@
     :linenos:
 
     /**
-    * @brief  焊丝寻位开始
-    * @param  [in] refPos  1-基准点 0-接触点
-    * @param  [in] searchVel   寻位速度 %
-    * @param  [in] searchDis  寻位距离 mm
-    * @param  [in] autoBackFlag 自动返回标志，0-不自动；-自动
-    * @param  [in] autoBackVel  自动返回速度 %
-    * @param  [in] autoBackDis  自动返回距离 mm
-    * @param  [in] offectFlag  1-带偏移量寻位；0-示教点寻位
-    * @return  错误码
+    * @brief  焊丝寻位开始
+    * @param  [in] refPos  1-基准点 0-接触点
+    * @param  [in] searchVel   寻位速度 %
+    * @param  [in] searchDis  寻位距离 mm
+    * @param  [in] autoBackFlag 自动返回标志，0-不自动；-自动
+    * @param  [in] autoBackVel  自动返回速度 %
+    * @param  [in] autoBackDis  自动返回距离 mm
+    * @param  [in] offectFlag  1-带偏移量寻位；0-示教点寻位
+    * @return  错误码
     */
-     errno_t WireSearchStart(int refPos, float searchVel, int searchDis, int autoBackFlag, float autoBackVel, int autoBackDis, int offectFlag);
+     errno_t WireSearchStart(int refPos, float searchVel, int searchDis, int autoBackFlag, float autoBackVel, int autoBackDis, int offectFlag);
 
 焊丝寻位结束
 +++++++++++++++++++++++
@@ -1313,18 +1313,18 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief  焊丝寻位结束
-      * @param  [in] refPos  1-基准点 2-接触点
-      * @param  [in] searchVel   寻位速度 %
-      * @param  [in] searchDis  寻位距离 mm
-      * @param  [in] autoBackFlag 自动返回标志，0-不自动；-自动
-      * @param  [in] autoBackVel  自动返回速度 %
-      * @param  [in] autoBackDis  自动返回距离 mm
-      * @param  [in] offectFlag  1-带偏移量寻位；2-示教点寻位
-      * @return  错误码
-      */
-     errno_t WireSearchEnd(int refPos, float searchVel, int searchDis, int autoBackFlag, float autoBackVel, int autoBackDis, int offectFlag);
+     /**
+      * @brief  焊丝寻位结束
+      * @param  [in] refPos  1-基准点 2-接触点
+      * @param  [in] searchVel   寻位速度 %
+      * @param  [in] searchDis  寻位距离 mm
+      * @param  [in] autoBackFlag 自动返回标志，0-不自动；-自动
+      * @param  [in] autoBackVel  自动返回速度 %
+      * @param  [in] autoBackDis  自动返回距离 mm
+      * @param  [in] offectFlag  1-带偏移量寻位；2-示教点寻位
+      * @return  错误码
+      */
+     errno_t WireSearchEnd(int refPos, float searchVel, int searchDis, int autoBackFlag, float autoBackVel, int autoBackDis, int offectFlag);
 
 计算焊丝寻位偏移量
 +++++++++++++++++++++++
@@ -1333,17 +1333,17 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief  计算焊丝寻位偏移量
-      * @param  [in] seamType  焊缝类型
-      * @param  [in] method   计算方法
-      * @param  [in] varNameRef 基准点1-6，“#”表示无点变量
-      * @param  [in] varNameRes 接触点1-6，“#”表示无点变量
-      * @param  [out] offectFlag 0-偏移量直接叠加到指令点；1-偏移量需要对指令点进行坐标变换
-      * @param  [out] offect 偏移位姿[x, y, z, a, b, c]
-      * @return  错误码
-      */
-     errno_t GetWireSearchOffset(int seamType, int method, std::vector<std::string> varNameRef, std::vector<std::string> varNameRes, int& offectFlag, DescPose& offect);
+     /**
+      * @brief  计算焊丝寻位偏移量
+      * @param  [in] seamType  焊缝类型
+      * @param  [in] method   计算方法
+      * @param  [in] varNameRef 基准点1-6，“#”表示无点变量
+      * @param  [in] varNameRes 接触点1-6，“#”表示无点变量
+      * @param  [out] offectFlag 0-偏移量直接叠加到指令点；1-偏移量需要对指令点进行坐标变换
+      * @param  [out] offect 偏移位姿[x, y, z, a, b, c]
+      * @return  错误码
+      */
+     errno_t GetWireSearchOffset(int seamType, int method, std::vector<std::string> varNameRef, std::vector<std::string> varNameRes, int& offectFlag, DescPose& offect);
 
 等待焊丝寻位完成
 +++++++++++++++++++++++
@@ -1352,11 +1352,11 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief  等待焊丝寻位完成
-      * @return  错误码
-      */
-     errno_t WireSearchWait(std::string varName);
+     /**
+      * @brief  等待焊丝寻位完成
+      * @return  错误码
+      */
+     errno_t WireSearchWait(std::string varName);
 
 焊丝寻位接触点写入数据库
 +++++++++++++++++++++++++++
@@ -1365,13 +1365,13 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief  焊丝寻位接触点写入数据库
-      * @param  [in] varName  接触点名称 “RES0” ~ “RES99”
-      * @param  [in] pos  接触点数据[x, y, x, a, b, c]
-      * @return  错误码
-      */
-     errno_t SetPointToDatabase(std::string varName, DescPose pos);
+     /**
+      * @brief  焊丝寻位接触点写入数据库
+      * @param  [in] varName  接触点名称 “RES0” ~ “RES99”
+      * @param  [in] pos  接触点数据[x, y, x, a, b, c]
+      * @return  错误码
+      */
+     errno_t SetPointToDatabase(std::string varName, DescPose pos);
 
 机器人焊丝寻位代码示例
 +++++++++++++++++++++++++++++++++++++++++++++
@@ -1451,16 +1451,16 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-    * @brief 设置焊接电压渐变开始
-    * @param [in] IOType 控制类型；0-控制箱IO；1-数字通信协议(UDP);2-数字通信协议(ModbusTCP)
-    * @param [in] voltageStart 起始焊接电压(V)
-    * @param [in] voltageEnd 终止焊接电压(V)
-    * @param [in] AOIndex 控制箱AO端口号(0-1)
-    * @param [in] blend 是否平滑 0-不平滑；1-平滑
-    * @return 错误码
-    */
-    errno_t WeldingSetVoltageGradualChangeStart(int IOType, double voltageStart, double voltageEnd, int AOIndex, int blend);
+     /**
+    * @brief 设置焊接电压渐变开始
+    * @param [in] IOType 控制类型；0-控制箱IO；1-数字通信协议(UDP);2-数字通信协议(ModbusTCP)
+    * @param [in] voltageStart 起始焊接电压(V)
+    * @param [in] voltageEnd 终止焊接电压(V)
+    * @param [in] AOIndex 控制箱AO端口号(0-1)
+    * @param [in] blend 是否平滑 0-不平滑；1-平滑
+    * @return 错误码
+    */
+    errno_t WeldingSetVoltageGradualChangeStart(int IOType, double voltageStart, double voltageEnd, int AOIndex, int blend);
 
 设置焊接电压渐变结束
 +++++++++++++++++++++++++++++++++++++++++++++
@@ -1468,11 +1468,11 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief 设置焊接电压渐变结束
-      * @return 错误码
-      */
-     errno_t WeldingSetVoltageGradualChangeEnd();
+     /**
+      * @brief 设置焊接电压渐变结束
+      * @return 错误码
+      */
+     errno_t WeldingSetVoltageGradualChangeEnd();
 
 设置焊接电流渐变开始
 +++++++++++++++++++++++++++++++++++++++++++++
@@ -1480,16 +1480,16 @@
 .. code-block:: c++
     :linenos:
 
-     /**
-      * @brief 设置焊接电流渐变开始
-      * @param [in] IOType 控制类型；0-控制箱IO；1-数字通信协议(UDP);2-数字通信协议(ModbusTCP)
-      * @param [in] voltageStart 起始焊接电流(A)
-      * @param [in] voltageEnd 终止焊接电流(A)
-      * @param [in] AOIndex 控制箱AO端口号(0-1)
-      * @param [in] blend 是否平滑 0-不平滑；1-平滑
-      * @return 错误码
-      */
-     errno_t WeldingSetCurrentGradualChangeStart(int IOType, double currentStart, double currentEnd, int AOIndex, int blend);
+     /**
+      * @brief 设置焊接电流渐变开始
+      * @param [in] IOType 控制类型；0-控制箱IO；1-数字通信协议(UDP);2-数字通信协议(ModbusTCP)
+      * @param [in] voltageStart 起始焊接电流(A)
+      * @param [in] voltageEnd 终止焊接电流(A)
+      * @param [in] AOIndex 控制箱AO端口号(0-1)
+      * @param [in] blend 是否平滑 0-不平滑；1-平滑
+      * @return 错误码
+      */
+     errno_t WeldingSetCurrentGradualChangeStart(int IOType, double currentStart, double currentEnd, int AOIndex, int blend);
 
 设置焊接电流渐变结束
 +++++++++++++++++++++++++++++++++++++++++++++
@@ -1498,9 +1498,9 @@
     :linenos:
 
     /**
-     * @brief 设置焊接电流渐变结束
-     * @return 错误码
-     */
+     * @brief 设置焊接电流渐变结束
+     * @return 错误码
+     */
     errno_t WeldingSetCurrentGradualChangeEnd();
     
 机器人焊接电流电压渐变代码示例
@@ -1655,4 +1655,284 @@
       robot.MoveL(&j2, &desc_p2, 3, 0, 100, 100, 10, -1, &epos, 0, 0, &offset_pos, 0, 100);
       robot.WeaveEnd(0);
       robot.CloseRPC();
+    }
+                    
+激光焊机参数配置
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 激光焊机参数配置
+    * @param[in] io_type 通信类型 0-IO 1-UDP
+    * @param[in] num 需要设置的组号（1~10）
+    * @param[in] scanSpeed 扫描速度
+    * @param[in] scanWidth 扫描宽度
+    * @param[in] peakPower 峰值功率
+    * @param[in] dutyCycle 占空比
+    * @param[in] freq 频率
+    * @return 错误码
+    */
+    errno_t SetLaserWeldingParam(int io_type, int num, int scanSpeed, int scanWidth, int peakPower, int dutyCycle, int freq);
+                        
+设置激光焊接开始停止
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 设置激光焊接开始停止
+    * @param[in] io_type 通信类型 0-IO 1-UDP
+    * @param[in] status 控制字 0-收光 1-出光
+    * @param[in] max_waittime 最大等待时间，单位毫秒，默认10000
+    * @return 错误码
+    */
+    errno_t SetLaserWeldingStartEnd(int io_type, int status, int max_waittime = 10000);
+                        
+激光焊机使能去使能
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 激光焊机使能去使能
+    * @param[in] io_type 通信类型 0-IO 1-UDP
+    * @param[in] status 0-去使能 1-使能
+    * @return 错误码
+    */
+    errno_t SetLaserWeldingEnable(int io_type, int status);
+
+激光焊机故障复位
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 激光焊机故障复位
+    * @param[in] io_type 通信类型 0-IO 1-UDP
+    * @param[in] status 控制字 0-无效 1-故障复位
+    * @return 错误码
+    */
+    errno_t ResetLaserWeldingErr(int io_type, int status);
+
+获取激光焊机运行状态
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 获取激光焊机运行状态
+    * @param[in] io_type 通信类型 0-IO 1-UDP
+    * @param[out] status 控制字 0-停机 1-运行
+    * @return 错误码
+    */
+    errno_t GetLaserWeldingRunningState(int io_type, int& status);
+
+获取激光焊机故障状态
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 获取激光焊机故障状态
+    * @param[in] io_type 通信类型 0-IO 1-UDP
+    * @param[out] status 0-无故障 1-存在故障
+    * @return 错误码
+    */
+    errno_t GetLaserWeldingErrState(int io_type, int& status);
+    
+获取激光焊机配置参数
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 获取激光焊机配置参数
+    * @param[in] num 需要设置的组号（1~10）
+    * @param[out] scanSpeed 扫描速度
+    * @param[out] scanWidth 扫描宽度
+    * @param[out] peakPower 峰值功率
+    * @param[out] dutyCycle 占空比
+    * @param[out] freq 频率
+    * @return 错误码
+    */
+    errno_t GetLaserWeldingParamTarget(int num, int& scanSpeed, int& scanWidth, int& peakPower, int& dutyCycle, int& freq);
+
+获取当前激光焊机生效的配置参数
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 获取当前激光焊机生效的配置参数
+    * @param[in] io_type 通信类型 0-IO 1-UDP
+    * @param[out] scanSpeed 扫描速度
+    * @param[out] scanWidth 扫描宽度
+    * @param[out] peakPower 峰值功率
+    * @param[out] dutyCycle 占空比
+    * @param[out] freq 频率
+    * @return 错误码，0表示成功，非0表示失败
+    */
+    errno_t GetLaserWeldingParamActual(int io_type, int& scanSpeed, int& scanWidth, int& peakPower, int& dutyCycle, int& freq);
+
+配置激光焊机扩展IO使能DO端口
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 配置激光焊机扩展IO使能DO端口
+    * @param[in] ctrlModeDONum 激光焊机使能的扩展DO端口号
+    * @return 错误码，0表示成功，非0表示失败
+    */
+    errno_t SetLaserWeldingEnableExtDoNum(int ctrlModeDONum);
+
+配置激光焊机扩展IO启动DO端口
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 配置激光焊机扩展IO启动DO端口
+    * @param[in] ctrlModeDONum 激光焊机启动（出光收光）的扩展DO端口号
+    * @return 错误码，0表示成功，非0表示失败
+    */
+    errno_t SetLaserWeldingStartExtDoNum(int ctrlModeDONum);
+
+配置激光焊机扩展IO故障复位DO端口
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 配置激光焊机扩展IO故障复位DO端口
+    * @param[in] ctrlModeDONum 激光焊机故障复位的扩展DO端口号
+    * @return 错误码，0表示成功，非0表示失败
+    */
+    errno_t SetLaserWeldingErrResetExtDoNum(int ctrlModeDONum);
+    
+配置激光焊机扩展IO运行状态（出光状态）DI端口
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 配置激光焊机扩展IO运行状态（出光状态）DI端口
+    * @param[in] diNum 配置激光焊机运行状态（出光状态）扩展DI端口
+    * @return 错误码，0表示成功，非0表示失败
+    */
+    errno_t SetLaserWeldingRunningStateExtDiNum(int diNum);
+    
+配置激光焊机扩展IO故障状态DI端口
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 配置激光焊机扩展IO故障状态DI端口
+    * @param[in] diNum 配置激光焊机故障状态扩展DI端口
+    * @return 错误码，0表示成功，非0表示失败
+    */
+    errno_t SetLaserWeldingErrStateExtDiNum(int diNum);
+        
+激光焊接代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    int TestLaserWeld()
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        robot.SetReConnectParam(true, 300000, 500);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return -1;
+        }
+        rtn = robot.ExtDevLoadUDPDriver();
+        if (rtn != 0) 
+        {
+            std::cout << "Failed to load UDP driver, error code: " << rtn << std::endl;
+        }
+        robot.Sleep(1000);
+        rtn = robot.SetLaserWeldingParam(1, 3, 2000, 3, 1500, 100, 1000);
+        if (rtn != 0) 
+        {
+            std::cout << "SetLaserWeldingParam failed, error code: " << rtn << std::endl;
+        }
+        else 
+        {
+            std::cout << "SetLaserWeldingParam success" << std::endl;
+        }
+        rtn = robot.SetLaserWeldingStartExtDoNum(1);
+        if (rtn != 0) 
+        {
+            std::cout << "SetLaserWeldingStartExtDoNum failed, error code: " << rtn << std::endl;
+        }
+        rtn = robot.Mode(0);
+        if (rtn != 0) 
+        {
+            std::cout << "Set mode 0 failed, error code: " << rtn << std::endl;
+        }
+        robot.Sleep(1000);
+        DescPose desc_pos1(-303.721, -206.960, 297.105, 152.209, 19.857, 109.166);
+        DescPose desc_pos2(-301.575, -254.888, 284.786, 155.919, 26.946, 111.629);
+        DescPose desc_safe(-344.386, -280.830, 435.073, 173.835, 15.333, 124.931);
+        JointPos jointPos1(9.827, -99.740, 120.088, -78.900, -77.241, -17.904);
+        JointPos jointPos2(15.251, -96.456, 120.138, -84.664, -68.542, -17.843);
+        JointPos jointSafe(19.142, -98.078, 101.493, -83.078, -77.070, -17.794);
+        ExaxisPos exaxis(0.0, 0.0, 0.0, 0.0);
+        DescPose offset(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+        int error = robot.MoveL(&desc_pos1,0, 0, 100, 100, 100, -1, 0, &exaxis, 0, 0, &offset, -1, 0);
+        std::cout << "MoveL to pos1 return: " << error << std::endl;
+        rtn = robot.SetLaserWeldingStartEnd(1, 1, 10000);
+        if (rtn != 0)
+        {
+            std::cout << "SetLaserWeldingStartEnd (start) failed, error code: " << rtn << std::endl;
+        }
+        else 
+        {
+            std::cout << "Laser started" << std::endl;
+        }
+        rtn = robot.MoveL(&desc_pos2,0, 0, 30, 100, 100, -1, 0, &exaxis, 0, 0, &offset, -1, 0);
+        std::cout << "MoveL to pos2 return: " << rtn << std::endl;
+        rtn = robot.SetLaserWeldingStartEnd(1, 0, 10000);
+        if (rtn != 0)
+        {
+            std::cout << "SetLaserWeldingStartEnd (stop) failed, error code: " << rtn << std::endl;
+        }
+        else 
+        {
+            std::cout << "Laser stopped" << std::endl;
+        }
+        robot.Sleep(500);
+        rtn = robot.MoveL(&desc_safe, 0, 0, 100, 100, 100, -1, 0, &exaxis, 0, 0, &offset, -1, 0);
+        std::cout << "MoveL to safe_pos return: " << rtn << std::endl;
+        rtn = robot.Mode(1);
+        if (rtn != 0) 
+        {
+            std::cout << "Set mode 1 failed, error code: " << rtn << std::endl;
+        }
+        robot.Sleep(1000);
+        robot.CloseRPC();
+        robot.Sleep(1000);
+        std::cout << "Test completed" << std::endl;
+        return 0;
     }

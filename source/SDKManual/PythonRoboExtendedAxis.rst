@@ -460,6 +460,33 @@ UDP扩展轴参数配置
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
 
+UDP扩展轴参数获取
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``ExtAxisGetParamConfig(self, axisID)``"
+    "描述", "UDP扩展轴参数获取"
+    "必选参数", "
+    - ``axisID``：扩展轴号[1-4]
+    - ``axisType``：扩展轴类型 0-平移；1-旋转
+    - ``axisDirection``：扩展轴方向 0-正向；1-反向
+    - ``axisMax``：扩展轴最大位置 mm
+    - ``axisMin``：扩展轴最小位置 mm
+    - ``axisVel``：速度mm/s
+    - ``axisAcc``：加速度mm/s2
+    - ``axisLead``：导程mm
+    - ``encResolution``：编码器分辨率
+    - ``axisOffect``：焊缝起始点扩展轴偏移量
+    - ``axisCompany``：驱动器厂家 1-禾川；2-汇川；3-松下
+    - ``axisModel``：驱动器型号 1-禾川-SV-XD3EA040L-E，2-禾川-SV-X2EA150A-A，1-汇川-SV620PT5R4I，1-松下-MADLN15SG，2-松下-MSDLN25SG，3-松下-MCDLN35SG
+    - ``axisEncType``：编码器类型 0-增量；1-绝对值
+    "
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
 设置扩展机器人相对扩展轴位置
 ++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: python SDK-v2.0.4
@@ -569,60 +596,103 @@ UDP扩展轴配置与点动代码示例
     :linenos:
 
     from fairino import Robot
+    from fairino.Robot import RobotState
     import time
-    import threading
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
-    rtn = robot.ExtDevSetUDPComParam("192.168.58.88", 2021, 2, 100, 3, 200, 1, 100, 5, 1)
-    print(f"ExtDevSetUDPComParam rtn is {rtn}")
-    ip = ""
-    port = 0
-    period = 0
-    lossPkgTime = 0
-    lossPkgNum = 0
-    disconnectTime = 0
-    reconnectEnable = 0
-    reconnectPeriod = 0
-    reconnectNum = 0
-    rtn,[ip, port, period, lossPkgTime, lossPkgNum,disconnectTime, reconnectEnable, reconnectPeriod, reconnectNum] = robot.ExtDevGetUDPComParam()
-    param_str = (f"\nip {ip}\nport {port}\nperiod {period}\nlossPkgTime {lossPkgTime}"
-                 f"\nlossPkgNum {lossPkgNum}\ndisConntime {disconnectTime}"
-                 f"\nreconnecable {reconnectEnable}\nreconnperiod {reconnectPeriod}"
-                 f"\nreconnnun {reconnectNum}")
-    print(f"ExtDevGetUDPComParam rtn is {rtn}{param_str}")
-    robot.ExtDevLoadUDPDriver()
-    rtn = robot.ExtAxisServoOn(1, 1)
-    print(f"ExtAxisServoOn axis id 1 rtn is {rtn}")
-    rtn = robot.ExtAxisServoOn(2, 1)
-    print(f"ExtAxisServoOn axis id 2 rtn is {rtn}")
-    time.sleep(2)
-    robot.ExtAxisSetHoming(1, 0, 10, 2)
-    time.sleep(2)
-    rtn = robot.ExtAxisSetHoming(2, 0, 10, 2)
-    print(f"ExtAxisSetHoming rtn is {rtn}")
-    time.sleep(4)
-    rtn = robot.SetRobotPosToAxis(1)
-    print(f"SetRobotPosToAxis rtn is {rtn}")
-    rtn = robot.SetAxisDHParaConfig(10, 20, 0, 0, 0, 0, 0, 0, 0)
-    print(f"SetAxisDHParaConfig rtn is {rtn}")
-    rtn = robot.ExtAxisParamConfig(1, 1, 1, 1000, -1000, 1000, 1000, 1.905, 262144, 200, 1, 0, 0)
-    print(f"ExtAxisParamConfig axis 1 rtn is {rtn}")
-    rtn = robot.ExtAxisParamConfig(2, 1, 1, 1000, -1000, 1000, 1000, 4.444, 262144, 200, 1, 0, 0)
-    print(f"ExtAxisParamConfig axis 2 rtn is {rtn}")
-    time.sleep(3)
-    robot.ExtAxisStartJog(1, 0, 10, 10, 30)
-    time.sleep(1)
-    robot.ExtAxisStopJog(1)
-    time.sleep(3)
-    robot.ExtAxisServoOn(1, 0)
-    time.sleep(3)
-    robot.ExtAxisStartJog(2, 0, 10, 10, 30)
-    time.sleep(1)
-    robot.ExtAxisStopJog(2)
-    time.sleep(3)
-    robot.ExtAxisServoOn(2, 0)
-    robot.ExtDevUnloadUDPDriver()
-    robot.CloseRPC()
+
+    def main():
+        # 添加需要获取的实时状态数据（如果需要的话）
+        # rtn = AddRobotRealtimeState([RobotState.ExaxisCoordID])
+        # if rtn != 0:
+        #     print(f"✗ 添加字段失败，错误码: {rtn}")
+        #     return None
+        # print("✓ 字段添加成功")
+
+        # 与机器人控制器建立连接
+        robot = Robot.RPC('192.168.58.2')
+        time.sleep(0.5)  # 等待连接和数据接收
+
+        # 配置UDP通讯参数
+        rtn = robot.ExtDevSetUDPComParam("192.168.58.88", 2021, 2, 100, 3, 200, 1, 100, 5, 1)
+        print(f"ExtDevSetUDPComParam rtn is {rtn}")
+
+        # 获取UDP通讯参数
+        error, param = robot.ExtDevGetUDPComParam()
+        print("ExtDevGetUDPComParam return ", error)
+        print("UDP扩展轴通讯参数: ", param)
+
+        # 加载UDP驱动
+        robot.ExtDevLoadUDPDriver()
+
+        # 设置扩展轴命令完成时间
+        rtn = robot.SetExAxisCmdDoneTime(5000.0)
+        print(f"SetExAxisCmdDoneTime rtn is {rtn}")
+
+        # 扩展轴伺服使能
+        rtn = robot.ExtAxisServoOn(1, 1)
+        print(f"ExtAxisServoOn axis id 1 rtn is {rtn}")
+        rtn = robot.ExtAxisServoOn(2, 1)
+        print(f"ExtAxisServoOn axis id 2 rtn is {rtn}")
+        time.sleep(2)
+
+        # 扩展轴回零
+        robot.ExtAxisSetHoming(1, 0, 10, 2)
+        time.sleep(2)
+        rtn = robot.ExtAxisSetHoming(2, 0, 10, 2)
+        print(f"ExtAxisSetHoming rtn is {rtn}")
+
+        time.sleep(4)
+
+        # 设置机器人相对扩展轴位置
+        rtn = robot.SetRobotPosToAxis(1)
+        print(f"SetRobotPosToAxis rtn is {rtn}")
+
+        # 设置扩展轴DH参数配置
+        rtn = robot.SetAxisDHParaConfig(10, 20, 0, 0, 0, 0, 0, 0, 0)
+        print(f"SetAxisDHParaConfig rtn is {rtn}")
+
+        # 配置扩展轴1参数
+        rtn = robot.ExtAxisParamConfig(1, 1, 1, 1000, -1000, 1000, 1000, 1.905, 262144, 200, 1, 0, 0)
+        print(f"ExtAxisParamConfig axis 1 rtn is {rtn}")
+
+        # 获取扩展轴1参数配置
+        rtn, axisType, axisDirection, axisMax, axisMin, axisVel, axisAcc, axisLead, encResolution, axisOffect, axisCompany, axisModel, axisEncType = robot.ExtAxisGetParamConfig(1)
+        print(f"axis id 1 ExtAxisGetParamConfig : axisType {axisType}, axisDirection {axisDirection}, axisMax {axisMax}, axisMin {axisMin}, axisVel {axisVel}, axisAcc {axisAcc}, axisLead {axisLead}, encResolution {encResolution}, axisOffect {axisOffect}, axisCompany {axisCompany}, axisModel {axisModel}, axisEncType {axisEncType}")
+
+        # 配置扩展轴2参数
+        rtn = robot.ExtAxisParamConfig(2, 1, 1, 1000, -1000, 1000, 1000, 4.444, 262144, 200, 1, 0, 0)
+        print(f"ExtAxisParamConfig axis 2 rtn is {rtn}")
+
+        # 获取扩展轴2参数配置
+        rtn, axisType, axisDirection, axisMax, axisMin, axisVel, axisAcc, axisLead, encResolution, axisOffect, axisCompany, axisModel, axisEncType = robot.ExtAxisGetParamConfig(2)
+        print(f"axis id 2 ExtAxisGetParamConfig : axisType {axisType}, axisDirection {axisDirection}, axisMax {axisMax}, axisMin {axisMin}, axisVel {axisVel}, axisAcc {axisAcc}, axisLead {axisLead}, encResolution {encResolution}, axisOffect {axisOffect}, axisCompany {axisCompany}, axisModel {axisModel}, axisEncType {axisEncType}")
+
+        time.sleep(3)
+
+        # 扩展轴1点动测试
+        robot.ExtAxisStartJog(1, 0, 10, 10, 30)
+        time.sleep(1)
+        robot.ExtAxisStopJog(1)
+        time.sleep(3)
+        robot.ExtAxisServoOn(1, 0)
+
+        time.sleep(3)
+
+        # 扩展轴2点动测试
+        robot.ExtAxisStartJog(2, 0, 10, 10, 30)
+        time.sleep(1)
+        robot.ExtAxisStopJog(2)
+        time.sleep(3)
+        robot.ExtAxisServoOn(2, 0)
+
+        # 卸载UDP驱动
+        robot.ExtDevUnloadUDPDriver()
+
+        # 关闭连接
+        robot.CloseRPC()
+
+
+    # 调用测试函数
+    main()
 
 设置扩展轴坐标系参考点-四点法
 ++++++++++++++++++++++++++++++++++++++++

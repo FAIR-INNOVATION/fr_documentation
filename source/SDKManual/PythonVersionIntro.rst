@@ -13,6 +13,29 @@
      - **日期**
      - **更新描述**
 
+   * - V3.9.6
+     - 2026-05-26
+     - | 1.更新机器人状态反馈结构体，增加扩展轴坐标系编号状态；
+       | 2.更新机器人状态反馈配置枚举类型，增加扩展轴坐标系编号配置枚举；
+       | 3.新增ExtAxisGetParamConfig()获取UDP扩展轴参数配置接口。
+       | 4.新增ServoJV()机器人关节空间速度伺服模式运动接口。
+       | 5.新增ServoMITStart()机器人关节MIT控制开始接口。
+       | 6.新增ServoMITEnd()机器人关节MIT控制结束接口。
+       | 7.新增ServoMIT()机器人关节MIT控制接口。
+       | 8.新增SetLaserWeldingParam()机器人激光焊接参数配置接口。
+       | 9.新增SetLaserWeldingStartEnd()设置机器人激光焊接开启停止接口。
+       | 10.新增SetLaserWeldingEnable()设置激光焊机使能去使能接口。
+       | 11.新增ResetLaserWeldingErr()设置激光焊机故障复位接口。
+       | 12.新增GetLaserWeldingRunningState()获取激光焊机运行状态接口。
+       | 13.新增GetLaserWeldingErrState()获取激光焊机故障状态接口。
+       | 14.新增GetLaserWeldingParamTarget()获取激光焊接配置参数接口。
+       | 15.新增GetLaserWeldingParamActual()获取当前激光焊机生效的配置参数接口。
+       | 16.新增SetLaserWeldingEnableExtDoNum()配置激光焊机扩展IO使能DO端口接口。
+       | 17.新增SetLaserWeldingStartExtDoNum()配置激光焊机扩展IO启动DO端口接口。
+       | 18.新增SetLaserWeldingErrResetExtDoNum()配置激光焊机扩展IO故障复位DO端口接口。
+       | 19.新增SetLaserWeldingRunningStateExtDiNum()配置激光焊机扩展IO运行状态（出光状态）DI端口接口。
+       | 20.新增SetLaserWeldingErrStateExtDiNum()配置激光焊机扩展IO故障状态DI端口接口。
+
    * - V3.9.5
      - 2026-04-24
      - | 1.SetTrajectoryJSpeed()接口新增模式降速模式、直接切换；

@@ -236,6 +236,7 @@
             ("socketConnTimeout", c_uint8),     # socket连接超时
             ("socketReadTimeout", c_uint8),     # socket读取超时
             ("tsWebStateComErr", c_uint8),      # TS_WEB状态通讯错误
+            ("exaxisCoordID", c_uint8),         # 外部扩展轴ID
             ("check_sum", c_uint16)          # 和校验
         ]
 
@@ -604,7 +605,6 @@
 .. code-block:: python
     :linenos:
 
-    # ==================== RobotState配置列表枚举 ====================
     class RobotState(enum.Enum):
         """CNDE状态类型枚举"""
         FrameHead = 0
@@ -739,4 +739,5 @@
         SocketConnTimeout = 129
         SocketReadTimeout = 130
         TsWebStateComErr = 131
-        CheckSum = 132
+        ExaxisCoordID = 132
+        CheckSum = 133

@@ -1988,3 +1988,174 @@ FIR滤波代码示例
         robot.Sleep(1000);
         return 0;
     }
+
+关节空间速度伺服模式运动
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 关节空间速度伺服模式运动
+    * @param [in] joint_pos 6个目标关节速度,单位deg/s
+    * @param [in] axisPos 4个外部轴速度,单位deg/s
+    * @param [in] acc 加速度百分比，范围[0~100],暂不开放，默认为0
+    * @param [in] vel 速度百分比，范围[0~100]，暂不开放，默认为0
+    * @param [in] cmdT 指令下发周期，单位s，建议范围[0.001~0.0016]
+    * @param [in] filterT 滤波时间，单位s，暂不开放，默认为0
+    * @param [in] gain 目标位置的比例放大器，暂不开放，默认为0
+    * @param [in] id servoJ指令ID,默认为0
+    * @param[in] comType 指令下发类型；0-xmlrpc；1-UDP(对应机器人20007端口)
+    * @return 错误码
+    */
+    errno_t ServoJV(double jointVel[6], double exisVel[4], float acc, float vel, float cmdT, float filterT, float gain, int id = 0, int comType = 0);
+
+关节空间速度伺服模式运动代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    int ServoJVtest()
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        robot.SetReConnectParam(true, 300000, 500);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return -1;
+        }
+        double joint_vel[6] = { 10.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+        double exis_vel[4] { 0.0, 0.0, 0.0, 0.0 };
+        float acc = 0.0f;
+        float vel = 0.0f;
+        float cmdT = 0.008f;
+        float filterT = 0.0f;
+        float gain = 0.0f;
+        int cnt = 0;
+        while (cnt < 200)
+        {
+            int error = robot.ServoJV(joint_vel, exis_vel, acc, vel, cmdT, filterT, gain);
+            printf("ServoJV rtn is %d\n", error);
+            cnt++;
+        }
+        robot.CloseRPC();
+        robot.Sleep(1000000);
+        return 0;
+    }
+
+关节MIT控制开始
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 关节MIT控制开始
+    * @param [in] comType 指令下发类型；0-xmlrpc；1-UDP(对应机器人20007端口)
+    * @return 错误码
+    */
+    errno_t ServoMITStart(int comType = 0);
+
+关节MIT控制结束
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 关节MIT控制结束
+    * @param [in] comType 指令下发类型；0-xmlrpc；1-UDP(对应机器人20007端口)
+    * @return 错误码
+    */
+    errno_t ServoMITEnd(int comType = 0);
+
+关节MIT控制
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 关节MIT控制
+    * @param [in] posGain j1~j6关节位置增益
+    * @param [in] desPos j1~j6关节期望位置 单位:deg
+    * @param [in] velGain j1~j6关节速度增益
+    * @param [in] desVel j1~j6关节期望速度 单位:deg/s
+    * @param [in] torque_ff j1~j6前馈力矩 单位:Nm
+    * @param [in] interval 指令周期，单位s，范围[0.001~0.008]
+    * @param [in] comType 指令下发类型；0-xmlrpc；1-UDP(对应机器人20007端口)
+    * @return 错误码
+    */
+    errno_t ServoMIT(double posGain[6], double desPos[6], double velGain[6], double desVel[6], double torque_ff[6], double interval, int comType = 0);
+
+机器人关节MIT控制代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    int ServoMITtest()
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        robot.SetReConnectParam(true, 30000, 500);
+        int rtn = robot.SetCmdRpyCallback(UDPFrameCallBack);
+        printf("SetCmdRpyCallback rtn is %d\n", rtn);
+        rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return -1;
+        }
+        while (true)
+        {
+            robot.ResetAllError();
+            robot.Sleep(500);
+            double posGain[6] = { 0.0 };
+            double desPos[6] = { 0.0 };
+            double velGain[6] = { 0.0 };
+            double desVel[6] = { 0.0 };
+            double torques[6] = { 0.0 };
+            float curTorque[6] = { 0.0 };
+            robot.GetJointTorques(1, curTorque);
+            for (int i = 0; i < 6; i++)
+            {
+                torques[i] = curTorque[i];
+            }
+            robot.ServoMITStart(0);
+            ROBOT_STATE_PKG pkg = {};
+            robot.DragTeachSwitch(1);
+            double intev = 0.008;
+            double jPowerLimit[6] = { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
+            double jVelLimit[6] = { 50, 50, 50, 50, 50, 50 };
+            int error = 0;
+            while (true)
+            {
+                torques[5] = 0.02;
+                error = robot.ServoMIT(posGain, desPos, velGain, desVel, torques, intev, 0);
+                robot.Sleep(1);
+                robot.GetRobotRealTimeState(&pkg);
+                printf("pkg.jt_cur_pos[5]: %f\n", pkg.jt_cur_pos[5]);
+                if (pkg.jt_cur_pos[5] > 30)
+                {
+                    break;
+                }
+            }
+            while (true)
+            {
+                torques[5] = -0.02;
+                error = robot.ServoMIT(posGain, desPos, velGain, desVel, torques, intev, 0);
+                robot.Sleep(1);
+                robot.GetRobotRealTimeState(&pkg);
+                printf("pkg.jt_cur_pos[5]:%f\n", pkg.jt_cur_pos[5]);
+                if (pkg.jt_cur_pos[5] < 0)
+                {
+                    break;
+                }
+            }
+            robot.DragTeachSwitch(0);
+            error = robot.ServoMITEnd(0);
+        }
+        robot.CloseRPC();
+        robot.Sleep(1000000);
+        return 0;
+    }

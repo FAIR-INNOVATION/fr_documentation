@@ -497,6 +497,7 @@ UDP扩展轴通讯参数
         public int socketConnTimeout;                // Socket连接超时
         public int socketReadTimeout;                // Socket读取超时
         public int tsWebStateComErr;                 // TS Web状态通信错误
+        public int exaxisCoordID;                  //扩展轴坐标系编号
     }
 
 机器人状态反馈配置结果类
@@ -516,139 +517,141 @@ UDP扩展轴通讯参数
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
-
+    
     /**
     * 机器人状态枚举类型
     * 用于实时状态反馈配置
     */
-    public enum RobotState {
-        ProgramState,
-        RobotState,
-        MainCode,
-        SubCode,
-        RobotMode,
-        JointCurPos,
-        ToolCurPos,
-        FlangeCurPos,
-        ActualJointVel,
-        ActualJointAcc,
-        TargetTCPCmpSpeed,
-        TargetTCPSpeed,
-        ActualTCPCmpSpeed,
-        ActualTCPSpeed,
-        ActualJointTorque,
-        Tool,
-        User,
-        ClDgtOutputH,
-        ClDgtOutputL,
-        TlDgtOutputL,
-        ClDgtInputH,
-        ClDgtInputL,
-        TlDgtInputL,
-        ClAnalogInput,
-        TlAnglogInput,
-        FtSensorRawData,
-        FtSensorData,
-        FtSensorActive,
-        EmergencyStop,
-        MotionDone,
-        GripperMotiondone,
-        McQueueLen,
-        CollisionState,
-        TrajectoryPnum,
-        SafetyStop0State,
-        SafetyStop1State,
-        GripperFaultId,
-        GripperFault,
-        GripperActive,
-        GripperPosition,
-        GripperSpeed,
-        GripperCurrent,
-        GripperTemp,
-        GripperVoltage,
-        AuxState,
-        ExtAxisStatus,
-        ExtDIState,
-        ExtDOState,
-        ExtAIState,
-        ExtAOState,
-        RbtEnableState,
-        JointDriverTorque,
-        JointDriverTemperature,
-        RobotTime,
-        SoftwareUpgradeState,
-        EndLuaErrCode,
-        ClAnalogOutput,
-        TlAnalogOutput,
-        GripperRotNum,
-        GripperRotSpeed,
-        GripperRotTorque,
-        WeldingBreakOffState,
-        TargetJointTorque,
-        SmartToolState,
-        WideVoltageCtrlBoxTemp,
-        WideVoltageCtrlBoxFanCurrent,
-        ToolCoord,
-        WobjCoord,
-        ExtoolCoord,
-        ExAxisCoord,
-        Load,
-        LoadCog,
-        LastServoTarget,
-        ServoJCmdNum,
-        TargetJointPos,
-        TargetJointVel,
-        TargetJointAcc,
-        TargetJointCurrent,
-        ActualJointCurrent,
-        ActualTCPForce,
-        TargetTCPPos,
-        CollisionLevel,
-        SpeedScaleManual,
-        SpeedScaleAuto,
-        LuaLineNum,
-        AbnomalStop,
-        CurrentLuaFileName,
-        ProgramTotalLine,
-        SafetyBoxSingal,
-        WeldVoltage,
-        WeldCurrent,
-        WeldTrackVel,
-        TpdException,
-        AlarmRebootRobot,
-        ModbusMasterConnect,
-        ModbusSlaveConnect,
-        BtnBoxStopSignal,
-        DragAlarm,
-        SafetyDoorAlarm,
-        SafetyPlaneAlarm,
-        MotonAlarm,
-        InterfaceAlarm,
-        UdpCmdState,
-        WeldReadyState,
-        AlarmCheckEmergStopBtn,
-        TsTmCmdComError,
-        TsTmStateComError,
-        SocketConnTimeout,
-        SocketReadTimeout,
-        TsWebStateComErr,
-        CtrlBoxError,
-        SafetyDataState,
-        ForceSensorErrState,
-        CtrlOpenLuaErrCode,
-        StrangePosFlag,
-        Alarm,
-        DriverAlarm,
-        AliveSlaveNumError,
-        SlaveComError,
-        CmdPointError,
-        IOError,
-        GripperError,
-        FileError,
-        ParaError,
-        ExaxisOutLimitError,
-        DriverComError,
-        DriverError,
-        OutSoftLimitError,
-        AxleGenComData;
-    }
+    enum class RobotState
+    {
+        ProgramState,           // 程序运行状态，1-停止；2-运行；3-暂停
+        RobotState,             // 机器人运动状态，1-停止；2-运行；3-暂停；4-拖动
+        MainCode,               // 主故障码
+        SubCode,                // 子故障码
+        RobotMode,              // 机器人模式，1-手动模式；0-自动模式
+        JointCurPos,            // 6个轴当前关节位置，单位deg
+        ToolCurPos,             // 工具当前位置：[0]沿x轴位置(mm)，[1]沿y轴(mm)，[2]沿z轴(mm)，[3]绕固定轴X旋转(deg)，[4]绕固定轴Y(deg)，[5]绕固定轴Z(deg)
+        FlangeCurPos,          // 末端法兰当前位置：[0]沿x轴(mm)，[1]沿y轴(mm)，[2]沿z轴(mm)，[3]绕固定轴X(deg)，[4]绕固定轴Y(deg)，[5]绕固定轴Z(deg)
+        ActualJointVel,        // 当前6个关节速度，单位deg/s
+        ActualJointAcc,        // 当前6个关节加速度，单位deg/s^2
+        TargetTCPCmpSpeed,     // TCP合成指令速度：[0]位置(mm/s)，[1]姿态(deg/s)
+        TargetTCPSpeed,        // TCP指令速度：[0]沿x轴(mm/s)，[1]沿y轴(mm/s)，[2]沿z轴(mm/s)，[3]绕X角速度(deg/s)，[4]绕Y(deg/s)，[5]绕Z(deg/s)
+        ActualTCPCmpSpeed,     // TCP合成实际速度：[0]位置(mm/s)，[1]姿态(deg/s)
+        ActualTCPSpeed,        // TCP实际速度：[0]沿x轴(mm/s)，[1]沿y轴(mm/s)，[2]沿z轴(mm/s)，[3]绕X角速度(deg/s)，[4]绕Y(deg/s)，[5]绕Z(deg/s)
+        ActualJointTorque,     // 6个轴当前扭矩，单位N·m
+        Tool,                  // 应用的工具坐标系编号
+        User,                  // 应用的工件坐标系编号
+        ClDgtOutputH,          // 控制箱数字量IO输出15-8
+        ClDgtOutputL,          // 控制箱数字量IO输出7-0
+        TlDgtOutputL,          // 工具数字量IO输出7-0，仅bit0-bit1有效
+        ClDgtInputH,           // 控制箱数字量IO输入15-8
+        ClDgtInputL,           // 控制箱数字量IO输入7-0
+        TlDgtInputL,           // 工具数字量IO输入7-0，仅bit0-bit1有效
+        ClAnalogInput,         // 控制箱模拟量输入：[0]通道0，[1]通道1
+        TlAnalogInput,         // 工具模拟量输入
+        FtSensorRawData,       // 力矩传感器原始数据：[0]沿x轴力(N)，[1]沿y轴力(N)，[2]沿z轴力(N)，[3]沿x轴力矩(Nm)，[4]沿y轴(Nm)，[5]沿z轴(Nm)
+        FtSensorData,          // 力矩传感器数据（经处理）：[0]沿x轴力(N)，[1]沿y轴力(N)，[2]沿z轴力(N)，[3]沿x轴力矩(Nm)，[4]沿y轴(Nm)，[5]沿z轴(Nm)
+        FtSensorActive,        // 力矩传感器激活状态，0-复位，1-激活
+        EmergencyStop,         // 急停标志，0-急停未按下，1-急停按下
+        MotionDone,            // 运动到位信号，1-到位，0-未到位
+        GripperMotiondone,     // 夹爪运动完成信号，1-完成，0-未完成
+        McQueueLen,            // 运动指令队列长度
+        CollisionState,        // 碰撞检测，1-碰撞，0-无碰撞
+        TrajectoryPnum,        // 轨迹点编号
+        SafetyStop0State,      // 安全停止信号SI0
+        SafetyStop1State,      // 安全停止信号SI1
+        GripperFaultId,        // 错误夹爪号
+        GripperFault,          // 夹爪故障
+        GripperActive,         // 夹爪激活状态
+        GripperPosition,       // 夹爪位置
+        GripperSpeed,          // 夹爪速度
+        GripperCurrent,        // 夹爪电流
+        GripperTemp,           // 夹爪温度
+        GripperVoltage,        // 夹爪电压
+        AuxState,              // 485扩展轴状态
+        ExtAxisStatus,         // UDP扩展轴状态（4个轴）
+        ExtDIState,            // 扩展DI输入（8个）
+        ExtDOState,            // 扩展DO输出（8个）
+        ExtAIState,            // 扩展AI输入（4个）
+        ExtAOState,            // 扩展AO输出（4个）
+        RbtEnableState,        // 机器人使能状态
+        JointDriverTorque,     // 机器人关节驱动器扭矩（6个关节）
+        JointDriverTemperature,// 机器人关节驱动器温度（6个关节）
+        RobotTime,             // 机器人系统时间
+        SoftwareUpgradeState,  // 机器人软件升级状态
+        EndLuaErrCode,         // 末端LUA运行状态
+        ClAnalogOutput,        // 控制箱模拟量输出（2个）
+        TlAnalogOutput,        // 工具模拟量输出
+        GripperRotNum,         // 旋转夹爪当前旋转圈数
+        GripperRotSpeed,       // 旋转夹爪当前旋转速度百分比
+        GripperRotTorque,      // 旋转夹爪当前旋转力矩百分比
+        WeldingBreakOffState,  // 焊接中断状态
+        TargetJointTorque,     // 关节指令力矩（6个关节）
+        SmartToolState,        // SmartTool手柄按钮状态
+        WideVoltageCtrlBoxTemp,// 宽电压控制箱温度
+        WideVoltageCtrlBoxFanCurrent, // 宽电压控制箱风扇电流(mA)
+        ToolCoord,             // 当前工具坐标系数值：x,y,z,rx,ry,rz
+        WobjCoord,             // 当前工件坐标系数值：x,y,z,rx,ry,rz
+        ExtoolCoord,           // 当前外部工具坐标系数值：x,y,z,rx,ry,rz
+        ExAxisCoord,           // 当前扩展轴坐标系数值：x,y,z,rx,ry,rz
+        Load,                  // 负载质量
+        LoadCog,               // 负载质心：x,y,z
+        LastServoTarget,       // 队列中最后一个ServoJ目标位置（6个关节）
+        ServoJCmdNum,          // servoJ指令计数
+        TargetJointPos,        // 6个关节指令位置，单位°
+        TargetJointVel,        // 6个关节指令速度，单位°/s
+        TargetJointAcc,        // 6个关节指令加速度，单位°/s²
+        TargetJointCurrent,    // 6个关节指令电流，单位A
+        ActualJointCurrent,    // 6个关节当前电流，单位A
+        ActualTCPForce,        // 机器人末端力矩：x,y,z,rx,ry,rz，单位Nm
+        TargetTCPPos,          // 机器人TCP指令位置：x,y,z,rx,ry,rz，单位mm
+        CollisionLevel,        // 机器人碰撞等级（6个）
+        SpeedScaleManual,      // 手动模式全局速度百分比
+        SpeedScaleAuto,        // 自动模式全局速度百分比
+        LuaLineNum,            // 当前lua程序运行行号
+        AbnomalStop,           // 0-无异常；1-有异常
+        CurrentLuaFileName,    // 当前运行lua程序名称
+        ProgramTotalLine,      // lua程序总行数
+        SafetyBoxSingal,       // 机器人按钮盒按钮状态（6个）
+        WeldVoltage,           // 焊接电压 V
+        WeldCurrent,           // 焊接电流
+        WeldTrackVel,          // 焊缝跟踪速度 mm/s
+        TpdException,          // TPD轨迹加载数量超限，0-未超限，1-超限
+        AlarmRebootRobot,      // 警告：1-松开急停后需断电重启，2-关节通讯异常需断电重启
+        ModbusMasterConnect,   // bit0-7对应ModbusTCP主站0-7连接状态，0-未连接，1-连接
+        ModbusSlaveConnect,    // ModbusTCP从站连接状态，0-未连接，1-已连接
+        BtnBoxStopSignal,      // 按钮盒急停信号，0-松开急停，1-按下急停
+        DragAlarm,            // 拖动警告：0-不报警，1-报警，2-位置反馈异常不切换
+        SafetyDoorAlarm,      // 安全门警告：0-关闭，1-打开
+        SafetyPlaneAlarm,     // 安全墙警告：0-未进入，1-已进入
+        MotonAlarm,           // 运动警告
+        InterfaceAlarm,       // 进入干涉区警告
+        UdpCmdState,          // 20007端口UDP通讯连接状态
+        WeldReadyState,       // 焊机准备完成状态
+        AlarmCheckEmergStopBtn, // 0-正常；1-通信异常，检查急停按钮
+        TsTmCmdComError,      // 0-正常；1-扭矩指令通讯失败
+        TsTmStateComError,    // 0-正常；1-扭矩状态通讯失败
+        CtrlBoxError,         // 控制箱错误
+        SafetyDataState,      // 安全数据状态，0-正常，1-异常
+        ForceSensorErrState,  // 力传感器连接超时，bit0-bit1对应ID1-ID2
+        CtrlOpenLuaErrCode,   // 4个控制器外设协议错误码(500错误码)
+        StrangePosFlag,       // 奇异位姿标志：0-正常，1-奇异位姿
+        Alarm,                // 警告
+        DriverAlarm,          // 驱动器报警轴号
+        AliveSlaveNumError,   // 活动从站数量错误：0-正常，1-数量错误
+        SlaveComError,        // 从站错误：0-正常，1-掉线，2-状态不一致，3-未配置，4-配置错误，5-初始化错误，6-邮箱通信初始化错误
+        CmdPointError,        // 指令点错误
+        IOError,              // IO错误
+        GripperError,         // 夹爪错误
+        FileError,            // 文件错误
+        ParaError,            // 参数错误
+        ExaxisOutLimitError,  // 外部轴超出软限位错误
+        DriverComError,       // 与驱动器通信故障（6个轴）
+        DriverError,          // 驱动器通信故障轴号
+        OutSoftLimitError,    // 超出软限位故障
+        AxleGenComData,       // 机器人末端透传反馈数据
+        SocketConnTimeout,    // socket连接超时，bit0-bit4对应socketID 1-4
+        SocketReadTimeout,    // socket读取超时，bit0-bit4对应socketID 1-4
+        TsWebStateComErr,     // web-扭矩通讯失败：0-正常，1-失败
+        ExaxisCoordID          //扩展轴坐标系编号
+    };
