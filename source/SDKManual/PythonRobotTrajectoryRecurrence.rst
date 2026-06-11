@@ -159,7 +159,8 @@
 
     "原型", "``LoadTrajectoryJ(name,ovl,opt=1)``"
     "描述", "轨迹预处理"
-    "必选参数", "- ``name``:轨迹名,如：/fruser/traj/trajHelix_aima_1.txt;
+    "必选参数", "
+    - ``name``:轨迹名 如trajHelix_aima_1.txt,同时兼容全路径文件名，如/fruser/traj/trajHelix_aima_1.txt;
     - ``ovl``：速度缩放百分比，范围[0~100];"
     "默认参数", "- ``opt``：1-控制点，默认为1"
     "返回值", "错误码 成功-0  失败- errcode"
@@ -234,7 +235,7 @@
         rtn = robot.TrajectoryJUpLoad("C://Users/lenovo/Desktop/trajHelix_aima_1.txt")
         print(f"Upload TrajectoryJ A {rtn}")
 
-        traj_file_name = "/fruser/traj/trajHelix_aima_1.txt"
+        traj_file_name = "trajHelix_aima_1.txt"
         # 加载轨迹文件，参数：文件名，速度百分比，是否循环（1:循环）
         rtn = robot.LoadTrajectoryJ(name=traj_file_name, ovl=100, opt=1)
         print(f"LoadTrajectoryJ {traj_file_name}, rtn is: {rtn}")
@@ -411,7 +412,7 @@
     robot = Robot.RPC('192.168.58.2')
     rtn = robot.TrajectoryJUpLoad("D://zUP/traj.txt")
     print(f"Upload TrajectoryJ A {rtn}")
-    traj_file_name = "/fruser/traj/traj.txt"
+    traj_file_name = "traj.txt"
     rtn = robot.LoadTrajectoryJ(traj_file_name, 100, 1)
     print(f"LoadTrajectoryJ {traj_file_name}, rtn is: {rtn}")
     rtn,traj_start_pose = robot.GetTrajectoryStartPose(traj_file_name)
@@ -492,7 +493,7 @@
     robot = Robot.RPC('192.168.58.2')
     rtn = robot.TrajectoryJUpLoad("D://zUP/traj.txt")
     print(f"Upload TrajectoryJ A {rtn}")
-    traj_file_name = "/fruser/traj/traj.txt"
+    traj_file_name = "traj.txt"
     rtn = robot.LoadTrajectoryLA(traj_file_name, 1, 2, 0, 2, 50, 200, 1000, 0)
     print(f"LoadTrajectoryLA {traj_file_name}, rtn is: {rtn}")
     rtn, traj_start_pose = robot.GetTrajectoryStartPose(traj_file_name)
