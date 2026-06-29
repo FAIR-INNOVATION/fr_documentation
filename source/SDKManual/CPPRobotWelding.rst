@@ -1936,3 +1936,197 @@
         std::cout << "Test completed" << std::endl;
         return 0;
     }
+            
+设置摆动结束回周期零点
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 设置摆动结束回周期零点
+    * @param [in] flag 摆动结束是否回周期零点；0-不回周期零点；1-回周期零点
+    * @return 错误码
+    */
+    errno_t SetWeaveBackCenterConfig(int flag);
+            
+获取摆动结束回周期零点参数
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 获取摆动结束回周期零点参数
+    * @param [out] flag 摆动结束是否回周期零点；0-不回周期零点；1-回周期零点
+    * @return 错误码
+    */
+    errno_t GetWeaveBackCenterConfig(int& flag);
+            
+摆动结束回周期零点代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    int TestSplineWeaveBackCenter()
+    {
+    ROBOT_STATE_PKG pkg = {};
+    FRRobot robot;
+    robot.LoggerInit();
+    robot.SetLoggerLevel(1);
+    robot.SetReConnectParam(true, 30000, 500);
+    int rtn = robot.SetCmdRpyCallback(UDPFrameCallBack);
+    printf("SetCmdRpyCallback rtn is %d\n", rtn);
+    rtn = robot.RPC("192.168.58.2");
+    if (rtn != 0)
+    {
+        return -1;
+    }
+    JointPos j1(9.000, -66.067, 67.706, -103.217, -90.151, 100.669);
+    JointPos j2(-4.660, -107.973, 103.734, -76.214, -89.999, 90.886);
+    JointPos j3(-36.762, -77.380, 91.364, -127.159, -90.024, 54.833);
+    JointPos j4(-62.875, -89.460, 86.437, -77.030, -90.012, 31.539);
+    DescPose desc_pos1(-654.129, -235.344, 246.543, 6.010, -11.535, -176.787);
+    DescPose desc_pos2(-273.710, -100.871, 280.935, 5.692, 9.522, 179.512);
+    DescPose desc_pos3(-566.093, 311.278, 215.008, -10.453, -17.486, -174.209);
+    DescPose desc_pos4(-246.558, 328.240, 292.173, 13.912, 4.437, -179.067);
+    DescPose offset_pos(0, 0, 0, 0, 0, 0);
+    ExaxisPos epos(0, 0, 0, 0);
+    int tool = 2;
+    int user = 0;
+    float vel = 100.0;
+    float acc = 100.0;
+    float ovl = 20;
+    float oacc = 100.0;
+    float blendT = 0.0;
+    float blendR = 0.0;
+    uint8_t flag = 0;
+    uint8_t search = 0;
+    int blendMode = 0;
+    int velAccMode = 0;
+    robot.SetSpeed(1);
+    robot.SetWeaveBackCenterConfig(1);
+    int weaveBackConfig = 0;
+    robot.GetWeaveBackCenterConfig(weaveBackConfig);
+    printf("GetWeavebackCenterConfig %d: \n", weaveBackConfig);
+    rtn = robot.MoveJ(&j1, &desc_pos1, tool, user, vel, acc, 100.0, &epos, blendT, flag, &offset_pos);
+    robot.WeaveStart(0);
+    robot.NewSplineStart(0, 6000);
+    robot.NewSplinePoint(&j1, &desc_pos1, tool, user, vel, acc, ovl, -1, 0);
+    robot.NewSplinePoint(&j2, &desc_pos2, tool, user, vel, acc, ovl, -1, 0);
+    robot.NewSplinePoint(&j3, &desc_pos3, tool, user, vel, acc, ovl, -1, 0);
+    robot.NewSplinePoint(&j4, &desc_pos4, tool, user, vel, acc, ovl, -1, 1);
+    robot.NewSplineEnd();
+    }
+
+设置摆动实时偏移
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 设置摆动实时偏移
+    * @param [in] offset 实时偏移量[mm，°]
+    * @return 错误码
+    */
+    errno_t SetWeaveOffsetRT(DescPose offset);
+
+摆动实时调速和偏移代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    int TestWeaveSpeedAndOffset()
+    {
+    ROBOT_STATE_PKG pkg = {};
+    FRRobot robot;
+    robot.LoggerInit();
+    robot.SetLoggerLevel(1);
+    robot.SetReConnectParam(true, 30000, 500);
+    int rtn = robot.RPC("192.168.58.2");
+    if (rtn != 0)
+    {
+        return 0;
+    }
+        std::cout << "============================================================" << std::endl;
+    std::cout << " 摆动调速与实时偏移测试" << std::endl;
+    std::cout << "============================================================" << std::endl;
+    ExaxisPos epos(0, 0, 0, 0);
+    DescPose offset_pos(0, 0, 0, 0, 0, 0);
+    JointPos j1(5.027, -84.331, -75.139, -103.690, 86.379, 20.794);
+    DescPose d1(324.752, -83.339, 366.314, -172.321, -0.936, -106.047);
+    JointPos j2(-35.335, -117.598, -57.174, -95.234, 90.001, -19.560);
+    DescPose d2(324.999, -355.439, 260.000, 179.995, 0.003, -105.775);
+    JointPos j3(59.787, -117.594, -57.183, -95.222, 90.006, 75.562);
+    DescPose d3(324.998, 355.441, 260.002, 179.995, 0.003, -105.775);
+    // ---- Step 1: MoveJ到起始点 ----
+    std::cout << "\nStep 1: MoveJ to start point" << std::endl;
+    rtn = robot.MoveJ(&j1, &d1, 1, 0, 100, 100, 50, &epos, -1, 0, &offset_pos);
+    std::cout << " MoveJ(j1) rtn=" << rtn << std::endl;
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    // ---- Step 2: MoveJ到摆动入口 ----
+    std::cout << "\nStep 2: MoveJ to weave entry point" << std::endl;
+    rtn = robot.MoveJ(&j2, &d2, 1, 0, 100, 100, 50, &epos, -1, 0, &offset_pos);
+    std::cout << " MoveJ(j2) rtn=" << rtn << std::endl;
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    // ---- Step 3: WeaveStart, 启动摆动MoveL线程 ----
+    std::cout << "\nStep 3: WeaveStart + MoveL in background thread" << std::endl;
+    robot.WeaveStart(0);
+    std::atomic<bool> weaveRunning(true);
+    std::thread weaveThread([&]() {
+        rtn = robot.MoveL(&j3, &d3, 1, 0, 100, 100, 5, -1, 0, &epos, 0, 0, &offset_pos, 5, 0, 0, 10);
+        std::cout << " MoveL(weave) thread finished, rtn=" << rtn << std::endl;
+        weaveRunning = false;
+        });
+    weaveThread.detach(); // 后台运行
+    std::this_thread::sleep_for(std::chrono::milliseconds(500)); // 等待运动开始
+    // ---- Step 4: 调速测试(主线程，摆动MoveL后台运行) ----
+    std::cout << "\nStep 4: SetSpeed test during weaving" << std::endl;
+    std::vector<int> speedValues = { 20, 50, 80, 30, 60, 10 };
+    for (int speed : speedValues)
+    {
+        if (!weaveRunning.load()) break;
+        rtn = robot.SetSpeedInstant(speed);
+        robot.GetRobotRealTimeState(&pkg);
+        std::cout << " SetSpeed(" << speed << ") -> rtn=" << rtn
+        << ", TCP_CmpSpeed=" << pkg.target_TCP_CmpSpeed << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+    }
+    std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+    // ---- Step 5: SetWeaveOffsetRT偏移测试(主线程，摆动MoveL后台运行) ----
+    std::cout << "\nStep 5: SetWeaveOffsetRT test (50 iterations, delta=0.1)" << std::endl;
+    double accumOffset = 0.0;
+    for (int i = 0; i < 50 && weaveRunning.load(); i++)
+    {
+        accumOffset += 1;
+        DescPose weaveOffset(0, 0, accumOffset, 0, 0, 0);
+        rtn = robot.SetWeaveOffsetRT(weaveOffset);
+        robot.GetRobotRealTimeState(&pkg);
+        std::cout << " [" << (i + 1) << "/50] SetWeaveOffsetRT(x=" << accumOffset << ") -> rtn=" << rtn
+        << ", TCP_pos=(" << pkg.tl_cur_pos[0] << "," << pkg.tl_cur_pos[1] << "," << pkg.tl_cur_pos[2] << ")"
+        << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(200));
+    }
+    // ---- Step 6: 等待摆动MoveL完成, WeaveEnd ----
+    std::cout << "\nStep 6: Wait for weave MoveL, then WeaveEnd" << std::endl;
+    // 由于使用了 detach，这里需要等待 weaveRunning 变为 false
+    while (weaveRunning.load()) 
+    {
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+    robot.WeaveEnd(0);
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    // ---- Step 7: MoveL返回起始点 ----
+    std::cout << "\nStep 7: MoveL back to start" << std::endl;
+    rtn = robot.MoveL(&j1, &d1, 1, 0, 100, 100, 50, -1, 0, &epos, 0, 0, &offset_pos, 50, 0, 0, 10);
+    std::cout << " MoveL(back) rtn=" << rtn << std::endl;
+    robot.GetRobotRealTimeState(&pkg);
+    std::cout << "\n Final robot state: main_code=" << pkg.main_code
+        << ", sub_code=" << pkg.sub_code << std::endl;
+    std::cout << "============================================================" << std::endl;
+    std::cout << " 摆动调速与实时偏移测试 完成" << std::endl;
+    std::cout << "============================================================" << std::endl;
+    }

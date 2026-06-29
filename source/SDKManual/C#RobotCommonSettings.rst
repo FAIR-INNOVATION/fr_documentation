@@ -1216,9 +1216,8 @@
     */
     public int GetVelFeedForwardRatio(ref double radio[6]);
 
-获取从站端口错误帧代码示例
+机器人设置速度前馈代码示例
 ++++++++++++++++++++++++++++++++++++++++++++++++++
-.. versionadded:: C#SDK-V1.1.9  Web-3.8.7
     
 .. code-block:: c#
     :linenos:
@@ -1315,7 +1314,7 @@
 
     /**
     * @brief 光电传感器TCP标定
-    * @param [in] luaPath 自动标定lua程序路径：QX版本机器人-"/fruser/FR_CalibrateTheToolTcp.lua";LA版本机器人-"/usr/local/etc/controller/lua/FR_CalibrateTheToolTcp.lua"
+    * @param [in] luaPath 自动标定lua程序路径："FR_CalibrateTheToolTcp.lua"
     * @param [in] offsetX 示教点偏移(x,y,z)mm
     * @param [out] TCP 标定后的工具坐标系(x,y,z,rx,ry,rz)
     * @return 错误码
@@ -1333,8 +1332,21 @@
         ROBOT_STATE_PKG pkg =new ROBOT_STATE_PKG();
         DescTran offset = new DescTran( 10.0, 10.0, 3.0 );
         DescPose TCP = new DescPose();
-        int rtn = robot.PhotoelectricSensorTCPCalibration("/fruser/FR_CalibrateTheToolTcp.lua", offset, out TCP);
+        int rtn = robot.PhotoelectricSensorTCPCalibration("FR_CalibrateTheToolTcp.lua", offset, out TCP);
         Console.WriteLine($"PhotoelectricSensorTCPCalibration : {rtn}");
         Console.WriteLine($"工具TCP坐标: X={TCP.tran.x:F3}, Y={TCP.tran.y:F3}, Z={TCP.tran.z:F3}");
         Console.WriteLine($"工具RPY姿态: RX={TCP.rpy.rx:F3}, RY={TCP.rpy.ry:F3}, RZ={TCP.rpy.rz:F3}");
     }
+
+即时设置全局速度
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 即时设置全局速度
+    * @param [in] vel 速度百分比，范围[0~100]
+    * @return 错误码
+    */
+    public int SetWeaveOffsetRT(DescPose offset)

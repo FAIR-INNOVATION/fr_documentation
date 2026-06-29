@@ -1102,7 +1102,7 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``SerCoderCompenParams(status, torqueCoeff)``"
+    "原型", "``SetCoderCompenParams(status, torqueCoeff)``"
     "描述", "开启力矩补偿功能及补偿系数"
     "必选参数", "- ``status``：开关，0-关闭；1-开启
     - ``torqueCoeff``：J1-J6力矩补偿系数[0-1]"

@@ -204,14 +204,14 @@
       uint8_t ft_sensor_active;  // 力矩传感器激活状态，0-复位，1-激活 
       uint8_t EmergencyStop;   // 急停标志，0-急停未按下，1-急停按下 
       int   motion_done;    // 运动到位信号，1-到位，0-未到位 
-      uint8_t gripper_motiondone; // 夹爪运动完成信号，1-完成，0-未完成 
+      uint8_t gripper_motiondone; // 夹爪运动完成信号，0-未完成，1-完成(未检测到物体)，2-运动完成（检测到物体）  
       int   mc_queue_len;    // 运动指令队列长度 
       uint8_t collisionState;   // 碰撞检测，1-碰撞，0-无碰撞 
       int   trajectory_pnum;  // 轨迹点编号 
       uint8_t safety_stop0_state; // 安全停止信号SI0 
       uint8_t safety_stop1_state; // 安全停止信号SI1 
       uint8_t gripper_fault_id;  // 错误夹爪号 
-      uint16_t gripper_fault;   // 夹爪故障 
+      uint16_t gripper_fault;   //  夹爪故障 0-无故障 1-485超时 2-指令错误 3-工件掉落 其他-夹爪故障码+3  
       uint16_t gripper_active;   // 夹爪激活状态 
       uint8_t gripper_position;  // 夹爪位置 
       int8_t  gripper_speed;   // 夹爪速度 
@@ -345,14 +345,14 @@
         FtSensorActive = 30,        // 力矩传感器激活状态，0-复位，1-激活
         EmergencyStop = 31,         // 急停标志，0-急停未按下，1-急停按下
         MotionDone = 32,            // 运动到位信号，1-到位，0-未到位
-        GripperMotiondone = 33,     // 夹爪运动完成信号，1-完成，0-未完成
+        GripperMotiondone = 33,     // 夹爪运动完成信号，0-未完成，1-完成(未检测到物体)，2-运动完成（检测到物体）
         McQueueLen = 34,            // 运动指令队列长度
         CollisionState = 35,        // 碰撞检测，1-碰撞，0-无碰撞
         TrajectoryPnum = 36,        // 轨迹点编号
         SafetyStop0State = 37,      // 安全停止信号SI0
         SafetyStop1State = 38,      // 安全停止信号SI1
         GripperFaultId = 39,        // 错误夹爪号
-        GripperFault = 40,          // 夹爪故障
+        GripperFault = 40,          // 夹爪故障 0-无故障 1-485超时 2-指令错误 3-工件掉落 其他-夹爪故障码+3
         GripperActive = 41,         // 夹爪激活状态
         GripperPosition = 42,       // 夹爪位置
         GripperSpeed = 43,          // 夹爪速度

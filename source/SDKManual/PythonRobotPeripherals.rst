@@ -818,11 +818,13 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``SetAxleLuaEnableDeviceType(forceSensorEnable, gripperEnable, IOEnable)``"
+    "原型", "``SetAxleLuaEnableDeviceType(self, forceSensorEnable, gripperEnable, IOEnable, dexhandEnable)``"
     "描述", "设置末端LUA末端设备启用类型"
-    "必选参数", "- ``forceSensorEnable``：力传感器启用状态，0-不启用；1-启用
+    "必选参数", "
+    - ``forceSensorEnable``：力传感器启用状态，0-不启用；1-启用
     - ``gripperEnable``：夹爪启用状态，0-不启用；1-启用
-    - ``IOEnable``：IO设备启用状态，0-不启用；1-启用"
+    - ``IOEnable``：IO设备启用状态，0-不启用；1-启用
+    - ``dexhandEnable``：灵巧手启用状态，0-不启用；1-启用"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode "
 
@@ -841,7 +843,8 @@
     "返回值", "- 错误码 成功-0  失败- errcode 
     - ``forceSensorEnable``：力传感器启用状态，0-不启用；1-启用
     - ``gripperEnable``：夹爪启用状态，0-不启用；1-启用
-    - ``IOEnable``：IO设备启用状态，0-不启用；1-启用"
+    - ``IOEnable``：IO设备启用状态，0-不启用；1-启用
+    - ``dexhandEnable``：灵巧手启用状态，0-不启用；1-启用"
 
 获取当前配置的末端设备
 +++++++++++++++++++++++++++++++++++++++++++++
@@ -858,7 +861,8 @@
     "返回值", "- 错误码 成功-0  失败- errcode 
     - ``forceSensorEnable[8]``：力传感器启用状态，0-不启用；1-启用
     - ``gripperEnable[8]``：夹爪启用状态，0-不启用；1-启用
-    - ``IOEnable[8]``：IO设备启用状态，0-不启用；1-启用"
+    - ``IOEnable[8]``：IO设备启用状态，0-不启用；1-启用
+    - ``dexhandEnable``：灵巧手启用状态，0-不启用；1-启用"
 
 设置启用夹爪动作控制功能
 +++++++++++++++++++++++++++++++++++++++++++++
@@ -870,8 +874,9 @@
 
     "原型", "``SetAxleLuaGripperFunc(id, func)``"
     "描述", "设置启用夹爪动作控制功能"
-    "必选参数", "- ``id``：夹爪设备编号
-    - ``func``：0-夹爪使能；1-夹爪初始化；2-位置设置；3-速度设置；4-力矩设置；6-读夹爪状态；7-读初始化状态；8-读故障码；9-读位置；10-读速度；11-读力矩,12-15预留"
+    "必选参数", "
+    - ``id``：夹爪设备编号
+    - ``func``：0-夹爪使能；1-夹爪初始化；2-位置设置；3-速度设置；4-力矩设置；6-读夹爪状态；7-读初始化状态；8-读故障码；9-读位置；10-读速度；11-读力矩,12-旋转夹爪旋转圈数设置； 13-旋转夹爪旋转速度设置； 14-旋转夹爪旋转力矩设置； 15-读旋转夹爪状态；16-读旋转夹爪初始化状态；17-读旋转夹爪圈数；18-读旋转夹爪速度；19-读旋转夹爪力矩；20-多轴同步运动设置；21-故障清除指令；22-单轴运行状态；23-所有轴运行状态；"
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode "
 
@@ -888,7 +893,7 @@
     "必选参数", "- ``id``：夹爪设备编号"
     "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode 
-    - ``func``：0-夹爪使能；1-夹爪初始化；2-位置设置；3-速度设置；4-力矩设置；6-读夹爪状态；7-读初始化状态；8-读故障码；9-读位置；10-读速度；11-读力矩,12-15预留"
+    - ``func``：0-夹爪使能；1-夹爪初始化；2-位置设置；3-速度设置；4-力矩设置；6-读夹爪状态；7-读初始化状态；8-读故障码；9-读位置；10-读速度；11-读力矩,12-旋转夹爪旋转圈数设置； 13-旋转夹爪旋转速度设置； 14-旋转夹爪旋转力矩设置； 15-读旋转夹爪状态；16-读旋转夹爪初始化状态；17-读旋转夹爪圈数；18-读旋转夹爪速度；19-读旋转夹爪力矩；20-多轴同步运动设置；21-故障清除指令；22-单轴运行状态；23-所有轴运行状态；"
 
 机器人Ethercat从站文件写入
 +++++++++++++++++++++++++++++++++++++++++++++
@@ -1848,3 +1853,177 @@ SmartTool按钮代码示例
 
     # 调用测试函数
     TestCtrlOpenLuaOperate(robot)
+        
+控制灵巧手运动
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetDexterousHandsMove(self, idstart, slaveNum, pos, speed, force, max_time)``"
+    "描述", "控制灵巧手运动"
+    "必选参数", "
+    - ``idstart``：起始从站号;
+    - ``slaveNum``：数量;
+    - ``pos[16]``：位置(-360~360);
+    - ``speed[16]``：速度百分比，范围[0~100];
+    - ``force[16]``：力矩百分比，范围[0~100];
+    - ``max_time``：最大等待时间，范围[0~30000]，单位ms;"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+        
+控制灵巧手复位激活
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetDexterousHandsAct(self, id, act)``"
+    "描述", "控制灵巧手复位激活"
+    "必选参数", "
+    - ``id``：从站号;
+    - ``act``：0-复位 1-激活"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+        
+清除灵巧手错误
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``ClearDexterousHandsError(self)``"
+    "描述", "清除灵巧手错误"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+    
+设置启用灵巧手动作控制功能
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetDexterousHandsFunc(self, id, func)``"
+    "描述", "设置启用灵巧手动作控制功能"
+    "必选参数", "
+    - ``id``：灵巧手从站编号;
+    - ``func``：功能数组，32个元素
+        0-夹持触发、1-夹爪初始化、2-位置设置、3-速度设置、4-力矩设置、
+        6-读夹爪状态、7-读初始化状态、8-读故障码、9-读位置、10-读速度、
+        11-读力矩、12-旋转圈数设置、13-旋转速度设置、14-旋转力矩设置、
+        15-读旋转夹爪状态、16-读旋转初始化状态、17-读旋转圈数、18-读旋转速度、
+        19-读旋转力矩、20-多轴同步运动设置、21-故障清除指令、22-单轴运行状态、
+        23-所有轴运行状态"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+    
+获取启用灵巧手动作控制功能
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetDexterousHandsFunc(self, id)``"
+    "描述", "获取启用灵巧手动作控制功能"
+    "必选参数", "
+    - ``id``：灵巧手从站编号;
+    - ``func``：功能数组，32个元素
+        0-夹持触发、1-夹爪初始化、2-位置设置、3-速度设置、4-力矩设置、
+        6-读夹爪状态、7-读初始化状态、8-读故障码、9-读位置、10-读速度、
+        11-读力矩、12-旋转圈数设置、13-旋转速度设置、14-旋转力矩设置、
+        15-读旋转夹爪状态、16-读旋转初始化状态、17-读旋转圈数、18-读旋转速度、
+        19-读旋转力矩、20-多轴同步运动设置、21-故障清除指令、22-单轴运行状态、
+        23-所有轴运行状态"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+末端灵巧手配置及运动代码示例  
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos:  
+     
+    from fairino import Robot
+    import time
+    robot = Robot.RPC('192.168.58.2')
+
+    def main(self):
+
+        id = 1                 
+        slaveNum = 4         
+        max_time = 8000      
+        speed = [0] * 16     
+        force = [0] * 16     
+
+        for i in range(16):
+            force[i] = 50 if i < 4 else 0
+
+        def set_positions(v1, v2, v3, v4):
+            pos = [0.0] * 16
+            pos[0] = v1
+            pos[1] = v2
+            pos[2] = v3
+            pos[3] = v4
+            return pos
+
+        j1 = [-53.426,-85.916,109.280,-86.236,-96.663,-28.560]
+        j2 = [-91.877,-85.917,109.281,-86.236,-96.663,-28.560]
+        epos = [0, 0, 0, 0]
+        offset_pos = [0, 0, 0, 0, 0, 0]
+
+        ret = robot.ClearDexterousHandsError()
+        print(f"ClearDexterousHandsError -> {ret}")
+
+        setFunc = [0] * 32
+        setFunc[2] = 1   
+        setFunc[4] = 1   
+        setFunc[9] = 1   
+        setFunc[10] = 1  
+        setFunc[11] = 1  
+        setFunc[22] = 1  
+
+        ret = robot.SetDexterousHandsFunc(id, setFunc)
+        print(f"SetDexterousHandsFunc(使能+初始化+位置/速度/力矩功能启用) -> {ret}")
+
+        ret, getFunc = robot.GetDexterousHandsFunc(id)
+        print(f"GetDexterousHandsFunc -> {ret}")
+        if ret == 0:
+            print("GetDexterousHandsFunc :")
+            for i in range(len(getFunc)):
+                print(f"  [{i}]={getFunc[i]}", end="")
+                if (i + 1) % 8 == 0:
+                    print()  
+                elif i < len(getFunc) - 1:
+                    print(", ", end="")
+            if len(getFunc) % 8 != 0:
+
+        ret = robot.SetDexterousHandsAct(id, 1)
+        print(f"SetDexterousHandsAct() -> {ret}")
+        if ret != 0:
+            return
+            pos = set_positions(20, 20, 20, 20)
+        ret = robot.SetDexterousHandsMove(id, slaveNum, pos, speed, force, max_time)
+        print(f"ret: {ret}")
+        time.sleep(5)
+
+        for iteration in range(1, 11):
+            robot.MoveJ(joint_pos=j1, tool=1, user=0, vel=100, acc=100, ovl=100,
+                        exaxis_pos=epos, blendT=-1, offset_flag=0, offset_pos=offset_pos)
+
+            pos = set_positions(10, 10, 10, 10)
+            ret = robot.SetDexterousHandsMove(id, slaveNum, pos, speed, force, max_time)
+            time.sleep(1)
+
+            robot.MoveJ(joint_pos=j2, tool=1, user=0, vel=100, acc=100, ovl=100,
+                        exaxis_pos=epos, blendT=-1, offset_flag=0, offset_pos=offset_pos)
+
+            pos = set_positions(50, 50, 50, 50)
+            ret = robot.SetDexterousHandsMove(id, slaveNum, pos, speed, force, max_time)
+            time.sleep(1)
+
+    main(robot)

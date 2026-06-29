@@ -98,7 +98,7 @@
             # 状态信号
             ("EmergencyStop", c_uint8),         # 急停标志，0-急停未按下，1-急停按下
             ("motion_done", c_int),             # 运动到位信号，1-到位，0-未到位
-            ("gripper_motiondone", c_uint8),    # 夹爪运动完成信号，1-完成，0-未完成
+            ("gripper_motiondone", c_uint8),    # 夹爪运动完成信号，0-未完成，1-完成(未检测到物体)，2-运动完成（检测到物体）
             ("mc_queue_len", c_int),            # 运动指令队列长度
             ("collisionState", c_uint8),        # 碰撞检测，1-碰撞，0-无碰撞
             ("trajectory_pnum", c_int),         # 轨迹点编号
@@ -107,7 +107,7 @@
 
             # 夹爪信息
             ("gripper_fault_id", c_uint8),      # 错误夹爪号
-            ("gripper_fault", c_uint16),        # 夹爪故障
+            ("gripper_fault", c_uint16),        # 夹爪故障0-无故障 1-485超时 2-指令错误 3-工件掉落 其他-夹爪故障码
             ("gripper_active", c_uint16),      # 夹爪激活状态
             ("gripper_position", c_uint8),      # 夹爪位置
             ("gripper_speed", c_int8),          # 夹爪速度
@@ -280,14 +280,14 @@
     "ft_sensor_active","力矩传感器激活状态，0-复位，1-激活"
     "EmergencyStop","急停标志,0-急停未按下,1-急停按下"
     "motion_done","运动到位信号,1-到位，0-未到位"
-    "gripper_motiondone","夹爪运动完成信号,1-完成，0-未完成 "
+    "gripper_motiondone","夹爪运动完成信号，0-未完成，1-完成(未检测到物体)，2-运动完成（检测到物体）"
     "mc_queue_len","运动指令队列长度"
     "collisionState","碰撞检测,1-碰撞，0-无碰撞 "
     "trajectory_pnum","轨迹点编号"
     "safety_stop0_state","安全停止信号SI0"
     "safety_stop1_state","安全停止信号SI1"
     "gripper_fault_id","错误夹爪号"
-    "gripper_fault","夹爪故障"
+    "gripper_fault","夹爪故障0-无故障 1-485超时 2-指令错误 3-工件掉落 其他-夹爪故障码"
     "gripper_active","夹爪激活状态，0-未激活，1-激活"
     "gripper_position","夹爪位置(百分比)"
     "gripper_speed","夹爪速度(百分比)"

@@ -397,14 +397,14 @@ UDP扩展轴通讯参数
         public int ft_sensor_active;                // 力传感器激活状态
         public int EmergencyStop;                   // 急停状态
         public int motion_done;                     // 运动完成
-        public int gripper_motiondone;              // 夹爪运动完成
+        public int gripper_motiondone;              // 夹爪运动完成信号，0-未完成，1-完成(未检测到物体)，2-运动完成（检测到物体）
         public int mc_queue_len;                    // 运动队列长度
         public int collisionState;                  // 碰撞状态
         public int trajectory_pnum;                 // 轨迹点序号
         public int safety_stop0_state;              // 安全停止0状态
         public int safety_stop1_state;              // 安全停止1状态
         public int gripper_fault_id;                // 夹爪故障ID
-        public int gripper_fault;                   // 夹爪故障
+        public int gripper_fault;                   // 夹爪故障0-无故障 1-485超时 2-指令错误 3-工件掉落 其他-夹爪故障码
         public int gripper_active;                  // 夹爪激活
         public int gripper_position;                // 夹爪位置
         public int gripper_speed;                   // 夹爪速度
@@ -554,14 +554,14 @@ UDP扩展轴通讯参数
         FtSensorActive,        // 力矩传感器激活状态，0-复位，1-激活
         EmergencyStop,         // 急停标志，0-急停未按下，1-急停按下
         MotionDone,            // 运动到位信号，1-到位，0-未到位
-        GripperMotiondone,     // 夹爪运动完成信号，1-完成，0-未完成
+        GripperMotiondone,     // 夹爪运动完成信号，0-未完成，1-完成(未检测到物体)，2-运动完成（检测到物体）
         McQueueLen,            // 运动指令队列长度
         CollisionState,        // 碰撞检测，1-碰撞，0-无碰撞
         TrajectoryPnum,        // 轨迹点编号
         SafetyStop0State,      // 安全停止信号SI0
         SafetyStop1State,      // 安全停止信号SI1
         GripperFaultId,        // 错误夹爪号
-        GripperFault,          // 夹爪故障
+        GripperFault,          // 夹爪故障0-无故障 1-485超时 2-指令错误 3-工件掉落 其他-夹爪故障码
         GripperActive,         // 夹爪激活状态
         GripperPosition,       // 夹爪位置
         GripperSpeed,          // 夹爪速度

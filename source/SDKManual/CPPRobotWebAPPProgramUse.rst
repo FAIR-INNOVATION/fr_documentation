@@ -12,7 +12,7 @@
     /**
     * @brief  设置开机自动加载默认的作业程序
     * @param  [in] flag  0-开机不自动加载默认程序，1-开机自动加载默认程序
-    * @param  [in] program_name 作业程序名及路径，如"/fruser/movej.lua"，其中"/fruser/"为QX固定路径，"/usr/local/etc/controller/lua/"为LA固定路径
+    * @param  [in] program_name 作业程序名及路径，如"movej.lua"
     * @return  错误码
     */
     errno_t  LoadDefaultProgConfig(uint8_t flag, char program_name[64]);
@@ -24,7 +24,7 @@
 
     /**
     * @brief  加载指定的作业程序
-    * @param  [in] program_name 作业程序名及路径，如"/fruser/movej.lua"，其中"/fruser/"为QX固定路径，"/usr/local/etc/controller/lua/"为LA固定路径
+    * @param  [in] program_name 作业程序名及路径，如"movej.lua"
     * @return  错误码
     */
     errno_t  ProgramLoad(char program_name[64]);
@@ -36,7 +36,7 @@
 
     /**
     * @brief  获取已加载的作业程序名
-    * @param  [out] program_name 作业程序名及路径，如"/fruser/movej.lua"，其中"/fruser/"为QX固定路径，"/usr/local/etc/controller/lua/"为LA固定路径
+    * @param  [out] program_name 作业程序名及路径，如"movej.lua"
     * @return  错误码
     */
     errno_t  GetLoadedProgram(char program_name[64]);  
@@ -126,7 +126,7 @@
         return -1;
       }
       robot.SetReConnectParam(true, 30000, 500);
-      char program_name[64] = "/fruser/test.lua";
+      char program_name[64] = "test.lua";
       char loaded_name[64] = "";
       uint8_t state;
       int line;

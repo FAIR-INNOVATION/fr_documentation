@@ -211,7 +211,7 @@ TPD轨迹复现
 .. code-block:: c#
     :linenos:
 
-    public int RunTrajectoryJ(string localFilePath = "D://zUP/trajHelix_aima_1.txt", string remoteFilePath = "/fruser/traj/trajHelix_aima_1.txt",
+    public int RunTrajectoryJ(string localFilePath = "D://zUP/horse.txt", string remoteFilePath = "horse.txt",
     int initialSpeedPercent = 50, int trajSpeedMode = 1)
     {
         int rtn;
@@ -508,24 +508,28 @@ TPD轨迹复现
 .. code-block:: c#
     :linenos:
 
-    private void button8_Click(object sender, EventArgs e)
+    private void button87_Click(object sender, EventArgs e)
     {
-        int rtn = 0;
+        // Upload trajectory file
+        int rtn = robot.TrajectoryJUpLoad(@"D:\zUP\horse.txt");
+        Console.WriteLine($"Upload TrajectoryJ A {rtn}");
 
-        string nameA = "/fruser/traj/A.txt";
-        string nameB = "/fruser/traj/B.txt";
+        string trajFileName = "horse.txt";
+        rtn = robot.LoadTrajectoryLA(trajFileName, 2, 0, 0, 1, 40, 100, 100, 1);
+        Console.WriteLine($"LoadTrajectoryLA {trajFileName}, rtn is: {rtn}");
 
-        rtn = robot.LoadTrajectoryLA(nameB, 0, 0, 0, 1, 100.0, 100.0, 1000.0);    // 直线拟合
-        Console.WriteLine($"LoadTrajectoryLA rtn is {rtn}");
+        DescPose trajStartPose = new DescPose();
+        rtn = robot.GetTrajectoryStartPose(trajFileName, ref trajStartPose);
+        Console.WriteLine($"GetTrajectoryStartPose is: {rtn}");
+        Console.WriteLine($"desc_pos: {trajStartPose.tran.x},{trajStartPose.tran.y},{trajStartPose.tran.z},{trajStartPose.rpy.rx},{trajStartPose.rpy.ry},{trajStartPose.rpy.rz}");
 
-        DescPose startPos = new DescPose(0, 0, 0, 0, 0, 0);
-        robot.GetTrajectoryStartPose(nameA, ref startPos);
+        Thread.Sleep(1000);
 
-        //
-        robot.MoveCart(startPos, 1, 0, (float)100.0, (float)100.0, (float)100.0, -1, -1);
+        robot.SetSpeed(50);
+        robot.MoveCart(trajStartPose, 0, 0, 100, 100, 100, -1, -1);
 
         rtn = robot.MoveTrajectoryLA();
-        Console.WriteLine($"MoveTrajectoryLA rtn is {rtn}");
+        Console.WriteLine($"MoveTrajectoryLA rtn is: {rtn}");
     }
 
 运动到TPD轨迹记录起点

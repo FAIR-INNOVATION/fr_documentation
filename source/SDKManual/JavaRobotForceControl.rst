@@ -924,4 +924,4 @@
     * @param  torqueCoeff J1-J6力矩补偿系数[0-1]
     * @return 错误码
     */
-    public int SerCoderCompenParams(int status, double[] torqueCoeff)
+    public int SetCoderCompenParams(int status, double[] torqueCoeff)

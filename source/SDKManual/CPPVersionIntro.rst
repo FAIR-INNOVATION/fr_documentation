@@ -13,6 +13,33 @@
      - **日期**
      - **更新描述**
 
+   * - V3.9.7
+     - 2026-06-25
+     - | 1.更新机器人状态反馈结构体，夹爪运动完成信号新增是否检测到物体状态；夹爪故障新增2-指令错误、3-工件掉落、其他-夹爪故障码+3；
+       | 2.更新设置LUA程序停止/暂停后输出复位代码示例，优化加载lua文件接口仅需要输入lua文件名称，不再需要输入路径。
+       | 3.更新光电传感器TCP标定代码示例，优化加载文件接口仅需要输入lua文件名称，不再需要输入路径。
+       | 4.更新设置轨迹运行中的速度代码示例，优化加载轨迹J文件接口仅需要输入轨迹J文件名称，不再需要输入路径。
+       | 5.更新机器人轨迹J文件复现代码示例	，优化加载轨迹J文件接口仅需要输入轨迹J文件名称，不再需要输入路径。
+       | 6.更新轨迹复现（轨迹前瞻）代码示例，优化加载轨迹J文件接口仅需要输入轨迹J文件名称，不再需要输入路径。
+       | 7.LoadDefaultProgConfig()接口作业程序名称参数仅需要输入lua文件名称，不再需要输入路径。
+       | 8.ProgramLoad()接口作业程序名称参数仅需要输入lua文件名称，不再需要输入路径。
+       | 9.GetLoadedProgram()接口作业程序名称参数仅需要输入lua文件名称，不再需要输入路径。
+       | 10.更新机器人LUA程序操作代码示例，优化加载文件接口仅需要输入lua文件名称，不再需要输入路径。
+       | 11.SetAxleLuaEnableDeviceType()接口增加灵巧手启用状态参数；
+       | 12.GetAxleLuaEnableDeviceType()接口增加灵巧手启用状态参数；
+       | 13.GetAxleLuaEnableDevice()接口增加灵巧手启用设备编号状态参数；
+       | 14.SetAxleLuaGripperFunc()接口夹爪功能码数组扩充至32个，增加旋转夹爪控制等；
+       | 15.GetAxleLuaGripperFunc()接口夹爪功能码数组扩充至32个，增加旋转夹爪状态等；
+       | 16.SetCoderCompenParams()更新接口名称错误；
+       | 17.新增SetDexterousHandsMove ()控制灵巧手运动接口。
+       | 18.新增SetDexterousHandsAct ()控制灵巧手复位激活接口。
+       | 19.新增ClearDexterousHandsError ()清除灵巧手错误接口。
+       | 20.新增SetDexterousHandsFunc()设置启用灵巧手动作控制功能接口。
+       | 21.新增GetDexterousHandsFunc()获取启用灵巧手动作控制功能接口。
+       | 22.新增SetWeaveBackCenterConfig()、GetWeaveBackCenterConfig()设置、获取摆动结束回周期零点参数。
+       | 23.新增SetWeaveOffsetRT()设置摆动实时偏移接口；
+       | 24.新增SetSpeedInstant()实时设置速度接口；
+
    * - V3.9.6
      - 2026-05-26
      - | 1.更新机器人状态反馈结构体，增加扩展轴坐标系编号状态；
