@@ -4,17 +4,17 @@
 
 宣传册
 --------------
-    :download:`法奥公司简介 <_static/_doc/法奥意威公司简介.pdf>`
-
-    :download:`法奥产品手册 <_static/_doc/FAIRINO产品手册.pdf>`
+    :download:`法奥公司简介 <_static/_doc/FAIRINO公司简介.pdf>`
 
     :download:`法奥生态产品手册 <_static/_doc/FAIRINO生态产品手册.pdf>`
 
     :download:`法奥医疗行业案例 <_static/_doc/法奥意威医疗行业案例.pdf>`
 
-    :download:`法奥焊接宣传册 <_static/_doc/法奥意威焊接宣传册.pdf>`
+    :download:`法奥焊接宣传册 <_static/_doc/FAIRINO焊接宣传册.pdf>`
 
     :download:`法奥码垛宣传册 <_static/_doc/法奥意威码垛宣传册.pdf>`
+
+    :download:`法奥人形机器人 <_static/_doc/FAIRINO人形机器人.pdf>`
 
 资质认证
 ---------------------------------
