@@ -188,13 +188,13 @@
    作用：添加/编辑当前程序命令的内容
 
 .. note:: 
-   .. image:: coding/241.png
+   .. image:: coding/245.png
       :height: 0.75in
       :align: left
 
-   名称：**机器人模型**
+   名称：**局部示教点**
    
-   作用：返回机器人3D模型界面
+   作用：仅应用于当前程序的示教点
 
 .. note:: 
    .. image:: coding/242.png
@@ -206,15 +206,6 @@
    作用：当前程序命令中存在NewDofile指令时，点击进入选择子程序名称查看子程序内容。
 
 .. note:: 
-   .. image:: coding/243.png
-      :height: 0.75in
-      :align: left
-
-   名称：**Modbus TCP设置**
-   
-   作用：配置Modbus TCP通信的参数
-
-.. note:: 
    .. image:: coding/244.png
       :height: 0.75in
       :align: left
@@ -224,13 +215,85 @@
    作用：记录当前程序的修改内容
 
 .. note:: 
-   .. image:: coding/245.png
+   .. image:: coding/602.png
       :height: 0.75in
       :align: left
 
-   名称：**局部示教点**
+   名称：**Print打印日志**
    
-   作用：仅应用于当前程序的示教点
+   作用：指定信息输出至 WebApp 打印窗口，方便调试与数据追溯
+
+.. note:: 
+   .. image:: coding/241.png
+      :height: 0.75in
+      :align: left
+
+   名称：**机器人模型**
+   
+   作用：返回机器人3D模型界面
+
+.. note:: 
+   .. image:: coding/596.png
+      :height: 0.75in
+      :align: left
+
+   名称：**Socket 网络调试**
+   
+   作用：网络通信调试界面
+
+.. note:: 
+   .. image:: coding/243.png
+      :height: 0.75in
+      :align: left
+
+   名称：**Modbus TCP设置**
+   
+   作用：配置Modbus TCP通信的参数
+
+.. note:: 
+   .. image:: coding/597.png
+      :height: 0.75in
+      :align: left
+
+   名称：**Modbus RTU设置**
+   
+   作用：配置Modbus RTU通信的参数
+
+.. note:: 
+   .. image:: coding/598.png
+      :height: 0.75in
+      :align: left
+
+   名称：**后台程序管理**
+   
+   作用：配置后台程序界面
+
+.. note:: 
+   .. image:: coding/599.png
+      :height: 0.75in
+      :align: left
+
+   名称：**用户变量管理**
+   
+   作用：配置用户变量界面
+
+.. note:: 
+   .. image:: coding/600.png
+      :height: 0.75in
+      :align: left
+
+   名称：**示教点**
+   
+   作用：配置示教点界面
+
+.. note:: 
+   .. image:: coding/601.png
+      :height: 0.75in
+      :align: left
+
+   名称：**主程序配置**
+   
+   作用：配置主程序
 
 程序命令
 ~~~~~~~~~~~
@@ -1432,6 +1495,98 @@ DMP是一种轨迹模仿学习的方法，需要事先规划参考轨迹。在�
 
 .. centered:: 图表 9.5-33 WPTrsf指令界面
 
+工件转换和安全速度功能
+**************************************************************
+
+概述
+""""""""""""""""""""""""""""""""""""
+
+工件转换功能是指将当前工件坐标系下的PTP\LIN\ARC\CIR运动轨迹迁移至目标工件坐标系下运行。
+
+安全速度功能是指机器人笛卡尔\关节空间中速度限制的开放配置，实现工作空间和关节空间的速度保护。
+
+工件转换功能操作流程
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：通过WebApp标定机器人工件坐标系。该功能的具体操作步骤可参考相应章节的用户手册。
+
+**Step2**：点位示教。通过WebApp示教PTP\LIN\ARC\CIR运动点位及编写LUA程序，该功能的具体操作步骤可参考相应章节的用户手册。
+
+**Step3**：转换工件坐标系设置。在WebApp主界面，点击“示教程序”-“程序编程”，进入“运动指令”指令区。
+
+.. image:: coding/583.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.5-33-1 “运动指令”指令区
+
+在“运动指令”指令区，点击“工件转换”按钮，进入“WPTrsf”指令配置界面。
+
+.. image:: coding/584.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.5-33-2 WPTrsf指令配置
+
+“WPTrsf”指令配置界面->“指令编辑”配置区，“选择工件坐标系”下拉框中选择目标转换的工件坐标系编号，点击“添加”-“应用”按钮，完成工件转换功能配置。
+
+**Step4**：编写工件转换功能的LUA程序。调整步骤2至步骤3生成的指令顺序，运行该LUA程序即可实现工件转换功能。
+
+.. image:: coding/585.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.5-33-3 工件转换功能的LUA程序
+
+安全速度功能操作流程
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+在WebApp主界面，点击“初始设置”-“安全”-“安全速度”，进入“安全速度”配置区。
+
+.. image:: coding/586.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.5-33-4 安全速度指令配置
+
+“安全速度”配置区->“功能启用”下拉框中，可以选择“不启用”、“手动模式启用”及“所有模式启用”选项。
+
+其中“手动模式启用”表示为在WebApp中切换为手动模式时启用；“所有模式启用”表示为在WebApp中切换为手动模式、自动模式及拖动模式时启用。
+
+下图所示的“安全速度”配置区，“TCP限制速度”、“J1限制速度”、“J2限制速度”、“J3限制速度”、“J4限制速度”、“J5限制速度”及“J6限制速度”输入框内，可以分别设置机器人笛卡尔和关节空间中的速度保护。
+
+值得注意的是，上述速度保护在机器人运动过程中，按其中最小值优先触发。
+
+“安全速度”配置区->“超速后模式”下拉框中，可以选择“停止报警”、“自动限速”及“停止报警后去使能”选项，如下表所示。
+
+.. centered:: 表 9.5-4  不同“功能启用”选项下的“超速后模式”选择
+
+.. list-table::
+   :widths: 25 25 25 25
+   :header-rows: 0
+   :align: center
+
+   * - \
+     - **停止报警**
+     - **自动限速**
+     - **停止报警后去使能**
+
+   * - **手动模式启用**
+     - 支持
+     - 支持
+     - 支持
+
+   * - **所有模式启用**
+     - 支持
+     - 不支持
+     - 支持
+			
+“停止报警”：当关节指令和反馈速度均超越安全速度时，WebApp提示超速警告；
+
+“自动限速”：当关节指令和反馈速度均超越安全速度时，将自动降速在安全速度内；
+
+“停止报警后去使能”：当关节指令和反馈速度均超越安全速度时，WebApp提示超速警告且机器人全关节去使能。
+
 工具转换命令
 ++++++++++++++++
 
@@ -1728,6 +1883,71 @@ Acc指令是实现机器人加速度可单独设置功能，通过调节运动�
    :align: center
 
 .. centered:: 图表 9.7-5 Conveyor指令界面
+   
+传送带原地跟踪运动功能
+***********************************************************************
+
+概述
+"""""""""""""""""""""""""""""""""""
+
+本功能是指机器人能够识别并同步追踪在传送带上运动的物体，然后在不停止传送带的情况下，实现机器人与物体的“相对静止”运动。
+
+操作流程
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+**Step1**：点击“辅助应用”-“工艺包”-“传送带跟踪”进行传送带跟踪参数配置，包括“I/O配置”、“参数配置”、“抓取点补偿”（仅“跟踪抓取”功能需配置）和“参考点配置”。其中“参考点配置”中的“起始点a”的位置，为传送带运动开始时的物体位置；“终点b”的位置，为传送带运动结束的物体位置。详细操作步骤见相应章节。
+
+**Step2**：跟踪运动使用工件坐标系作为传送带坐标系，因此需要设置工件坐标系。点击“初始设置”-“基础”，选择“工件坐标系”，点击选择“wobjcoord0”以外的工件坐标系进行标定，标定方式参考相应章节。
+
+**Step3**：点击“示教程序”-“程序编程”-“传送带”，进入传送带功能配置页面。
+
+**Step4**：点击“跟踪开启”按钮，工作模式选为“跟踪运动”，点击“添加”按钮。
+
+.. image:: coding/590.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.7-5-1 跟踪开启设置
+
+**Step5**：点击“I/O实时检测”按钮，设置最大等待时间，点击“添加”按钮。
+
+.. image:: coding/591.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.7-5-2 I/O实时检测设置
+
+**Step6**：点击“位置实时检测”按钮，工作模式选为“跟踪运动”，点击“添加”按钮。
+
+.. image:: coding/592.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.7-5-3 位置实时检测设置
+
+**Step7**：点击“原地跟踪运动”按钮，工作模式有“时间”、“距离”和“时间+距离”三种。其中，“时间”模式，需设置运动时间，从传送带跟踪开启处计算，满足设定的时间后，会停止跟踪运动；“距离”模式，需设置运动距离，从传送带跟踪开启处计算，满足设定的距离后，会停止跟踪运动；“时间+距离”模式，需同时设置运动时间和运动距离，从传送带跟踪开启处计算，满足设定的时间或距离的一个条件时，会停止跟踪运动。注意：为了运动环境的安全，这三种运动模式的最大跟踪位置，均不会超过传送带标定时“终点b”的位置。点击“添加”按钮。
+
+.. image:: coding/593.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.7-5-4 原地跟踪运动参数设置
+
+**Step8**：点击“跟踪关闭”按钮，点击“添加”按钮。
+
+.. image:: coding/594.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.7-5-5 跟踪关闭设置
+
+**Step9**：生成的传送带原地跟踪运动的lua程序如图所示，运行该程序，即可实现传送带原地跟踪运动。
+
+.. image:: coding/595.png
+   :width: 4in
+   :align: center
+
+.. centered:: 图表 9.7-5-6 传送带原地跟踪运动lua程序
 
 打磨设备命令
 ++++++++++++++++
@@ -8692,3 +8912,75 @@ Scoket通信
    :align: center
 
 .. centered:: 图表 9.39‑10 机器人运动中打印当前位置及DI示例 
+      
+大型LUA程序及子程序web加载功能优化功能
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+背景
+++++++++++++++++++++++++++++++++++++++++++++++
+
+当前机器人无法处理大型lua程序（20w+），当上传大型lua程序时web页面无法进行加载及使用；
+
+同时导入程序时，当前导入逻辑不进行程序解析校验，导入程序后需手动打开保存校验，当使用同时大量子程序调用时，需手动逐一打开，耗时严重，极大的降低工作效率。
+
+概述
+++++++++++++++++++++++++++++++++++++++++++++++
+
+此次优化针对导入的程序，后端自动进行解析保存，后续子程序上传后无需手动打开保存可直接调用。
+
+其中针对大型lua程序，web前端导入大型lua程序（不需要二次解析的原生lua程序）时以RAW前缀命名，如RAW_test.lua.此类程序代表该程序均为原生lua语句，不包含应用业务信息，可直接放入lua解释器中运行的程序，控制器只需要对其进行语法校验，不再逐行进行解析，此举可大幅减少文件导入解析时间，同时前端不再针对大型lua程序进行动画渲染，程序以文本形式进行展示，不再动态显示高亮以及运行行号，提高前端的数据渲染效率。具体需要解析语句可参考1.4章节。
+
+Web在导入程序后需增加进度条提示，同时导入成功后进行提示。
+
+针对大型lua程序，建议使用子程序+RAW_方式配合使用，可提高操作效率。
+
+大型lua程序操作流程
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+**Step1**：将大型lua程序以RAW_命名，如RAW_test200000.lua。
+
+**Step2**：打开web页面，依次点击“示教程序”->“程序编程”按钮，选择“导入”指令，在“导入”文件中选择RAW_test200000.lua。
+
+.. image:: coding/587.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.40‑1 RAW_文件导入    
+
+**Step3**：等待导入完成，导入完成时已完成导入、解析、保存、渲染等操作，此时文件可直接运行。
+
+.. image:: coding/588.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.40‑2 导入等待提示   
+
+子程序操作流程
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+**Step1**：打开web页面，依次点击“示教程序”->“程序编程”按钮，选择“导入”指令，在“导入”文件中批量选择主程序以及子程序。
+
+**Step2**：等待所有程序导入成功，切换机器人为自动模式，即可直接运行主程序。
+
+注意事项
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+RAW_文件只对语法进行校验，不对文件内容进行逐行解析生成，包含点位信息，IO操作等便于客户使用的自定义集成lua函数，此类函数需要结合用户自定义数据进行二次生成可直接运行的lua函数，无法在RAW_文件中使用。
+
+.. image:: coding/589.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 9.40‑3 导入LUA程序流程图 
+
+RAW_文件编写可参考FRLua编程脚本用户手册，其中以下lua函数需要进行解析，不适用于RAW_文件。
+
+laserPTP(), EXT_AXIS_PTP(), SPTP(), NewSP(), SplinePTP(), laserLin(), SLIN(), Lin(), laserARC(), ARC() 
+laserCircle(), Circle(), TCPComputeCircleCenter(), unifCircle(), NewSpiral(), Spiral(), SCIRC() 
+ModbusSlaveWriteDO(), ModbusSlaveWriteDI(), ModbusSlaveWriteAO(), ModbusSlaveWriteAI(), ModbusSlaveReadDO(), ModbusSlaveReadDI(), ModbusSlaveReadAO(), ModbusSlaveReadAI(), ModbusSlaveWaitDI(), ModbusSlaveWaitAI()
+ModbusMasterWriteDO(), ModbusMasterWriteAO(), ModbusMasterReadDO(), ModbusMasterReadDI(), ModbusMasterReadAO(), ModbusMasterReadAI(), ModbusMasterWaitDI(), ModbusMasterWaitAI()
+ModbusSlaveWriteDO_RTU(), ModbusSlaveWriteDI_RTU(), ModbusSlaveWriteAO_RTU(), ModbusSlaveWriteAI_RTU(), ModbusSlaveReadDO_RTU(), ModbusSlaveReadDI_RTU(), ModbusSlaveReadAO_RTU(), ModbusSlaveReadAI_RTU(), ModbusSlaveWaitDI_RTU(), ModbusSlaveWaitAI_RTU()
+ModbusMasterWriteDO_RTU(), ModbusMasterWriteAO_RTU(), ModbusMasterReadDO_RTU(), ModbusMasterReadDI_RTU(), ModbusMasterReadAO_RTU(), ModbusMasterReadAI_RTU(), ModbusMasterWaitDI_RTU(), ModbusMasterWaitAI_RTU(), SetAO(), SetAuxAO(), SetToolAO(), WaitAI()
+FieldBusSlaveWaitAI(), WaitToolAI(), WaitAuxAI(), SPLCSetAO(), SPLCSetToolAO(), SetToolList(), SetWObjList(), SetExToolList(), PostureAdjustOn(), RegisterVar(), SetSysVarValue(), GetSysVarValue(), MultilayerOffsetTrsfToBase(), GetSegWeldDisDir(), DMP()
+LTSearchStart(), PointTableSwitch(), GetSegmentWeldPoint(), LaserRecordPoint(), GetIntersectionThrough3Point(), GetIntersectionThrough4Point(), GetUserVal(), SetUserVal(), MoveToIntersectLineStart(), MoveIntersectLine(), OriginPointWeaveStart()
+MatrixMoveStart(), MatrixMoveEnd(), MatrixSetCountPlus(), MatrixGetCount(), MatrixSetStartCount().

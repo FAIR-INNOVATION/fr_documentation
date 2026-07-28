@@ -457,10 +457,7 @@
                     - ``lead``: 机械传动比 编码器旋转一圈传送带移动距离
                     - ``wpAxis``: 工件坐标系编号 针对跟踪运动功能选择工件坐标系编号，跟踪抓取、TPD跟踪设为0
                     - ``vision``: 是否配视觉  0-不配 1-配,
-                    - ``speedRadio``: 速度比  针对传送带跟踪抓取速度范围为（1-100）  跟踪运动、TPD跟踪设置为1
-    - ``followType``：跟踪运动类型，0-跟踪运动；1-追检运动"
-    "默认参数", "- ``startDis``：追检抓取需要设置， 跟踪起始距离， -1：自动计算(工件到达机器人下方后自动追检)，单位mm， 默认值0
-    - ``endDis``：追检抓取需要设置，跟踪终止距离， 单位mm， 默认值100"
+                    - ``speedRadio``: 速度比  针对传送带跟踪抓取速度范围为（1-100）  跟踪运动、TPD跟踪设置为1"
     "返回值", "错误码 成功-0  失败- errcode"
 
 传动带抓取点补偿
@@ -576,6 +573,111 @@
     retval = robot.MoveGripper(index, 100, 40, 10, max_time, block, 0, 0, 0, 0)
     print(f"MoveGripper retval is:{retval}")
     robot.CloseRPC()
+
+传送带原地跟踪参数配置
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-V3.9.8
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetStationaryTrackPara(self, trackMode, trackTime, trackDis)``"
+    "描述", "传送带原地跟踪参数配置"
+    "必选参数", "
+    - ``trackMode``: 0-时间；1-距离；2-时间和距离任意满足一个
+    - ``trackTime``: 跟踪时间，单位s
+    - ``trackDis``: 跟踪距离
+    "
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+等待原地空运动完成
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-V3.9.8
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``WaitStationaryMotionDone(self)``"
+    "描述", "等待原地空运动完成"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+传送带原地跟踪运动代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: python SDK-V3.9.8
+
+.. code-block:: python
+    :linenos: 
+
+    from fairino import Robot
+    import time
+
+
+    def main():
+        robot = Robot.RPC('192.168.58.2')
+        time.sleep(0.5) 
+        j1 = [-35.146, -102.684, 120.805, -100.401, -90.295, 150.105]
+        d1 = [-121.814, -348.341, 209.978, -173.152, -3.585, -5.446]
+
+        ex = [0.0, 0.0, 0.0, 0.0]
+        zeroOff = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+        tool = 1
+        workpiece = 1
+
+        para = [0, 10000, 200, 0, 0, 10]
+    
+        rtn = robot.ConveyorSetParam(para= para)
+        print(f"ConveyorSetParam rtn is {rtn}")
+
+        robot.MoveJ(joint_pos=j1, desc_pos=d1, tool=tool, user=workpiece,
+                    vel=100, acc=100, ovl=100, exaxis_pos=ex,
+                    blendT=-1, offset_flag=0, offset_pos=zeroOff)
+
+        print("--- Step 1: SetDO(6,1) ---")
+        rtn = robot.SetDO(6, 1, 0, 0)
+        print(f"  SetDO(6,1) rtn={rtn}")
+
+        print("--- Step 2: ConveyorTrackStart(2) ---")
+        rtn = robot.ConveyorTrackStart(2)
+        print(f"  ConveyorTrackStart(2) rtn={rtn}")
+
+        print("--- Step 3: ConveyorIODetect(10000) ---")
+        rtn = robot.ConveyorIODetect(10000)
+        print(f"  ConveyorIODetect(10000) rtn={rtn}")
+
+        print("--- Step 4: ConveyorGetTrackData(2) ---")
+        rtn = robot.ConveyorGetTrackData(2)
+        print(f"  ConveyorGetTrackData(2) rtn={rtn}")
+
+        print("--- Step 5: SetStationaryTrackPara(0,5,5) ---")
+        rtn = robot.SetStationaryTrackPara(0, 5, 5)
+        print(f"  SetStationaryTrackPara(0,5,5) rtn={rtn}")
+
+        print("--- Step 6: MoveStationary() ---")
+        rtn = robot.MoveStationary()
+        print(f"  MoveStationary() rtn={rtn}")
+
+        rtn = robot.WaitStationaryMotionDone()
+        print(f"  WaitStationaryMotionDone() rtn={rtn}")
+
+        print("--- Step 7: ConveyorTrackEnd() ---")
+        rtn = robot.ConveyorTrackEnd()
+        print(f"  ConveyorTrackEnd() rtn={rtn}")
+
+        print("--- Step 8: SetDO(6,0) ---")
+        rtn = robot.SetDO(6, 0, 0, 0)
+        print(f"  SetDO(6,0) rtn={rtn}")
+
+        robot.CloseRPC()
+
+
+    if __name__ == "__main__":
+        main()    
 
 末端传感器配置
 +++++++++++++++++++++++++++++++++

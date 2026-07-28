@@ -190,80 +190,85 @@
 
     int TestSetWeldParam(void)
     {
-      ROBOT_STATE_PKG pkg = {};
-      FRRobot robot;
-      robot.LoggerInit();
-      robot.SetLoggerLevel(1);
-      int rtn = robot.RPC("192.168.58.2");
-      if (rtn != 0)
-      {
-        return -1;
-      }
-      robot.SetReConnectParam(true, 30000, 500);
-      robot.WeldingSetProcessParam(1, 177, 27, 1000, 178, 28, 176, 26, 1000);
-      robot.WeldingSetProcessParam(2, 188, 28, 555, 199, 29, 133, 23, 333);
-      double startCurrent = 0;
-      double startVoltage = 0;
-      double startTime = 0;
-      double weldCurrent = 0;
-      double weldVoltage = 0;
-      double endCurrent = 0;
-      double endVoltage = 0;
-      double endTime = 0;
-      robot.WeldingGetProcessParam(1, startCurrent, startVoltage, startTime, weldCurrent, weldVoltage, endCurrent, endVoltage, endTime);
-      cout << "the Num 1 process param is " << startCurrent << " " << startVoltage << " " << startTime << " " << weldCurrent << " " << weldVoltage << " " << endCurrent << " " << endVoltage << " " << endTime << endl;
-      robot.WeldingGetProcessParam(2, startCurrent, startVoltage, startTime, weldCurrent, weldVoltage, endCurrent, endVoltage, endTime);
-      cout << "the Num 2 process param is " << startCurrent << " " << startVoltage << " " << startTime << " " << weldCurrent << " " << weldVoltage << " " << endCurrent << " " << endVoltage << " " << endTime << endl;
-      rtn = robot.WeldingSetCurrentRelation(0, 400, 0, 10, 0);
-      cout << "WeldingSetCurrentRelation rtn is: " << rtn << endl;
-      rtn = robot.WeldingSetVoltageRelation(0, 40, 0, 10, 1);
-      cout << "WeldingSetVoltageRelation rtn is: " << rtn << endl;
-      double current_min = 0;
-      double current_max = 0;
-      double vol_min = 0;
-      double vol_max = 0;
-      double output_vmin = 0;
-      double output_vmax = 0;
-      int curIndex = 0;
-      int volIndex = 0;
-      rtn = robot.WeldingGetCurrentRelation(&current_min, &current_max, &output_vmin, &output_vmax, &curIndex);
-      cout << "WeldingGetCurrentRelation rtn is: " << rtn << endl;
-      cout << "current min " << current_min << " current max " << current_max << " output vol min " << output_vmin << " output vol max " << output_vmax << endl;
-      rtn = robot.WeldingGetVoltageRelation(&vol_min, &vol_max, &output_vmin, &output_vmax, &volIndex);
-      cout << "WeldingGetVoltageRelation rtn is: " << rtn << endl;
-      cout << "vol min " << vol_min << " vol max " << vol_max << " output vol min " << output_vmin << " output vol max " << output_vmax << endl;
-      rtn = robot.WeldingSetCurrent(1, 100, 0, 0);
-      cout << "WeldingSetCurrent rtn is: " << rtn << endl;
-      this_thread::sleep_for(chrono::seconds(3));
-      rtn = robot.WeldingSetVoltage(1, 10, 0, 0);
-      cout << "WeldingSetVoltage rtn is: " << rtn << endl;
-      rtn = robot.WeaveSetPara(0, 0, 2.000000, 0, 10.000000, 0.000000, 0.000000, 0, 0, 0, 0, 0, 60.000000);
-      cout << "rtn is: " << rtn << endl;
-      robot.WeaveOnlineSetPara(0, 0, 1, 0, 20, 0, 0, 0, 0);
-      rtn = robot.WeldingSetCheckArcInterruptionParam(1, 200);
-      printf("WeldingSetCheckArcInterruptionParam  %d\n", rtn);
-      rtn = robot.WeldingSetReWeldAfterBreakOffParam(1, 5.7, 98.2, 0);
-      printf("WeldingSetReWeldAfterBreakOffParam  %d\n", rtn);
-      int enable = 0;
-      double length = 0;
-      double velocity = 0;
-      int moveType = 0;
-      int checkEnable = 0;
-      int arcInterruptTimeLength = 0;
-      rtn = robot.WeldingGetCheckArcInterruptionParam(&checkEnable, &arcInterruptTimeLength);
-      printf("WeldingGetCheckArcInterruptionParam checkEnable %d  arcInterruptTimeLength %d\n", checkEnable, arcInterruptTimeLength);
-      rtn = robot.WeldingGetReWeldAfterBreakOffParam(&enable, &length, &velocity, &moveType);
-      printf("WeldingGetReWeldAfterBreakOffParam enable = %d, length = %lf, velocity = %lf, moveType = %d\n", enable, length, velocity, moveType);
-      robot.SetWeldMachineCtrlModeExtDoNum(17);
-      for (int i = 0; i < 5; i++)
-      {
-        robot.SetWeldMachineCtrlMode(0);
-        robot.Sleep(1000);
-        robot.SetWeldMachineCtrlMode(1);
-        robot.Sleep(1000);
-      }
-      robot.CloseRPC();
-      return 0;
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return -1;
+        }
+        robot.SetReConnectParam(true, 30000, 500);
+        robot.WeldingSetProcessParam(1, 177, 27, 1000, 178, 28, 176, 26, 1000);
+        robot.WeldingSetProcessParam(2, 188, 28, 555, 199, 29, 133, 23, 333);
+        double startCurrent = 0;
+        double startVoltage = 0;
+        double startTime = 0;
+        double weldCurrent = 0;
+        double weldVoltage = 0;
+        double endCurrent = 0;
+        double endVoltage = 0;
+        double endTime = 0;
+        robot.WeldingGetProcessParam(1, startCurrent, startVoltage, startTime, weldCurrent, weldVoltage, endCurrent, endVoltage, endTime);
+        cout << "the Num 1 process param is " << startCurrent << " " << startVoltage << " " << startTime << " " << weldCurrent << " " << weldVoltage << " " << endCurrent << " " << endVoltage << " " << endTime << endl;
+        robot.WeldingGetProcessParam(2, startCurrent, startVoltage, startTime, weldCurrent, weldVoltage, endCurrent, endVoltage, endTime);
+        cout << "the Num 2 process param is " << startCurrent << " " << startVoltage << " " << startTime << " " << weldCurrent << " " << weldVoltage << " " << endCurrent << " " << endVoltage << " " << endTime << endl;
+        rtn = robot.WeldingSetCurrentRelation(0, 400, 0, 10, 0);
+        cout << "WeldingSetCurrentRelation rtn is: " << rtn << endl;
+        rtn = robot.WeldingSetVoltageRelation(0, 40, 0, 10, 1);
+        cout << "WeldingSetVoltageRelation rtn is: " << rtn << endl;
+        double current_min = 0;
+        double current_max = 0;
+        double vol_min = 0;
+        double vol_max = 0;
+        double output_vmin = 0;
+        double output_vmax = 0;
+        int curIndex = 0;
+        int volIndex = 0;
+        rtn = robot.WeldingGetCurrentRelation(&current_min, &current_max, &output_vmin, &output_vmax, &curIndex);
+        cout << "WeldingGetCurrentRelation rtn is: " << rtn << endl;
+        cout << "current min " << current_min << " current max " << current_max << " output vol min " << output_vmin << " output vol max " << output_vmax << endl;
+        rtn = robot.WeldingGetVoltageRelation(&vol_min, &vol_max, &output_vmin, &output_vmax, &volIndex);
+        cout << "WeldingGetVoltageRelation rtn is: " << rtn << endl;
+        cout << "vol min " << vol_min << " vol max " << vol_max << " output vol min " << output_vmin << " output vol max " << output_vmax << endl;
+        rtn = robot.WeldingSetCurrent(0, 100, 0, 0);
+        cout << "WeldingSetCurrent rtn is: " << rtn << endl;
+        this_thread::sleep_for(chrono::seconds(3));
+        rtn = robot.WeldingSetVoltage(0, 10, 0, 0);
+        cout << "WeldingSetVoltage rtn is: " << rtn << endl;
+        rtn = robot.WeaveSetPara(0, 0, 2.000000, 0, 10.000000, 0.000000, 0.000000, 0, 0, 0, 0, 0, 60.000000);
+        cout << "rtn is: " << rtn << endl;
+        robot.WeaveOnlineSetPara(0, 0, 1, 0, 20, 0, 0, 0, 0);
+        rtn = robot.WeldingSetCheckArcInterruptionParam(1, 200);
+        printf("WeldingSetCheckArcInterruptionParam  %d\n", rtn);
+        rtn = robot.WeldingSetReWeldAfterBreakOffParam(1, 5.7, 98.2, 0);
+        printf("WeldingSetReWeldAfterBreakOffParam  %d\n", rtn);
+        int enable = 0;
+        double length = 0;
+        double velocity = 0;
+        int moveType = 0;
+        int checkEnable = 0;
+        int arcInterruptTimeLength = 0;
+        rtn = robot.WeldingGetCheckArcInterruptionParam(&checkEnable, &arcInterruptTimeLength);
+        printf("WeldingGetCheckArcInterruptionParam checkEnable %d  arcInterruptTimeLength %d\n", checkEnable, arcInterruptTimeLength);
+        rtn = robot.WeldingGetReWeldAfterBreakOffParam(&enable, &length, &velocity, &moveType);
+        printf("WeldingGetReWeldAfterBreakOffParam enable = %d, length = %lf, velocity = %lf, moveType = %d\n", enable, length, velocity, moveType);
+        robot.SetWeldMachineCtrlModeExtDoNum(17);
+        for (int i = 0; i < 5; i++)
+        {
+            int getCtrlMode = -1;
+            robot.SetWeldMachineCtrlMode(0);
+            robot.GetWeldMachineCtrlMode(getCtrlMode);
+            printf("GetWeldMachineCtrlMode %d\n", getCtrlMode);
+            robot.Sleep(1000);
+            robot.SetWeldMachineCtrlMode(1);
+            robot.GetWeldMachineCtrlMode(getCtrlMode);
+            printf("GetWeldMachineCtrlMode %d\n", getCtrlMode);
+            robot.Sleep(1000);
+        }
+        robot.CloseRPC();
+        return 0;
     }
 
 即时设置摆动参数
@@ -382,6 +387,20 @@
     */
     errno_t SetWeldMachineCtrlMode(int mode, int ioType = 1);
 
+获取焊机控制模式
+++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-V3.9.8
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 获取焊机控制模式
+    * @param [out] mode 焊机控制模式;0-直流一元模式；1-脉冲一元模式；2-JOB模式；3-近控模式；4-分别模式；5-CC/CV模式；6-TIG；7-CMT
+    * @return 错误码
+    */
+    errno_t GetWeldMachineCtrlMode(int& mode);
+    
 焊接开始
 ++++++++++++++++++++++++++
 
@@ -869,6 +888,50 @@
      */
     errno_t SetExtDIWeldBreakOffRecover(int reWeldDINum, int abortWeldDINum);
 
+获取扩展DI功能配置
+++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-V3.9.8
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 获取扩展DI功能配置
+     * @param [out] DIConfig 扩展DI输入配置；DIConfig[0]-焊机准备扩展DI端口；
+                                         DIConfig[1]-起弧成功扩展DI端口；
+                                            DIConfig[2]-焊接中断恢复扩展DI端口；
+                                            DIConfig[3]-焊接中断退出扩展DI端口；
+                                            DIConfig[4]-焊丝寻位成功扩展DI端口；
+                                            DIConfig[5]-激光焊机运行状态扩展DI端口；
+                                            DIConfig[6]-激光焊机故障状态扩展DI端口；
+                                            DIConfig[7-15]-预留
+    * @return  错误码
+    */
+    errno_t GetExtDIConfig(int DIConfig[16]);
+    
+获取扩展DO功能配置
+++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-V3.9.8
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+     * @brief 获取扩展DO功能配置
+     * @param [out] DOConfig 扩展DO输入配置；DOConfig[0]-焊机起弧扩展DO端口；
+                                            DOConfig[1]-气体检测扩展DO端口；
+                                            DOConfig[2]-正向送丝扩展DO端口；
+                                            DOConfig[3]-反向送丝扩展DO端口；
+                                            DOConfig[4]-焊丝寻位扩展DO端口；
+                                            DOConfig[5]-焊机控制模式扩展DO端口；
+                                            DOConfig[6]-激光焊机使能扩展DO端口；
+                                            DOConfig[7]-激光焊机启动(出光)扩展DO端口；
+                                            DOConfig[8]-激光焊机复位扩展DO端口；
+                                            DOConfig[9-15]-预留
+    * @return  错误码
+    */
+    errno_t GetExtDOConfig(int DOConfig[16]);    
+
 设置扩展IO焊接信号代码示例
 +++++++++++++++++++++++++++++++++++++++++++
     
@@ -877,26 +940,34 @@
 
     int TestExtDIConfig(void)
     {
-      ROBOT_STATE_PKG pkg = {};
-      FRRobot robot;
-      robot.LoggerInit();
-      robot.SetLoggerLevel(1);
-      int rtn = robot.RPC("192.168.58.2");
-      if (rtn != 0)
-      {
-        return -1;
-      }
-      robot.SetReConnectParam(true, 30000, 500);
-      robot.SetArcStartExtDoNum(10);
-      robot.SetAirControlExtDoNum(20);
-      robot.SetWireForwardFeedExtDoNum(30);
-      robot.SetWireReverseFeedExtDoNum(40);
-      robot.SetWeldReadyExtDiNum(50);
-      robot.SetArcDoneExtDiNum(60);
-      robot.SetExtDIWeldBreakOffRecover(70, 80);
-      robot.SetWireSearchExtDIONum(0, 1);
-      robot.CloseRPC();
-      return 0;
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return -1;
+        }
+        robot.SetReConnectParam(true, 30000, 500);
+        robot.SetArcStartExtDoNum(10);
+        robot.SetAirControlExtDoNum(20);
+        robot.SetWireForwardFeedExtDoNum(30);
+        robot.SetWireReverseFeedExtDoNum(40);
+        robot.SetWeldReadyExtDiNum(50);
+        robot.SetArcDoneExtDiNum(60);
+        robot.SetExtDIWeldBreakOffRecover(70, 80);
+        robot.SetWireSearchExtDIONum(0, 1);
+        int DIConfig[16] = { 0 };
+        int DOConfig[16] = { 0 };
+        rtn = robot.GetExtDIConfig(DIConfig);
+        printf("GetExtDIConfig rtn is %d\n welder ready %d\narc done %d\nreweld start %d\nabort reweld %d\nwiresearch done %d\nLaser welding State %d\nlaser welding error state %d\n",
+            rtn, DIConfig[0], DIConfig[1], DIConfig[2], DIConfig[3], DIConfig[4], DIConfig[5], DIConfig[6]);
+        rtn = robot.GetExtDOConfig(DOConfig);
+        printf("GetExtDOConfig rtn is %d\n Arc Start %d\nAir Test %d\nWire forward %d\nWire Inverse %d\nwiresearch %d\nWeld Mode %d\nlaser Enable %d\nLaser On %d\nLaser Reset Error %d\n",
+            rtn, DOConfig[0], DOConfig[1], DOConfig[2], DOConfig[3], DOConfig[4], DOConfig[5], DOConfig[6], DOConfig[7], DOConfig[8]);
+        robot.CloseRPC();
+        return 0;
     }
 
 电弧跟踪控制

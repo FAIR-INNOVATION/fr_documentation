@@ -462,9 +462,6 @@
     * @param [in] para[3] 工件坐标系编号 针对跟踪运动功能选择工件坐标系编号，跟踪抓取、TPD跟踪设为0
     * @param [in] para[4] 是否配视觉 0 不配 1 配
     * @param [in] para[5] 速度比 针对传送带跟踪抓取选项（1-100） 其他选项默认为1 
-    * @param [in] followType 跟踪运动类型，0-跟踪运动；1-追检运动
-    * @param [in] startDis 追检抓取需要设置， 跟踪起始距离， -1：自动计算(工件到达机器人下方后自动追检)，单位mm， 默认值0
-    * @param [in] endDis 追检抓取需要设置，跟踪终止距离， 单位mm， 默认值100
     * @return 错误码
     */
     errno_t ConveyorSetParam(float para[6], int followType = 0, int startDis = 0, int endDis = 100);
@@ -596,6 +593,87 @@
       return 0;
     }
 
+末端传感器配置
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v3.9.8
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 传送带原地跟踪参数配置
+    * @param [in] trackMode 0-时间；1-距离；2-时间和距离任意满足一个
+    * @param [in] trackTime 跟踪时间，单位s
+    * @param [in] trackDis 跟踪距离，单位mm
+    * @return 错误码
+    */
+    int SetStationaryTrackPara(int trackMode, double trackTime, int trackDis);
+    
+传送带原地跟踪代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. versionadded:: C++SDK-v3.9.8
+    
+.. code-block:: c++
+    :linenos:
+
+    int TestStationaryTrack()
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return -1;
+        }
+        robot.SetReConnectParam(true, 30000, 500);
+        printf("\n========== 传送带静止跟踪测试 ==========");
+        JointPos j1(-35.146, -102.684, 120.805, -100.401, -90.295, 150.105);
+        DescPose d1(-121.814, -348.341, 209.978, -173.152, -3.585, -5.446);
+        ExaxisPos ex(0, 0, 0, 0);
+        DescPose zeroOff(0, 0, 0, 0, 0, 0);
+        int tool = 1;
+        int workpiece = 1;
+        float conveyorParam[6] = { 0, 10000, 200, 0, 0, 10 };
+        rtn = robot.ConveyorSetParam(conveyorParam);
+        robot.MoveJ(&j1, &d1, tool, workpiece, 100, 100, 100, &ex, -1, 0, &zeroOff);
+        // Step 1: SetDO 控制信号
+        printf("--- Step 1: SetDO(6,1) ---\n");
+        rtn = robot.SetDO(6, 1, 0, 0);
+        printf("  SetDO(6,1) rtn={0}\n", rtn);
+        // Step 2: 传送带跟踪开始
+        printf("--- Step 2: ConveyorTrackStart(2) ---\n");
+        rtn = robot.ConveyorTrackStart(2);
+        printf("  ConveyorTrackStart(2) rtn={0}\n", rtn);
+        // Step 3: 工件IO检测
+        printf("--- Step 3: ConveyorIODetect(10000) ---\n");
+        rtn = robot.ConveyorIODetect(10000);
+        printf("  ConveyorIODetect(10000) rtn={0}\n", rtn);
+        // Step 4: 获取跟踪数据
+        printf("--- Step 4: ConveyorGetTrackData(2) ---\n");
+        rtn = robot.ConveyorGetTrackData(2);
+        printf("  ConveyorGetTrackData(2) rtn={0}\n", rtn);
+        // Step 5: 静止跟踪参数配置 (时间模式, 200s, 距离5)
+        printf("--- Step 5: SetStationaryTrackPara(0,200,5) ---\n");
+        rtn = robot.SetStationaryTrackPara(0, 5, 5);
+        printf("  SetStationaryTrackPara(0,200,5) rtn={0}\n", rtn);
+        // Step 6: 执行静止跟踪运动
+        printf("--- Step 6: MoveStationary() ---\n");
+        rtn = robot.MoveStationary();
+        rtn = robot.WaitStationaryMotionDone();
+        printf("  MoveStationary() rtn={0}\n", rtn);
+        // Step 7: 传送带跟踪结束
+        printf("--- Step 7: ConveyorTrackEnd() ---\n");
+        rtn = robot.ConveyorTrackEnd();
+        printf("  ConveyorTrackEnd() rtn={0}\n", rtn);
+        // Step 8: SetDO 关闭信号
+        printf("--- Step 8: SetDO(6,0) ---\n");
+        rtn = robot.SetDO(6, 0, 0, 0);
+        printf("  SetDO(6,0) rtn={0}\n", rtn);
+        printf("\n========== 静止跟踪测试完成 ==========\n");
+        return 0;
+    }
 
 末端传感器配置
 +++++++++++++++++++++++++++++++++++++++

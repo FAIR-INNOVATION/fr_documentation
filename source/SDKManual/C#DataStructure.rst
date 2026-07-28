@@ -370,6 +370,7 @@
         public byte socketReadTimeout;     // socket读取超时标志
         public byte tsWebStateComErr;      // ts_web_state_com_err
         public byte exaxisCoordID;         //扩展轴坐标系编号
+        public byte programRunState;       //LUA程序运行状态 0-程序未运行；1-程序运行中(包含程序暂停)
         public UInt16 check_sum;         /* 和校验 */                 
 
         // 构造函数：初始化所有数组字段
@@ -564,4 +565,5 @@
         SocketReadTimeout = 130,     //socket读取超时，bit0-bit4:socketID 1-4
         TsWebStateComErr = 131,     //web-扭矩通讯失败；0-正常；1-失败
         ExaxisCoordID = 132          //扩展轴坐标系编号
+        programRunState = 133       //LUA程序运行状态 0-程序未运行；1-程序运行中(包含程序暂停)
     }

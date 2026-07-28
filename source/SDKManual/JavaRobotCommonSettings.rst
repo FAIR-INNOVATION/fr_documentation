@@ -207,7 +207,7 @@
 
     /**
     * @brief 设置外部工具坐标系 
-    * @param [in] id 坐标系编号，范围[0~14]
+    * @param [in] id 坐标系编号，20-39对应外部工具坐标系0-19
     * @param [in] etcp  工具中心点相对末端法兰中心位姿
     * @param [in] etool  待定
     * @return 错误码 
@@ -221,7 +221,7 @@
 
     /**
     * @brief  设置外部工具坐标系列表
-    * @param  [in] id 坐标系编号，范围[0~14]
+    * @param  [in] id 坐标系编号，20-39对应外部工具坐标系0-19
     * @param  [in] etcp  工具中心点相对末端法兰中心位姿
     * @param  [in] etool  待定
     * @return  错误码
@@ -266,7 +266,7 @@
         robot.SetExToolList(1, coordRtn, offdese);
         return 0;
     }
-
+    
 设置工件坐标系参考点-三点法
 ++++++++++++++++++++++++++++++++++
 .. code-block:: Java

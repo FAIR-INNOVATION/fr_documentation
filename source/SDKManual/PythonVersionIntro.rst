@@ -13,6 +13,24 @@
      - **日期**
      - **更新描述**
 
+   * - V3.9.8
+     - 2026-07-27
+     - | 1.更新机器人状态反馈结构体，增加当前机器人lua程序运行状态，0-程序未运行；1-程序运行中(包含程序暂停)；
+       | 2.SetExToolCoord()、SetExToolList()设置外部工具坐标系和工具坐标系列表接口更新参数描述，其中外部工具坐标系编号更新为20-39。并更新外部工具坐标系操作代码示例。
+       | 3.GetToolCoordWithID()获取工具坐标系参数接口增加工具类型、安装位置、工具ID、负载编号参数获取。
+       | 4.GetWObjCoordWithID()获取工件坐标系参数接口增加参考坐标系参数获取；
+       | 5.GetExToolCoordWithID()获取外部工具坐标系参数接口增加机器人末端安装工件坐标系位姿参数获取。
+       | 6.GetExAxisCoordWithID()获取扩展轴坐标系参数接口增加扩展轴号和标定标志参数获取。
+       | 7.SetVelReducePara()设置机器人安全速度接口增加机器人关节安全速度参数设置。
+       | 8.设置焊接参数代码示例中增加焊机控制模式获取示例。
+       | 9.设置扩展IO焊接信号代码示例增加获取扩展DI、扩展DO功能配置代码示例。
+       | 10.新增设置机器人关节安全速度代码示例；
+       | 11.新增WaitStationaryMotionDone()等待原地空运动完成接口；
+       | 12.新增SetStationaryTrackPara()传送带原地跟踪参数配置接口，及传送带原地跟踪代码示例；
+       | 13.新增WorkPieceTrsfStart()、WorkPieceTrsfEnd()工件坐标系转换开始、结束接口，及工件坐标系转换代码示例。
+       | 14.增加GetWeldMachineCtrlMode()获取焊机控制模式接口。
+       | 15.增加GetExtDIConfig()、GetExtDOConfig()获取扩展DI功能、扩展DI功能接口。
+       
    * - V3.9.7
      - 2026-06-25
      - | 1.PhotoelectricSensorTCPCalibration()参数可自适应无路径的文件名；

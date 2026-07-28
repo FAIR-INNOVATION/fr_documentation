@@ -411,9 +411,6 @@
     * @param [in] wpAxis 工件坐标系编号 针对跟踪运动功能选择工件坐标系编号，跟踪抓取、TPD跟踪设为0
     * @param [in] vision 是否配视觉  0 不配  1 配
     * @param [in] speedRadio 速度比  针对传送带跟踪抓取选项（1-100）  其他选项默认为1
-    * @param [in] followType 跟踪运动类型，0-跟踪运动；1-追检运动
-    * @param [in] startDis 追检抓取需要设置， 跟踪起始距离， -1：自动计算(工件到达机器人下方后自动追检)，单位mm， 默认值0
-    * @param [in] endDis 追检抓取需要设置，跟踪终止距离， 单位mm， 默认值100
     * @return 错误码
     */
     int ConveyorSetParam(int encChannel, int resolution, double lead, int wpAxis, int vision, double speedRadio, int followType, int startDis, int endDis); 
@@ -531,6 +528,90 @@
 
         retval = robot.MoveGripper(index, 100, 40, 10, max_time, block, 0, 0, 0, 0);
 
+        return 0;
+    }
+
+传送带原地跟踪参数配置
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  传送带原地跟踪参数配置
+    * @param  [in] trackMode 0-时间；1-距离；2-时间和距离任意满足一个
+    * @param  [in] trackTime 跟踪时间，单位s
+    * @param  [in] trackDis 跟踪距离
+    * @return  错误码
+    */
+    public int SetStationaryTrackPara(int trackMode, double trackTime, int trackDis)
+
+传送带原地跟踪代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static int TestStationaryTrack(Robot robot)
+    {
+        System.out.println("\n========== 传送带静止跟踪测试 ==========");
+
+        int rtn;
+
+        JointPos j1 = new JointPos(-35.146, -102.684, 120.805, -100.401, -90.295, 150.105);
+        DescPose d1 = new DescPose(-121.814, -348.341, 209.978, -173.152, -3.585, -5.446);
+
+        ExaxisPos ex = new ExaxisPos(0, 0, 0, 0);
+        DescPose zeroOff = new DescPose(0, 0, 0, 0, 0, 0);
+
+        int tool = 1;
+        int workpiece = 1;
+
+        rtn = robot.ConveyorSetParam(0, 10000, 200, 0, 0, 10,0,0,0);
+
+
+        robot.MoveJ(j1, d1, tool, workpiece, 100, 100, 100, ex, -1, 0, zeroOff);
+
+        // Step 1: SetDO 控制信号
+        System.out.println("--- Step 1: SetDO(6,1) ---");
+        rtn = robot.SetDO(6, 1, 0, 0);
+        System.out.println("  SetDO(6,1) rtn=" + rtn);
+
+        // Step 2: 传送带跟踪开始
+        System.out.println("--- Step 2: ConveyorTrackStart(2) ---");
+        rtn = robot.ConveyorTrackStart(2);
+        System.out.println("  ConveyorTrackStart(2) rtn=" + rtn);
+
+        // Step 3: 工件IO检测
+        System.out.println("--- Step 3: ConveyorIODetect(10000) ---");
+        rtn = robot.ConveyorIODetect(10000);
+        System.out.println("  ConveyorIODetect(10000) rtn=" + rtn);
+
+        // Step 4: 获取跟踪数据
+        System.out.println("--- Step 4: ConveyorGetTrackData(2) ---");
+        rtn = robot.ConveyorGetTrackData(2);
+        System.out.println("  ConveyorGetTrackData(2) rtn=" + rtn);
+
+        // Step 5: 静止跟踪参数配置 (时间模式, 200s, 距离5)
+        System.out.println("--- Step 5: SetStationaryTrackPara(0,200,5) ---");
+        rtn = robot.SetStationaryTrackPara(0, 5, 5);
+        System.out.println("  SetStationaryTrackPara(0,200,5) rtn=" + rtn);
+
+        // Step 6: 执行静止跟踪运动
+        System.out.println("--- Step 6: MoveStationary() ---");
+        rtn = robot.MoveStationary();
+        robot.WaitStationaryMotionDone();
+        System.out.println("  MoveStationary() rtn=" + rtn);
+
+        // Step 7: 传送带跟踪结束
+        System.out.println("--- Step 7: ConveyorTrackEnd() ---");
+        rtn = robot.ConveyorTrackEnd();
+        System.out.println("  ConveyorTrackEnd() rtn=" + rtn);
+
+        // Step 8: SetDO 关闭信号
+        System.out.println("--- Step 8: SetDO(6,0) ---");
+        rtn = robot.SetDO(6, 0, 0, 0);
+        System.out.println("  SetDO(6,0) rtn=" + rtn);
+
+        System.out.println("\n========== 静止跟踪测试完成 ==========");
         return 0;
     }
 

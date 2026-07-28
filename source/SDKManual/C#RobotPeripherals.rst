@@ -435,6 +435,104 @@
     */
     int ConveyorTrackEnd();
 
+传送带原地跟踪参数配置
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  传送带原地跟踪参数配置
+    * @param  [in] trackMode 0-时间；1-距离；2-时间和距离任意满足一个
+    * @param  [in] trackTime 跟踪时间，单位s
+    * @param  [in] trackDis 跟踪距离
+    * @return  错误码
+    */
+    public int SetStationaryTrackPara(int trackMode, double trackTime, int trackDis)
+    
+等待原地空运动完成
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 等待原地空运动完成
+    * @return 错误码
+    */
+    public int WaitStationaryMotionDone()
+        
+传送带原地跟踪运动代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    public int TestStationaryTrack()
+    {
+        Console.WriteLine("\n========== Stationary Track Test ==========");
+
+        int rtn;
+
+        JointPos j1 = new JointPos(-35.146, -102.684, 120.805, -100.401, -90.295, 150.105);
+        DescPose d1 = new DescPose(-121.814, -348.341, 209.978, -173.152, -3.585, -5.446);
+
+        ExaxisPos ex = new ExaxisPos(0, 0, 0, 0);
+        DescPose zeroOff = new DescPose(0, 0, 0, 0, 0, 0);
+
+        int tool = 1;
+        int workpiece = 1;
+
+        rtn = robot.ConveyorSetParam(0, 10000, 200, 0, 0, 10);
+
+        robot.MoveJ(j1, d1, tool, workpiece, 100, 100, 100, ex, -1, 0, zeroOff);
+
+        // Step 1: SetDO control signal ON
+        Console.WriteLine("--- Step 1: SetDO(6,1) ---");
+        rtn = robot.SetDO(6, 1, 0, 0);
+        Console.WriteLine("  SetDO(6,1) rtn={0}", rtn);
+
+        // Step 2: Conveyor tracking start
+        Console.WriteLine("--- Step 2: ConveyorTrackStart(2) ---");
+        rtn = robot.ConveyorTrackStart(2);
+        Console.WriteLine("  ConveyorTrackStart(2) rtn={0}", rtn);
+
+        // Step 3: Workpiece IO detect
+        Console.WriteLine("--- Step 3: ConveyorIODetect(10000) ---");
+        rtn = robot.ConveyorIODetect(10000);
+        Console.WriteLine("  ConveyorIODetect(10000) rtn={0}", rtn);
+
+        // Step 4: Get track data
+        Console.WriteLine("--- Step 4: ConveyorGetTrackData(2) ---");
+        rtn = robot.ConveyorGetTrackData(2);
+        Console.WriteLine("  ConveyorGetTrackData(2) rtn={0}", rtn);
+
+        // Step 5: Set stationary track parameters (time mode, 200s, distance 5)
+        Console.WriteLine("--- Step 5: SetStationaryTrackPara(0,200,5) ---");
+        rtn = robot.SetStationaryTrackPara(0, 5, 5);
+        Console.WriteLine("  SetStationaryTrackPara(0,200,5) rtn={0}", rtn);
+
+        // Step 6: Execute stationary motion
+        Console.WriteLine("--- Step 6: MoveStationary() ---");
+        rtn = robot.MoveStationary();
+        Console.WriteLine("  MoveStationary() rtn={0}", rtn);
+
+        // Step 7: Wait for stationary motion done
+        Console.WriteLine("--- Step 7: WaitStationaryMotionDone() ---");
+        rtn = robot.WaitStationaryMotionDone();
+        Console.WriteLine("  WaitStationaryMotionDone() rtn={0}", rtn);
+
+        // Step 8: Conveyor tracking end
+        Console.WriteLine("--- Step 8: ConveyorTrackEnd() ---");
+        rtn = robot.ConveyorTrackEnd();
+        Console.WriteLine("  ConveyorTrackEnd() rtn={0}", rtn);
+
+        // Step 9: SetDO control signal OFF
+        Console.WriteLine("--- Step 9: SetDO(6,0) ---");
+        rtn = robot.SetDO(6, 0, 0, 0);
+        Console.WriteLine("  SetDO(6,0) rtn={0}", rtn);
+
+        Console.WriteLine("\n========== Stationary Track Test Complete ==========");
+        return 0;
+    }
+
 传动带参数配置
 +++++++++++++++++++++++++++++
 .. code-block:: c#
@@ -448,9 +546,6 @@
     * @param [in] para[3] 工件坐标系编号 针对跟踪运动功能选择工件坐标系编号，跟踪抓取、TPD跟踪设为0
     * @param [in] para[4] 是否配视觉  0 不配  1 配
     * @param [in] para[5] 速度比  针对传送带跟踪抓取选项（1-100）  其他选项默认为1 
-    * @param [in] followType 跟踪运动类型，0-跟踪运动；1-追检运动
-    * @param [in] startDis 追检抓取需要设置， 跟踪起始距离， -1：自动计算(工件到达机器人下方后自动追检)，单位mm， 默认值0
-    * @param [in] endDis 追检抓取需要设置，跟踪终止距离， 单位mm， 默认值100
     * @return 错误码
     */
     int ConveyorSetParam(int encChannel, int resolution, double lead, int wpAxis, int vision, double speedRadio, int followType, int startDis=0, int endDis=100);

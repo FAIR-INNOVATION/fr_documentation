@@ -498,6 +498,8 @@ UDP扩展轴通讯参数
         public int socketReadTimeout;                // Socket读取超时
         public int tsWebStateComErr;                 // TS Web状态通信错误
         public int exaxisCoordID;                  //扩展轴坐标系编号
+        public int programRunState;                  //LUA程序运行状态 0-程序未运行；1-程序运行中(包含程序暂停)
+
     }
 
 机器人状态反馈配置结果类
@@ -654,4 +656,5 @@ UDP扩展轴通讯参数
         SocketReadTimeout,    // socket读取超时，bit0-bit4对应socketID 1-4
         TsWebStateComErr,     // web-扭矩通讯失败：0-正常，1-失败
         ExaxisCoordID          //扩展轴坐标系编号
+        programRunState;       //LUA程序运行状态 0-程序未运行；1-程序运行中(包含程序暂停)
     };

@@ -177,12 +177,12 @@
 
 设置焊接参数代码示例
 ++++++++++++++++++++++++++++++++++
-.. versionadded:: C#SDK-V1.1.3  Web-3.8.2
+.. versionadded:: C#SDK-V3.9.8
     
 .. code-block:: c#
     :linenos:
 
-    private void button7_Click(object sender, EventArgs e)
+    private void button42_Click(object sender, EventArgs e)
     {
         robot.WeldingSetProcessParam(1, 177, 27, 1000, 178, 28, 176, 26, 1000);
         robot.WeldingSetProcessParam(2, 188, 28, 555, 199, 29, 133, 23, 333);
@@ -254,12 +254,16 @@
         robot.SetWeldMachineCtrlModeExtDoNum(17);
         for (int i = 0; i < 5; i++)
         {
+            int getCtrlMode = -1;
             robot.SetWeldMachineCtrlMode(0);
+            robot.GetWeldMachineCtrlMode(ref getCtrlMode);
+            Console.WriteLine("GetWeldMachineCtrlMode {0}", getCtrlMode);
             Thread.Sleep(1000);
             robot.SetWeldMachineCtrlMode(1);
+            robot.GetWeldMachineCtrlMode(ref getCtrlMode);
+            Console.WriteLine("GetWeldMachineCtrlMode {0}", getCtrlMode);
             Thread.Sleep(1000);
         }
-
     }
 
 即时设置摆动参数
@@ -364,6 +368,18 @@
     * @return 错误码
     */
     public int SetWeldMachineCtrlMode(int mode,int ioType = 1)
+
+获取焊机控制模式
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 获取焊机控制模式
+    * @param [out] mode 焊机控制模式;0-直流一元模式；1-脉冲一元模式；2-JOB模式；3-近控模式；4-分别模式；5-CC/CV模式；6-TIG；7-CMT
+    * @return 错误码
+    */
+    public int GetWeldMachineCtrlMode(ref int mode)
 
 焊接开始
 ++++++++++++++++++++++++++++++++++
@@ -787,8 +803,8 @@
     */
     int SetExtDIWeldBreakOffRecover(int reWeldDINum, int abortWeldDINum);
 
-设置扩展IO焊接信号代码示例
-++++++++++++++++++++++++++++++++++
+配置并获取扩展IO代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: c#
     :linenos:
 
@@ -803,7 +819,40 @@
         robot.SetArcDoneExtDiNum(60);
         robot.SetExtDIWeldBreakOffRecover(70, 80);
         robot.SetWireSearchExtDIONum(0, 1);
+
+        int[] DIConfig = new int[16];
+        int[] DOConfig = new int[16];
+        int rtn = robot.GetExtDIConfig(ref DIConfig);
+        Console.WriteLine("GetExtDIConfig rtn={0}, welder ready={1}, arc done={2}, reweld start={3}, abort reweld={4}, wiresearch done={5}, laser state={6}, laser err={7}",
+            rtn, DIConfig[0], DIConfig[1], DIConfig[2], DIConfig[3], DIConfig[4], DIConfig[5], DIConfig[6]);
+        rtn = robot.GetExtDOConfig(ref DOConfig);
+        Console.WriteLine("GetExtDOConfig rtn={0}, arc start={1}, air test={2}, wire forward={3}, wire inverse={4}, wiresearch={5}, weld mode={6}, laser enable={7}, laser on={8}, laser reset={9}",
+            rtn, DOConfig[0], DOConfig[1], DOConfig[2], DOConfig[3], DOConfig[4], DOConfig[5], DOConfig[6], DOConfig[7], DOConfig[8]);
     }
+
+获取扩展DI功能配置
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 获取扩展DI功能配置
+    * @param [out] DIConfig 扩展DI输入配置；[0]-焊机准备；[1]-起弧成功；[2]-焊接中断恢复；[3]-焊接中断退出；[4]-焊丝寻位成功；[5]-激光焊机运行状态；[6]-激光焊机故障状态；[7-15]-预留
+    * @return  错误码
+    */
+    public int GetExtDIConfig(ref int[] DIConfig)
+
+获取扩展DO功能配置
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 获取扩展DO功能配置
+    * @param [out] DOConfig 扩展DO输入配置；[0]-焊机起弧；[1]-气体检测；[2]-正向送丝；[3]-反向送丝；[4]-焊丝寻位；[5]-焊机控制模式；[6]-激光焊机使能；[7]-激光焊机启动；[8]-激光焊机复位；[9-15]-预留
+    * @return  错误码
+    */
+    public int GetExtDOConfig(ref int[] DOConfig)
 
 电弧跟踪控制
 ++++++++++++++++++++++++++++++++++

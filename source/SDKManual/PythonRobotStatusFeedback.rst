@@ -237,6 +237,7 @@
             ("socketReadTimeout", c_uint8),     # socket读取超时
             ("tsWebStateComErr", c_uint8),      # TS_WEB状态通讯错误
             ("exaxisCoordID", c_uint8),         # 外部扩展轴ID
+            ("ProgramRunState", c_uint8),       # LUA程序运行状态 0-程序未运行；1-程序运行中(包含程序暂停)
             ("check_sum", c_uint16)          # 和校验
         ]
 
@@ -740,4 +741,4 @@
         SocketReadTimeout = 130
         TsWebStateComErr = 131
         ExaxisCoordID = 132
-        CheckSum = 133
+        ProgramRunState = 133
