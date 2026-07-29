@@ -14,7 +14,7 @@ release = '3.9.8'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-# extensions = ['myst-parser']
+extensions = []
 
 templates_path = ['_templates']
 exclude_patterns = []
