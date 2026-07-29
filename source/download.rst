@@ -364,11 +364,11 @@
 FAIRINO SimMachine
 -----------------------
 
-    :download:`FAIRINO SimMachine VMware <https://pan.baidu.com/s/1iYZjSlWyYJC9ztYpJMCMog?pwd=zqzu>`
+    :download:`FAIRINO SimMachine VMware <https://pan.baidu.com/s/1gZ5GZ4fiVRoIAKQVBQiwsg?pwd=qtg6>`
     
-    :download:`FAIRINO SimMachine Docker <https://pan.baidu.com/s/1vxIcIZpeMI11hARkWkcOMA?pwd=gpfn>`
+    :download:`FAIRINO SimMachine Docker <https://pan.baidu.com/s/1wX8IUCpTIte8Za8YxeFyzw?pwd=4ny9>`
     
-    :download:`FAIRINO_SimMachine_Software <https://pan.baidu.com/s/1-WiYYl-wQB6qzBwIGQrgJQ?pwd=wurr>`
+    :download:`FAIRINO_SimMachine_Software <https://pan.baidu.com/s/19TtqMYbqq1renjxtBtiVbA?pwd=9c9t>`
 
 码垛机frcap
 ---------------------------------
