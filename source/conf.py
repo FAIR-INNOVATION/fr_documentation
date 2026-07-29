@@ -14,7 +14,7 @@ release = '3.9.8'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ['recommonmark']
+extensions = ['recommonmark','sphinx_lfs_content']
 
 templates_path = ['_templates']
 exclude_patterns = []
