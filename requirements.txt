@@ -1,5 +1,4 @@
-sphinx == 6.2.1
-recommonmark == 0.7.1
+sphinx == 9.0.4
+# recommonmark == 0.7.1
 sphinx-rtd-theme == 1.2.1
 latex == 0.7.0 
-sphinx_lfs_content
