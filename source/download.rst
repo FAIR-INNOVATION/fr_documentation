@@ -370,10 +370,6 @@ FAIRINO SimMachine
     
     :download:`FAIRINO_SimMachine_Software <https://pan.baidu.com/s/19TtqMYbqq1renjxtBtiVbA?pwd=9c9t>`
 
-码垛机frcap
----------------------------------
-    :download:`码垛机Palletizer-v2.2.0 <_static/_doc/Palletizer-v2.2.0.zip>`
-
 CPP SDK
 ---------------------------------
 
