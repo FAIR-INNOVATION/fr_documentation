@@ -452,13 +452,14 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``FT_SpiralSearch(rcs, ft, dr=0.7, max_t_ms=60000, max_vel=5)``"
+    "原型", "``FT_SpiralSearch(rcs, ft, dr=0.7, max_t_ms=60000, max_vel=5, strategy=0)``"
     "描述", "螺旋线探索"
     "必选参数", "- ``rcs``：参考坐标系，0-工具坐标系，1-基坐标系
     - ``ft``：力或力矩阈值 (0~100)，单位 N 或 Nm;"
     "默认参数", "- ``dr``：每圈半径进给量，单位 mm 默认0.7;
     - ``max_t_ms``：最大探索时间，单位 ms 默认 60000;
-    - ``max_vel``：线速度最大值，单位 mm/s 默认 5"
+    - ``max_vel``：线速度最大值，单位 mm/s 默认 5;
+    - ``strategy``：未检测到力/力矩的处理策略，0-报错；1-警告，继续运动;"
     "返回值", "错误码 成功-0  失败- errcode "
 
 旋转插入
@@ -541,14 +542,16 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``FT_LinInsertion(rcs, ft, disMax, linorn, lin_v=1.0, lin_a=1.0)``"
+    "原型", "``FT_LinInsertion(rcs, ft, disMax, linorn, lin_v=1.0, lin_a=1.0, strategy=0)``"
     "描述", "直线插入"
     "必选参数", "- ``rcs``：参考坐标系，0-工具坐标系，1-基坐标系；
     - ``ft``：力或力矩阈值 (0~100)，单位 N 或 Nm;
     - ``disMax``：最大插入距离，单位 mm;
     - ``linorn``：插入方向:0-负方向，1-正方向"
-    "默认参数", "- ``lin_v``：直线速度，单位 mm/s 默认1;
-    - ``lin_a``：直线加速度，单位 mm/s^2，暂不使用 默认1"
+    "默认参数", "
+    - ``lin_v``：直线速度，单位 mm/s 默认1;
+    - ``lin_a``：直线加速度，单位 mm/s^2，暂不使用 默认1;
+    - ``strategy``：未检测到力/力矩的处理策略，0-报错；1-警告，继续运动;"
     "返回值", "错误码 成功-0  失败- errcode "
 
 螺旋探索、直线插入等指令代码示例
@@ -632,7 +635,7 @@
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``FT_FindSurface (rcs, dir, axis, disMax, ft, lin_v=3.0, lin_a=0.0)``"
+    "原型", "``FT_FindSurface (rcs, dir, axis, disMax, ft, lin_v=3.0, lin_a=0.0, stragety = 0)``"
     "描述", "表面定位"
     "必选参数", "- ``rcs``： 参考坐标系，0-工具坐标系，1-基坐标系；
     - ``dir``：移动方向，1-正方向，2-负方向；
@@ -640,7 +643,8 @@
     - ``disMax``：大探索距离，单位 mm;
     - ``ft``：动作终止力阈值，单位N；"
     "默认参数", "- ``lin_v``：探索直线速度，单位mm/s 默认3;
-    - ``lin_a``：探索直线加速度，单位mm/s^2 默认0;"
+    - ``lin_a``：探索直线加速度，单位mm/s^2 默认0;
+    - ``strategy``：未检测到力/力矩的处理策略，0-报错；1-警告，继续运动;"
     "返回值", "错误码 成功-0  失败- errcode"
 
 计算中间平面位置开始

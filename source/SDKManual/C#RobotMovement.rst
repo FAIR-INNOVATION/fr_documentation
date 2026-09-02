@@ -919,6 +919,115 @@ jog点动立即停止
     * @return 错误码
     */
     public int ServoJTStart (int comType = 0)
+    
+关节空间伺服模式运动(支持多点位一次输入)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 关节空间伺服模式运动(支持多点位一次输入)
+    * @param [in] joint_pos 目标关节位置集合(最多支持10组),单位deg
+    * @param [in] axisPos 外部轴位置,单位mm
+    * @param [in] acc 加速度百分比，范围[0~100],暂不开放，默认为0
+    * @param [in] vel 速度百分比，范围[0~100]，暂不开放，默认为0
+    * @param [in] cmdT 指令下发周期，单位s，建议范围[0.001~0.0016]
+    * @param [in] filterT 滤波时间，单位s，暂不开放，默认为0
+    * @param [in] gain 目标位置的比例放大器，暂不开放，默认为0
+    * @param [out] servoJCmdCount ServoJ指令点位计数[0-10000]
+    * @param [in] id servoJ指令ID,默认为0
+    * @param [in] comType 指令下发类型；0-xmlrpc；1-UDP(对应机器人20007端口)
+    * @return 错误码
+    */
+    public int ServoJ(List<JointPos> joint_pos, ExaxisPos axisPos, float acc, float vel, float cmdT, float filterT, float gain, ref int servoJCmdCount, int id = 0, int comType = 0)
+    
+关节空间伺服模式运动(支持多点位一次输入)代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    public void TestServoJPath()
+    {
+        // Read the ServoJ path file, taking columns 2~7 of each line as 6 joint positions
+        string filePath = "D://zUP/ServoJPath.txt";
+        List<JointPos> allJointData = new List<JointPos>();
+        using (StreamReader reader = new StreamReader(filePath))
+        {
+            string line;
+            while ((line = reader.ReadLine()) != null)
+            {
+                string[] cols = line.Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                if (cols.Length < 7)
+                    continue;
+                JointPos pose = new JointPos(0, 0, 0, 0, 0, 0);
+                pose.jPos[0] = double.Parse(cols[1]);
+                pose.jPos[1] = double.Parse(cols[2]);
+                pose.jPos[2] = double.Parse(cols[3]);
+                pose.jPos[3] = double.Parse(cols[4]);
+                pose.jPos[4] = double.Parse(cols[5]);
+                pose.jPos[5] = double.Parse(cols[6]);
+                allJointData.Add(pose);
+            }
+        }
+        Console.WriteLine($"Total {allJointData.Count} joint position sets read");
+        if (allJointData.Count == 0)
+            return;
+
+        // Build a back-and-forth path: forward order + reverse order
+        List<JointPos> backForthPath = new List<JointPos>(allJointData);
+        for (int i = allJointData.Count - 2; i >= 0; i--)
+        {
+            backForthPath.Add(allJointData[i]);
+        }
+
+        ExaxisPos epos = new ExaxisPos(0.0, 0.0, 0.0, 0.0);
+        DescPose offsetPos = new DescPose(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+        robot.MoveJ(allJointData[0], 0, 0, 100, 100, 100, epos, -1, 0, offsetPos);
+
+        robot.Sleep(1000);
+
+        ROBOT_STATE_PKG pkg = new ROBOT_STATE_PKG();
+        while (true)
+        {
+            robot.ResetAllError();
+            robot.MoveJ(allJointData[0], 0, 0, 100, 100, 100, epos, -1, 0, offsetPos);
+            int moveCount = 0;
+            while (moveCount < backForthPath.Count - 10)
+            {
+                robot.GetRobotRealTimeState(ref pkg);
+
+                int singleServoJCount = 50 - pkg.mc_queue_len;
+                if (singleServoJCount <= 0)
+                {
+                    robot.Sleep(100);
+                    continue;
+                }
+                if (singleServoJCount > 10)
+                {
+                    singleServoJCount = 10;
+                }
+
+                List<JointPos> jointPos = new List<JointPos>();
+                for (int j = 0; j < singleServoJCount; j++)
+                {
+                    jointPos.Add(backForthPath[moveCount]);
+                    moveCount++;
+                }
+
+                Console.WriteLine($"Sending {singleServoJCount} waypoints, moveCount={moveCount}");
+
+                ExaxisPos axisPos = new ExaxisPos(0.0, 0.0, 0.0, 0.0);
+                int servoJCmdCount = 0;
+                int rtn = robot.ServoJ(jointPos, axisPos, 100.0f, 100.0f, 0.008f, 0.008f, 1.0f, ref servoJCmdCount);
+                if (rtn != 0)
+                {
+                    Console.WriteLine($"ServoJ failed: {rtn}");
+                    break;
+                }
+            }
+            robot.Sleep(4000);
+        }
+    }
 
 关节扭矩控制
 ++++++++++++++++++++++++++++++++++

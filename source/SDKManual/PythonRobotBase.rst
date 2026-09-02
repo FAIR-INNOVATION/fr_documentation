@@ -163,13 +163,12 @@
 .. code-block:: python
     :linenos: 
 
-    from fairino import Robot
-    # 与机器人控制器建立连接，连接成功返回一个机器人对象
-    robot = Robot.RPC('192.168.58.2')
+    time.sleep(1)
     error,version = robot.GetSDKVersion()
     print(f"SDK version: {version}")
     error,ip = robot.GetControllerIP()
     print(f"controller ip: {ip}")
+
     robot.Mode(1)
     time.sleep(1)
     robot.DragTeachSwitch(state=1)
@@ -188,6 +187,15 @@
     robot.Mode(0)
     time.sleep(1)
     robot.Mode(1)
+    time.sleep(1)
+    rtn = robot.HiSpeedManualSwitch(1)
+    print(f"change high speed mode : {rtn}")
+    time.sleep(1)
+    rtn = robot.HiSpeedManualSwitch(0)
+    print(f"change low speed mode : {rtn}")
+    time.sleep(3)
+    robot.ShutDownRobotOS()
+  
     robot.CloseRPC()
 
 获取机器人软件版本

@@ -387,9 +387,10 @@
     * @param  tool 工具号
     * @param  workPiece 工件号
     * @param  joint_pos 关节位置
+    * @param  config -1：自动求解，0-7对应八组解
     * @return 错误码
     */
-    public int GetInverseKinExaxis(int type, DescPose desc_pos, ExaxisPos exaxis, int tool, int workPiece, JointPos joint_pos)
+    public int GetInverseKinExaxis(int type, DescPose desc_pos, ExaxisPos exaxis, int tool, int workPiece, JointPos joint_pos, int config)
     
 逆运动学求解包含扩展轴位置代码示例
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -402,15 +403,16 @@
         ExaxisPos exaxis=new ExaxisPos(100.0, 0.0, 0.0, 0.0);
         JointPos jointPos =new JointPos();
         DescPose offsetPos =new DescPose();
+
         ROBOT_STATE_PKG pkg=robot.GetRobotRealTimeState();
         int toolnum = pkg.tool;
         int workPcsNum = pkg.user;
-        robot.GetInverseKinExaxis(0, desc, exaxis, toolnum, workPcsNum, jointPos);
+        robot.GetInverseKinExaxis(0, desc, exaxis, toolnum, workPcsNum, jointPos, 0);
         System.out.printf("GetInverseKinExaxis joint is %f, %f, %f, %f, %f, %f\n", jointPos.J1, jointPos.J2, jointPos.J3, jointPos.J4, jointPos.J5, jointPos.J6);
+
         robot.ExtAxisMove(exaxis, 100, -1);
         robot.MoveJ(jointPos, desc, toolnum, workPcsNum, 100.0, 100.0, 100.0, exaxis, -1, 0, offsetPos);
-        robot.CloseRPC();
-        robot.Sleep(9999999);
+
     }
 
 获取逆运动学是否有解

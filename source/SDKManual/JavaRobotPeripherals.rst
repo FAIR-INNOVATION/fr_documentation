@@ -74,8 +74,8 @@
     :linenos:
 
     /**
-    * @brief  获取夹爪运动状态
-    * @return List[0]:错误码; List[1] : fault  0-无错误，1-有错误; List[2]: staus  0-运动未完成，1-运动完成
+    * @brief  获取夹爪运动状态(仅末端开放协议定义，已适配设备获取的运动状态为透传值)
+    * @return List[0]:错误码; List[1] : fault  0-无错误，其他-有错误; List[2]: staus  0-运动未完成，1-运动完成未检测到物体 2-运动完成检测到物体
     */
     List<Integer> GetGripperMotionDone(); 
 

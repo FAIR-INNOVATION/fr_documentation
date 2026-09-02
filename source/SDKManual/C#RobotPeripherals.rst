@@ -74,9 +74,9 @@
     :linenos:
 
     /**
-    * @brief  获取夹爪运动状态
-    * @param  [out] fault  0-无错误，1-有错误
-    * @param  [out] staus  0-运动未完成，1-运动完成
+    * @brief  获取夹爪运动状态(仅末端开放协议定义，已适配设备获取的运动状态为透传值)
+    * @param  [out] fault  0-无错误，其他-有错误
+    * @param  [out] staus  0-运动未完成，1-运动完成未检测到物体 2-运动完成检测到物体
     * @return  错误码
     */
     int GetGripperMotionDone(ref int fault, ref int status); 
@@ -93,6 +93,53 @@
     * @return  错误码
     */
     int GetGripperActivateStatus(ref int fault, ref int status);
+
+等待夹爪运动状态
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief  等待夹爪运动状态（仅末端开放协议定义，已适配设备status定义透传各夹爪厂商）
+    * @param  [in]  staus  0-运动未完成，1-运动完成未检测到物体 2-运动完成检测到物体
+    * @param  [in] timeout 超时时间（ms） -1永久等待
+    * @param  [in] strategy  0-停止报错，1-继续运行
+    * @param  [in] type  0-平行夹爪，1-旋转夹爪
+    * @return  错误码
+    */
+    public int GripperWaitMotionDone(int staus, int timeout, int strategy, int type) 
+    
+等待夹爪运动状态代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    public void TestGripperWaitMotionDone()
+    {
+        int rtn;
+        ROBOT_STATE_PKG pkg = new ROBOT_STATE_PKG();
+
+
+        // 夹爪张开
+        rtn = robot.MoveGripper(1, 50, 50, 100, 30000, 0, 0, 0, 0, 0);
+        Console.WriteLine("MoveGripper(张开) ret={0}", rtn);
+        Thread.Sleep(2000);
+        robot.GetRobotRealTimeState(ref pkg);
+        Console.WriteLine(" gripper_motiondone {0})", pkg.gripper_motiondone);
+        // 夹爪闭合
+        rtn = robot.MoveGripper(1, 90, 100, 100, 30000, 0, 0, 0, 0, 0);
+        Console.WriteLine("MoveGripper(闭合) ret={0}", rtn);
+        Thread.Sleep(2000);
+        robot.GetRobotRealTimeState(ref pkg);
+        Console.WriteLine(" gripper_motiondone {0}", pkg.gripper_motiondone);
+        // 等待运动完成未检测到物体，超时30s，停止报错
+        rtn = robot.GripperWaitMotionDone(2, -1, 0, 0);
+        Console.WriteLine("GripperWaitMotionDone(等待完成未检测到物体) ret={0}", rtn);
+
+        // 夹爪张开
+        rtn = robot.MoveGripper(1, 0, 100, 100, 30000, 0, 0, 0, 0, 0);
+        Console.WriteLine("MoveGripper(张开) ret={0}", rtn);
+    }
 
 获取夹爪位置
 ++++++++++++++++++++++++++
@@ -1871,6 +1918,147 @@
             }
             Console.WriteLine($"Number of completions : {i + 1} ");
         }     
+    }
+
+激光记录复现+常规摆动代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    void TestLaserReproduceNormalWeave()
+    {
+        JointPos startjointPos = new JointPos(69.655, -71.524, -119.568, -76.454, 91.188, 138.014);
+        DescPose startdescPose = new DescPose(214.765, 311.139, 41.255, 7.693, -0.287, 37.080);
+        JointPos endjointPos = new JointPos(58.803, -79.528, -113.688, -74.599, 91.637, 127.167);
+        DescPose enddescPose = new DescPose(294.942, 311.153, 41.302, 7.701, -0.283, 37.081);
+        DescPose offdese = new DescPose(0, 0, 0, 0, 0, 0);
+        int rtn = 0;
+
+        // WaitMs(1000)
+        Thread.Sleep(1000);
+
+        // MoveL to start position (extended axis 0,174.957,0,0)
+        rtn = robot.MoveL(startjointPos, startdescPose, 5, 0, 100, 100, 100, -1, 0, new ExaxisPos(0, 174.957, 0, 0), 0, 0, offdese, 100, 0, 0, 10);
+
+        Console.WriteLine($"MoveL start: {rtn}");
+
+        // Start laser recording
+        rtn = robot.LaserSensorRecord1(2, 10);
+        Console.WriteLine($"LaserSensorRecord start: {rtn}");
+
+        // MoveL to end position
+        rtn = robot.MoveL(endjointPos, enddescPose, 5, 0, 100, 100, 100, -1, 0, new ExaxisPos(0, 174.957, 0, 0), 0, 0, offdese, 100, 0, 0, 10);
+        Console.WriteLine($"MoveL end: {rtn}");
+
+        // Stop laser recording
+        rtn = robot.LaserSensorRecord1(0, 10);
+        Console.WriteLine($"LaserSensorRecord stop: {rtn}");
+
+        // MoveL back to start position
+        rtn = robot.MoveL(startjointPos, startdescPose, 5, 0, 100, 100, 100, -1, 0, new ExaxisPos(0, 174.957, 0, 0), 0, 0, offdese, 100, 0, 0, 10);
+        Console.WriteLine($"MoveL back: {rtn}");
+
+        // LIN motion to the start of the laser record path
+        rtn = robot.MoveToLaserRecordStart(1, 30);
+        Console.WriteLine($"MoveToLaserRecordStart: {rtn}");
+
+        // Start normal weaving
+        rtn = robot.WeaveStart(0);
+        Console.WriteLine($"WeaveStart: {rtn}");
+
+        // Start replay recording
+        rtn = robot.LaserSensorRecord1(3, 10);
+        Console.WriteLine($"LaserSensorRecord replay: {rtn}");
+
+        // Laser tracking replay motion
+        rtn = robot.MoveLTR();
+        Console.WriteLine($"MoveLTR: {rtn}");
+        Thread.Sleep(3000);
+
+        // Stop replay recording
+        rtn = robot.LaserSensorRecord1(0, 10);
+        Console.WriteLine($"LaserSensorRecord stop: {rtn}");
+
+        // End normal weaving
+        rtn = robot.WeaveEnd(0);
+        Console.WriteLine($"WeaveEnd: {rtn}");
+    }
+
+激光记录复现 + 扩展轴异步运动 + 定点摆动代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    void TestLaserRecordReplayExaxisWithWave()
+    {
+        JointPos startjointPos = new JointPos(106.245, -63.397, -93.331, -80.809, 80.389, 134.561);
+        DescPose startdescPose = new DescPose(33.534, 516.527, 371.029, 14.712, -31.379, 71.734);
+        JointPos endjointPos = new JointPos(105.534, -64.685, -93.681, -79.071, 80.772, 133.952);
+        DescPose enddescPose = new DescPose(33.536, 528.536, 364.924, 14.712, -31.379, 71.734);
+        DescPose offdese = new DescPose(0, 0, 0, 0, 0, 0);
+        int rtn = 0;
+
+        // MoveJ to safe point (extended axis 0,174.957,0,0)
+        rtn = robot.MoveJ(startjointPos, startdescPose, 5, 0, 100, 100, 50, new ExaxisPos(0, 174.957, 0, 0), -1, 0, offdese);
+        Console.WriteLine($"MoveJ start: {rtn}");
+
+        // Extended axis asynchronous motion to starting point 105.003
+        rtn = robot.ExtAxisMove(new ExaxisPos(0, 105.003, 0, 0), 50, -1);
+        Console.WriteLine($"ExtAxisMove 105.003: {rtn}");
+        Thread.Sleep(3000);
+
+        // MoveL to starting point
+        rtn = robot.MoveL(endjointPos, enddescPose, 5, 0, 100, 100, 50, -1, 0, new ExaxisPos(0, 105.003, 0, 0), 0, 0, offdese, 100, 0, 0, 10);
+        Console.WriteLine($"MoveL end: {rtn}");
+
+        // Start laser recording
+        rtn = robot.LaserSensorRecord1(2, 10);
+        Console.WriteLine($"LaserSensorRecord start: {rtn}");
+
+        // Extended axis moves to 174.957 during recording
+        rtn = robot.ExtAxisMove(new ExaxisPos(0, 174.957, 0, 0), 50, -1);
+        Console.WriteLine($"ExtAxisMove 174.957: {rtn}");
+        Thread.Sleep(3000);
+
+        // Stop laser recording
+        rtn = robot.LaserSensorRecord1(0, 10);
+        Console.WriteLine($"LaserSensorRecord stop: {rtn}");
+
+
+        // Extended axis returns to 105.003, MoveL back to starting point
+        rtn = robot.ExtAxisMove(new ExaxisPos(0, 105.003, 0, 0), 50, -1);
+        Console.WriteLine($"ExtAxisMove back: {rtn}");
+
+        // MoveL to starting point
+        rtn = robot.MoveL(endjointPos, enddescPose, 5, 0, 100, 100, 50, -1, 0, new ExaxisPos(0, 105.003, 0, 0), 0, 0, offdese, 100, 0, 0, 10);
+        Console.WriteLine($"MoveL back: {rtn}");
+
+        // PTP motion to the start of the laser record path
+        rtn = robot.MoveToLaserRecordStart(0, 30);
+        Console.WriteLine($"MoveToLaserRecordStart: {rtn}");
+
+        // Start replay
+        rtn = robot.LaserSensorRecord1(3, 10);
+        Console.WriteLine($"LaserSensorRecord replay: {rtn}");
+
+        // Start fixed-point weaving
+        DescPose refPoint = new DescPose(61.087, 512.431, 370.523, 14.335, -31.333, 69.014);
+        rtn = robot.OriginPointWeaveStart(0, 1, refPoint, 5);
+        Console.WriteLine($"OriginPointWeaveStart: {rtn}");
+
+        // Extended axis moves to 174.957 during weaving
+        rtn = robot.ExtAxisMove(new ExaxisPos(0, 174.957, 0, 0), 50, -1);
+        Console.WriteLine($"ExtAxisMove replay: {rtn}");
+
+        // End weaving
+        rtn = robot.OriginPointWeaveEnd();
+        Console.WriteLine($"OriginPointWeaveEnd: {rtn}");
+
+        // Stop replay
+        rtn = robot.LaserSensorRecord1(0, 10);
+        Console.WriteLine($"LaserSensorRecord stop: {rtn}");
     }
 
 末端透传功能打开关闭

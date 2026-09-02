@@ -510,9 +510,10 @@
     * @param  [in] ft 力/扭矩阈值，fx,fy,fz,tx,ty,tz，范围[0~100]
     * @param  [in] max_t_ms 最大探索时间，单位ms
     * @param  [in] max_vel 最大线速度，单位mm/s
+    * @param  [in] strategy 未检测到力/力矩的处理策略，0-报错；1-警告，继续运动
     * @return  错误码
     */   
-    errno_t  FT_SpiralSearch(int rcs, float dr, float ft, float max_t_ms, float max_vel);  
+    errno_t  FT_SpiralSearch(int rcs, float dr, float ft, float max_t_ms, float max_vel, int strategy = 0);  
 
 旋转插入
 +++++++++++++++++++++++++++++++++++++++++++++
@@ -612,9 +613,10 @@
     * @param  [in] lin_a 直线加速度，单位mm/s^2，暂不使用
     * @param  [in] max_dis 最大插入距离，单位mm
     * @param  [in] linorn  插入方向，0-负方向，1-正方向
+    * @param  [in] strategy 未检测到力/力矩的处理策略，0-报错；1-警告，继续运动
     * @return  错误码
     */   
-    errno_t  FT_LinInsertion(int rcs, float ft, float lin_v, float lin_a, float max_dis, uint8_t linorn);    
+    errno_t  FT_LinInsertion(int rcs, float ft, float lin_v, float lin_a, float max_dis, uint8_t linorn, int strategy=0);    
 
 螺旋探索、直线插入等指令代码示例
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -726,9 +728,10 @@
     * @param  [in] lin_a 探索直线加速度，单位mm/s^2，暂不使用，默认为0
     * @param  [in] max_dis 最大探索距离，单位mm
     * @param  [in] ft  动作终止力/扭矩阈值，fx,fy,fz,tx,ty,tz  
+    * @param  [in] strategy 未检测到力/力矩的处理策略，0-报错；1-警告，继续运动
     * @return  错误码
     */   
-    errno_t  FT_FindSurface(int rcs, uint8_t dir, uint8_t axis, float lin_v, float lin_a, float max_dis, float ft);   
+    errno_t  FT_FindSurface(int rcs, uint8_t dir, uint8_t axis, float lin_v, float lin_a, float max_dis, float ft, int stragety = 0);   
 
 计算中间平面位置开始
 +++++++++++++++++++++++++++++++++++++++++++++

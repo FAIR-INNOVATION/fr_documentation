@@ -13,6 +13,21 @@
      - **日期**
      - **更新描述**
 
+   * - V3.9.9
+     - 2026-09-01
+     - | 1.修改GetGripperMotionDone()获取夹爪状态接口参数描述，更新夹爪状态定义；
+       | 2.修改GetInverseKinExaxis()包含扩展轴位置的逆运动学求解接口，增加关节配置参数，默认值为-1参考当前关节配置；
+       | 3.修改FT_SpiralSearch()、FT_LinInsertion()、FT_FindSurface()力控接口增加未检测到力/力矩的处理策略参数；
+       | 4.修改SetDIConfig()、GetDIConfig()、SetDOConfig()、GetDOConfig()机器人控制箱CIO功能配置接口参数描述，更新新增的功能名称及功能码；
+       | 5.修改机器人基础控制代码示例，增加手动高速模式切换代码示例；
+       | 6.新增ServoJ()关节空间伺服模式运动(多点位输入)指令及代码示例；
+       | 7.新增GetSafetyParamsCheckSum()获取安全配置参数校验和指令、SafetyOPPasswordCheck()安全操作密码校验指令及代码示例；
+       | 8.新增GripperWaitMotionDone()等待夹爪运动完成指令及代码示例；
+       | 9.新增SetRobotTime()同步系统时间至机器人指令及代码示例；
+       | 10.新增SetSafetyDIConfig()安全双通道CI功能配置、SetSafetyDOConfig()安全双通道CO功能配置及代码示例；
+       | 11.新增HiSpeedManualSwitch()切换手动高速模式指令；
+       | 12.新增激光传感器轨迹复现时叠加摆动代码示例；
+
    * - V3.9.8
      - 2026-07-27
      - | 1.更新机器人状态反馈结构体，增加当前机器人lua程序运行状态，0-程序未运行；1-程序运行中(包含程序暂停)；

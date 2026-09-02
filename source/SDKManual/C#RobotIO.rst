@@ -504,6 +504,7 @@
     22-一级缩减模式;23-二级缩减模式;24-三级缩减模式(停止);25-恢复焊接;26-终止焊接;
     27-辅助拖动开启;28-辅助拖动关闭;29-辅助拖动开启/关闭;30-清除所有错误;
     31-手自动切换(高低电平);32-使能;33-去使能;34-使能/去使能(上升下降沿);35-定点跟踪开始/结束
+    36-进入安全速度移动;37-电流环拖动锁定;38-力传感器辅助锁定
     * @return 错误码
     */
     public int SetDIConfig(int[] config)
@@ -524,6 +525,11 @@
     22-一级缩减模式;23-二级缩减模式;24-三级缩减模式(停止);25-恢复焊接;26-终止焊接;
     27-辅助拖动开启;28-辅助拖动关闭;29-辅助拖动开启/关闭;30-清除所有错误;
     31-手自动切换(高低电平);32-使能;33-去使能;34-使能/去使能(上升下降沿);35-定点跟踪开始/结束
+    36-进入安全速度移动;37-电流环拖动锁定;38-力传感器辅助锁定
+    201-外部急停输入信号1-双通道; 202-外部急停输入信号2-双通道; 203-一级缩减模式-双通道;
+    204-二级缩减模式-双通道; 205-三级缩减模式-双通道; 206-常规停止-双通道; 207-安全墙1-双通道; 208-安全墙2-双通道;
+    209-安全墙3-双通道; 210-安全墙4-双通道; 211-安全墙5-双通道; 212-安全墙6-双通道; 213-安全墙7-双通道;
+    214-安全墙8-双通道; 215-安全停止重置-双通道;
     * @return 错误码
     */
     public int GetDIConfig(out int[] config)
@@ -570,9 +576,103 @@
     39-机器人报错-驱动器通信错误;40-机器人报错-参数错误;41-机器人报错-外部轴超出软限位错误;42-机器人警告-警告;
     43-机器人警告-安全门警告;44-机器人警告-运动警告;45-机器人警告-干涉区警告;46-机器人警告-安全墙警告;
     47-使能状态;48-断线自动抬升中;49-立方体1干涉警告;50-立方体2干涉警告;51-立方体3干涉警告;52-立方体4干涉警告;
+    201-急停输出信号1-双通道; 202-急停输出信号2-双通道; 203-安全状态输出-双通道; 204-保护性停止状态输出-双通道; 205-机器人运动中-双通道;
+	206-机器人缩减模式-双通道; 207-机器人非缩减模式-双通道;
     * @return 错误码
     */
     public int GetDOConfig(out int[] config)
+
+安全双通道CI功能配置
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 安全双通道CI功能配置
+    * @param [in] ID 双通道ID; [0-3]
+    * @param [in] config 功能配置; 0-无配置; 201-外部急停输入信号1; 202-外部急停输入信号2; 203-一级缩减模式; 204-二级缩减模式; 205-三级缩减模式;
+                        206-常规停止; 207-安全墙1; 208-安全墙2; 209-安全墙3; 210-安全墙4; 211-安全墙5; 212-安全墙6; 213-安全墙7;
+                        214-安全墙8; 215-安全停止重置;
+    * @return 错误码
+    */
+    public int SetSafetyDIConfig(int ID, int config)
+
+安全双通道CO功能配置
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 安全双通道CO功能配置
+    * @param [in] ID 双通道ID; [0-3]
+    * @param [in] config 功能配置; 0-无配置; 201-急停输出信号1; 202-急停输出信号2; 203-安全状态输出; 204-保护性停止状态输出; 205-机器人运动中;
+                        206-机器人缩减模式; 207-机器人非缩减模式;
+    * @return 错误码
+    */
+    public int SetSafetyDOConfig(int ID, int config)
+
+安全双通道CI/CO功能配置验证代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c#
+    :linenos:
+
+    public void TestSafetyIOConfig()
+    {
+        int rtn = 0;
+
+        rtn = robot.SetSafetyDIConfig(0, 201);
+        Console.WriteLine($"SetSafetyDIConfig rtn is {rtn}");
+        rtn = robot.SetSafetyDIConfig(1, 202);
+        Console.WriteLine($"SetSafetyDIConfig rtn is {rtn}");
+        rtn = robot.SetSafetyDIConfig(2, 203);
+        Console.WriteLine($"SetSafetyDIConfig rtn is {rtn}");
+        rtn = robot.SetSafetyDIConfig(3, 204);
+        Console.WriteLine($"SetSafetyDIConfig rtn is {rtn}");
+
+        int[] getDIConfig = new int[8];
+        rtn = robot.GetDIConfig(out getDIConfig);
+        Console.WriteLine($"GetDIConfig rtn is {rtn}, value is {string.Join(" ", getDIConfig)}");
+
+        rtn = robot.SetSafetyDIConfig(0, 0);
+        Console.WriteLine($"SetSafetyDIConfig rtn is {rtn}");
+        rtn = robot.SetSafetyDIConfig(1, 0);
+        Console.WriteLine($"SetSafetyDIConfig rtn is {rtn}");
+        rtn = robot.SetSafetyDIConfig(2, 0);
+        Console.WriteLine($"SetSafetyDIConfig rtn is {rtn}");
+        rtn = robot.SetSafetyDIConfig(3, 0);
+        Console.WriteLine($"SetSafetyDIConfig rtn is {rtn}");
+
+        rtn = robot.GetDIConfig(out getDIConfig);
+        Console.WriteLine($"GetDIConfig rtn is {rtn}, value is {string.Join(" ", getDIConfig)}");
+
+        rtn = robot.SetSafetyDOConfig(0, 204);
+        Console.WriteLine($"SetSafetyDOConfig rtn is {rtn}");
+        rtn = robot.SetSafetyDOConfig(1, 205);
+        Console.WriteLine($"SetSafetyDOConfig rtn is {rtn}");
+        rtn = robot.SetSafetyDOConfig(2, 206);
+        Console.WriteLine($"SetSafetyDOConfig rtn is {rtn}");
+        rtn = robot.SetSafetyDOConfig(3, 207);
+        Console.WriteLine($"SetSafetyDOConfig rtn is {rtn}");
+
+        int[] getDOConfig = new int[8];
+        rtn = robot.GetDOConfig(out getDOConfig);
+        Console.WriteLine($"GetDOConfig rtn is {rtn}, value is {string.Join(" ", getDOConfig)}");
+
+        rtn = robot.SetSafetyDOConfig(0, 0);
+        Console.WriteLine($"SetSafetyDOConfig rtn is {rtn}");
+        rtn = robot.SetSafetyDOConfig(1, 0);
+        Console.WriteLine($"SetSafetyDOConfig rtn is {rtn}");
+        rtn = robot.SetSafetyDOConfig(2, 0);
+        Console.WriteLine($"SetSafetyDOConfig rtn is {rtn}");
+        rtn = robot.SetSafetyDOConfig(3, 0);
+        Console.WriteLine($"SetSafetyDOConfig rtn is {rtn}");
+
+        rtn = robot.GetDOConfig(out getDOConfig);
+        Console.WriteLine($"GetDOConfig rtn is {rtn}, value is {string.Join(" ", getDOConfig)}");
+    }
 
 设置末端可配置End-CI端口功能
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -70,17 +70,15 @@
 	 */
 	errno_t MoveGripper(int index, int pos, int vel, int force, int max_time, uint8_t block, int type, double rotNum, int rotVel, int rotTorque);
 
-
-
 获取夹爪运动状态
 ++++++++++++++++++++++++++
 .. code-block:: c++
     :linenos:
 
     /**
-     * @brief  获取夹爪运动状态
-     * @param  [out] fault  0-无错误，1-有错误
-     * @param  [out] staus  0-运动未完成，1-运动完成
+     * @brief  获取夹爪运动状态(仅末端开放协议定义，已适配设备获取的运动状态为透传值)
+     * @param  [out] fault  0-无错误，其他-有错误
+     * @param  [out] staus  0-运动未完成，1-运动完成未检测到物体 2-运动完成检测到物体
      * @return  错误码
      */
     errno_t  GetGripperMotionDone(uint16_t *fault, uint8_t *status);
