@@ -850,3 +850,136 @@ IO配置相关的SDK代码示例
 
     # 调用测试函数
     TestIOConfig(robot)
+
+安全双通道CI功能配置
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetSafetyDIConfig(self, ID, config)``"
+    "描述", "安全双通道CI功能配置"
+    "必选参数", "
+    - ``ID``：双通道ID; [0-3]
+    - ``config``：功能配置; 0-无配置; 201-外部急停输入信号1; 202-外部急停输入信号2; 203-一级缩减模式; 204-二级缩减模式; 205-三级缩减模式;
+                           206-常规停止; 207-安全墙1; 208-安全墙2; 209-安全墙3; 210-安全墙4; 211-安全墙5; 212-安全墙6; 213-安全墙7;
+                           214-安全墙8; 215-安全停止重置;
+    "
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+安全双通道CO功能配置
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetSafetyDOConfig(self, ID, config)``"
+    "描述", "安全双通道CO功能配置"
+    "必选参数", "
+    - ``ID``：双通道ID; [0-3]
+    - ``config``： 功能配置; 0-无配置; 201-急停输出信号1; 202-急停输出信号2; 203-安全状态输出; 204-保护性停止状态输出; 205-机器人运动中; 206-机器人缩减模式; 207-机器人非缩减模式;
+    "
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+安全双通道IO功能配置代码示例    
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    import time
+
+    def main():
+        # Establish connection with the robot controller
+        robot = Robot.RPC('192.168.58.2')
+        time.sleep(0.5)  # Wait for connection and data reception
+
+        print("========== Safety IO Config Test ==========")
+
+        # ========== Set Safety DI Configuration ==========
+        print("\n--- Set Safety DI Configuration ---")
+        rtn = robot.SetSafetyDIConfig(0, 201)
+        print(f"SetSafetyDIConfig(0, 201) rtn is {rtn}")
+
+        rtn = robot.SetSafetyDIConfig(1, 202)
+        print(f"SetSafetyDIConfig(1, 202) rtn is {rtn}")
+
+        rtn = robot.SetSafetyDIConfig(2, 203)
+        print(f"SetSafetyDIConfig(2, 203) rtn is {rtn}")
+
+        rtn = robot.SetSafetyDIConfig(3, 204)
+        print(f"SetSafetyDIConfig(3, 204) rtn is {rtn}")
+
+        # Get DI configuration
+        rtn, getDIConfig = robot.GetDIConfig()
+        print(f"GetDIConfig rtn is {rtn}, value is {getDIConfig[0]} {getDIConfig[1]} {getDIConfig[2]} {getDIConfig[3]} {getDIConfig[4]} {getDIConfig[5]} {getDIConfig[6]} {getDIConfig[7]}")
+
+        # ========== Clear Safety DI Configuration ==========
+        print("\n--- Clear Safety DI Configuration ---")
+        rtn = robot.SetSafetyDIConfig(0, 0)
+        print(f"SetSafetyDIConfig(0, 0) rtn is {rtn}")
+
+        rtn = robot.SetSafetyDIConfig(1, 0)
+        print(f"SetSafetyDIConfig(1, 0) rtn is {rtn}")
+
+        rtn = robot.SetSafetyDIConfig(2, 0)
+        print(f"SetSafetyDIConfig(2, 0) rtn is {rtn}")
+
+        rtn = robot.SetSafetyDIConfig(3, 0)
+        print(f"SetSafetyDIConfig(3, 0) rtn is {rtn}")
+
+        # Get DI configuration to verify clearance
+        rtn, getDIConfig = robot.GetDIConfig()
+        print(f"GetDIConfig rtn is {rtn}, value is {getDIConfig[0]} {getDIConfig[1]} {getDIConfig[2]} {getDIConfig[3]} {getDIConfig[4]} {getDIConfig[5]} {getDIConfig[6]} {getDIConfig[7]}")
+
+        # ========== Set Safety DO Configuration ==========
+        print("\n--- Set Safety DO Configuration ---")
+        rtn = robot.SetSafetyDOConfig(0, 204)
+        print(f"SetSafetyDOConfig(0, 204) rtn is {rtn}")
+
+        rtn = robot.SetSafetyDOConfig(1, 205)
+        print(f"SetSafetyDOConfig(1, 205) rtn is {rtn}")
+
+        rtn = robot.SetSafetyDOConfig(2, 206)
+        print(f"SetSafetyDOConfig(2, 206) rtn is {rtn}")
+
+        rtn = robot.SetSafetyDOConfig(3, 207)
+        print(f"SetSafetyDOConfig(3, 207) rtn is {rtn}")
+
+        # Get DO configuration
+        rtn, getDOConfig = robot.GetDOConfig()
+        print(f"GetDOConfig rtn is {rtn}, value is {getDOConfig[0]} {getDOConfig[1]} {getDOConfig[2]} {getDOConfig[3]} {getDOConfig[4]} {getDOConfig[5]} {getDOConfig[6]} {getDOConfig[7]}")
+
+        # ========== Clear Safety DO Configuration ==========
+        print("\n--- Clear Safety DO Configuration ---")
+        rtn = robot.SetSafetyDOConfig(0, 0)
+        print(f"SetSafetyDOConfig(0, 0) rtn is {rtn}")
+
+        rtn = robot.SetSafetyDOConfig(1, 0)
+        print(f"SetSafetyDOConfig(1, 0) rtn is {rtn}")
+
+        rtn = robot.SetSafetyDOConfig(2, 0)
+        print(f"SetSafetyDOConfig(2, 0) rtn is {rtn}")
+
+        rtn = robot.SetSafetyDOConfig(3, 0)
+        print(f"SetSafetyDOConfig(3, 0) rtn is {rtn}")
+
+        # Get DO configuration to verify clearance
+        rtn, getDOConfig = robot.GetDOConfig()
+        print(f"GetDOConfig rtn is {rtn}, value is {getDOConfig[0]} {getDOConfig[1]} {getDOConfig[2]} {getDOConfig[3]} {getDOConfig[4]} {getDOConfig[5]} {getDOConfig[6]} {getDOConfig[7]}")
+
+        time.sleep(2)
+
+        # Close connection
+        robot.CloseRPC()
+        time.sleep(1)
+
+        print("\n========== Test Complete ==========")
+
+
+    if __name__ == "__main__":
+        main()

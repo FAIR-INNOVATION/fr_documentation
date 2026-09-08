@@ -122,6 +122,19 @@
     */
     errno_t ShutDownRobotOS();
 
+切换手动高速模式
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 切换手动高速模式
+    * @param [in] state 0-退出手动高速；1-进入手动高速
+    * @return 错误码
+    */
+    errno_t HiSpeedManualSwitch(int state);
+
 设置与机器人通讯重连参数
 ++++++++++++++++++++++++++++++++++++++++++
 .. versionadded:: C++SDK-v2.1.5.0

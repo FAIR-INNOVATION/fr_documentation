@@ -174,6 +174,106 @@
     */
     errno_t  GetSystemClock(float *t_ms);
 
+同步系统时间至机器人
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 获取当前上位机系统时间并发送给机器人，同步系统时间（由于QNX系统限制，同步精度为分钟级）
+    * @return 错误码
+    */
+    errno_t SetRobotTime();
+
+设置与读取机器人系统时间代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    void TestSetAndGetRobotTime() 
+    {
+    ROBOT_STATE_PKG pkg = {};
+    FRRobot robot;
+    robot.LoggerInit();
+    robot.SetLoggerLevel(1);
+    robot.SetReConnectParam(true, 30000, 500);
+    int rtn = robot.RPC("192.168.58.2");
+    if (rtn != 0) {
+        return;
+    }
+    float t_ms = 0.0f;
+    int ret = robot.GetSystemClock(&t_ms);
+    if (ret == 0) {
+        constexpr int64_t OFFSET_8H_MS = 8LL * 3600LL * 1000LL;
+        int64_t rawMs = static_cast<int64_t>(t_ms);
+        int64_t fixedMs = rawMs - OFFSET_8H_MS;
+        std::time_t sec = static_cast<std::time_t>(fixedMs / 1000LL);
+        std::tm utcTm {};
+        #if defined (_WIN32) || defined (_WIN64)
+            localtime_s(&utcTm, &sec);
+        #else
+            localtime_r(&sec, &utcTm);
+        #endif
+            char utcBuf[64] = { 0 };
+            strftime(utcBuf, sizeof(utcBuf), "%Y-%m-%d %H:%M:%S", &utcTm);
+            printf("system clock : %.0f\n", t_ms);
+            printf("BEFORE UTC Time : %s\n", utcBuf);
+        }
+        else {
+            printf("GetSystemClock failed, ret:%d\n", ret);
+        }
+
+        robot.SetRobotTime();
+        robot.Sleep(1000);
+        float t_ms_after = 0.0f;
+        ret = robot.GetSystemClock(&t_ms_after);
+        if (ret == 0) {
+            printf("system clock : %.0f\n", t_ms_after);
+
+            constexpr int64_t OFFSET_8H_MS = 8LL * 3600LL * 1000LL;
+            int64_t robotMs = static_cast<int64_t>(t_ms_after);
+            int64_t robotMsFixed = robotMs - OFFSET_8H_MS;
+
+            auto nowSys = std::chrono::system_clock::now();
+            int64_t pcMs = std::chrono::duration_cast<std::chrono::milliseconds>(nowSys.time_since_epoch()).count();
+            constexpr int64_t MS_PER_MINUTE = 60LL * 1000LL;
+            bool isConsistent = ((robotMsFixed / MS_PER_MINUTE) == (pcMs / MS_PER_MINUTE));
+
+            std::time_t robotSec = robotMsFixed / 1000LL;
+            std::tm robotTm {};
+        #if defined (_WIN32) || defined (_WIN64)
+            localtime_s(&robotTm, &robotSec);
+        #else
+            localtime_r(&robotSec, &robotTm);
+        #endif
+
+            std::time_t pcSec = pcMs / 1000LL;
+            std::tm pcTm {};
+        #if defined (_WIN32) || defined (_WIN64)
+            localtime_s(&pcTm, &pcSec);
+        #else
+            localtime_r(&pcSec, &pcTm);
+        #endif
+
+        char pcBuf[64] = { 0 };
+        char robotBuf[64] = { 0 };
+        strftime(pcBuf, sizeof(pcBuf), "%Y-%m-%d %H:%M", &pcTm);
+        strftime(robotBuf, sizeof(robotBuf), "%Y-%m-%d %H:%M", &robotTm);
+        if (isConsistent) {
+        printf("Consistent | PC time: %s | Robot time: %s\n", pcBuf, robotBuf);
+        }
+        else {
+        printf("[Inconsistent] | PC time: %s | Robot time: %s\n", pcBuf, robotBuf);
+        }
+    }
+    else {
+        printf("GetSystemClock failed, ret:%d\n", ret);
+    }
+    robot.Sleep(1000);
+    robot.CloseRPC();
+    robot.Sleep(1000);
+    }
+
 查询机器人运动是否完成
 ++++++++++++++++++++++++++++++++++++
 .. code-block:: c++

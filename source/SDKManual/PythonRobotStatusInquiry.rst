@@ -186,6 +186,79 @@
     "返回值", "- 错误码 成功-0  失败- errcode
     - ``t_ms``: 系统时间，单位 [ms]"
 
+同步系统时间至机器人
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SetRobottime(self)``"
+    "描述", "获取当前上位机系统时间并发送给机器人，同步系统时间（由于QNX系统限制，同步精度为分钟级）"
+    "必选参数", "无"
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode"
+
+同步系统时间至机器人代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    import time
+    from datetime import datetime, timedelta
+
+
+    def main():
+        # Establish connection with the robot controller
+        robot = Robot.RPC('192.168.58.2')
+        time.sleep(0.5)
+
+        print("========== Set and Get Robot Time Test ==========")
+
+        # Get system clock before setting
+        ret, t_ms = robot.GetSystemClock()
+        if ret == 0 and t_ms is not None:
+            print(f"system clock : {t_ms}")
+            # Robot stores UTC+8, convert back to PC time (subtract 8 hours)
+            robot_time = datetime.fromtimestamp(t_ms / 1000.0) - timedelta(hours=8)
+            print(f"BEFORE Robot Time: {robot_time.strftime('%Y-%m-%d %H:%M:%S')}")
+        else:
+            print(f"GetSystemClock failed, ret:{ret}")
+
+        # Set robot time to PC time
+        ret = robot.SetRobottime()
+        print(f"SetRobottime ret: {ret}")
+
+        # Get the robot time after setting
+        ret, t_ms_after = robot.GetSystemClock()
+        if ret == 0 and t_ms_after is not None:
+            print(f"system clock : {t_ms_after}")
+            # Robot stores UTC+8, convert back to PC time (subtract 8 hours)
+            robot_time = datetime.fromtimestamp(t_ms_after / 1000.0) - timedelta(hours=8)
+
+            # PC time - display system local time
+            pc_time = datetime.now()
+
+            # Truncate both times to minutes
+            pc_minute = pc_time.replace(second=0, microsecond=0)
+            robot_minute = robot_time.replace(second=0, microsecond=0)
+
+            # Compare consistency
+            is_consistent = (pc_minute == robot_minute)
+            if is_consistent:
+                print(f"Consistent     | PC time: {pc_minute.strftime('%Y-%m-%d %H:%M')}  | Robot time: {robot_minute.strftime('%Y-%m-%d %H:%M')}")
+            else:
+                print(f"Inconsistent | PC time: {pc_minute.strftime('%Y-%m-%d %H:%M')}  | Robot time: {robot_minute.strftime('%Y-%m-%d %H:%M')}")
+        else:
+            print(f"GetSystemClock failed, ret:{ret}")
+
+        # Close connection
+        robot.CloseRPC()
+
+
+    if __name__ == "__main__":
+        main()
+
 查询机器人运动是否完成
 ++++++++++++++++++++++++
 .. csv-table:: 

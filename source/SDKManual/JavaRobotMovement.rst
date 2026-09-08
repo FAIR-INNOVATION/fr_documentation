@@ -843,6 +843,120 @@ jog点动立即停止
         }
     }
 
+关节空间伺服模式运动(支持多点位一次输入)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 关节空间伺服模式运动(支持多点位一次输入)
+    * @param [in] joint_pos 目标关节位置集合(最多支持10组),单位deg
+    * @param [in] axisPos 外部轴位置,单位mm
+    * @param [in] acc 加速度百分比，范围[0~100],暂不开放，默认为0
+    * @param [in] vel 速度百分比，范围[0~100]，暂不开放，默认为0
+    * @param [in] cmdT 指令下发周期，单位s，建议范围[0.001~0.0016]
+    * @param [in] filterT 滤波时间，单位s，暂不开放，默认为0
+    * @param [in] gain 目标位置的比例放大器，暂不开放，默认为0
+    * @param [out] servoJCmdCount ServoJ指令点位计数[0-10000]
+    * @param [in] id servoJ指令ID,默认为0
+    * @param [in] comType 指令下发类型；0-xmlrpc；1-UDP(对应机器人20007端口)
+    * @return 错误码
+    */
+    public int ServoJ(List<JointPos> joint_pos, ExaxisPos axisPos, float acc, float vel, float cmdT, float filterT, float gain, ref int servoJCmdCount, int id = 0, int comType = 0)
+
+关节空间伺服模式运动(支持多点位一次输入)代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static void TestServoJPath(Robot robot)
+    {
+        // Read the ServoJ path file, taking columns 2~7 of each line as 6 joint positions
+        String filePath = "D:\\zUP\\ServoJPath.txt";
+        List<JointPos> allJointData = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath)))
+        {
+            String line;
+            while ((line = reader.readLine()) != null)
+            {
+                String[] cols = line.split("[ \\t]+");
+                if (cols.length < 7)
+                    continue;
+                JointPos pose = new JointPos(0, 0, 0, 0, 0, 0);
+                pose.J1 = Double.parseDouble(cols[1]);
+                pose.J2 = Double.parseDouble(cols[2]);
+                pose.J3 = Double.parseDouble(cols[3]);
+                pose.J4 = Double.parseDouble(cols[4]);
+                pose.J5 = Double.parseDouble(cols[5]);
+                pose.J6 = Double.parseDouble(cols[6]);
+                allJointData.add(pose);
+            }
+        }
+        catch (IOException e)
+        {
+            System.out.println("Failed to read file: " + e.getMessage());
+            return;
+        }
+        System.out.println("Total " + allJointData.size() + " joint position sets read");
+        if (allJointData.isEmpty())
+            return;
+
+        // Build a back-and-forth path: forward order + reverse order
+        List<JointPos> backForthPath = new ArrayList<>(allJointData);
+        for (int i = allJointData.size() - 2; i >= 0; i--)
+        {
+            backForthPath.add(allJointData.get(i));
+        }
+
+        ExaxisPos epos = new ExaxisPos(0.0, 0.0, 0.0, 0.0);
+        DescPose offsetPos = new DescPose(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+        robot.MoveJ(allJointData.get(0), 0, 0, 100, 100, 100, epos, -1, 0, offsetPos);
+
+        robot.Sleep(1000);
+
+        ROBOT_STATE_PKG pkg = new ROBOT_STATE_PKG();
+        while (true)
+        {
+            robot.ResetAllError();
+            robot.MoveJ(allJointData.get(0), 0, 0, 100, 100, 100, epos, -1, 0, offsetPos);
+            int moveCount = 0;
+            while (moveCount < backForthPath.size() - 10)
+            {
+                pkg = robot.GetRobotRealTimeState();
+
+                int singleServoJCount = 50 - pkg.mc_queue_len;
+                if (singleServoJCount <= 0)
+                {
+                    robot.Sleep(100);
+                    continue;
+                }
+                if (singleServoJCount > 10)
+                {
+                    singleServoJCount = 10;
+                }
+
+                List<JointPos> jointPos = new ArrayList<>();
+                for (int j = 0; j < singleServoJCount; j++)
+                {
+                    jointPos.add(backForthPath.get(moveCount));
+                    moveCount++;
+                }
+
+                System.out.println("Sending " + singleServoJCount + " waypoints, moveCount=" + moveCount);
+
+                ExaxisPos axisPos = new ExaxisPos(0.0, 0.0, 0.0, 0.0);
+                int[] servoJCmdCount = new int[1];
+                int rtn = robot.ServoJ(jointPos, axisPos, 100.0f, 100.0f, 0.008f, 0.008f, 1.0f, servoJCmdCount, 0, 0);
+                if (rtn != 0)
+                {
+                    System.out.println("ServoJ failed: " + rtn);
+                    break;
+                }
+            }
+            robot.Sleep(4000);
+        }
+    }
+
 关节扭矩控制开始
 +++++++++++++++++++++++++++++
 .. code-block:: Java

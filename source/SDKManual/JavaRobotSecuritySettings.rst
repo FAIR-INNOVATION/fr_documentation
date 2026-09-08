@@ -340,3 +340,73 @@
         robot.Sleep(2000);
         return 0;
     }
+
+获取安全配置参数校验和
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 获取安全配置参数校验和
+    * @param status 校验状态，0-有效，1-校验中，2-校验失败
+    * @param checksum 校验和 8位16进制
+    * @return 错误码
+    */
+    public int GetSafetyParamsCheckSum(int[] status, long[] checksum)
+
+安全操作密码校验
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 安全操作密码校验
+    * @param status 校验，0-开启，1-关闭
+    * @param password 密码
+    * @return 错误码
+    */
+    public int SafetyOPPasswordCheck(int status, String password)
+
+获取安全配置参数校验和及安全操作密码校验代码示例    
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static void TestSafetyParamsCheckSum(Robot robot)
+    {
+        int[] status = new int[1];
+        long[] checksum = new long[1];
+
+        int error = robot.GetSafetyParamsCheckSum(status, checksum);
+        System.out.println(String.format("GetSafetyParamsCheckSum: error=%d, status=%d, hex_code=%08X", 
+            error, status[0], checksum[0]));
+        
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        error = robot.SafetyOPPasswordCheck(0, "12345678");
+        System.out.println(String.format("SafetyOPPasswordCheck: error=%d", error));
+
+        if (error == 0)
+        {
+            Object[] level = {2.0, 2.0, 2.0, 2.0, 2.0, 2.0};
+            error = robot.SetAnticollision(0, level, 1);
+            System.out.println(String.format("SetAnticollision: error=%d", error));
+
+            error = robot.SetCollisionStrategy(0, 1000, 150, 0, new int[]{10, 10, 10, 10, 10, 10});
+            System.out.println(String.format("SetCollisionStrategy: error=%d", error));
+        }
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        error = robot.GetSafetyParamsCheckSum(status, checksum);
+        System.out.println(String.format("GetSafetyParamsCheckSum(again): error=%d, status=%d, hex_code=%08X", 
+            error, status[0], checksum[0]));
+    }

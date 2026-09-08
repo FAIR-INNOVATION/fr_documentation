@@ -480,6 +480,58 @@
     */
     public int FT_RotInsertion(int rcs, double angVelRot, double ft, double max_angle, int orn, double max_angAcc, int rotorn, int strategy)
 
+螺旋线探索
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief  螺旋线探索
+    * @param  [in] rcs 参考坐标系，0-工具坐标系，1-基坐标系
+    * @param  [in] dr 每圈半径进给量
+    * @param  [in] ft 力/扭矩阈值，fx,fy,fz,tx,ty,tz，范围[0~100]
+    * @param  [in] max_t_ms 最大探索时间，单位ms
+    * @param  [in] max_vel 最大线速度，单位mm/s
+    * @param  [in] strategy 未检测到力/力矩的处理策略，0-报错；1-警告，继续运动
+    * @return  错误码
+    */
+    public int FT_SpiralSearch(int rcs, double dr, double ft, double max_t_ms, double max_vel, int strategy)
+
+直线插入
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 直线插入
+    * @param rcs 参考坐标系，0-工具坐标系，1-基坐标系
+    * @param ft 力/扭矩阈值，fx,fy,fz,tx,ty,tz，范围[0~100]
+    * @param lin_v 直线速度，单位mm/s
+    * @param lin_a 直线加速度，单位mm/s^2，暂不使用
+    * @param max_dis 最大插入距离，单位mm
+    * @param linorn 插入方向，0-负方向，1-正方向
+    * @return 错误码
+    */
+    public int FT_LinInsertion(int rcs, double ft, double lin_v, double lin_a, double max_dis, int linorn, int strategy)
+
+表面定位
++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 表面定位
+    * @param rcs 参考坐标系，0-工具坐标系，1-基坐标系
+    * @param dir 移动方向，1-正方向，2-负方向
+    * @param axis 移动轴，1-x轴，2-y轴，3-z轴
+    * @param lin_v 探索直线速度，单位mm/s
+    * @param lin_a 探索直线加速度，单位mm/s^2，暂不使用，默认为0
+    * @param max_dis 最大探索距离，单位mm
+    * @param ft 动作终止力/扭矩阈值，fx,fy,fz,tx,ty,tz
+    * @return 错误码
+    */
+    public int FT_FindSurface(int rcs, int dir, int axis, double lin_v, double lin_a, double max_dis, double ft, int strategy)
+
 机器人力传感器旋转插入代码示例
 +++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java

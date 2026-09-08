@@ -313,3 +313,72 @@
 
     if __name__ == "__main__":
         main()
+
+获取安全配置参数校验和
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetSafetyParamsCheckSum(self)``"
+    "描述", "获取安全配置参数校验和"
+    "必选参数", "
+    - ``status``：校验状态，0-有效，1-校验中，2-校验失败
+    - ``checksum``：校验和 8位16进制（底层返回uint32_t，需要手动转换）
+    "
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode"
+
+安全操作密码校验
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``SafetyOPPasswordCheck(self,status,password)``"
+    "描述", "安全操作密码校验"
+    "必选参数", "
+    - ``status``：校验，0-开启，1-关闭
+    - ``password``：密码
+    "
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode"
+
+安全配置参数密码校验代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: python
+    :linenos: 
+
+    from time import sleep
+    import time
+    from fairino import Robot
+
+    # 与机器人控制器建立连接
+    robot = Robot.RPC('192.168.58.2')
+
+
+    def test(self):
+        error, status, hex_code = robot.GetSafetyParamsCheckSum()
+        print(f"GetSafetyParamsChecksum: error={error}, status={status}, hex_code={hex_code}")
+        time.sleep(3)
+        error = robot.SafetyOPPasswordCheck(0, "12345678")
+        print(f"SafetyOPPasswordCheck: error={error}")
+
+        if error == 0:
+            error = robot.SetAnticollision(mode=0, level=[2.0, 2.0, 2.0, 2.0, 2.0, 2.0], config=1)
+            print(f"SetAnticollision: error={error}")
+
+            error = robot.SetCollisionStrategy(strategy=0, safeTime=1000, safeDistance=150,
+                                            safetyMargin=[10, 10, 10, 10, 10, 10])
+            print(f"SetCollisionStrategy: error={error}")
+
+        time.sleep(1)
+
+        error, status, hex_code = robot.GetSafetyParamsCheckSum()
+        print(f"GetSafetyParamsChecksum(again): error={error}, status={status}, hex_code={hex_code}")
+
+
+    test(robot)

@@ -862,3 +862,106 @@
         robot.Sleep(1000);
         return 0;
     }
+            
+安全双通道CI功能配置
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 安全双通道CI功能配置
+    * @param [in] ID 双通道ID; [0-3]
+    * @param [in] config 功能配置; 0-无配置; 201-外部急停输入信号1; 202-外部急停输入信号2; 203-一级缩减模式; 204-二级缩减模式; 205-三级缩减模式;206-常规停止; 207-安全墙1; 208-安全墙2; 209-安全墙3; 210-安全墙4; 211-安全墙5; 212-安全墙6; 213-安全墙7;214-安全墙8; 215-安全停止重置;
+    * @return 错误码
+    */
+    errno_t SetSafetyDIConfig(int ID, int config);
+                
+安全双通道CO功能配置
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 安全双通道CO功能配置
+    * @param [in] ID 双通道ID; [0-3]
+    * @param [in] config 功能配置; 0-无配置; 201-急停输出信号1; 202-急停输出信号2; 203-安全状态输出; 204-保护性停止状态输出; 205-机器人运动中;206-机器人缩减模式; 207-机器人非缩减模式;
+    * @return 错误码
+    */
+    errno_t SetSafetyDOConfig(int ID, int config);
+                    
+安全双通道IO功能配置代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    int TestSafetyIOConfig()
+    {
+    ROBOT_STATE_PKG pkg = {};
+    FRRobot robot;
+    robot.LoggerInit();
+    robot.SetLoggerLevel(1);
+    robot.SetReConnectParam(true, 30000, 500);
+    int rtn = robot.RPC("192.168.58.2");
+    if (rtn != 0)
+    {
+        return -1;
+    }
+    
+    int getDIConfig[8] = { 0 };
+    rtn = robot.SetSafetyDIConfig(0, 201);
+    printf("SetSafetyDIConfig rtn is %d\n", rtn);
+    rtn = robot.SetSafetyDIConfig(1, 202);
+    printf("SetSafetyDIConfig rtn is %d\n", rtn);
+    rtn = robot.SetSafetyDIConfig(2, 203);
+    printf("SetSafetyDIConfig rtn is %d\n", rtn);
+    rtn = robot.SetSafetyDIConfig(3, 204);
+    printf("SetSafetyDIConfig rtn is %d\n", rtn);
+    rtn = robot.GetDIConfig(getDIConfig);
+    printf("GetDIConfig rtn is %d, value is %d %d %d %d %d %d %d %d \n", rtn,
+        getDIConfig[0], getDIConfig[1], getDIConfig[2], getDIConfig[3], getDIConfig[4], getDIConfig[5], getDIConfig[6], getDIConfig[7]);
+
+    rtn = robot.SetSafetyDIConfig(0, 0);
+    printf("SetSafetyDIConfig rtn is %d\n", rtn);
+    rtn = robot.SetSafetyDIConfig(1, 0);
+    printf("SetSafetyDIConfig rtn is %d\n", rtn);
+    rtn = robot.SetSafetyDIConfig(2, 0);
+    printf("SetSafetyDIConfig rtn is %d\n", rtn);
+    rtn = robot.SetSafetyDIConfig(3, 0);
+    printf("SetSafetyDIConfig rtn is %d\n", rtn);
+    rtn = robot.GetDIConfig(getDIConfig);
+    printf("GetDIConfig rtn is %d, value is %d %d %d %d %d %d %d %d \n", rtn,
+        getDIConfig[0], getDIConfig[1], getDIConfig[2], getDIConfig[3], getDIConfig[4], getDIConfig[5], getDIConfig[6], getDIConfig[7]);
+
+    int getDOConfig[8] = { 0 };
+    rtn = robot.SetSafetyDOConfig(0, 204);
+    printf("SetSafetyDOConfig rtn is %d\n", rtn);
+    rtn = robot.SetSafetyDOConfig(1, 205);
+    printf("SetSafetyDOConfig rtn is %d\n", rtn);
+    rtn = robot.SetSafetyDOConfig(2, 206);
+    printf("SetSafetyDOConfig rtn is %d\n", rtn);
+    rtn = robot.SetSafetyDOConfig(3, 207);
+    printf("SetSafetyDOConfig rtn is %d\n", rtn);
+    rtn = robot.GetDOConfig(getDOConfig);
+    printf("GetDOConfig rtn is %d, value is %d %d %d %d %d %d %d %d \n", rtn,
+        getDOConfig[0], getDOConfig[1], getDOConfig[2], getDOConfig[3], getDOConfig[4], getDOConfig[5], getDOConfig[6], getDOConfig[7]);
+     
+    rtn = robot.SetSafetyDOConfig(0, 0);
+    printf("SetSafetyDOConfig rtn is %d\n", rtn);
+    rtn = robot.SetSafetyDOConfig(1, 0);
+    printf("SetSafetyDOConfig rtn is %d\n", rtn);
+    rtn = robot.SetSafetyDOConfig(2, 0);
+    printf("SetSafetyDOConfig rtn is %d\n", rtn);
+    rtn = robot.SetSafetyDOConfig(3, 0);
+    printf("SetSafetyDOConfig rtn is %d\n", rtn);
+    rtn = robot.GetDOConfig(getDOConfig);
+    printf("GetDOConfig rtn is %d, value is %d %d %d %d %d %d %d %d \n", rtn,
+        getDOConfig[0], getDOConfig[1], getDOConfig[2], getDOConfig[3], getDOConfig[4], getDOConfig[5], getDOConfig[6], getDOConfig[7]);
+
+    robot.Sleep(2000);
+    robot.CloseRPC();
+    robot.Sleep(1000);
+    return 0;
+    }
