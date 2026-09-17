@@ -412,5 +412,5 @@ Java SDK
 ---------------------------------
     :download:`FAIRINO-CobotSoftware-QX-V3.9.8-20260727.zip <https://pan.baidu.com/s/1VhqKUw2eC2HtWGxIxLzH-w?pwd=t1hf>`
     
-    :download:`FAIRINO-CobotSoftware-LA-V3.9.8-20260727.zip <https://pan.baidu.com/s/1YS9kUflAqO5ngIEp6IaEbA?pwd=88aj>`
+    :download:`FAIRINO-CobotSoftware-LA-V3.9.8.1-20260810.zip <https://pan.baidu.com/s/11uw26x51N9vpSrSKZlYAmA?pwd=3sqh>`
 
