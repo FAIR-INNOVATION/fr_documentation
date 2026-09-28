@@ -248,6 +248,19 @@
     */
     errno_t PointTableUpdateLua(const std::string &pointTableName, const std::string &luaFileName);
 
+点位表切换并应用
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 点位表切换并应用
+    * @param [in] pointTableName 要切换的点位表名称 pointTable1.db
+    * @return 错误码
+    */
+    errno_t PointTableSwitch(const std::string pointTableName);
+
 机器人点位表操作代码示例
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -672,6 +685,77 @@ UDP指令下发代码示例
         robot.Sleep(1000);
         robot.SetUserLEDColor(false, false, true);
         robot.Sleep(1000);
+        robot.CloseRPC();
+        robot.Sleep(1000);
+        return 0;
+    }
+            
+通过TCP8080发送自定义指令帧
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 通过TCP8080发送自定义指令帧（mTLS 模式下自动经加密通道）
+    * @param [in] frame 完整指令帧，如 "/f/bIII52III236III7IIIMode(0)III/b/f"
+    * @return 错误码
+    */
+    errno_t SendTCPFrame(std::string frame);
+                
+通过TCP8080发送自定义指令帧代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    int TestSendModeTcp()
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot(true);
+        int rtn = 0;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        rtn = robot.SetCmdRpyCallback(UDPFrameCallBack);
+        printf("SetCmdRpyCallback rtn is %d\n", rtn);
+        robot.MtlsLink("");
+        robot.SetReConnectParam(true, 300000, 50);
+        rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return -1;
+        }
+        std::string program_name = "tls.lua";
+        unsigned char state = 0;
+        int line = 0;
+        std::string mode0 = "/f/bIII52III236III7IIIMode(0)III/b/f";
+        std::string mode1 = "/f/bIII52III236III7IIIMode(1)III/b/f";
+        printf("[SEND] %s\n", mode0.c_str());
+        robot.SendTCPFrame(mode0);
+        robot.Sleep(1000);
+        printf("[SEND] %s\n", mode1.c_str());
+        robot.SendTCPFrame(mode1);
+        robot.Sleep(1000);
+        printf("[SEND] %s\n", mode0.c_str());
+        robot.SendTCPFrame(mode0);
+        robot.Mode(0);
+        robot.LoadDefaultProgConfig(0, (char*)program_name.c_str());
+        robot.ProgramLoad((char*)program_name.c_str());
+        robot.SetSpeedInstant(50);
+        robot.ProgramRun();
+        robot.Sleep(5000);
+        robot.PauseMotion();
+        robot.GetProgramState(&state);
+        printf("program state:%u\n\n", state);
+        robot.GetCurrentLine(&line);
+        printf("current line:%d\n\n", line);
+        char loaded_name[256] = "";
+        robot.GetLoadedProgram(loaded_name);
+        printf("program name:%s\n\n", loaded_name);
+        robot.ResumeMotion();
+        robot.Sleep(2000);
+        robot.PauseMotion();
+        robot.Sleep(2000);
         robot.CloseRPC();
         robot.Sleep(1000);
         return 0;

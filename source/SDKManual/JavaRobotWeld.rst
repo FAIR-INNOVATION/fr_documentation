@@ -328,17 +328,17 @@
     */
     List<Number> WeldingGetReWeldAfterBreakOffParam();
 
-设置焊机控制模式扩展DO端口
-++++++++++++++++++++++++++++++++++
+设置焊机控制模式
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
-    /** 
+    /**
     * @brief 设置焊机控制模式扩展DO端口
-    * @param [in] DONum 焊机控制模式DO端口(0-127)
-    * @return 错误码 
+    * @param DONum 焊机控制模式DO端口(0-127)
+    * @return 错误码
     */
-    int SetWeldMachineCtrlModeExtDoNum(int DONum);
+    public int SetWeldMachineCtrlModeExtDoNum(int DONum)
 
 设置焊机控制模式
 ++++++++++++++++++++++++++++++++++

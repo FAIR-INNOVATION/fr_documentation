@@ -556,6 +556,74 @@
     */   
     errno_t  GetInverseKinHasSolution(int type, DescPose *desc_pos, JointPos *joint_pos_ref, uint8_t *result);
 
+获取机器人8组逆解
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 获取机器人8组逆解
+    * @param [in] tcfPose 笛卡尔位姿
+    * @param [in] tool 工具坐标系
+    * @param [in] workpiece 工件坐标系
+    * @param [in] exPos 扩展轴位置
+    * @param [out] jointPos 输出8组关节角度
+    * @return 错误码
+    */
+    errno_t TCFToAllJoint(DescPose tcfPose, int tool, int workpiece, ExaxisPos exPos, std::vector<JointPos>& jointPos);
+
+获取机器人8组逆解代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c++
+    :linenos:
+
+    int TestTCFToAllJoint()
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        robot.SetReConnectParam(true, 30000, 500);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return -1;
+        }
+        DescPose curTcp(0, 0, 0, 0, 0, 0);
+        rtn = robot.GetActualTCPPose(1, &curTcp);
+        if (rtn != 0)
+        {
+            return rtn;
+        }
+        std::cout << std::fixed << std::setprecision(3);
+        std::cout << "cur TCF: x=" << curTcp.tran.x << ", y=" << curTcp.tran.y << ", z=" << curTcp.tran.z << ", "
+            << "a=" << curTcp.rpy.rx << ", b=" << curTcp.rpy.ry << ", c=" << curTcp.rpy.rz << std::endl;
+        ExaxisPos exPos(0, 0, 0, 0);
+        std::vector<JointPos> allJoints(8, JointPos(0, 0, 0, 0, 0, 0));
+        rtn = robot.TCFToAllJoint(curTcp, 0, 0, exPos, allJoints);
+        if (rtn != 0)
+        {
+            return rtn;
+        }
+        for (int i = 0; i < 8; i++)
+        {
+            JointPos joint = allJoints[i];
+            std::cout << "JOINT" << (i + 1) << ": "
+                << "j1=" << joint.jPos[0] << ", j2=" << joint.jPos[1] << ", j3=" << joint.jPos[2] << ", "
+                << "j4=" << joint.jPos[3] << ", j5=" << joint.jPos[4] << ", j6=" << joint.jPos[5] << std::endl;
+            DescPose pos(0, 0, 0, 0, 0, 0);
+            rtn = robot.GetForwardKin(&joint, &pos);
+            if (rtn != 0)
+            {
+                continue;
+            }
+            std::cout << "POS" << (i + 1) << ": "
+                << "x=" << pos.tran.x << ", y=" << pos.tran.y << ", z=" << pos.tran.z << ", "
+                << "a=" << pos.rpy.rx << ", b=" << pos.rpy.ry << ", c=" << pos.rpy.rz << std::endl;
+        }
+        return 0;
+    }
+
 正运动学求解
 ++++++++++++++++++++++++++++++++++++
 .. code-block:: c++

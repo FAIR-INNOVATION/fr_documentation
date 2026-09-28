@@ -13,6 +13,14 @@
      - **日期**
      - **更新描述**
 
+   * - V4.0.0
+     - 2026-09-23
+     - | 1.修改Robot()建立RPC连接机器人实例化接口，增加SDK中集成指令协议通讯TLS加密使能参数配置，使用需要先安装python依赖库，安装命令为：pip install python3-dtls，pip install python-mbedtls；
+       | 2.修改SetWeldMachineCtrlMode()设置焊机控制模式接口参数描述，增加松下焊机的有脉冲、无脉冲模式；
+       | 3.新增SendTCPFrame()通过TCP 8080发送自定义指令帧指令及代码示例；
+       | 4.新增TCFToAllJoint()获取机器人8组逆解指令及代码示例；
+       | 5.新增SetPhySpeedInstant()即时设置物理速度指令及代码示例。
+
    * - V3.9.9
      - 2026-09-01
      - | 1.更新获取夹爪运动状态接口GetGripperMotionDone()，更新夹爪状态输出参数定义及使用范围；

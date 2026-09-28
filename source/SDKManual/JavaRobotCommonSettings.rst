@@ -1397,3 +1397,135 @@
         robot.CloseRPC();
         robot.Sleep(9999999);
     }
+    
+即时设置物理速度
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 即时设置物理速度
+    * @param [in] speed 物理速度值, mm/s
+    * @return 错误码
+    */
+    public int SetPhySpeedInstant(double speed)
+        
+即时设置物理速度代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static class RobotThread implements Runnable {
+        private final Robot robot;
+        private volatile boolean running = true;
+
+        public RobotThread(Robot robot) {
+            this.robot = robot;
+        }
+
+        public void stop() {
+            running = false;
+        }
+
+        @Override
+        public void run() {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+            while (running) {
+                try {
+                    System.out.print("Please input speed value (0~100, q to quit): ");
+                    System.out.flush();
+
+                    String line = reader.readLine();
+
+                    // 1. 流结束（Ctrl+D / Ctrl+Z / 管道关闭）
+                    if (line == null) {
+                        System.out.println("\nInput stream closed, exit speed input thread.");
+                        break;
+                    }
+
+                    // 2. 去掉首尾空白
+                    line = line.trim();
+
+                    // 3. 空行：跳过，不打印任何东西
+                    if (line.isEmpty()) {
+                        continue;
+                    }
+
+                    // 4. 退出指令
+                    if ("q".equalsIgnoreCase(line)) {
+                        System.out.println("Quit speed input thread.");
+                        break;
+                    }
+
+                    // 5. 解析数字
+                    int speed;
+                    try {
+                        speed = Integer.parseInt(line);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid number: [" + line + "]");
+                        continue;
+                    }
+
+                    // 7. 下发速度
+                    robot.SetPhySpeedInstant(speed);
+                    System.out.println("SetSpeed -> " + speed + "%");
+
+                } catch (IOException e) {
+                    System.out.println("Input error: " + e.getMessage());
+                    break;
+                }
+            }
+        }
+
+        public static int TestSetPhySpeed(Robot robot) {
+            // 1. 切到位置模式（和 Python robot.Mode(0) 等价）
+            robot.Mode(0);
+
+            // 2. 上电使能（和 Python robot.RobotEnable(1) 等价）
+            robot.RobotEnable(1);
+
+            // 3. 两个目标点位
+            JointPos j1 = new JointPos(-60.206, -49.449, 79.476, -124.322, -88.416, -45.209);
+            DescPose d1 = new DescPose(-412.929, 510.912, 94.557, -175.850, -1.933, 74.992);
+            JointPos j2 = new JointPos(-141.282, -40.962, 62.359, -110.496, -85.512, -126.379);
+            DescPose d2 = new DescPose(586.847, 510.915, 94.560, -175.851, -1.934, 74.991);
+
+            ExaxisPos ex = new ExaxisPos(0.0, 0.0, 0.0, 0.0);
+            DescPose zeroOff = new DescPose(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+
+            // 4. 启动输入线程（守护线程）
+            RobotThread speedInput = new RobotThread(robot);
+            Thread th = new Thread(speedInput, "SpeedInputThread");
+            th.setDaemon(true);
+            th.start();
+
+            // 5. 循环 MoveL，期间可实时输入速度
+            try {
+                while (true) {
+                    int rtn = robot.MoveL(j1, d1, 1, 0, 100, 100, 100,
+                            -1, 0, ex, 0, 0, zeroOff, 100, 0, 0, 10);
+                    if (rtn != 0) {
+                        System.out.println("MoveL j1->d1 failed, rtn=" + rtn);
+                        break;
+                    }
+
+                    rtn = robot.MoveL(j2, d2, 1, 0, 100, 100, 100,
+                            -1, 0, ex, 0, 0, zeroOff, 100, 0, 0, 10);
+                    if (rtn != 0) {
+                        System.out.println("MoveL j2->d2 failed, rtn=" + rtn);
+                        break;
+                    }
+
+                    // 让出 CPU，避免主循环把输入线程饿死
+                    Thread.sleep(10);
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            } finally {
+                speedInput.stop();
+            }
+
+            return 0;
+        }
+    }

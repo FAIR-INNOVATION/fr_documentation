@@ -502,6 +502,79 @@
     "返回值", "- 错误码 成功-0  失败- errcode
     - ``result``:“True”-有解，“False”-无解"
 
+获取机器人8组逆解
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``TCFToAllJoint(self, tcp_pose, tool, workpiece, exPos)``"
+    "描述", "获取8组逆解"
+    "必选参数", "
+    - ``tcp_pose``: 笛卡尔位姿，6个元素[x,y,z,rx,ry,rz]
+    - ``tool``: 工具坐标系
+    - ``workpiece``: 工件坐标系
+    - ``exPos``: 扩展轴位置，4个元素
+    "
+    "默认参数", "无"
+    "返回值", "- 错误码 成功-0  失败- errcode
+    - ``jPos``：输出8组关节角度，二维列表，每组6个关节值，共48个值"
+
+获取机器人8组逆解代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    import time
+
+    def main():
+        # Establish connection with the robot controller
+        robot = Robot.RPC('192.168.58.2')
+        time.sleep(0.5)  # Wait for connection and data reception
+
+        # Get current TCP pose
+        ret, curTcp = robot.GetActualTCPPose(1)
+        if ret != 0:
+            print(f"GetActualTCPPose failed, ret:{ret}")
+            robot.CloseRPC()
+            return
+
+        print(f"Current TCP pose: x={curTcp[0]:.3f}, y={curTcp[1]:.3f}, z={curTcp[2]:.3f}, "
+            f"a={curTcp[3]:.3f}, b={curTcp[4]:.3f}, c={curTcp[5]:.3f}")
+
+        # Exaxis position, all zeros here
+        exPos = [0.0, 0.0, 0.0, 0.0]
+
+        # Call TCFToAllJoint to get 8 inverse solutions, tool=0, workpiece=0
+        rtn, allJoints = robot.TCFToAllJoint(curTcp, 0, 0, exPos)
+        if rtn != 0:
+            print(f"TCFToAllJoint failed, rtn:{rtn}")
+            robot.CloseRPC()
+            return
+
+        # Verify each solution with forward kinematics
+        for i in range(8):
+            joint = allJoints[i]
+
+            print(f"JOINT{i + 1}: j1={joint[0]:.3f}, j2={joint[1]:.3f}, j3={joint[2]:.3f}, "
+                f"j4={joint[3]:.3f}, j5={joint[4]:.3f}, j6={joint[5]:.3f}")
+
+            # Forward kinematics to get cartesian pose of the i-th solution
+            rtn, pos = robot.GetForwardKin(joint)
+            if rtn != 0:
+                # Skip this solution if forward kinematics fails
+                continue
+
+            print(f"POS{i + 1}: x={pos[0]:.3f}, y={pos[1]:.3f}, z={pos[2]:.3f}, "
+                f"a={pos[3]:.3f}, b={pos[4]:.3f}, c={pos[5]:.3f}")
+
+        # Close connection
+        robot.CloseRPC()
+
+    if __name__ == "__main__":
+        main()
+        
 正运动学求解
 +++++++++++++++
 .. csv-table:: 

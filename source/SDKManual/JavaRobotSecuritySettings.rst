@@ -410,3 +410,70 @@
         System.out.println(String.format("GetSafetyParamsCheckSum(again): error=%d, status=%d, hex_code=%08X", 
             error, status[0], checksum[0]));
     }
+    
+设置mTLS加密使能及证书路径    
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    //mTLS 总开关：默认 false；在 RPC 初始化前置 false 强制明文模式
+    public bool EnableMtls = false;
+
+    /**
+    * @brief 设置TLS加密证书路径
+    * @param [in] certPath  证书路径；为空时默认为可执行文件所在目录下的证书；证书名称：ca.crt;client.crt;client.key
+    * @return 错误码
+    */
+    public MtlsLink(String certDir)
+
+设置TLS加密证书路径代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static void TestSendModeTcp(Robot robot)
+    {
+        String program_name = "mtls.lua";
+        String[] loaded_name = {""};
+        int[] state = {0};
+        int[] line = {0};
+
+        System.out.println("========== Mode 指令 TCP 8080 通道验证 ==========");
+        System.out.println(robot.IsEncryptEnabled() ? "[状态] mTLS 已启用" : "[状态] 明文模式（对照）");
+
+        robot.SetTcpFrameListener(frame ->
+                System.out.println("[TCP 应答] " + frame));
+
+        String mode0 = "/f/bIII52III236III7IIIMode(0)III/b/f";
+        String mode1 = "/f/bIII52III236III7IIIMode(1)III/b/f";
+
+        System.out.println("[发送] " + mode0);
+        robot.SendTCPFrame(mode0);
+        robot.Sleep(1000);
+        System.out.println("[发送] " + mode1);
+        robot.SendTCPFrame(mode1);
+        robot.Sleep(1000);
+        System.out.println("[发送] " + mode0);
+        robot.SendTCPFrame(mode0);
+
+        robot.Mode(0);
+        robot.LoadDefaultProgConfig(0, program_name);
+        robot.ProgramLoad(program_name);
+
+        robot.SetSpeedInstant(50);
+
+        robot.ProgramRun();
+        robot.Sleep(5000);
+        robot.PauseMotion();
+        robot.GetProgramState(state);
+        System.out.println("program state:" + state[0]);
+        java.util.List<Integer> lineRtn = robot.GetCurrentLine();
+        System.out.println("current line:" + lineRtn.get(1));
+        robot.GetLoadedProgram(loaded_name);
+        System.out.println("program name:" + loaded_name[0]);
+
+        robot.ResumeMotion();
+        robot.Sleep(2000);
+        robot.PauseMotion();
+        robot.Sleep(2000);
+    }

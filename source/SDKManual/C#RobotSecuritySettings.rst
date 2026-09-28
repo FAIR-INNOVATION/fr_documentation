@@ -291,7 +291,7 @@
 获取安全配置参数校验和
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
-.. code-block:: c++
+.. code-block:: c#
     :linenos:  
 
     /**
@@ -301,6 +301,48 @@
     * @return  错误码
     */
     public int GetSafetyParamsCheckSum(ref int status, ref uint checksum)
+        
+设置mTLS加密使能及证书路径
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c#
+    :linenos:  
+
+    //mTLS 总开关：默认 false；在 RPC 初始化前置 false 强制明文模式
+    public bool EnableMtls { get; set; } = false;
+
+    //mTLS 证书目录：默认 null = SDK dll 同目录下的 certs/；须在 RPC() 之前设置
+    public string MtlsCertDir { get; set; }
+        
+设置mTLS加密使能及证书路径代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c#
+    :linenos:  
+
+    public Form1()
+    {
+        InitializeComponent();
+        robot = new Robot();//实例化机器人对象
+        string path = "D://log/";
+        robot.LoggerInit(FrLogType.BUFFER, FrLogLevel.INFO, path, 5, 5);
+        robot.SetLoggerLevel(FrLogLevel.INFO);
+
+        // 查看最终CNDE配置
+        List<RobotState> finalStates;
+        int finalPeriod;
+        robot.GetRobotRealtimeStateConfig(out finalStates, out finalPeriod);
+        Console.WriteLine($"最终配置状态数量: {finalStates.Count}");
+        foreach (var s in finalStates) Console.WriteLine($"  {s}");
+        Console.WriteLine($"最终周期: {finalPeriod} ms");
+        robot.SetReconnectParam(true, 1000, 500);//断线重连参数
+            
+        robot.EnableMtls = true;
+        robot.MtlsCertDir = @"D:\C#SDK\MTLS-certs";   // 证书不设路径则默认在  <libfairino.dll 所在目录>\certs
+        rrpc = robot.RPC("192.168.58.2"); //与控制箱建立连接
+                                            //20004端口接收超时时间
+                                            //robot.SetReceivePortTimeout(40);
+    }
         
 安全操作密码校验
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

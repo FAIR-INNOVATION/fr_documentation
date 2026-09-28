@@ -10,9 +10,10 @@
     :linenos:
 
     /**
-    * @brief  机器人接口类构造函数
+    * @brief 机器人接口类构造函数
+    * @param [in] _TLSEnable 机器人SDK集成指令协议通讯加密使能,默认不使能
     */
-    FRRobot();
+    FRRobot(bool _TLSEnable = false);
 
 与控制器建立通信
 ++++++++++++++++++++++++++++++++++

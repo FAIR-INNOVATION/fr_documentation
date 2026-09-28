@@ -1338,15 +1338,40 @@
         Console.WriteLine($"工具RPY姿态: RX={TCP.rpy.rx:F3}, RY={TCP.rpy.ry:F3}, RZ={TCP.rpy.rz:F3}");
     }
 
-即时设置全局速度
+即时设置速度
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. code-block:: c#
     :linenos:
 
     /**
-    * @brief 即时设置全局速度
+    * @brief 设置速度(指令帧，低延迟)
     * @param [in] vel 速度百分比，范围[0~100]
     * @return 错误码
     */
     public int SetWeaveOffsetRT(DescPose offset)
+
+即时设置物理速度
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 即时设置物理速度
+    * @param [in] speed 物理速度值, mm/s
+    * @return  错误码
+    */
+    public int SetPhySpeedInstant(double speed)
+
+即时设置物理速度代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    void SetPhySpeedInstantInput(double speed)
+    {
+        int rtn = robot.SetPhySpeedInstant(speed);
+        Console.WriteLine($"SetPhySpeedInstant({speed}) : {rtn}");
+    }

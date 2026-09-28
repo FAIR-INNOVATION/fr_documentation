@@ -5,18 +5,36 @@
     :maxdepth: 5
 
 实例化机器人
-++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. csv-table:: 
     :stub-columns: 1
     :widths: 10 30
 
-    "原型", "``RPC(ip)``"
+    "原型", "``RPC(self, ip, tls_enable, tls_cert_path)``"
     "描述", "实例化一个机器人对象"
-    "必选参数", "- ``ip``：机器人的IP地址，默认出厂IP为“192.168.58.2”"
+    "必选参数", "
+    - ``ip``：机器人的IP地址，默认出厂IP为“192.168.58.2”
+    - ``tls_enable``：是否启用加密通信（mTLS + DTLS），默认False
+    - ``tls_cert_path``：证书文件夹路径，目录下需包含：ca.crt / client.crt / client.key;当 tls_enable=True 时必填
+    "
     "默认参数", "无"
     "返回值", "- 成功：返回一个机器人对象
     - 失败：创建的对象会被销毁"
+
+实例化代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos:
+
+    from fairino import Robot
+    import time
+
+    robot = Robot.RPC(
+        '192.168.58.2',
+        tls_enable=True,
+        tls_cert_path=r"E:\certs"
+    )
 
 关闭RPC连接
 ++++++++++++

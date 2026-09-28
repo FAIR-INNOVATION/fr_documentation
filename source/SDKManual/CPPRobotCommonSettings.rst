@@ -1499,3 +1499,54 @@
     * @return 错误码
     */
     errno_t SetSpeedInstant(int vel);
+
+即时设置物理速度
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 即时设置物理速度
+    * @param [in] speed 物理速度值, mm/s
+    * @return 错误码
+    */
+    errno_t SetPhySpeedInstant(double speed);
+
+即时设置物理速度代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    int TestSetPhySpeedInstant()
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        robot.SetReConnectParam(true, 30000, 500);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return -1;
+        }
+        double inputVal = 0.0;
+        while (true)
+        {
+            std::cout << "Please input speed value: ";
+            if (std::cin >> inputVal)
+            {
+                robot.SetPhySpeedInstant(inputVal);
+            }
+            else
+            {
+                std::cin.clear();
+                std::cin.ignore();
+                std::cout << "Invalid number!" << std::endl;
+            }
+        }
+        robot.CloseRPC();
+        robot.Sleep(1000);
+        return 0;
+    }
