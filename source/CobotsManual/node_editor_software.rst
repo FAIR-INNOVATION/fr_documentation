@@ -33,6 +33,11 @@
 
 .. centered:: 图表 11.1-2 操作工具栏
 
+.. image:: node_editor_software/136.png
+   :width: 6in
+   :align: center
+
+.. centered:: 图表 11.1-2 工作区排序 
 .. note:: 
    .. image:: coding/006.png
       :height: 0.75in
@@ -40,7 +45,7 @@
 
    名称：**打开**
    
-   作用：打开用户程序文件，在弹出框中选择加载或删除文件
+   作用：打开用户程序文件，在弹出框中选择加载或删除文件，并支持按字母（A~Z或Z~A）或最近修改时间的排序
 
 .. note:: 
    .. image:: coding/010.png
