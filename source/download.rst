@@ -8,21 +8,21 @@
 
     :download:`法奥生态产品手册 <_static/_doc/FAIRINO生态产品手册.pdf>`
 
-    :download:`法奥医疗行业案例 <_static/_doc/法奥意威医疗行业案例.pdf>`
+    :download:`法奥医疗行业案例 <_static/_doc/FAIRINO医疗行业案例.pdf>`
 
     :download:`法奥焊接宣传册 <_static/_doc/FAIRINO焊接宣传册.pdf>`
 
-    :download:`法奥码垛宣传册 <_static/_doc/法奥意威码垛宣传册.pdf>`
+    :download:`法奥码垛宣传册 <_static/_doc/FAIRINO码垛宣传册.pdf>`
 
     :download:`法奥人形机器人 <_static/_doc/FAIRINO人形机器人.pdf>`
 
 资质认证
 ---------------------------------
-    :download:`法奥ISO9001质量认证证书 <_static/_doc/法奥意威ISO9001质量认证证书.pdf>`
+    :download:`法奥ISO9001质量认证证书 <_static/_doc/法奥ISO9001质量认证证书.pdf>`
     
-    :download:`法奥ISO14001环境管理体系认证证书 <_static/_doc/法奥意威ISO14001环境管理体系认证证书.pdf>`
+    :download:`法奥ISO14001环境管理体系认证证书 <_static/_doc/法奥ISO14001环境管理体系认证证书.pdf>`
     
-    :download:`法奥ISO45001职业健康安全管理认证证书 <_static/_doc/法奥意威ISO45001职业健康安全管理认证证书.pdf>`
+    :download:`法奥ISO45001职业健康安全管理认证证书 <_static/_doc/法奥ISO45001职业健康安全管理认证证书.pdf>`
 
 机器人认证证书：
 
@@ -209,7 +209,7 @@
      - ✅
      - --
      - --
-     - :download:`下载 <_static/_doc/洁净机器人CLASS3证书（FR3-FR16）.pdf>`
+     - :download:`下载 <_static/_doc/洁净机器人CLASS3证书（FR3-FR16）.zip>`
     
    * - **CR证书**
      - --
@@ -221,7 +221,7 @@
      - --
      - --
      - --
-     - :download:`下载 <_static/_doc/法奥意威CR证书.pdf>`
+     - :download:`下载 <_static/_doc/法奥CR证书.pdf>`
 
 控制箱认证证书：
 
@@ -364,11 +364,11 @@
 FAIRINO SimMachine
 -----------------------
 
-    :download:`FAIRINO SimMachine VMware <https://pan.baidu.com/s/1aal_XZJpScJ7EiOmreuMHg?pwd=yw3v>`
+    :download:`FAIRINO SimMachine VMware <https://pan.baidu.com/s/1cV9CTJOiBGib2GwPNb30tw?pwd=frbt>`
     
-    :download:`FAIRINO SimMachine Docker <https://pan.baidu.com/s/1aH2fQbPRsYWJ-pKwJTF2uw?pwd=j5r4>`
+    :download:`FAIRINO SimMachine Docker <https://pan.baidu.com/s/1tZtbr_GzGK5L80chocO9og?pwd=3age>`
     
-    :download:`FAIRINO_SimMachine_Software <https://pan.baidu.com/s/1G1V_tFJTChRR301hQ-BRhw?pwd=hsqk>`
+    :download:`FAIRINO_SimMachine_Software <https://pan.baidu.com/s/1IsGuVpgqR-rNesZJTqaCcQ?pwd=wf4e>`
 
 CPP SDK
 ---------------------------------
@@ -410,7 +410,7 @@ Java SDK
 
 机器人软件下载
 ---------------------------------
-    :download:`FAIRINO-CobotSoftware-QX-V4.0.0-20260923.zip <https://pan.baidu.com/s/1ORWTGjrE6qgXNW7KPv59LA?pwd=nd1c>`
+    :download:`FAIRINO-CobotSoftware-QX-V4.0.0.1-20261009.zip <https://pan.baidu.com/s/1IoQSFeCEnJY-fUcr5n4xpA?pwd=xb54>`
     
-    :download:`FAIRINO-CobotSoftware-LA-V4.0.0-20260923.zip <https://pan.baidu.com/s/15Y3fzIiQ7hMakk4pOHZYdA?pwd=trpc>`
+    :download:`FAIRINO-CobotSoftware-LA-V4.0.0.1-20261009.zip <https://pan.baidu.com/s/1XqyLpFOH6b8VIZMMAM2D1g?pwd=y6ar>`
 

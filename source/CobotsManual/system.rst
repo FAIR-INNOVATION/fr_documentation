@@ -243,7 +243,7 @@
 
 .. centered:: 表格 15.2‑1 权限详情
 
-.. image:: system/007.png
+.. image:: safety/069.png
    :width: 6in
    :align: center
 
@@ -265,11 +265,7 @@
 
 -  **设置职能权限**：点击表格操作栏中的“设置”图标，可以设置当前职能的权限，设置完成后点击下方"保存"按钮确实设置。
 
-.. image:: system/010.png
-   :width: 6in
-   :align: center
-
-.. image:: system/011.png
+.. image:: safety/070.png
    :width: 6in
    :align: center
 
