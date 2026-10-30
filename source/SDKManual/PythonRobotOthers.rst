@@ -227,7 +227,7 @@
     "原型", "``PointTableSwitch(self, point_table_name)``"
     "描述", "点位表切换"
     "必选参数", "
-    - ``point_table_name``：要切换的点位表名称 "pointTable1.db",当点位表为空，即""时，表示将lua程序更新为未应用点位表的初始程序
+    - ``point_table_name``：要切换的点位表名称 `pointTable1.db`,当点位表为空，即``时，表示将lua程序更新为未应用点位表的初始程序
     "
     "默认参数", "无"
     "返回值", "错误码 成功-0  失败- errcode"
@@ -762,3 +762,91 @@ UDP发送指令帧
 
     if __name__ == "__main__":
         main()
+        
+数据备份包上传升级
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``DataPackageUpgrade(self, filePath)``"
+    "描述", "数据备份包上传升级"
+    "必选参数", "
+    - ``filePath``：上传数据备份包文件路径；D://zUP/fr_user_data.tar.gz"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+获取数据备份包升级进度百分比    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetDataPackageUpgradeProgress(self)``"
+    "描述", "获取数据备份包升级进度百分比"
+    "必选参数", "
+    - ``progress``：升级进度百分比[0-100], -1:升级失败"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+获取关节全参数升级进度百分比    
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. csv-table:: 
+    :stub-columns: 1
+    :widths: 10 30
+
+    "原型", "``GetJointAllParamUpgradeProgress(self)``"
+    "描述", "获取关节全参数升级进度百分比"
+    "必选参数", "
+    - ``progress``：升级进度百分比[0-100], -1:升级失败"
+    "默认参数", "无"
+    "返回值", "错误码 成功-0  失败- errcode"
+
+数据备份包上传升级并查询升级进度代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos:
+
+    def test_data_package_upgrade(robot):
+    """Data package upgrade test"""
+    print("\n========== Data Package Upgrade Test ==========")
+
+    time.sleep(0.2)  # 200ms
+
+    # Data package upgrade
+    rtn = robot.DataPackageUpgrade("D://zUP/upgrade/FR5/fr_user_data.tar.gz")
+    print(f"robot DataPackageUpgrade rtn is {rtn}")
+
+    # Poll upgrade progress until 100%
+    upgradeProgress = 0
+    while upgradeProgress < 100:
+        rtn, upgradeProgress = robot.GetDataPackageUpgradeProgress()
+        print(f"robot data package upgrade progress : {upgradeProgress}")
+        time.sleep(0.2)  # 200ms
+        
+关节全参数升级并查询关节全参数升级进度代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: python
+    :linenos:
+
+    def test_joint_all_param_upgrade(robot):
+    """Joint all parameters upgrade test"""
+    print("\n========== Joint All Param Upgrade Test ==========")
+
+    # Disable robot before upgrading parameters
+    robot.RobotEnable(0)
+    time.sleep(0.2)  # 200ms
+
+    # Joint all parameters upgrade
+    rtn = robot.JointAllParamUpgrade("D://zUP/upgrade/FR3WMS/jointallparameters.db")
+    print(f"robot JointAllParamUpgrade rtn is {rtn}")
+
+    # Poll upgrade progress until 100%
+    upgradeProgress = 0
+    while upgradeProgress < 100:
+        rtn, upgradeProgress = robot.GetJointAllParamUpgradeProgress()
+        print(f"robot joint all param upgrade progress : {upgradeProgress}")
+        time.sleep(0.2)  # 200ms

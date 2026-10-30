@@ -13,6 +13,13 @@
      - **日期**
      - **更新描述**
 
+   * - V4.0.1
+     - 2026-10-27
+     - | 1.修改GetGripperMotionDone()获取夹爪运动状态、GripperWaitMotionDone()等待夹爪运动完成指令参数描述，夹爪运动状态参数增加运动完成检测到物体掉落状态；
+       | 2.修改ServoMoveStart()伺服运动开始指令，增加滤波时间和增益参数设置；
+       | 3.新增DataPackageUpgrade()、GetDataPackageUpgradeProgress()机器人数据备份包上传升级、获取升级进度百分比指令及代码示例；
+       | 4.新增GetJointAllParamUpgradeProgress()获取机器人关节全参数升级进度百分比及代码示例；
+
    * - V4.0.0
      - 2026-09-23
      - | 1.修改FRRobot()实例化机器人接口，增加SDK中集成指令协议通讯TLS加密使能参数配置；

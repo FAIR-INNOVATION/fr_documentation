@@ -13,6 +13,17 @@
      - **日期**
      - **更新描述**
 
+   * - V4.0.1
+     - 2026-10-27
+     - | 1.修改GetGripperMotionDone()获取夹爪运动状态接口注释，401版本起末端协议与已适配设备夹爪运动状态反馈定义统一，status 新增 3=运动完成检测到物体掉落；
+       | 2.修改GripperWaitMotionDone()等待夹爪运动状态接口注释，401版本起末端协议与已适配设备夹爪运动状态反馈定义统一，status 新增 3=运动完成检测到物体掉落；
+       | 3.修改ServoMoveStart()伺服运动开始接口参数描述，增加filtertime滤波时间、gain位置环增益数组参数，配合ServoJ、ServoCart指令使用，并补充相应代码示例；
+       | 4.新增DataPackageUpgrade()数据备份包上传升级接口及代码示例；
+       | 5.新增GetDataPackageUpgradeProgress()获取数据备份包升级进度百分比接口；
+       | 6.新增GetJointAllParamUpgradeProgress()获取关节全参数升级进度百分比接口；
+       | 7.新增数据备份包上传升级并查询升级进度代码示例；
+       | 8.新增关节全参数升级并查询关节全参数升级进度代码示例。
+       
    * - V4.0.0
      - 2026-09-23
      - | 1.修改Robot()建立RPC连接机器人实例化接口，增加SDK中集成指令协议通讯TLS加密使能参数配置，使用需要先安装python依赖库，安装命令为：pip install python3-dtls，pip install python-mbedtls；

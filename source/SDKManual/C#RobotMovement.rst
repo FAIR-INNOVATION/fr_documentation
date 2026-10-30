@@ -695,9 +695,11 @@ jog点动立即停止
     /**
     * @brief 伺服运动开始，配合ServoJ、ServoCart指令使用
     * @param[in] comType 指令下发类型；0-xmlrpc；1-UDP(对应机器人20007端口)
+    * @param[in] filtertime 滤波时间，单位ms，默认0
+    * @param[in] gain位置环增益数组，长度应为6，依次对应J1~J6关节位置环增益；传null时使用默认值{ -1.0, -1.0, -1.0, -1.0, -1.0, -1.0 }
     * @return 错误码
     */
-    public int ServoMoveStart (int comType = 0)
+    public int ServoMoveStart (int comType = 0, int filtertime = 0, double[] gain = null)
 
 伺服运动结束
 +++++++++++++++++++++++++++++
@@ -819,92 +821,68 @@ jog点动立即停止
 .. code-block:: c#
     :linenos:
 
-    private void btnJointServoMove_Click(object sender, EventArgs e)
+    public void TestServoJwithParam()
     {
+        // Subscribe callback: print the complete UDP reply data frame (decrypted original protocol frame)
+        int udpRcvCnt = 0;
+        robot.OnUdpFrameReceived += (comType, frameCount, frameCmdID, contentLen, content) =>
+        {
+            udpRcvCnt++;
+            Console.WriteLine($"[UDP reply #{udpRcvCnt}] {DateTime.Now:HH:mm:ss.fff} comType={comType}");
+            Console.WriteLine($"  Complete frame: /f/bIII{frameCount}III{frameCmdID}III{contentLen}III{content}III/b/f");
+            Console.WriteLine($"  Fields: count={frameCount}, cmdID={frameCmdID}, contentLen={contentLen}, content={content}");
+        };
+
         ROBOT_STATE_PKG pkg = new ROBOT_STATE_PKG();
 
         float vel = 0.0f;
         float acc = 0.0f;
-        float cmdT = 0.008f;
+        float cmdT = 0.010f;
         float filterT = 0.0f;
         float gain = 0.0f;
         byte flag = 0;
         int count = 300;
         float dt = 0.1f;
         int cmdID = 0;
+        int comtype = 0;
 
-        while (true)
+        int filtertime = 0;                     // Filter time in ms; 0 means disabled; example: 5 ms
+        double[] jointGain = { 20.0, 20.0, 20.0, 20.0, 20.0, 20.0 };
+        // jointGain: position-loop gains for J1-J6; -1 means use the default; change as needed to actual gains
+
+        JointPos j = new JointPos(0, -90, 90, 0, 0, 0);
+        ExaxisPos epos = new ExaxisPos(0, 0, 0, 0);
+        DescPose offset_pos = new DescPose(0, -90, 90, 0, 0, 0);
+        robot.MoveJ(j, 0, 0, 100, 100, 100, epos, -1, 0, offset_pos);
+        int ret = robot.GetActualJointPosDegree(flag, ref j);
+        if (ret == 0)
         {
-            JointPos j = new JointPos(0, -90, 90, 0, 0, 0);
-            ExaxisPos epos = new ExaxisPos(0, 0, 0, 0);
-            DescPose offset_pos = new DescPose(0, -90, 90, 0, 0, 0);
+            count = 300;
+            cmdID += 1;
+            // Send filter time and joint position-loop gains
+            robot.ServoMoveStart(comtype, filtertime, jointGain);
+
+            while (count > 0)
+            {
+                robot.ServoJ(j, epos, acc, vel, cmdT, filterT, gain, cmdID, comtype);
+                j.jPos[0] += dt;
+                j.jPos[2] += dt;
+                j.jPos[3] += dt;
+                j.jPos[4] += dt;
+                j.jPos[5] += dt;
+                epos.ePos[0] += dt;
+                count -= 1;
+                Thread.Sleep(1);
+                robot.GetRobotRealTimeState(ref pkg);
+                Console.WriteLine($"ServoJ command count: {pkg.servoJCmdNum}");
+                Console.WriteLine($"ServoJ Count {pkg.servoJCmdNum}; last pos is {pkg.lastServoTarget[0]} {pkg.lastServoTarget[1]} {pkg.lastServoTarget[2]} {pkg.lastServoTarget[3]} {pkg.lastServoTarget[4]} {pkg.lastServoTarget[5]}");
+            }
+            robot.ServoMoveEnd(comtype);
             robot.MoveJ(j, 0, 0, 100, 100, 100, epos, -1, 0, offset_pos);
-            int ret = robot.GetActualJointPosDegree(flag, ref j);
-            if (ret == 0)
-            {
-                count = 300;
-                cmdID += 1;
-                robot.ServoMoveStart(0);
-
-                while (count > 0)
-                {
-                    robot.ServoJ(j, epos, acc, vel, cmdT, filterT, gain, cmdID, 0);
-                    j.jPos[0] += dt;
-                    j.jPos[1] += dt;
-                    j.jPos[3] += dt;
-                    j.jPos[4] += dt;
-                    j.jPos[5] += dt;
-                    epos.ePos[0] += dt;
-                    count -= 1;
-                    Thread.Sleep(1);
-                    robot.GetRobotRealTimeState(ref pkg);
-                    Console.WriteLine($"Servoj命令数量: {pkg.servoJCmdNum}");
-                    Console.WriteLine($"Servoj Count {pkg.servoJCmdNum}; last pos is {pkg.lastServoTarget[0]} {pkg.lastServoTarget[1]} {pkg.lastServoTarget[2]} {pkg.lastServoTarget[3]} {pkg.lastServoTarget[4]} {pkg.lastServoTarget[5]}");
-                    if (pkg.jt_cur_pos != null && pkg.jt_cur_pos.Length >= 6)
-                    {
-                        Console.WriteLine($"  关节位置(°): J1={pkg.jt_cur_pos[0]:F2}, J2={pkg.jt_cur_pos[1]:F2}, J3={pkg.jt_cur_pos[2]:F2}, J4={pkg.jt_cur_pos[3]:F2}, J5={pkg.jt_cur_pos[4]:F2}, J6={pkg.jt_cur_pos[5]:F2}");
-                    }
-                    if (pkg.tl_cur_pos != null && pkg.tl_cur_pos.Length >= 6)
-                    {
-                        Console.WriteLine($"  工具位姿: X={pkg.tl_cur_pos[0]:F2}mm, Y={pkg.tl_cur_pos[1]:F2}mm, Z={pkg.tl_cur_pos[2]:F2}mm, RX={pkg.tl_cur_pos[3]:F2}°, RY={pkg.tl_cur_pos[4]:F2}°, RZ={pkg.tl_cur_pos[5]:F2}°");
-                    }
-
-                }
-                robot.ServoMoveEnd(0);
-
-                Thread.Sleep(1000);
-                count = 300;
-                robot.ServoMoveStart(0);
-                while (count > 0)
-                {
-                    robot.ServoJ(j, epos, acc, vel, cmdT, filterT, gain, cmdID, 0);
-                    j.jPos[0] -= dt;
-                    j.jPos[1] -= dt;
-                    j.jPos[3] -= dt;
-                    j.jPos[4] -= dt;
-                    j.jPos[5] -= dt;
-                    epos.ePos[0] -= dt;
-                    count -= 1;
-                    Thread.Sleep(1);
-                    robot.GetRobotRealTimeState(ref pkg);
-                    Console.WriteLine($"Servoj命令数量: {pkg.servoJCmdNum}");
-                    Console.WriteLine($"Servoj Count {pkg.servoJCmdNum}; last pos is {pkg.lastServoTarget[0]} {pkg.lastServoTarget[1]} {pkg.lastServoTarget[2]} {pkg.lastServoTarget[3]} {pkg.lastServoTarget[4]} {pkg.lastServoTarget[5]}");
-                    if (pkg.jt_cur_pos != null && pkg.jt_cur_pos.Length >= 6)
-                    {
-                        Console.WriteLine($"  关节位置(°): J1={pkg.jt_cur_pos[0]:F2}, J2={pkg.jt_cur_pos[1]:F2}, J3={pkg.jt_cur_pos[2]:F2}, J4={pkg.jt_cur_pos[3]:F2}, J5={pkg.jt_cur_pos[4]:F2}, J6={pkg.jt_cur_pos[5]:F2}");
-                    }
-                    if (pkg.tl_cur_pos != null && pkg.tl_cur_pos.Length >= 6)
-                    {
-                        Console.WriteLine($"  工具位姿: X={pkg.tl_cur_pos[0]:F2}mm, Y={pkg.tl_cur_pos[1]:F2}mm, Z={pkg.tl_cur_pos[2]:F2}mm, RX={pkg.tl_cur_pos[3]:F2}°, RY={pkg.tl_cur_pos[4]:F2}°, RZ={pkg.tl_cur_pos[5]:F2}°");
-                    }
-
-                }
-                robot.ServoMoveEnd(0);
-            }
-            else
-            {
-                Console.WriteLine($"GetActualJointPosDegree errcode:{ret}");
-            }
+        }
+        else
+        {
+            Console.WriteLine($"GetActualJointPosDegree errcode:{ret}");
         }
     }
 
@@ -1276,6 +1254,61 @@ jog点动立即停止
             desc_pos_dt.tran.x += 0.01f;
             exaxis.ePos[0] += 0.01f;
         }
+    }
+
+伺服运动开始ServoCart代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: c#
+    :linenos:
+
+    public void TestServoCartwithParam()
+    {
+        ROBOT_STATE_PKG pkg = new ROBOT_STATE_PKG();
+
+        int rtn;
+        DescPose desc_pos_dt = new DescPose(-396, -202, 475, 90, 2, 0);
+
+        ExaxisPos exaxis = new ExaxisPos(0.0f, 0.0f, 0.0f, 0.0f);
+        double[] pos_gain = { 22.0, 22.0, 22.0, 22.0, 22.0, 22.0 };  // ServoCart gain parameters
+        int mode = 0;
+        float vel = 0.0f;
+        float acc = 0.0f;
+        float cmdT = 0.008f;
+        float filterT = 0.0f;
+        float gain = 0.0f;
+        int count = 5000;
+
+        // ===== ServoMoveStart parameters =====
+        int comType = 0;                        // 0-xmlrpc; 1-UDP(20007)
+        int filtertime = 0;                     // Filter time in ms; 0 means disabled; example: 5 ms
+        double[] jointGain = { 22.0, 22.0, 22.0, 22.0, 22.0, 22.0 };
+        // jointGain: position-loop gains for J1-J6; -1 means use the default; change as needed to actual gains, e.g. { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 }
+
+        robot.SetSpeed(20);
+
+        JointPos j = new JointPos(0, -90, 90, 0, 1, 0);
+        ExaxisPos epos = new ExaxisPos(0, 0, 0, 0);
+        DescPose offset_pos = new DescPose(0, 0, 0, 0, 0, 0);
+        robot.MoveJ(j, 0, 0, 100, 100, 100, epos, -1, 0, offset_pos);
+        robot.Sleep(2000);
+        robot.GetActualTCPPose(0, ref desc_pos_dt);
+
+        // Start servo motion: send filter time and joint position-loop gains
+        rtn = robot.ServoMoveStart(comType, filtertime, jointGain);
+        Console.WriteLine($"ServoMoveStart rtn is {rtn}");
+
+        while (count > 0)
+        {
+            rtn = robot.ServoCart(mode, desc_pos_dt, exaxis, pos_gain, acc, vel, cmdT, filterT, gain);
+            Console.WriteLine($"ServoCart rtn is {rtn}");
+            count -= 1;
+            desc_pos_dt.tran.x += 0.05f;
+            //exaxis.ePos[0] += 0.01f;
+        }
+
+        // End servo motion
+        rtn = robot.ServoMoveEnd(comType);
+        Console.WriteLine($"ServoMoveEnd rtn is {rtn}");
     }
 
 样条运动开始

@@ -211,6 +211,18 @@
      - --
      - :download:`下载 <_static/_doc/洁净机器人CLASS3证书（FR3-FR16）.zip>`
     
+   * - **MTBF证书**
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - :download:`下载 <_static/_doc/MTBF认证证书.pdf>`
+
    * - **CR证书**
      - --
      - --
@@ -364,11 +376,11 @@
 FAIRINO SimMachine
 -----------------------
 
-    :download:`FAIRINO SimMachine VMware <https://pan.baidu.com/s/1cV9CTJOiBGib2GwPNb30tw?pwd=frbt>`
+    :download:`FAIRINO SimMachine VMware <https://pan.baidu.com/s/1CqIJL9lyk6UPjc54AmDStQ?pwd=66mm>`
     
-    :download:`FAIRINO SimMachine Docker <https://pan.baidu.com/s/1tZtbr_GzGK5L80chocO9og?pwd=3age>`
+    :download:`FAIRINO SimMachine Docker <https://pan.baidu.com/s/1lslVsbsUPWkTjKdsLbB2kw?pwd=u75y>`
     
-    :download:`FAIRINO_SimMachine_Software <https://pan.baidu.com/s/1IsGuVpgqR-rNesZJTqaCcQ?pwd=wf4e>`
+    :download:`FAIRINO_SimMachine_Software <https://pan.baidu.com/s/10KxStE-zYE-ZbOQOpocO9w?pwd=f6rc>`
 
 CPP SDK
 ---------------------------------
@@ -410,7 +422,7 @@ Java SDK
 
 机器人软件下载
 ---------------------------------
-    :download:`FAIRINO-CobotSoftware-QX-V4.0.0.1-20261009.zip <https://pan.baidu.com/s/1IoQSFeCEnJY-fUcr5n4xpA?pwd=xb54>`
+    :download:`FAIRINO-CobotSoftware-QX-V4.0.1-20261027.zip <https://pan.baidu.com/s/1MV17yKw3Eklwjv1ffPlrcw?pwd=fa9w>`
     
-    :download:`FAIRINO-CobotSoftware-LA-V4.0.0.1-20261009.zip <https://pan.baidu.com/s/1XqyLpFOH6b8VIZMMAM2D1g?pwd=y6ar>`
+    :download:`FAIRINO-CobotSoftware-LA-V4.0.1-20261027.zip <https://pan.baidu.com/s/12ine48Sa_vxbh9OL6mp0Dg?pwd=dw7a>`
 

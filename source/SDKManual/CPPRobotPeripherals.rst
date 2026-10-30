@@ -5,34 +5,38 @@
     :maxdepth: 5
 
 配置夹爪
-++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: c++
     :linenos:
 
-    /**
-    * @brief  配置夹爪
-    * @param  [in] company  夹爪厂商，待定
-    * @param  [in] device  设备号，暂不使用，默认为0
-    * @param  [in] softvesion  软件版本号，暂不使用，默认为0
-    * @param  [in] bus 设备挂在末端总线位置，暂不使用，默认为0
-    * @return  错误码
-    */
-    errno_t  SetGripperConfig(int company, int device, int softvesion, int bus);
+	/**
+	 * @brief  配置夹爪
+	 * @param  [in] company  夹爪厂商，1-ROBOTIQ，2-慧灵，3-天机，4-大寰，5-知行，6-钧舵，7-美团，8-增广
+	 * @param  [in] device  设备号，ROBOTIQ(0-2F-85;1-2F-140;2-真空夹爪;3-三指夹爪;4-Hand-E)，
+								   慧灵(0-Z-EFG-RNM;1-Z-EFG-100;2-Z-EFG-20P;3-Z-EFG-50)，天机(0-TEG-110)，大寰(0-PGI-140)，
+								   知行(0-CTPM2F20)，钧舵(0-RG,1-REG)，美团(0-MT-ACTUATOR)，增广(0-RM-GB-11-40-2-ITG)
+	 * @param  [in] softvesion  软件版本号，暂不使用，默认为0
+	 * @param  [in] bus 设备挂在末端总线位置，暂不使用，默认为0
+	 * @return  错误码
+	 */
+	errno_t SetGripperConfig(int company, int device, int softvesion, int bus);
 
 获取夹爪配置
-++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: c++
     :linenos:
 
-    /**
-    * @brief  获取夹爪配置
-    * @param  [in] company  夹爪厂商，待定
-    * @param  [in] device  设备号，暂不使用，默认为0
-    * @param  [in] softvesion  软件版本号，暂不使用，默认为0
-    * @param  [in] bus 设备挂在末端总线位置，暂不使用，默认为0
-    * @return  错误码
-    */
-    errno_t  GetGripperConfig(int *company, int *device, int *softvesion, int *bus);
+	/**
+	 *@brief  获取夹爪配置
+	 *@param  [out] company  夹爪厂商，1-Robotiq，2-慧灵，3-天机，4-大寰，5-知行，6-钧舵，7-美团，8-增广
+	 *@param  [out] device  设备号，ROBOTIQ(0-2F-85;1-2F-140;2-真空夹爪;3-三指夹爪;4-Hand-E)，
+								   慧灵(0-Z-EFG-RNM;1-Z-EFG-100;2-Z-EFG-20P;3-Z-EFG-50)，天机(0-TEG-110)，大寰(0-PGI-140)，
+								   知行(0-CTPM2F20)，钧舵(0-RG,1-REG)，美团(0-MT-ACTUATOR)，增广(0-RM-GB-11-40-2-ITG)
+	 *@param  [out] softvesion  软件版本号，暂不使用，默认为0
+	 *@param  [out] bus 设备挂在末端总线位置，暂不使用，默认为0
+	 *@return  错误码
+	 */
+	errno_t GetGripperConfig(int *company, int *device, int *softvesion, int *bus);
 
 激活夹爪
 ++++++++++++++++++++++++++
@@ -76,12 +80,12 @@
     :linenos:
 
     /**
-     * @brief  获取夹爪运动状态(仅末端开放协议定义，已适配设备获取的运动状态为透传值)
-     * @param  [out] fault  0-无错误，其他-有错误
-     * @param  [out] staus  0-运动未完成，1-运动完成未检测到物体 2-运动完成检测到物体
-     * @return  错误码
-     */
-    errno_t  GetGripperMotionDone(uint16_t *fault, uint8_t *status);
+    * @brief 获取夹爪运动状态（401版本起，末端协议与已适配设备夹爪运动状态反馈定义统一）
+    * @param [out] fault 0-无错误，其他-有错误
+    * @param [out] status 0-运动未完成，1-运动完成未检测到物体;2-运动完成检测到物体;3-运动完成检测到物体掉落;
+    * @return 错误码
+    */
+    errno_t GetGripperMotionDone(int& fault,int& status);
 
 获取夹爪激活状态
 ++++++++++++++++++++++++++
@@ -347,46 +351,60 @@
     :linenos:
 
     /**
-    * @brief 等待夹爪运动状态(仅末端开放协议定义，已适配设备获取的运动状态为透传值)
-    * @param [in] status 0-运动未完成，1-运动完成未检测到物体 2-运动完成检测到物体
+    * @brief 等待夹爪运动状态（401版本起，末端协议与已适配设备夹爪运动状态反馈定义统一）
+    * @param [in] staus 0-运动未完成，1-运动完成未检测到物体;2-运动完成检测到物体;3-运动完成检测到物体掉落
     * @param [in] timeout 超时时间（ms） -1永久等待
     * @param [in] strategy 0-停止报错，1-继续运行
     * @param [in] type 0-平行夹爪，1-旋转夹爪
     * @return 错误码
     */
-    errno_t GripperWaitMotionDone(int status, int timeout, int strategy, int type);
+    errno_t GripperWaitMotionDone(int staus, int timeout, int strategy, int type);
     
 等待夹爪运动状态代码示例
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: c++
     :linenos:
 
-    int TestGripperWaitMotionDone()
+    int TestGetGripperMotionDone()
     {
-    ROBOT_STATE_PKG pkg = {};
-    FRRobot robot;
-    robot.LoggerInit();
-    robot.SetLoggerLevel(1);
-    robot.SetReConnectParam(true, 30000, 500);
-    int rtn = robot.RPC("192.168.58.2");
-    if (rtn != 0)
-    {
-        return -1;
-    }
-    for (int i = 0; i < 10; i++)
-    {
-        rtn = robot.MoveGripper(1, 0, 10, 100, 30000, 0, 0, 0, 0, 0);
-        printf("MoveGripper(Open) ret=%d\n", rtn);
-        rtn = robot.GripperWaitMotionDone(1, 10000, 0, 0);
-        printf("GripperWaitMotionDone(Wait for motion completed without object detection) ret=%d\n", rtn);
-        rtn = robot.MoveGripper(1, 90, 10, 100, 30000, 0, 0, 0, 0, 0);
-        printf("MoveGripper(Close) ret=%d\n", rtn);
-        rtn = robot.GripperWaitMotionDone(1, 10000, 0, 0);
-        printf("GripperWaitMotionDone(Wait for motion completed without object detection) ret=%d\n", rtn);
-    }
-    robot.Sleep(1000);
-    robot.CloseRPC();
-    robot.Sleep(1000);
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        robot.SetReConnectParam(true, 30000, 500);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return -1;
+        }
+        uint8_t status = 0;
+        uint16_t fault = 0;
+        // Gripper open
+        rtn = robot.MoveGripper(2, 50, 50, 100, 30000, 0, 0, 0, 0, 0);
+        printf("MoveGripper(open) ret=%d\n", rtn);
+        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+        robot.GetRobotRealTimeState(&pkg);
+        printf(" gripper_motiondone %d)\n", pkg.gripper_motiondone);
+        // Gripper close
+        rtn = robot.MoveGripper(2, 90, 100, 100, 30000, 0, 0, 0, 0, 0);
+        printf("MoveGripper(close) ret=%d\n", rtn);
+        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+        robot.GetRobotRealTimeState(&pkg);
+        printf(" gripper_motiondone %d)\n", pkg.gripper_motiondone);
+        // Wait for motion completion without object detection, timeout 5s, stop and report error
+        rtn = robot.GripperWaitMotionDone(2, 5000, 0, 0);
+        printf("GripperWaitMotionDone(wait for completion, no object detected) ret=%d\n", rtn);
+        while (true)
+        {
+            robot.GetGripperMotionDone(&fault, &status);
+            printf("motion status:%d,%d\n", fault, status);
+            robot.GetRobotRealTimeState(&pkg);
+            printf(" error code %d,%d\n", pkg.main_code, pkg.sub_code);
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        }
+        robot.CloseRPC();
+        robot.Sleep(1000);
+        return 0;
     }
 
 传动带启动、停止
@@ -2056,7 +2074,7 @@ SmartTool按钮代码示例
     // Start replay
     rtn = robot.LaserSensorRecord1(3, 10);
     printf("LaserSensorRecord replay: %d\n", rtn);
-    // Start fixedpoint weave
+    // Start fixed point weave
     DescPose refPoint = DescPose(49.381, 533.608, 362.556, -34.961, -0.564, 169.062);
     rtn = robot.OriginPointWeaveStart(0, 1, refPoint, 5);
     printf("OriginPointWeaveStart: %d\n", rtn);

@@ -69,15 +69,17 @@
     int MoveGripper(int index, int pos, int vel, int force, int max_time, int block, int type, double rotNum, int rotVel, int rotTorque); 
 
 获取夹爪运动状态
-++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
     :linenos:
 
     /**
-    * @brief  获取夹爪运动状态(仅末端开放协议定义，已适配设备获取的运动状态为透传值)
-    * @return List[0]:错误码; List[1] : fault  0-无错误，其他-有错误; List[2]: staus  0-运动未完成，1-运动完成未检测到物体 2-运动完成检测到物体
+    * @brief  获取夹爪运动状态（401版本起，末端协议与已适配设备夹爪运动状态反馈定义统一）
+    * @param  [out] fault  0-无错误，其他-有错误
+    * @param  [out] staus  0-运动未完成，1-运动完成未检测到物体 2-运动完成检测到物体 3-运动完成检测到物体掉落
+    * @return  错误码
     */
-    List<Integer> GetGripperMotionDone(); 
+    public List<Integer> GetGripperMotionDone()
     
 等待夹爪运动状态
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -85,8 +87,8 @@
     :linenos:
 
     /**
-    * @brief  等待夹爪运动状态
-    * @param  [in]  staus  0-运动未完成，1-运动完成未检测到物体 2-运动完成检测到物体
+    * @brief  等待夹爪运动状态（401版本起，末端协议与已适配设备夹爪运动状态反馈定义统一）
+    * @param  [in]  staus  0-运动未完成，1-运动完成未检测到物体 2-运动完成检测到物体 3-运动完成检测到物体掉落
     * @param  [in] timeout 超时时间（ms） -1永久等待
     * @param  [in] strategy  0-停止报错，1-继续运行
     * @param  [in] type  0-平行夹爪，1-旋转夹爪
@@ -99,30 +101,39 @@
 .. code-block:: Java
     :linenos:
 
-    public static void TestGripperWaitMotionDone(Robot robot)
+    public void TestGetGripperMotionDone()
     {
         int rtn;
+        int status = 0;
+        int fault = 0;
+        ROBOT_STATE_PKG pkg = new ROBOT_STATE_PKG();
 
         // 夹爪张开
-        rtn = robot.MoveGripper(1, 0, 100, 100, 30000, 0, 0, 0, 0, 0);
+        rtn = robot.MoveGripper(2, 50, 50, 100, 30000, 0, 0, 0, 0, 0);
         System.out.println("MoveGripper(张开) ret=" + rtn);
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-
+        robot.Sleep(2000);
+        pkg = robot.GetRobotRealTimeState();
+        System.out.println(" gripper_motiondone " + pkg.gripper_motiondone);
         // 夹爪闭合
-        rtn = robot.MoveGripper(1, 90, 100, 100, 30000, 0, 0, 0, 0, 0);
+        rtn = robot.MoveGripper(2, 90, 100, 100, 30000, 0, 0, 0, 0, 0);
         System.out.println("MoveGripper(闭合) ret=" + rtn);
-
-        // 等待运动完成未检测到物体，超时30s，停止报错
-        rtn = robot.GripperWaitMotionDone(2, 30000, 0, 0);
+        robot.Sleep(2000);
+        pkg = robot.GetRobotRealTimeState();
+        System.out.println(" gripper_motiondone " + pkg.gripper_motiondone);
+        // 等待运动完成未检测到物体，超时5s，停止报错
+        rtn = robot.GripperWaitMotionDone(2, 5000, 0, 0);
         System.out.println("GripperWaitMotionDone(等待完成未检测到物体) ret=" + rtn);
 
-        // 夹爪张开
-        rtn = robot.MoveGripper(1, 0, 100, 100, 30000, 0, 0, 0, 0, 0);
-        System.out.println("MoveGripper(张开) ret=" + rtn);
+        while (true)
+        {
+            List<Integer> result = robot.GetGripperMotionDone();
+            fault = result.get(1);
+            status = result.get(2);
+            System.out.println("motion status:" + fault + "," + status);
+            pkg = robot.GetRobotRealTimeState();
+            System.out.println(" error code " + pkg.main_code + "," + pkg.sub_code);
+            robot.Sleep(500);
+        }
     }
 
 获取夹爪激活状态

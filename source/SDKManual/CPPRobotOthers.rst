@@ -418,6 +418,53 @@
     * @return 错误码
     */
     errno_t JointAllParamUpgrade(std::string path);
+
+获取关节全参数升级进度百分比
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 获取关节全参数升级进度百分比
+    * @param [out] progress 升级进度百分比[0-100], -1:升级失败
+    * @return 错误码
+    */
+    errno_t GetJointAllParamUpgradeProgress(int& progress);
+    
+关节全参数升级并查询关节全参数升级进度代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c++
+    :linenos:
+
+    int TestJointAllParamUpgrade()
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return -1;
+        }
+        robot.SetReConnectParam(true, 30000, 500);
+        robot.RobotEnable(0);
+        robot.Sleep(200);
+        rtn = robot.JointAllParamUpgrade("D://zUP/upgrade/FR3WMS/jointallparameters.db");
+        printf("robot JointAllParamUpgrade rtn is %d\n", rtn);
+        
+        int upgradeProgress = 0;
+        while (upgradeProgress < 100)
+        {
+            robot.GetJointAllParamUpgradeProgress(upgradeProgress);
+            printf("robot joint all param upgrade progress : %d\n", upgradeProgress);
+            robot.Sleep(200);
+        }
+        robot.CloseRPC();
+        return 0;
+    }
     
 机器人从站固件升级代码示例
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -758,5 +805,64 @@ UDP指令下发代码示例
         robot.Sleep(2000);
         robot.CloseRPC();
         robot.Sleep(1000);
+        return 0;
+    }
+
+数据备份包上传升级
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 数据备份包上传升级
+    * @param [in] filePath 上传数据备份包文件路径；D://zUP/fr_user_data.tar.gz
+    * @return 错误码
+    */
+    errno_t DataPackageUpgrade(std::string filePath);
+    
+获取数据备份包升级进度百分比
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    /**
+    * @brief 获取数据备份包升级进度百分比
+    * @param [out] progress 升级进度百分比[0-100], -1:升级失败
+    * @return 错误码
+    */
+    errno_t GetDataPackageUpgradeProgress(int& progress);
+        
+数据备份包上传升级并查询升级进度代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+.. code-block:: c++
+    :linenos:
+
+    int TestDataPackageUpgrade()
+    {
+        ROBOT_STATE_PKG pkg = {};
+        FRRobot robot;
+        robot.LoggerInit();
+        robot.SetLoggerLevel(1);
+        int rtn = robot.RPC("192.168.58.2");
+        if (rtn != 0)
+        {
+            return -1;
+        }
+        robot.SetReConnectParam(true, 30000, 500);
+        robot.Sleep(200);
+        rtn = robot.DataPackageUpgrade("D://zUP/upgrade/FR5/fr_user_data.tar.gz");
+        printf("robot DataPackageUpgrade rtn is %d\n", rtn);
+        
+        int upgradeProgress = 0;
+        while (upgradeProgress < 100)
+        {
+            robot.GetDataPackageUpgradeProgress(upgradeProgress);
+            printf("robot data package upgrade progress : %d\n", upgradeProgress);
+            robot.Sleep(200);
+        }
+        robot.CloseRPC();
         return 0;
     }

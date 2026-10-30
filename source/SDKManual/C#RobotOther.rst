@@ -697,3 +697,92 @@ UDP发送指令帧
             }
         }
     }
+    
+数据备份包上传升级  
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 数据备份包上传升级
+    * @param [in] filePath 上传数据备份包文件路径；D://zUP/fr_user_data.tar.gz
+    * @return 错误码
+    */
+    public int DataPackageUpgrade(string filePath)
+    
+获取数据备份包升级进度百分比  
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 获取数据备份包升级进度百分比
+    * @param [out] progress 升级进度百分比[0-100], -1:升级失败
+    * @return 错误码
+    */
+    public int GetDataPackageUpgradeProgress(ref int progress)
+    
+获取关节全参数升级进度百分比  
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    /**
+    * @brief 获取关节全参数升级进度百分比
+    * @param [out] progress 升级进度百分比[0-100], -1:升级失败
+    * @return 错误码
+    */
+    public int GetJointAllParamUpgradeProgress(ref int progress)
+        
+数据备份包上传升级并查询升级进度代码示例  
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+
+    public void TestDataPackageUpgrade()
+    {
+        int rtn = robot.DataPackageUpgrade("D://zUP/upgrade/FR5/fr_user_data.tar.gz");
+        Console.WriteLine($"robot DataPackageUpgrade rtn is {rtn}");
+
+        int upgradeProgress = 0;
+        while (upgradeProgress < 100)
+        {
+            int ret = robot.GetDataPackageUpgradeProgress(ref upgradeProgress);
+            Console.WriteLine($"robot data package upgrade progress : {upgradeProgress}, rtn : {ret}");
+            if (ret != 0 || upgradeProgress == -1)
+            {
+                break;
+            }
+            Thread.Sleep(200);
+        }
+    }
+            
+关节全参数升级并查询关节全参数升级进度代码示例  
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. code-block:: c#
+    :linenos:
+    
+    public void TestJointAllParamUpgrade()
+    {
+        robot.RobotEnable(0);
+        Thread.Sleep(200);
+        int rtn = robot.JointAllParamUpgrade("D://zUP/upgrade/FR5/jointallparameters.db");
+        Console.WriteLine($"robot JointAllParamUpgrade rtn is {rtn}");
+
+        int upgradeProgress = 0;
+        while (upgradeProgress < 100)
+        {
+            int ret = robot.GetJointAllParamUpgradeProgress(ref upgradeProgress);
+            Console.WriteLine($"robot joint all param upgrade progress : {upgradeProgress}, rtn : {ret}");
+            if (ret != 0 || upgradeProgress == -1)
+            {
+                break;
+            }
+            Thread.Sleep(200);
+        }
+    }

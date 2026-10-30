@@ -72,11 +72,11 @@
     :widths: 10 30
 
     "原型", "``GetGripperMotionDone()``"
-    "描述", "获取夹爪运动状态(仅末端开放协议定义，已适配设备获取的运动状态为透传值)"
+    "描述", "获取夹爪运动状态(401版本起，末端协议与已适配设备夹爪运动状态反馈定义统一)"
     "必选参数", "无"
     "默认参数", "无"
     "返回值", "- 错误码 成功-0  失败- errcode 
-    - ``[fault,status]``：夹爪运动状态，fault:0-无错误，其他-有错误；status:0-运动未完成，1-运动完成未检测到物体 2-运动完成检测到物体"
+    - ``[fault,status]``：夹爪运动状态，fault:0-无错误，其他-有错误；status:0-运动未完成，1-运动完成未检测到物体 2-运动完成检测到物体 3-运动完成检测到物体掉落"
 
 获取夹爪激活状态
 +++++++++++++++++++++++++++++++++++++++++++++
@@ -2140,7 +2140,7 @@ SmartTool按钮代码示例
     "原型", "``GripperWaitMotionDone(self, status, timeout, strategy, type)``"
     "描述", "等待夹爪运动状态"
     "必选参数", "
-    - ``status``：0-运动未完成，1-运动完成未检测到物体，2-运动完成检测到物体
+    - ``status``：0-运动未完成，1-运动完成未检测到物体，2-运动完成检测到物体，3-运动完成检测到物体掉落
     - ``timeout``：超时时间（ms），-1永久等待
     - ``strategy``：0-停止报错，1-继续运行
     - ``type``：0-平行夹爪，1-旋转夹爪
@@ -2156,36 +2156,43 @@ SmartTool按钮代码示例
     from fairino import Robot
     import time
 
-
     def main():
-        # 与机器人控制器建立连接
+        # Establish connection with the robot controller
         robot = Robot.RPC('192.168.58.2')
-        time.sleep(0.5)  # 等待连接和数据接收
+        time.sleep(0.5)  # Wait for connection and data reception
 
-        print("========== 夹爪等待运动完成测试 ==========")
+        print("========== Gripper Motion Done Test ==========")
 
-        # ========== 夹爪张开 ==========
-        rtn = robot.MoveGripper(1, 0, 100, 100, 30000, 0, 0, 0, 0, 0)
-        print(f"MoveGripper(张开) ret={rtn}")
-        time.sleep(4)
+        # Open the gripper
+        rtn = robot.MoveGripper(2, 50, 50, 100, 30000, 0, 0, 0, 0, 0)
+        print(f"MoveGripper(open) ret={rtn}")
+        time.sleep(2)
+        rtn, pkg = robot.GetRobotRealTimeState()
+        print(f"gripper_motiondone {pkg.gripper_motiondone}")
 
-        # ========== 夹爪闭合 ==========
-        rtn = robot.MoveGripper(1, 90, 100, 100, 30000, 0, 0, 0, 0, 0)
-        print(f"MoveGripper(闭合) ret={rtn}")
+        # Close the gripper
+        rtn = robot.MoveGripper(2, 90, 100, 100, 30000, 0, 0, 0, 0, 0)
+        print(f"MoveGripper(close) ret={rtn}")
+        time.sleep(2)
+        rtn, pkg = robot.GetRobotRealTimeState()
+        print(f"gripper_motiondone {pkg.gripper_motiondone}")
 
-        # ========== 等待运动完成（未检测到物体，超时30s，停止报错） ==========
-        rtn = robot.GripperWaitMotionDone(1, 30000, 0, 0)
-        print(f"GripperWaitMotionDone(等待完成未检测到物体) ret={rtn}")
+        # Wait for motion done, no object detected, timeout 5s, stop with error
+        rtn = robot.GripperWaitMotionDone(2, 5000, 0, 0)
+        print(f"GripperWaitMotionDone(no object detected) ret={rtn}")
 
-        # ========== 夹爪张开 ==========
-        rtn = robot.MoveGripper(1, 0, 100, 100, 30000, 0, 0, 0, 0, 0)
-        print(f"MoveGripper(张开) ret={rtn}")
+        # Loop and query gripper motion status
+        while True:
+            rtn, status = robot.GetGripperMotionDone()
+            print(f"motion status:{status[0]},{status[1]}\n")
 
-        print("========== 测试完成 ==========")
+            rtn, pkg = robot.GetRobotRealTimeState()
+            print(f"error code {pkg.main_code},{pkg.sub_code}")
 
-        # 关闭连接
+            time.sleep(0.5)
+
+        # Close connection (never reached due to infinite loop)
         robot.CloseRPC()
-
 
     if __name__ == "__main__":
         main()

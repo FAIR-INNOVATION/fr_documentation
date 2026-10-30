@@ -345,6 +345,42 @@
     */
     public int JointAllParamUpgrade(String path)
 
+获取关节全参数升级进度百分比
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 获取关节全参数升级进度百分比
+    * @return List[0]:错误码; List[1]:升级进度百分比[0-100], -1:升级失败
+    */
+    public List<Integer> GetJointAllParamUpgradeProgress()
+
+关节全参数升级并查询关节全参数升级进度代码示例
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static void TestJointAllParamUpgrade(Robot robot)
+    {
+        ROBOT_STATE_PKG pkg = new ROBOT_STATE_PKG();
+        int rtn = 0;
+
+        robot.RobotEnable(0);
+        robot.Sleep(200);
+
+        rtn = robot.JointAllParamUpgrade("D://zUP/upgrade/FR3WMS/jointallparameters.db");
+        System.out.println("robot JointAllParamUpgrade rtn is " + rtn);
+        int upgradeProgress = 0;
+        while (upgradeProgress < 100)
+        {
+            List<Integer> state = robot.GetJointAllParamUpgradeProgress();
+            upgradeProgress = state.get(1);
+            System.out.println("robot joint all param upgrade progress : " + upgradeProgress);
+            robot.Sleep(200);
+        }
+    }
+    
 机器人从站固件升级代码示例
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 .. code-block:: Java
@@ -615,4 +651,51 @@ UDP发送指令帧
         robot.Sleep(2000);
 
         System.out.println("========== TCP 验证结束（应答见上方打印） ==========");
+    }
+
+数据备份包上传升级
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 数据备份包上传升级
+    * @param [in] filePath 上传数据备份包文件路径；D://zUP/fr_user_data.tar.gz
+    * @return 错误码
+    */
+    public int DataPackageUpgrade(String filePath)
+
+获取数据备份包升级进度百分比
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    /**
+    * @brief 获取数据备份包升级进度百分比
+    * @return List[0]:错误码; List[1]:升级进度百分比[0-100], -1:升级失败
+    */
+    public List<Integer> GetDataPackageUpgradeProgress()
+
+数据备份包上传升级并查询升级进度代码示例
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+.. code-block:: Java
+    :linenos:
+
+    public static void TestDataPackageUpgrade(Robot robot)
+    {
+        ROBOT_STATE_PKG pkg = new ROBOT_STATE_PKG();
+        int rtn = 0;
+        robot.Sleep(200);
+
+        rtn = robot.DataPackageUpgrade("D://zUP/upgrade/FR3WMS/fr_user_data.tar.gz");
+        System.out.println("robot DataPackageUpgrade rtn is " + rtn);
+
+        int upgradeProgress = 0;
+        while (upgradeProgress < 100)
+        {
+            List<Integer> state = robot.GetDataPackageUpgradeProgress();
+            upgradeProgress = state.get(1);
+            System.out.println("robot data package upgrade progress : " + upgradeProgress);
+            robot.Sleep(200);
+        }
     }
