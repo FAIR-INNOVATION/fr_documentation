@@ -113,7 +113,7 @@
      - ✅
      - ✅
      - ✅
-     - :download:`下载 <_static/_doc/CE-EMC认证.pdf>`
+     - :download:`下载 <_static/_doc/CE-EMC测试证书.pdf>`
 
    * - **CE-MD证书**
      - ✅
@@ -137,7 +137,7 @@
      - ✅
      - ✅
      - ✅
-     - :download:`下载 <_static/_doc/功能安全认证证书.zip>`
+     - :download:`下载 <_static/_doc/功能安全认证证书.pdf>`
 
    * - **KCs证书**
      - ✅
