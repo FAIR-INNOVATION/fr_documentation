@@ -127,6 +127,18 @@
      - ✅
      - :download:`下载 <_static/_doc/CE-MD认证证书.zip>`
 
+   * - **CE-MR证书**
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - ✅
+     - :download:`下载 <_static/_doc/CE-MR认证证书.pdf>`
+
    * - **功能安全证书**
      - ✅
      - ✅
